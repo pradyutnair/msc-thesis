@@ -21,7 +21,10 @@ jobs:
 
       - name: Install deps
         run: |
-          pip install notion-client pyyaml python-slugify
+          pip install --upgrade pip
+          pip install "notion-client>=2.0.0" pyyaml python-slugify
+          python -c "import notion_client; print('notion_client version:', notion_client.__version__)"
+  
 
       - name: Export Notion DB to Markdown
         env:
