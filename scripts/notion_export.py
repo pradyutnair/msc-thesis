@@ -141,7 +141,10 @@ def query_all_rows(database_id: str):
     rows = []
     cursor = None
     while True:
-        resp = notion.databases.query(database_id=database_id, start_cursor=cursor)
+        if cursor:
+            resp = notion.databases.query_database(database_id=database_id, start_cursor=cursor)
+        else:
+            resp = notion.databases.query_database(database_id=database_id)
         rows.extend(resp.get("results", []))
         if not resp.get("has_more"):
             break
