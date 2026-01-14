@@ -1,26 +1,34 @@
-name: Sync Notion DB to Markdown
+name: Sync Notion papers to Markdown
 
 on:
   schedule:
-    - cron: "0 */6 * * *"  # every 6 hours
+    - cron: "0 */6 * * *"   # every 6 hours
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  export:
+  sync:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Export Notion database to Markdown
-        uses: yucchiy/notion-to-markdown@main
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          notion_auth_token: ${{ secrets.NOTION_AUTH_TOKEN }}
-          notion_database_id: ${{ secrets.NOTION_DATABASE_ID }}
-          # Optional: control where files go. Default is ./src/pages
-          output_directory_path_template: "notion/{{slug}}"
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          pip install notion-client pyyaml python-slugify
+
+      - name: Export Notion DB to Markdown
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+        run: |
+          python scripts/notion_export.py
 
       - name: Commit and push if changed
         run: |
@@ -28,7 +36,7 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add -A
-            git commit -m "Sync from Notion database."
+            git commit -m "Sync from Notion database"
             git push
           else
             echo "No changes."
