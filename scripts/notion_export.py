@@ -11,6 +11,31 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 NOTION_TOKEN = os.environ["NOTION_TOKEN"]
 DATABASE_ID = os.environ["NOTION_DATABASE_ID"]
 
+def normalize_database_id(db_id: str) -> str:
+    """
+    Normalize database ID to proper UUID format with hyphens.
+    Accepts both formats:
+    - 2e8c063d0eb4819dbc8ce82dc75a102c (without hyphens)
+    - 2e8c063d-0eb4-819d-bc8c-e82dc75a102c (with hyphens)
+    
+    Returns UUID format with hyphens.
+    """
+    # Remove any existing hyphens and whitespace
+    clean_id = db_id.replace("-", "").replace(" ", "").strip()
+    
+    # Validate it's a 32-character hex string
+    if not re.match(r'^[0-9a-fA-F]{32}$', clean_id):
+        raise ValueError(f"Invalid database ID format: {db_id}")
+    
+    # Insert hyphens at proper positions for UUID format
+    # Format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    formatted_id = f"{clean_id[0:8]}-{clean_id[8:12]}-{clean_id[12:16]}-{clean_id[16:20]}-{clean_id[20:32]}"
+    
+    return formatted_id
+
+# Normalize the database ID
+DATABASE_ID = normalize_database_id(DATABASE_ID)
+
 notion = Client(auth=NOTION_TOKEN)
 
 def extract_page_id_from_url(url: str) -> str | None:
@@ -156,7 +181,11 @@ def query_all_rows(database_id: str):
     return rows
 
 def main():
+    print(f"Using database ID: {DATABASE_ID}")
+    print(f"Querying Notion database...")
+    
     rows = query_all_rows(DATABASE_ID)
+    print(f"Found {len(rows)} entries in database")
 
     for page in rows:
         props = page.get("properties", {})
@@ -210,6 +239,9 @@ def main():
             parts.append((linked_body.strip() + "\n") if linked_body.strip() else "_(empty or not accessible)_\n")
 
         path.write_text("".join(parts), encoding="utf-8")
+        print(f"  ✓ Exported: {path.name}")
+    
+    print(f"\nSuccessfully exported {len(rows)} papers to {OUT_DIR}/")
 
 if __name__ == "__main__":
     main()
