@@ -25,13 +25,13 @@ echo ""
 echo "Disk Usage:"
 echo "-----------"
 echo "Home directory: $(du -sh $HOME 2>/dev/null | cut -f1)"
-echo "Datasets: $(du -sh $HOME/datasets 2>/dev/null | cut -f1)"
-echo "Results: $(du -sh $HOME/results 2>/dev/null | cut -f1)"
+echo "Datasets: $(du -sh /projects/prjs1800/datasets 2>/dev/null | cut -f1)"
+echo "Results: $(du -sh /projects/prjs1800/results 2>/dev/null | cut -f1)"
 echo ""
 
 echo "Conda Environments:"
 echo "-------------------"
-if [ -d "$HOME/.conda/envs/multi_agentic_rag" ]; then
+if [ -d "/projects/prjs1800/conda_envs/multi_agentic_rag" ]; then
     echo "✓ multi_agentic_rag environment exists"
 else
     echo "✗ multi_agentic_rag environment not found"
@@ -41,8 +41,8 @@ echo ""
 echo "Datasets Status:"
 echo "----------------"
 for dataset in hotpotqa 2wikimultihopqa triviaqa natural_questions; do
-    if [ -d "$HOME/datasets/$dataset" ]; then
-        num_files=$(find "$HOME/datasets/$dataset" -name "*.json" | wc -l)
+    if [ -d "/projects/prjs1800/datasets/$dataset" ]; then
+        num_files=$(find "/projects/prjs1800/datasets/$dataset" -name "*.json" | wc -l)
         echo "✓ $dataset: $num_files JSON files"
     else
         echo "✗ $dataset: not downloaded"

@@ -53,11 +53,11 @@ sbatch jobs/datasets/download_triviaqa.sh
 sbatch jobs/datasets/download_naturalquestions.sh
 ```
 
-Datasets will be downloaded to `~/datasets/` with the following structure:
-- `~/datasets/hotpotqa/`
-- `~/datasets/2wikimultihopqa/`
-- `~/datasets/triviaqa/`
-- `~/datasets/natural_questions/`
+Datasets will be downloaded to `/projects/prjs1800/datasets/` with the following structure:
+- `/projects/prjs1800/datasets/hotpotqa/`
+- `/projects/prjs1800/datasets/2wikimultihopqa/`
+- `/projects/prjs1800/datasets/triviaqa/`
+- `/projects/prjs1800/datasets/natural_questions/`
 
 ### Step 3: Run Baseline Benchmarks
 
@@ -77,7 +77,7 @@ sbatch jobs/benchmarks/baseline_hotpotqa.sh
 sbatch jobs/benchmarks/multiagentic_hotpotqa.sh
 ```
 
-Results will be saved to `~/results/` directory.
+Results will be saved to `/projects/prjs1800/results/` directory.
 
 ## Partition Information
 
@@ -102,7 +102,7 @@ Snellius has different partitions for different workloads:
 - **Partition**: cbuild
 - **Time**: 1 hour
 - **Memory**: 16GB
-- **Output**: `~/.conda/envs/multi_agentic_rag/`
+- **Output**: `/projects/prjs1800/conda_envs/multi_agentic_rag/`
 
 **Installed packages:**
 - PyTorch with CUDA support
@@ -120,7 +120,7 @@ Snellius has different partitions for different workloads:
 - **Partition**: cbuild
 - **Time**: 2 hours
 - **Memory**: 32GB
-- **Output**: `~/datasets/hotpotqa/`
+- **Output**: `/projects/prjs1800/datasets/hotpotqa/`
 
 **Downloaded files:**
 - `hotpot_train_v1.1.json` (Training set)
@@ -135,28 +135,28 @@ Snellius has different partitions for different workloads:
 - **Partition**: cbuild
 - **Time**: 2 hours
 - **Memory**: 32GB
-- **Output**: `~/datasets/2wikimultihopqa/`
+- **Output**: `/projects/prjs1800/datasets/2wikimultihopqa/`
 
 #### `datasets/download_triviaqa.sh`
 - **Purpose**: Download TriviaQA dataset
 - **Partition**: cbuild
 - **Time**: 3 hours
 - **Memory**: 64GB
-- **Output**: `~/datasets/triviaqa/`
+- **Output**: `/projects/prjs1800/datasets/triviaqa/`
 
 #### `datasets/download_naturalquestions.sh`
 - **Purpose**: Download Natural Questions dataset
 - **Partition**: cbuild
 - **Time**: 3 hours
 - **Memory**: 64GB
-- **Output**: `~/datasets/natural_questions/`
+- **Output**: `/projects/prjs1800/datasets/natural_questions/`
 
 #### `datasets/download_all_datasets.sh`
 - **Purpose**: Download all datasets in one job
 - **Partition**: cbuild
 - **Time**: 8 hours
 - **Memory**: 128GB
-- **Output**: All datasets in `~/datasets/`
+- **Output**: All datasets in `/projects/prjs1800/datasets/`
 
 ### Benchmark Scripts
 
@@ -166,7 +166,7 @@ Snellius has different partitions for different workloads:
 - **Time**: 12 hours
 - **GPUs**: 1x A100
 - **Memory**: 64GB
-- **Output**: `~/results/baseline_hotpotqa/`
+- **Output**: `/projects/prjs1800/results/baseline_hotpotqa/`
 
 **Features:**
 - Dense retrieval with sentence-transformers
@@ -179,7 +179,7 @@ Snellius has different partitions for different workloads:
 - **Time**: 24 hours
 - **GPUs**: 1x A100
 - **Memory**: 128GB
-- **Output**: `~/results/multiagentic_hotpotqa/`
+- **Output**: `/projects/prjs1800/results/multiagentic_hotpotqa/`
 
 **Features:**
 - Hierarchical multi-agent orchestration
@@ -294,13 +294,13 @@ CONFIG_FILE="configs/config_${SLURM_ARRAY_TASK_ID}.yaml"
 1. Create a new script in `jobs/datasets/`
 2. Follow the template of existing scripts
 3. Use `cbuild` partition for downloads
-4. Save to `~/datasets/<dataset_name>/`
+4. Save to `/projects/prjs1800/datasets/<dataset_name>/`
 
 ### Adding a new benchmark
 1. Create a new script in `jobs/benchmarks/`
 2. Use `gpu-a100` partition for GPU jobs
 3. Load the conda environment
-4. Save results to `~/results/<benchmark_name>/`
+4. Save results to `/projects/prjs1800/results/<benchmark_name>/`
 
 ## Support
 

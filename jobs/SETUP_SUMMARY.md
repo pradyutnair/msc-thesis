@@ -108,7 +108,7 @@ sbatch jobs/datasets/download_hotpotqa.sh
 - Small split (100 examples)
 - Tiny split (10 examples)
 
-**Output**: `~/datasets/hotpotqa/`
+**Output**: `/projects/prjs1800/datasets/hotpotqa/`
 
 #### 2WikiMultiHopQA
 **Script**: `jobs/datasets/download_2wikimultihopqa.sh`
@@ -117,7 +117,7 @@ sbatch jobs/datasets/download_hotpotqa.sh
 - Train, dev, test splits
 - Small and tiny splits
 
-**Output**: `~/datasets/2wikimultihopqa/`
+**Output**: `/projects/prjs1800/datasets/2wikimultihopqa/`
 
 #### TriviaQA
 **Script**: `jobs/datasets/download_triviaqa.sh`
@@ -127,7 +127,7 @@ sbatch jobs/datasets/download_hotpotqa.sh
 - Train, validation, test splits
 - Small and tiny splits
 
-**Output**: `~/datasets/triviaqa/`
+**Output**: `/projects/prjs1800/datasets/triviaqa/`
 
 #### Natural Questions
 **Script**: `jobs/datasets/download_naturalquestions.sh`
@@ -136,7 +136,7 @@ sbatch jobs/datasets/download_hotpotqa.sh
 - Train and validation splits (307k+ examples)
 - Small and tiny splits
 
-**Output**: `~/datasets/natural_questions/`
+**Output**: `/projects/prjs1800/datasets/natural_questions/`
 
 #### All Datasets
 **Script**: `jobs/datasets/download_all_datasets.sh`
@@ -177,7 +177,7 @@ sbatch jobs/benchmarks/baseline_hotpotqa.sh
 - CPUs: 8
 - Memory: 64GB
 
-**Output**: `~/results/baseline_hotpotqa/`
+**Output**: `/projects/prjs1800/results/baseline_hotpotqa/`
 
 #### Multi-Agentic RAG
 **Script**: `jobs/benchmarks/multiagentic_hotpotqa.sh`
@@ -201,7 +201,7 @@ sbatch jobs/benchmarks/multiagentic_hotpotqa.sh
 - CPUs: 16
 - Memory: 128GB
 
-**Output**: `~/results/multiagentic_hotpotqa/`
+**Output**: `/projects/prjs1800/results/multiagentic_hotpotqa/`
 
 ## 🛠️ Utility Scripts
 
@@ -240,7 +240,7 @@ bash jobs/quickstart.sh
 After running experiments, your results will be organized as:
 
 ```
-~/results/
+/projects/prjs1800/results/
 ├── baseline_hotpotqa/
 │   ├── baseline_results_20250120_143022.json
 │   └── ...

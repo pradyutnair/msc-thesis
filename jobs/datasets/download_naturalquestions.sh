@@ -24,10 +24,10 @@ module load 2023
 module load Miniconda3/23.5.2-0
 
 # Activate conda environment
-source activate multi_agentic_rag
+source activate /projects/prjs1800/conda_envs/multi_agentic_rag
 
 # Set dataset directory
-DATASET_DIR="$HOME/datasets/natural_questions"
+DATASET_DIR="/projects/prjs1800/datasets/natural_questions"
 mkdir -p $DATASET_DIR
 
 cd $DATASET_DIR

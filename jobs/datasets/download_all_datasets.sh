@@ -24,10 +24,10 @@ module load 2023
 module load Miniconda3/23.5.2-0
 
 # Activate conda environment
-source activate multi_agentic_rag
+source activate /projects/prjs1800/conda_envs/multi_agentic_rag
 
 # Create main datasets directory
-DATASETS_ROOT="$HOME/datasets"
+DATASETS_ROOT="/projects/prjs1800/datasets"
 mkdir -p $DATASETS_ROOT
 
 echo "=========================================="

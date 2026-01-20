@@ -27,15 +27,15 @@ module load Miniconda3/23.5.2-0
 module load CUDA/12.1.1
 
 # Activate conda environment
-source activate multi_agentic_rag
+source activate /projects/prjs1800/conda_envs/multi_agentic_rag
 
 # Set environment variables
 export CUDA_VISIBLE_DEVICES=0
 export TOKENIZERS_PARALLELISM=false
 
 # Set paths
-DATASET_DIR="$HOME/datasets/hotpotqa"
-RESULTS_DIR="$HOME/results/baseline_hotpotqa"
+DATASET_DIR="/projects/prjs1800/datasets/hotpotqa"
+RESULTS_DIR="/projects/prjs1800/results/baseline_hotpotqa"
 mkdir -p $RESULTS_DIR
 
 # Navigate to project directory
@@ -229,8 +229,8 @@ def evaluate_hotpotqa(dataset_path: str, output_path: str, use_small: bool = Fal
 if __name__ == "__main__":
     import sys
     
-    dataset_path = sys.argv[1] if len(sys.argv) > 1 else os.path.expanduser("~/datasets/hotpotqa/hotpot_dev_distractor_v1.json")
-    output_path = sys.argv[2] if len(sys.argv) > 2 else os.path.expanduser("~/results/baseline_hotpotqa/results.json")
+    dataset_path = sys.argv[1] if len(sys.argv) > 1 else "/projects/prjs1800/datasets/hotpotqa/hotpot_dev_distractor_v1.json"
+    output_path = sys.argv[2] if len(sys.argv) > 2 else "/projects/prjs1800/results/baseline_hotpotqa/results.json"
     use_small = len(sys.argv) > 3 and sys.argv[3] == "--small"
     
     evaluate_hotpotqa(dataset_path, output_path, use_small)

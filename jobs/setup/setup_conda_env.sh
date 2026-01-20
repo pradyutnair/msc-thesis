@@ -23,22 +23,24 @@ module purge
 module load 2023
 module load Miniconda3/23.5.2-0
 
-# Set conda environment name
+# Project-scoped paths
+PROJECT_ROOT="/projects/prjs1800"
 ENV_NAME="multi_agentic_rag"
-ENV_PATH="$HOME/.conda/envs/$ENV_NAME"
+ENV_PATH="$PROJECT_ROOT/conda_envs/$ENV_NAME"
+mkdir -p "$PROJECT_ROOT/conda_envs"
 
 # Remove existing environment if it exists
-if conda env list | grep -q "^$ENV_NAME "; then
-    echo "Removing existing environment: $ENV_NAME"
-    conda env remove -n $ENV_NAME -y
+if [ -d "$ENV_PATH" ]; then
+    echo "Removing existing environment: $ENV_PATH"
+    conda env remove -p "$ENV_PATH" -y || rm -rf "$ENV_PATH"
 fi
 
 # Create new conda environment
-echo "Creating new conda environment: $ENV_NAME"
-conda create -n $ENV_NAME python=3.11 -y
+echo "Creating new conda environment: $ENV_PATH"
+conda create -p "$ENV_PATH" python=3.11 -y
 
 # Activate environment
-source activate $ENV_NAME
+source activate "$ENV_PATH"
 
 # Upgrade pip
 echo "Upgrading pip..."
@@ -131,14 +133,14 @@ python -c "import sentence_transformers; print(f'Sentence Transformers installed
 echo "=========================================="
 echo "Saving environment information..."
 echo "=========================================="
-conda env export > $HOME/multi_agentic_rag_env.yml
-pip list > $HOME/multi_agentic_rag_pip_list.txt
+conda env export > "$PROJECT_ROOT/conda_envs/multi_agentic_rag_env.yml"
+pip list > "$PROJECT_ROOT/conda_envs/multi_agentic_rag_pip_list.txt"
 
 echo "Environment setup complete!"
 echo "Environment name: $ENV_NAME"
 echo "Environment path: $ENV_PATH"
-echo "Environment YAML: $HOME/multi_agentic_rag_env.yml"
-echo "Pip packages list: $HOME/multi_agentic_rag_pip_list.txt"
+echo "Environment YAML: $PROJECT_ROOT/conda_envs/multi_agentic_rag_env.yml"
+echo "Pip packages list: $PROJECT_ROOT/conda_envs/multi_agentic_rag_pip_list.txt"
 echo "=========================================="
 echo "End time: $(date)"
 echo "=========================================="

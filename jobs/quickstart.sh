@@ -27,8 +27,9 @@ fi
 
 # Create necessary directories
 echo "Creating directories..."
-mkdir -p ~/datasets
-mkdir -p ~/results
+mkdir -p /projects/prjs1800/datasets
+mkdir -p /projects/prjs1800/results
+mkdir -p /projects/prjs1800/conda_envs
 mkdir -p jobs/logs
 
 # Check for API keys
