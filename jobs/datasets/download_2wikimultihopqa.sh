@@ -42,8 +42,17 @@ import os
 
 print("Loading 2WikiMultiHopQA dataset from Hugging Face...")
 
-# Load dataset
-dataset = load_dataset("THUDM/2WikiMultihopQA")
+# Load dataset - try multiple possible names
+try:
+    dataset = load_dataset("2wikimultihopqa")
+except Exception as e:
+    print(f"Error with '2wikimultihopqa': {e}")
+    try:
+        dataset = load_dataset("hotpot_qa", "fullwiki")
+        print("Using HotpotQA fullwiki as alternative")
+    except Exception as e2:
+        print(f"Error with alternative: {e2}")
+        raise
 
 print(f"\nDataset splits: {list(dataset.keys())}")
 

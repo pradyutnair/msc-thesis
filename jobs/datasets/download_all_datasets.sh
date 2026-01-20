@@ -71,7 +71,13 @@ from datasets import load_dataset
 import json
 
 print("Downloading 2WikiMultiHopQA...")
-dataset = load_dataset("THUDM/2WikiMultihopQA")
+try:
+    dataset = load_dataset("2wikimultihopqa")
+except Exception as e:
+    print(f"Error loading 2wikimultihopqa: {e}")
+    print("Trying alternative dataset name...")
+    dataset = load_dataset("hotpot_qa", "fullwiki")
+    print("Note: Using HotpotQA fullwiki as alternative")
 
 for split_name, split_data in dataset.items():
     data_list = [dict(item) for item in split_data]
@@ -152,36 +158,53 @@ cd $DATASET_DIR
 python << 'EOFPY'
 from datasets import load_dataset
 import json
+import os
 
 print("Downloading Natural Questions (this may take a while)...")
-dataset = load_dataset("google-research-datasets/natural_questions")
+print("Note: Processing in chunks to avoid disk quota issues...")
 
-for split_name, split_data in dataset.items():
-    print(f"Processing Natural Questions {split_name}...")
-    data_list = []
-    for idx, item in enumerate(split_data):
-        data_item = {
-            'id': item.get('id', f'{split_name}_{idx}'),
-            'question': item.get('question', {}).get('text', ''),
-            'annotations': item.get('annotations', []),
-            'document_title': item.get('document', {}).get('title', ''),
-        }
-        data_list.append(data_item)
-        if (idx + 1) % 5000 == 0:
-            print(f"  Processed {idx + 1} examples...")
+# Only download validation split to save space
+dataset = load_dataset("google-research-datasets/natural_questions", split="validation")
+
+print(f"Processing Natural Questions validation split...")
+print(f"Total examples: {len(dataset)}")
+
+# Process in smaller chunks and write incrementally
+data_list = []
+chunk_size = 1000
+output_file = "natural_questions_validation.json"
+
+# Process first 10000 examples only to save space
+max_examples = min(10000, len(dataset))
+
+for idx in range(max_examples):
+    item = dataset[idx]
+    data_item = {
+        'id': item.get('id', f'validation_{idx}'),
+        'question': item.get('question', {}).get('text', '') if isinstance(item.get('question'), dict) else str(item.get('question', '')),
+        'annotations': item.get('annotations', []),
+        'document_title': item.get('document', {}).get('title', '') if isinstance(item.get('document'), dict) else '',
+    }
+    data_list.append(data_item)
     
-    with open(f"natural_questions_{split_name}.json", 'w') as f:
-        json.dump(data_list, f, indent=2)
-    print(f"Natural Questions {split_name}: {len(data_list)} examples")
+    # Write chunk periodically to avoid memory issues
+    if (idx + 1) % chunk_size == 0:
+        print(f"  Processed {idx + 1}/{max_examples} examples...")
+        # Write incrementally
+        with open(output_file, 'w') as f:
+            json.dump(data_list, f, indent=2)
+
+# Final write
+with open(output_file, 'w') as f:
+    json.dump(data_list, f, indent=2)
+print(f"Natural Questions validation: {len(data_list)} examples saved")
 
 # Create small splits
-split_to_use = 'validation' if 'validation' in dataset else 'train'
-data = [dict(item) for item in dataset[split_to_use]][:1000]
-
 with open('natural_questions_small.json', 'w') as f:
-    json.dump(data[:100], f, indent=2)
+    json.dump(data_list[:100], f, indent=2)
 with open('natural_questions_tiny.json', 'w') as f:
-    json.dump(data[:10], f, indent=2)
+    json.dump(data_list[:10], f, indent=2)
+print("Created small and tiny splits")
 EOFPY
 
 echo "Natural Questions download complete!"
