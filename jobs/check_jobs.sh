@@ -52,9 +52,9 @@ echo ""
 
 echo "Recent Log Files:"
 echo "-----------------"
-if [ -d "jobs/logs" ]; then
+if [ -d "jobs/output" ]; then
     echo "Latest 5 log files:"
-    ls -lht jobs/logs/*.out 2>/dev/null | head -5
+    ls -lht jobs/output/*.log 2>/dev/null | head -5
 else
     echo "No log files found"
 fi

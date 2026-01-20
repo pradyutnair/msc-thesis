@@ -5,8 +5,8 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=32G
-#SBATCH --output=jobs/logs/download_2wikimhqa_%j.out
-#SBATCH --error=jobs/logs/download_2wikimhqa_%j.err
+#SBATCH --output=jobs/output/download_2wikimhqa_%j.log
+#SBATCH --error=jobs/output/download_2wikimhqa_%j.log
 
 # 2WikiMultiHopQA Dataset Download and Preparation
 # Dataset: Multi-hop question answering with reasoning chains

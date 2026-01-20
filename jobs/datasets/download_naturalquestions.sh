@@ -5,8 +5,8 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=64G
-#SBATCH --output=jobs/logs/download_nq_%j.out
-#SBATCH --error=jobs/logs/download_nq_%j.err
+#SBATCH --output=jobs/output/download_nq_%j.log
+#SBATCH --error=jobs/output/download_nq_%j.log
 
 # Natural Questions Dataset Download and Preparation
 # Dataset: Google's question answering dataset from real queries

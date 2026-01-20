@@ -5,8 +5,8 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=64G
-#SBATCH --output=jobs/logs/download_triviaqa_%j.out
-#SBATCH --error=jobs/logs/download_triviaqa_%j.err
+#SBATCH --output=jobs/output/download_triviaqa_%j.log
+#SBATCH --error=jobs/output/download_triviaqa_%j.log
 
 # TriviaQA Dataset Download and Preparation
 # Dataset: Large-scale reading comprehension dataset

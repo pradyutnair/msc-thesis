@@ -1,12 +1,13 @@
 #!/bin/bash
 #SBATCH --job-name=download_all_datasets
-#SBATCH --partition=cbuild
+#SBATCH --partition=gpu_a100
 #SBATCH --time=08:00:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=128G
-#SBATCH --output=jobs/logs/download_all_datasets_%j.out
-#SBATCH --error=jobs/logs/download_all_datasets_%j.err
+#SBATCH --gpus-per-node=1
+#SBATCH --output=jobs/output/download_all_datasets_%j.log
+#SBATCH --error=jobs/output/download_all_datasets_%j.log
 
 # Master script to download all datasets for Multi-Agentic RAG
 # This script downloads: HotpotQA, 2WikiMultiHopQA, TriviaQA, Natural Questions

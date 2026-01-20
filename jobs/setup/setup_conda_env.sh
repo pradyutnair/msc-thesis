@@ -1,12 +1,13 @@
 #!/bin/bash
 #SBATCH --job-name=setup_conda_env
-#SBATCH --partition=cbuild
+#SBATCH --partition=gpu_a100
 #SBATCH --time=01:00:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
-#SBATCH --output=jobs/logs/setup_conda_env_%j.out
-#SBATCH --error=jobs/logs/setup_conda_env_%j.err
+#SBATCH --gpus-per-node=1
+#SBATCH --output=jobs/output/setup_conda_env_%j.log
+#SBATCH --error=jobs/output/setup_conda_env_%j.log
 
 # Snellius Conda Environment Setup for Multi-Agentic RAG
 # This script creates a conda environment with all necessary dependencies

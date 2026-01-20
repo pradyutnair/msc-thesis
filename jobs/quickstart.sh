@@ -30,7 +30,7 @@ echo "Creating directories..."
 mkdir -p /projects/prjs1800/datasets
 mkdir -p /projects/prjs1800/results
 mkdir -p /projects/prjs1800/conda_envs
-mkdir -p jobs/logs
+mkdir -p jobs/output
 
 # Check for API keys
 echo ""
@@ -46,7 +46,7 @@ fi
 echo "Submitting conda environment setup job..."
 ENV_JOB_ID=$(sbatch --parsable jobs/setup/setup_conda_env.sh)
 echo "Job ID: $ENV_JOB_ID"
-echo "Monitor with: tail -f jobs/logs/setup_conda_env_${ENV_JOB_ID}.out"
+echo "Monitor with: tail -f jobs/output/setup_conda_env_${ENV_JOB_ID}.log"
 echo ""
 
 # Ask if user wants to download datasets
@@ -57,7 +57,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     DATASET_JOB_ID=$(sbatch --parsable --dependency=afterok:$ENV_JOB_ID jobs/datasets/download_all_datasets.sh)
     echo "Job ID: $DATASET_JOB_ID"
     echo "This job will start after the environment setup completes."
-    echo "Monitor with: tail -f jobs/logs/download_all_datasets_${DATASET_JOB_ID}.out"
+    echo "Monitor with: tail -f jobs/output/download_all_datasets_${DATASET_JOB_ID}.log"
     echo ""
 fi
 

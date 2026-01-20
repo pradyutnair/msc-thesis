@@ -35,7 +35,7 @@ This will create a conda environment named `multi_agentic_rag` with all required
 **Monitor the job:**
 ```bash
 squeue -u $USER
-tail -f jobs/logs/setup_conda_env_<JOB_ID>.out
+tail -f jobs/output/setup_conda_env_<JOB_ID>.log
 ```
 
 ### Step 2: Download Datasets
@@ -206,12 +206,12 @@ scancel <JOB_ID>
 
 ### View job output in real-time
 ```bash
-tail -f jobs/logs/<job_name>_<JOB_ID>.out
+tail -f jobs/output/<job_name>_<JOB_ID>.log
 ```
 
 ### View job errors
 ```bash
-tail -f jobs/logs/<job_name>_<JOB_ID>.err
+tail -f jobs/output/<job_name>_<JOB_ID>.log
 ```
 
 ## Environment Variables

@@ -1,13 +1,13 @@
 #!/bin/bash
 #SBATCH --job-name=baseline_hotpotqa
-#SBATCH --partition=gpu-a100
+#SBATCH --partition=gpu_a100
 #SBATCH --time=12:00:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --gpus=1
 #SBATCH --mem=64G
-#SBATCH --output=jobs/logs/baseline_hotpotqa_%j.out
-#SBATCH --error=jobs/logs/baseline_hotpotqa_%j.err
+#SBATCH --output=jobs/output/baseline_hotpotqa_%j.log
+#SBATCH --error=jobs/output/baseline_hotpotqa_%j.log
 
 # Baseline RAG Benchmark on HotpotQA
 # This script runs a baseline single-agent RAG system on HotpotQA

@@ -1,13 +1,13 @@
 #!/bin/bash
 #SBATCH --job-name=multiagentic_hotpotqa
-#SBATCH --partition=gpu-a100
+#SBATCH --partition=gpu_a100
 #SBATCH --time=24:00:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16
 #SBATCH --gpus=1
 #SBATCH --mem=128G
-#SBATCH --output=jobs/logs/multiagentic_hotpotqa_%j.out
-#SBATCH --error=jobs/logs/multiagentic_hotpotqa_%j.err
+#SBATCH --output=jobs/output/multiagentic_hotpotqa_%j.log
+#SBATCH --error=jobs/output/multiagentic_hotpotqa_%j.log
 
 # Multi-Agentic RAG Benchmark on HotpotQA
 # This script runs the multi-agentic RAG framework on HotpotQA

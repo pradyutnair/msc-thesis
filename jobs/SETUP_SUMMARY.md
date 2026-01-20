@@ -61,7 +61,7 @@ squeue -u $USER
 bash jobs/check_jobs.sh
 
 # View logs
-tail -f jobs/logs/setup_conda_env_*.out
+tail -f jobs/output/setup_conda_env_*.log
 ```
 
 ## 📋 Job Scripts Details
@@ -292,8 +292,7 @@ scancel <JOB_ID>
 
 ### View Logs in Real-Time
 ```bash
-tail -f jobs/logs/<job_name>_<JOB_ID>.out
-tail -f jobs/logs/<job_name>_<JOB_ID>.err
+tail -f jobs/output/<job_name>_<JOB_ID>.log
 ```
 
 ## 🎯 Recommended Workflow
@@ -320,7 +319,7 @@ tail -f jobs/logs/<job_name>_<JOB_ID>.err
 ### Job Fails Immediately
 - Check partition availability: `sinfo`
 - Verify resource limits
-- Check logs in `jobs/logs/`
+- Check logs in `jobs/output/`
 
 ### Out of Memory
 - Increase `--mem` in job script
@@ -396,7 +395,7 @@ tail -f jobs/logs/<job_name>_<JOB_ID>.err
 ## 📝 Notes
 
 - All scripts use absolute paths (`$HOME`) for portability
-- Logs are saved to `jobs/logs/` with job ID
+- Logs are saved to `jobs/output/` with job ID
 - Results include timestamps for tracking
 - Small and tiny splits available for quick testing
 - Job dependencies can be chained with `--dependency=afterok:<JOB_ID>`
