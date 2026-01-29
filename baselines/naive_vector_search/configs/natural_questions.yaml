@@ -1,0 +1,18 @@
+# Configuration for Natural Questions Baseline
+
+dataset:
+  name: "natural_questions"
+  dir: "/projects/prjs1800/datasets/natural_questions"
+  split: "dev"
+  limit: null  # Set to a number to limit the dataset size for testing
+
+retriever:
+  model_name: "sentence-transformers/all-MiniLM-L6-v2"
+  device: "cuda"
+  top_k: 10
+  batch_size: 64
+
+output:
+  dir: "/projects/prjs1800/results/naive_baseline/natural_questions"
+  save_index: true
+  index_dir: "/projects/prjs1800/results/naive_baseline/natural_questions/index"

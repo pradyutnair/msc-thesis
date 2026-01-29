@@ -1,0 +1,18 @@
+# Configuration for 2WikiMultihopQA Baseline
+
+dataset:
+  name: "2wikimultihopqa"
+  dir: "/projects/prjs1800/datasets/2wikimultihopqa"
+  split: "dev"
+  limit: null  # Set to a number to limit the dataset size for testing
+
+retriever:
+  model_name: "sentence-transformers/all-MiniLM-L6-v2"
+  device: "cuda"
+  top_k: 10
+  batch_size: 64
+
+output:
+  dir: "/projects/prjs1800/results/naive_baseline/2wikimultihopqa"
+  save_index: true
+  index_dir: "/projects/prjs1800/results/naive_baseline/2wikimultihopqa/index"
