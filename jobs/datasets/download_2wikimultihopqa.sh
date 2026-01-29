@@ -26,6 +26,14 @@ module load Miniconda3/23.5.2-0
 # Activate conda environment
 source activate /projects/prjs1800/conda_envs/multi_agentic_rag
 
+# Hugging Face cache: all datasets download only to this directory
+HF_CACHE="/projects/prjs1800/.cache/huggingface"
+export HF_HOME="$HF_CACHE"
+export HF_DATASETS_CACHE="$HF_CACHE/datasets"
+export TRANSFORMERS_CACHE="$HF_CACHE/transformers"
+mkdir -p "$HF_DATASETS_CACHE"
+echo "Using HF cache: $HF_DATASETS_CACHE"
+
 # Set dataset directory
 DATASET_DIR="/projects/prjs1800/datasets/2wikimultihopqa"
 mkdir -p $DATASET_DIR

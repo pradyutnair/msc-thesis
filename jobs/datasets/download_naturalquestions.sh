@@ -26,104 +26,69 @@ module load Miniconda3/23.5.2-0
 # Activate conda environment
 source activate /projects/prjs1800/conda_envs/multi_agentic_rag
 
-# Set dataset directory
+# Hugging Face cache: all datasets download only to this directory
+HF_CACHE="/projects/prjs1800/.cache/huggingface"
+export HF_HOME="$HF_CACHE"
+export HF_DATASETS_CACHE="$HF_CACHE/datasets"
+export TRANSFORMERS_CACHE="$HF_CACHE/transformers"
+mkdir -p "$HF_DATASETS_CACHE"
+echo "Using HF cache: $HF_DATASETS_CACHE"
+
 DATASET_DIR="/projects/prjs1800/datasets/natural_questions"
 mkdir -p $DATASET_DIR
-
 cd $DATASET_DIR
 
-echo "Downloading Natural Questions dataset from Hugging Face..."
+echo "Downloading Natural Questions (train, validation, test) to $HF_DATASETS_CACHE..."
 
-# Create download script
+# Create download script: train, validation, test; cache under /projects/prjs1800/.cache/huggingface
 cat > download_nq.py << 'EOF'
 from datasets import load_dataset
 import json
 import os
 
-print("Loading Natural Questions dataset from Hugging Face...")
-print("Note: This is a large dataset and may take significant time")
+# Cache is set via HF_DATASETS_CACHE=/projects/prjs1800/.cache/huggingface/datasets
+print("Loading Natural Questions (train, validation, test)...")
 
-# Load dataset
 dataset = load_dataset("google-research-datasets/natural_questions")
+splits = list(dataset.keys())
+print(f"Splits available: {splits}")
 
-print(f"\nDataset splits: {list(dataset.keys())}")
+def to_item(item, split_name, idx):
+    q = item.get("question")
+    text = q.get("text", "") if isinstance(q, dict) else str(q or "")
+    doc = item.get("document") or {}
+    return {
+        "id": item.get("id", f"{split_name}_{idx}"),
+        "question": text,
+        "annotations": item.get("annotations", []),
+        "document_title": doc.get("title", "") if isinstance(doc, dict) else "",
+        "document_url": doc.get("url", "") if isinstance(doc, dict) else "",
+    }
 
-# Save each split
-for split_name, split_data in dataset.items():
-    print(f"\nProcessing {split_name} split...")
-    print(f"Number of examples: {len(split_data)}")
-    
-    # Convert to list of dictionaries
+for split_name in splits:
+    split_data = dataset[split_name]
+    n = len(split_data)
+    print(f"\nProcessing {split_name}: {n} examples...")
     data_list = []
     for idx, item in enumerate(split_data):
-        # Extract key fields for RAG
-        data_item = {
-            'id': item.get('id', f'{split_name}_{idx}'),
-            'question': item.get('question', {}).get('text', ''),
-            'annotations': item.get('annotations', []),
-            'document_title': item.get('document', {}).get('title', ''),
-            'document_url': item.get('document', {}).get('url', ''),
-        }
-        data_list.append(data_item)
-        
-        # Progress indicator
-        if (idx + 1) % 5000 == 0:
-            print(f"  Processed {idx + 1} examples...")
-    
-    # Save as JSON
-    output_file = f"natural_questions_{split_name}.json"
-    with open(output_file, 'w') as f:
+        data_list.append(to_item(item, split_name, idx))
+        if (idx + 1) % 10000 == 0:
+            print(f"  {split_name}: {idx + 1}/{n}")
+    out_file = f"natural_questions_{split_name}.json"
+    with open(out_file, "w") as f:
         json.dump(data_list, f, indent=2)
-    
-    print(f"Saved to: {output_file}")
-    
-    # Print sample
-    if data_list:
-        print(f"\nSample from {split_name}:")
-        sample = data_list[0]
-        print(f"Question: {sample.get('question', 'N/A')[:100]}...")
-        print(f"Document Title: {sample.get('document_title', 'N/A')}")
+    print(f"Saved {out_file} ({len(data_list)} examples)")
 
-# Create smaller splits for testing
-print("\n========================================")
-print("Creating test splits...")
-print("========================================")
+# Small and tiny from validation (or first available split)
+first_split = dataset["validation"] if "validation" in dataset else dataset[splits[0]]
+data_small = [to_item(first_split[i], "small", i) for i in range(min(1000, len(first_split)))]
+with open("natural_questions_small.json", "w") as f:
+    json.dump(data_small[:100], f, indent=2)
+with open("natural_questions_tiny.json", "w") as f:
+    json.dump(data_small[:10], f, indent=2)
+print("Created natural_questions_small.json (100) and natural_questions_tiny.json (10)")
 
-# Use validation split for creating smaller versions
-if 'validation' in dataset:
-    split_to_use = 'validation'
-elif 'train' in dataset:
-    split_to_use = 'train'
-else:
-    split_to_use = list(dataset.keys())[0]
-
-data = []
-for idx, item in enumerate(dataset[split_to_use]):
-    if idx >= 1000:  # Only take first 1000
-        break
-    data_item = {
-        'id': item.get('id', ''),
-        'question': item.get('question', {}).get('text', ''),
-        'annotations': item.get('annotations', []),
-        'document_title': item.get('document', {}).get('title', ''),
-    }
-    data.append(data_item)
-
-# Small split (100 examples)
-small_split = data[:100]
-with open('natural_questions_small.json', 'w') as f:
-    json.dump(small_split, f, indent=2)
-print(f"Created small split: 100 examples")
-
-# Tiny split (10 examples)
-tiny_split = data[:10]
-with open('natural_questions_tiny.json', 'w') as f:
-    json.dump(tiny_split, f, indent=2)
-print(f"Created tiny split: 10 examples")
-
-print("\n========================================")
-print("Natural Questions download complete!")
-print("========================================")
+print("\nNatural Questions download complete!")
 EOF
 
 # Run download script
@@ -135,10 +100,12 @@ Natural Questions Dataset Information
 ======================================
 
 Dataset Location: $DATASET_DIR
+Hugging Face cache: $HF_CACHE
 
 Files:
 - natural_questions_train.json: Training set
 - natural_questions_validation.json: Validation set
+- natural_questions_test.json: Test set (if available)
 - natural_questions_small.json: Small split (100 examples)
 - natural_questions_tiny.json: Tiny split (10 examples)
 
