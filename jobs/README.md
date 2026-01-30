@@ -80,6 +80,15 @@ sbatch jobs/benchmarks/multiagentic_hotpotqa.sh
 
 Results will be saved to `/projects/prjs1800/results/` directory.
 
+### Step 4: Run FlashRAG Baselines
+
+Submit baselines per dataset (set DATASET to one of: 2wikimultihopqa, hotpotqa, natural_questions, triviaqa):
+
+```bash
+DATASET=hotpotqa sbatch jobs/benchmarks/flashrag_naive.sh
+DATASET=hotpotqa sbatch jobs/benchmarks/flashrag_standard.sh
+```
+
 ## Partition Information
 
 Snellius has different partitions for different workloads:

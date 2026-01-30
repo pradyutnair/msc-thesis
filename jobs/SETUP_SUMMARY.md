@@ -18,7 +18,7 @@ jobs/
 ├── benchmarks/
 │   ├── baseline_hotpotqa.sh        # Baseline RAG benchmark
 │   └── multiagentic_hotpotqa.sh    # Multi-agent RAG benchmark
-├── logs/                            # Job output logs (created automatically)
+├── output/                          # Job output logs (created automatically)
 ├── README.md                        # Comprehensive documentation
 ├── check_jobs.sh                    # Job status checker
 ├── quickstart.sh                    # Quick start script
@@ -203,6 +203,19 @@ sbatch jobs/benchmarks/multiagentic_hotpotqa.sh
 - Memory: 128GB
 
 **Output**: `/projects/prjs1800/results/multiagentic_hotpotqa/`
+
+#### FlashRAG Baselines
+**Scripts**:
+- `jobs/benchmarks/flashrag_naive.sh` (Naive Generation)
+- `jobs/benchmarks/flashrag_standard.sh` (Standard RAG)
+
+**Usage** (set `DATASET` to one of: 2wikimultihopqa, hotpotqa, natural_questions, triviaqa):
+```bash
+DATASET=hotpotqa sbatch jobs/benchmarks/flashrag_naive.sh
+DATASET=hotpotqa sbatch jobs/benchmarks/flashrag_standard.sh
+```
+
+**Outputs**: `/projects/prjs1800/results/flashrag/<dataset>_naive` and `/projects/prjs1800/results/flashrag/<dataset>_standard`
 
 ## 🛠️ Utility Scripts
 

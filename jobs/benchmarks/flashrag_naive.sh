@@ -6,8 +6,8 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --gpus=1
 #SBATCH --mem=64G
-#SBATCH --output=jobs/logs/flashrag_naive_%j.log
-#SBATCH --error=jobs/logs/flashrag_naive_%j.err
+#SBATCH --output=jobs/output/flashrag_naive_%j.log
+#SBATCH --error=jobs/output/flashrag_naive_%j.err
 
 # FlashRAG Naive Generation baseline across datasets
 

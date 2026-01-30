@@ -5,8 +5,8 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
-#SBATCH --output=jobs/logs/install_flashrag_%j.log
-#SBATCH --error=jobs/logs/install_flashrag_%j.err
+#SBATCH --output=jobs/output/install_flashrag_%j.log
+#SBATCH --error=jobs/output/install_flashrag_%j.err
 
 # Install FlashRAG into the shared conda environment
 

@@ -52,7 +52,7 @@ echo ""
 echo "Submitting FlashRAG installation job (after env ready)..."
 FLASHRAG_JOB_ID=$(sbatch --parsable --dependency=afterok:$ENV_JOB_ID jobs/setup/install_flashrag.sh)
 echo "Job ID: $FLASHRAG_JOB_ID"
-echo "Monitor with: tail -f jobs/logs/install_flashrag_${FLASHRAG_JOB_ID}.log"
+echo "Monitor with: tail -f jobs/output/install_flashrag_${FLASHRAG_JOB_ID}.log"
 echo ""
 
 # Ask if user wants to download datasets
