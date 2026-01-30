@@ -8,26 +8,26 @@ echo "Submitting Naive Vector Search Baselines"
 echo "=========================================="
 
 # Navigate to project root
-cd "$(dirname "$0")/../.."
+cd /projects/prjs1800/msc-thesis
 
 # Create logs directory if it doesn't exist
 mkdir -p jobs/logs
 
 # Submit jobs
 echo "Submitting 2WikiMultihopQA baseline..."
-JOB1=$(sbatch jobs/baselines/naive_2wikimultihopqa.sh | awk '{print $4}')
+JOB1=$(sbatch jobs/baselines/naive_2wikimultihopqa.job | awk '{print $4}')
 echo "  Job ID: $JOB1"
 
 echo "Submitting HotpotQA baseline..."
-JOB2=$(sbatch jobs/baselines/naive_hotpotqa.sh | awk '{print $4}')
+JOB2=$(sbatch jobs/baselines/naive_hotpotqa.job | awk '{print $4}')
 echo "  Job ID: $JOB2"
 
 echo "Submitting TriviaQA baseline..."
-JOB3=$(sbatch jobs/baselines/naive_triviaqa.sh | awk '{print $4}')
+JOB3=$(sbatch jobs/baselines/naive_triviaqa.job | awk '{print $4}')
 echo "  Job ID: $JOB3"
 
 echo "Submitting Natural Questions baseline..."
-JOB4=$(sbatch jobs/baselines/naive_natural_questions.sh | awk '{print $4}')
+JOB4=$(sbatch jobs/baselines/naive_natural_questions.job | awk '{print $4}')
 echo "  Job ID: $JOB4"
 
 echo "=========================================="

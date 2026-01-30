@@ -1,0 +1,24 @@
+#!/bin/bash
+#SBATCH --job-name=install_baseline
+#SBATCH --partition=gpu_a100
+#SBATCH --time=00:30:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=16G
+#SBATCH --gpus=1
+#SBATCH --output=jobs/logs/install_baseline.log
+
+module purge
+module load 2025
+module load Anaconda3/2025.06-1
+
+source activate /projects/prjs1800/conda_envs/multi_agentic_rag
+
+echo "Installing faiss-cpu (Python 3.11 compatible)..."
+pip install faiss-cpu --no-cache-dir
+
+echo "Upgrading huggingface_hub..."
+pip install --upgrade huggingface_hub --no-cache-dir
+
+echo "Verifying..."
+python -c "import faiss; import sentence_transformers; print('OK')"

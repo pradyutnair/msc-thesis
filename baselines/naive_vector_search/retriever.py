@@ -5,16 +5,24 @@ Implements simple cosine similarity search without any multi-hop reasoning.
 """
 
 import logging
+import os
 import pickle
 from pathlib import Path
 from typing import List, Optional, Tuple
+
+# Set CUDA device if not already set
+if 'CUDA_VISIBLE_DEVICES' not in os.environ:
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
 
-from .dataset_loader import Document
+try:
+    from .dataset_loader import Document
+except ImportError:
+    from dataset_loader import Document
 
 logger = logging.getLogger(__name__)
 

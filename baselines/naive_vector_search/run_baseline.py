@@ -8,17 +8,31 @@ Usage:
 import argparse
 import json
 import logging
+import os
 import sys
 import time
 from pathlib import Path
 from typing import Dict, Any
 
+# Set CUDA device if not already set
+if 'CUDA_VISIBLE_DEVICES' not in os.environ:
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+
 import yaml
 from tqdm import tqdm
 
-from dataset_loader import DatasetLoader
-from retriever import NaiveVectorRetriever
-from evaluator import Evaluator
+# Support both package (python -m) and script invocation
+try:
+    from .dataset_loader import DatasetLoader
+    from .retriever import NaiveVectorRetriever
+    from .evaluator import Evaluator
+except ImportError:
+    _project_root = Path(__file__).resolve().parent.parent.parent
+    if str(_project_root) not in sys.path:
+        sys.path.insert(0, str(_project_root))
+    from baselines.naive_vector_search.dataset_loader import DatasetLoader
+    from baselines.naive_vector_search.retriever import NaiveVectorRetriever
+    from baselines.naive_vector_search.evaluator import Evaluator
 
 # Setup logging
 logging.basicConfig(

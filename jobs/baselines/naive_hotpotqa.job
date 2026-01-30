@@ -1,45 +1,46 @@
 #!/bin/bash
-#SBATCH --job-name=naive_2wiki
+#SBATCH --job-name=naive_hotpot
 #SBATCH --partition=gpu_a100
 #SBATCH --time=06:00:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --gpus=1
 #SBATCH --mem=64G
-#SBATCH --output=jobs/logs/naive_2wiki_%j.log
-#SBATCH --error=jobs/logs/naive_2wiki_%j.err
+#SBATCH --output=jobs/logs/naive_hotpot.log
 
-# Naive Vector Search Baseline on 2WikiMultihopQA
+# Naive Vector Search Baseline on HotpotQA
 # Simple cosine similarity retrieval without multi-hop reasoning
 
 echo "=========================================="
-echo "Naive Vector Search Baseline - 2WikiMultihopQA"
+echo "Naive Vector Search Baseline - HotpotQA"
 echo "Job ID: $SLURM_JOB_ID"
 echo "Node: $SLURM_NODELIST"
 echo "GPUs: $SLURM_GPUS"
 echo "Start time: $(date)"
 echo "=========================================="
 
-# Load modules
+# Load modules (CUDA/cuDNN needed for PyTorch import; computation is CPU)
 module purge
-module load 2023
-module load Miniconda3/23.5.2-0
-module load CUDA/12.1.1
+module load 2025
+module load CUDA/12.8.0
+module load cuDNN/9.10.1.4-CUDA-12.8.0
+module load NCCL/2.26.6-GCCcore-14.2.0-CUDA-12.8.0
+module load Anaconda3/2025.06-1
 
 # Activate conda environment
 source activate /projects/prjs1800/conda_envs/multi_agentic_rag
 
-# Set environment variables
-export CUDA_VISIBLE_DEVICES=0
+# Run on CPU (device=cpu in config)
+export CUDA_VISIBLE_DEVICES=""
 export TOKENIZERS_PARALLELISM=false
 
 # Navigate to project directory
-cd $HOME/msc-thesis
+cd /projects/prjs1800/msc-thesis
 
 echo "=========================================="
 echo "Configuration"
 echo "=========================================="
-echo "Dataset: 2WikiMultihopQA"
+echo "Dataset: HotpotQA"
 echo "Model: sentence-transformers/all-MiniLM-L6-v2"
 echo "Retrieval: Cosine similarity (FAISS)"
 echo "Top-k: 10"
@@ -48,7 +49,7 @@ echo "=========================================="
 # Run baseline
 echo "Running baseline evaluation..."
 python -m baselines.naive_vector_search.run_baseline \
-    --config baselines/naive_vector_search/configs/2wikimultihopqa.yaml
+    --config baselines/naive_vector_search/configs/hotpotqa.yaml
 
 echo "=========================================="
 echo "Baseline evaluation complete!"

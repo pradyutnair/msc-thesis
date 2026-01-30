@@ -116,7 +116,18 @@ class DatasetLoader:
     
     def _load_2wikimultihopqa(self, split: str, limit: Optional[int]) -> List[Question]:
         """Load 2WikiMultihopQA questions."""
-        file_path = self.dataset_dir / f"{split}.json"
+        # Map split names to actual file names
+        split_map = {
+            'dev': '2wikimultihopqa_validation.json',
+            'validation': '2wikimultihopqa_validation.json',
+            'test': '2wikimultihopqa_test.json',
+            'train': '2wikimultihopqa_train.json',
+            'small': '2wikimultihopqa_small.json',
+            'tiny': '2wikimultihopqa_tiny.json'
+        }
+        
+        file_name = split_map.get(split, f"2wikimultihopqa_{split}.json")
+        file_path = self.dataset_dir / file_name
         
         if not file_path.exists():
             raise FileNotFoundError(f"File not found: {file_path}")
@@ -141,13 +152,21 @@ class DatasetLoader:
     
     def _load_2wikimultihopqa_corpus(self) -> List[Document]:
         """Load 2WikiMultihopQA corpus from context."""
-        # For 2WikiMultihopQA, we extract corpus from the dev/train files
-        corpus_file = self.dataset_dir / "dev.json"
+        # For 2WikiMultihopQA, we extract corpus from the validation/train files
+        possible_files = [
+            self.dataset_dir / "2wikimultihopqa_validation.json",
+            self.dataset_dir / "2wikimultihopqa_train.json",
+            self.dataset_dir / "dev.json",
+            self.dataset_dir / "train.json",
+        ]
         
-        if not corpus_file.exists():
-            corpus_file = self.dataset_dir / "train.json"
+        corpus_file = None
+        for path in possible_files:
+            if path.exists():
+                corpus_file = path
+                break
         
-        if not corpus_file.exists():
+        if corpus_file is None:
             raise FileNotFoundError(f"No corpus file found in {self.dataset_dir}")
         
         with open(corpus_file, 'r', encoding='utf-8') as f:
@@ -279,18 +298,25 @@ class DatasetLoader:
     
     def _load_triviaqa(self, split: str, limit: Optional[int]) -> List[Question]:
         """Load TriviaQA questions."""
-        # TriviaQA structure may vary, adapt as needed
+        split_map = {
+            'dev': 'triviaqa_validation.json',
+            'validation': 'triviaqa_validation.json',
+            'test': 'triviaqa_test.json',
+            'train': 'triviaqa_train.json',
+            'small': 'triviaqa_small.json',
+            'tiny': 'triviaqa_tiny.json'
+        }
+        fname = split_map.get(split, f"triviaqa_{split}.json")
         possible_files = [
+            self.dataset_dir / fname,
             self.dataset_dir / f"qa/{split}.json",
             self.dataset_dir / f"{split}.json",
         ]
-        
         file_path = None
         for path in possible_files:
             if path.exists():
                 file_path = path
                 break
-        
         if not file_path:
             raise FileNotFoundError(
                 f"No TriviaQA file found for split '{split}' in {self.dataset_dir}"
@@ -360,15 +386,55 @@ class DatasetLoader:
         return documents
     
     def _extract_triviaqa_corpus_from_questions(self) -> List[Document]:
-        """Extract corpus from TriviaQA question files."""
-        # This is a fallback method
+        """Extract corpus from TriviaQA question files (question+answer as doc)."""
+        possible = [
+            self.dataset_dir / "triviaqa_validation.json",
+            self.dataset_dir / "triviaqa_small.json",
+            self.dataset_dir / "triviaqa_train.json",
+        ]
+        path = None
+        for p in possible:
+            if p.exists():
+                path = p
+                break
+        if path is None:
+            logger.warning("No TriviaQA question file found for corpus fallback")
+            return []
+        with open(path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
         documents = []
-        logger.warning("Using fallback corpus extraction for TriviaQA")
+        for idx, item in enumerate(data):
+            q = item.get('question', item.get('Question', ''))
+            ans = item.get('answer', item.get('Answer', {}))
+            if isinstance(ans, dict):
+                ans = ans.get('value', ans.get('Value', ''))
+            text = f"{q} {ans}".strip()
+            if not text:
+                continue
+            documents.append(Document(
+                id=str(idx),
+                title=item.get('question_id', item.get('QuestionId', str(idx))),
+                text=text,
+                metadata={'dataset': 'triviaqa'}
+            ))
+        logger.info(f"Loaded {len(documents)} documents from TriviaQA (question fallback)")
         return documents
     
     def _load_natural_questions(self, split: str, limit: Optional[int]) -> List[Question]:
         """Load Natural Questions."""
+        # Map split names to actual file names
+        split_map = {
+            'dev': 'natural_questions_validation.json',
+            'validation': 'natural_questions_validation.json',
+            'test': 'natural_questions_test.json',
+            'train': 'natural_questions_train.json',
+            'small': 'natural_questions_small.json',
+            'tiny': 'natural_questions_tiny.json'
+        }
+        
+        file_name = split_map.get(split, f"natural_questions_{split}.json")
         possible_files = [
+            self.dataset_dir / file_name,
             self.dataset_dir / f"nq-{split}.json",
             self.dataset_dir / f"{split}.json",
         ]
@@ -409,13 +475,18 @@ class DatasetLoader:
     
     def _load_natural_questions_corpus(self) -> List[Document]:
         """Load Natural Questions corpus."""
-        # Natural Questions typically includes document text in the question file
-        corpus_file = self.dataset_dir / "nq-dev.json"
-        
-        if not corpus_file.exists():
-            corpus_file = self.dataset_dir / "dev.json"
-        
-        if not corpus_file.exists():
+        possible = [
+            self.dataset_dir / "natural_questions_validation.json",
+            self.dataset_dir / "natural_questions_small.json",
+            self.dataset_dir / "nq-dev.json",
+            self.dataset_dir / "dev.json",
+        ]
+        corpus_file = None
+        for p in possible:
+            if p.exists():
+                corpus_file = p
+                break
+        if corpus_file is None:
             raise FileNotFoundError(f"No corpus file found in {self.dataset_dir}")
         
         with open(corpus_file, 'r', encoding='utf-8') as f:
