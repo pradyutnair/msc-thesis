@@ -28,6 +28,7 @@ First, create the conda environment with all dependencies:
 ```bash
 cd ~/msc-thesis
 sbatch jobs/setup/setup_conda_env.sh
+sbatch --dependency=afterok:<ENV_JOB_ID> jobs/setup/install_flashrag.sh
 ```
 
 This will create a conda environment named `multi_agentic_rag` with all required packages.

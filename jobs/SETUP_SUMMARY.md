@@ -73,6 +73,7 @@ tail -f jobs/output/setup_conda_env_*.log
 **Usage**:
 ```bash
 sbatch jobs/setup/setup_conda_env.sh
+sbatch --dependency=afterok:<ENV_JOB_ID> jobs/setup/install_flashrag.sh
 ```
 
 **What it does**:
