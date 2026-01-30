@@ -28,6 +28,7 @@ First, create the conda environment with all dependencies:
 ```bash
 cd ~/msc-thesis
 sbatch jobs/setup/setup_conda_env.sh
+sbatch --dependency=afterok:<ENV_JOB_ID> jobs/setup/install_flashrag.sh
 ```
 
 This will create a conda environment named `multi_agentic_rag` with all required packages.
@@ -78,6 +79,15 @@ sbatch jobs/benchmarks/multiagentic_hotpotqa.sh
 ```
 
 Results will be saved to `/projects/prjs1800/results/` directory.
+
+### Step 4: Run FlashRAG Baselines
+
+Submit baselines per dataset (set DATASET to one of: 2wikimultihopqa, hotpotqa, natural_questions, triviaqa):
+
+```bash
+DATASET=hotpotqa sbatch jobs/benchmarks/flashrag_naive.sh
+DATASET=hotpotqa sbatch jobs/benchmarks/flashrag_standard.sh
+```
 
 ## Partition Information
 

@@ -49,6 +49,12 @@ echo "Job ID: $ENV_JOB_ID"
 echo "Monitor with: tail -f jobs/output/setup_conda_env_${ENV_JOB_ID}.log"
 echo ""
 
+echo "Submitting FlashRAG installation job (after env ready)..."
+FLASHRAG_JOB_ID=$(sbatch --parsable --dependency=afterok:$ENV_JOB_ID jobs/setup/install_flashrag.sh)
+echo "Job ID: $FLASHRAG_JOB_ID"
+echo "Monitor with: tail -f jobs/output/install_flashrag_${FLASHRAG_JOB_ID}.log"
+echo ""
+
 # Ask if user wants to download datasets
 read -p "Do you want to download all datasets now? (y/n) " -n 1 -r
 echo ""
