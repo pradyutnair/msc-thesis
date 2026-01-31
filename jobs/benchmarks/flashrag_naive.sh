@@ -30,9 +30,8 @@ FLASHRAG_METHODS="$FLASHRAG_ROOT/examples/methods"
 export PYTHONPATH="$FLASHRAG_ROOT:$PYTHONPATH"
 export HF_HOME="/projects/prjs1800/.cache/huggingface"
 export HF_HUB_CACHE="$HF_HOME"
-# Generator: my_config_qwen.yaml (Qwen3-8B) | my_config.yaml (Meta-Llama-3-8B-Instruct)
-# For Qwen: run jobs/setup/download_qwen3_8b.sh once first so cache is populated (avoids race if both jobs run together).
-FLASHRAG_CONFIG="${FLASHRAG_CONFIG:-my_config_qwen.yaml}"
+# Generator: my_config.yaml (Meta-Llama-3-8B)
+FLASHRAG_CONFIG="${FLASHRAG_CONFIG:-my_config.yaml}"
 DATASETS="nq triviaqa hotpotqa 2wikimultihopqa popqa web_questions"
 
 cd "$FLASHRAG_METHODS"
