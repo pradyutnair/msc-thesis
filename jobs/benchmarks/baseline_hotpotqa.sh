@@ -22,9 +22,9 @@ echo "=========================================="
 
 # Load modules
 module purge
-module load 2023
-module load Miniconda3/23.5.2-0
-module load CUDA/12.1.1
+module load 2025
+module load Anaconda3/2025.06-1
+module load CUDA/12.8.0
 
 # Activate conda environment
 source activate /projects/prjs1800/conda_envs/multi_agentic_rag
@@ -34,7 +34,7 @@ export CUDA_VISIBLE_DEVICES=0
 export TOKENIZERS_PARALLELISM=false
 
 # Set paths
-DATASET_DIR="/projects/prjs1800/datasets/hotpotqa"
+DATASET_DIR="/projects/prjs1800/datasets/flashrag/hotpotqa"
 RESULTS_DIR="/projects/prjs1800/results/baseline_hotpotqa"
 mkdir -p $RESULTS_DIR
 
@@ -229,7 +229,7 @@ def evaluate_hotpotqa(dataset_path: str, output_path: str, use_small: bool = Fal
 if __name__ == "__main__":
     import sys
     
-    dataset_path = sys.argv[1] if len(sys.argv) > 1 else "/projects/prjs1800/datasets/hotpotqa/hotpot_dev_distractor_v1.json"
+    dataset_path = sys.argv[1] if len(sys.argv) > 1 else "/projects/prjs1800/datasets/flashrag/hotpotqa/hotpot_dev_distractor_v1.json"
     output_path = sys.argv[2] if len(sys.argv) > 2 else "/projects/prjs1800/results/baseline_hotpotqa/results.json"
     use_small = len(sys.argv) > 3 and sys.argv[3] == "--small"
     

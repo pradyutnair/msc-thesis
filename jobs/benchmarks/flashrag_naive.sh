@@ -6,8 +6,7 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --gpus=1
 #SBATCH --mem=64G
-#SBATCH --output=jobs/output/flashrag_naive_%j.log
-#SBATCH --error=jobs/output/flashrag_naive_%j.err
+#SBATCH --output=jobs/output/flashrag_naive.log
 
 # FlashRAG Naive Generation baseline across datasets
 
@@ -20,24 +19,35 @@ echo "Start time: $(date)"
 echo "=========================================="
 
 module purge
-module load 2023
-module load Miniconda3/23.5.2-0
-module load CUDA/12.1.1
+module load 2025
+module load Anaconda3/2025.06-1
+module load CUDA/12.8.0
 
 ENV_PATH="/projects/prjs1800/conda_envs/multi_agentic_rag"
-DATA_ROOT="/projects/prjs1800/datasets"
+DATA_ROOT="/projects/prjs1800/datasets/flashrag"
 RESULT_ROOT="/projects/prjs1800/results/flashrag"
 
+# DATASET from env, first argument, or default
+if [ -z "$DATASET" ] && [ -n "$1" ]; then
+  export DATASET="$1"
+fi
 if [ -z "$DATASET" ]; then
-  echo "ERROR: DATASET environment variable not set. Choose one of: 2wikimultihopqa, hotpotqa, natural_questions, triviaqa"
-  exit 1
+  export DATASET="2wikimultihopqa"
 fi
 
 source activate "$ENV_PATH"
 
+# Hugging Face cache (unified under .cache/huggingface)
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="/projects/prjs1800/.cache/huggingface"
+export TRANSFORMERS_CACHE="/projects/prjs1800/.cache/huggingface"
+export HF_DATASETS_CACHE="/projects/prjs1800/.cache/huggingface"
+# Avoid MKL vs libgomp conflict in vLLM subprocess (model inspection)
+export MKL_THREADING_LAYER=GNU
+
 mkdir -p "$RESULT_ROOT"
 
-cd "$HOME/msc-thesis"
+cd /projects/prjs1800/FlashRAG
 
 export DATASET_NAME="$DATASET"
 export DATASET_PATH="$DATA_ROOT/$DATASET"
@@ -45,16 +55,18 @@ export FLASHRAG_SAVE_DIR="$RESULT_ROOT/${DATASET}_naive"
 mkdir -p "$FLASHRAG_SAVE_DIR"
 
 echo "Dataset: $DATASET_NAME"
-echo "Dataset path: $DATASET_PATH"
+echo "Dataset path: $DATA_ROOT"
 echo "Results: $FLASHRAG_SAVE_DIR"
 
-python -m flashrag.runner.baseline \
-  --method naive \
-  --dataset "$DATASET_NAME" \
-  --data_dir "$DATASET_PATH" \
-  --save_dir "$FLASHRAG_SAVE_DIR" \
+# FlashRAG uses examples/methods/run_exp.py with my_config.yaml
+cd /projects/prjs1800/FlashRAG/examples/methods
+
+# Run the naive baseline using run_exp.py
+python run_exp.py \
+  --method_name naive \
+  --dataset_name "$DATASET_NAME" \
   --split dev \
-  --gpu "0"
+  --gpu_id "0"
 
 echo "=========================================="
 echo "Completed FlashRAG Naive baseline"

@@ -6,8 +6,7 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --gpus=1
 #SBATCH --mem=64G
-#SBATCH --output=jobs/output/flashrag_standard_%j.log
-#SBATCH --error=jobs/output/flashrag_standard_%j.err
+#SBATCH --output=jobs/output/flashrag_standard.log
 
 # FlashRAG Standard RAG baseline across datasets
 
@@ -20,12 +19,12 @@ echo "Start time: $(date)"
 echo "=========================================="
 
 module purge
-module load 2023
-module load Miniconda3/23.5.2-0
-module load CUDA/12.1.1
+module load 2025
+module load Anaconda3/2025.06-1
+module load CUDA/12.8.0
 
 ENV_PATH="/projects/prjs1800/conda_envs/multi_agentic_rag"
-DATA_ROOT="/projects/prjs1800/datasets"
+DATA_ROOT="/projects/prjs1800/datasets/flashrag"
 RESULT_ROOT="/projects/prjs1800/results/flashrag"
 
 if [ -z "$DATASET" ]; then
@@ -37,24 +36,22 @@ source activate "$ENV_PATH"
 
 mkdir -p "$RESULT_ROOT"
 
-cd "$HOME/msc-thesis"
-
 export DATASET_NAME="$DATASET"
-export DATASET_PATH="$DATA_ROOT/$DATASET"
-export FLASHRAG_SAVE_DIR="$RESULT_ROOT/${DATASET}_standard"
-mkdir -p "$FLASHRAG_SAVE_DIR"
 
 echo "Dataset: $DATASET_NAME"
-echo "Dataset path: $DATASET_PATH"
-echo "Results: $FLASHRAG_SAVE_DIR"
+echo "Data root: $DATA_ROOT"
+echo "Results: $RESULT_ROOT"
 
-python -m flashrag.runner.baseline \
-  --method standard_rag \
-  --dataset "$DATASET_NAME" \
-  --data_dir "$DATASET_PATH" \
-  --save_dir "$FLASHRAG_SAVE_DIR" \
+# FlashRAG uses examples/methods/run_exp.py with my_config.yaml
+# Note: "naive" in FlashRAG = standard sequential RAG (retrieve + generate)
+# Use "zero-shot" for generation without retrieval
+cd /projects/prjs1800/FlashRAG/examples/methods
+
+python run_exp.py \
+  --method_name naive \
+  --dataset_name "$DATASET_NAME" \
   --split dev \
-  --gpu "0"
+  --gpu_id "0"
 
 echo "=========================================="
 echo "Completed FlashRAG Standard RAG baseline"
