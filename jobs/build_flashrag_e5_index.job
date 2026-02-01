@@ -1,0 +1,48 @@
+#!/bin/bash
+#SBATCH --job-name=fr_build_e5
+#SBATCH --partition=gpu_a100
+#SBATCH --time=24:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=120G
+#SBATCH --output=/projects/prjs1800/msc-thesis/jobs/output/flashrag_build_e5_index.log
+
+echo "=========================================="
+echo "FlashRAG E5 Index Build"
+echo "Job ID: $SLURM_JOB_ID"
+echo "Node: $SLURM_NODELIST"
+echo "Start time: $(date)"
+echo "=========================================="
+
+module purge
+module load 2025
+module load Anaconda3/2025.06-1
+module load CUDA/12.8.0
+
+cd /projects/prjs1800
+source venvs/FlashRAG-venv/bin/activate
+
+export PYTHONPATH="/projects/prjs1800/external/FlashRAG:$PYTHONPATH"
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"
+
+CORPUS_PATH="/projects/prjs1800/datasets/flashrag/retrieval-corpus/wiki18_100w.jsonl"
+SAVE_DIR="/projects/prjs1800/datasets/flashrag/indexes"
+
+python /projects/prjs1800/msc-thesis/scripts/build_flashrag_e5_index_streaming.py \
+  --retrieval_method e5 \
+  --model_path intfloat/e5-base-v2 \
+  --corpus_path "$CORPUS_PATH" \
+  --save_dir "$SAVE_DIR" \
+  --use_fp16 \
+  --max_length 512 \
+  --batch_size 256 \
+  --chunk_size 10000 \
+  --pooling_method mean \
+  --faiss_type Flat
+
+echo "=========================================="
+echo "Completed FlashRAG E5 Index Build"
+echo "End time: $(date)"
+echo "=========================================="
