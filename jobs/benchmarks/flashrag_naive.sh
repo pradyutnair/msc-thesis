@@ -30,8 +30,8 @@ FLASHRAG_METHODS="$FLASHRAG_ROOT/examples/methods"
 export PYTHONPATH="$FLASHRAG_ROOT:$PYTHONPATH"
 export HF_HOME="/projects/prjs1800/.cache/huggingface"
 export HF_HUB_CACHE="$HF_HOME"
-# Generator: my_config.yaml (Meta-Llama-3-8B)
-FLASHRAG_CONFIG="${FLASHRAG_CONFIG:-my_config.yaml}"
+# Config file in msc-thesis for version control
+FLASHRAG_CONFIG="/projects/prjs1800/msc-thesis/configs/flashrag/naive_generation.yaml"
 DATASETS="nq triviaqa hotpotqa 2wikimultihopqa popqa web_questions"
 
 cd "$FLASHRAG_METHODS"
