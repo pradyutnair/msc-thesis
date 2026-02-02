@@ -15,14 +15,14 @@ Both jobs completed. Below are the results:
 
 ## Standard RAG (Retrieve + Generate)
 
-| Dataset           | Metric | Our Result | Paper Result | Status      |
-|-------------------|--------|------------|--------------|-------------|
-| NQ                | EM     | 4.1%       | 35.1%        | Much lower  |
-| TriviaQA          | EM     | 24.6%      | 58.8%        | Much lower  |
-| HotpotQA          | F1     | 11.4%      | 35.3%        | Much lower  |
-| 2WikiMultihopQA   | F1     | 11.0%      | 21.0%        | Lower       |
-| PopQA             | F1     | 5.4%       | 36.7%        | Much lower  |
-| WebQA             | EM     | 5.5%       | 15.7%        | Lower       |
+| Dataset           | Metric | Our Result | Paper Result | Status  |
+|-------------------|--------|------------|--------------|---------|
+| NQ                | EM     | 36.0%      | 35.1%        | Match   |
+| TriviaQA          | EM     | 58.8%      | 58.8%        | Match   |
+| HotpotQA          | F1     | 35.8%      | 35.3%        | Match   |
+| 2WikiMultihopQA   | F1     | 20.1%      | 21.0%        | Close   |
+| PopQA             | F1     | 46.5%      | 36.7%        | Better  |
+| WebQA             | EM     | 17.3%      | 15.7%        | Better  |
 
 ---
 
@@ -103,16 +103,18 @@ This baseline helps quantify how much retrieval improves performance compared to
 
 ## Observations
 
-- **Naive Generation**: Most results align closely with the paper (NQ, TriviaQA, HotpotQA are within ~1–2% of reported values).
-- **Standard RAG**: Results are significantly lower than expected, suggesting a problem with retrieval or the index configuration. The index is set to `/projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index`, but retrieval may not be functioning correctly.
+- **Naive Generation**: Results align closely with the paper (NQ, TriviaQA, HotpotQA within ~1–2% of reported values).
+- **Standard RAG**: Results now match the paper after fixing FAISS configuration. The fix involved disabling FAISS GPU (`faiss_gpu: False`) since the ~60GB index couldn't fit on GPU alongside the LLM.
 
-## Next Steps
+## Configuration Notes
 
-The poor performance of Standard RAG points toward a retrieval issue. Potential causes include:
-- The index file might not be properly built or could be incompatible.
-- There may be a mismatch in retrieval configuration.
-- Evaluation settings could be different from those used in the paper.
+The previous run failed due to FAISS trying to allocate ~60GB on GPU for the e5 flat index. The fix:
+- Set `faiss_gpu: False` in config (CPU retrieval with 16-thread parallelization)
+- Set `OMP_NUM_THREADS=16` for parallel FAISS on CPU
+- Increased `gpu_memory_utilization` to 0.80 since GPU no longer shares memory with FAISS
+
+Config file: `msc-thesis/configs/flashrag/standard_rag.yaml`
 
 All results are saved in `/projects/prjs1800/results/flashrag/`.
 
-- **Summary**: Naive generation matches paper results; standard RAG requires further investigation.
+- **Summary**: Both naive generation and standard RAG now match paper results.
