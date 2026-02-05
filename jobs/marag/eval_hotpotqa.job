@@ -1,0 +1,19 @@
+#!/bin/bash
+#SBATCH --job-name=marag_eval_hotpotqa
+#SBATCH --partition=cbuild
+#SBATCH --time=00:30:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=8G
+#SBATCH --output=jobs/output/marag/eval_hotpotqa_%j.log
+
+module load 2025
+module load Anaconda3/2025.06-1
+module load CUDA/12.8.0
+
+source /projects/prjs1800/venvs/msc-thesis-venv/bin/activate
+export PYTHONNOUSERSITE=1
+
+python /projects/prjs1800/msc-thesis/scripts/evaluate_marag.py \
+  --results_dir /projects/prjs1800/external/MA-RAG/plan_rag_extract_qwen3-8b_hotpotqa \
+  --dataset hotpotqa

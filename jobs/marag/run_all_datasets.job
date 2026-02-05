@@ -1,0 +1,95 @@
+#!/bin/bash
+#SBATCH --job-name=marag_all
+#SBATCH --partition=gpu_a100
+#SBATCH --time=24:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --gpus=2
+#SBATCH --mem=64G
+#SBATCH --output=jobs/output/marag/all_datasets_%j.log
+
+# Load modules
+module purge
+module load 2023
+module load Python/3.11.3-GCCcore-12.3.0
+module load CUDA/12.1.1
+
+# Activate venv
+source /projects/prjs1800/venvs/marag-py311-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+
+# Set environment for vLLM
+export VLLM_BASE_URL=http://localhost:8000/v1
+export MODEL_NAME=Qwen/Qwen3-8B
+
+# Navigate to MA-RAG directory
+cd /projects/prjs1800/external/MA-RAG
+
+# Add MA-RAG to PYTHONPATH so src module can be found
+export PYTHONPATH=/projects/prjs1800/external/MA-RAG:$PYTHONPATH
+
+# Check if embeddings exist
+if [ ! -d "save_embs/gte-ml-base" ] || [ -z "$(ls -A save_embs/gte-ml-base 2>/dev/null)" ]; then
+    echo "ERROR: Embeddings not found in save_embs/gte-ml-base/"
+    echo "Please run embed_corpus.job first!"
+    exit 1
+fi
+
+echo "=== Starting vLLM server with Qwen3-8B ==="
+echo "Using GPU 0 for vLLM, GPU 1 for retrieval"
+
+# Start vLLM server on GPU 0 in background
+CUDA_VISIBLE_DEVICES=0 python -m vllm.entrypoints.openai.api_server \
+    --model Qwen/Qwen3-8B \
+    --download-dir $HF_HOME \
+    --port 8000 \
+    --dtype bfloat16 \
+    --max-model-len 8192 \
+    --trust-remote-code > /tmp/vllm_server.log 2>&1 &
+
+VLLM_PID=$!
+
+# Wait for vLLM to be ready (up to 10 minutes)
+echo "Waiting for vLLM server to be ready..."
+for i in {1..120}; do
+    if curl -s http://localhost:8000/v1/models > /dev/null 2>&1; then
+        echo "vLLM server is ready after $((i*5)) seconds!"
+        break
+    fi
+    if [ $i -eq 120 ]; then
+        echo "ERROR: vLLM server failed to start within 10 minutes"
+        cat /tmp/vllm_server.log
+        kill $VLLM_PID 2>/dev/null
+        exit 1
+    fi
+    sleep 5
+done
+
+# Run on each dataset (500 samples each for initial validation)
+DATASETS=("hotpotqa" "nq" "triviaqa" "2wiki")
+
+for DATASET in "${DATASETS[@]}"; do
+    echo ""
+    echo "========================================"
+    echo "=== Running MA-RAG on $DATASET ==="
+    echo "Start time: $(date)"
+    echo "========================================"
+    
+    python main.py \
+        --model qwen3-8b \
+        --dataset $DATASET \
+        --exp plan_rag_extract \
+        --gpus 1 \
+        --start_index 0 \
+        --end_index 500
+    
+    echo "Completed $DATASET at $(date)"
+done
+
+echo ""
+echo "=== All datasets completed ==="
+echo "End time: $(date)"
+
+# Cleanup
+kill $VLLM_PID 2>/dev/null

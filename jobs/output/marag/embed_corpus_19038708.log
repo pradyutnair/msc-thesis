@@ -1,0 +1,43 @@
+Starting corpus embedding with GTE-multilingual-base...
+This will embed ~21M passages from DPR-W100 corpus
+Estimated time: 2-4 hours
+PYTHONPATH: /projects/prjs1800/external/MA-RAG:
+/projects/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+02/02/2026 20:16:19 - INFO - __main__ - Using device: cuda
+`torch_dtype` is deprecated! Use `dtype` instead!
+Some weights of the model checkpoint at Alibaba-NLP/gte-multilingual-base were not used when initializing NewModel: ['classifier.bias', 'classifier.weight']
+- This IS expected if you are initializing NewModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing NewModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+02/02/2026 20:16:23 - INFO - __main__ - Sample a passage: (2, '"God at Sinai granted Aaron the priesthood for himself and his male descendants, and he became the first High Priest of the Israelites. Aaron died before the Israelites crossed the North Jordan river and he was buried on Mount Hor (Numbers 33:39; Deuteronomy 10:6 says he died and was buried at Moserah). Aaron is also mentioned in the New Testament of the Bible. According to the Book of Exodus, Aaron first functioned as Moses\' assistant. Because Moses complained that he could not speak well, God appointed Aaron as Moses\' ""prophet"" (Exodus 4:10-17; 7:1). At the command of Moses, he let"')
+02/02/2026 20:16:23 - INFO - __main__ - Total documents: 21015324
+02/02/2026 20:16:23 - INFO - __main__ - Starting embedding with 20523 batches
+Embedding:   0%|          | 0/20523 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/queues.py", line 262, in _feed
+    obj = _ForkingPickler.dumps(obj)
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+_pickle.PicklingError: Can't pickle <class '_block.LZ4BlockError'>: import of module '_block' failed
+Traceback (most recent call last):
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/queues.py", line 262, in _feed
+    obj = _ForkingPickler.dumps(obj)
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+_pickle.PicklingError: Can't pickle <class '_block.LZ4BlockError'>: import of module '_block' failed
+Traceback (most recent call last):
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/queues.py", line 262, in _feed
+    obj = _ForkingPickler.dumps(obj)
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+_pickle.PicklingError: Can't pickle <class '_block.LZ4BlockError'>: import of module '_block' failed
+Traceback (most recent call last):
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/queues.py", line 262, in _feed
+    obj = _ForkingPickler.dumps(obj)
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+_pickle.PicklingError: Can't pickle <class '_block.LZ4BlockError'>: import of module '_block' failed
+Embedding:   0%|          | 1/20523 [00:11<64:15:01, 11.27s/it]Embedding:   0%|          | 2/20523 [00:11<28:34:01,  5.01s/it]Embedding:   0%|          | 3/20523 [00:12<16:52:36,  2.96s/it]Embedding:   0%|          | 4/20523 [00:13<12:28:24,  2.19s/it]Embedding:   0%|          | 5/20523 [00:14<9:16:18,  1.63s/it] Embedding:   0%|          | 6/20523 [00:14<7:43:02,  1.35s/it][2026-02-02T20:18:31.863] error: *** JOB 19038708 ON gcn26 CANCELLED AT 2026-02-02T20:18:31 DUE to SIGNAL Terminated ***

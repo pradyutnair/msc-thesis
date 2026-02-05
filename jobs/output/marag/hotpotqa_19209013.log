@@ -1,0 +1,94 @@
+=== Cleaning up failed results ===
+Remaining results: 162
+=== Starting vLLM (optimized) ===
+name, memory.total [MiB]
+NVIDIA H100, 95830 MiB
+Waiting for vLLM (up to 10 min)...
+Ready after 260s
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+
+============================================================
+MA-RAG Pipeline - hotpotqa
+Samples: 0 to 500
+============================================================
+
+[1/4] Loading embedding model...
+Some weights of the model checkpoint at Alibaba-NLP/gte-multilingual-base were not used when initializing NewModel: ['classifier.bias', 'classifier.weight']
+- This IS expected if you are initializing NewModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing NewModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+      Loaded on GPU 0
+[2/4] Loading retrieval index...
+02/04/2026 16:31:39 - INFO - corpus.retrieve - Initializing retriever
+02/04/2026 16:31:39 - INFO - corpus.retrieve - Initializing Faiss index from pre-computed document embeddings
+02/04/2026 16:31:39 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_4999
+02/04/2026 16:31:41 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_3999
+02/04/2026 16:31:43 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_1999
+02/04/2026 16:31:46 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_2999
+02/04/2026 16:31:48 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_8999
+02/04/2026 16:31:52 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_25999
+02/04/2026 16:31:54 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_19999
+02/04/2026 16:31:56 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_20999
+02/04/2026 16:31:58 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_26999
+02/04/2026 16:32:02 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_17999
+02/04/2026 16:32:05 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_9999
+02/04/2026 16:32:07 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_21999
+02/04/2026 16:32:09 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_10999
+02/04/2026 16:32:11 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_6999
+02/04/2026 16:32:13 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_7999
+02/04/2026 16:32:15 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_5999
+02/04/2026 16:32:17 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_23999
+02/04/2026 16:32:25 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_11999
+02/04/2026 16:32:27 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_13999
+02/04/2026 16:32:29 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_24999
+02/04/2026 16:32:31 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_18999
+02/04/2026 16:32:33 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_12999
+02/04/2026 16:32:35 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_27363
+02/04/2026 16:32:37 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_16999
+02/04/2026 16:32:39 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_15999
+02/04/2026 16:32:41 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_22999
+02/04/2026 16:32:44 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_14999
+02/04/2026 16:32:46 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_999
+02/04/2026 16:32:48 - INFO - corpus.retrieve - Moving index to GPU(s): requested=1, available=0
+02/04/2026 16:32:48 - WARNING - corpus.retrieve - No GPU available for faiss (faiss-gpu not installed?). Using CPU index.
+[3/4] Loading corpus...
+[4/4] Building graph...
+
+============================================================
+Processing 501 samples, 162 already done
+Output: plan_rag_extract_qwen3-8b_hotpotqa/
+============================================================
+
+Processing:   0%|          | 0/501 [00:00<?, ?sample/s]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_0]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_1]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_2]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_3]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_4]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_5]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_6]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_7]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_8]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_9]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_10]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_11]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_12]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_13]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_14]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_15]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=running, qid=dev_16]02/04/2026 16:32:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:32:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:04 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:04 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:04 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:04 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:04 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:04 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   0%|          | 0/501 [00:20<?, ?sample/s, status=done 21s, qid=dev_16]Processing:   3%|▎         | 17/501 [00:20<09:51,  1.22s/sample, status=done 21s, qid=dev_16]Processing:   3%|▎         | 17/501 [00:20<09:51,  1.22s/sample, status=skip, qid=dev_17]    Processing:   3%|▎         | 17/501 [00:20<09:51,  1.22s/sample, status=skip, qid=dev_18]Processing:   3%|▎         | 17/501 [00:20<09:51,  1.22s/sample, status=skip, qid=dev_19]Processing:   3%|▎         | 17/501 [00:20<09:51,  1.22s/sample, status=skip, qid=dev_20]Processing:   3%|▎         | 17/501 [00:20<09:51,  1.22s/sample, status=skip, qid=dev_21]Processing:   3%|▎         | 17/501 [00:20<09:51,  1.22s/sample, status=skip, qid=dev_22]Processing:   3%|▎         | 17/501 [00:20<09:51,  1.22s/sample, status=running, qid=dev_23]02/04/2026 16:33:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:33:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:34:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   3%|▎         | 17/501 [01:45<09:51,  1.22s/sample, status=ERROR, qid=dev_23]                                                                                            ERROR on dev_23: Could not parse response content as the length limit was reached - CompletionUsage(completion_tokens=8192, prompt_tokens=189, total_tokens=8381, completion_tokens_details=None, prompt_tokens_details=None)
+Processing:   3%|▎         | 17/501 [01:45<09:51,  1.22s/sample, status=ERROR, qid=dev_23]Processing:   5%|▍         | 24/501 [01:45<41:54,  5.27s/sample, status=ERROR, qid=dev_23]Processing:   5%|▍         | 24/501 [01:45<41:54,  5.27s/sample, status=skip, qid=dev_24] Processing:   5%|▍         | 24/501 [01:45<41:54,  5.27s/sample, status=skip, qid=dev_25]Processing:   5%|▍         | 24/501 [01:45<41:54,  5.27s/sample, status=skip, qid=dev_26]Processing:   5%|▍         | 24/501 [01:45<41:54,  5.27s/sample, status=skip, qid=dev_27]Processing:   5%|▍         | 24/501 [01:45<41:54,  5.27s/sample, status=skip, qid=dev_28]Processing:   5%|▍         | 24/501 [01:45<41:54,  5.27s/sample, status=skip, qid=dev_29]Processing:   5%|▍         | 24/501 [01:45<41:54,  5.27s/sample, status=skip, qid=dev_30]Processing:   5%|▍         | 24/501 [01:45<41:54,  5.27s/sample, status=skip, qid=dev_31]Processing:   5%|▍         | 24/501 [01:45<41:54,  5.27s/sample, status=skip, qid=dev_32]Processing:   5%|▍         | 24/501 [01:45<41:54,  5.27s/sample, status=skip, qid=dev_33]Processing:   5%|▍         | 24/501 [01:45<41:54,  5.27s/sample, status=skip, qid=dev_34]Processing:   5%|▍         | 24/501 [01:45<41:54,  5.27s/sample, status=skip, qid=dev_35]Processing:   5%|▍         | 24/501 [01:45<41:54,  5.27s/sample, status=running, qid=dev_36]02/04/2026 16:34:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:34:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:34:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:34:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:34:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:34:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:34:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+[2026-02-04T16:35:54.587] error: *** JOB 19209013 ON gcn119 CANCELLED AT 2026-02-04T16:35:54 DUE to SIGNAL Terminated ***

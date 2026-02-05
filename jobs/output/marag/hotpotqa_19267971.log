@@ -1,0 +1,978 @@
+=== Cleaning up failed results ===
+Remaining results: 164
+=== Starting vLLM ===
+name, memory.total [MiB]
+NVIDIA H100, 95830 MiB
+Waiting for vLLM (up to 10 min)...
+Ready after 345s
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+
+============================================================
+MA-RAG Pipeline - hotpotqa
+Samples: 0 to 500
+============================================================
+
+[1/4] Loading embedding model...
+Some weights of the model checkpoint at Alibaba-NLP/gte-multilingual-base were not used when initializing NewModel: ['classifier.bias', 'classifier.weight']
+- This IS expected if you are initializing NewModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing NewModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+      Loaded on GPU 0
+[2/4] Loading retrieval index...
+02/05/2026 11:17:57 - INFO - corpus.retrieve - Initializing retriever
+02/05/2026 11:17:57 - INFO - corpus.retrieve - Initializing Faiss index from pre-computed document embeddings
+02/05/2026 11:17:57 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_4999
+02/05/2026 11:18:02 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_3999
+02/05/2026 11:18:05 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_1999
+02/05/2026 11:18:09 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_2999
+02/05/2026 11:18:12 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_8999
+02/05/2026 11:18:16 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_25999
+02/05/2026 11:18:19 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_19999
+02/05/2026 11:18:22 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_20999
+02/05/2026 11:18:25 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_26999
+02/05/2026 11:18:30 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_17999
+02/05/2026 11:18:33 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_9999
+02/05/2026 11:18:36 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_21999
+02/05/2026 11:18:40 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_10999
+02/05/2026 11:18:42 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_6999
+02/05/2026 11:18:45 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_7999
+02/05/2026 11:18:47 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_5999
+02/05/2026 11:18:50 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_23999
+02/05/2026 11:18:58 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_11999
+02/05/2026 11:19:01 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_13999
+02/05/2026 11:19:04 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_24999
+02/05/2026 11:19:07 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_18999
+02/05/2026 11:19:10 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_12999
+02/05/2026 11:19:12 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_27363
+02/05/2026 11:19:14 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_16999
+02/05/2026 11:19:17 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_15999
+02/05/2026 11:19:20 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_22999
+02/05/2026 11:19:23 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_14999
+02/05/2026 11:19:26 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_999
+02/05/2026 11:19:29 - INFO - corpus.retrieve - Moving index to GPU(s): requested=1, available=0
+02/05/2026 11:19:29 - WARNING - corpus.retrieve - No GPU available for faiss (faiss-gpu not installed?). Using CPU index.
+[3/4] Loading corpus...
+[4/4] Building graph...
+
+============================================================
+Processing 501 samples, 164 already done
+Output: plan_rag_extract_qwen3-8b_hotpotqa/
+============================================================
+
+Processing:   0%|          | 0/501 [00:00<?, ?sample/s]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_0]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_1]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_2]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_3]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_4]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_5]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_6]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_7]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_8]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_9]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_10]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_11]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_12]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_13]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_14]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_15]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_16]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_17]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_18]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_19]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_20]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_21]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_22]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=running, qid=dev_23]02/05/2026 11:19:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:19:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:19:47 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:19:47 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:19:47 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:19:47 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:19:47 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   0%|          | 0/501 [00:57<?, ?sample/s, status=ERROR, qid=dev_23]                                                                                   ERROR on dev_23: Could not parse response content as the length limit was reached - CompletionUsage(completion_tokens=4096, prompt_tokens=265, total_tokens=4361, completion_tokens_details=None, prompt_tokens_details=None)
+Processing:   0%|          | 0/501 [00:57<?, ?sample/s, status=ERROR, qid=dev_23]Processing:   5%|▍         | 24/501 [00:57<18:54,  2.38s/sample, status=ERROR, qid=dev_23]Processing:   5%|▍         | 24/501 [00:57<18:54,  2.38s/sample, status=skip, qid=dev_24] Processing:   5%|▍         | 24/501 [00:57<18:54,  2.38s/sample, status=skip, qid=dev_25]Processing:   5%|▍         | 24/501 [00:57<18:54,  2.38s/sample, status=skip, qid=dev_26]Processing:   5%|▍         | 24/501 [00:57<18:54,  2.38s/sample, status=skip, qid=dev_27]Processing:   5%|▍         | 24/501 [00:57<18:54,  2.38s/sample, status=skip, qid=dev_28]Processing:   5%|▍         | 24/501 [00:57<18:54,  2.38s/sample, status=skip, qid=dev_29]Processing:   5%|▍         | 24/501 [00:57<18:54,  2.38s/sample, status=skip, qid=dev_30]Processing:   5%|▍         | 24/501 [00:57<18:54,  2.38s/sample, status=skip, qid=dev_31]Processing:   5%|▍         | 24/501 [00:57<18:54,  2.38s/sample, status=skip, qid=dev_32]Processing:   5%|▍         | 24/501 [00:57<18:54,  2.38s/sample, status=skip, qid=dev_33]Processing:   5%|▍         | 24/501 [00:57<18:54,  2.38s/sample, status=skip, qid=dev_34]Processing:   5%|▍         | 24/501 [00:57<18:54,  2.38s/sample, status=skip, qid=dev_35]Processing:   5%|▍         | 24/501 [00:57<18:54,  2.38s/sample, status=skip, qid=dev_36]Processing:   5%|▍         | 24/501 [00:57<18:54,  2.38s/sample, status=skip, qid=dev_37]Processing:   5%|▍         | 24/501 [00:57<18:54,  2.38s/sample, status=skip, qid=dev_38]Processing:   5%|▍         | 24/501 [00:57<18:54,  2.38s/sample, status=skip, qid=dev_39]Processing:   5%|▍         | 24/501 [00:57<18:54,  2.38s/sample, status=running, qid=dev_40]02/05/2026 11:20:28 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:33 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:33 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:33 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:33 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:33 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   5%|▍         | 24/501 [01:20<18:54,  2.38s/sample, status=done 23s, qid=dev_40]Processing:   8%|▊         | 41/501 [01:20<14:15,  1.86s/sample, status=done 23s, qid=dev_40]Processing:   8%|▊         | 41/501 [01:20<14:15,  1.86s/sample, status=running, qid=dev_41] 02/05/2026 11:20:51 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:51 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:55 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:55 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:55 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:55 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:55 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:20:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:13 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:13 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   8%|▊         | 41/501 [01:43<14:15,  1.86s/sample, status=done 23s, qid=dev_41]Processing:   8%|▊         | 42/501 [01:43<20:48,  2.72s/sample, status=done 23s, qid=dev_41]Processing:   8%|▊         | 42/501 [01:43<20:48,  2.72s/sample, status=running, qid=dev_42] 02/05/2026 11:21:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:23 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:23 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:23 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:23 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:21:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:04 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   8%|▊         | 42/501 [02:34<20:48,  2.72s/sample, status=ERROR, qid=dev_42]                                                                                            ERROR on dev_42: Could not parse response content as the length limit was reached - CompletionUsage(completion_tokens=4096, prompt_tokens=433, total_tokens=4529, completion_tokens_details=None, prompt_tokens_details=None)
+Processing:   8%|▊         | 42/501 [02:34<20:48,  2.72s/sample, status=ERROR, qid=dev_42]Processing:   9%|▊         | 43/501 [02:34<40:57,  5.37s/sample, status=ERROR, qid=dev_42]Processing:   9%|▊         | 43/501 [02:34<40:57,  5.37s/sample, status=skip, qid=dev_43] Processing:   9%|▊         | 43/501 [02:34<40:57,  5.37s/sample, status=skip, qid=dev_44]Processing:   9%|▊         | 43/501 [02:34<40:57,  5.37s/sample, status=running, qid=dev_45]02/05/2026 11:22:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   9%|▊         | 43/501 [02:50<40:57,  5.37s/sample, status=done 16s, qid=dev_45]Processing:   9%|▉         | 46/501 [02:50<40:51,  5.39s/sample, status=done 16s, qid=dev_45]Processing:   9%|▉         | 46/501 [02:50<40:51,  5.39s/sample, status=skip, qid=dev_46]    Processing:   9%|▉         | 46/501 [02:50<40:51,  5.39s/sample, status=skip, qid=dev_47]Processing:   9%|▉         | 46/501 [02:50<40:51,  5.39s/sample, status=skip, qid=dev_48]Processing:   9%|▉         | 46/501 [02:50<40:51,  5.39s/sample, status=skip, qid=dev_49]Processing:   9%|▉         | 46/501 [02:50<40:51,  5.39s/sample, status=skip, qid=dev_50]Processing:   9%|▉         | 46/501 [02:50<40:51,  5.39s/sample, status=running, qid=dev_51]02/05/2026 11:22:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:31 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:31 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:31 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:31 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:31 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:32 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:32 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   9%|▉         | 46/501 [03:02<40:51,  5.39s/sample, status=done 12s, qid=dev_51]Processing:  10%|█         | 52/501 [03:02<31:14,  4.17s/sample, status=done 12s, qid=dev_51]Processing:  10%|█         | 52/501 [03:02<31:14,  4.17s/sample, status=skip, qid=dev_52]    Processing:  10%|█         | 52/501 [03:02<31:14,  4.17s/sample, status=running, qid=dev_53]02/05/2026 11:22:33 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:37 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:37 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:37 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:37 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:37 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:43 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  10%|█         | 52/501 [03:19<31:14,  4.17s/sample, status=done 17s, qid=dev_53]Processing:  11%|█         | 54/501 [03:19<35:52,  4.82s/sample, status=done 17s, qid=dev_53]Processing:  11%|█         | 54/501 [03:19<35:52,  4.82s/sample, status=running, qid=dev_54] 02/05/2026 11:22:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:51 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:22:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  11%|█         | 54/501 [04:04<35:52,  4.82s/sample, status=ERROR, qid=dev_54]                                                                                            ERROR on dev_54: Could not parse response content as the length limit was reached - CompletionUsage(completion_tokens=4096, prompt_tokens=291, total_tokens=4387, completion_tokens_details=None, prompt_tokens_details=None)
+Processing:  11%|█         | 54/501 [04:04<35:52,  4.82s/sample, status=ERROR, qid=dev_54]Processing:  11%|█         | 55/501 [04:04<1:03:22,  8.53s/sample, status=ERROR, qid=dev_54]Processing:  11%|█         | 55/501 [04:04<1:03:22,  8.53s/sample, status=running, qid=dev_55]02/05/2026 11:23:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:41 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:51 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  11%|█         | 55/501 [04:20<1:03:22,  8.53s/sample, status=done 17s, qid=dev_55]Processing:  11%|█         | 56/501 [04:20<1:10:21,  9.49s/sample, status=done 17s, qid=dev_55]Processing:  11%|█         | 56/501 [04:20<1:10:21,  9.49s/sample, status=running, qid=dev_56] 02/05/2026 11:23:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:55 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:55 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:55 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:55 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:23:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  11%|█         | 56/501 [04:37<1:10:21,  9.49s/sample, status=done 17s, qid=dev_56]Processing:  11%|█▏        | 57/501 [04:37<1:17:52, 10.52s/sample, status=done 17s, qid=dev_56]Processing:  11%|█▏        | 57/501 [04:37<1:17:52, 10.52s/sample, status=running, qid=dev_57] 02/05/2026 11:24:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:13 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:13 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:24:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  11%|█▏        | 57/501 [05:31<1:17:52, 10.52s/sample, status=ERROR, qid=dev_57]                                                                                              ERROR on dev_57: Could not parse response content as the length limit was reached - CompletionUsage(completion_tokens=4096, prompt_tokens=287, total_tokens=4383, completion_tokens_details=None, prompt_tokens_details=None)
+Processing:  11%|█▏        | 57/501 [05:31<1:17:52, 10.52s/sample, status=ERROR, qid=dev_57]Processing:  12%|█▏        | 58/501 [05:31<2:11:45, 17.85s/sample, status=ERROR, qid=dev_57]Processing:  12%|█▏        | 58/501 [05:31<2:11:45, 17.85s/sample, status=running, qid=dev_58]02/05/2026 11:25:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  12%|█▏        | 58/501 [05:42<2:11:45, 17.85s/sample, status=done 11s, qid=dev_58]Processing:  12%|█▏        | 59/501 [05:42<2:01:30, 16.49s/sample, status=done 11s, qid=dev_58]Processing:  12%|█▏        | 59/501 [05:42<2:01:30, 16.49s/sample, status=running, qid=dev_59] 02/05/2026 11:25:13 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:13 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:28 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  12%|█▏        | 59/501 [05:57<2:01:30, 16.49s/sample, status=done 15s, qid=dev_59]Processing:  12%|█▏        | 60/501 [05:57<1:59:29, 16.26s/sample, status=done 15s, qid=dev_59]Processing:  12%|█▏        | 60/501 [05:57<1:59:29, 16.26s/sample, status=running, qid=dev_60] 02/05/2026 11:25:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:32 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:32 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:32 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:33 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:33 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:43 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:43 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  12%|█▏        | 60/501 [06:14<1:59:29, 16.26s/sample, status=done 17s, qid=dev_60]Processing:  12%|█▏        | 61/501 [06:14<2:01:14, 16.53s/sample, status=done 17s, qid=dev_60]Processing:  12%|█▏        | 61/501 [06:14<2:01:14, 16.53s/sample, status=skip, qid=dev_61]    Processing:  12%|█▏        | 61/501 [06:14<2:01:14, 16.53s/sample, status=running, qid=dev_62]02/05/2026 11:25:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:51 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:55 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:59 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:59 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:59 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:59 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:25:59 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  12%|█▏        | 61/501 [07:08<2:01:14, 16.53s/sample, status=ERROR, qid=dev_62]                                                                                              ERROR on dev_62: Could not parse response content as the length limit was reached - CompletionUsage(completion_tokens=4096, prompt_tokens=288, total_tokens=4384, completion_tokens_details=None, prompt_tokens_details=None)
+Processing:  12%|█▏        | 61/501 [07:08<2:01:14, 16.53s/sample, status=ERROR, qid=dev_62]Processing:  13%|█▎        | 63/501 [07:08<2:31:37, 20.77s/sample, status=ERROR, qid=dev_62]Processing:  13%|█▎        | 63/501 [07:08<2:31:37, 20.77s/sample, status=running, qid=dev_63]02/05/2026 11:26:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:43 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  13%|█▎        | 63/501 [07:19<2:31:37, 20.77s/sample, status=done 11s, qid=dev_63]Processing:  13%|█▎        | 64/501 [07:19<2:14:34, 18.48s/sample, status=done 11s, qid=dev_63]Processing:  13%|█▎        | 64/501 [07:19<2:14:34, 18.48s/sample, status=skip, qid=dev_64]    Processing:  13%|█▎        | 64/501 [07:19<2:14:34, 18.48s/sample, status=running, qid=dev_65]02/05/2026 11:26:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:51 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:55 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:55 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:26:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:00 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:00 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:00 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:00 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:00 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  13%|█▎        | 64/501 [07:36<2:14:34, 18.48s/sample, status=done 17s, qid=dev_65]Processing:  13%|█▎        | 66/501 [07:36<1:46:23, 14.68s/sample, status=done 17s, qid=dev_65]Processing:  13%|█▎        | 66/501 [07:36<1:46:23, 14.68s/sample, status=running, qid=dev_66] 02/05/2026 11:27:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:31 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:31 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  13%|█▎        | 66/501 [08:01<1:46:23, 14.68s/sample, status=done 24s, qid=dev_66]Processing:  13%|█▎        | 67/501 [08:01<2:01:11, 16.75s/sample, status=done 24s, qid=dev_66]Processing:  13%|█▎        | 67/501 [08:01<2:01:11, 16.75s/sample, status=skip, qid=dev_67]    Processing:  13%|█▎        | 67/501 [08:01<2:01:11, 16.75s/sample, status=running, qid=dev_68]02/05/2026 11:27:32 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:32 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:37 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:41 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:41 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:41 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:41 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:41 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:43 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:43 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:47 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:47 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  13%|█▎        | 67/501 [08:17<2:01:11, 16.75s/sample, status=done 16s, qid=dev_68]Processing:  14%|█▍        | 69/501 [08:17<1:36:55, 13.46s/sample, status=done 16s, qid=dev_68]Processing:  14%|█▍        | 69/501 [08:17<1:36:55, 13.46s/sample, status=skip, qid=dev_69]    Processing:  14%|█▍        | 69/501 [08:17<1:36:55, 13.46s/sample, status=running, qid=dev_70]02/05/2026 11:27:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:53 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:53 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:53 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:59 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:27:59 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:04 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  14%|█▍        | 69/501 [08:33<1:36:55, 13.46s/sample, status=done 16s, qid=dev_70]Processing:  14%|█▍        | 71/501 [08:33<1:22:47, 11.55s/sample, status=done 16s, qid=dev_70]Processing:  14%|█▍        | 71/501 [08:33<1:22:47, 11.55s/sample, status=running, qid=dev_71] 02/05/2026 11:28:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:23 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:28 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  14%|█▍        | 71/501 [08:58<1:22:47, 11.55s/sample, status=done 25s, qid=dev_71]Processing:  14%|█▍        | 72/501 [08:58<1:41:45, 14.23s/sample, status=done 25s, qid=dev_71]Processing:  14%|█▍        | 72/501 [08:58<1:41:45, 14.23s/sample, status=skip, qid=dev_72]    Processing:  14%|█▍        | 72/501 [08:58<1:41:45, 14.23s/sample, status=running, qid=dev_73]02/05/2026 11:28:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:51 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:51 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  14%|█▍        | 72/501 [09:21<1:41:45, 14.23s/sample, status=done 23s, qid=dev_73]Processing:  15%|█▍        | 74/501 [09:21<1:33:41, 13.17s/sample, status=done 23s, qid=dev_73]Processing:  15%|█▍        | 74/501 [09:21<1:33:41, 13.17s/sample, status=running, qid=dev_74] 02/05/2026 11:28:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:53 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:28:58 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  15%|█▍        | 74/501 [09:37<1:33:41, 13.17s/sample, status=done 16s, qid=dev_74]Processing:  15%|█▍        | 75/501 [09:37<1:37:45, 13.77s/sample, status=done 16s, qid=dev_74]Processing:  15%|█▍        | 75/501 [09:37<1:37:45, 13.77s/sample, status=running, qid=dev_75] 02/05/2026 11:29:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:28 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:28 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:28 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:28 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:28 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  15%|█▍        | 75/501 [09:58<1:37:45, 13.77s/sample, status=done 22s, qid=dev_75]Processing:  15%|█▌        | 76/501 [09:58<1:50:12, 15.56s/sample, status=done 22s, qid=dev_75]Processing:  15%|█▌        | 76/501 [09:58<1:50:12, 15.56s/sample, status=running, qid=dev_76] 02/05/2026 11:29:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:33 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:33 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:33 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:33 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:33 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  15%|█▌        | 76/501 [10:14<1:50:12, 15.56s/sample, status=done 15s, qid=dev_76]Processing:  15%|█▌        | 77/501 [10:14<1:49:25, 15.48s/sample, status=done 15s, qid=dev_76]Processing:  15%|█▌        | 77/501 [10:14<1:49:25, 15.48s/sample, status=running, qid=dev_77] 02/05/2026 11:29:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:55 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:55 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:58 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:29:58 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:04 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  15%|█▌        | 77/501 [10:34<1:49:25, 15.48s/sample, status=done 20s, qid=dev_77]Processing:  16%|█▌        | 78/501 [10:34<1:58:16, 16.78s/sample, status=done 20s, qid=dev_77]Processing:  16%|█▌        | 78/501 [10:34<1:58:16, 16.78s/sample, status=running, qid=dev_78] 02/05/2026 11:30:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  16%|█▌        | 78/501 [10:44<1:58:16, 16.78s/sample, status=done 10s, qid=dev_78]Processing:  16%|█▌        | 79/501 [10:44<1:45:38, 15.02s/sample, status=done 10s, qid=dev_78]Processing:  16%|█▌        | 79/501 [10:44<1:45:38, 15.02s/sample, status=running, qid=dev_79] 02/05/2026 11:30:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  16%|█▌        | 79/501 [10:55<1:45:38, 15.02s/sample, status=done 10s, qid=dev_79]Processing:  16%|█▌        | 80/501 [10:55<1:36:07, 13.70s/sample, status=done 10s, qid=dev_79]Processing:  16%|█▌        | 80/501 [10:55<1:36:07, 13.70s/sample, status=running, qid=dev_80] 02/05/2026 11:30:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:31 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:31 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  16%|█▌        | 80/501 [11:05<1:36:07, 13.70s/sample, status=done 10s, qid=dev_80]Processing:  16%|█▌        | 81/501 [11:05<1:29:13, 12.75s/sample, status=done 10s, qid=dev_80]Processing:  16%|█▌        | 81/501 [11:05<1:29:13, 12.75s/sample, status=running, qid=dev_81] 02/05/2026 11:30:37 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:37 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:41 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:47 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:47 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:51 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:51 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  16%|█▌        | 81/501 [11:21<1:29:13, 12.75s/sample, status=done 16s, qid=dev_81]Processing:  16%|█▋        | 82/501 [11:21<1:34:52, 13.58s/sample, status=done 16s, qid=dev_81]Processing:  16%|█▋        | 82/501 [11:21<1:34:52, 13.58s/sample, status=skip, qid=dev_82]    Processing:  16%|█▋        | 82/501 [11:21<1:34:52, 13.58s/sample, status=running, qid=dev_83]02/05/2026 11:30:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:53 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:30:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:00 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:00 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:00 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  16%|█▋        | 82/501 [11:41<1:34:52, 13.58s/sample, status=done 20s, qid=dev_83]Processing:  17%|█▋        | 84/501 [11:41<1:23:52, 12.07s/sample, status=done 20s, qid=dev_83]Processing:  17%|█▋        | 84/501 [11:41<1:23:52, 12.07s/sample, status=running, qid=dev_84] 02/05/2026 11:31:13 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:13 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:31 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:31 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  17%|█▋        | 84/501 [12:06<1:23:52, 12.07s/sample, status=done 24s, qid=dev_84]Processing:  17%|█▋        | 85/501 [12:06<1:44:37, 15.09s/sample, status=done 24s, qid=dev_84]Processing:  17%|█▋        | 85/501 [12:06<1:44:37, 15.09s/sample, status=skip, qid=dev_85]    Processing:  17%|█▋        | 85/501 [12:06<1:44:37, 15.09s/sample, status=running, qid=dev_86]02/05/2026 11:31:37 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:37 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:41 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:41 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:41 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:41 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:41 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:47 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  17%|█▋        | 85/501 [12:16<1:44:37, 15.09s/sample, status=done 11s, qid=dev_86]Processing:  17%|█▋        | 87/501 [12:16<1:16:22, 11.07s/sample, status=done 11s, qid=dev_86]Processing:  17%|█▋        | 87/501 [12:16<1:16:22, 11.07s/sample, status=running, qid=dev_87] 02/05/2026 11:31:47 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:51 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:51 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:51 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:51 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:51 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:55 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:55 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:55 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:31:58 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  17%|█▋        | 87/501 [12:28<1:16:22, 11.07s/sample, status=done 12s, qid=dev_87]Processing:  18%|█▊        | 88/501 [12:28<1:16:58, 11.18s/sample, status=done 12s, qid=dev_87]Processing:  18%|█▊        | 88/501 [12:28<1:16:58, 11.18s/sample, status=running, qid=dev_88] 02/05/2026 11:31:59 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:00 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:04 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:04 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  18%|█▊        | 88/501 [12:34<1:16:58, 11.18s/sample, status=ERROR, qid=dev_88]                                                                                              ERROR on dev_88: 1 validation error for QAAnswerFormat
+  Invalid JSON: EOF while parsing a string at line 1 column 268 [type=json_invalid, input_value='{"analysis": "Roald Dahl...e Gremlins.\\"}</think>', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.11/v/json_invalid
+Processing:  18%|█▊        | 88/501 [12:34<1:16:58, 11.18s/sample, status=ERROR, qid=dev_88]Processing:  18%|█▊        | 89/501 [12:34<1:08:01,  9.91s/sample, status=ERROR, qid=dev_88]Processing:  18%|█▊        | 89/501 [12:34<1:08:01,  9.91s/sample, status=running, qid=dev_89]02/05/2026 11:32:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:13 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  18%|█▊        | 89/501 [12:50<1:08:01,  9.91s/sample, status=done 17s, qid=dev_89]Processing:  18%|█▊        | 90/501 [12:50<1:19:40, 11.63s/sample, status=done 17s, qid=dev_89]Processing:  18%|█▊        | 90/501 [12:50<1:19:40, 11.63s/sample, status=skip, qid=dev_90]    Processing:  18%|█▊        | 90/501 [12:50<1:19:40, 11.63s/sample, status=skip, qid=dev_91]Processing:  18%|█▊        | 90/501 [12:50<1:19:40, 11.63s/sample, status=running, qid=dev_92]02/05/2026 11:32:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:31 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:32 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:37 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  18%|█▊        | 90/501 [13:08<1:19:40, 11.63s/sample, status=done 17s, qid=dev_92]Processing:  19%|█▊        | 93/501 [13:08<58:16,  8.57s/sample, status=done 17s, qid=dev_92]  Processing:  19%|█▊        | 93/501 [13:08<58:16,  8.57s/sample, status=running, qid=dev_93] 02/05/2026 11:32:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:43 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:43 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:43 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:43 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:43 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:53 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:58 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:32:59 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  19%|█▊        | 93/501 [13:28<58:16,  8.57s/sample, status=done 20s, qid=dev_93]Processing:  19%|█▉        | 94/501 [13:28<1:14:03, 10.92s/sample, status=done 20s, qid=dev_93]Processing:  19%|█▉        | 94/501 [13:28<1:14:03, 10.92s/sample, status=running, qid=dev_94] 02/05/2026 11:33:00 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:00 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  19%|█▉        | 94/501 [13:47<1:14:03, 10.92s/sample, status=done 19s, qid=dev_94]Processing:  19%|█▉        | 95/501 [13:47<1:26:03, 12.72s/sample, status=done 19s, qid=dev_94]Processing:  19%|█▉        | 95/501 [13:47<1:26:03, 12.72s/sample, status=skip, qid=dev_95]    Processing:  19%|█▉        | 95/501 [13:47<1:26:03, 12.72s/sample, status=running, qid=dev_96]02/05/2026 11:33:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:23 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:28 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  19%|█▉        | 95/501 [13:58<1:26:03, 12.72s/sample, status=done 11s, qid=dev_96]Processing:  19%|█▉        | 97/501 [13:58<1:06:51,  9.93s/sample, status=done 11s, qid=dev_96]Processing:  19%|█▉        | 97/501 [13:58<1:06:51,  9.93s/sample, status=skip, qid=dev_97]    Processing:  19%|█▉        | 97/501 [13:58<1:06:51,  9.93s/sample, status=running, qid=dev_98]02/05/2026 11:33:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:37 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:37 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:41 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:41 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:41 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:41 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:47 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  19%|█▉        | 97/501 [14:17<1:06:51,  9.93s/sample, status=done 19s, qid=dev_98]Processing:  20%|█▉        | 99/501 [14:17<1:05:02,  9.71s/sample, status=done 19s, qid=dev_98]Processing:  20%|█▉        | 99/501 [14:17<1:05:02,  9.71s/sample, status=running, qid=dev_99] 02/05/2026 11:33:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:53 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:53 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:58 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:33:58 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:34:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:34:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:34:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:34:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/05/2026 11:34:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"

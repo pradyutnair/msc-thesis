@@ -1,0 +1,22 @@
+=== Cleaning up failed results ===
+Remaining results: 163
+=== Starting vLLM (optimized) ===
+name, memory.total [MiB]
+NVIDIA H100, 95830 MiB
+Waiting for vLLM (up to 10 min)...
+Ready after 265s
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+Traceback (most recent call last):
+  File "/gpfs/work5/0/prjs1800/external/MA-RAG/main.py", line 13, in <module>
+    from agents.plan_executor import build_plan_executor
+  File "/gpfs/work5/0/prjs1800/external/MA-RAG/agents/plan_executor.py", line 1, in <module>
+    from agents.step_definer import task_define
+  File "/gpfs/work5/0/prjs1800/external/MA-RAG/agents/step_definer.py", line 3, in <module>
+    from src.prompt_template import step_system_message, step_human_message, step_input_variables, summary_system_message, summary_human_message, summary_input_variables
+  File "/gpfs/work5/0/prjs1800/external/MA-RAG/src/prompt_template.py", line 54
+    - Failed: "Output: Unsuccessful, reason: [X], Score: 0""""
+                                                             ^
+SyntaxError: unterminated string literal (detected at line 54)
+=== Final Results ===
+Total results: 163

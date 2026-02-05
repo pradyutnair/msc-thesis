@@ -1,0 +1,40 @@
+#!/bin/bash
+#SBATCH --job-name=marag_embed_corpus
+#SBATCH --partition=gpu_a100
+#SBATCH --time=12:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=64G
+#SBATCH --output=jobs/output/marag/embed_corpus_%j.log
+
+# Load modules
+module purge
+module load 2025
+module load Python/3.13.1-GCCcore-14.2.0
+module load CUDA/12.8.0
+
+# Activate venv
+source /projects/prjs1800/venvs/marag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+
+# Navigate to MA-RAG directory
+cd /projects/prjs1800/external/MA-RAG
+
+# Add MA-RAG to PYTHONPATH so src module can be found
+export PYTHONPATH=/projects/prjs1800/external/MA-RAG:$PYTHONPATH
+
+# Create output directory
+mkdir -p save_embs/gte-ml-base
+
+echo "Starting corpus embedding with GTE-multilingual-base..."
+echo "This will embed ~21M passages from DPR-W100 corpus"
+echo "Estimated time: 2-4 hours"
+echo "PYTHONPATH: $PYTHONPATH"
+
+# Run embedding script (single GPU with bf16 optimizations)
+python corpus/embed_corpus.py
+
+echo "Embedding complete!"
+ls -la save_embs/gte-ml-base/
