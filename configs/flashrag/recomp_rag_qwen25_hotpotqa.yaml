@@ -1,0 +1,77 @@
+# Standard RAG + RECOMP Abstractive Refiner — Qwen2.5-7B-Instruct + E5-base-v2 on HotpotQA
+# Day 3: Refiner impact analysis
+
+# ------------------------------------------------Global Paths------------------------------------------------#
+model2path:
+  e5: "intfloat/e5-base-v2"
+
+model2pooling:
+  e5: "mean"
+
+method2index:
+  e5: "/projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index"
+
+# ------------------------------------------------Environment Settings------------------------------------------------#
+data_dir: "/projects/prjs1800/datasets/flashrag"
+save_dir: "/projects/prjs1800/results/day3"
+
+gpu_id: "0"
+dataset_name: "hotpotqa"
+split: ["test"]
+
+test_sample_num: ~
+random_sample: False
+seed: 2024
+
+save_intermediate_data: True
+save_note: "recomp_rag_qwen25_hotpotqa"
+
+# ------------------------------------------------Retrieval Settings------------------------------------------------#
+retrieval_method: "e5"
+index_path: "/projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index"
+faiss_gpu: False
+corpus_path: "/projects/prjs1800/datasets/flashrag/retrieval-corpus/wiki18_100w.jsonl"
+
+instruction: ~
+retrieval_topk: 5
+retrieval_batch_size: 256
+retrieval_use_fp16: True
+retrieval_query_max_length: 128
+save_retrieval_cache: False
+use_retrieval_cache: False
+retrieval_cache_path: ~
+retrieval_pooling_method: ~
+
+use_reranker: False
+rerank_model_name: ~
+rerank_model_path: ~
+rerank_pooling_method: ~
+rerank_topk: 5
+rerank_max_length: 512
+rerank_batch_size: 256
+rerank_use_fp16: True
+
+# ------------------------------------------------Generator Settings------------------------------------------------#
+framework: vllm
+generator_model: "Qwen/Qwen2.5-7B-Instruct"
+generator_model_path: "Qwen/Qwen2.5-7B-Instruct"
+generator_max_input_len: 2048
+generator_batch_size: 4
+gpu_memory_utilization: 0.85
+vllm_tensor_parallel_size: 1
+generation_params:
+  do_sample: False
+  max_tokens: 32
+use_fid: False
+
+# ------------------------------------------------Refiner Settings------------------------------------------------#
+refiner_name: "recomp_abstractive"
+refiner_model_path: "fangyuan/hotpotqa_abstractive"
+refiner_max_input_length: 1024
+refiner_max_output_length: 512
+
+# ------------------------------------------------Evaluation Settings------------------------------------------------#
+metrics: ["em", "f1", "precision", "recall"]
+metric_setting:
+  retrieval_recall_topk: 5
+save_metric_score: True

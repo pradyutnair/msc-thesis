@@ -1,0 +1,27 @@
+#!/bin/bash
+#SBATCH --job-name=sc_rag_musique
+#SBATCH --partition=gpu_a100
+#SBATCH --gpus=1
+#SBATCH --time=02:00:00
+#SBATCH --mem=128G
+#SBATCH --cpus-per-task=16
+#SBATCH --output=/projects/prjs1800/msc-thesis/outputs/day3/logs/%j_sc_rag_musique.out
+#SBATCH --error=/projects/prjs1800/msc-thesis/outputs/day3/logs/%j_sc_rag_musique.err
+
+echo "=== Job started at $(date) ==="
+echo "Node: $(hostname), GPU: $(nvidia-smi --query-gpu=name --format=csv,noheader)"
+
+module load 2024
+module load Python/3.11.5-GCCcore-13.2.0
+
+export LD_PRELOAD=/projects/prjs1800/venvs/FlashRAG-venv/lib/libmkl_rt.so.2
+export MKL_THREADING_LAYER=GNU
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+
+source /projects/prjs1800/venvs/FlashRAG-venv/bin/activate
+cd /projects/prjs1800/msc-thesis
+
+python scripts/run_refiner_rag.py --config configs/flashrag/sc_rag_qwen25_musique.yaml
+
+echo "=== Job finished at $(date) ==="

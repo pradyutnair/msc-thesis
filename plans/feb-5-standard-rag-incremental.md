@@ -269,7 +269,7 @@ MuSiQue error categories (Day 1 → Day 2):
 
 ---
 
-## Day 3 (Sat Feb 8): Add Refiner (RECOMP / LongLLMLingua)
+## Day 3 (Sat Feb 8): Add Refiner (RECOMP / Selective-Context) ✅
 
 ### Goal
 Test whether compressing/refining retrieved documents improves generation. This tests: "Is the problem noise in retrieved passages rather than missing passages?"
@@ -312,15 +312,35 @@ results/day3/
 └── day3_summary.md
 ```
 
-| Method | Components | HotpotQA F1 | MuSiQue F1 | Avg Input Tokens |
-|--------|-----------|-------------|------------|------------------|
-| Standard RAG | retriever → generator | ? | ? | ? |
-| + Reranker | retriever → reranker → generator | ? | ? | ? |
-| + RECOMP | retriever → refiner → generator | ? | ? | ? |
-| + Reranker + RECOMP | retriever → reranker → refiner → generator | ? | ? | ? |
-| + Selective-Context | retriever → SC → generator | ? | ? | ? |
+| Method | Components | HotpotQA EM | HotpotQA F1 | MuSiQue EM | MuSiQue F1 | Compression | Δ F1 (HQA) | Δ F1 (MSQ) |
+|--------|-----------|-------------|-------------|------------|------------|-------------|------------|------------|
+| Standard RAG (Day 1) | retriever → generator | 31.64 | 42.01 | 6.33 | 13.03 | — | — | — |
+| + Reranker (Day 2) | retriever → reranker → generator | 36.41 | 47.42 | 7.70 | 15.52 | — | +5.4 | +2.5 |
+| + RECOMP | retriever → refiner → generator | 29.55 | 40.02 | 5.50 | 11.85 | 8.8% retained | **-2.0** | **-1.2** |
+| + Selective-Context | retriever → SC → generator | 27.00 | 36.56 | 5.01 | 11.26 | 67.1% retained | **-5.4** | **-1.8** |
 
-**Key question to answer**: Did refining help more on questions where retrieval was noisy (lots of irrelevant content) vs where it was clean?
+**RECOMP**: fangyuan/hotpotqa_abstractive (T5-based, 737.7M params). Generates abstractive summary of retrieved docs.
+**Selective-Context**: openai-community/gpt2 (124.4M params). Drops low-perplexity tokens, 50% reduction ratio.
+**Results dir**: `outputs/day3/`
+
+### Timing (A100-SXM4-40GB)
+
+| Experiment | Retrieval | Refining | Generation | Total |
+|-----------|-----------|----------|------------|-------|
+| RECOMP HotpotQA (n=7,405) | 212.2s | 9,956.5s (~2.8h) | 48.2s | 10,216.9s |
+| RECOMP MuSiQue (n=2,417) | 175.3s | 3,455.5s (~58m) | 16.6s | 3,647.4s |
+| SC HotpotQA (n=7,405) | 229.1s | 2,716.7s (~45m) | 228.1s | 3,173.9s |
+| SC MuSiQue (n=2,417) | 175.3s | 867.7s (~14m) | 72.5s | 1,115.5s |
+
+### Key Findings
+
+1. **Both refiners HURT performance** across all datasets — noise is not the primary bottleneck.
+2. **RECOMP compresses too aggressively** (8.8% retained) — the T5 summary loses critical facts needed for multi-hop reasoning.
+3. **Selective-Context** retains 67% but still hurts (-5.4 F1 on HotpotQA) — perplexity-based filtering doesn't understand question relevance.
+4. **MuSiQue hurt worse relatively** — when retrieval quality is already poor (21.4% recall), compression removes the little useful signal present.
+5. **RECOMP is impractical** — 2.8 hours for HotpotQA refining alone (T5 seq2seq is slow on 7,405 examples).
+6. **Conclusion: The problem is MISSING information, not NOISY information.** This strengthens the case for iterative retrieval (Day 4: IRCoT) over compression.
+7. Refiners may only help in a stacked configuration (reranker → refiner) where retrieval quality is already higher — but the negative delta suggests this is unlikely to be significant.
 
 ---
 
@@ -442,8 +462,8 @@ Compile all results, identify the gap, and design your first multi-agent extensi
 |---|--------|-----------|---------------|-------------|------------|--------------------|--------------| --------|
 | 1 | Standard RAG | E5 → Qwen | Sequential | ? | ? | ? | 1 | ? |
 | 2 | + Reranker | E5 → Reranker → Qwen | Sequential | ? | ? | ? | 1 | ? |
-| 3 | + RECOMP | E5 → RECOMP → Qwen | Sequential | ? | ? | ? | 1 | ? |
-| 4 | + Reranker + RECOMP | E5 → Reranker → RECOMP → Qwen | Sequential | ? | ? | ? | 1 | ? |
+| 3a | + RECOMP | E5 → RECOMP → Qwen | Sequential | 40.02 | 11.85 | 50.0% | 1 | 10,217s |
+| 3b | + Selective-Context | E5 → SC → Qwen | Sequential | 36.56 | 11.26 | 50.0% | 1 | 3,174s |
 | 5 | IRCoT | E5 ↔ Qwen (loop) | Loop | ? | ? | ? | ~3-4 | ? |
 | 6 | FLARE | E5 ↔ Qwen (active) | Loop | ? | ? | ? | variable | ? |
 | 7 | Self-Ask / Reasoning | E5 ↔ Qwen (reasoning) | Reasoning | ? | ? | ? | variable | ? |
@@ -453,7 +473,7 @@ Compile all results, identify the gap, and design your first multi-agent extensi
 | Component Added | Δ HotpotQA F1 | Δ MuSiQue F1 | Cost (extra LLM calls) | Worth it? |
 |----------------|---------------|--------------|------------------------|-----------|
 | Reranker | ? | ? | 0 | ? |
-| Refiner (RECOMP) | ? | ? | 0 (small model) | ? |
+| Refiner (RECOMP) | -2.0 | -1.2 | 0 (small model) | NO |
 | Iterative retrieval (IRCoT) | ? | ? | +2-3 calls | ? |
 | Reasoning (Self-Ask) | ? | ? | +3-5 calls | ? |
 
@@ -570,7 +590,7 @@ results/day7/
 |-----|------------|------------|------------|
 | 1 | Standard RAG baseline | EM, F1, Recall@5 numbers + per-item retrieval quality | Foundation for everything |
 | 2 | + Reranker + error categorization | Reranker delta + failure taxonomy (retrieval miss / reasoning fail / partial retrieval) | Motivation for refiners and iterative methods |
-| 3 | + Refiner (RECOMP / SC) | Refiner delta + token reduction analysis | Shows if noise is a problem |
+| 3 | + Refiner (RECOMP / SC) | Both hurt: RECOMP -2.0, SC -5.4 F1 on HQA | Noise is NOT the problem |
 | 4 | IRCoT / FLARE | Iterative retrieval delta + per-round retrieval analysis + hop-2 improvement | Shows value of multi-turn retrieval |
 | 5 | Reasoning pipeline | Single-agent ceiling + hardest remaining failures | Upper bound for single-agent |
 | 6 | Consolidation + design | Master table + component deltas + multi-agent hypothesis + design doc | The "why multi-agent" argument |
@@ -588,7 +608,7 @@ Standard RAG                    [Day 1: baseline]
     │       Δ: +5.4 F1 (HQA), +2.5 F1 (MSQ). Helps ranking, not total misses.
     │
     ├── + Refiner               [Day 3: compress noise from retrieved passages]
-    │       Δ: ?F1, tests "is noise the problem?"
+    │       Δ: -2.0 F1 (HQA), -1.2 F1 (MSQ) with RECOMP. NOISE IS NOT THE PROBLEM."
     │
     ├── + Iterative Retrieval   [Day 4: multi-round search]
     │       Δ: ?F1, tests "do we need multiple searches?"
