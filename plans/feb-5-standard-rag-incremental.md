@@ -165,7 +165,7 @@ It's the simplest component to add in FlashRAG (literally a decorator on the ret
    - Does F1 improve? (If retrieval was the bottleneck, yes)
    - How much improvement on MuSiQue specifically?
 
-4. **Error categorization on 50 MuSiQue failures from Day 1**
+4. **Error categorization on 50 MuSiQu failures from Day 1**
    Write a script (or do manually) to categorize each failure:
 
    | Category | Definition | How to detect |
