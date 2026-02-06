@@ -135,9 +135,29 @@ results/day1/
 **Fix applied**: MKL LD_PRELOAD to bypass numpy OpenBLAS MAX_THREADS=2 limitation for FAISS search
 **Results dir**: `outputs/day1/`
 
+### Day 1 Retrieval Analysis
+
+**HotpotQA Retrieval Recall@5** (2 GT supporting docs per question):
+| Recall bucket | N | % | Avg answer F1 | EM rate |
+|--------------|------|------|-------------|---------|
+| Both docs found | 1,770 | 23.9% | 0.680 | 55.6% |
+| 1 of 2 found | 3,870 | 52.3% | 0.414 | 30.4% |
+| Neither found | 1,765 | 23.8% | 0.172 | 10.7% |
+
+Average retrieval recall: **50.0%**. Bridge questions harder (F1=37.0%) than comparison (F1=62.1%).
+Error breakdown: 31.6% correct, 36.4% partial retrieval, 21.3% total miss, 10.6% reasoning failure.
+
+**MuSiQue Per-hop retrieval recall:**
+| Hop | Recall | | Hop | Recall |
+|-----|--------|-|-----|--------|
+| Hop 1 | 33.5% | | Hop 3 | 6.5% |
+| Hop 2 | 11.6% | | Hop 4 | 3.2% |
+
+55.8% of MuSiQue questions had zero GT docs retrieved. Dominant failure mode is retrieval, not reasoning.
+
 ---
 
-## Day 2 (Fri Feb 7): Add Reranker + Error Categorization
+## Day 2 (Fri Feb 7): Add Reranker + Error Categorization ✅
 
 ### Goal
 Add a cross-encoder reranker on top of E5 retrieval. Measure how much reranking improves retrieval quality and downstream answer quality. Simultaneously, do error categorization on Day 1 failures.
@@ -191,17 +211,61 @@ results/day2/
 └── day2_summary.md
 ```
 
-| Method | HotpotQA F1 | MuSiQue F1 | Recall@5 (HotpotQA) | Recall@5 (MuSiQue) |
-|--------|-------------|------------|----------------------|---------------------|
-| Standard RAG | 42.01 | 13.03 | — | — |
-| + Reranker | ? | ? | ? | ? |
+| Method | HotpotQA EM | HotpotQA F1 | MuSiQue EM | MuSiQue F1 | Δ F1 (HQA) | Δ F1 (MSQ) |
+|--------|-------------|-------------|------------|------------|------------|------------|
+| Standard RAG | 31.64 | 42.01 | 6.33 | 13.03 | — | — |
+| + Reranker (BGE-v2-m3, top-20→5) | 36.41 | 47.42 | 7.70 | 15.52 | **+5.4** | **+2.5** |
 
-Error breakdown (MuSiQue, 50 failures):
-| Category | Count | % |
-|----------|-------|---|
-| Retrieval miss (both hops) | ? | ? |
-| Partial retrieval (hop-2 miss) | ? | ? |
-| Reasoning failure | ? | ? |
+**Reranker**: BAAI/bge-reranker-v2-m3 cross-encoder. Retrieve top-20 with E5, rerank to top-5.
+**Results dir**: `outputs/day2/`
+
+### Retrieval Analysis: Day 1 (Standard RAG) vs Day 2 (+ Reranker)
+
+**HotpotQA Retrieval Recall@5** (2 GT supporting docs per question, n=7,405):
+
+| Retrieval recall | Day 1 (top-5) | Day 2 (+reranker, top-20→5) | Delta |
+|-----------------|---------------|------------------------------|-------|
+| Avg recall | 50.0% | 57.7% | **+7.6%** |
+| Full recall (all GT found) | 23.9% | 33.6% | +9.7% |
+| Zero recall (none found) | 23.8% | 18.2% | -5.6% |
+
+Answer F1 by retrieval recall (Day 1):
+| recall=0 (n=1,765): F1=0.172 | recall=0.5 (n=3,870): F1=0.414 | recall=1.0 (n=1,770): F1=0.680 |
+
+By question type: Bridge (n=5,918): F1=37.0% | Comparison (n=1,487): F1=62.1%
+
+HotpotQA error shift (Day 1 → Day 2): +353 correct, -384 total misses, +271 reasoning failures, -240 partial retrieval.
+
+**MuSiQue Retrieval Recall@5** (2-4 GT docs per question, n=2,417):
+
+| Retrieval recall | Day 1 (top-5) | Day 2 (+reranker, top-20→5) | Delta |
+|-----------------|---------------|------------------------------|-------|
+| Avg recall | 21.4% | 26.2% | **+4.8%** |
+| Full recall (all GT found) | 3.3% | 5.1% | +1.8% |
+| Zero recall (none found) | 55.8% | 46.5% | -9.3% |
+
+**Per-hop retrieval recall (key finding):**
+| Hop | Day 1 | Day 2 (+reranker) | Delta |
+|-----|-------|-------------------|-------|
+| Hop 1 | 33.5% | 39.6% | +6.2% |
+| Hop 2 | 11.6% | 14.8% | +3.2% |
+| Hop 3 | 6.5% | 12.4% | +5.9% |
+| Hop 4 | 3.2% | 4.7% | +1.5% |
+
+MuSiQue error categories (Day 1 → Day 2):
+| Category | Day 1 | Day 2 | Delta |
+|----------|-------|-------|-------|
+| Correct | 153 (6.3%) | 186 (7.7%) | +33 |
+| Reasoning failure | 52 (2.2%) | 85 (3.5%) | +33 |
+| Partial retrieval | 910 (37.6%) | 1,069 (44.2%) | +159 |
+| Total miss | 1,302 (53.9%) | 1,077 (44.6%) | -225 |
+
+**Conclusions:**
+1. Reranker gives +5.4 F1 on HotpotQA by promoting relevant docs from rank 6-20 into top-5.
+2. MuSiQue gains only +2.5 F1 — later-hop docs aren't in top-20 at all, so reranking can't help.
+3. Per-hop decay (33→12→7→3% Day 1, 40→15→12→5% Day 2) confirms fundamental limitation of single-shot retrieval.
+4. 46.5% of MuSiQue questions still have zero GT docs after reranking — motivating iterative retrieval (Day 4).
+5. Reasoning failures grew (+33 on MuSiQue, +271 on HotpotQA) — finding more docs exposes the model's reasoning limits.
 
 ---
 
@@ -521,7 +585,7 @@ Standard RAG                    [Day 1: baseline]
     │   HotpotQA F1=42.01, MuSiQue F1=13.03
     │
     ├── + Reranker              [Day 2: better ranking of retrieved docs]
-    │       Δ: ?F1, tests "are the right docs just ranked poorly?"
+    │       Δ: +5.4 F1 (HQA), +2.5 F1 (MSQ). Helps ranking, not total misses.
     │
     ├── + Refiner               [Day 3: compress noise from retrieved passages]
     │       Δ: ?F1, tests "is noise the problem?"

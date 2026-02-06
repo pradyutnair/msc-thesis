@@ -1,7 +1,10 @@
 """Run Standard RAG + Reranker with FlashRAG — split retrieval/generation phases.
 
 Phase 1: Retrieval + Reranking with full CPU parallelism (before vLLM).
-Phase 2: Generation with vLLM + evaluation.
+Phase 2: Generation with vLLM + evaluation (no pipeline — direct generator call).
+
+The SequentialPipeline always re-creates retriever+reranker, causing GPU OOM
+when vLLM is also loaded. So we bypass the pipeline and call generator directly.
 """
 
 import argparse
@@ -36,7 +39,7 @@ def main():
     test_data = all_split["test"]
     print(f"Loaded {len(test_data)} test examples")
 
-    # Phase 1: Retrieval + Reranking (uses FAISS with full CPU parallelism)
+    # Phase 1: Retrieval + Reranking
     import faiss
     print(f"\n=== Phase 1: Retrieval + Reranking (FAISS threads: {faiss.omp_get_max_threads()}) ===")
 
@@ -52,22 +55,50 @@ def main():
     for i, item in enumerate(test_data):
         item.update_output("retrieval_result", retrieval_results[i])
 
-    # Free retriever memory
+    # Free retriever + reranker GPU memory before vLLM
+    import torch, gc
+    if hasattr(retriever, 'reranker') and retriever.reranker is not None:
+        if hasattr(retriever.reranker, 'ranker'):
+            retriever.reranker.ranker.cpu()
+            del retriever.reranker.ranker
+        del retriever.reranker
     del retriever
-    import gc; gc.collect()
-    print("Retriever freed from memory")
+    gc.collect()
+    torch.cuda.empty_cache()
 
-    # Phase 2: Generation
+    gpu_free = torch.cuda.mem_get_info()[0] / 1024**3
+    print(f"Retriever+Reranker freed. GPU free: {gpu_free:.1f} GiB")
+
+    # Phase 2: Direct generation + evaluation (bypass SequentialPipeline)
     print(f"\n=== Phase 2: Generation + Evaluation ===")
-    from flashrag.pipeline import SequentialPipeline
-    pipeline = SequentialPipeline(config)
+    from flashrag.prompt import PromptTemplate
+    from flashrag.utils import get_generator
+    from flashrag.evaluator import Evaluator
 
-    start_time = time.time()
-    output = pipeline.run(test_data, do_eval=True)
-    t_gen = time.time() - start_time
+    prompt_template = PromptTemplate(config)
+    generator = get_generator(config)
+    evaluator = Evaluator(config)
+
+    # Build prompts from pre-retrieved + reranked docs
+    input_prompts = [
+        prompt_template.get_string(question=q, retrieval_result=r)
+        for q, r in zip(test_data.question, test_data.retrieval_result)
+    ]
+    test_data.update_output("prompt", input_prompts)
+
+    # Generate
+    t_gen_start = time.time()
+    pred_answer_list = generator.generate(input_prompts)
+    test_data.update_output("pred", pred_answer_list)
+    t_gen = time.time() - t_gen_start
+    print(f"Generation: {t_gen:.1f}s")
+
+    # Evaluate
+    eval_result = evaluator.evaluate(test_data)
+    print(eval_result)
 
     t_total = t_retrieval + t_gen
-    print(f"\nRetrieval+Rerank: {t_retrieval:.1f}s | Generation+Eval: {t_gen:.1f}s | Total: {t_total:.1f}s")
+    print(f"\nRetrieval+Rerank: {t_retrieval:.1f}s | Generation: {t_gen:.1f}s | Total: {t_total:.1f}s")
     print(f"Per example: {t_total/len(test_data):.2f}s")
     print(f"Results saved to {config['save_dir']}")
 
