@@ -1,0 +1,87 @@
+#!/bin/bash
+#SBATCH --job-name=marag_gold
+#SBATCH --partition=gpu_h100
+#SBATCH --gpus=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=18
+#SBATCH --time=04:00:00
+#SBATCH --mem=64G
+#SBATCH --output=/projects/prjs1800/msc-thesis/jobs/output_marag/gold_hotpotqa_%j.out
+#SBATCH --error=/projects/prjs1800/msc-thesis/jobs/output_marag/gold_hotpotqa_%j.err
+
+# Gold context experiment - uses ground truth context from HotpotQA
+
+module purge
+module load 2024
+
+cd /projects/prjs1800/external/MA-RAG
+
+# Activate venv
+source /projects/prjs1800/venvs/marag-py311-venv/bin/activate
+
+# Cache directories
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+export HF_DATASETS_CACHE=/projects/prjs1800/.cache/huggingface/datasets
+
+# Use a unique port based on job ID
+PORT=$((8100 + (SLURM_JOB_ID % 100)))
+MODEL="meta-llama/Meta-Llama-3-8B-Instruct"
+API_KEY="not-needed"
+
+echo "Starting vLLM server on port $PORT..."
+python -m vllm.entrypoints.openai.api_server \
+    --model $MODEL \
+    --dtype auto \
+    --api-key $API_KEY \
+    --port $PORT \
+    --tensor-parallel-size 1 &
+
+VLLM_PID=$!
+echo "vLLM PID: $VLLM_PID"
+
+# Wait for vLLM server to be ready (include API key in check)
+echo "Waiting for vLLM server to be ready..."
+for i in {1..120}; do
+    if curl -s -H "Authorization: Bearer $API_KEY" http://localhost:$PORT/v1/models 2>/dev/null | grep -q "meta-llama"; then
+        echo "vLLM server ready after ${i}0 seconds"
+        break
+    fi
+    if [ $i -eq 120 ]; then
+        echo "ERROR: vLLM server failed to start after 20 minutes"
+        ps aux | grep vllm
+        exit 1
+    fi
+    sleep 10
+done
+
+# Set env vars
+export VLLM_BASE_URL="http://localhost:$PORT/v1"
+export MODEL_NAME="$MODEL"
+export OPENAI_API_KEY="$API_KEY"
+export USE_GOLD_CONTEXT="true"
+
+echo ""
+echo "========================================"
+echo "Running MA-RAG with GOLD CONTEXT"
+echo "Model: $MODEL"
+echo "Port: $PORT"
+echo "Dataset: HotpotQA (500 samples)"
+echo "========================================"
+echo ""
+
+# Run with gold context
+python main_gold.py \
+    --model llama3-8B \
+    --dataset hotpotqa \
+    --exp plan_rag_extract \
+    --gpus 0 \
+    --start_index 0 \
+    --end_index 500
+
+# Cleanup
+echo "Stopping vLLM server..."
+kill $VLLM_PID 2>/dev/null
+wait $VLLM_PID 2>/dev/null
+
+echo "Done!"

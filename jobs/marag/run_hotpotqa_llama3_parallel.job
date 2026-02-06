@@ -1,0 +1,63 @@
+#!/bin/bash
+#SBATCH --job-name=marag_llama3_hp
+#SBATCH --partition=gpu_h100
+#SBATCH --time=06:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=200G
+#SBATCH --array=0-3
+#SBATCH --output=jobs/output/marag/hotpotqa_llama3_%A_%a.log
+
+module purge
+module load 2023
+module load Python/3.11.3-GCCcore-12.3.0
+module load CUDA/12.1.1
+
+source /projects/prjs1800/venvs/marag-py311-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export PYTHONUNBUFFERED=1
+
+# Each array task gets different port and sample range
+PORT=$((8000 + SLURM_ARRAY_TASK_ID))
+export VLLM_BASE_URL=http://localhost:$PORT/v1
+
+# Sample ranges: 0-124, 125-249, 250-374, 375-500
+START=$((SLURM_ARRAY_TASK_ID * 125))
+END=$((START + 124))
+if [ $SLURM_ARRAY_TASK_ID -eq 3 ]; then END=500; fi
+
+cd /projects/prjs1800/external/MA-RAG
+export PYTHONPATH=/projects/prjs1800/external/MA-RAG:$PYTHONPATH
+
+RESULTS_DIR="plan_rag_extract_llama3-8B_hotpotqa"
+mkdir -p $RESULTS_DIR
+
+echo "=== Array task $SLURM_ARRAY_TASK_ID: samples $START-$END, port $PORT ==="
+nvidia-smi --query-gpu=name,memory.total --format=csv
+
+python -m vllm.entrypoints.openai.api_server \
+    --model meta-llama/Meta-Llama-3-8B-Instruct \
+    --download-dir $HF_HOME \
+    --port $PORT \
+    --dtype bfloat16 \
+    --max-model-len 8192 \
+    --gpu-memory-utilization 0.95 \
+    --max-num-seqs 64 \
+    --trust-remote-code > /tmp/vllm_$SLURM_ARRAY_TASK_ID.log 2>&1 &
+
+VLLM_PID=$\!
+
+echo "Waiting for vLLM on port $PORT..."
+for i in {1..120}; do
+    curl -s http://localhost:$PORT/v1/models > /dev/null 2>&1 && { echo "Ready after $((i*5))s"; break; }
+    [ $i -eq 120 ] && { echo "vLLM failed:"; cat /tmp/vllm_$SLURM_ARRAY_TASK_ID.log; exit 1; }
+    sleep 5
+done
+
+python main.py --model llama3-8B --dataset hotpotqa --exp plan_rag_extract --gpus 0 --start_index $START --end_index $END
+
+echo "=== Task $SLURM_ARRAY_TASK_ID done ==="
+echo "Results: $(ls $RESULTS_DIR/*.json 2>/dev/null | wc -l)"
+kill $VLLM_PID 2>/dev/null
