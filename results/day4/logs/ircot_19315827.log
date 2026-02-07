@@ -1,0 +1,197 @@
+==========================================
+Day 4: IRCoT Iterative Retrieval
+Job ID: 19315827
+Node: gcn46
+Start time: Fri Feb 6 21:59:47 CET 2026
+==========================================
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+GPU Info:
+name, memory.total [MiB], memory.free [MiB]
+NVIDIA A100-SXM4-40GB, 40960 MiB, 40442 MiB
+
+==========================================
+Running IRCoT on HotpotQA
+Start: Fri Feb 6 21:59:48 CET 2026
+==========================================
+/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+Loading config from configs/flashrag/ircot_qwen25_hotpotqa.yaml
+Dataset: hotpotqa, Split: ['test']
+Generator: Qwen/Qwen2.5-7B-Instruct
+Retriever: e5, top-k: 5
+Max IRCoT iterations: 5
+Save dir: /projects/prjs1800/results/day4/hotpotqa_2026_02_06_22_00_ircot_qwen25_hotpotqa
+Loading test dataset from: /projects/prjs1800/datasets/flashrag/hotpotqa/test.jsonl...
+Loaded 7405 test examples
+Loading retriever...
+Retriever loaded in 42.6s
+Loading generator (vLLM)...
+Fetching 14 files:   0%|          | 0/14 [00:00<?, ?it/s]Fetching 14 files: 100%|██████████| 14/14 [00:00<00:00, 136241.89it/s]
+INFO 02-06 22:01:34 [utils.py:261] non-default args: {'max_model_len': 4096, 'gpu_memory_utilization': 0.85, 'max_logprobs': 32016, 'disable_log_stats': True, 'model': '/projects/prjs1800/.cache/huggingface/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28'}
+INFO 02-06 22:01:34 [model.py:541] Resolved architecture: Qwen2ForCausalLM
+INFO 02-06 22:01:34 [model.py:1561] Using max model len 4096
+INFO 02-06 22:01:35 [scheduler.py:226] Chunked prefill is enabled with max_num_batched_tokens=8192.
+INFO 02-06 22:01:35 [vllm.py:624] Asynchronous scheduling is enabled.
+WARNING 02-06 22:01:35 [system_utils.py:140] We must use the `spawn` multiprocessing start method. Overriding VLLM_WORKER_MULTIPROC_METHOD to 'spawn'. See https://docs.vllm.ai/en/latest/usage/troubleshooting.html#python-multiprocessing for more information. Reasons: CUDA is initialized
+/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m INFO 02-06 22:02:12 [core.py:96] Initializing a V1 LLM engine (v0.15.0) with config: model='/projects/prjs1800/.cache/huggingface/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28', speculative_config=None, tokenizer='/projects/prjs1800/.cache/huggingface/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=4096, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=/projects/prjs1800/.cache/huggingface/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'splitting_ops': ['vllm::unified_attention', 'vllm::unified_attention_with_output', 'vllm::unified_mla_attention', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::gdn_attention_core', 'vllm::kda_attention', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer'], 'compile_mm_encoder': False, 'compile_sizes': [], 'compile_ranges_split_points': [8192], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False}, 'max_cudagraph_capture_size': 512, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': True}, 'local_cache_dir': None}
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m INFO 02-06 22:02:19 [parallel_state.py:1212] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://145.136.62.46:43507 backend=nccl
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m INFO 02-06 22:02:20 [parallel_state.py:1423] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m INFO 02-06 22:02:23 [gpu_model_runner.py:4021] Starting to load model /projects/prjs1800/.cache/huggingface/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28...
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m INFO 02-06 22:02:28 [cuda.py:364] Using FLASH_ATTN attention backend out of potential backends: ('FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION')
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s]
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:05<00:16,  5.33s/it]
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m Loading safetensors checkpoint shards:  50% Completed | 2/4 [00:10<00:10,  5.13s/it]
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m Loading safetensors checkpoint shards:  75% Completed | 3/4 [00:14<00:04,  4.87s/it]
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:19<00:00,  4.93s/it]
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:19<00:00,  4.98s/it]
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m 
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m INFO 02-06 22:02:49 [default_loader.py:291] Loading weights took 19.98 seconds
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m INFO 02-06 22:02:49 [gpu_model_runner.py:4118] Model loading took 14.25 GiB memory and 25.967724 seconds
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m INFO 02-06 22:03:08 [backends.py:805] Using cache directory: /home/pnair/.cache/vllm/torch_compile_cache/53e9e60c25/rank_0_0/backbone for vLLM's torch.compile
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m INFO 02-06 22:03:08 [backends.py:865] Dynamo bytecode transform time: 18.09 s
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m INFO 02-06 22:03:17 [backends.py:302] Cache the graph of compile range (1, 8192) for later use
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m INFO 02-06 22:04:06 [backends.py:319] Compiling a graph for compile range (1, 8192) takes 54.80 s
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m INFO 02-06 22:04:06 [monitor.py:34] torch.compile takes 72.89 s in total
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m INFO 02-06 22:04:08 [gpu_worker.py:356] Available KV cache memory: 17.84 GiB
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m INFO 02-06 22:04:08 [kv_cache_utils.py:1307] GPU KV cache size: 334,000 tokens
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m INFO 02-06 22:04:08 [kv_cache_utils.py:1312] Maximum concurrency for 4,096 tokens per request: 81.54x
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/51 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   2%|▏         | 1/51 [00:00<00:18,  2.64it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   6%|▌         | 3/51 [00:00<00:06,  6.87it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  10%|▉         | 5/51 [00:00<00:04, 10.05it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  14%|█▎        | 7/51 [00:00<00:03, 12.37it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  18%|█▊        | 9/51 [00:00<00:02, 14.28it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  24%|██▎       | 12/51 [00:00<00:02, 16.48it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  29%|██▉       | 15/51 [00:01<00:02, 17.87it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  35%|███▌      | 18/51 [00:01<00:01, 19.39it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  41%|████      | 21/51 [00:01<00:01, 20.72it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  47%|████▋     | 24/51 [00:01<00:01, 21.72it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  53%|█████▎    | 27/51 [00:01<00:01, 21.93it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  59%|█████▉    | 30/51 [00:01<00:00, 22.78it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  65%|██████▍   | 33/51 [00:01<00:00, 23.31it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  71%|███████   | 36/51 [00:02<00:00, 23.99it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  76%|███████▋  | 39/51 [00:02<00:00, 24.50it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  82%|████████▏ | 42/51 [00:02<00:00, 24.98it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  88%|████████▊ | 45/51 [00:02<00:00, 25.47it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  94%|█████████▍| 48/51 [00:02<00:00, 25.80it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:02<00:00, 21.27it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:02<00:00, 19.20it/s]
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m Capturing CUDA graphs (decode, FULL):   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL):   3%|▎         | 1/35 [00:00<00:04,  7.56it/s]Capturing CUDA graphs (decode, FULL):  11%|█▏        | 4/35 [00:00<00:01, 17.81it/s]Capturing CUDA graphs (decode, FULL):  20%|██        | 7/35 [00:00<00:01, 21.67it/s]Capturing CUDA graphs (decode, FULL):  29%|██▊       | 10/35 [00:00<00:01, 23.75it/s]Capturing CUDA graphs (decode, FULL):  37%|███▋      | 13/35 [00:00<00:00, 25.07it/s]Capturing CUDA graphs (decode, FULL):  46%|████▌     | 16/35 [00:00<00:00, 25.88it/s]Capturing CUDA graphs (decode, FULL):  54%|█████▍    | 19/35 [00:00<00:00, 26.44it/s]Capturing CUDA graphs (decode, FULL):  63%|██████▎   | 22/35 [00:00<00:00, 26.89it/s]Capturing CUDA graphs (decode, FULL):  71%|███████▏  | 25/35 [00:01<00:00, 27.08it/s]Capturing CUDA graphs (decode, FULL):  80%|████████  | 28/35 [00:01<00:00, 27.40it/s]Capturing CUDA graphs (decode, FULL):  89%|████████▊ | 31/35 [00:01<00:00, 27.66it/s]Capturing CUDA graphs (decode, FULL):  97%|█████████▋| 34/35 [00:01<00:00, 27.89it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 25.61it/s]
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m INFO 02-06 22:04:13 [gpu_model_runner.py:5051] Graph capturing finished in 5 secs, took 0.50 GiB
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m INFO 02-06 22:04:13 [core.py:272] init engine (profile, create kv cache, warmup model) took 83.50 seconds
+[0;36m(EngineCore_DP0 pid=1340985)[0;0m INFO 02-06 22:04:14 [vllm.py:624] Asynchronous scheduling is enabled.
+INFO 02-06 22:04:14 [llm.py:343] Supported tasks: ['generate']
+Generator loaded in 168.3s
+
+Running IRCoT on 7405 examples, max_iter=5
+
+--- Round 0: Initial retrieval on original questions ---
+Encoding process:   0%|          | 0/29 [00:00<?, ?it/s][2026-02-06 22:04:14] INFO langid.py:162: initializing identifier
+Encoding process:   3%|▎         | 1/29 [00:02<01:07,  2.40s/it]Encoding process:  10%|█         | 3/29 [00:02<00:17,  1.51it/s]Encoding process:  17%|█▋        | 5/29 [00:02<00:08,  2.85it/s]Encoding process:  24%|██▍       | 7/29 [00:02<00:04,  4.42it/s]Encoding process:  31%|███       | 9/29 [00:02<00:03,  6.12it/s]Encoding process:  38%|███▊      | 11/29 [00:02<00:02,  8.04it/s]Encoding process:  45%|████▍     | 13/29 [00:03<00:01,  9.89it/s]Encoding process:  52%|█████▏    | 15/29 [00:03<00:01, 11.58it/s]Encoding process:  59%|█████▊    | 17/29 [00:03<00:00, 12.91it/s]Encoding process:  66%|██████▌   | 19/29 [00:03<00:00, 13.90it/s]Encoding process:  72%|███████▏  | 21/29 [00:03<00:00, 15.04it/s]Encoding process:  79%|███████▉  | 23/29 [00:03<00:00, 15.75it/s]Encoding process:  86%|████████▌ | 25/29 [00:03<00:00, 16.63it/s]Encoding process:  93%|█████████▎| 27/29 [00:03<00:00, 16.80it/s]Encoding process: 100%|██████████| 29/29 [00:03<00:00,  7.33it/s]
+/var/spool/slurm/slurmd/job19315827/slurm_script: line 53: 1340695 User defined signal 1   python scripts/run_ircot_rag.py --config configs/flashrag/ircot_qwen25_hotpotqa.yaml --max_iter 5
+IRCoT HotpotQA completed: Fri Feb 6 22:48:39 CET 2026
+==========================================
+Running IRCoT on MuSiQue
+Start: Fri Feb 6 22:48:39 CET 2026
+==========================================
+/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+Loading config from configs/flashrag/ircot_qwen25_musique.yaml
+Dataset: musique, Split: ['test']
+Generator: Qwen/Qwen2.5-7B-Instruct
+Retriever: e5, top-k: 5
+Max IRCoT iterations: 5
+Save dir: /projects/prjs1800/results/day4/musique_2026_02_06_22_48_ircot_qwen25_musique
+Loading test dataset from: /projects/prjs1800/datasets/flashrag/musique/test.jsonl...
+Loaded 2417 test examples
+Loading retriever...
+Retriever loaded in 29.8s
+Loading generator (vLLM)...
+Fetching 14 files:   0%|          | 0/14 [00:00<?, ?it/s]Fetching 14 files: 100%|██████████| 14/14 [00:00<00:00, 131955.63it/s]
+INFO 02-06 22:49:32 [utils.py:261] non-default args: {'max_model_len': 4096, 'gpu_memory_utilization': 0.85, 'max_logprobs': 32016, 'disable_log_stats': True, 'model': '/projects/prjs1800/.cache/huggingface/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28'}
+INFO 02-06 22:49:32 [model.py:541] Resolved architecture: Qwen2ForCausalLM
+INFO 02-06 22:49:32 [model.py:1561] Using max model len 4096
+INFO 02-06 22:49:32 [scheduler.py:226] Chunked prefill is enabled with max_num_batched_tokens=8192.
+INFO 02-06 22:49:32 [vllm.py:624] Asynchronous scheduling is enabled.
+WARNING 02-06 22:49:33 [system_utils.py:140] We must use the `spawn` multiprocessing start method. Overriding VLLM_WORKER_MULTIPROC_METHOD to 'spawn'. See https://docs.vllm.ai/en/latest/usage/troubleshooting.html#python-multiprocessing for more information. Reasons: CUDA is initialized
+/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m INFO 02-06 22:49:49 [core.py:96] Initializing a V1 LLM engine (v0.15.0) with config: model='/projects/prjs1800/.cache/huggingface/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28', speculative_config=None, tokenizer='/projects/prjs1800/.cache/huggingface/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=4096, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=/projects/prjs1800/.cache/huggingface/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'splitting_ops': ['vllm::unified_attention', 'vllm::unified_attention_with_output', 'vllm::unified_mla_attention', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::gdn_attention_core', 'vllm::kda_attention', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer'], 'compile_mm_encoder': False, 'compile_sizes': [], 'compile_ranges_split_points': [8192], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False}, 'max_cudagraph_capture_size': 512, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': True}, 'local_cache_dir': None}
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m INFO 02-06 22:49:52 [parallel_state.py:1212] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://145.136.62.46:58069 backend=nccl
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m INFO 02-06 22:49:52 [parallel_state.py:1423] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946] EngineCore failed to start.
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946] Traceback (most recent call last):
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946]   File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/engine/core.py", line 937, in run_engine_core
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946]     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946]   File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/engine/core.py", line 691, in __init__
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946]     super().__init__(
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946]   File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/engine/core.py", line 105, in __init__
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946]     self.model_executor = executor_class(vllm_config)
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946]   File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/executor/abstract.py", line 101, in __init__
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946]     self._init_executor()
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946]   File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946]     self.driver_worker.init_device()
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946]   File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/worker/worker_base.py", line 326, in init_device
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946]     self.worker.init_device()  # type: ignore
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946]   File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/worker/gpu_worker.py", line 235, in init_device
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946]     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946]   File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/worker/utils.py", line 260, in request_memory
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946]     raise ValueError(
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ERROR 02-06 22:49:53 [core.py:946] ValueError: Free memory on device cuda:0 (3.33/39.49 GiB) on startup is less than desired GPU memory utilization (0.85, 33.57 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m Process EngineCore_DP0:
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m Traceback (most recent call last):
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m   File "/home/pnair/.local/share/uv/python/cpython-3.10.18-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 314, in _bootstrap
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m     self.run()
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m   File "/home/pnair/.local/share/uv/python/cpython-3.10.18-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 108, in run
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m     self._target(*self._args, **self._kwargs)
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m   File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/engine/core.py", line 950, in run_engine_core
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m     raise e
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m   File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/engine/core.py", line 937, in run_engine_core
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m   File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/engine/core.py", line 691, in __init__
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m     super().__init__(
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m   File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/engine/core.py", line 105, in __init__
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m     self.model_executor = executor_class(vllm_config)
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m   File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/executor/abstract.py", line 101, in __init__
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m     self._init_executor()
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m   File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/executor/uniproc_executor.py", line 47, in _init_executor
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m     self.driver_worker.init_device()
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m   File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/worker/worker_base.py", line 326, in init_device
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m     self.worker.init_device()  # type: ignore
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m   File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/worker/gpu_worker.py", line 235, in init_device
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m     self.requested_memory = request_memory(init_snapshot, self.cache_config)
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m   File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/worker/utils.py", line 260, in request_memory
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m     raise ValueError(
+[0;36m(EngineCore_DP0 pid=1353440)[0;0m ValueError: Free memory on device cuda:0 (3.33/39.49 GiB) on startup is less than desired GPU memory utilization (0.85, 33.57 GiB). Decrease GPU memory utilization or reduce GPU memory used by other processes.
+[rank0]:[W206 22:49:53.660735664 ProcessGroupNCCL.cpp:1524] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+Traceback (most recent call last):
+  File "/gpfs/work5/0/prjs1800/msc-thesis/scripts/run_ircot_rag.py", line 312, in <module>
+    main()
+  File "/gpfs/work5/0/prjs1800/msc-thesis/scripts/run_ircot_rag.py", line 289, in main
+    test_data, timing = run_ircot_with_tracking(config, test_data, max_iter=args.max_iter)
+  File "/gpfs/work5/0/prjs1800/msc-thesis/scripts/run_ircot_rag.py", line 96, in run_ircot_with_tracking
+    generator = get_generator(config)
+  File "/projects/prjs1800/external/FlashRAG/flashrag/utils/utils.py", line 66, in get_generator
+    return getattr(importlib.import_module("flashrag.generator"), "VLLMGenerator")(config, **params)
+  File "/projects/prjs1800/external/FlashRAG/flashrag/generator/generator.py", line 190, in __init__
+    self.model = LLM(
+  File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/entrypoints/llm.py", line 334, in __init__
+    self.llm_engine = LLMEngine.from_engine_args(
+  File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/engine/llm_engine.py", line 172, in from_engine_args
+    return cls(
+  File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/engine/llm_engine.py", line 106, in __init__
+    self.engine_core = EngineCoreClient.make_client(
+  File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/engine/core_client.py", line 94, in make_client
+    return SyncMPClient(vllm_config, executor_class, log_stats)
+  File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/engine/core_client.py", line 647, in __init__
+    super().__init__(
+  File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/engine/core_client.py", line 479, in __init__
+    with launch_core_engines(vllm_config, executor_class, log_stats) as (
+  File "/home/pnair/.local/share/uv/python/cpython-3.10.18-linux-x86_64-gnu/lib/python3.10/contextlib.py", line 142, in __exit__
+    next(self.gen)
+  File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/engine/utils.py", line 933, in launch_core_engines
+    wait_for_engine_startup(
+  File "/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/vllm/v1/engine/utils.py", line 992, in wait_for_engine_startup
+    raise RuntimeError(
+RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+IRCoT MuSiQue completed: Fri Feb 6 22:49:59 CET 2026
+==========================================
+Day 4 IRCoT complete
+End time: Fri Feb 6 22:49:59 CET 2026
+==========================================

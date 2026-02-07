@@ -1,0 +1,953 @@
+=== Cleaning up failed results ===
+Removing failed result: plan_rag_extract_qwen3-8b_hotpotqa/dev_112.json
+Removing failed result: plan_rag_extract_qwen3-8b_hotpotqa/dev_257.json
+Removing failed result: plan_rag_extract_qwen3-8b_hotpotqa/dev_394.json
+Removing failed result: plan_rag_extract_qwen3-8b_hotpotqa/dev_59.json
+Remaining results: 144
+=== Starting vLLM (optimized) ===
+name, memory.total [MiB]
+NVIDIA H100, 95830 MiB
+Waiting for vLLM (up to 10 min)...
+Ready after 415s
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+
+============================================================
+MA-RAG Pipeline - hotpotqa
+Samples: 0 to 500
+============================================================
+
+[1/4] Loading embedding model...
+Some weights of the model checkpoint at Alibaba-NLP/gte-multilingual-base were not used when initializing NewModel: ['classifier.bias', 'classifier.weight']
+- This IS expected if you are initializing NewModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing NewModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+      Loaded on GPU 0
+[2/4] Loading retrieval index...
+02/04/2026 15:59:25 - INFO - corpus.retrieve - Initializing retriever
+02/04/2026 15:59:25 - INFO - corpus.retrieve - Initializing Faiss index from pre-computed document embeddings
+02/04/2026 15:59:25 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_4999
+02/04/2026 15:59:27 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_3999
+02/04/2026 15:59:30 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_1999
+02/04/2026 15:59:33 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_2999
+02/04/2026 15:59:35 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_8999
+02/04/2026 15:59:38 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_25999
+02/04/2026 15:59:41 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_19999
+02/04/2026 15:59:43 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_20999
+02/04/2026 15:59:45 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_26999
+02/04/2026 15:59:50 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_17999
+02/04/2026 15:59:52 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_9999
+02/04/2026 15:59:54 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_21999
+02/04/2026 15:59:56 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_10999
+02/04/2026 15:59:58 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_6999
+02/04/2026 16:00:01 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_7999
+02/04/2026 16:00:03 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_5999
+02/04/2026 16:00:05 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_23999
+02/04/2026 16:00:13 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_11999
+02/04/2026 16:00:15 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_13999
+02/04/2026 16:00:17 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_24999
+02/04/2026 16:00:19 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_18999
+02/04/2026 16:00:21 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_12999
+02/04/2026 16:00:24 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_27363
+02/04/2026 16:00:25 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_16999
+02/04/2026 16:00:27 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_15999
+02/04/2026 16:00:29 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_22999
+02/04/2026 16:00:32 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_14999
+02/04/2026 16:00:34 - INFO - corpus.retrieve - Load save_embs/gte-ml-base/dpr100_999
+02/04/2026 16:00:36 - INFO - corpus.retrieve - Moving index to GPU(s): requested=1, available=0
+02/04/2026 16:00:36 - WARNING - corpus.retrieve - No GPU available for faiss (faiss-gpu not installed?). Using CPU index.
+[3/4] Loading corpus...
+[4/4] Building graph...
+
+============================================================
+Processing 501 samples, 144 already done
+Output: plan_rag_extract_qwen3-8b_hotpotqa/
+============================================================
+
+Processing:   0%|          | 0/501 [00:00<?, ?sample/s]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_0]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=skip, qid=dev_1]Processing:   0%|          | 0/501 [00:00<?, ?sample/s, status=running, qid=dev_2]/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:00:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:00:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:00:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:00:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:00:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:00:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:00:58 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:01:00 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:01:00 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:01:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:01:04 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:01:04 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:01:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:01:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:01:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   0%|          | 0/501 [00:32<?, ?sample/s, status=done 32s, qid=dev_2]Processing:   1%|          | 3/501 [00:32<1:29:01, 10.73s/sample, status=done 32s, qid=dev_2]Processing:   1%|          | 3/501 [00:32<1:29:01, 10.73s/sample, status=skip, qid=dev_3]    Processing:   1%|          | 3/501 [00:32<1:29:01, 10.73s/sample, status=skip, qid=dev_4]Processing:   1%|          | 3/501 [00:32<1:29:01, 10.73s/sample, status=skip, qid=dev_5]Processing:   1%|          | 3/501 [00:32<1:29:01, 10.73s/sample, status=skip, qid=dev_6]Processing:   1%|          | 3/501 [00:32<1:29:01, 10.73s/sample, status=skip, qid=dev_7]Processing:   1%|          | 3/501 [00:32<1:29:01, 10.73s/sample, status=skip, qid=dev_8]Processing:   1%|          | 3/501 [00:32<1:29:01, 10.73s/sample, status=running, qid=dev_9]/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:01:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:01:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:01:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:01:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:01:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:01:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:01:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:01:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:01:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:01:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:02:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   1%|          | 3/501 [01:30<1:29:01, 10.73s/sample, status=ERROR, qid=dev_9]                                                                                            ERROR on dev_9: Could not parse response content as the length limit was reached - CompletionUsage(completion_tokens=4096, prompt_tokens=448, total_tokens=4544, completion_tokens_details=None, prompt_tokens_details=None)
+Processing:   1%|          | 3/501 [01:30<1:29:01, 10.73s/sample, status=ERROR, qid=dev_9]Processing:   2%|▏         | 10/501 [01:30<1:12:20,  8.84s/sample, status=ERROR, qid=dev_9]Processing:   2%|▏         | 10/501 [01:30<1:12:20,  8.84s/sample, status=skip, qid=dev_10]Processing:   2%|▏         | 10/501 [01:30<1:12:20,  8.84s/sample, status=running, qid=dev_11]/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:02:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:02:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:02:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:02:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:02:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:02:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:02:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:02:13 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:02:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:02:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:02:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:02:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:02:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:02:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:02:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:02:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   2%|▏         | 10/501 [01:41<1:12:20,  8.84s/sample, status=done 11s, qid=dev_11]Processing:   2%|▏         | 12/501 [01:41<1:05:37,  8.05s/sample, status=done 11s, qid=dev_11]Processing:   2%|▏         | 12/501 [01:41<1:05:37,  8.05s/sample, status=skip, qid=dev_12]    Processing:   2%|▏         | 12/501 [01:41<1:05:37,  8.05s/sample, status=skip, qid=dev_13]Processing:   2%|▏         | 12/501 [01:41<1:05:37,  8.05s/sample, status=skip, qid=dev_14]Processing:   2%|▏         | 12/501 [01:41<1:05:37,  8.05s/sample, status=running, qid=dev_15]/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:02:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:02:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:02:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:02:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:02:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:02:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:02:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:03:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   2%|▏         | 12/501 [02:27<1:05:37,  8.05s/sample, status=ERROR, qid=dev_15]                                                                                              ERROR on dev_15: Could not parse response content as the length limit was reached - CompletionUsage(completion_tokens=4096, prompt_tokens=386, total_tokens=4482, completion_tokens_details=None, prompt_tokens_details=None)
+Processing:   2%|▏         | 12/501 [02:27<1:05:37,  8.05s/sample, status=ERROR, qid=dev_15]Processing:   3%|▎         | 16/501 [02:27<1:16:46,  9.50s/sample, status=ERROR, qid=dev_15]Processing:   3%|▎         | 16/501 [02:27<1:16:46,  9.50s/sample, status=running, qid=dev_16]/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:03:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:03:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:03:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:03:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:03:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:03:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:03:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:03:51 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   3%|▎         | 16/501 [03:14<1:16:46,  9.50s/sample, status=ERROR, qid=dev_16]                                                                                              ERROR on dev_16: Could not parse response content as the length limit was reached - CompletionUsage(completion_tokens=4096, prompt_tokens=352, total_tokens=4448, completion_tokens_details=None, prompt_tokens_details=None)
+Processing:   3%|▎         | 16/501 [03:14<1:16:46,  9.50s/sample, status=ERROR, qid=dev_16]Processing:   3%|▎         | 17/501 [03:14<1:54:22, 14.18s/sample, status=ERROR, qid=dev_16]Processing:   3%|▎         | 17/501 [03:14<1:54:22, 14.18s/sample, status=skip, qid=dev_17] Processing:   3%|▎         | 17/501 [03:14<1:54:22, 14.18s/sample, status=skip, qid=dev_18]Processing:   3%|▎         | 17/501 [03:14<1:54:22, 14.18s/sample, status=skip, qid=dev_19]Processing:   3%|▎         | 17/501 [03:14<1:54:22, 14.18s/sample, status=running, qid=dev_20]/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:03:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:03:53 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:03:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:03:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:03:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:03:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:03:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:03:59 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:03:59 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:04:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:04 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:04 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:04:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:04:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:04:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:04:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:04:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   3%|▎         | 17/501 [03:33<1:54:22, 14.18s/sample, status=done 19s, qid=dev_20]Processing:   4%|▍         | 21/501 [03:33<1:21:58, 10.25s/sample, status=done 19s, qid=dev_20]Processing:   4%|▍         | 21/501 [03:33<1:21:58, 10.25s/sample, status=running, qid=dev_21] /projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:04:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:04:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:04:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:04:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:04:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:04:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:04:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:04:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   4%|▍         | 21/501 [03:45<1:21:58, 10.25s/sample, status=done 12s, qid=dev_21]Processing:   4%|▍         | 22/501 [03:45<1:23:18, 10.44s/sample, status=done 12s, qid=dev_21]Processing:   4%|▍         | 22/501 [03:45<1:23:18, 10.44s/sample, status=skip, qid=dev_22]    Processing:   4%|▍         | 22/501 [03:45<1:23:18, 10.44s/sample, status=running, qid=dev_23]/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:04:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:04:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:04:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:28 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:04:28 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   4%|▍         | 22/501 [04:33<1:23:18, 10.44s/sample, status=ERROR, qid=dev_23]                                                                                              ERROR on dev_23: Could not parse response content as the length limit was reached - CompletionUsage(completion_tokens=4096, prompt_tokens=550, total_tokens=4646, completion_tokens_details=None, prompt_tokens_details=None)
+Processing:   4%|▍         | 22/501 [04:33<1:23:18, 10.44s/sample, status=ERROR, qid=dev_23]Processing:   5%|▍         | 24/501 [04:33<1:52:38, 14.17s/sample, status=ERROR, qid=dev_23]Processing:   5%|▍         | 24/501 [04:33<1:52:38, 14.17s/sample, status=skip, qid=dev_24] Processing:   5%|▍         | 24/501 [04:33<1:52:38, 14.17s/sample, status=running, qid=dev_25]/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   5%|▍         | 24/501 [04:41<1:52:38, 14.17s/sample, status=done 8s, qid=dev_25]Processing:   5%|▌         | 26/501 [04:41<1:29:17, 11.28s/sample, status=done 8s, qid=dev_25]Processing:   5%|▌         | 26/501 [04:41<1:29:17, 11.28s/sample, status=skip, qid=dev_26]   Processing:   5%|▌         | 26/501 [04:41<1:29:17, 11.28s/sample, status=running, qid=dev_27]/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:38 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   5%|▌         | 26/501 [05:01<1:29:17, 11.28s/sample, status=done 20s, qid=dev_27]Processing:   6%|▌         | 28/501 [05:01<1:26:14, 10.94s/sample, status=done 20s, qid=dev_27]Processing:   6%|▌         | 28/501 [05:01<1:26:14, 10.94s/sample, status=running, qid=dev_28] /projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:47 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:53 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   6%|▌         | 28/501 [05:16<1:26:14, 10.94s/sample, status=done 15s, qid=dev_28]Processing:   6%|▌         | 29/501 [05:16<1:31:20, 11.61s/sample, status=done 15s, qid=dev_28]Processing:   6%|▌         | 29/501 [05:16<1:31:20, 11.61s/sample, status=skip, qid=dev_29]    Processing:   6%|▌         | 29/501 [05:16<1:31:20, 11.61s/sample, status=skip, qid=dev_30]Processing:   6%|▌         | 29/501 [05:16<1:31:20, 11.61s/sample, status=skip, qid=dev_31]Processing:   6%|▌         | 29/501 [05:16<1:31:20, 11.61s/sample, status=running, qid=dev_32]/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:05:58 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:58 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:58 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:58 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:05:59 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   6%|▌         | 29/501 [05:33<1:31:20, 11.61s/sample, status=done 17s, qid=dev_32]Processing:   7%|▋         | 33/501 [05:33<1:02:35,  8.02s/sample, status=done 17s, qid=dev_32]Processing:   7%|▋         | 33/501 [05:33<1:02:35,  8.02s/sample, status=running, qid=dev_33] /projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:18 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:23 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:31 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:32 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   7%|▋         | 33/501 [05:59<1:02:35,  8.02s/sample, status=done 26s, qid=dev_33]Processing:   7%|▋         | 34/501 [05:59<1:23:05, 10.68s/sample, status=done 26s, qid=dev_33]Processing:   7%|▋         | 34/501 [05:59<1:23:05, 10.68s/sample, status=running, qid=dev_34] /projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:37 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:37 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:43 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:43 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:44 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:47 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:49 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:50 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:51 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   7%|▋         | 34/501 [06:14<1:23:05, 10.68s/sample, status=done 15s, qid=dev_34]Processing:   7%|▋         | 35/501 [06:14<1:28:32, 11.40s/sample, status=done 15s, qid=dev_34]Processing:   7%|▋         | 35/501 [06:14<1:28:32, 11.40s/sample, status=running, qid=dev_35] /projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:52 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:55 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:56 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:06:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:58 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:06:58 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:07:01 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:07:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:07:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:07:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:07:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:07:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:07:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:07:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:07:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   7%|▋         | 35/501 [06:29<1:28:32, 11.40s/sample, status=done 16s, qid=dev_35]Processing:   7%|▋         | 36/501 [06:29<1:34:51, 12.24s/sample, status=done 16s, qid=dev_35]Processing:   7%|▋         | 36/501 [06:29<1:34:51, 12.24s/sample, status=running, qid=dev_36] /projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:07:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:07:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:07:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:07:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:07:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:07:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:07:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:07:53 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   7%|▋         | 36/501 [07:15<1:34:51, 12.24s/sample, status=ERROR, qid=dev_36]                                                                                              ERROR on dev_36: Could not parse response content as the length limit was reached - CompletionUsage(completion_tokens=4096, prompt_tokens=340, total_tokens=4436, completion_tokens_details=None, prompt_tokens_details=None)
+Processing:   7%|▋         | 36/501 [07:15<1:34:51, 12.24s/sample, status=ERROR, qid=dev_36]Processing:   7%|▋         | 37/501 [07:15<2:33:07, 19.80s/sample, status=ERROR, qid=dev_36]Processing:   7%|▋         | 37/501 [07:15<2:33:07, 19.80s/sample, status=skip, qid=dev_37] Processing:   7%|▋         | 37/501 [07:15<2:33:07, 19.80s/sample, status=running, qid=dev_38]/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:07:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:07:54 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:07:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:07:57 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:07:58 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:07:58 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:07:58 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:07:59 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:00 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:05 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:08 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   7%|▋         | 37/501 [07:33<2:33:07, 19.80s/sample, status=done 18s, qid=dev_38]Processing:   8%|▊         | 39/501 [07:33<1:59:21, 15.50s/sample, status=done 18s, qid=dev_38]Processing:   8%|▊         | 39/501 [07:33<1:59:21, 15.50s/sample, status=running, qid=dev_39] /projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:23 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   8%|▊         | 39/501 [07:49<1:59:21, 15.50s/sample, status=done 16s, qid=dev_39]Processing:   8%|▊         | 40/501 [07:49<1:59:47, 15.59s/sample, status=done 16s, qid=dev_39]Processing:   8%|▊         | 40/501 [07:49<1:59:47, 15.59s/sample, status=running, qid=dev_40] /projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:28 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:31 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:31 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:31 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:31 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:32 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:35 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:41 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:43 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:43 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:08:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:08:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:09:28 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   8%|▊         | 40/501 [08:51<1:59:47, 15.59s/sample, status=ERROR, qid=dev_40]                                                                                              ERROR on dev_40: Could not parse response content as the length limit was reached - CompletionUsage(completion_tokens=4096, prompt_tokens=463, total_tokens=4559, completion_tokens_details=None, prompt_tokens_details=None)
+Processing:   8%|▊         | 40/501 [08:51<1:59:47, 15.59s/sample, status=ERROR, qid=dev_40]Processing:   8%|▊         | 41/501 [08:51<3:24:22, 26.66s/sample, status=ERROR, qid=dev_40]Processing:   8%|▊         | 41/501 [08:51<3:24:22, 26.66s/sample, status=running, qid=dev_41]/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:09:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:09:29 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:09:32 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:09:32 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:09:32 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:09:32 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:09:33 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:09:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:09:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:10:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   8%|▊         | 41/501 [09:38<3:24:22, 26.66s/sample, status=ERROR, qid=dev_41]                                                                                              ERROR on dev_41: Could not parse response content as the length limit was reached - CompletionUsage(completion_tokens=4096, prompt_tokens=95, total_tokens=4191, completion_tokens_details=None, prompt_tokens_details=None)
+Processing:   8%|▊         | 41/501 [09:38<3:24:22, 26.66s/sample, status=ERROR, qid=dev_41]Processing:   8%|▊         | 42/501 [09:38<4:02:55, 31.75s/sample, status=ERROR, qid=dev_41]Processing:   8%|▊         | 42/501 [09:38<4:02:55, 31.75s/sample, status=running, qid=dev_42]/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:10:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:10:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:10:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:10:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:10:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:10:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:10:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:11:02 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   8%|▊         | 42/501 [10:24<4:02:55, 31.75s/sample, status=ERROR, qid=dev_42]                                                                                              ERROR on dev_42: Could not parse response content as the length limit was reached - CompletionUsage(completion_tokens=4096, prompt_tokens=358, total_tokens=4454, completion_tokens_details=None, prompt_tokens_details=None)
+Processing:   8%|▊         | 42/501 [10:24<4:02:55, 31.75s/sample, status=ERROR, qid=dev_42]Processing:   9%|▊         | 43/501 [10:24<4:32:27, 35.69s/sample, status=ERROR, qid=dev_42]Processing:   9%|▊         | 43/501 [10:24<4:32:27, 35.69s/sample, status=running, qid=dev_43]/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:11:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:11:03 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:11:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:11:06 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:11:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:11:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:11:07 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:11:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:11:09 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:11:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:11:12 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:11:13 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:11:13 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:11:13 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:11:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:11:16 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:11:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:11:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:11:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:11:19 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:11:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:11:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:11:21 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   9%|▊         | 43/501 [10:44<4:32:27, 35.69s/sample, status=done 19s, qid=dev_43]Processing:   9%|▉         | 44/501 [10:44<3:57:13, 31.15s/sample, status=done 19s, qid=dev_43]Processing:   9%|▉         | 44/501 [10:44<3:57:13, 31.15s/sample, status=skip, qid=dev_44]    Processing:   9%|▉         | 44/501 [10:44<3:57:13, 31.15s/sample, status=running, qid=dev_45]/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:11:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:11:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:11:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:11:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:11:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:11:27 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:11:28 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:10 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   9%|▉         | 44/501 [11:33<3:57:13, 31.15s/sample, status=ERROR, qid=dev_45]                                                                                              ERROR on dev_45: Could not parse response content as the length limit was reached - CompletionUsage(completion_tokens=4096, prompt_tokens=941, total_tokens=5037, completion_tokens_details=None, prompt_tokens_details=None)
+Processing:   9%|▉         | 44/501 [11:33<3:57:13, 31.15s/sample, status=ERROR, qid=dev_45]Processing:   9%|▉         | 46/501 [11:33<3:34:11, 28.24s/sample, status=ERROR, qid=dev_45]Processing:   9%|▉         | 46/501 [11:33<3:34:11, 28.24s/sample, status=running, qid=dev_46]/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:11 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:14 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:15 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:17 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:20 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:22 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:23 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:24 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:25 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   9%|▉         | 46/501 [11:48<3:34:11, 28.24s/sample, status=done 15s, qid=dev_46]Processing:   9%|▉         | 47/501 [11:48<3:10:25, 25.17s/sample, status=done 15s, qid=dev_46]Processing:   9%|▉         | 47/501 [11:48<3:10:25, 25.17s/sample, status=running, qid=dev_47] /projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:26 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:31 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:33 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:33 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:36 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:39 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:40 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:   9%|▉         | 47/501 [12:03<3:10:25, 25.17s/sample, status=done 15s, qid=dev_47]Processing:  10%|▉         | 48/501 [12:03<2:50:13, 22.55s/sample, status=done 15s, qid=dev_47]Processing:  10%|▉         | 48/501 [12:03<2:50:13, 22.55s/sample, status=skip, qid=dev_48]    Processing:  10%|▉         | 48/501 [12:03<2:50:13, 22.55s/sample, status=skip, qid=dev_49]Processing:  10%|▉         | 48/501 [12:03<2:50:13, 22.55s/sample, status=skip, qid=dev_50]Processing:  10%|▉         | 48/501 [12:03<2:50:13, 22.55s/sample, status=running, qid=dev_51]/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:41 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:42 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:45 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:12:46 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:47 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:12:48 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:13:28 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+Processing:  10%|▉         | 48/501 [12:51<2:50:13, 22.55s/sample, status=ERROR, qid=dev_51]                                                                                              ERROR on dev_51: Could not parse response content as the length limit was reached - CompletionUsage(completion_tokens=4096, prompt_tokens=107, total_tokens=4203, completion_tokens_details=None, prompt_tokens_details=None)
+Processing:  10%|▉         | 48/501 [12:51<2:50:13, 22.55s/sample, status=ERROR, qid=dev_51]Processing:  10%|█         | 52/501 [12:51<2:02:08, 16.32s/sample, status=ERROR, qid=dev_51]Processing:  10%|█         | 52/501 [12:51<2:02:08, 16.32s/sample, status=skip, qid=dev_52] Processing:  10%|█         | 52/501 [12:51<2:02:08, 16.32s/sample, status=running, qid=dev_53]/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:13:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:13:30 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+02/04/2026 16:13:33 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:13:33 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:13:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:13:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+02/04/2026 16:13:34 - INFO - httpx - HTTP Request: POST http://localhost:8000/v1/chat/completions "HTTP/1.1 200 OK"
+/projects/prjs1800/venvs/marag-py311-venv/lib/python3.11/site-packages/langgraph/_internal/_runnable.py:401: UserWarning: Parameters {'extra_body'} should be specified explicitly. Instead they were passed in as part of `model_kwargs` parameter.
+  ret = self.func(*args, **kwargs)
+[2026-02-04T16:14:11.571] error: *** JOB 19207354 ON gcn77 CANCELLED AT 2026-02-04T16:14:11 DUE to SIGNAL Terminated ***

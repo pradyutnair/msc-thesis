@@ -1,0 +1,47 @@
+=== Job started at Fri Feb  6 17:17:14 CET 2026 ===
+Node: gcn7.local.snellius.surf.nl, GPU: NVIDIA A100-SXM4-40GB
+Loading test dataset from: /projects/prjs1800/datasets/flashrag/musique/test.jsonl...
+
+=== Phase 1: Retrieval (2417 examples) ===
+Use `query: ` as retreival instruction
+Retrieval: 175.3s
+
+=== Phase 2: Refining with recomp_abstractive ===
+t5forconditionalgeneration
+Refining: 3455.5s
+Compression: 7716045 -> 747859 chars (9.69% retained)
+GPU free after refiner cleanup: 39.0 GiB
+
+=== Phase 3: Generation with vLLM ===
+INFO 02-06 18:20:27 [utils.py:261] non-default args: {'max_model_len': 2048, 'gpu_memory_utilization': 0.85, 'max_logprobs': 32016, 'disable_log_stats': True, 'model': '/projects/prjs1800/.cache/huggingface/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28'}
+INFO 02-06 18:20:28 [model.py:541] Resolved architecture: Qwen2ForCausalLM
+INFO 02-06 18:20:28 [model.py:1561] Using max model len 2048
+INFO 02-06 18:20:30 [scheduler.py:226] Chunked prefill is enabled with max_num_batched_tokens=8192.
+INFO 02-06 18:20:30 [vllm.py:624] Asynchronous scheduling is enabled.
+WARNING 02-06 18:20:30 [system_utils.py:140] We must use the `spawn` multiprocessing start method. Overriding VLLM_WORKER_MULTIPROC_METHOD to 'spawn'. See https://docs.vllm.ai/en/latest/usage/troubleshooting.html#python-multiprocessing for more information. Reasons: CUDA is initialized
+[0;36m(EngineCore_DP0 pid=3080025)[0;0m INFO 02-06 18:21:35 [core.py:96] Initializing a V1 LLM engine (v0.15.0) with config: model='/projects/prjs1800/.cache/huggingface/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28', speculative_config=None, tokenizer='/projects/prjs1800/.cache/huggingface/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=2048, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=/projects/prjs1800/.cache/huggingface/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'splitting_ops': ['vllm::unified_attention', 'vllm::unified_attention_with_output', 'vllm::unified_mla_attention', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::gdn_attention_core', 'vllm::kda_attention', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer'], 'compile_mm_encoder': False, 'compile_sizes': [], 'compile_ranges_split_points': [8192], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False}, 'max_cudagraph_capture_size': 512, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': True}, 'local_cache_dir': None}
+[0;36m(EngineCore_DP0 pid=3080025)[0;0m INFO 02-06 18:21:46 [parallel_state.py:1212] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://145.136.62.7:53661 backend=nccl
+[0;36m(EngineCore_DP0 pid=3080025)[0;0m INFO 02-06 18:21:46 [parallel_state.py:1423] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A
+[0;36m(EngineCore_DP0 pid=3080025)[0;0m INFO 02-06 18:21:51 [gpu_model_runner.py:4021] Starting to load model /projects/prjs1800/.cache/huggingface/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28...
+[0;36m(EngineCore_DP0 pid=3080025)[0;0m INFO 02-06 18:21:59 [cuda.py:364] Using FLASH_ATTN attention backend out of potential backends: ('FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION')
+[0;36m(EngineCore_DP0 pid=3080025)[0;0m INFO 02-06 18:22:20 [default_loader.py:291] Loading weights took 20.29 seconds
+[0;36m(EngineCore_DP0 pid=3080025)[0;0m INFO 02-06 18:22:21 [gpu_model_runner.py:4118] Model loading took 14.25 GiB memory and 28.946713 seconds
+[0;36m(EngineCore_DP0 pid=3080025)[0;0m INFO 02-06 18:22:43 [backends.py:805] Using cache directory: /home/pnair/.cache/vllm/torch_compile_cache/63904f1060/rank_0_0/backbone for vLLM's torch.compile
+[0;36m(EngineCore_DP0 pid=3080025)[0;0m INFO 02-06 18:22:43 [backends.py:865] Dynamo bytecode transform time: 22.10 s
+[0;36m(EngineCore_DP0 pid=3080025)[0;0m INFO 02-06 18:22:54 [backends.py:267] Directly load the compiled graph(s) for compile range (1, 8192) from the cache, took 7.211 s
+[0;36m(EngineCore_DP0 pid=3080025)[0;0m INFO 02-06 18:22:54 [monitor.py:34] torch.compile takes 29.31 s in total
+[0;36m(EngineCore_DP0 pid=3080025)[0;0m INFO 02-06 18:22:55 [gpu_worker.py:356] Available KV cache memory: 17.84 GiB
+[0;36m(EngineCore_DP0 pid=3080025)[0;0m INFO 02-06 18:22:55 [kv_cache_utils.py:1307] GPU KV cache size: 333,984 tokens
+[0;36m(EngineCore_DP0 pid=3080025)[0;0m INFO 02-06 18:22:55 [kv_cache_utils.py:1312] Maximum concurrency for 2,048 tokens per request: 163.08x
+[0;36m(EngineCore_DP0 pid=3080025)[0;0m INFO 02-06 18:23:00 [gpu_model_runner.py:5051] Graph capturing finished in 5 secs, took 0.50 GiB
+[0;36m(EngineCore_DP0 pid=3080025)[0;0m INFO 02-06 18:23:00 [core.py:272] init engine (profile, create kv cache, warmup model) took 38.94 seconds
+[0;36m(EngineCore_DP0 pid=3080025)[0;0m INFO 02-06 18:23:01 [vllm.py:624] Asynchronous scheduling is enabled.
+INFO 02-06 18:23:01 [llm.py:343] Supported tasks: ['generate']
+Generation: 16.6s
+
+{'em': 0.05502689284236657, 'f1': 0.11853400955100388, 'precision': 0.12605541545147594, 'recall': 0.12859966769772296}
+
+Retrieval: 175.3s | Refining: 3455.5s | Generation: 16.6s | Total: 3647.4s
+Compression ratio: 9.69%
+Per example: 1.51s
+=== Job finished at Fri Feb  6 18:23:35 CET 2026 ===

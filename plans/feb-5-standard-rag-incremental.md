@@ -19,21 +19,46 @@ These are published results to sanity-check your runs against:
 
 | Method | Retriever | HotpotQA F1 | 2Wiki F1 | MuSiQue F1 |
 |--------|-----------|-------------|----------|------------|
-| CoT (no retrieval) | — | 34.0 | 31.1 | 12.7 |
+| CoT (no retrieval) | â€” | 34.0 | 31.1 | 12.7 |
 | RAG with CoT | E5 | 52.4 | 33.5 | 16.9 |
 | IRCoT | E5 | 48.4 | 35.8 | 13.5 |
 | R3-RAG (RL-trained) | E5 | 65.5 | 62.3 | 33.6 |
 
-FlashRAG's own benchmarks (LLaMA-3-8B + E5-base-v2):
+### FlashRAG's Benchmarks (Table 3 - LLaMA-3-8B + E5-base-v2)
 
-| Method | Type | Pipeline | HotpotQA F1 | Notes |
-|--------|------|----------|-------------|-------|
-| Standard RAG | Sequential | SequentialPipeline | ~35 | Single retrieval, top-5 |
-| IRCoT | Loop | LoopPipeline | ~41.5 | Iterative retrieval+CoT |
-| FLARE | Loop | FLAREPipeline | ~38 | Active retrieval on uncertainty |
-| RECOMP | Sequential+Refiner | SequentialPipeline | ~39 | Abstractive compression |
-| Self-RAG | Conditional | SelfRAGPipeline | ~36 | Trained generator needed |
-| Reasoning (Search-R1) | Reasoning | ReasoningPipeline | ~60 | Combines reasoning + search |
+**CORRECTED from FlashRAG paper Table 3:**
+
+| Method | Type | Pipeline | HotpotQA F1 | 2Wiki F1 | PopQA F1 | Notes |
+|--------|------|----------|-------------|----------|----------|-------|
+| Naive Generation | Sequential | - | 28.4 | 33.9 | 21.7 | No retrieval baseline |
+| **Standard RAG** | Sequential | SequentialPipeline | **35.3** | 21.0 | 36.7 | Single retrieval, top-5 |
+| RECOMP-abstractive | Refiner | SequentialPipeline | 37.5 | 32.4 | 39.9 | Abstractive compression |
+| Spring | Generator | SequentialPipeline | 42.6 | 37.3 | 54.8 | Generator optimization |
+| Adaptive-RAG | Conditional | ConditionalPipeline | 39.1 | 28.4 | 40.4 | Query complexity routing |
+| **IRCoT** | Loop | LoopPipeline | **41.5** | 32.4 | 45.6 | Iterative retrieval+CoT |
+| **FLARE** | Loop | FLAREPipeline | **28.0** | 33.9 | 20.7 | Active retrieval (note: same as naive!) |
+| Iter-RetGen/ITRG | Loop | LoopPipeline | 38.3 | 21.6 | 37.9 | Iterative generation |
+| Self-RAG* | Loop | SelfRAGPipeline | 29.6 | 25.1 | 32.7 | Trained generator needed |
+
+*\*Methods marked with asterisk require trained generators*
+
+---
+
+## Actual Results from Days 1-5 (Qwen2.5-7B-Instruct + E5-base-v2)
+
+### Master Comparison Table
+
+| Day | Method | HotpotQA EM | HotpotQA F1 | MuSiQue EM | MuSiQue F1 | Retrieval Recall@5 (HQA) | Retrieval Recall@5 (MSQ) |
+|-----|--------|-------------|-------------|------------|------------|-------------------------|-------------------------|
+| 1 | Standard RAG (top-5) | 31.64% | 42.01% | 6.33% | 13.03% | 50.0% | 21.4% |
+| 2 | **+ BGE Reranker (top-5)** | **36.41%** | **47.42%** | **7.70%** | **15.52%** | **57.7%** | **26.2%** |
+| 3 | + RECOMP Refiner | 29.55% | 40.02% | 5.50% | 11.85% | - | - |
+| 3 | + Selective-Context | 27.00% | 36.56% | 5.01% | 11.26% | - | - |
+| 4 | IRCoT (5 iter) | 30.64% | 42.46% | 7.24% | 14.29% | 69.6% (accumulated) | - |
+| 4 | FLARE (θ=0.2) | 18.85% | 26.57% | 3.93% | 11.44% | ~0.6% | - |
+| 5 | + Reranker + CoT | 34.40% | 45.52% | 8.11% | 13.99% | 57.7% | 26.2% |
+| 5 | ReasoningPipeline | 3.81% | 17.70% | 1.70% | 10.54% | - | - |
+| 5 | SelfAsk (n=500) | 10.80% | 18.79% | 6.40% | 13.88% | - | - |
 
 ---
 
@@ -406,14 +431,58 @@ results/day4/
 ## Day 5 (Mon Feb 10): Reasoning Pipeline (Search-R1 / ReSearch)
 
 ### Goal
-Run FlashRAG's ReasoningPipeline — the most advanced single-agent approach. This combines reasoning ability with search, representing methods like Search-R1, R1-Searcher, and ReSearch. FlashRAG reports F1 ~60 on HotpotQA with this pipeline.
+Run FlashRAG's ReasoningPipeline â€” the most advanced single-agent approach. This combines reasoning ability with search, representing methods like Search-R1, R1-Searcher, and ReSearch. FlashRAG reports F1 ~60 on HotpotQA with this pipeline.
 
 ### Why this matters
 This establishes the **single-agent ceiling**. If the reasoning pipeline already solves most multi-hop problems, the argument for multi-agent becomes harder. If it doesn't, you know exactly where to intervene.
 
 ### Tasks
 
-1. **Run ReasoningPipeline**
+**PRIORITY: Missing Baseline - Standard RAG + Reranker + CoT Prompting**
+
+0. **Run Standard RAG + Reranker + CoT baseline (DO THIS FIRST - ~2 hours)**
+   
+   This is critical to establish your **single-agent ceiling** before claiming multi-agent helps.
+   
+   **Why this matters:**
+   - Day 2 showed reranker gives +5.4 F1
+   - Day 4 showed IRCoT's CoT helps but context dilution (12 docs) hurts
+   - Question: What if reranker (better top-5) + CoT prompt (no dilution)?
+   
+   **Config:**
+   ```yaml
+   use_reranker: True
+   rerank_model: "BAAI/bge-reranker-v2-m3"
+   retrieval_topk: 20
+   rerank_topk: 5
+   
+   # Update prompt template to include CoT
+   generator_prompt: |
+     Answer the question based on the given documents. 
+     Think step by step:
+     1. What information do I need to answer this question?
+     2. Which documents contain relevant information?
+     3. How do I combine information from multiple documents?
+     4. What is my final answer?
+     
+     Question: {question}
+     Documents: {context}
+     Answer:
+   ```
+   
+   **Expected Results:**
+   - HotpotQA: ~50-52 F1 (close to R3-RAG's 52.4 "RAG with CoT" benchmark)
+   - MuSiQue: ~16-18 F1
+   
+   **Why this is your single-agent ceiling:**
+   - 1 LLM call (vs IRCoT's ~3-4)
+   - Best retrieval (reranker from top-20)
+   - Best reasoning (CoT prompt)
+   - No context dilution
+   
+   If multi-agent can't beat this, it's not worth the complexity.
+
+1. **Run ReasoningPipeline (if time permits after baseline)**
    ```yaml
    pipeline: "reasoning"
    # May need specific model checkpoint or prompt-based approach
@@ -425,7 +494,7 @@ This establishes the **single-agent ceiling**. If the reasoning pipeline already
    - Whether you need a specific Search-R1 checkpoint
 
 2. **If no trained reasoning checkpoint available: use Self-Ask or ReAct prompting**
-   Self-Ask is already in FlashRAG — it decomposes questions into sub-questions and searches for each.
+   Self-Ask is already in FlashRAG â€” it decomposes questions into sub-questions and searches for each.
    ```yaml
    pipeline: "self_ask"
    ```
@@ -440,12 +509,30 @@ This establishes the **single-agent ceiling**. If the reasoning pipeline already
 ### Deliverable
 ```
 results/day5/
-├── reasoning_hotpotqa_results.json
-├── reasoning_musique_results.json
-├── self_ask_results.json
-├── single_agent_ceiling_analysis.json    # Hardest remaining failures
+├── hotpotqa_2026_02_07_12_43_reranker_cot_qwen25_hotpotqa/
+├── musique_2026_02_07_13_23_reranker_cot_qwen25_musique/
+├── hotpotqa_2026_02_07_12_17_reasoning_qwen25_hotpotqa/
+├── musique_2026_02_07_12_53_reasoning_qwen25_musique/
+├── hotpotqa_2026_02_07_14_39_selfask_qwen25_hotpotqa/
+├── musique_2026_02_07_16_15_selfask_qwen25_musique/
 └── day5_summary.md
 ```
+
+### Actual Results
+
+| Method | Type | HotpotQA EM | HotpotQA F1 | MuSiQue EM | MuSiQue F1 | # LLM Calls | Notes |
+|--------|------|-------------|-------------|------------|------------|-------------|-------|
+| + Reranker + CoT | Single-shot | 34.40% | 45.52% | 8.11% | 13.99% | 1 | CoT hurts extractive QA |
+| ReasoningPipeline | Reasoning | 3.81% | 17.70% | 1.70% | 10.54% | ~1.6-2.0 | Needs RL-trained model |
+| SelfAsk (n=500) | Decomposition | 10.80% | 18.79% | 6.40% | 13.88% | ~5+ | 100x slower, impractical |
+
+**Key Findings:**
+- All three approaches DEGRADE performance vs Day 2 reranker-only
+- **Single-agent ceiling IS the reranker baseline**: F1=47.42 (HQA), F1=15.52 (MSQ)
+- CoT prompting hurts extractive QA (verbose answers don't match gold labels)
+- ReasoningPipeline requires RL-trained checkpoints (Search-R1, R1-Searcher)
+- SelfAsk is 100x slower and still performs worse
+- Multi-agent must beat reranker ceiling through agent collaboration, not reasoning overhead
 
 ---
 
@@ -611,13 +698,17 @@ Standard RAG                    [Day 1: baseline]
     │       Δ: -2.0 F1 (HQA), -1.2 F1 (MSQ) with RECOMP. NOISE IS NOT THE PROBLEM."
     │
     ├── + Iterative Retrieval   [Day 4: multi-round search]
-    │       Δ: ?F1, tests "do we need multiple searches?"
+    │       IRCoT: +0.5 F1 (HQA), +1.3 F1 (MSQ). Recall improves but context dilution hurts.
+    │       FLARE: -15.4 F1 (HQA), -1.6 F1 (MSQ). Model overconfidence blocks retrieval.
     │
-    ├── + Reasoning             [Day 5: think + search interleaved]
-    │       Δ: ?F1, tests "single-agent ceiling"
+    ├── + Reasoning             [Day 5: single-agent reasoning approaches]
+    │       Reranker+CoT: -1.9 F1 (HQA), -1.6 F1 (MSQ). CoT hurts extractive QA.
+    │       ReasoningPipeline: -29.7 F1 (HQA). Needs RL-trained model.
+    │       SelfAsk: -28.6 F1 (HQA). Format parsing failures + 100x slower.
+    │       SINGLE-AGENT CEILING = DAY 2 RERANKER: F1=47.4 (HQA), F1=15.5 (MSQ)
     │
     └── + Multi-Agent           [Day 7: parallel decomposition + aggregation]
-            Δ: ?F1, tests "does coordination help?"
+            Must beat reranker ceiling. Value from coordination, not reasoning overhead.
 ```
 
 Each step answers a specific question. The cumulative deltas tell your thesis story.

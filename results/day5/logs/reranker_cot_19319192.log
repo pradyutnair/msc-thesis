@@ -1,0 +1,44 @@
+==========================================
+Day 5: Reranker + CoT Baseline
+Job ID: 19319192
+Node: gcn16
+Start time: Sat Feb 7 10:59:20 CET 2026
+==========================================
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+GPU Info:
+name, memory.total [MiB], memory.free [MiB]
+NVIDIA A100-SXM4-40GB, 40960 MiB, 40442 MiB
+
+==========================================
+Running Reranker + CoT on HotpotQA
+Start: Sat Feb 7 10:59:21 CET 2026
+==========================================
+/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+Loading config from configs/flashrag/reranker_cot_qwen25_hotpotqa.yaml
+Dataset: hotpotqa, Split: ['test']
+Generator: Qwen/Qwen2.5-7B-Instruct
+Retriever: e5, initial top-k: 20
+Reranker: bge-reranker-v2-m3, rerank top-k: 5
+Max tokens: 256
+Save dir: /projects/prjs1800/results/day5/hotpotqa_2026_02_07_10_59_reranker_cot_qwen25_hotpotqa
+Loading test dataset from: /projects/prjs1800/datasets/flashrag/hotpotqa/test.jsonl...
+Loaded 7405 test examples
+
+=== Phase 1: Retrieval + Reranking (FAISS threads: 16) ===
+Encoding process:   0%|          | 0/29 [00:00<?, ?it/s]Encoding process:   3%|▎         | 1/29 [00:02<00:59,  2.12s/it]Encoding process:  10%|█         | 3/29 [00:02<00:15,  1.69it/s]Encoding process:  17%|█▋        | 5/29 [00:02<00:07,  3.17it/s]Encoding process:  24%|██▍       | 7/29 [00:02<00:04,  4.85it/s]Encoding process:  31%|███       | 9/29 [00:02<00:03,  6.63it/s]Encoding process:  38%|███▊      | 11/29 [00:02<00:02,  8.61it/s]Encoding process:  45%|████▍     | 13/29 [00:02<00:01, 10.45it/s]Encoding process:  52%|█████▏    | 15/29 [00:02<00:01, 12.07it/s]Encoding process:  59%|█████▊    | 17/29 [00:03<00:00, 13.34it/s]Encoding process:  66%|██████▌   | 19/29 [00:03<00:00, 14.55it/s]Encoding process:  72%|███████▏  | 21/29 [00:03<00:00, 15.58it/s]Encoding process:  79%|███████▉  | 23/29 [00:03<00:00, 16.15it/s]Encoding process:  86%|████████▌ | 25/29 [00:03<00:00, 16.96it/s]Encoding process:  93%|█████████▎| 27/29 [00:03<00:00, 17.05it/s]Encoding process: 100%|██████████| 29/29 [00:03<00:00,  7.92it/s]
+[2026-02-07T11:47:18.284] error: *** JOB 19319192 ON gcn16 CANCELLED AT 2026-02-07T11:47:18 DUE to SIGNAL Terminated ***

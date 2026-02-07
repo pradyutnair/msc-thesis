@@ -33,7 +33,7 @@ export PYTHONPATH="$FLASHRAG_ROOT:$PYTHONPATH"
 export HF_HOME="/projects/prjs1800/.cache/huggingface"
 export HF_HUB_CACHE="$HF_HOME"
 # Config file in msc-thesis for version control
-FLASHRAG_CONFIG="/projects/prjs1800/msc-thesis/configs/flashrag/standard_rag.yaml"
+FLASHRAG_CONFIG="/projects/prjs1800/msc-thesis/configs/benchmarks/standard_rag.yaml"
 DATASETS="nq triviaqa hotpotqa 2wikimultihopqa popqa web_questions"
 
 cd "$FLASHRAG_METHODS"

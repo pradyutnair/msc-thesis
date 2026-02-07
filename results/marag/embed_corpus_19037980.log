@@ -1,0 +1,184 @@
+Starting corpus embedding with GTE-multilingual-base...
+This will embed ~21M passages from DPR-W100 corpus
+Estimated time: 2-4 hours
+PYTHONPATH: /projects/prjs1800/external/MA-RAG:
+/projects/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+The following values were not passed to `accelerate launch` and had defaults used instead:
+		More than one GPU was found, enabling multi-GPU training.
+		If this was unintended please pass in `--num_processes=1`.
+	`--num_machines` was set to a value of `1`
+	`--mixed_precision` was set to a value of `'no'`
+	`--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+/projects/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/projects/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+Some weights of the model checkpoint at Alibaba-NLP/gte-multilingual-base were not used when initializing NewModel: ['classifier.bias', 'classifier.weight']
+- This IS expected if you are initializing NewModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing NewModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some weights of the model checkpoint at Alibaba-NLP/gte-multilingual-base were not used when initializing NewModel: ['classifier.bias', 'classifier.weight']
+- This IS expected if you are initializing NewModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing NewModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+02/02/2026 20:12:01 - INFO - __main__ - Sample a passage: (2, '"God at Sinai granted Aaron the priesthood for himself and his male descendants, and he became the first High Priest of the Israelites. Aaron died before the Israelites crossed the North Jordan river and he was buried on Mount Hor (Numbers 33:39; Deuteronomy 10:6 says he died and was buried at Moserah). Aaron is also mentioned in the New Testament of the Bible. According to the Book of Exodus, Aaron first functioned as Moses\' assistant. Because Moses complained that he could not speak well, God appointed Aaron as Moses\' ""prophet"" (Exodus 4:10-17; 7:1). At the command of Moses, he let"')
+  0%|          | 0/10262 [00:00<?, ?it/s][rank0]: Traceback (most recent call last):
+[rank0]:   File "/gpfs/work5/0/prjs1800/external/MA-RAG/corpus/embed_corpus.py", line 112, in <module>
+[rank0]:     main()
+[rank0]:     ~~~~^^
+[rank0]:   File "/gpfs/work5/0/prjs1800/external/MA-RAG/corpus/embed_corpus.py", line 68, in main
+[rank0]:     for step, batch in enumerate(corpus_dataloader):
+[rank0]:                        ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/projects/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/accelerate/data_loader.py", line 566, in __iter__
+[rank0]:     current_batch = next(dataloader_iter)
+[rank0]:   File "/projects/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 733, in __next__
+[rank0]:     data = self._next_data()
+[rank0]:   File "/projects/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 1515, in _next_data
+[rank0]:     return self._process_data(data, worker_id)
+[rank0]:            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+[rank0]:   File "/projects/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 1550, in _process_data
+[rank0]:     data.reraise()
+[rank0]:     ~~~~~~~~~~~~^^
+[rank0]:   File "/projects/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/torch/_utils.py", line 750, in reraise
+[rank0]:     raise exception
+[rank0]: KeyError: Caught KeyError in DataLoader worker process 0.
+[rank0]: Original Traceback (most recent call last):
+[rank0]:   File "/projects/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/torch/utils/data/_utils/worker.py", line 349, in _worker_loop
+[rank0]:     data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+[rank0]:   File "/projects/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+[rank0]:     data = [self.dataset[idx] for idx in possibly_batched_index]
+[rank0]:             ~~~~~~~~~~~~^^^^^
+[rank0]:   File "/projects/prjs1800/external/MA-RAG/src/data_sampler.py", line 110, in __getitem__
+[rank0]:     text = self.docstore.get(str(item)).text
+[rank0]:            ~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+[rank0]:   File "/projects/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/ir_datasets/indices/base.py", line 12, in get
+[rank0]:     return result[doc_id]
+[rank0]:            ~~~~~~^^^^^^^^
+[rank0]: KeyError: '1'
+
+/gpfs/work5/0/prjs1800/external/MA-RAG/corpus/embed_corpus.py:72: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.no_grad(), torch.cuda.amp.autocast(dtype=torch.bfloat16):
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/queues.py", line 262, in _feed
+    obj = _ForkingPickler.dumps(obj)
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/queues.py", line 262, in _feed
+    obj = _ForkingPickler.dumps(obj)
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+_pickle.PicklingError: Can't pickle <class '_block.LZ4BlockError'>: import of module '_block' failed
+_pickle.PicklingError: Can't pickle <class '_block.LZ4BlockError'>: import of module '_block' failed
+  0%|          | 0/10262 [00:02<?, ?it/s]
+Traceback (most recent call last):
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/queues.py", line 262, in _feed
+    obj = _ForkingPickler.dumps(obj)
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+_pickle.PicklingError: Can't pickle <class '_block.LZ4BlockError'>: import of module '_block' failed
+Traceback (most recent call last):
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/queues.py", line 262, in _feed
+    obj = _ForkingPickler.dumps(obj)
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+_pickle.PicklingError: Can't pickle <class '_block.LZ4BlockError'>: import of module '_block' failed
+[rank0]:[W202 20:12:06.328535495 ProcessGroupNCCL.cpp:1479] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+Traceback (most recent call last):
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/queues.py", line 262, in _feed
+    obj = _ForkingPickler.dumps(obj)
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+_pickle.PicklingError: Can't pickle <class '_block.LZ4BlockError'>: import of module '_block' failed
+Traceback (most recent call last):
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/queues.py", line 262, in _feed
+    obj = _ForkingPickler.dumps(obj)
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+_pickle.PicklingError: Can't pickle <class '_block.LZ4BlockError'>: import of module '_block' failed
+Traceback (most recent call last):
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/queues.py", line 262, in _feed
+    obj = _ForkingPickler.dumps(obj)
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+_pickle.PicklingError: Can't pickle <class '_block.LZ4BlockError'>: import of module '_block' failed
+Traceback (most recent call last):
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/queues.py", line 262, in _feed
+    obj = _ForkingPickler.dumps(obj)
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+_pickle.PicklingError: Can't pickle <class '_block.LZ4BlockError'>: import of module '_block' failed
+Traceback (most recent call last):
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/queues.py", line 262, in _feed
+    obj = _ForkingPickler.dumps(obj)
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+_pickle.PicklingError: Can't pickle <class '_block.LZ4BlockError'>: import of module '_block' failed
+Traceback (most recent call last):
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/queues.py", line 262, in _feed
+    obj = _ForkingPickler.dumps(obj)
+  File "/sw/arch/RHEL9/EB_production/2025/software/Python/3.13.1-GCCcore-14.2.0/lib/python3.13/multiprocessing/reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+_pickle.PicklingError: Can't pickle <class '_block.LZ4BlockError'>: import of module '_block' failed
+W0202 20:12:21.158000 3266877 /gpfs/work5/0/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/torch/distributed/elastic/multiprocessing/api.py:900] Sending process 3267022 closing signal SIGTERM
+E0202 20:12:21.374000 3266877 /gpfs/work5/0/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/torch/distributed/elastic/multiprocessing/api.py:874] failed (exitcode: 1) local_rank: 0 (pid: 3267021) of binary: /projects/prjs1800/venvs/marag-venv/bin/python3
+Traceback (most recent call last):
+  File "/projects/prjs1800/venvs/marag-venv/bin/accelerate", line 10, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/projects/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/accelerate/commands/accelerate_cli.py", line 50, in main
+    args.func(args)
+    ~~~~~~~~~^^^^^^
+  File "/projects/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/accelerate/commands/launch.py", line 1204, in launch_command
+    multi_gpu_launcher(args)
+    ~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/projects/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/accelerate/commands/launch.py", line 825, in multi_gpu_launcher
+    distrib_run.run(args)
+    ~~~~~~~~~~~~~~~^^^^^^
+  File "/projects/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/torch/distributed/run.py", line 883, in run
+    elastic_launch(
+    ~~~~~~~~~~~~~~~
+        config=config,
+        ~~~~~~~~~~~~~~
+        entrypoint=cmd,
+        ~~~~~~~~~~~~~~~
+    )(*cmd_args)
+    ~^^^^^^^^^^^
+  File "/projects/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/projects/prjs1800/venvs/marag-venv/lib/python3.13/site-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+    ...<2 lines>...
+    )
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+corpus/embed_corpus.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-02-02_20:12:21
+  host      : gcn26.local.snellius.surf.nl
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 3267021)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+Embedding complete!
+total 1
+drwxr-s---. 2 pnair prjs1800 4096 Feb  2 19:04 .
+drwxr-s---. 3 pnair prjs1800 4096 Feb  2 19:04 ..
