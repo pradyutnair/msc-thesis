@@ -1,0 +1,67 @@
+==========================================
+Day 5: Standard RAG + CoT (no reranker)
+Job ID: 19348380
+Node: gcn69
+Start time: Mon Feb  9 19:46:39 CET 2026
+==========================================
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+GPU Info:
+name, memory.total [MiB], memory.free [MiB]
+NVIDIA A100-SXM4-40GB, 40960 MiB, 40442 MiB
+
+==========================================
+Running Standard RAG + CoT on HotpotQA
+Start: Mon Feb  9 19:46:41 CET 2026
+==========================================
+/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+Loading config from configs/day5/standard_cot_qwen25_hotpotqa.yaml
+Dataset: hotpotqa, Split: ['test']
+Generator: Qwen/Qwen2.5-7B-Instruct
+Retriever: e5, top-k: 5
+Traceback (most recent call last):
+  File "/gpfs/work5/0/prjs1800/msc-thesis/scripts/day5/run_standard_cot_rag.py", line 167, in <module>
+    main()
+  File "/gpfs/work5/0/prjs1800/msc-thesis/scripts/day5/run_standard_cot_rag.py", line 90, in main
+    print(f"Reranker: {config.get('use_reranker', False)}")
+  File "/projects/prjs1800/external/FlashRAG/flashrag/config/config.py", line 283, in __getattr__
+    raise AttributeError(f"'Config' object has no attribute '{item}'")
+AttributeError: 'Config' object has no attribute 'get'
+Standard CoT HotpotQA completed: Mon Feb  9 19:47:57 CET 2026
+==========================================
+Running Standard RAG + CoT on MuSiQue
+Start: Mon Feb  9 19:47:57 CET 2026
+==========================================
+/projects/prjs1800/venvs/FlashRAG-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+Loading config from configs/day5/standard_cot_qwen25_musique.yaml
+Dataset: musique, Split: ['test']
+Generator: Qwen/Qwen2.5-7B-Instruct
+Retriever: e5, top-k: 5
+Traceback (most recent call last):
+  File "/gpfs/work5/0/prjs1800/msc-thesis/scripts/day5/run_standard_cot_rag.py", line 167, in <module>
+    main()
+  File "/gpfs/work5/0/prjs1800/msc-thesis/scripts/day5/run_standard_cot_rag.py", line 90, in main
+    print(f"Reranker: {config.get('use_reranker', False)}")
+  File "/projects/prjs1800/external/FlashRAG/flashrag/config/config.py", line 283, in __getattr__
+    raise AttributeError(f"'Config' object has no attribute '{item}'")
+AttributeError: 'Config' object has no attribute 'get'
+Standard CoT MuSiQue completed: Mon Feb  9 19:48:04 CET 2026
+==========================================
+Day 5 Standard RAG + CoT complete
+End time: Mon Feb  9 19:48:04 CET 2026
+==========================================
