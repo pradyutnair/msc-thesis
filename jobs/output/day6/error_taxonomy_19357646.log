@@ -1,0 +1,130 @@
+==========================================
+Day 6: Error Taxonomy + Venn + Per-Hop
+Job ID: 19357646
+Node: gcn49
+Start time: Tue Feb 10 13:07:43 CET 2026
+==========================================
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+=== Finding experiments ===
+  day1_standard_rag_hotpotqa: Standard RAG on hotpotqa @ /projects/prjs1800/results/day1/hotpotqa_2026_02_06_13_47_standard_rag_qwen25_hotpotqa
+  day1_standard_rag_musique: Standard RAG on musique @ /projects/prjs1800/results/day1/musique_2026_02_06_14_08_standard_rag_qwen25_musique
+  day2_reranker_hotpotqa: Reranker on hotpotqa @ /projects/prjs1800/results/day2/hotpotqa_2026_02_06_15_37_reranker_rag_qwen25_hotpotqa
+  day2_reranker_musique: Reranker on musique @ /projects/prjs1800/results/day2/musique_2026_02_06_15_37_reranker_rag_qwen25_musique
+  day4_ircot_hotpotqa: IRCoT on hotpotqa @ /projects/prjs1800/results/day4/hotpotqa_2026_02_07_00_20_ircot_qwen25_hotpotqa
+  day4_ircot_musique: IRCoT on musique @ /projects/prjs1800/results/day4/musique_2026_02_07_00_20_ircot_qwen25_musique
+
+=== Loading intermediate data ===
+  day1_standard_rag_hotpotqa: loaded 7405 items
+  day1_standard_rag_musique: loaded 2417 items
+  day2_reranker_hotpotqa: loaded 7405 items
+  day2_reranker_musique: loaded 2417 items
+  day4_ircot_hotpotqa: loaded 7405 items
+  day4_ircot_musique: loaded 2417 items
+
+=== Error Taxonomy ===
+
+--- day1_standard_rag_hotpotqa (Standard RAG on hotpotqa) ---
+  correct: 3250 (43.9%)
+  retrieval_miss_total: 1452 (19.6%)
+  retrieval_miss_partial: 2189 (29.6%)
+  reasoning_failure: 489 (6.6%)
+  answer_extraction_failure: 25 (0.3%)
+
+--- day1_standard_rag_musique (Standard RAG on musique) ---
+  correct: 316 (13.1%)
+  retrieval_miss_total: 1239 (51.3%)
+  retrieval_miss_partial: 817 (33.8%)
+  reasoning_failure: 41 (1.7%)
+  answer_extraction_failure: 4 (0.2%)
+
+--- day2_reranker_hotpotqa (Reranker on hotpotqa) ---
+  correct: 3662 (49.5%)
+  retrieval_miss_total: 1092 (14.7%)
+  retrieval_miss_partial: 1993 (26.9%)
+  reasoning_failure: 612 (8.3%)
+  answer_extraction_failure: 46 (0.6%)
+
+--- day2_reranker_musique (Reranker on musique) ---
+  correct: 398 (16.5%)
+  retrieval_miss_total: 1015 (42.0%)
+  retrieval_miss_partial: 933 (38.6%)
+  reasoning_failure: 65 (2.7%)
+  answer_extraction_failure: 6 (0.2%)
+
+--- day4_ircot_hotpotqa (IRCoT on hotpotqa) ---
+  correct: 3245 (43.8%)
+  retrieval_miss_total: 1198 (16.2%)
+  retrieval_miss_partial: 1705 (23.0%)
+  reasoning_failure: 1021 (13.8%)
+  answer_extraction_failure: 236 (3.2%)
+
+--- day4_ircot_musique (IRCoT on musique) ---
+  correct: 349 (14.4%)
+  retrieval_miss_total: 911 (37.7%)
+  retrieval_miss_partial: 995 (41.2%)
+  reasoning_failure: 141 (5.8%)
+  answer_extraction_failure: 21 (0.9%)
+
+Saved error taxonomy to /projects/prjs1800/analysis/day6/error_taxonomy.json
+
+=== Per-Hop Analysis (MuSiQue) ===
+
+--- day1_standard_rag_musique (Standard RAG) ---
+  hop_1: recall=0.334 (808/2417)
+  hop_2: recall=0.116 (280/2417)
+  hop_3: recall=0.065 (76/1165)
+  hop_4: recall=0.032 (13/405)
+
+--- day2_reranker_musique (Reranker) ---
+  hop_1: recall=0.396 (957/2417)
+  hop_2: recall=0.148 (358/2417)
+  hop_3: recall=0.124 (145/1165)
+  hop_4: recall=0.047 (19/405)
+
+--- day4_ircot_musique (IRCoT) ---
+  hop_1: recall=0.462 (1117/2417)
+  hop_2: recall=0.249 (601/2417)
+  hop_3: recall=0.151 (176/1165)
+  hop_4: recall=0.072 (29/405)
+
+Saved hop analysis to /projects/prjs1800/analysis/day6/hop_analysis_musique.json
+
+=== Cross-Method Venn (Complementarity Analysis) ===
+
+--- hotpotqa ---
+  Total questions: 7405
+  Ensemble ceiling: 4528 (61.1%)
+  day1_standard_rag_hotpotqa: 3250 correct, 181 unique (2.4%)
+  day2_reranker_hotpotqa: 3662 correct, 510 unique (6.9%)
+  day4_ircot_hotpotqa: 3245 correct, 497 unique (6.7%)
+
+--- musique ---
+  Total questions: 2417
+  Ensemble ceiling: 599 (24.8%)
+  day1_standard_rag_musique: 316 correct, 46 unique (1.9%)
+  day2_reranker_musique: 398 correct, 126 unique (5.2%)
+  day4_ircot_musique: 349 correct, 113 unique (4.7%)
+
+--- 2wikimultihopqa: SKIP (need >= 2 methods, have 0) ---
+
+Saved cross-method Venn to /projects/prjs1800/analysis/day6/cross_method_venn.json
+
+=== Done ===
+==========================================
+Error taxonomy complete
+End time: Tue Feb 10 13:07:55 CET 2026
+==========================================

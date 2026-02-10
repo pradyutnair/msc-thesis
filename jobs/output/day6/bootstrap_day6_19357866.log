@@ -1,0 +1,236 @@
+==========================================
+Day 6: Bootstrap CIs + Significance Tests
+Job ID: 19357866
+Node: gcn59
+Start time: Tue Feb 10 13:18:32 CET 2026
+==========================================
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+=== Building experiment registry ===
+  Found day4_ircot_hotpotqa: /projects/prjs1800/results/day4/hotpotqa_2026_02_07_00_20_ircot_qwen25_hotpotqa
+  Found day4_ircot_musique: /projects/prjs1800/results/day4/musique_2026_02_07_00_20_ircot_qwen25_musique
+  Found day6_naive_hotpotqa: /projects/prjs1800/results/day6/hotpotqa_2026_02_10_10_52_naive_gen_qwen25_hotpotqa
+  Found day6_naive_musique: /projects/prjs1800/results/day6/musique_2026_02_10_10_56_naive_gen_qwen25_musique
+  Found day6_naive_2wiki: /projects/prjs1800/results/day6/2wikimultihopqa_2026_02_10_10_57_naive_gen_qwen25_2wiki
+  Found day6_gold_hotpotqa: /projects/prjs1800/results/day6/hotpotqa_2026_02_10_10_58_gold_context_qwen25_hotpotqa
+  Found day6_gold_musique: /projects/prjs1800/results/day6/musique_2026_02_10_11_00_gold_context_qwen25_musique
+  Found day6_gold_2wiki: /projects/prjs1800/results/day6/2wikimultihopqa_2026_02_10_11_08_gold_context_qwen25_2wiki
+  Found day6_standard_rag_2wiki: /projects/prjs1800/results/day6/2wikimultihopqa_2026_02_10_11_16_standard_rag_qwen25_2wiki
+  Found day6_reranker_2wiki: /projects/prjs1800/results/day6/2wikimultihopqa_2026_02_10_11_52_reranker_qwen25_2wiki
+
+=== Loading scores for 15 experiments ===
+
+Loading day1_standard_rag_hotpotqa (Standard RAG on hotpotqa)...
+  Loaded 7405 items
+
+Loading day1_standard_rag_musique (Standard RAG on musique)...
+  Loaded 2417 items
+
+Loading day2_reranker_hotpotqa (Reranker on hotpotqa)...
+  Loaded 7405 items
+
+Loading day2_reranker_musique (Reranker on musique)...
+  Loaded 2417 items
+
+Loading day5_reranker_cot_short_hotpotqa (Reranker+CoT on hotpotqa)...
+  Loaded 7405 items
+
+Loading day4_ircot_hotpotqa (IRCoT on hotpotqa)...
+  Loaded 7405 items
+
+Loading day4_ircot_musique (IRCoT on musique)...
+  Loaded 2417 items
+
+Loading day6_naive_hotpotqa (Naive Gen on hotpotqa)...
+  Loaded 7405 items
+
+Loading day6_naive_musique (Naive Gen on musique)...
+  Loaded 2417 items
+
+Loading day6_naive_2wiki (Naive Gen on 2wikimultihopqa)...
+  Loaded 12576 items
+
+Loading day6_gold_hotpotqa (Gold Context on hotpotqa)...
+  Loaded 7405 items
+
+Loading day6_gold_musique (Gold Context on musique)...
+  Loaded 2417 items
+
+Loading day6_gold_2wiki (Gold Context on 2wikimultihopqa)...
+  Loaded 12576 items
+
+Loading day6_standard_rag_2wiki (Standard RAG on 2wikimultihopqa)...
+  Loaded 12576 items
+
+Loading day6_reranker_2wiki (Reranker on 2wikimultihopqa)...
+  Loaded 12576 items
+
+=== Computing Bootstrap CIs (n_bootstrap=1000) ===
+  day1_standard_rag_hotpotqa:
+    EM: 31.64% [30.63, 32.71]
+    F1: 42.01% [41.03, 43.04]
+    By question type:
+      bridge (n=5918): F1=36.97% [35.85, 38.07]
+      comparison (n=1487): F1=62.07% [59.89, 64.31]
+  day1_standard_rag_musique:
+    EM: 6.33% [5.38, 7.36]
+    F1: 13.03% [11.94, 14.18]
+    By number of hops:
+      2-hop (n=1252): F1=17.24% [15.52, 19.06]
+      3-hop (n=760): F1=8.79% [7.30, 10.36]
+      4-hop (n=405): F1=7.98% [6.01, 10.03]
+  day2_reranker_hotpotqa:
+    EM: 36.41% [35.35, 37.52]
+    F1: 47.42% [46.39, 48.43]
+    By question type:
+      bridge (n=5918): F1=42.44% [41.31, 43.63]
+      comparison (n=1487): F1=67.24% [65.03, 69.33]
+  day2_reranker_musique:
+    EM: 7.70% [6.66, 8.90]
+    F1: 15.52% [14.29, 16.77]
+    By number of hops:
+      2-hop (n=1252): F1=20.01% [18.27, 22.01]
+      3-hop (n=760): F1=11.75% [10.05, 13.63]
+      4-hop (n=405): F1=8.73% [6.60, 10.81]
+  day5_reranker_cot_short_hotpotqa:
+    EM: 34.40% [33.40, 35.53]
+    F1: 45.56% [44.58, 46.68]
+    By question type:
+      bridge (n=5918): F1=39.42% [38.29, 40.58]
+      comparison (n=1487): F1=70.01% [67.96, 72.03]
+  day4_ircot_hotpotqa:
+    EM: 30.64% [29.66, 31.64]
+    F1: 42.61% [41.62, 43.64]
+    By question type:
+      bridge (n=5918): F1=38.77% [37.62, 39.92]
+      comparison (n=1487): F1=57.86% [55.59, 60.10]
+  day4_ircot_musique:
+    EM: 7.24% [6.25, 8.36]
+    F1: 14.29% [13.25, 15.48]
+    By number of hops:
+      2-hop (n=1252): F1=19.70% [17.85, 21.73]
+      3-hop (n=760): F1=8.58% [6.98, 10.08]
+      4-hop (n=405): F1=8.30% [6.18, 10.41]
+  day6_naive_hotpotqa:
+    EM: 18.51% [17.68, 19.45]
+    F1: 25.29% [24.45, 26.25]
+    By question type:
+      bridge (n=5918): F1=16.20% [15.38, 17.04]
+      comparison (n=1487): F1=61.47% [59.06, 63.76]
+  day6_naive_musique:
+    EM: 3.81% [3.06, 4.51]
+    F1: 9.59% [8.63, 10.51]
+    By number of hops:
+      2-hop (n=1252): F1=11.09% [9.61, 12.55]
+      3-hop (n=760): F1=8.44% [6.85, 10.00]
+      4-hop (n=405): F1=7.12% [5.33, 9.02]
+  day6_naive_2wiki:
+    EM: 25.12% [24.41, 25.83]
+    F1: 29.69% [28.97, 30.41]
+    By question type:
+      bridge_comparison (n=2751): F1=47.70% [45.90, 49.54]
+      comparison (n=3040): F1=50.08% [48.34, 51.86]
+      compositional (n=5236): F1=9.70% [9.00, 10.43]
+      inference (n=1549): F1=25.20% [24.00, 26.40]
+  day6_gold_hotpotqa:
+    EM: 40.24% [39.11, 41.34]
+    F1: 51.31% [50.29, 52.34]
+    By question type:
+      bridge (n=5918): F1=47.81% [46.65, 49.10]
+      comparison (n=1487): F1=65.25% [62.80, 67.45]
+  day6_gold_musique:
+    EM: 47.04% [44.93, 49.07]
+    F1: 59.62% [57.68, 61.49]
+    By number of hops:
+      2-hop (n=1252): F1=63.85% [61.44, 66.12]
+      3-hop (n=760): F1=60.21% [57.23, 63.04]
+      4-hop (n=405): F1=45.40% [41.26, 49.76]
+  day6_gold_2wiki:
+    EM: 62.41% [61.55, 63.25]
+    F1: 69.96% [69.21, 70.68]
+    By question type:
+      bridge_comparison (n=2751): F1=68.07% [66.23, 69.79]
+      comparison (n=3040): F1=84.23% [82.97, 85.59]
+      compositional (n=5236): F1=63.54% [62.46, 64.74]
+      inference (n=1549): F1=66.98% [65.09, 68.82]
+  day6_standard_rag_2wiki:
+    EM: 25.64% [24.89, 26.43]
+    F1: 32.13% [31.43, 32.91]
+    By question type:
+      bridge_comparison (n=2751): F1=43.59% [41.82, 45.28]
+      comparison (n=3040): F1=49.60% [47.79, 51.15]
+      compositional (n=5236): F1=14.81% [14.01, 15.57]
+      inference (n=1549): F1=36.05% [34.43, 37.75]
+  day6_reranker_2wiki:
+    EM: 28.35% [27.58, 29.15]
+    F1: 34.78% [34.04, 35.57]
+    By question type:
+      bridge_comparison (n=2751): F1=45.40% [43.54, 47.19]
+      comparison (n=3040): F1=54.44% [52.84, 55.94]
+      compositional (n=5236): F1=17.07% [16.24, 18.00]
+      inference (n=1549): F1=37.23% [35.54, 38.86]
+
+Bootstrap CIs computed in 7.1s
+Saved bootstrap results to /projects/prjs1800/analysis/day6/bootstrap_results_all.json
+
+=== Paired Bootstrap Significance Tests ===
+
+--- hotpotqa ---
+  Value of Retrieval (Naive vs Standard RAG) (n=7405):
+    EM: 31.64 vs 18.51, diff=+13.13, p=0.0000 ***
+    F1: 42.01 vs 25.29, diff=+16.72, p=0.0000 ***
+  Value of Reranking (Standard RAG vs Reranker) (n=7405):
+    EM: 36.41 vs 31.64, diff=+4.77, p=0.0000 ***
+    F1: 47.42 vs 42.01, diff=+5.40, p=0.0000 ***
+  Iterative vs Single-shot (Reranker vs IRCoT) (n=7405):
+    EM: 30.64 vs 36.41, diff=-5.77, p=0.0000 ***
+    F1: 42.61 vs 47.42, diff=-4.81, p=0.0000 ***
+  Does CoT help? (Reranker vs Reranker+CoT) (n=7405):
+    EM: 34.40 vs 36.41, diff=-2.01, p=0.0000 ***
+    F1: 45.56 vs 47.42, diff=-1.86, p=0.0000 ***
+  Room for Improvement (Reranker vs Gold Context) (n=7405):
+    EM: 40.24 vs 36.41, diff=+3.84, p=0.0000 ***
+    F1: 51.31 vs 47.42, diff=+3.90, p=0.0000 ***
+
+--- musique ---
+  Value of Retrieval (Naive vs Standard RAG) (n=2417):
+    EM: 6.33 vs 3.81, diff=+2.52, p=0.0000 ***
+    F1: 13.03 vs 9.59, diff=+3.44, p=0.0000 ***
+  Value of Reranking (Standard RAG vs Reranker) (n=2417):
+    EM: 7.70 vs 6.33, diff=+1.37, p=0.0000 ***
+    F1: 15.52 vs 13.03, diff=+2.49, p=0.0000 ***
+  Room for Improvement (Reranker vs Gold Context) (n=2417):
+    EM: 47.04 vs 7.70, diff=+39.35, p=0.0000 ***
+    F1: 59.62 vs 15.52, diff=+44.09, p=0.0000 ***
+
+--- 2wikimultihopqa ---
+  Value of Retrieval (Naive vs Standard RAG) (n=12576):
+    EM: 25.64 vs 25.12, diff=+0.52, p=0.2220 ns
+    F1: 32.13 vs 29.69, diff=+2.45, p=0.0000 ***
+  Value of Reranking (Standard RAG vs Reranker) (n=12576):
+    EM: 28.35 vs 25.64, diff=+2.70, p=0.0000 ***
+    F1: 34.78 vs 32.13, diff=+2.65, p=0.0000 ***
+  Room for Improvement (Reranker vs Gold Context) (n=12576):
+    EM: 62.41 vs 28.35, diff=+34.06, p=0.0000 ***
+    F1: 69.96 vs 34.78, diff=+35.17, p=0.0000 ***
+
+Saved significance tests to /projects/prjs1800/analysis/day6/significance_tests.json
+
+=== Done ===
+==========================================
+Bootstrap Day 6 + significance tests complete
+End time: Tue Feb 10 13:19:03 CET 2026
+==========================================

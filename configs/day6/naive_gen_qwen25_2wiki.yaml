@@ -1,0 +1,78 @@
+# Naive Generation (No Retrieval) — Qwen2.5-7B-Instruct on 2WikiMultihopQA
+# Day 6: Lower bound baseline — LLM answers from parametric knowledge only
+
+# ------------------------------------------------Global Paths------------------------------------------------#
+model2path:
+  e5: "intfloat/e5-base-v2"
+
+model2pooling:
+  e5: "mean"
+
+method2index:
+  e5: "/projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index"
+
+# ------------------------------------------------Environment Settings------------------------------------------------#
+data_dir: "/projects/prjs1800/datasets/flashrag"
+save_dir: "/projects/prjs1800/results/day6"
+
+gpu_id: "0"
+dataset_name: "2wikimultihopqa"
+split: ["test"]
+
+test_sample_num: ~
+random_sample: False
+seed: 2024
+
+save_intermediate_data: True
+save_note: "naive_gen_qwen25_2wiki"
+
+is_reasoning: False
+
+# ------------------------------------------------Retrieval Settings (unused but required by Config)------------------------------------------------#
+retrieval_method: "e5"
+index_path: "/projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index"
+faiss_gpu: False
+corpus_path: "/projects/prjs1800/datasets/flashrag/retrieval-corpus/wiki18_100w.jsonl"
+
+instruction: ~
+retrieval_topk: 5
+retrieval_batch_size: 256
+retrieval_use_fp16: True
+retrieval_query_max_length: 128
+save_retrieval_cache: False
+use_retrieval_cache: False
+retrieval_cache_path: ~
+retrieval_pooling_method: ~
+
+# ------------------------------------------------Reranker Settings------------------------------------------------#
+use_reranker: False
+rerank_model_name: ~
+rerank_model_path: ~
+rerank_topk: ~
+rerank_max_length: ~
+rerank_batch_size: ~
+rerank_use_fp16: ~
+rerank_pooling_method: ~
+
+# ------------------------------------------------Generator Settings------------------------------------------------#
+framework: vllm
+generator_model: "Qwen/Qwen2.5-7B-Instruct"
+generator_model_path: "Qwen/Qwen2.5-7B-Instruct"
+generator_max_input_len: 16384
+generator_batch_size: 4
+gpu_memory_utilization: 0.85
+vllm_tensor_parallel_size: 1
+generation_params:
+  do_sample: False
+  max_tokens: 32
+use_fid: False
+
+# ------------------------------------------------Refiner Settings------------------------------------------------#
+refiner_name: ~
+refiner_model_path: ~
+
+# ------------------------------------------------Evaluation Settings------------------------------------------------#
+metrics: ["em", "f1", "precision", "recall"]
+metric_setting:
+  retrieval_recall_topk: 5
+save_metric_score: True

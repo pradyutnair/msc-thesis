@@ -571,82 +571,101 @@ Timing (Feb 9 runs, A100):
 
 ---
 
-## Day 6 (Tue Feb 11): Consolidation + Gap Analysis + Multi-Agent Design
+## Day 6 (Tue Feb 10): Bounding Experiments + Statistical Analysis + Error Taxonomy ✅
 
 ### Goal
-Compile all results, identify the gap, and design your first multi-agent extension.
+Establish lower bound (naive generation), upper bound (gold context), third dataset (2WikiMultihopQA), bootstrap confidence intervals, significance tests, systematic error taxonomy, and cross-method complementarity analysis.
 
-### Tasks
+### Actual Results
 
-1. **Build the master comparison table**
+#### Performance Ladder with 95% Bootstrap CIs (1000 samples)
 
-| # | Method | Components | Pipeline Type | HotpotQA F1 | MuSiQue F1 | Retrieval Recall@5 | # LLM Calls | Latency |
-|---|--------|-----------|---------------|-------------|------------|--------------------|--------------| --------|
-| 1 | Standard RAG | E5 → Qwen | Sequential | ? | ? | ? | 1 | ? |
-| 2 | + Reranker | E5 → Reranker → Qwen | Sequential | ? | ? | ? | 1 | ? |
-| 3a | + RECOMP | E5 → RECOMP → Qwen | Sequential | 40.02 | 11.85 | 50.0% | 1 | 10,217s |
-| 3b | + Selective-Context | E5 → SC → Qwen | Sequential | 36.56 | 11.26 | 50.0% | 1 | 3,174s |
-| 5 | IRCoT | E5 ↔ Qwen (loop) | Loop | ? | ? | ? | ~3-4 | ? |
-| 6 | FLARE | E5 ↔ Qwen (active) | Loop | ? | ? | ? | variable | ? |
-| 7 | Self-Ask / Reasoning | E5 ↔ Qwen (reasoning) | Reasoning | ? | ? | ? | variable | ? |
+| Method | HQA F1 [95% CI] | MSQ F1 [95% CI] | 2Wiki F1 [95% CI] |
+|---|---|---|---|
+| Naive Gen (lower bound) | 25.29 [24.45, 26.25] | 9.59 [8.63, 10.51] | 29.69 [28.97, 30.41] |
+| Standard RAG (Day 1) | 42.01 [41.03, 43.04] | 13.03 [11.94, 14.18] | 32.13 [31.43, 32.91] |
+| + Reranker (Day 2, best) | **47.42 [46.39, 48.43]** | **15.52 [14.29, 16.77]** | **34.78 [34.04, 35.57]** |
+| IRCoT (Day 4) | 42.61 [41.62, 43.64] | 14.29 [13.25, 15.48] | — |
+| **Gold Context (upper)** | **51.31 [50.29, 52.34]** | **59.62 [57.68, 61.49]** | **69.96 [69.21, 70.68]** |
 
-2. **Compute component-level deltas**
+#### Significance Tests (paired bootstrap, all p < 0.001 unless noted)
 
-| Component Added | Δ HotpotQA F1 | Δ MuSiQue F1 | Cost (extra LLM calls) | Worth it? |
-|----------------|---------------|--------------|------------------------|-----------|
-| Reranker | ? | ? | 0 | ? |
-| Refiner (RECOMP) | -2.0 | -1.2 | 0 (small model) | NO |
-| Iterative retrieval (IRCoT) | ? | ? | +2-3 calls | ? |
-| Reasoning (Self-Ask) | ? | ? | +3-5 calls | ? |
+| Comparison | HQA F1 diff | MSQ F1 diff | 2Wiki F1 diff |
+|---|---|---|---|
+| Retrieval value (Std RAG − Naive) | +16.72*** | +3.44*** | +2.45*** (EM: ns) |
+| Reranking value (Reranker − Std RAG) | +5.40*** | +2.49*** | +2.65*** |
+| IRCoT vs Reranker | -4.81*** | — | — |
+| CoT effect (Rnk+CoT − Reranker) | -1.86*** | — | — |
+| **Room for Improvement (Gold − Reranker)** | **+3.90***** | **+44.09***** | **+35.17***** |
 
-3. **Categorize remaining failures after best single-agent method**
-   From 50 remaining MuSiQue failures:
-   - How many are **fundamentally hard** (ambiguous, requires world knowledge not in corpus)?
-   - How many are **decomposition failures** (single agent went down wrong path)?
-   - How many are **evidence aggregation failures** (found pieces but couldn't combine)?
-   - How many are **query diversity failures** (single perspective missed relevant docs)?
+#### Error Taxonomy: Reranker (Best Method) Failure Distribution
 
-4. **Draft multi-agent hypothesis**
-   Based on failure categories, articulate which specific failures a multi-agent system could address:
-   - "X% of failures are decomposition failures → a dedicated Decomposer agent could improve sub-question generation"
-   - "Y% are evidence aggregation failures → an Aggregator agent that explicitly synthesizes multi-source evidence could help"
-   - "Z% are query diversity failures → parallel search agents with different query strategies could improve recall"
+| Category | HQA (n=7,405) | MSQ (n=2,417) | 2Wiki (n=12,576) |
+|---|---|---|---|
+| Correct | 49.5% | 16.5% | 34.9% |
+| Retrieval Miss (Total) | 14.7% | 42.0% | 20.7% |
+| Retrieval Miss (Partial) | 26.9% | 38.6% | 39.7% |
+| Reasoning Failure | 8.3% | 2.7% | 4.4% |
+| Extraction Failure | 0.6% | 0.2% | 0.3% |
 
-5. **Design minimal multi-agent extension**
-   Building on FlashRAG's existing pipeline architecture:
-   ```
-   Option A: Parallel Search Paths (extends Branching pipeline)
-   Query → Decomposer (LLM call) → [Sub-Q1, Sub-Q2]
-                                      ↓           ↓
-                                   RAG Path 1  RAG Path 2
-                                      ↓           ↓
-                                   Aggregator (LLM call) → Final Answer
+**Key insight**: 80.6% of MuSiQue failures and 60.4% of 2Wiki failures are retrieval misses → multi-agent decomposition/verification should target these.
 
-   Option B: Iterative with Critic (extends Loop pipeline)
-   Query → RAG Agent → Draft Answer
-                ↓
-           Critic Agent → "Missing info about X"
-                ↓
-           RAG Agent → Refined search for X → Final Answer
+#### Cross-Method Complementarity (Venn Analysis)
 
-   Option C: Retrieve-then-Verify (extends Sequential pipeline)
-   Query → Standard RAG → Candidate Answer
-                              ↓
-                    Verifier Agent → searches for contradicting evidence
-                              ↓
-                    If contradiction found → re-search and revise
-                    If no contradiction → confirm answer
-   ```
+| Dataset | Ensemble Ceiling | Best Single | Gap | Unique to Reranker | Unique to IRCoT |
+|---|---|---|---|---|---|
+| HotpotQA | 61.1% | 49.5% | +11.6% | 510 | 497 |
+| MuSiQue | 24.8% | 16.5% | +8.3% | 126 | 113 |
+| 2WikiMultihopQA | 41.2% | 34.9% | +6.3% | 1,173 | — |
 
-### Deliverable
+**Methods solve DIFFERENT questions.** A routing-based multi-agent system could reach the ensemble ceiling (+6-12% above best single method).
+
+#### Remaining Gap Analysis
+
+| Metric | HotpotQA | MuSiQue | 2WikiMultihopQA |
+|---|---|---|---|
+| % of gap closed (Naive → Gold) | 85.0% | 11.8% | 12.6% |
+| % remaining for multi-agent | 15.0% | **88.2%** | **87.4%** |
+
+HotpotQA is nearly solved by the reranker. MuSiQue and 2Wiki have massive room for improvement — the multi-agent thesis argument is strongest on these datasets.
+
+#### Per-Hop Recall (MuSiQue) — Steep Decay Across All Methods
+
+| Hop | Std RAG | Reranker | IRCoT |
+|---|---|---|---|
+| Hop 1 | 33.4% | 39.6% | 46.2% |
+| Hop 2 | 11.6% | 14.8% | 24.9% |
+| Hop 3 | 6.5% | 12.4% | 15.1% |
+| Hop 4 | 3.2% | 4.7% | 7.2% |
+
+### Result Directories
 ```
-results/day6/
-├── master_comparison_table.md
-├── component_delta_analysis.md
-├── remaining_failure_categorization.json
-├── multi_agent_hypothesis.md             # 1-page argument
-└── multi_agent_design_doc.md             # Architecture for chosen approach
+/projects/prjs1800/results/day6/
+├── hotpotqa_2026_02_10_10_52_naive_gen_qwen25_hotpotqa/
+├── musique_2026_02_10_10_56_naive_gen_qwen25_musique/
+├── 2wikimultihopqa_2026_02_10_10_57_naive_gen_qwen25_2wiki/
+├── hotpotqa_2026_02_10_10_58_gold_context_qwen25_hotpotqa/
+├── musique_2026_02_10_11_00_gold_context_qwen25_musique/
+├── 2wikimultihopqa_2026_02_10_11_08_gold_context_qwen25_2wiki/
+├── 2wikimultihopqa_2026_02_10_11_16_standard_rag_qwen25_2wiki/
+└── 2wikimultihopqa_2026_02_10_11_52_reranker_qwen25_2wiki/
+
+/projects/prjs1800/analysis/day6/
+├── bootstrap_results_all.json
+├── significance_tests.json
+├── error_taxonomy.json
+├── cross_method_venn.json
+└── hop_analysis_musique.json
 ```
+
+### Failure-to-Solution Mapping for Multi-Agent Design
+
+| Error Category | % of Failures (MSQ) | Proposed Multi-Agent Solution |
+|---|---|---|
+| Retrieval Miss (Total): 42.0% | **Decomposition Agent**: break into sub-queries per hop |
+| Retrieval Miss (Partial): 38.6% | **Verification Agent**: check coverage, re-retrieve for gaps |
+| Reasoning Failure: 2.7% | **Dedicated Reasoning Agent**: with verified context |
+| Later-hop Decay: hop3=12.4%, hop4=4.7% | **Iterative Agent**: use earlier-hop answers for later queries |
 
 ---
 

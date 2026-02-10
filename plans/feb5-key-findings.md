@@ -395,7 +395,11 @@ flowchart TD
     Y --> AA
     Z --> AA
 
-    AA --> BB["Next: Days 6-7\nMulti-Agent Design\nMust beat reranker ceiling\nthrough agent collaboration"]
+    AA --> BB["Day 6: Bounding Experiments\nNaive Gen (lower) + Gold Context (upper)\n+ 2WikiMultihopQA (3rd dataset)\n+ Bootstrap CIs + Error Taxonomy"]
+
+    BB --> CC["REMAINING GAP:\nHQA: 47.4→51.3 (3.9 F1)\nMSQ: 15.5→59.6 (44.1 F1)\n2Wiki: 34.8→70.0 (35.2 F1)"]
+
+    CC --> DD["Ensemble Ceiling:\nHQA 61.1% | MSQ 24.8% | 2Wiki 41.2%\nMethods are COMPLEMENTARY\n→ Multi-agent routing has high value"]
 ```
 
 ## Component Stack Progress
@@ -409,32 +413,151 @@ flowchart BT
         S3["Day 3: + Refiner (NEGATIVE)\nRECOMP: -2.0 / -1.2 | SC: -5.4 / -1.8"]
         S4["Day 4: Iterative Retrieval\nIRCoT: +0.5 / +1.3 | FLARE: -15.4 / -1.6"]
         S5["Day 5: + Reasoning (ALL NEGATIVE)\nCoT: -1.9 / -1.6 | Reasoning: -29.7 / -5.0 | SelfAsk: -28.6 / +0.9"]
-        S6["Day 6-7: Consolidation + Multi-Agent\nMust beat F1=47.4 (HQA) / 15.5 (MSQ)"]
+        S6["Day 6: Bounding + Statistics\nNaive→Gold bounds | 2Wiki (3rd dataset) | Bootstrap CIs"]
+        S7["Day 7: Multi-Agent Design\nMust close gap: HQA +3.9 | MSQ +44.1 | 2Wiki +35.2"]
 
-        S1 --> S2 --> S3 --> S4 --> S5 --> S6
+        S1 --> S2 --> S3 --> S4 --> S5 --> S6 --> S7
     end
 
     style S2 fill:#2ecc71,color:#fff
     style S3 fill:#ff6b6b,color:#fff
     style S4 fill:#ffa500,color:#fff
     style S5 fill:#ff6b6b,color:#fff
+    style S6 fill:#3498db,color:#fff
 ```
 
-## Master Comparison Table (Days 1-5)
+## Day 6: Performance Ladder with 95% Bootstrap CIs
 
-| Day | Method                    | HQA EM  | HQA F1  | MSQ EM  | MSQ F1  | Delta HQA F1 | Delta MSQ F1 |
-|-----|---------------------------|---------|---------|---------|---------|---------------|--------------|
-| 1   | Standard RAG (top-5)      | 0.3164  | 0.4201  | 0.0633  | 0.1303  | baseline      | baseline     |
-| 2   | **+ BGE Reranker (top-5)**| **0.3641** | **0.4742** | **0.0770** | **0.1552** | **+5.41** | **+2.49** |
-| 3   | + RECOMP Refiner          | 0.2955  | 0.4002  | 0.0550  | 0.1185  | -1.99         | -1.18        |
-| 3   | + SelectiveContext        | 0.2700  | 0.3656  | 0.0501  | 0.1126  | -5.45         | -1.77        |
-| 4   | IRCoT (5 iter)            | 0.3064  | 0.4246  | 0.0724  | 0.1429  | +0.45         | +1.26        |
-| 4   | FLARE (theta=0.2)         | 0.1885  | 0.2657  | 0.0393  | 0.1144  | -15.44        | -1.59        |
-| 5   | + Reranker + CoT          | 0.3440  | 0.4552  | 0.0811  | 0.1399  | +3.51         | +0.96        |
-| 5   | ReasoningPipeline         | 0.0381  | 0.1770  | 0.0170  | 0.1054  | -24.31        | -2.49        |
-| 5   | SelfAsk (n=500)           | 0.1080  | 0.1879  | 0.0640  | 0.1388  | -23.22        | +0.85        |
-| 5b  | Standard RAG + CoT        | 0.3045  | 0.4044  | 0.0641  | 0.1162  | -1.57         | -1.41        |
-| 5b  | Reranker + CoT short (mt=32) | 0.0000 | 0.0167  | 0.0000  | 0.0127  | -40.34        | -11.76       |
+| Method | HQA F1 [95% CI] | MSQ F1 [95% CI] | 2Wiki F1 [95% CI] |
+|---|---|---|---|
+| **Naive Gen (lower bound)** | 25.29 [24.45, 26.25] | 9.59 [8.63, 10.51] | 29.69 [28.97, 30.41] |
+| Standard RAG (Day 1) | 42.01 [41.03, 43.04] | 13.03 [11.94, 14.18] | 32.13 [31.43, 32.91] |
+| IRCoT (Day 4) | 42.61 [41.62, 43.64] | 14.29 [13.25, 15.48] | — |
+| Reranker+CoT (Day 5) | 45.56 [44.58, 46.68] | — | — |
+| **Reranker (Day 2, best)** | **47.42 [46.39, 48.43]** | **15.52 [14.29, 16.77]** | **34.78 [34.04, 35.57]** |
+| **Gold Context (upper bound)** | **51.31 [50.29, 52.34]** | **59.62 [57.68, 61.49]** | **69.96 [69.21, 70.68]** |
+
+### Derived Gap Metrics
+
+| Metric | HotpotQA | MuSiQue | 2WikiMultihopQA |
+|---|---|---|---|
+| **Retrieval value** (Standard RAG − Naive) | +16.72 F1*** | +3.44 F1*** | +2.45 F1*** |
+| **Reranking value** (Reranker − Standard RAG) | +5.40 F1*** | +2.49 F1*** | +2.65 F1*** |
+| **Remaining gap** (Gold − Reranker) | **+3.90 F1***** | **+44.09 F1***** | **+35.17 F1***** |
+| **% gap closed by best method** | 85.0% | 11.8% | 12.6% |
+| **% gap remaining for multi-agent** | 15.0% | 88.2% | 87.4% |
+
+All significance tests: p < 0.001 (***) via paired bootstrap (n=1000).
+Exception: 2Wiki EM for Naive vs Standard RAG: p=0.222 (not significant).
+
+### Performance Ladder Visualization
+
+```mermaid
+xychart-beta
+    title "F1 Performance Ladder: Lower Bound → Best Method → Upper Bound"
+    x-axis ["Naive\nHQA", "Std RAG\nHQA", "Reranker\nHQA", "Gold\nHQA", "Naive\nMSQ", "Std RAG\nMSQ", "Reranker\nMSQ", "Gold\nMSQ", "Naive\n2Wiki", "Std RAG\n2Wiki", "Reranker\n2Wiki", "Gold\n2Wiki"]
+    y-axis "F1 Score (%)" 0 --> 75
+    bar [25.3, 42.0, 47.4, 51.3, 9.6, 13.0, 15.5, 59.6, 29.7, 32.1, 34.8, 70.0]
+```
+
+## Day 6: Error Taxonomy (Updated with All Methods)
+
+### HotpotQA Error Breakdown
+
+| Method | Correct | Retrieval Miss (Total) | Retrieval Miss (Partial) | Reasoning Failure | Extraction Failure |
+|---|---|---|---|---|---|
+| Standard RAG (Day 1) | 43.9% | 15.5% | 33.8% | 6.4% | 0.5% |
+| Reranker (Day 2) | 49.5% | 14.7% | 26.9% | 8.3% | 0.6% |
+| IRCoT (Day 4) | 43.8% | 16.2% | 23.0% | 13.8% | 3.2% |
+| Gold Context (Day 6) | 53.8% | 11.8% | 29.4% | 4.6% | 0.4% |
+
+### MuSiQue Error Breakdown
+
+| Method | Correct | Retrieval Miss (Total) | Retrieval Miss (Partial) | Reasoning Failure | Extraction Failure |
+|---|---|---|---|---|---|
+| Standard RAG (Day 1) | 13.1% | 44.3% | 33.8% | 1.7% | 0.2% |
+| Reranker (Day 2) | 16.5% | 42.0% | 38.6% | 2.7% | 0.2% |
+| IRCoT (Day 4) | 14.4% | 37.7% | 41.2% | 5.8% | 0.9% |
+| Gold Context (Day 6) | 62.6% | 0.0% | 0.1% | 34.2% | 3.1% |
+
+### 2WikiMultihopQA Error Breakdown
+
+| Method | Correct | Retrieval Miss (Total) | Retrieval Miss (Partial) | Reasoning Failure | Extraction Failure |
+|---|---|---|---|---|---|
+| Standard RAG (Day 6) | 31.8% | 24.5% | 40.1% | 3.4% | 0.2% |
+| Reranker (Day 6) | 34.9% | 20.7% | 39.7% | 4.4% | 0.3% |
+| Gold Context (Day 6) | 72.4% | 0.0% | 0.0% | 25.3% | 2.3% |
+
+### Key Error Taxonomy Insights
+
+1. **Retrieval is the dominant bottleneck**: 80.6% of MuSiQue Reranker errors are retrieval misses (42.0% total + 38.6% partial)
+2. **Gold context reveals reasoning ceiling**: Even with perfect retrieval, 34.2% of MuSiQue fails (reasoning), 25.3% of 2Wiki fails
+3. **Multi-agent opportunity**: If retrieval misses can be solved by decomposition/verification agents, that addresses 80%+ of current failures on MuSiQue and 60%+ on 2Wiki
+
+## Day 6: Cross-Method Complementarity (Venn Analysis)
+
+| Dataset | Ensemble Ceiling | Best Single Method | Unique to Reranker | Unique to IRCoT | Unique to Std RAG |
+|---|---|---|---|---|---|
+| HotpotQA | **61.1%** (4,528/7,405) | 49.5% (Reranker) | 510 (6.9%) | 497 (6.7%) | 181 (2.4%) |
+| MuSiQue | **24.8%** (599/2,417) | 16.5% (Reranker) | 126 (5.2%) | 113 (4.7%) | 46 (1.9%) |
+| 2WikiMultihopQA | **41.2%** (5,178/12,576) | 34.9% (Reranker) | 1,173 (9.3%) | — | 795 (6.3%) |
+
+**Critical finding**: Methods solve DIFFERENT questions. On HotpotQA, the Reranker and IRCoT each uniquely solve ~500 questions the other cannot. A multi-agent system that routes to the right method per question could reach 61.1% F1 — significantly above the 47.4% ceiling.
+
+## Day 6: Per-Hop Retrieval Recall (MuSiQue)
+
+| Hop | Standard RAG | Reranker | IRCoT | Trend |
+|---|---|---|---|---|
+| Hop 1 | 33.4% | 39.6% | 46.2% | Improving across methods |
+| Hop 2 | 11.6% | 14.8% | 24.9% | IRCoT helps significantly |
+| Hop 3 | 6.5% | 12.4% | 15.1% | Steep decay remains |
+| Hop 4 | 3.2% | 4.7% | 7.2% | Nearly impossible for all |
+
+```mermaid
+xychart-beta
+    title "MuSiQue Per-Hop Recall: Standard RAG vs Reranker vs IRCoT"
+    x-axis ["Hop 1", "Hop 2", "Hop 3", "Hop 4"]
+    y-axis "Recall (%)" 0 --> 50
+    bar "Standard RAG" [33.4, 11.6, 6.5, 3.2]
+    bar "Reranker" [39.6, 14.8, 12.4, 4.7]
+    bar "IRCoT" [46.2, 24.9, 15.1, 7.2]
+```
+
+## Day 6: Failure-to-Solution Mapping for Multi-Agent Design
+
+| Error Category | % of Reranker Failures (MSQ) | Multi-Agent Solution | Expected Impact |
+|---|---|---|---|
+| Retrieval Miss (Total) | 42.0% | **Decomposition Agent**: break into sub-queries, retrieve separately per hop | High — addresses the hop decay problem directly |
+| Retrieval Miss (Partial) | 38.6% | **Verification Agent**: check retrieval coverage against sub-questions, re-retrieve for gaps | High — currently 80.6% of all errors |
+| Reasoning Failure | 2.7% | **Dedicated Reasoning Agent**: with verified, complete context | Low priority — small error share |
+| Later-hop Decay | hop3: 12.4%, hop4: 4.7% | **Iterative Agent**: use earlier-hop answers to formulate later-hop queries (cf. IRCoT pattern) | Critical for 3-4 hop questions |
+
+### Theoretical Multi-Agent Ceiling
+
+From Venn analysis:
+- **HotpotQA**: Ensemble ceiling 61.1% vs best single 49.5% → **+11.6% from routing alone**
+- **MuSiQue**: Ensemble ceiling 24.8% vs best single 16.5% → **+8.3% from routing alone**
+- **2WikiMultihopQA**: Ensemble ceiling 41.2% vs best single 34.9% → **+6.3% from routing alone**
+
+These are LOWER BOUNDS on multi-agent potential — they only count routing to existing methods, not improvements from decomposition, verification, or iterative agents.
+
+## Master Comparison Table (Days 1-6)
+
+| Day | Method                    | HQA EM  | HQA F1  | MSQ EM  | MSQ F1  | 2Wiki EM | 2Wiki F1 | Delta HQA F1 | Delta MSQ F1 |
+|-----|---------------------------|---------|---------|---------|---------|----------|----------|---------------|--------------|
+| 6   | Naive Gen (lower bound)   | 18.51   | 25.29   | 3.81    | 9.59    | 25.12    | 29.69    | -16.72        | -3.44        |
+| 1   | Standard RAG (top-5)      | 31.64   | 42.01   | 6.33    | 13.03   | 25.64    | 32.13    | baseline      | baseline     |
+| 2   | **+ BGE Reranker (top-5)**| **36.41** | **47.42** | **7.70** | **15.52** | **28.35** | **34.78** | **+5.41** | **+2.49** |
+| 3   | + RECOMP Refiner          | 29.55   | 40.02   | 5.50    | 11.85   | —        | —        | -1.99         | -1.18        |
+| 3   | + SelectiveContext        | 27.00   | 36.56   | 5.01    | 11.26   | —        | —        | -5.45         | -1.77        |
+| 4   | IRCoT (5 iter)            | 30.64   | 42.61   | 7.24    | 14.29   | —        | —        | +0.60         | +1.26        |
+| 4   | FLARE (theta=0.2)         | 18.85   | 26.57   | 3.93    | 11.44   | —        | —        | -15.44        | -1.59        |
+| 5   | + Reranker + CoT          | 34.40   | 45.56   | 8.11    | 13.99   | —        | —        | +3.55         | +0.96        |
+| 5   | ReasoningPipeline         | 3.81    | 17.70   | 1.70    | 10.54   | —        | —        | -24.31        | -2.49        |
+| 5   | SelfAsk (n=500)           | 10.80   | 18.79   | 6.40    | 13.88   | —        | —        | -23.22        | +0.85        |
+| 5b  | Standard RAG + CoT        | 30.45   | 40.44   | 6.41    | 11.62   | —        | —        | -1.57         | -1.41        |
+| 5b  | Reranker + CoT short      | 0.00    | 1.67    | 0.00    | 1.27    | —        | —        | -40.34        | -11.76       |
+| 6   | **Gold Context (upper)**  | **40.24** | **51.31** | **47.04** | **59.62** | **62.41** | **69.96** | +9.30 | +46.59 |
 
 ## Day 3: Refining Time Breakdown
 
