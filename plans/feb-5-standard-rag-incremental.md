@@ -59,6 +59,8 @@ These are published results to sanity-check your runs against:
 | 5 | + Reranker + CoT | 34.40% | 45.52% | 8.11% | 13.99% | 57.7% | 26.2% |
 | 5 | ReasoningPipeline | 3.81% | 17.70% | 1.70% | 10.54% | - | - |
 | 5 | SelfAsk (n=500) | 10.80% | 18.79% | 6.40% | 13.88% | - | - |
+| 5b | Standard RAG + CoT | 30.45% | 40.44% | 6.41% | 11.62% | 50.0% | 21.4% |
+| 5b | Reranker + CoT short (max_tokens=32) | 0.00% | 1.67% | 0.00% | 1.27% | 57.7% | 26.2% |
 
 ---
 
@@ -515,6 +517,10 @@ results/day5/
 ├── musique_2026_02_07_12_53_reasoning_qwen25_musique/
 ├── hotpotqa_2026_02_07_14_39_selfask_qwen25_hotpotqa/
 ├── musique_2026_02_07_16_15_selfask_qwen25_musique/
+├── hotpotqa_2026_02_09_20_17_standard_cot_qwen25_hotpotqa/
+├── musique_2026_02_09_20_37_standard_cot_qwen25_musique/
+├── hotpotqa_2026_02_09_19_47_reranker_cot_short_qwen25_hotpotqa/
+├── musique_2026_02_09_20_33_reranker_cot_short_qwen25_musique/
 └── day5_summary.md
 ```
 
@@ -525,14 +531,43 @@ results/day5/
 | + Reranker + CoT | Single-shot | 34.40% | 45.52% | 8.11% | 13.99% | 1 | CoT hurts extractive QA |
 | ReasoningPipeline | Reasoning | 3.81% | 17.70% | 1.70% | 10.54% | ~1.6-2.0 | Needs RL-trained model |
 | SelfAsk (n=500) | Decomposition | 10.80% | 18.79% | 6.40% | 13.88% | ~5+ | 100x slower, impractical |
+| Standard RAG + CoT | Single-shot | 30.45% | 40.44% | 6.41% | 11.62% | 1 | CoT without reranker also hurts |
+| Reranker + CoT short (mt=32) | Single-shot | 0.00% | 1.67% | 0.00% | 1.27% | 1 | Catastrophic: 32 tokens all CoT, no answer |
 
 **Key Findings:**
-- All three approaches DEGRADE performance vs Day 2 reranker-only
+- All reasoning approaches DEGRADE performance vs Day 2 reranker-only
 - **Single-agent ceiling IS the reranker baseline**: F1=47.42 (HQA), F1=15.52 (MSQ)
 - CoT prompting hurts extractive QA (verbose answers don't match gold labels)
 - ReasoningPipeline requires RL-trained checkpoints (Search-R1, R1-Searcher)
 - SelfAsk is 100x slower and still performs worse
 - Multi-agent must beat reranker ceiling through agent collaboration, not reasoning overhead
+
+**Feb 9 Follow-up: 2x2 Factorial Design (CoT x Reranker x max_tokens)**
+
+Completed the factorial to isolate CoT effect from reranker and max_tokens confounds:
+
+| Configuration | max_tokens | HQA F1 | MSQ F1 | Delta from Day 1 |
+|---------------|------------|--------|--------|-------------------|
+| Standard RAG (Day 1) | 32 | 42.01% | 13.03% | baseline |
+| Standard RAG + CoT | 256 | 40.44% | 11.62% | -1.6 / -1.4 |
+| Reranker (Day 2) | 32 | 47.42% | 15.52% | +5.4 / +2.5 |
+| Reranker + CoT | 256 | 45.52% | 13.99% | +3.5 / +1.0 |
+| Reranker + CoT short | 32 | 1.67% | 1.27% | -40.3 / -11.8 |
+
+**Factorial Conclusions:**
+1. **CoT consistently hurts F1 by ~2 points** regardless of reranker (42.0→40.4, 47.4→45.5) — confirms verbose output hypothesis
+2. **max_tokens=32 + CoT = catastrophic** (EM=0.0%) — model spends all 32 tokens on reasoning trace ("2. Doc 1 provides...") and never produces an answer
+3. **Reranker effect (+5.4 F1) is robust** and independent of prompting strategy
+4. The reranker benefit comes from retrieval quality, not generation — it works regardless of CoT prompt
+5. **CoT needs token headroom** — with 256 tokens it's mildly harmful; with 32 tokens it's completely destructive
+
+Timing (Feb 9 runs, A100):
+| Experiment | Retrieval | Generation | Total |
+|-----------|-----------|------------|-------|
+| Standard RAG + CoT HQA (n=7,405) | 319.4s | 656.8s | 976.3s |
+| Standard RAG + CoT MSQ (n=2,417) | 186.2s | 212.1s | 398.3s |
+| Reranker + CoT short HQA (n=7,405) | — | 417.3s | 2,430.2s |
+| Reranker + CoT short MSQ (n=2,417) | — | 122.8s | 824.3s |
 
 ---
 
@@ -703,8 +738,11 @@ Standard RAG                    [Day 1: baseline]
     │
     ├── + Reasoning             [Day 5: single-agent reasoning approaches]
     │       Reranker+CoT: -1.9 F1 (HQA), -1.6 F1 (MSQ). CoT hurts extractive QA.
+    │       Standard RAG+CoT: -1.6 F1 (HQA), -1.4 F1 (MSQ). CoT effect independent of reranker.
+    │       Reranker+CoT(mt=32): -40.3 F1 (HQA). Catastrophic — no room for answer.
     │       ReasoningPipeline: -29.7 F1 (HQA). Needs RL-trained model.
     │       SelfAsk: -28.6 F1 (HQA). Format parsing failures + 100x slower.
+    │       2x2 FACTORIAL: CoT always hurts ~2 F1. Reranker always helps ~5 F1.
     │       SINGLE-AGENT CEILING = DAY 2 RERANKER: F1=47.4 (HQA), F1=15.5 (MSQ)
     │
     └── + Multi-Agent           [Day 7: parallel decomposition + aggregation]

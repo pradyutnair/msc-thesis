@@ -80,9 +80,9 @@ flowchart LR
 ```mermaid
 xychart-beta
     title "HotpotQA F1 Across All Methods"
-    x-axis ["Standard RAG\n(Day 1)", "+ Reranker\n(Day 2)", "+ RECOMP\n(Day 3)", "+ SC\n(Day 3)", "IRCoT\n(Day 4)", "FLARE\n(Day 4)", "Reranker+CoT\n(Day 5)", "Reasoning\n(Day 5)", "SelfAsk\n(Day 5)"]
+    x-axis ["Standard RAG\n(Day 1)", "+ Reranker\n(Day 2)", "+ RECOMP\n(Day 3)", "+ SC\n(Day 3)", "IRCoT\n(Day 4)", "FLARE\n(Day 4)", "Reranker+CoT\n(Day 5)", "Reasoning\n(Day 5)", "SelfAsk\n(Day 5)", "Std RAG+CoT\n(Day 5b)", "Rnk+CoT mt=32\n(Day 5b)"]
     y-axis "F1 Score (%)" 0 --> 55
-    bar [42.01, 47.42, 40.02, 36.56, 42.46, 26.57, 45.52, 17.70, 18.79]
+    bar [42.01, 47.42, 40.02, 36.56, 42.46, 26.57, 45.52, 17.70, 18.79, 40.44, 1.67]
 ```
 
 ## MuSiQue F1: All Methods (Days 1-5)
@@ -90,9 +90,9 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "MuSiQue F1 Across All Methods"
-    x-axis ["Standard RAG\n(Day 1)", "+ Reranker\n(Day 2)", "+ RECOMP\n(Day 3)", "+ SC\n(Day 3)", "IRCoT\n(Day 4)", "FLARE\n(Day 4)", "Reranker+CoT\n(Day 5)", "Reasoning\n(Day 5)", "SelfAsk\n(Day 5)"]
+    x-axis ["Standard RAG\n(Day 1)", "+ Reranker\n(Day 2)", "+ RECOMP\n(Day 3)", "+ SC\n(Day 3)", "IRCoT\n(Day 4)", "FLARE\n(Day 4)", "Reranker+CoT\n(Day 5)", "Reasoning\n(Day 5)", "SelfAsk\n(Day 5)", "Std RAG+CoT\n(Day 5b)", "Rnk+CoT mt=32\n(Day 5b)"]
     y-axis "F1 Score (%)" 0 --> 20
-    bar [13.03, 15.52, 11.85, 11.26, 14.29, 11.44, 13.99, 10.54, 13.88]
+    bar [13.03, 15.52, 11.85, 11.26, 14.29, 11.44, 13.99, 10.54, 13.88, 11.62, 1.27]
 ```
 
 ## F1 Delta from Baseline (Day 1) - All Methods
@@ -100,9 +100,9 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "F1 Change vs Standard RAG Baseline"
-    x-axis ["Reranker\nHQA", "Reranker\nMSQ", "RECOMP\nHQA", "RECOMP\nMSQ", "SC\nHQA", "SC\nMSQ", "IRCoT\nHQA", "IRCoT\nMSQ", "FLARE\nHQA", "FLARE\nMSQ", "Rnk+CoT\nHQA", "Rnk+CoT\nMSQ", "Reason\nHQA", "Reason\nMSQ", "SelfAsk\nHQA", "SelfAsk\nMSQ"]
-    y-axis "Delta F1" -25 --> 8
-    bar [5.41, 2.49, -1.99, -1.18, -5.45, -1.77, 0.45, 1.26, -15.44, -1.59, 3.51, 0.96, -24.31, -2.49, -23.22, 0.85]
+    x-axis ["Reranker\nHQA", "Reranker\nMSQ", "RECOMP\nHQA", "RECOMP\nMSQ", "SC\nHQA", "SC\nMSQ", "IRCoT\nHQA", "IRCoT\nMSQ", "FLARE\nHQA", "FLARE\nMSQ", "Rnk+CoT\nHQA", "Rnk+CoT\nMSQ", "Reason\nHQA", "Reason\nMSQ", "SelfAsk\nHQA", "SelfAsk\nMSQ", "StdCoT\nHQA", "StdCoT\nMSQ", "RnkCoT32\nHQA", "RnkCoT32\nMSQ"]
+    y-axis "Delta F1" -42 --> 8
+    bar [5.41, 2.49, -1.99, -1.18, -5.45, -1.77, 0.45, 1.26, -15.44, -1.59, 3.51, 0.96, -24.31, -2.49, -23.22, 0.85, -1.57, -1.41, -40.34, -11.76]
 ```
 
 ## IRCoT Retrieval Recall Progression (HotpotQA)
@@ -270,9 +270,9 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "Day 5 Methods vs Reranker Ceiling (HotpotQA F1)"
-    x-axis ["Day 2: Reranker\n(CEILING)", "Day 5: Reranker+CoT", "Day 5: ReasoningPipeline", "Day 5: SelfAsk (n=500)"]
+    x-axis ["Day 2: Reranker\n(CEILING)", "Day 5: Reranker+CoT", "Day 5b: Std RAG+CoT", "Day 5b: Rnk+CoT mt=32", "Day 5: Reasoning", "Day 5: SelfAsk"]
     y-axis "F1 Score (%)" 0 --> 55
-    bar [47.42, 45.52, 17.70, 18.79]
+    bar [47.42, 45.52, 40.44, 1.67, 17.70, 18.79]
 ```
 
 ### Day 5 MuSiQue F1 Comparison
@@ -280,9 +280,9 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "Day 5 Methods vs Reranker Ceiling (MuSiQue F1)"
-    x-axis ["Day 2: Reranker\n(CEILING)", "Day 5: Reranker+CoT", "Day 5: ReasoningPipeline", "Day 5: SelfAsk (n=500)"]
+    x-axis ["Day 2: Reranker\n(CEILING)", "Day 5: Reranker+CoT", "Day 5b: Std RAG+CoT", "Day 5b: Rnk+CoT mt=32", "Day 5: Reasoning", "Day 5: SelfAsk"]
     y-axis "F1 Score (%)" 0 --> 20
-    bar [15.52, 13.99, 10.54, 13.88]
+    bar [15.52, 13.99, 11.62, 1.27, 10.54, 13.88]
 ```
 
 ### Day 5 Latency Comparison
@@ -294,6 +294,51 @@ xychart-beta
     y-axis "Seconds per Example" 0 --> 12
     bar [0.11, 0.30, 0.27, 11.11]
 ```
+
+## Day 5b: 2x2 Factorial Design (Feb 9) — Isolating CoT Effect
+
+### 2x2 Factorial: CoT x Reranker (HotpotQA F1)
+
+```mermaid
+xychart-beta
+    title "2x2 Factorial: CoT x Reranker (HotpotQA F1)"
+    x-axis ["No CoT, No Reranker\n(Day 1)", "CoT, No Reranker\n(Day 5b)", "No CoT, + Reranker\n(Day 2)", "CoT, + Reranker\n(Day 5)"]
+    y-axis "F1 Score (%)" 0 --> 55
+    bar [42.01, 40.44, 47.42, 45.52]
+```
+
+### 2x2 Factorial: CoT x Reranker (MuSiQue F1)
+
+```mermaid
+xychart-beta
+    title "2x2 Factorial: CoT x Reranker (MuSiQue F1)"
+    x-axis ["No CoT, No Reranker\n(Day 1)", "CoT, No Reranker\n(Day 5b)", "No CoT, + Reranker\n(Day 2)", "CoT, + Reranker\n(Day 5)"]
+    y-axis "F1 Score (%)" 0 --> 20
+    bar [13.03, 11.62, 15.52, 13.99]
+```
+
+### max_tokens=32 + CoT: Catastrophic Failure
+
+```mermaid
+xychart-beta
+    title "Reranker + CoT: max_tokens=32 vs 256 (F1)"
+    x-axis ["Reranker only\nmt=32 (Day 2)", "Reranker+CoT\nmt=256 (Day 5)", "Reranker+CoT\nmt=32 (Day 5b)"]
+    y-axis "F1 Score (%)" 0 --> 55
+    bar "HotpotQA" [47.42, 45.52, 1.67]
+    bar "MuSiQue" [15.52, 13.99, 1.27]
+```
+
+**Why max_tokens=32 + CoT = EM 0.0%:**
+With a CoT prompt asking for step-by-step reasoning, 32 tokens are entirely consumed by the reasoning trace.
+Sample output: `"2. Doc 1 provides information about Ed"` — the model never reaches the actual answer.
+This confirms CoT needs token headroom; when constrained, it's worse than useless.
+
+### Factorial Conclusions
+1. **CoT effect = consistently -1.5 to -2.0 F1** (independent of reranker)
+2. **Reranker effect = consistently +5.0 to +5.4 F1** (independent of CoT)
+3. **No interaction effect** — reranker and CoT operate on orthogonal dimensions (retrieval vs generation)
+4. **max_tokens is a critical confound** — CoT with 32 tokens = catastrophic; with 256 tokens = mildly harmful
+5. **Single-agent ceiling confirmed at Day 2 Reranker**: F1=47.42 (HQA), F1=15.52 (MSQ)
 
 ## Key Findings Flow (Days 1-5)
 
@@ -339,10 +384,14 @@ flowchart TD
 
     V --> W{"Can advanced prompting\nor reasoning help?"}
     W -->|"Reranker+CoT: -1.9 F1 HQA\n-1.6 F1 MSQ"| X["NO: CoT produces verbose\nanswers that hurt extractive QA"]
+    W -->|"Std RAG+CoT: -1.6 F1 HQA\n-1.4 F1 MSQ"| X2["NO: CoT hurts independently\nof reranker (2x2 factorial)"]
+    W -->|"Rnk+CoT mt=32: -40.3 F1\nEM=0.0%"| X3["CATASTROPHIC: 32 tokens\nall reasoning, no answer"]
     W -->|"ReasoningPipeline: -29.7 F1 HQA\n-5.0 F1 MSQ"| Y["NO: Needs RL-trained model;\nQwen2.5 produces unextractable answers"]
     W -->|"SelfAsk: -28.6 F1 HQA\n+0.9 F1 MSQ"| Z["MARGINAL: decomposition\nhelps multi-hop slightly\nbut 100x slower"]
 
     X --> AA["SINGLE-AGENT CEILING\n= Day 2 Reranker\nHQA F1=47.4 | MSQ F1=15.5"]
+    X2 --> AA
+    X3 --> AA
     Y --> AA
     Z --> AA
 
@@ -384,6 +433,8 @@ flowchart BT
 | 5   | + Reranker + CoT          | 0.3440  | 0.4552  | 0.0811  | 0.1399  | +3.51         | +0.96        |
 | 5   | ReasoningPipeline         | 0.0381  | 0.1770  | 0.0170  | 0.1054  | -24.31        | -2.49        |
 | 5   | SelfAsk (n=500)           | 0.1080  | 0.1879  | 0.0640  | 0.1388  | -23.22        | +0.85        |
+| 5b  | Standard RAG + CoT        | 0.3045  | 0.4044  | 0.0641  | 0.1162  | -1.57         | -1.41        |
+| 5b  | Reranker + CoT short (mt=32) | 0.0000 | 0.0167  | 0.0000  | 0.0127  | -40.34        | -11.76       |
 
 ## Day 3: Refining Time Breakdown
 
