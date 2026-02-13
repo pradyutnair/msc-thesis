@@ -5,74 +5,74 @@
 ```mermaid
 flowchart LR
     subgraph Day1["Day 1: Standard RAG Baseline"]
-        A[Query] --> B["E5-base-v2\nRetriever"]
-        B -->|top-5| C["Qwen2.5-7B\nvLLM"]
+        A[Query] --> B["E5-base-v2 <br> Retriever"]
+        B -->|top-5| C["Qwen2.5-7B <br> vLLM"]
         C --> D[Answer]
     end
 
     subgraph Day2["Day 2: + Cross-Encoder Reranker"]
-        E[Query] --> F["E5-base-v2\nRetriever"]
-        F -->|top-20| G["BGE-reranker\nv2-m3"]
-        G -->|top-5| H["Qwen2.5-7B\nvLLM"]
+        E[Query] --> F["E5-base-v2 <br> Retriever"]
+        F -->|top-20| G["BGE-reranker <br> v2-m3"]
+        G -->|top-5| H["Qwen2.5-7B <br> vLLM"]
         H --> I[Answer]
     end
 
     subgraph Day3a["Day 3a: + RECOMP Refiner"]
-        J[Query] --> K["E5-base-v2\nRetriever"]
-        K -->|top-5| L["RECOMP T5\nAbstractive"]
-        L -->|"summary\n(8.8% retained)"| M["Qwen2.5-7B\nvLLM"]
+        J[Query] --> K["E5-base-v2 <br> Retriever"]
+        K -->|top-5| L["RECOMP T5 <br> Abstractive"]
+        L -->|"summary <br> (8.8% retained)"| M["Qwen2.5-7B <br> vLLM"]
         M --> N[Answer]
     end
 
     subgraph Day3b["Day 3b: + Selective-Context"]
-        O[Query] --> P["E5-base-v2\nRetriever"]
-        P -->|top-5| Q["GPT-2\nPerplexity Filter"]
-        Q -->|"filtered\n(67% retained)"| R["Qwen2.5-7B\nvLLM"]
+        O[Query] --> P["E5-base-v2 <br> Retriever"]
+        P -->|top-5| Q["GPT-2 <br> Perplexity Filter"]
+        Q -->|"filtered <br> (67% retained)"| R["Qwen2.5-7B <br> vLLM"]
         R --> S[Answer]
     end
 
     subgraph Day4a["Day 4a: IRCoT"]
-        T[Query] --> U["E5-base-v2\nRetriever"]
-        U -->|"top-5\n(round 0)"| V["Qwen2.5-7B\nvLLM + CoT"]
-        V -->|"thought as\nnew query"| U
-        V -->|"answer found\n(avg 3 rounds)"| W[Answer]
+        T[Query] --> U["E5-base-v2 <br> Retriever"]
+        U -->|"top-5 <br> (round 0)"| V["Qwen2.5-7B <br> vLLM + CoT"]
+        V -->|"thought as <br> new query"| U
+        V -->|"answer found <br> (avg 3 rounds)"| W[Answer]
     end
 
     subgraph Day4b["Day 4b: FLARE"]
-        X[Query] --> Y["Qwen2.5-7B\nvLLM"]
-        Y -->|"low confidence\ntokens"| Z["E5-base-v2\nRetriever"]
+        X[Query] --> Y["Qwen2.5-7B <br> vLLM"]
+        Y -->|"low confidence <br> tokens"| Z["E5-base-v2 <br> Retriever"]
         Z --> Y
-        Y -->|"confident\ngeneration"| AA[Answer]
+        Y -->|"confident <br> generation"| AA[Answer]
     end
 
     subgraph Day5a["Day 5a: Reranker + CoT"]
-        AB[Query] --> AC["E5-base-v2\nRetriever"]
-        AC -->|top-20| AD["BGE-reranker\nv2-m3"]
-        AD -->|top-5| AE["Qwen2.5-7B\nvLLM + CoT"]
+        AB[Query] --> AC["E5-base-v2 <br> Retriever"]
+        AC -->|top-20| AD["BGE-reranker <br> v2-m3"]
+        AD -->|top-5| AE["Qwen2.5-7B <br> vLLM + CoT"]
         AE --> AF[Answer]
     end
 
     subgraph Day5b["Day 5b: ReasoningPipeline"]
-        AG[Query] --> AH["Qwen2.5-7B\nvLLM + think"]
-        AH -->|"search query"| AI["E5-base-v2\nRetriever"]
+        AG[Query] --> AH["Qwen2.5-7B <br> vLLM + think"]
+        AH -->|"search query"| AI["E5-base-v2 <br> Retriever"]
         AI --> AH
         AH -->|"answer tag"| AJ[Answer]
     end
 
     subgraph Day5c["Day 5c: SelfAsk"]
-        AK[Query] --> AL["Qwen2.5-7B\nDecompose"]
-        AL -->|"sub-Q"| AM["E5-base-v2\nRetriever"]
+        AK[Query] --> AL["Qwen2.5-7B <br> Decompose"]
+        AL -->|"sub-Q"| AM["E5-base-v2 <br> Retriever"]
         AM --> AL
         AL -->|"final answer"| AN[Answer]
     end
 
-    Day1 -.->|"Error analysis:\nretrieval is bottleneck"| Day2
-    Day2 -.->|"Is noise\nthe problem?"| Day3a
-    Day2 -.->|"Is noise\nthe problem?"| Day3b
-    Day3a -.->|"Missing info\nis the problem"| Day4a
-    Day3b -.->|"Missing info\nis the problem"| Day4b
-    Day4a -.->|"Can reasoning\nhelp?"| Day5a
-    Day4b -.->|"Can reasoning\nhelp?"| Day5b
+    Day1 -.->|"Error analysis: <br> retrieval is bottleneck"| Day2
+    Day2 -.->|"Is noise <br> the problem?"| Day3a
+    Day2 -.->|"Is noise <br> the problem?"| Day3b
+    Day3a -.->|"Missing info <br> is the problem"| Day4a
+    Day3b -.->|"Missing info <br> is the problem"| Day4b
+    Day4a -.->|"Can reasoning <br> help?"| Day5a
+    Day4b -.->|"Can reasoning <br> help?"| Day5b
 ```
 
 ## HotpotQA F1: All Methods (Days 1-5)
@@ -80,7 +80,7 @@ flowchart LR
 ```mermaid
 xychart-beta
     title "HotpotQA F1 Across All Methods"
-    x-axis ["Standard RAG\n(Day 1)", "+ Reranker\n(Day 2)", "+ RECOMP\n(Day 3)", "+ SC\n(Day 3)", "IRCoT\n(Day 4)", "FLARE\n(Day 4)", "Reranker+CoT\n(Day 5)", "Reasoning\n(Day 5)", "SelfAsk\n(Day 5)", "Std RAG+CoT\n(Day 5b)", "Rnk+CoT mt=32\n(Day 5b)"]
+    x-axis ["Standard RAG <br> (Day 1)", "+ Reranker <br> (Day 2)", "+ RECOMP <br> (Day 3)", "+ SC <br> (Day 3)", "IRCoT <br> (Day 4)", "FLARE <br> (Day 4)", "Reranker+CoT <br> (Day 5)", "Reasoning <br> (Day 5)", "SelfAsk <br> (Day 5)", "Std RAG+CoT <br> (Day 5b)", "Rnk+CoT mt=32 <br> (Day 5b)"]
     y-axis "F1 Score (%)" 0 --> 55
     bar [42.01, 47.42, 40.02, 36.56, 42.46, 26.57, 45.52, 17.70, 18.79, 40.44, 1.67]
 ```
@@ -90,7 +90,7 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "MuSiQue F1 Across All Methods"
-    x-axis ["Standard RAG\n(Day 1)", "+ Reranker\n(Day 2)", "+ RECOMP\n(Day 3)", "+ SC\n(Day 3)", "IRCoT\n(Day 4)", "FLARE\n(Day 4)", "Reranker+CoT\n(Day 5)", "Reasoning\n(Day 5)", "SelfAsk\n(Day 5)", "Std RAG+CoT\n(Day 5b)", "Rnk+CoT mt=32\n(Day 5b)"]
+    x-axis ["Standard RAG <br> (Day 1)", "+ Reranker <br> (Day 2)", "+ RECOMP <br> (Day 3)", "+ SC <br> (Day 3)", "IRCoT <br> (Day 4)", "FLARE <br> (Day 4)", "Reranker+CoT <br> (Day 5)", "Reasoning <br> (Day 5)", "SelfAsk <br> (Day 5)", "Std RAG+CoT <br> (Day 5b)", "Rnk+CoT mt=32 <br> (Day 5b)"]
     y-axis "F1 Score (%)" 0 --> 20
     bar [13.03, 15.52, 11.85, 11.26, 14.29, 11.44, 13.99, 10.54, 13.88, 11.62, 1.27]
 ```
@@ -100,7 +100,7 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "F1 Change vs Standard RAG Baseline"
-    x-axis ["Reranker\nHQA", "Reranker\nMSQ", "RECOMP\nHQA", "RECOMP\nMSQ", "SC\nHQA", "SC\nMSQ", "IRCoT\nHQA", "IRCoT\nMSQ", "FLARE\nHQA", "FLARE\nMSQ", "Rnk+CoT\nHQA", "Rnk+CoT\nMSQ", "Reason\nHQA", "Reason\nMSQ", "SelfAsk\nHQA", "SelfAsk\nMSQ", "StdCoT\nHQA", "StdCoT\nMSQ", "RnkCoT32\nHQA", "RnkCoT32\nMSQ"]
+    x-axis ["Reranker <br> HQA", "Reranker <br> MSQ", "RECOMP <br> HQA", "RECOMP <br> MSQ", "SC <br> HQA", "SC <br> MSQ", "IRCoT <br> HQA", "IRCoT <br> MSQ", "FLARE <br> HQA", "FLARE <br> MSQ", "Rnk+CoT <br> HQA", "Rnk+CoT <br> MSQ", "Reason <br> HQA", "Reason <br> MSQ", "SelfAsk <br> HQA", "SelfAsk <br> MSQ", "StdCoT <br> HQA", "StdCoT <br> MSQ", "RnkCoT32 <br> HQA", "RnkCoT32 <br> MSQ"]
     y-axis "Delta F1" -42 --> 8
     bar [5.41, 2.49, -1.99, -1.18, -5.45, -1.77, 0.45, 1.26, -15.44, -1.59, 3.51, 0.96, -24.31, -2.49, -23.22, 0.85, -1.57, -1.41, -40.34, -11.76]
 ```
@@ -110,7 +110,7 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "IRCoT HotpotQA: Accumulated Recall by Round"
-    x-axis ["Round 0\n(n=7405)", "Round 1\n(n=7404)", "Round 2\n(n=5380)", "Round 3\n(n=1915)", "Round 4\n(n=508)"]
+    x-axis ["Round 0 <br> (n=7405)", "Round 1 <br> (n=7404)", "Round 2 <br> (n=5380)", "Round 3 <br> (n=1915)", "Round 4 <br> (n=508)"]
     y-axis "Avg Accumulated Recall (%)" 0 --> 80
     bar [50.0, 58.8, 67.1, 69.6, 65.3]
 ```
@@ -120,7 +120,7 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "IRCoT MuSiQue: Accumulated Recall by Round"
-    x-axis ["Round 0\n(n=2417)", "Round 1\n(n=2417)", "Round 2\n(n=1868)", "Round 3\n(n=745)", "Round 4\n(n=254)"]
+    x-axis ["Round 0 <br> (n=2417)", "Round 1 <br> (n=2417)", "Round 2 <br> (n=1868)", "Round 3 <br> (n=745)", "Round 4 <br> (n=254)"]
     y-axis "Avg Accumulated Recall (%)" 0 --> 50
     bar [21.4, 28.4, 33.6, 32.8, 33.1]
 ```
@@ -130,7 +130,7 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "FLARE: % of Items Where Model is 'Confident' (No Retrieval)"
-    x-axis ["Iter 0\nHQA", "Iter 1\nHQA", "Iter 2\nHQA", "Iter 0\nMSQ", "Iter 1\nMSQ", "Iter 2\nMSQ"]
+    x-axis ["Iter 0 <br> HQA", "Iter 1 <br> HQA", "Iter 2 <br> HQA", "Iter 0 <br> MSQ", "Iter 1 <br> MSQ", "Iter 2 <br> MSQ"]
     y-axis "Model Confident (%)" 0 --> 100
     bar [85.9, 99.1, 99.7, 82.6, 99.3, 99.8]
 ```
@@ -140,7 +140,7 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "IRCoT HotpotQA: Answer Quality vs Retrieval Success"
-    x-axis ["recall = 0\n(n=1327)", "0 < recall < 1\n(n=2576)", "recall = 1\n(n=3502)"]
+    x-axis ["recall = 0 <br> (n=1327)", "0 < recall < 1 <br> (n=2576)", "recall = 1 <br> (n=3502)"]
     y-axis "Avg F1 Score (%)" 0 --> 70
     bar [10.24, 32.95, 61.66]
 ```
@@ -162,7 +162,7 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "Day 3: More Compression = Worse Performance"
-    x-axis ["SC HotpotQA\n(67% kept)", "SC MuSiQue\n(67% kept)", "RECOMP HotpotQA\n(8.8% kept)", "RECOMP MuSiQue\n(9.7% kept)"]
+    x-axis ["SC HotpotQA <br> (67% kept)", "SC MuSiQue <br> (67% kept)", "RECOMP HotpotQA <br> (8.8% kept)", "RECOMP MuSiQue <br> (9.7% kept)"]
     y-axis "F1 Score (%)" 0 --> 45
     bar [36.56, 11.26, 40.02, 11.85]
 ```
@@ -172,7 +172,7 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "Retrieval Recall: Standard RAG vs Reranker vs IRCoT"
-    x-axis ["HotpotQA\nDay 1", "HotpotQA\nDay 2", "HotpotQA\nIRCoT", "MuSiQue\nDay 1", "MuSiQue\nDay 2", "MuSiQue\nIRCoT"]
+    x-axis ["HotpotQA <br> Day 1", "HotpotQA <br> Day 2", "HotpotQA <br> IRCoT", "MuSiQue <br> Day 1", "MuSiQue <br> Day 2", "MuSiQue <br> IRCoT"]
     y-axis "Avg Recall (%)" 0 --> 70
     bar [50.0, 57.7, 64.7, 21.4, 26.2, 33.3]
 ```
@@ -243,16 +243,16 @@ pie title "Day 4: MuSiQue Error Categories (IRCoT)"
 
 ```mermaid
 flowchart TD
-    A["Reranker + CoT\nmax_tokens=256"] --> B{"Model follows\nCoT format?"}
-    B -->|"63.8% match\n'So the answer is:'"| C["Extract answer\nvia regex"]
-    B -->|"36.2% no match"| D["Fallback:\nlast line of output"]
+    A["Reranker + CoT <br> max_tokens=256"] --> B{"Model follows <br> CoT format?"}
+    B -->|"63.8% match <br> 'So the answer is:'"| C["Extract answer <br> via regex"]
+    B -->|"36.2% no match"| D["Fallback: <br> last line of output"]
     C --> E{"Answer concise?"}
-    E -->|"Often NO"| F["Verbose: 'Yes, Scott Derrickson\nand Ed Wood were of the\nsame nationality, both American'"]
+    E -->|"Often NO"| F["Verbose: 'Yes, Scott Derrickson <br> and Ed Wood were of the <br> same nationality, both American'"]
     E -->|"Sometimes YES"| G["Concise: 'yes'"]
-    F --> H["_clean_extracted()\nStrips 'because', clauses, etc."]
-    H --> I["Still verbose enough\nto hurt EM/F1"]
+    F --> H["_clean_extracted() <br> Strips 'because', clauses, etc."]
+    H --> I["Still verbose enough <br> to hurt EM/F1"]
     G --> J["Matches gold label"]
-    D --> K["Often verbose\nor irrelevant"]
+    D --> K["Often verbose <br> or irrelevant"]
 ```
 
 ### ReasoningPipeline Search Triggering
@@ -260,7 +260,7 @@ flowchart TD
 ```mermaid
 xychart-beta
     title "Day 5: ReasoningPipeline Search Statistics"
-    x-axis ["Items triggering\nsearch (HQA)", "Avg queries\nper item (HQA)", "Avg queries\nper item (MSQ)"]
+    x-axis ["Items triggering <br> search (HQA)", "Avg queries <br> per item (HQA)", "Avg queries <br> per item (MSQ)"]
     y-axis "Count / Rate" 0 --> 100
     bar [99.4, 1.64, 2.02]
 ```
@@ -270,7 +270,7 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "Day 5 Methods vs Reranker Ceiling (HotpotQA F1)"
-    x-axis ["Day 2: Reranker\n(CEILING)", "Day 5: Reranker+CoT", "Day 5b: Std RAG+CoT", "Day 5b: Rnk+CoT mt=32", "Day 5: Reasoning", "Day 5: SelfAsk"]
+    x-axis ["Day 2: Reranker <br> (CEILING)", "Day 5: Reranker+CoT", "Day 5b: Std RAG+CoT", "Day 5b: Rnk+CoT mt=32", "Day 5: Reasoning", "Day 5: SelfAsk"]
     y-axis "F1 Score (%)" 0 --> 55
     bar [47.42, 45.52, 40.44, 1.67, 17.70, 18.79]
 ```
@@ -280,7 +280,7 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "Day 5 Methods vs Reranker Ceiling (MuSiQue F1)"
-    x-axis ["Day 2: Reranker\n(CEILING)", "Day 5: Reranker+CoT", "Day 5b: Std RAG+CoT", "Day 5b: Rnk+CoT mt=32", "Day 5: Reasoning", "Day 5: SelfAsk"]
+    x-axis ["Day 2: Reranker <br> (CEILING)", "Day 5: Reranker+CoT", "Day 5b: Std RAG+CoT", "Day 5b: Rnk+CoT mt=32", "Day 5: Reasoning", "Day 5: SelfAsk"]
     y-axis "F1 Score (%)" 0 --> 20
     bar [15.52, 13.99, 11.62, 1.27, 10.54, 13.88]
 ```
@@ -290,7 +290,7 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "Day 5: Time per Example (seconds)"
-    x-axis ["Standard RAG\n(Day 1)", "Reranker+CoT\n(Day 5)", "ReasoningPipeline\n(Day 5)", "SelfAsk\n(Day 5)"]
+    x-axis ["Standard RAG <br> (Day 1)", "Reranker+CoT <br> (Day 5)", "ReasoningPipeline <br> (Day 5)", "SelfAsk <br> (Day 5)"]
     y-axis "Seconds per Example" 0 --> 12
     bar [0.11, 0.30, 0.27, 11.11]
 ```
@@ -302,7 +302,7 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "2x2 Factorial: CoT x Reranker (HotpotQA F1)"
-    x-axis ["No CoT, No Reranker\n(Day 1)", "CoT, No Reranker\n(Day 5b)", "No CoT, + Reranker\n(Day 2)", "CoT, + Reranker\n(Day 5)"]
+    x-axis ["No CoT, No Reranker <br> (Day 1)", "CoT, No Reranker <br> (Day 5b)", "No CoT, + Reranker <br> (Day 2)", "CoT, + Reranker <br> (Day 5)"]
     y-axis "F1 Score (%)" 0 --> 55
     bar [42.01, 40.44, 47.42, 45.52]
 ```
@@ -312,7 +312,7 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "2x2 Factorial: CoT x Reranker (MuSiQue F1)"
-    x-axis ["No CoT, No Reranker\n(Day 1)", "CoT, No Reranker\n(Day 5b)", "No CoT, + Reranker\n(Day 2)", "CoT, + Reranker\n(Day 5)"]
+    x-axis ["No CoT, No Reranker <br> (Day 1)", "CoT, No Reranker <br> (Day 5b)", "No CoT, + Reranker <br> (Day 2)", "CoT, + Reranker <br> (Day 5)"]
     y-axis "F1 Score (%)" 0 --> 20
     bar [13.03, 11.62, 15.52, 13.99]
 ```
@@ -322,7 +322,7 @@ xychart-beta
 ```mermaid
 xychart-beta
     title "Reranker + CoT: max_tokens=32 vs 256 (F1)"
-    x-axis ["Reranker only\nmt=32 (Day 2)", "Reranker+CoT\nmt=256 (Day 5)", "Reranker+CoT\nmt=32 (Day 5b)"]
+    x-axis ["Reranker only <br> mt=32 (Day 2)", "Reranker+CoT <br> mt=256 (Day 5)", "Reranker+CoT <br> mt=32 (Day 5b)"]
     y-axis "F1 Score (%)" 0 --> 55
     bar "HotpotQA" [47.42, 45.52, 1.67]
     bar "MuSiQue" [15.52, 13.99, 1.27]
@@ -344,62 +344,62 @@ This confirms CoT needs token headroom; when constrained, it's worse than useles
 
 ```mermaid
 flowchart TD
-    A["Day 1 Baseline\nHotpotQA F1=42.0 | MuSiQue F1=13.0"] --> B{"Where do\nfailures come from?"}
-    B -->|"50% of HotpotQA GT docs\nnot in top-5"| C["Retrieval is\nthe bottleneck"]
-    B -->|"55.8% of MuSiQue has\nZERO GT docs"| C
-    B -->|"Per-hop decay:\n33% > 12% > 7% > 3%"| D["Later hops nearly\nimpossible to retrieve"]
+    A["Day 1 Baseline <br> HotpotQA F1=42.0 | MuSiQue F1=13.0"] --> B{"Where do <br> failures come from?"}
+    B -->|"50% of HotpotQA GT docs <br> not in top-5"| C["Retrieval is <br> the bottleneck"]
+    B -->|"55.8% of MuSiQue has <br> ZERO GT docs"| C
+    B -->|"Per-hop decay: <br> 33% > 12% > 7% > 3%"| D["Later hops nearly <br> impossible to retrieve"]
 
-    C --> E["Day 2: Add Reranker\nRetrieve top-20, rerank to top-5"]
+    C --> E["Day 2: Add Reranker <br> Retrieve top-20, rerank to top-5"]
     D --> E
 
     E --> F{"Did reranking help?"}
-    F -->|"HotpotQA F1 +5.4\nrecall 50% > 57.7%"| G["YES: promotes relevant\ndocs from rank 6-20"]
-    F -->|"MuSiQue F1 +2.5\nrecall 21.4% > 26.2%"| H["PARTIALLY: later-hop docs\nnot in top-20 at all"]
+    F -->|"HotpotQA F1 +5.4 <br> recall 50% > 57.7%"| G["YES: promotes relevant <br> docs from rank 6-20"]
+    F -->|"MuSiQue F1 +2.5 <br> recall 21.4% > 26.2%"| H["PARTIALLY: later-hop docs <br> not in top-20 at all"]
 
-    G --> I{"Is noise the\nproblem then?"}
+    G --> I{"Is noise the <br> problem then?"}
     H --> I
 
-    I --> J["Day 3: Add Refiners\nRECOMP + Selective-Context"]
+    I --> J["Day 3: Add Refiners <br> RECOMP + Selective-Context"]
 
     J --> K{"Did refining help?"}
-    K -->|"RECOMP: -2.0 F1 HQA\n-1.2 F1 MSQ"| L["NO: abstractive summary\nloses critical facts"]
-    K -->|"SC: -5.4 F1 HQA\n-1.8 F1 MSQ"| M["NO: perplexity filter\nremoves useful signal"]
+    K -->|"RECOMP: -2.0 F1 HQA <br> -1.2 F1 MSQ"| L["NO: abstractive summary <br> loses critical facts"]
+    K -->|"SC: -5.4 F1 HQA <br> -1.8 F1 MSQ"| M["NO: perplexity filter <br> removes useful signal"]
 
-    L --> N["CONCLUSION:\nNoise is NOT the bottleneck.\nMISSING information is."]
+    L --> N["CONCLUSION: <br> Noise is NOT the bottleneck. <br> MISSING information is."]
     M --> N
 
-    N --> O["Day 4: Iterative Retrieval\nIRCoT + FLARE"]
+    N --> O["Day 4: Iterative Retrieval <br> IRCoT + FLARE"]
 
-    O --> P{"Did iterative\nretrieval help?"}
-    P -->|"IRCoT: +0.45 F1 HQA\n+1.26 F1 MSQ"| Q["MARGINAL: recall 50%>65%\nbut answer quality flat"]
-    P -->|"FLARE: -15.4 F1 HQA\n-1.6 F1 MSQ"| R["NO: model overconfidence\nblocks retrieval triggering"]
+    O --> P{"Did iterative <br> retrieval help?"}
+    P -->|"IRCoT: +0.45 F1 HQA <br> +1.26 F1 MSQ"| Q["MARGINAL: recall 50%>65% <br> but answer quality flat"]
+    P -->|"FLARE: -15.4 F1 HQA <br> -1.6 F1 MSQ"| R["NO: model overconfidence <br> blocks retrieval triggering"]
 
-    Q --> S["IRCoT insight:\nCoT queries help recall\nbut context dilution\nneutralizes gains"]
-    R --> T["FLARE insight:\nInstruction-tuned LLMs\nare overconfident;\nconfidence != knowledge"]
+    Q --> S["IRCoT insight: <br> CoT queries help recall <br> but context dilution <br> neutralizes gains"]
+    R --> T["FLARE insight: <br> Instruction-tuned LLMs <br> are overconfident; <br> confidence != knowledge"]
 
-    S --> U["KEY FINDING:\nRetrieval ceiling is the\nbinding constraint.\nF1=61.7% when recall=100%\nvs F1=10.2% when recall=0%"]
+    S --> U["KEY FINDING: <br> Retrieval ceiling is the <br> binding constraint. <br> F1=61.7% when recall=100% <br> vs F1=10.2% when recall=0%"]
     T --> U
 
     U --> V["Day 5: Single-Agent Reasoning"]
 
-    V --> W{"Can advanced prompting\nor reasoning help?"}
-    W -->|"Reranker+CoT: -1.9 F1 HQA\n-1.6 F1 MSQ"| X["NO: CoT produces verbose\nanswers that hurt extractive QA"]
-    W -->|"Std RAG+CoT: -1.6 F1 HQA\n-1.4 F1 MSQ"| X2["NO: CoT hurts independently\nof reranker (2x2 factorial)"]
-    W -->|"Rnk+CoT mt=32: -40.3 F1\nEM=0.0%"| X3["CATASTROPHIC: 32 tokens\nall reasoning, no answer"]
-    W -->|"ReasoningPipeline: -29.7 F1 HQA\n-5.0 F1 MSQ"| Y["NO: Needs RL-trained model;\nQwen2.5 produces unextractable answers"]
-    W -->|"SelfAsk: -28.6 F1 HQA\n+0.9 F1 MSQ"| Z["MARGINAL: decomposition\nhelps multi-hop slightly\nbut 100x slower"]
+    V --> W{"Can advanced prompting <br> or reasoning help?"}
+    W -->|"Reranker+CoT: -1.9 F1 HQA <br> -1.6 F1 MSQ"| X["NO: CoT produces verbose <br> answers that hurt extractive QA"]
+    W -->|"Std RAG+CoT: -1.6 F1 HQA <br> -1.4 F1 MSQ"| X2["NO: CoT hurts independently <br> of reranker (2x2 factorial)"]
+    W -->|"Rnk+CoT mt=32: -40.3 F1 <br> EM=0.0%"| X3["CATASTROPHIC: 32 tokens <br> all reasoning, no answer"]
+    W -->|"ReasoningPipeline: -29.7 F1 HQA <br> -5.0 F1 MSQ"| Y["NO: Needs RL-trained model; <br> Qwen2.5 produces unextractable answers"]
+    W -->|"SelfAsk: -28.6 F1 HQA <br> +0.9 F1 MSQ"| Z["MARGINAL: decomposition <br> helps multi-hop slightly <br> but 100x slower"]
 
-    X --> AA["SINGLE-AGENT CEILING\n= Day 2 Reranker\nHQA F1=47.4 | MSQ F1=15.5"]
+    X --> AA["SINGLE-AGENT CEILING <br> = Day 2 Reranker <br> HQA F1=47.4 | MSQ F1=15.5"]
     X2 --> AA
     X3 --> AA
     Y --> AA
     Z --> AA
 
-    AA --> BB["Day 6: Bounding Experiments\nNaive Gen (lower) + Gold Context (upper)\n+ 2WikiMultihopQA (3rd dataset)\n+ Bootstrap CIs + Error Taxonomy"]
+    AA --> BB["Day 6: Bounding Experiments <br> Naive Gen (lower) + Gold Context (upper) <br> + 2WikiMultihopQA (3rd dataset) <br> + Bootstrap CIs + Error Taxonomy"]
 
-    BB --> CC["REMAINING GAP:\nHQA: 47.4→51.3 (3.9 F1)\nMSQ: 15.5→59.6 (44.1 F1)\n2Wiki: 34.8→70.0 (35.2 F1)"]
+    BB --> CC["REMAINING GAP: <br> HQA: 47.4→51.3 (3.9 F1) <br> MSQ: 15.5→59.6 (44.1 F1) <br> 2Wiki: 34.8→70.0 (35.2 F1)"]
 
-    CC --> DD["Ensemble Ceiling:\nHQA 61.1% | MSQ 24.8% | 2Wiki 41.2%\nMethods are COMPLEMENTARY\n→ Multi-agent routing has high value"]
+    CC --> DD["Ensemble Ceiling: <br> HQA 61.1% | MSQ 24.8% | 2Wiki 41.2% <br> Methods are COMPLEMENTARY <br> → Multi-agent routing has high value"]
 ```
 
 ## Component Stack Progress
@@ -408,13 +408,13 @@ flowchart TD
 flowchart BT
     subgraph stack["Incremental Component Stack"]
         direction BT
-        S1["Day 1: Standard RAG\nHQA F1=42.0 | MSQ F1=13.0"]
-        S2["Day 2: + Reranker (+5.4 / +2.5) -- SINGLE-AGENT CEILING\nHQA F1=47.4 | MSQ F1=15.5"]
-        S3["Day 3: + Refiner (NEGATIVE)\nRECOMP: -2.0 / -1.2 | SC: -5.4 / -1.8"]
-        S4["Day 4: Iterative Retrieval\nIRCoT: +0.5 / +1.3 | FLARE: -15.4 / -1.6"]
-        S5["Day 5: + Reasoning (ALL NEGATIVE)\nCoT: -1.9 / -1.6 | Reasoning: -29.7 / -5.0 | SelfAsk: -28.6 / +0.9"]
-        S6["Day 6: Bounding + Statistics\nNaive→Gold bounds | 2Wiki (3rd dataset) | Bootstrap CIs"]
-        S7["Day 7: Multi-Agent Design\nMust close gap: HQA +3.9 | MSQ +44.1 | 2Wiki +35.2"]
+        S1["Day 1: Standard RAG <br> HQA F1=42.0 | MSQ F1=13.0"]
+        S2["Day 2: + Reranker (+5.4 / +2.5) -- SINGLE-AGENT CEILING <br> HQA F1=47.4 | MSQ F1=15.5"]
+        S3["Day 3: + Refiner (NEGATIVE) <br> RECOMP: -2.0 / -1.2 | SC: -5.4 / -1.8"]
+        S4["Day 4: Iterative Retrieval <br> IRCoT: +0.5 / +1.3 | FLARE: -15.4 / -1.6"]
+        S5["Day 5: + Reasoning (ALL NEGATIVE) <br> CoT: -1.9 / -1.6 | Reasoning: -29.7 / -5.0 | SelfAsk: -28.6 / +0.9"]
+        S6["Day 6: Bounding + Statistics <br> Naive→Gold bounds | 2Wiki (3rd dataset) | Bootstrap CIs"]
+        S7["Day 7: Multi-Agent Design <br> Must close gap: HQA +3.9 | MSQ +44.1 | 2Wiki +35.2"]
 
         S1 --> S2 --> S3 --> S4 --> S5 --> S6 --> S7
     end
@@ -455,7 +455,7 @@ Exception: 2Wiki EM for Naive vs Standard RAG: p=0.222 (not significant).
 ```mermaid
 xychart-beta
     title "F1 Performance Ladder: Lower Bound → Best Method → Upper Bound"
-    x-axis ["Naive\nHQA", "Std RAG\nHQA", "Reranker\nHQA", "Gold\nHQA", "Naive\nMSQ", "Std RAG\nMSQ", "Reranker\nMSQ", "Gold\nMSQ", "Naive\n2Wiki", "Std RAG\n2Wiki", "Reranker\n2Wiki", "Gold\n2Wiki"]
+    x-axis ["Naive <br> HQA", "Std RAG <br> HQA", "Reranker <br> HQA", "Gold <br> HQA", "Naive <br> MSQ", "Std RAG <br> MSQ", "Reranker <br> MSQ", "Gold <br> MSQ", "Naive <br> 2Wiki", "Std RAG <br> 2Wiki", "Reranker <br> 2Wiki", "Gold <br> 2Wiki"]
     y-axis "F1 Score (%)" 0 --> 75
     bar [25.3, 42.0, 47.4, 51.3, 9.6, 13.0, 15.5, 59.6, 29.7, 32.1, 34.8, 70.0]
 ```
@@ -508,7 +508,7 @@ xychart-beta
 
 | Hop | Standard RAG | Reranker | IRCoT | Trend |
 |---|---|---|---|---|
-| Hop 1 | 33.4% | 39.6% | 46.2% | Improving across methods |
+| Hop 1 | 33.5% | 39.6% | 46.3% | Improving across methods |
 | Hop 2 | 11.6% | 14.8% | 24.9% | IRCoT helps significantly |
 | Hop 3 | 6.5% | 12.4% | 15.1% | Steep decay remains |
 | Hop 4 | 3.2% | 4.7% | 7.2% | Nearly impossible for all |
@@ -550,9 +550,9 @@ These are LOWER BOUNDS on multi-agent potential — they only count routing to e
 | 2   | **+ BGE Reranker (top-5)**| **36.41** | **47.42** | **7.70** | **15.52** | **28.35** | **34.78** | **+5.41** | **+2.49** |
 | 3   | + RECOMP Refiner          | 29.55   | 40.02   | 5.50    | 11.85   | —        | —        | -1.99         | -1.18        |
 | 3   | + SelectiveContext        | 27.00   | 36.56   | 5.01    | 11.26   | —        | —        | -5.45         | -1.77        |
-| 4   | IRCoT (5 iter)            | 30.64   | 42.61   | 7.24    | 14.29   | —        | —        | +0.60         | +1.26        |
+| 4   | IRCoT (5 iter)            | 30.64   | 42.46   | 7.24    | 14.29   | —        | —        | +0.45         | +1.26        |
 | 4   | FLARE (theta=0.2)         | 18.85   | 26.57   | 3.93    | 11.44   | —        | —        | -15.44        | -1.59        |
-| 5   | + Reranker + CoT          | 34.40   | 45.56   | 8.11    | 13.99   | —        | —        | +3.55         | +0.96        |
+| 5   | + Reranker + CoT          | 34.40   | 45.52   | 8.11    | 13.99   | —        | —        | +3.51         | +0.96        |
 | 5   | ReasoningPipeline         | 3.81    | 17.70   | 1.70    | 10.54   | —        | —        | -24.31        | -2.49        |
 | 5   | SelfAsk (n=500)           | 10.80   | 18.79   | 6.40    | 13.88   | —        | —        | -23.22        | +0.85        |
 | 5b  | Standard RAG + CoT        | 30.45   | 40.44   | 6.41    | 11.62   | —        | —        | -1.57         | -1.41        |
@@ -564,7 +564,7 @@ These are LOWER BOUNDS on multi-agent potential — they only count routing to e
 ```mermaid
 xychart-beta
     title "Day 3: Time Breakdown (seconds)"
-    x-axis ["RECOMP\nHotpotQA", "RECOMP\nMuSiQue", "SC\nHotpotQA", "SC\nMuSiQue"]
+    x-axis ["RECOMP <br> HotpotQA", "RECOMP <br> MuSiQue", "SC <br> HotpotQA", "SC <br> MuSiQue"]
     y-axis "Time (seconds)" 0 --> 10500
     bar "Retrieval" [212, 175, 229, 175]
     bar "Refining" [9957, 3456, 2717, 868]
