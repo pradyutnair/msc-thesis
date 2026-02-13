@@ -1,0 +1,57 @@
+#!/bin/bash
+#SBATCH --job-name=expA_arag_qwen25
+#SBATCH --partition=gpu_a100
+#SBATCH --time=24:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=jobs/output/expA_arag_qwen25.log
+
+set -euo pipefail
+
+module purge
+module load 2025
+module load Anaconda3/2025.06-1
+module load CUDA/12.8.0
+
+cd /projects/prjs1800
+source source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export HF_HUB_CACHE=$HF_HOME
+export TRANSFORMERS_CACHE=$HF_HOME
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY=dummy
+export ARAG_BASE_URL=http://127.0.0.1:8000/v1
+export ARAG_MODEL=Qwen2.5-7B-Instruct
+
+# 1 prepare question files
+python /projects/prjs1800/msc-thesis/01-arag-reproduction/scripts/01_prepare_questions.py \
+  --dataset hotpotqa \
+  --output /projects/prjs1800/msc-thesis/01-arag-reproduction/data/questions/hotpotqa.json
+
+python /projects/prjs1800/msc-thesis/01-arag-reproduction/scripts/01_prepare_questions.py \
+  --dataset musique \
+  --output /projects/prjs1800/msc-thesis/01-arag-reproduction/data/questions/musique.json
+
+python /projects/prjs1800/msc-thesis/01-arag-reproduction/scripts/01_prepare_questions.py \
+  --dataset 2wikimultihopqa \
+  --output /projects/prjs1800/msc-thesis/01-arag-reproduction/data/questions/2wikimultihopqa.json
+
+# 2 start vLLM
+bash /projects/prjs1800/msc-thesis/01-arag-reproduction/scripts/02_start_vllm_qwen25.sh 8000 &
+VLLM_PID=$!
+sleep 45
+
+# 3 run experiment A
+python /projects/prjs1800/msc-thesis/01-arag-reproduction/scripts/03_run_expA.py --dataset all --workers 4
+
+# 4 evaluate
+for ds in hotpotqa musique 2wikimultihopqa; do
+  python /projects/prjs1800/msc-thesis/01-arag-reproduction/scripts/04_eval_em_f1.py \
+    --predictions /projects/prjs1800/results/arag-expA/$ds/predictions.jsonl \
+    --output /projects/prjs1800/results/arag-expA/$ds/em_f1_summary.json
+done
+
+kill $VLLM_PID
