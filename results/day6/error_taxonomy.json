@@ -1,0 +1,4244 @@
+{
+  "day1_standard_rag_hotpotqa": {
+    "method": "Standard RAG",
+    "dataset": "hotpotqa",
+    "n_total": 7405,
+    "categories": {
+      "correct": {
+        "count": 3250,
+        "pct": 0.43889264010803514,
+        "examples": [
+          {
+            "id": "dev_2",
+            "question": "What science fantasy young adult series, told in first person, has a set of companion books narratin",
+            "pred": "Animorphs",
+            "gold": [
+              "Animorphs"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_3",
+            "question": "Are the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?",
+            "pred": "No",
+            "gold": [
+              "no"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_4",
+            "question": "The director of the romantic comedy \"Big Stone Gap\" is based in what New York city?",
+            "pred": "New York City",
+            "gold": [
+              "Greenwich Village, New York City"
+            ],
+            "f1": 0.7499999999999999
+          },
+          {
+            "id": "dev_5",
+            "question": "2014 S/S is the debut album of a South Korean boy group that was formed by who?",
+            "pred": "YG Entertainment",
+            "gold": [
+              "YG Entertainment"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_6",
+            "question": "Who was known by his stage name Aladin and helped organizations improve their performance as a consu",
+            "pred": "Eenasul Fateh",
+            "gold": [
+              "Eenasul Fateh"
+            ],
+            "f1": 1.0
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 1452,
+        "pct": 0.19608372721134368,
+        "examples": [
+          {
+            "id": "dev_7",
+            "question": "The arena where the Lewiston Maineiacs played their home games can seat how many people?",
+            "pred": "4000",
+            "gold": [
+              "3,677 seated"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "lewiston maineiacs",
+              "androscoggin bank colisée"
+            ],
+            "retrieved_titles": [
+              "androscoggin bank colisée",
+              "androscoggin bank colisée",
+              "cross insurance arena",
+              "floyd l. maines veterans memorial arena",
+              "bangor auditorium"
+            ]
+          },
+          {
+            "id": "dev_10",
+            "question": "What is the name of the fight song of the university whose main campus is in Lawrence, Kansas and wh",
+            "pred": "I'm a Jayhawk",
+            "gold": [
+              "Kansas Song"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "kansas song",
+              "university of kansas"
+            ],
+            "retrieved_titles": [
+              "kansas state university marching band",
+              "i'm a jayhawk",
+              "i'm a jayhawk",
+              "isu fights",
+              "wildcat victory"
+            ]
+          },
+          {
+            "id": "dev_11",
+            "question": "What screenwriter with credits for \"Evolution\" co-wrote a film starring Nicolas Cage and Téa Leoni?",
+            "pred": "Charlie Kaufman",
+            "gold": [
+              "David Weissman"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "the family man",
+              "david weissman"
+            ],
+            "retrieved_titles": [
+              "nicolas cage",
+              "téa leoni",
+              "evolution (2001 film)",
+              "adaptation (film)",
+              "evolution (2001 film)"
+            ]
+          },
+          {
+            "id": "dev_29",
+            "question": "What is the name for the adventure in \"Tunnels and Trolls\", a game designed by Ken St. Andre?",
+            "pred": "Hot Pursuit",
+            "gold": [
+              "Arena of Khazan"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "arena of khazan",
+              "tunnels &amp; trolls"
+            ],
+            "retrieved_titles": [
+              "ken st. andre",
+              "ken st. andre",
+              "ken st. andre",
+              "ken st. andre",
+              "tunnels & trolls"
+            ]
+          },
+          {
+            "id": "dev_41",
+            "question": "Where is the company that Sachin Warrier worked for as a software engineer headquartered? ",
+            "pred": "Based on the given documents, there is no information about a company where Sachin Warrier worked as",
+            "gold": [
+              "Mumbai"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "sachin warrier",
+              "tata consultancy services"
+            ],
+            "retrieved_titles": [
+              "thirdware",
+              "mistral solutions",
+              "microsoft india",
+              "rubrik",
+              "makersquare"
+            ]
+          }
+        ]
+      },
+      "retrieval_miss_partial": {
+        "count": 2189,
+        "pct": 0.29561107359891964,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Were Scott Derrickson and Ed Wood of the same nationality?",
+            "pred": "No",
+            "gold": [
+              "yes"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "ed wood",
+              "scott derrickson"
+            ],
+            "retrieved_titles": [
+              "steve wood (footballer, born february 1963)",
+              "steve wood (footballer, born february 1963)",
+              "george wood (baseball)",
+              "bret wood",
+              "scott derrickson"
+            ]
+          },
+          {
+            "id": "dev_1",
+            "question": "What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tel",
+            "pred": "None",
+            "gold": [
+              "Chief of Protocol"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "shirley temple",
+              "kiss and tell (1945 film)"
+            ],
+            "retrieved_titles": [
+              "kiss and tell (1945 film)",
+              "kiss and tell (1945 film)",
+              "kiss and tell (play)",
+              "kiss and tell (play)",
+              "a kiss for corliss"
+            ]
+          },
+          {
+            "id": "dev_15",
+            "question": "Brown State Fishing Lake is in a country that has a population of how many inhabitants ?",
+            "pred": "10,724",
+            "gold": [
+              "9,984"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "brown state fishing lake",
+              "brown county, kansas"
+            ],
+            "retrieved_titles": [
+              "idaho",
+              "brown county, kansas",
+              "marshall islands",
+              "brown bear",
+              "country"
+            ]
+          },
+          {
+            "id": "dev_18",
+            "question": "Roger O. Egeberg was Assistant Secretary for Health and Scientific Affairs during the administration",
+            "pred": "1969-1974",
+            "gold": [
+              "1969 until 1974"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "roger o. egeberg",
+              "richard nixon"
+            ],
+            "retrieved_titles": [
+              "roger o. egeberg",
+              "roger o. egeberg",
+              "roger o. egeberg",
+              "science advisor to the president",
+              "united states president's council of advisors on science and technology"
+            ]
+          },
+          {
+            "id": "dev_21",
+            "question": "This singer of A Rather Blustery Day also voiced what hedgehog?",
+            "pred": "Pooh",
+            "gold": [
+              "Sonic"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "jim cummings",
+              "a rather blustery day"
+            ],
+            "retrieved_titles": [
+              "a rather blustery day",
+              "asen kisimov",
+              "a rather blustery day",
+              "hedgehog in the fog",
+              "pooh's heffalump movie"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 489,
+        "pct": 0.06603646185010129,
+        "examples": [
+          {
+            "id": "dev_8",
+            "question": "Who is older, Annie Morton or Terry Richardson?",
+            "pred": "Annie Morton",
+            "gold": [
+              "Terry Richardson"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_13",
+            "question": "Are Random House Tower and 888 7th Avenue both used for real estate?",
+            "pred": "yes",
+            "gold": [
+              "no"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_82",
+            "question": "Rostker v. Goldberg held that the practice of what way of filling armed forces vacancies was consitu",
+            "pred": "requiring only men to register for the draft",
+            "gold": [
+              "Conscription"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_89",
+            "question": "What occupation do Chris Menges and Aram Avakian share?",
+            "pred": "film maker",
+            "gold": [
+              "director"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_97",
+            "question": "Which filmmaker was known for animation, Lev Yilmaz or Pamela B. Green?",
+            "pred": "Pamela B. Green",
+            "gold": [
+              "Levni Yilmaz"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 25,
+        "pct": 0.00337609723160027,
+        "examples": [
+          {
+            "id": "dev_530",
+            "question": "What took place first, The Korean War or The Western Allied invasion of Germany?",
+            "pred": "The Korean War took place first, starting on 25 June 1950, while the Western Allied invasion of Germ",
+            "gold": [
+              "The Western Allied invasion of Germany"
+            ],
+            "f1": 0.3846153846153846,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_894",
+            "question": "What was Robert M. Fomon's connection to the New York Stock Exchange located at 11 Wall Street, Lowe",
+            "pred": "Robert M. Fomon was a governor of the New York Stock Exchange.",
+            "gold": [
+              "a governor"
+            ],
+            "f1": 0.18181818181818182,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2040",
+            "question": "Charles Coughlin was a controversial Canadian-American Roman Catholic who also started what rumor?",
+            "pred": "Charles Coughlin was a controversial Canadian-American Roman Catholic priest who started the \"Boston",
+            "gold": [
+              "Boston Herald"
+            ],
+            "f1": 0.19999999999999998,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_3100",
+            "question": "Josh Trank and Mike Valerio both work in what industry?",
+            "pred": "film/entertainment",
+            "gold": [
+              "entertainment"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_3208",
+            "question": "Which profession do David Breashears and Richard Bass have in common?",
+            "pred": "mountaineering",
+            "gold": [
+              "mountaineer"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "day1_standard_rag_musique": {
+    "method": "Standard RAG",
+    "dataset": "musique",
+    "n_total": 2417,
+    "categories": {
+      "correct": {
+        "count": 316,
+        "pct": 0.1307405875051717,
+        "examples": [
+          {
+            "id": "dev_4",
+            "question": "Which company owns the manufacturer of Learjet 60?",
+            "pred": "Bombardier Aerospace",
+            "gold": [
+              "Bombardier Inc.",
+              "Bombardier"
+            ],
+            "f1": 0.6666666666666666
+          },
+          {
+            "id": "dev_8",
+            "question": "What company succeeded the owner of Empire Sports Network?",
+            "pred": "Time Warner Cable and Comcast",
+            "gold": [
+              "Time Warner Cable",
+              "Time Warner"
+            ],
+            "f1": 0.7499999999999999
+          },
+          {
+            "id": "dev_32",
+            "question": "What is the network which National Cycle Route 57 is part of an example of?",
+            "pred": "national cycling route network",
+            "gold": [
+              "national cycling route network",
+              "National cycling route network"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_38",
+            "question": "What record label did the performer of The Place and the Time belong to?",
+            "pred": "Sundazed Records",
+            "gold": [
+              "Columbia Records"
+            ],
+            "f1": 0.5
+          },
+          {
+            "id": "dev_40",
+            "question": "What team was Anna Benson's husband on?",
+            "pred": "New York Mets",
+            "gold": [
+              "Pittsburgh Pirates",
+              "Orioles",
+              "Pirates",
+              "Baltimore Orioles",
+              "New York Mets",
+              "Mets"
+            ],
+            "f1": 1.0
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 1239,
+        "pct": 0.5126189491104676,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Who is the spouse of the Green performer?",
+            "pred": "Miranda Brooke",
+            "gold": [
+              "Miquette Giraudy"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "miquette giraudy",
+              "green (steve hillage album)"
+            ],
+            "retrieved_titles": [
+              "tina green",
+              "harriet green",
+              "angry grandpa",
+              "leonard i. green",
+              "a. j. green"
+            ]
+          },
+          {
+            "id": "dev_2",
+            "question": "What administrative territorial entity is the owner of Ciudad Deportiva located?",
+            "pred": "Based on the information provided, the owner of Ciudad Deportiva is not explicitly stated in the giv",
+            "gold": [
+              "Tamaulipas"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "nuevo laredo municipality",
+              "ciudad deportiva (nuevo laredo)"
+            ],
+            "retrieved_titles": [
+              "ciudad de los deportes",
+              "ciudad de los deportes",
+              "ciudad real madrid",
+              "club universitario de deportes",
+              "ciudad de los deportes"
+            ]
+          },
+          {
+            "id": "dev_6",
+            "question": "Who is the grandmother of Philippe, Duke of Orléans?",
+            "pred": "Duchess Helena of Mecklenburg-Schwerin",
+            "gold": [
+              "Marie de' Medici"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "leonora dori",
+              "philippe i, duke of orléans"
+            ],
+            "retrieved_titles": [
+              "descendants of philippe i, duke of orléans",
+              "princess hélène of orléans",
+              "philippe ii, duke of orléans",
+              "amélie of orléans",
+              "prince philippe, duke of orléans (1869–1926)"
+            ]
+          },
+          {
+            "id": "dev_9",
+            "question": "What province shares a border with the province where Lago District is located?",
+            "pred": "Uige",
+            "gold": [
+              "Cabo Delgado Province"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "lago district",
+              "niassa reserve"
+            ],
+            "retrieved_titles": [
+              "lago verde, chile",
+              "bengo province",
+              "lago puelo, chubut",
+              "rizal",
+              "taggia"
+            ]
+          },
+          {
+            "id": "dev_10",
+            "question": "What league does the team that plays in Stadio Ciro Vigorito play for?",
+            "pred": "Serie D",
+            "gold": [
+              "Lega Pro Prima Divisione"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "stadio ciro vigorito",
+              "carmelo imbriani"
+            ],
+            "retrieved_titles": [
+              "f.c. francavilla",
+              "f.c. francavilla",
+              "a.s.d. albignasego calcio",
+              "u.s.d. novese",
+              "a.c. montichiari"
+            ]
+          }
+        ]
+      },
+      "retrieval_miss_partial": {
+        "count": 817,
+        "pct": 0.33802234174596607,
+        "examples": [
+          {
+            "id": "dev_1",
+            "question": "Who founded the company that distributed the film UHF?",
+            "pred": "Jerome Hyams",
+            "gold": [
+              "Mike Medavoy"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "mike medavoy",
+              "uhf (film)"
+            ],
+            "retrieved_titles": [
+              "uhf (film)",
+              "uhf (film)",
+              "uhf (film)",
+              "columbia pictures",
+              "new world pictures"
+            ]
+          },
+          {
+            "id": "dev_3",
+            "question": "Where is Ulrich Walter's employer headquartered?",
+            "pred": "Munich, Germany",
+            "gold": [
+              "Cologne"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "ulrich walter",
+              "philae (spacecraft)"
+            ],
+            "retrieved_titles": [
+              "ferdinand walter",
+              "jean walter",
+              "ulrich walter",
+              "arbeitskreis börse",
+              "ulrich walter"
+            ]
+          },
+          {
+            "id": "dev_5",
+            "question": "Who is the child of Caroline LeRoy's spouse?",
+            "pred": "Henri, Count of Chambord",
+            "gold": [
+              "Fletcher Webster"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "caroline leroy",
+              "fletcher webster"
+            ],
+            "retrieved_titles": [
+              "caroline leroy",
+              "caroline leroy",
+              "marie-caroline of bourbon-two sicilies, duchess of berry",
+              "caroline, princess of hanover",
+              "caroline, princess of hanover"
+            ]
+          },
+          {
+            "id": "dev_7",
+            "question": "What is the goal of the group that European Movement Germany is a member of?",
+            "pred": "The goal of the group that European Movement Germany is a member of is to contribute to the establis",
+            "gold": [
+              "European integration"
+            ],
+            "f1": 0.07692307692307693,
+            "recall": 0.5,
+            "gold_titles": [
+              "bernd hüttemann",
+              "european movement international"
+            ],
+            "retrieved_titles": [
+              "european movement germany",
+              "european movement germany",
+              "european movement international",
+              "european movement germany",
+              "european movement germany"
+            ]
+          },
+          {
+            "id": "dev_12",
+            "question": "In which borough was Callum McManaman born?",
+            "pred": "Huyton",
+            "gold": [
+              "Knowsley",
+              "Metropolitan Borough of Knowsley"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "whiston, merseyside",
+              "callum mcmanaman"
+            ],
+            "retrieved_titles": [
+              "callum mcmanaman",
+              "callum mcmanaman",
+              "callum mcmanaman",
+              "callum mcmanaman",
+              "callum mcmanaman"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 41,
+        "pct": 0.01696317749275962,
+        "examples": [
+          {
+            "id": "dev_16",
+            "question": "Where was Tyler MacDuff's child educated?",
+            "pred": "Dana MacDuff, Tyler MacDuff's child, graduated in 1974 from Blair International Baccalaureate School",
+            "gold": [
+              "Blair High School"
+            ],
+            "f1": 0.2222222222222222,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_61",
+            "question": "What event caused the Liberal Party of Australia's longest-serving leader to become Prime Minister?",
+            "pred": "resignation of Robert Menzies",
+            "gold": [
+              "Lyons' death in 1939"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_72",
+            "question": "The Nicole and Natalie album's band is named after who?",
+            "pred": "Nicole and Natalie",
+            "gold": [
+              "Natalie Albino",
+              "Nina Sky"
+            ],
+            "f1": 0.4,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_146",
+            "question": "When did the person who first brought a postal service into Umayyad lands become caliph?",
+            "pred": "Muawiyah",
+            "gold": [
+              "661"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_152",
+            "question": "Who was given India's highest civilian honor before he became President of India?",
+            "pred": "Dr Sarvepalli Radhakrishnan and Dr Zakir Hussain",
+            "gold": [
+              "A.P.J. Abdul Kalam",
+              "A. P. J. Abdul Kalam",
+              "Abdul Kalam",
+              "Kalam",
+              "Avul Pakir Jainulabdeen Abdul Kalam"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 4,
+        "pct": 0.0016549441456350847,
+        "examples": [
+          {
+            "id": "dev_459",
+            "question": "Who does the person telling the story in How I Met Your Mother end up with?",
+            "pred": "The person telling the story, Future Ted, ends up with The Mother (Tracy McConnell).",
+            "gold": [
+              "Tracy McConnell",
+              "The Mother (How I Met Your Mother)",
+              "The Mother"
+            ],
+            "f1": 0.3076923076923077,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_895",
+            "question": "Who sing \"Home Alone Tonight\" with the performer of \"country Man\"?",
+            "pred": "Luke Bryan and Karen Fairchild of Little Big Town sing \"Home Alone Tonight\" with the performer of \"C",
+            "gold": [
+              "Karen Fairchild"
+            ],
+            "f1": 0.19999999999999998,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2237",
+            "question": "Why did the leader who broke the Molotov–Ribbentrop Pact by invading Bukovina first sign it?",
+            "pred": "to facilitate the negotiations that led to the Molotov–Ribbentrop Pact with Germany",
+            "gold": [
+              "reinforce a public affection for Germany",
+              "Germany",
+              "de",
+              "GER"
+            ],
+            "f1": 0.18181818181818182,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2296",
+            "question": "What happened to Buckingham Palace after the first monarch to reside there left?",
+            "pred": "Buckingham Palace became the London residence of the British monarch on the accession of Queen Victo",
+            "gold": [
+              "palace was seldom used, even neglected",
+              "palace",
+              "Palace"
+            ],
+            "f1": 0.125,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "day2_reranker_hotpotqa": {
+    "method": "Reranker",
+    "dataset": "hotpotqa",
+    "n_total": 7405,
+    "categories": {
+      "correct": {
+        "count": 3662,
+        "pct": 0.49453072248480756,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Were Scott Derrickson and Ed Wood of the same nationality?",
+            "pred": "Yes",
+            "gold": [
+              "yes"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_2",
+            "question": "What science fantasy young adult series, told in first person, has a set of companion books narratin",
+            "pred": "Animorphs",
+            "gold": [
+              "Animorphs"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_3",
+            "question": "Are the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?",
+            "pred": "No",
+            "gold": [
+              "no"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_4",
+            "question": "The director of the romantic comedy \"Big Stone Gap\" is based in what New York city?",
+            "pred": "New York City",
+            "gold": [
+              "Greenwich Village, New York City"
+            ],
+            "f1": 0.7499999999999999
+          },
+          {
+            "id": "dev_5",
+            "question": "2014 S/S is the debut album of a South Korean boy group that was formed by who?",
+            "pred": "YG Entertainment",
+            "gold": [
+              "YG Entertainment"
+            ],
+            "f1": 1.0
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 1092,
+        "pct": 0.1474679270762998,
+        "examples": [
+          {
+            "id": "dev_7",
+            "question": "The arena where the Lewiston Maineiacs played their home games can seat how many people?",
+            "pred": "4,800",
+            "gold": [
+              "3,677 seated"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "lewiston maineiacs",
+              "androscoggin bank colisée"
+            ],
+            "retrieved_titles": [
+              "androscoggin bank colisée",
+              "androscoggin bank colisée",
+              "androscoggin bank colisée",
+              "dwyer arena",
+              "dwyer arena"
+            ]
+          },
+          {
+            "id": "dev_16",
+            "question": "The Vermont Catamounts men's soccer team currently competes in a conference that was formerly known ",
+            "pred": "Yankee Conference",
+            "gold": [
+              "the North Atlantic Conference"
+            ],
+            "f1": 0.4,
+            "recall": 0.0,
+            "gold_titles": [
+              "vermont catamounts men's soccer",
+              "america east conference"
+            ],
+            "retrieved_titles": [
+              "vermont catamounts",
+              "vermont catamounts football",
+              "vermont catamounts",
+              "vermont catamounts men's basketball",
+              "2018–19 vermont catamounts men's basketball team"
+            ]
+          },
+          {
+            "id": "dev_29",
+            "question": "What is the name for the adventure in \"Tunnels and Trolls\", a game designed by Ken St. Andre?",
+            "pred": "Khara Kang's Random Rainbow Maze",
+            "gold": [
+              "Arena of Khazan"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "arena of khazan",
+              "tunnels &amp; trolls"
+            ],
+            "retrieved_titles": [
+              "ken st. andre",
+              "ken st. andre",
+              "ken st. andre",
+              "tunnels & trolls",
+              "pool of radiance"
+            ]
+          },
+          {
+            "id": "dev_41",
+            "question": "Where is the company that Sachin Warrier worked for as a software engineer headquartered? ",
+            "pred": "Based on the given documents, there is no specific information about a company where Sachin Warrier ",
+            "gold": [
+              "Mumbai"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "sachin warrier",
+              "tata consultancy services"
+            ],
+            "retrieved_titles": [
+              "bae systems",
+              "microsoft india",
+              "thirdware",
+              "mindtree",
+              "microsoft india"
+            ]
+          },
+          {
+            "id": "dev_42",
+            "question": "A Japanese manga series based on a 16 year old high school student Ichitaka Seto, is written and ill",
+            "pred": "1965",
+            "gold": [
+              "1962"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "i&quot;s",
+              "masakazu katsura"
+            ],
+            "retrieved_titles": [
+              "inuyasha",
+              "nisekoi",
+              "himeanole",
+              "kanojo wa uso o aishisugiteru",
+              "tsutomu takahashi"
+            ]
+          }
+        ]
+      },
+      "retrieval_miss_partial": {
+        "count": 1993,
+        "pct": 0.26914247130317354,
+        "examples": [
+          {
+            "id": "dev_1",
+            "question": "What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tel",
+            "pred": "None",
+            "gold": [
+              "Chief of Protocol"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "shirley temple",
+              "kiss and tell (1945 film)"
+            ],
+            "retrieved_titles": [
+              "kiss and tell (1945 film)",
+              "kiss and tell (1945 film)",
+              "kathryn card",
+              "f. hugh herbert",
+              "kiss and tell (play)"
+            ]
+          },
+          {
+            "id": "dev_10",
+            "question": "What is the name of the fight song of the university whose main campus is in Lawrence, Kansas and wh",
+            "pred": "I'm a Jayhawk",
+            "gold": [
+              "Kansas Song"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "kansas song",
+              "university of kansas"
+            ],
+            "retrieved_titles": [
+              "i'm a jayhawk",
+              "kansas state university",
+              "kansas state university marching band",
+              "i'm a jayhawk",
+              "university of kansas"
+            ]
+          },
+          {
+            "id": "dev_15",
+            "question": "Brown State Fishing Lake is in a country that has a population of how many inhabitants ?",
+            "pred": "10,724",
+            "gold": [
+              "9,984"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "brown state fishing lake",
+              "brown county, kansas"
+            ],
+            "retrieved_titles": [
+              "marshall islands",
+              "brown county, kansas",
+              "arab world",
+              "geography of japan",
+              "idaho"
+            ]
+          },
+          {
+            "id": "dev_18",
+            "question": "Roger O. Egeberg was Assistant Secretary for Health and Scientific Affairs during the administration",
+            "pred": "1969 to 1971",
+            "gold": [
+              "1969 until 1974"
+            ],
+            "f1": 0.3333333333333333,
+            "recall": 0.5,
+            "gold_titles": [
+              "roger o. egeberg",
+              "richard nixon"
+            ],
+            "retrieved_titles": [
+              "roger o. egeberg",
+              "roger o. egeberg",
+              "roger o. egeberg",
+              "roger o. egeberg",
+              "james w. holsinger"
+            ]
+          },
+          {
+            "id": "dev_20",
+            "question": "Which other Mexican Formula One race car driver has held the podium besides the Force India driver b",
+            "pred": "Sergio Pérez",
+            "gold": [
+              "Pedro Rodríguez"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "sergio pérez",
+              "formula one drivers from mexico"
+            ],
+            "retrieved_titles": [
+              "formula one drivers from mexico",
+              "1992 mexican grand prix",
+              "sergio pérez",
+              "force india vjm10",
+              "force india vjm08"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 612,
+        "pct": 0.08264686022957461,
+        "examples": [
+          {
+            "id": "dev_8",
+            "question": "Who is older, Annie Morton or Terry Richardson?",
+            "pred": "Annie Morton",
+            "gold": [
+              "Terry Richardson"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_13",
+            "question": "Are Random House Tower and 888 7th Avenue both used for real estate?",
+            "pred": "yes",
+            "gold": [
+              "no"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_31",
+            "question": "Hayden is a singer-songwriter from Canada, but where does Buck-Tick hail from?",
+            "pred": "Japan",
+            "gold": [
+              "Fujioka, Gunma"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_60",
+            "question": "What distinction is held by the former NBA player who was a member of the Charlotte Hornets during t",
+            "pred": "Muggsy Bogues",
+            "gold": [
+              "shortest player ever to play in the National Basketball Association"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_82",
+            "question": "Rostker v. Goldberg held that the practice of what way of filling armed forces vacancies was consitu",
+            "pred": "draft registration for men only",
+            "gold": [
+              "Conscription"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 46,
+        "pct": 0.006212018906144497,
+        "examples": [
+          {
+            "id": "dev_87",
+            "question": "Where are Teide National Park and Garajonay National Park located?",
+            "pred": "Teide National Park is located in Tenerife, Canary Islands, Spain. Garajonay National Park is locate",
+            "gold": [
+              "Canary Islands, Spain"
+            ],
+            "f1": 0.25,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_478",
+            "question": "What is the shared country of ancestry between Art Laboe and Scout Tufankjian?",
+            "pred": "Armenian-American",
+            "gold": [
+              "Armenian"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_742",
+            "question": "The attraction at universal studios that was based on \"The Tonight Show\" replaced an attraction that",
+            "pred": "Twister...Ride it Out replaced the Ghostbusters Spooktacular attraction, which was based on the Ghos",
+            "gold": [
+              "Ghostbusters Spooktacular"
+            ],
+            "f1": 0.2222222222222222,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_894",
+            "question": "What was Robert M. Fomon's connection to the New York Stock Exchange located at 11 Wall Street, Lowe",
+            "pred": "Robert M. Fomon was a governor of the New York Stock Exchange.",
+            "gold": [
+              "a governor"
+            ],
+            "f1": 0.18181818181818182,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_916",
+            "question": "Wing Chun starred Michelle Yeoh and a Hong Kong actor, martial artist, and film director who won wha",
+            "pred": "Wing Chun starred Michelle Yeoh and Donnie Yen, who won multiple world wushu tournament championship",
+            "gold": [
+              "world wushu tournament"
+            ],
+            "f1": 0.33333333333333337,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "day2_reranker_musique": {
+    "method": "Reranker",
+    "dataset": "musique",
+    "n_total": 2417,
+    "categories": {
+      "correct": {
+        "count": 398,
+        "pct": 0.16466694249069094,
+        "examples": [
+          {
+            "id": "dev_4",
+            "question": "Which company owns the manufacturer of Learjet 60?",
+            "pred": "Bombardier Aerospace",
+            "gold": [
+              "Bombardier Inc.",
+              "Bombardier"
+            ],
+            "f1": 0.6666666666666666
+          },
+          {
+            "id": "dev_5",
+            "question": "Who is the child of Caroline LeRoy's spouse?",
+            "pred": "Daniel Webster",
+            "gold": [
+              "Fletcher Webster"
+            ],
+            "f1": 0.5
+          },
+          {
+            "id": "dev_8",
+            "question": "What company succeeded the owner of Empire Sports Network?",
+            "pred": "Time Warner Cable and Comcast",
+            "gold": [
+              "Time Warner Cable",
+              "Time Warner"
+            ],
+            "f1": 0.7499999999999999
+          },
+          {
+            "id": "dev_13",
+            "question": "What other county does the county where Imperial is located share a border with?",
+            "pred": "Riverside County",
+            "gold": [
+              "Crockett County"
+            ],
+            "f1": 0.5
+          },
+          {
+            "id": "dev_24",
+            "question": "What county was Tim Dubois born in?",
+            "pred": "Fremont County",
+            "gold": [
+              "McDonald County",
+              "McDonald County, Missouri"
+            ],
+            "f1": 0.5
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 1015,
+        "pct": 0.41994207695490277,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Who is the spouse of the Green performer?",
+            "pred": "Miranda Brooke",
+            "gold": [
+              "Miquette Giraudy"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "miquette giraudy",
+              "green (steve hillage album)"
+            ],
+            "retrieved_titles": [
+              "tina green",
+              "vlogbrothers",
+              "robson green",
+              "leonard i. green",
+              "a. j. green"
+            ]
+          },
+          {
+            "id": "dev_6",
+            "question": "Who is the grandmother of Philippe, Duke of Orléans?",
+            "pred": "Princess Isabelle of Orléans",
+            "gold": [
+              "Marie de' Medici"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "leonora dori",
+              "philippe i, duke of orléans"
+            ],
+            "retrieved_titles": [
+              "prince philippe, duke of orléans (1869–1926)",
+              "philippe ii, duke of orléans",
+              "prince philippe, duke of orléans (1869–1926)",
+              "princess louise of orléans",
+              "maria teresa felicitas d'este"
+            ]
+          },
+          {
+            "id": "dev_7",
+            "question": "What is the goal of the group that European Movement Germany is a member of?",
+            "pred": "The goal of the group that European Movement Germany is a member of is to continually improve commun",
+            "gold": [
+              "European integration"
+            ],
+            "f1": 0.07142857142857144,
+            "recall": 0.0,
+            "gold_titles": [
+              "bernd hüttemann",
+              "european movement international"
+            ],
+            "retrieved_titles": [
+              "european movement germany",
+              "european movement germany",
+              "european movement germany",
+              "european movement germany",
+              "european movement germany"
+            ]
+          },
+          {
+            "id": "dev_9",
+            "question": "What province shares a border with the province where Lago District is located?",
+            "pred": "Bengo Province",
+            "gold": [
+              "Cabo Delgado Province"
+            ],
+            "f1": 0.4,
+            "recall": 0.0,
+            "gold_titles": [
+              "lago district",
+              "niassa reserve"
+            ],
+            "retrieved_titles": [
+              "qinghai",
+              "rizal",
+              "bengo province",
+              "bengo province",
+              "taggia"
+            ]
+          },
+          {
+            "id": "dev_10",
+            "question": "What league does the team that plays in Stadio Ciro Vigorito play for?",
+            "pred": "Answer: The document does not provide information about a team that plays in Stadio Ciro Vigorito or",
+            "gold": [
+              "Lega Pro Prima Divisione"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "stadio ciro vigorito",
+              "carmelo imbriani"
+            ],
+            "retrieved_titles": [
+              "real betis baloncesto",
+              "a.s.d. pro settimo & eureka",
+              "u.s.d. novese",
+              "a.s.d. oltrepòvoghera",
+              "a.s.d. s.f.f. atletico"
+            ]
+          }
+        ]
+      },
+      "retrieval_miss_partial": {
+        "count": 933,
+        "pct": 0.38601572196938355,
+        "examples": [
+          {
+            "id": "dev_1",
+            "question": "Who founded the company that distributed the film UHF?",
+            "pred": "Cinecorp",
+            "gold": [
+              "Mike Medavoy"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "mike medavoy",
+              "uhf (film)"
+            ],
+            "retrieved_titles": [
+              "uhf (film)",
+              "uhf (film)",
+              "uhf (film)",
+              "orion pictures",
+              "uhf (film)"
+            ]
+          },
+          {
+            "id": "dev_2",
+            "question": "What administrative territorial entity is the owner of Ciudad Deportiva located?",
+            "pred": "Spain",
+            "gold": [
+              "Tamaulipas"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "nuevo laredo municipality",
+              "ciudad deportiva (nuevo laredo)"
+            ],
+            "retrieved_titles": [
+              "ciudad real madrid",
+              "ciudad real madrid",
+              "ciudad deportiva (nuevo laredo)",
+              "ciudad deportiva josé luis compañón",
+              "ciudad deportiva luis del sol"
+            ]
+          },
+          {
+            "id": "dev_3",
+            "question": "Where is Ulrich Walter's employer headquartered?",
+            "pred": "Technische Universität München",
+            "gold": [
+              "Cologne"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "ulrich walter",
+              "philae (spacecraft)"
+            ],
+            "retrieved_titles": [
+              "ulrich walter",
+              "ulrich walter",
+              "ulrich walter",
+              "walter verlag",
+              "frankfurt"
+            ]
+          },
+          {
+            "id": "dev_12",
+            "question": "In which borough was Callum McManaman born?",
+            "pred": "Huyton",
+            "gold": [
+              "Knowsley",
+              "Metropolitan Borough of Knowsley"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "whiston, merseyside",
+              "callum mcmanaman"
+            ],
+            "retrieved_titles": [
+              "callum mcmanaman",
+              "callum mcmanaman",
+              "callum mcmanaman",
+              "callum mcmanaman",
+              "callum mcmanaman"
+            ]
+          },
+          {
+            "id": "dev_15",
+            "question": "What award did the author of The Red Tree receive?",
+            "pred": "No award for the author of The Red Tree is mentioned in the given documents. The Red Tree was create",
+            "gold": [
+              "Academy Award for Best Animated Short Film"
+            ],
+            "f1": 0.12121212121212123,
+            "recall": 0.5,
+            "gold_titles": [
+              "the red tree (shaun tan)",
+              "passion pictures"
+            ],
+            "retrieved_titles": [
+              "the red tree (shaun tan)",
+              "the red tree (shaun tan)",
+              "my name is red",
+              "western canon",
+              "the people in the trees"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 65,
+        "pct": 0.02689284236657013,
+        "examples": [
+          {
+            "id": "dev_16",
+            "question": "Where was Tyler MacDuff's child educated?",
+            "pred": "Blair International Baccalaureate School in Pasadena",
+            "gold": [
+              "Blair High School"
+            ],
+            "f1": 0.4444444444444444,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_72",
+            "question": "The Nicole and Natalie album's band is named after who?",
+            "pred": "Nicole and Natalie",
+            "gold": [
+              "Natalie Albino",
+              "Nina Sky"
+            ],
+            "f1": 0.4,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_146",
+            "question": "When did the person who first brought a postal service into Umayyad lands become caliph?",
+            "pred": "Mu'awiyah",
+            "gold": [
+              "661"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_152",
+            "question": "Who was given India's highest civilian honor before he became President of India?",
+            "pred": "Dr Sarvepalli Radhakrishnan and Dr Zakir Hussain were given India's highest civilian honor (Bharat R",
+            "gold": [
+              "A.P.J. Abdul Kalam",
+              "A. P. J. Abdul Kalam",
+              "Abdul Kalam",
+              "Kalam",
+              "Avul Pakir Jainulabdeen Abdul Kalam"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_209",
+            "question": "Who did the producer of Big Jim McLain play in True Grit?",
+            "pred": "Jeff Bridges",
+            "gold": [
+              "U.S. Marshal Rooster Cogburn",
+              "the US",
+              "America",
+              "U.S.",
+              "United States",
+              "US"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 6,
+        "pct": 0.0024824162184526274,
+        "examples": [
+          {
+            "id": "dev_125",
+            "question": "Who is the child of Chiang Hsiao-wen's father?",
+            "pred": "Chiang Hsiao-wen, Chiang Hsiao-chang, Chiang Hsiao-wu, Chiang Hsiao-yung,",
+            "gold": [
+              "Chiang Hsiao-wu",
+              "Alex Chiang"
+            ],
+            "f1": 0.4,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_322",
+            "question": "Where is the river where the majority of Egyptians lived located in the world?",
+            "pred": "The river where the majority of Egyptians lived is located in North Africa, specifically near the ba",
+            "gold": [
+              "northeastern Africa",
+              "Africa"
+            ],
+            "f1": 0.0909090909090909,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_672",
+            "question": "When does Pam and the person Pam marries on The Office get together?",
+            "pred": "In the fourth season, Jim and Pam start dating and eventually marry in the sixth season.",
+            "gold": [
+              "in the fourth season"
+            ],
+            "f1": 0.35294117647058826,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2237",
+            "question": "Why did the leader who broke the Molotov–Ribbentrop Pact by invading Bukovina first sign it?",
+            "pred": "To gain an advantage in a potential war against Western powers and to divide Northern and Eastern Eu",
+            "gold": [
+              "reinforce a public affection for Germany",
+              "Germany",
+              "de",
+              "GER"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2252",
+            "question": "What happened to Buckingham palace after the queen Elizabeth surpassed as the longest lived British ",
+            "pred": "The document does not provide information about what happened to Buckingham Palace after Queen Eliza",
+            "gold": [
+              "palace was seldom used, even neglected",
+              "palace",
+              "Palace"
+            ],
+            "f1": 0.0909090909090909,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "day4_ircot_hotpotqa": {
+    "method": "IRCoT",
+    "dataset": "hotpotqa",
+    "n_total": 7405,
+    "categories": {
+      "correct": {
+        "count": 3245,
+        "pct": 0.43821742066171504,
+        "examples": [
+          {
+            "id": "dev_2",
+            "question": "What science fantasy young adult series, told in first person, has a set of companion books narratin",
+            "pred": "Animorphs.",
+            "gold": [
+              "Animorphs"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_3",
+            "question": "Are the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?",
+            "pred": "no.",
+            "gold": [
+              "no"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_4",
+            "question": "The director of the romantic comedy \"Big Stone Gap\" is based in what New York city?",
+            "pred": "New York City.",
+            "gold": [
+              "Greenwich Village, New York City"
+            ],
+            "f1": 0.7499999999999999
+          },
+          {
+            "id": "dev_5",
+            "question": "2014 S/S is the debut album of a South Korean boy group that was formed by who?",
+            "pred": "YG Entertainment.",
+            "gold": [
+              "YG Entertainment"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_6",
+            "question": "Who was known by his stage name Aladin and helped organizations improve their performance as a consu",
+            "pred": "Eenasul Fateh.",
+            "gold": [
+              "Eenasul Fateh"
+            ],
+            "f1": 1.0
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 1198,
+        "pct": 0.16178257933828494,
+        "examples": [
+          {
+            "id": "dev_7",
+            "question": "The arena where the Lewiston Maineiacs played their home games can seat how many people?",
+            "pred": "4,800.",
+            "gold": [
+              "3,677 seated"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "lewiston maineiacs",
+              "androscoggin bank colisée"
+            ],
+            "retrieved_titles": [
+              "lewiston, maine",
+              "androscoggin bank colisée",
+              "androscoggin bank colisée",
+              "bangor auditorium",
+              "floyd l. maines veterans memorial arena"
+            ]
+          },
+          {
+            "id": "dev_11",
+            "question": "What screenwriter with credits for \"Evolution\" co-wrote a film starring Nicolas Cage and Téa Leoni?",
+            "pred": "Bruce Joel Rubin and Michael Tolkin.",
+            "gold": [
+              "David Weissman"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "the family man",
+              "david weissman"
+            ],
+            "retrieved_titles": [
+              "evolution (2001 film)",
+              "adaptation (film)",
+              "deep impact (film)",
+              "evolution (2001 film)",
+              "alex fernandez (actor)"
+            ]
+          },
+          {
+            "id": "dev_14",
+            "question": "The football manager who recruited David Beckham managed Manchester United during what timeframe?",
+            "pred": "1996-1999.",
+            "gold": [
+              "from 1986 to 2013"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "1995–96 manchester united f.c. season",
+              "alex ferguson"
+            ],
+            "retrieved_titles": [
+              "david beckham",
+              "michael edelson",
+              "the beckham experiment",
+              "steve mcmanaman",
+              "1977–78 in english football"
+            ]
+          },
+          {
+            "id": "dev_16",
+            "question": "The Vermont Catamounts men's soccer team currently competes in a conference that was formerly known ",
+            "pred": "The information provided does not specify the name of the conference from 1988 to 1996.",
+            "gold": [
+              "the North Atlantic Conference"
+            ],
+            "f1": 0.13333333333333333,
+            "recall": 0.0,
+            "gold_titles": [
+              "vermont catamounts men's soccer",
+              "america east conference"
+            ],
+            "retrieved_titles": [
+              "south atlantic conference",
+              "big eight conference",
+              "skyline conference (1938–1962)",
+              "new england conference",
+              "edward mickolus"
+            ]
+          },
+          {
+            "id": "dev_29",
+            "question": "What is the name for the adventure in \"Tunnels and Trolls\", a game designed by Ken St. Andre?",
+            "pred": "Hot Pursuit.",
+            "gold": [
+              "Arena of Khazan"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "arena of khazan",
+              "tunnels &amp; trolls"
+            ],
+            "retrieved_titles": [
+              "ken barlow (meteorologist)",
+              "kenmore square",
+              "ken rinciari",
+              "kenmore, washington",
+              "hot chase"
+            ]
+          }
+        ]
+      },
+      "retrieval_miss_partial": {
+        "count": 1705,
+        "pct": 0.23024983119513842,
+        "examples": [
+          {
+            "id": "dev_10",
+            "question": "What is the name of the fight song of the university whose main campus is in Lawrence, Kansas and wh",
+            "pred": "I'm a Jayhawk.",
+            "gold": [
+              "Kansas Song"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "kansas song",
+              "university of kansas"
+            ],
+            "retrieved_titles": [
+              "marching jayhawks",
+              "rock chalk, jayhawk",
+              "wildcat victory",
+              "isu fights",
+              "university of kansas"
+            ]
+          },
+          {
+            "id": "dev_15",
+            "question": "Brown State Fishing Lake is in a country that has a population of how many inhabitants ?",
+            "pred": "the United States, which has a population of approximately 331,000,000 inhabitants.",
+            "gold": [
+              "9,984"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "brown state fishing lake",
+              "brown county, kansas"
+            ],
+            "retrieved_titles": [
+              "country",
+              "brown bear",
+              "marshall islands",
+              "idaho",
+              "neosho state fishing lake"
+            ]
+          },
+          {
+            "id": "dev_21",
+            "question": "This singer of A Rather Blustery Day also voiced what hedgehog?",
+            "pred": "Maria Vinogradova.",
+            "gold": [
+              "Sonic"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "jim cummings",
+              "a rather blustery day"
+            ],
+            "retrieved_titles": [
+              "pooh's heffalump movie",
+              "hedgehog's home",
+              "asen kisimov",
+              "the elegance of the hedgehog",
+              "hip hip pooh-ray!"
+            ]
+          },
+          {
+            "id": "dev_28",
+            "question": "Kaiser Ventures corporation was founded by an American industrialist who became known as the father ",
+            "pred": "yes.",
+            "gold": [
+              "Henry J. Kaiser"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "kaiser ventures",
+              "henry j. kaiser"
+            ],
+            "retrieved_titles": [
+              "henry smith (speaker)",
+              "henry t. clarke sr.",
+              "henry henry",
+              "henry j",
+              "henry j"
+            ]
+          },
+          {
+            "id": "dev_30",
+            "question": "When was Poison's album \"Shut Up, Make Love\" released?",
+            "pred": "The release date of \"Shut Up, Make Love\" is not provided in the given information.",
+            "gold": [
+              "2000"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "shut up, make love",
+              "poison (american band)"
+            ],
+            "retrieved_titles": [
+              "emoticon",
+              "crack a smile... and more!",
+              "smile",
+              "the power of smile/remember the kiss",
+              "smile"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 1021,
+        "pct": 0.13787981093855503,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Were Scott Derrickson and Ed Wood of the same nationality?",
+            "pred": "no.",
+            "gold": [
+              "yes"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_1",
+            "question": "What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tel",
+            "pred": "Shirley Temple did not hold any government position.",
+            "gold": [
+              "Chief of Protocol"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_8",
+            "question": "Who is older, Annie Morton or Terry Richardson?",
+            "pred": "Annie Morton.",
+            "gold": [
+              "Terry Richardson"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_13",
+            "question": "Are Random House Tower and 888 7th Avenue both used for real estate?",
+            "pred": "yes, both buildings are used for real estate.",
+            "gold": [
+              "no"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_22",
+            "question": "Aside from the Apple Remote, what other device can control the program Apple Remote was originally d",
+            "pred": "the iSight iMac G5.",
+            "gold": [
+              "keyboard function keys"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 236,
+        "pct": 0.03187035786630655,
+        "examples": [
+          {
+            "id": "dev_72",
+            "question": "What color clothing do people of the Netherlands wear during Oranjegekte or to celebrate the nationa",
+            "pred": "Orange clothing such as T-shirts, caps, and scarfs.",
+            "gold": [
+              "orange"
+            ],
+            "f1": 0.2222222222222222,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_78",
+            "question": "What nationality were social anthropologists Alfred Gell and Edmund Leach?",
+            "pred": "both Alfred Gell and Edmund Leach were British.",
+            "gold": [
+              "British"
+            ],
+            "f1": 0.2222222222222222,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_89",
+            "question": "What occupation do Chris Menges and Aram Avakian share?",
+            "pred": "directors.",
+            "gold": [
+              "director"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_93",
+            "question": "Do the drinks Gibson and Zurracapote both contain gin?",
+            "pred": "no, Zurracapote does not contain gin.",
+            "gold": [
+              "no"
+            ],
+            "f1": 0.2857142857142857,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_118",
+            "question": "Were the bands Skin Yard and Ostava from the U.S.?",
+            "pred": " Skin Yard was an American grunge band from Seattle, Washington.  Ostava is an alternative rock band",
+            "gold": [
+              "no"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "day4_ircot_musique": {
+    "method": "IRCoT",
+    "dataset": "musique",
+    "n_total": 2417,
+    "categories": {
+      "correct": {
+        "count": 349,
+        "pct": 0.14439387670666115,
+        "examples": [
+          {
+            "id": "dev_4",
+            "question": "Which company owns the manufacturer of Learjet 60?",
+            "pred": "Bombardier Aerospace.",
+            "gold": [
+              "Bombardier Inc.",
+              "Bombardier"
+            ],
+            "f1": 0.6666666666666666
+          },
+          {
+            "id": "dev_5",
+            "question": "Who is the child of Caroline LeRoy's spouse?",
+            "pred": "Fletcher.",
+            "gold": [
+              "Fletcher Webster"
+            ],
+            "f1": 0.6666666666666666
+          },
+          {
+            "id": "dev_12",
+            "question": "In which borough was Callum McManaman born?",
+            "pred": "Knowsley.",
+            "gold": [
+              "Knowsley",
+              "Metropolitan Borough of Knowsley"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_15",
+            "question": "What award did the author of The Red Tree receive?",
+            "pred": "Academy Award for Best Animated Short.",
+            "gold": [
+              "Academy Award for Best Animated Short Film"
+            ],
+            "f1": 0.923076923076923
+          },
+          {
+            "id": "dev_19",
+            "question": "In which county is Kimbrough Memorial Stadium located?",
+            "pred": "Randall County.",
+            "gold": [
+              "Randall County",
+              "Randall County, Texas"
+            ],
+            "f1": 1.0
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 911,
+        "pct": 0.37691352916839055,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Who is the spouse of the Green performer?",
+            "pred": " The performer in question is A.  J.  Green, a professional football player.  The question asks for ",
+            "gold": [
+              "Miquette Giraudy"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "miquette giraudy",
+              "green (steve hillage album)"
+            ],
+            "retrieved_titles": [
+              "jape (linguistics)",
+              "iso 639:j",
+              "iso 639:j",
+              "j",
+              "professional regurgitator"
+            ]
+          },
+          {
+            "id": "dev_2",
+            "question": "What administrative territorial entity is the owner of Ciudad Deportiva located?",
+            "pred": "the four corporations (Repsol YPF, Mutua Automovilística de Madrid, Sacyr Vallehermoso, and OHL) are",
+            "gold": [
+              "Tamaulipas"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "nuevo laredo municipality",
+              "ciudad deportiva (nuevo laredo)"
+            ],
+            "retrieved_titles": [
+              "land patent",
+              "hacienda luisita",
+              "real madrid c.f.",
+              "ciudad deportiva, madrid",
+              "ciudad deportiva josé ramón cisneros palacios"
+            ]
+          },
+          {
+            "id": "dev_6",
+            "question": "Who is the grandmother of Philippe, Duke of Orléans?",
+            "pred": "Anne of Austria.",
+            "gold": [
+              "Marie de' Medici"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "leonora dori",
+              "philippe i, duke of orléans"
+            ],
+            "retrieved_titles": [
+              "anne marie louise d'orléans, duchess of montpensier",
+              "elizabeth charlotte, madame palatine",
+              "philippe i, duke of orléans",
+              "philippe i, duke of orléans",
+              "philippe ii, duke of orléans"
+            ]
+          },
+          {
+            "id": "dev_9",
+            "question": "What province shares a border with the province where Lago District is located?",
+            "pred": "Río Negro Province.",
+            "gold": [
+              "Cabo Delgado Province"
+            ],
+            "f1": 0.3333333333333333,
+            "recall": 0.0,
+            "gold_titles": [
+              "lago district",
+              "niassa reserve"
+            ],
+            "retrieved_titles": [
+              "taggia",
+              "rizal",
+              "bengo province",
+              "lago verde, chile",
+              "río negro province"
+            ]
+          },
+          {
+            "id": "dev_10",
+            "question": "What league does the team that plays in Stadio Ciro Vigorito play for?",
+            "pred": "Insufficient information to determine the league.",
+            "gold": [
+              "Lega Pro Prima Divisione"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "stadio ciro vigorito",
+              "carmelo imbriani"
+            ],
+            "retrieved_titles": [
+              "lotto sport italia nrfl division 2",
+              "a.s.d. oltrepòvoghera",
+              "a.s.d. oltrepòvoghera",
+              "u.s.d. noto calcio",
+              "a.c. montichiari"
+            ]
+          }
+        ]
+      },
+      "retrieval_miss_partial": {
+        "count": 995,
+        "pct": 0.41166735622672734,
+        "examples": [
+          {
+            "id": "dev_3",
+            "question": "Where is Ulrich Walter's employer headquartered?",
+            "pred": "Munich, Germany.",
+            "gold": [
+              "Cologne"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "ulrich walter",
+              "philae (spacecraft)"
+            ],
+            "retrieved_titles": [
+              "gustavo deco",
+              "michael kohlhase",
+              "walter selke",
+              "arbeitskreis börse",
+              "jean walter"
+            ]
+          },
+          {
+            "id": "dev_7",
+            "question": "What is the goal of the group that European Movement Germany is a member of?",
+            "pred": "to contribute to the establishment of a united, federal Europe founded on the principles of peace, d",
+            "gold": [
+              "European integration"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "bernd hüttemann",
+              "european movement international"
+            ],
+            "retrieved_titles": [
+              "european alternatives",
+              "treaty on european union",
+              "european movement international",
+              "treaties of the european union",
+              "european movement germany"
+            ]
+          },
+          {
+            "id": "dev_8",
+            "question": "What company succeeded the owner of Empire Sports Network?",
+            "pred": "Entercom Communications.",
+            "gold": [
+              "Time Warner Cable",
+              "Time Warner"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "windjammer communications",
+              "empire sports network"
+            ],
+            "retrieved_titles": [
+              "empire sports network",
+              "wlkk",
+              "empire sports network",
+              "empire sports network",
+              "empire sports network"
+            ]
+          },
+          {
+            "id": "dev_17",
+            "question": "Who is the spouse of the Rabbit Hole's producer?",
+            "pred": "Aaron Eckhart.",
+            "gold": [
+              "Keith Urban"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "rabbit hole (film)",
+              "planet cake"
+            ],
+            "retrieved_titles": [
+              "heather rae",
+              "nicole kidman",
+              "nicole kidman",
+              "rabbit hole",
+              "rabbit hole"
+            ]
+          },
+          {
+            "id": "dev_18",
+            "question": "Who is the child of Sigrid Eskilsdotter's child?",
+            "pred": "The child of Sigrid Eskilsdotter's child is not mentioned in the given information.",
+            "gold": [
+              "Svante Stensson Sture"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "sigrid sture",
+              "sigrid eskilsdotter (banér)"
+            ],
+            "retrieved_titles": [
+              "the hidden child",
+              "sigrid undset",
+              "eiríkr hákonarson",
+              "cecilia gyllenhammar",
+              "sigrún"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 141,
+        "pct": 0.05833678113363674,
+        "examples": [
+          {
+            "id": "dev_1",
+            "question": "Who founded the company that distributed the film UHF?",
+            "pred": "Michael Cieply and Michael Ovitz.",
+            "gold": [
+              "Mike Medavoy"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_16",
+            "question": "Where was Tyler MacDuff's child educated?",
+            "pred": "Blair International Baccalaureate School in Pasadena.",
+            "gold": [
+              "Blair High School"
+            ],
+            "f1": 0.4444444444444444,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_22",
+            "question": "In which county is Southern Maryland Electric Cooperative headquartered?",
+            "pred": "Hughesville.",
+            "gold": [
+              "Charles County",
+              "Charles County, Maryland"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_55",
+            "question": "What's the place of birth of the former member of The Sunnyboys?",
+            "pred": "Wagga Wagga.",
+            "gold": [
+              "Kingscliff",
+              "Kingscliff, New South Wales"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_61",
+            "question": "What event caused the Liberal Party of Australia's longest-serving leader to become Prime Minister?",
+            "pred": "Robert Menzies' resignation.",
+            "gold": [
+              "Lyons' death in 1939"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 21,
+        "pct": 0.008688456764584195,
+        "examples": [
+          {
+            "id": "dev_181",
+            "question": "What year was the father of Katherine of England crowned?",
+            "pred": " The passage mentions that Katherine of England was the fifth child of Henry III and his wife, Elean",
+            "gold": [
+              "1216"
+            ],
+            "f1": 0.03225806451612903,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_190",
+            "question": "Who played the king that was king of england in 1951 in the king's speech?",
+            "pred": "Colin Firth played the role of King George VI, but he was not the king in 1951.",
+            "gold": [
+              "Colin Firth"
+            ],
+            "f1": 0.23529411764705882,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_243",
+            "question": "Who did Hayek work for after being hired by the author of Human Action?",
+            "pred": "The information is not provided in the given documents.",
+            "gold": [
+              "the Austrian government",
+              "Austria",
+              "AT",
+              "at",
+              "AUT"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_322",
+            "question": "Where is the river where the majority of Egyptians lived located in the world?",
+            "pred": "the Nile River is located in northern Africa.",
+            "gold": [
+              "northeastern Africa",
+              "Africa"
+            ],
+            "f1": 0.25,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_375",
+            "question": "When does the river that the majority of Egyptians live near flood each year?",
+            "pred": "the Nile River floods in August, September, and October, with early indications visible in June at A",
+            "gold": [
+              "August",
+              "Aug"
+            ],
+            "f1": 0.11764705882352941,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "day6_gold_hotpotqa": {
+    "method": "Gold Context",
+    "dataset": "hotpotqa",
+    "n_total": 7405,
+    "categories": {
+      "correct": {
+        "count": 3987,
+        "pct": 0.5384199864956111,
+        "examples": [
+          {
+            "id": "dev_2",
+            "question": "What science fantasy young adult series, told in first person, has a set of companion books narratin",
+            "pred": "Animorphs",
+            "gold": [
+              "Animorphs"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_3",
+            "question": "Are the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?",
+            "pred": "No",
+            "gold": [
+              "no"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_5",
+            "question": "2014 S/S is the debut album of a South Korean boy group that was formed by who?",
+            "pred": "JYP Entertainment",
+            "gold": [
+              "YG Entertainment"
+            ],
+            "f1": 0.5
+          },
+          {
+            "id": "dev_6",
+            "question": "Who was known by his stage name Aladin and helped organizations improve their performance as a consu",
+            "pred": "Eenasul Fateh",
+            "gold": [
+              "Eenasul Fateh"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_11",
+            "question": "What screenwriter with credits for \"Evolution\" co-wrote a film starring Nicolas Cage and Téa Leoni?",
+            "pred": "David Weissman",
+            "gold": [
+              "David Weissman"
+            ],
+            "f1": 1.0
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 872,
+        "pct": 0.11775827143821742,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Were Scott Derrickson and Ed Wood of the same nationality?",
+            "pred": "No",
+            "gold": [
+              "yes"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "ed wood",
+              "scott derrickson"
+            ],
+            "retrieved_titles": []
+          },
+          {
+            "id": "dev_9",
+            "question": "Are Local H and For Against both from the United States?",
+            "pred": "No",
+            "gold": [
+              "yes"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "local h",
+              "for against"
+            ],
+            "retrieved_titles": []
+          },
+          {
+            "id": "dev_20",
+            "question": "Which other Mexican Formula One race car driver has held the podium besides the Force India driver b",
+            "pred": "Esteban Gutiérrez",
+            "gold": [
+              "Pedro Rodríguez"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "sergio pérez",
+              "formula one drivers from mexico"
+            ],
+            "retrieved_titles": []
+          },
+          {
+            "id": "dev_23",
+            "question": "Which performance act has a higher instrument to person ratio, Badly Drawn Boy or Wolf Alice? ",
+            "pred": "Wolf Alice",
+            "gold": [
+              "Badly Drawn Boy"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "wolf alice",
+              "badly drawn boy"
+            ],
+            "retrieved_titles": []
+          },
+          {
+            "id": "dev_31",
+            "question": "Hayden is a singer-songwriter from Canada, but where does Buck-Tick hail from?",
+            "pred": "Japan",
+            "gold": [
+              "Fujioka, Gunma"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "hayden (musician)",
+              "buck-tick"
+            ],
+            "retrieved_titles": []
+          }
+        ]
+      },
+      "retrieval_miss_partial": {
+        "count": 2178,
+        "pct": 0.2941255908170155,
+        "examples": [
+          {
+            "id": "dev_1",
+            "question": "What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tel",
+            "pred": "None",
+            "gold": [
+              "Chief of Protocol"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "shirley temple",
+              "kiss and tell (1945 film)"
+            ],
+            "retrieved_titles": [
+              "kiss and tell (1945 film)"
+            ]
+          },
+          {
+            "id": "dev_4",
+            "question": "The director of the romantic comedy \"Big Stone Gap\" is based in what New York city?",
+            "pred": "New York City is not mentioned in the given document.",
+            "gold": [
+              "Greenwich Village, New York City"
+            ],
+            "f1": 0.42857142857142855,
+            "recall": 0.5,
+            "gold_titles": [
+              "big stone gap (film)",
+              "adriana trigiani"
+            ],
+            "retrieved_titles": [
+              "big stone gap (film)"
+            ]
+          },
+          {
+            "id": "dev_7",
+            "question": "The arena where the Lewiston Maineiacs played their home games can seat how many people?",
+            "pred": "12000",
+            "gold": [
+              "3,677 seated"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "lewiston maineiacs",
+              "androscoggin bank colisée"
+            ],
+            "retrieved_titles": [
+              "lewiston maineiacs"
+            ]
+          },
+          {
+            "id": "dev_8",
+            "question": "Who is older, Annie Morton or Terry Richardson?",
+            "pred": "Annie Morton",
+            "gold": [
+              "Terry Richardson"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "annie morton",
+              "terry richardson"
+            ],
+            "retrieved_titles": [
+              "annie morton"
+            ]
+          },
+          {
+            "id": "dev_10",
+            "question": "What is the name of the fight song of the university whose main campus is in Lawrence, Kansas and wh",
+            "pred": "I'll need the name of the university to answer the question. Based on the document, the university i",
+            "gold": [
+              "Kansas Song"
+            ],
+            "f1": 0.09090909090909091,
+            "recall": 0.5,
+            "gold_titles": [
+              "kansas song",
+              "university of kansas"
+            ],
+            "retrieved_titles": [
+              "university of kansas"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 339,
+        "pct": 0.04577987846049966,
+        "examples": [
+          {
+            "id": "dev_13",
+            "question": "Are Random House Tower and 888 7th Avenue both used for real estate?",
+            "pred": "yes",
+            "gold": [
+              "no"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_28",
+            "question": "Kaiser Ventures corporation was founded by an American industrialist who became known as the father ",
+            "pred": "yes",
+            "gold": [
+              "Henry J. Kaiser"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_82",
+            "question": "Rostker v. Goldberg held that the practice of what way of filling armed forces vacancies was consitu",
+            "pred": "draft",
+            "gold": [
+              "Conscription"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_123",
+            "question": "Maxeda has been owned since 2004 by which American multinational equity firm?",
+            "pred": "Kohlberg Kravis Roberts",
+            "gold": [
+              "KKR & Co"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_160",
+            "question": "Who held the record for the longest service in the Australian Parliament for a woman, and was surpas",
+            "pred": "Kathy Sullivan AM, Bronwyn Bishop",
+            "gold": [
+              "Kathryn Jean Martin"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 29,
+        "pct": 0.003916272788656313,
+        "examples": [
+          {
+            "id": "dev_87",
+            "question": "Where are Teide National Park and Garajonay National Park located?",
+            "pred": "Teide National Park and Garajonay National Park are located in the Canary Islands, Spain.",
+            "gold": [
+              "Canary Islands, Spain"
+            ],
+            "f1": 0.375,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_325",
+            "question": "Katherine Waterston and Chrisann Brennan has what in common?",
+            "pred": "Katherine Waterston portrayed Chrisann Brennan in the film \"Steve Jobs\".",
+            "gold": [
+              "Steve Jobs"
+            ],
+            "f1": 0.3636363636363636,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_478",
+            "question": "What is the shared country of ancestry between Art Laboe and Scout Tufankjian?",
+            "pred": "Armenian-American",
+            "gold": [
+              "Armenian"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_773",
+            "question": "What role did Veda Hlubinka-Cook have in the making of this 1997 video game that takes place on the ",
+            "pred": "Veda Hlubinka-Cook was the technical director for the 1997 video game \"The Last Express\", which take",
+            "gold": [
+              "technical director"
+            ],
+            "f1": 0.2222222222222222,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_800",
+            "question": "Daniel Greene has created what for clients including sportscaster Bryant Gumbel, Eleanor Roosevelt, ",
+            "pred": "portraits",
+            "gold": [
+              "portrait"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "day6_gold_musique": {
+    "method": "Gold Context",
+    "dataset": "musique",
+    "n_total": 2417,
+    "categories": {
+      "correct": {
+        "count": 1514,
+        "pct": 0.6263963591228796,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Who is the spouse of the Green performer?",
+            "pred": "Miquette Giraudy",
+            "gold": [
+              "Miquette Giraudy"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_1",
+            "question": "Who founded the company that distributed the film UHF?",
+            "pred": "Mike Medavoy",
+            "gold": [
+              "Mike Medavoy"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_4",
+            "question": "Which company owns the manufacturer of Learjet 60?",
+            "pred": "Bombardier Aerospace",
+            "gold": [
+              "Bombardier Inc.",
+              "Bombardier"
+            ],
+            "f1": 0.6666666666666666
+          },
+          {
+            "id": "dev_5",
+            "question": "Who is the child of Caroline LeRoy's spouse?",
+            "pred": "Fletcher Webster",
+            "gold": [
+              "Fletcher Webster"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_7",
+            "question": "What is the goal of the group that European Movement Germany is a member of?",
+            "pred": "promoting European integration",
+            "gold": [
+              "European integration"
+            ],
+            "f1": 0.8
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 0,
+        "pct": 0.0,
+        "examples": []
+      },
+      "retrieval_miss_partial": {
+        "count": 2,
+        "pct": 0.0008274720728175424,
+        "examples": [
+          {
+            "id": "dev_2193",
+            "question": "Where does the city where Alexander Golitzen died rank in the top five largest urban areas of the st",
+            "pred": "3",
+            "gold": [
+              "third-largest"
+            ],
+            "f1": 0.0,
+            "recall": 0.75,
+            "gold_titles": [
+              "papa roach",
+              "san diego",
+              "still swingin'",
+              "alexander golitzen"
+            ],
+            "retrieved_titles": [
+              "still swingin",
+              "papa roach",
+              "alexander golitzen",
+              "san diego"
+            ]
+          },
+          {
+            "id": "dev_2208",
+            "question": "The band Pathology formed in a city whose urban area ranks where by size among the urban areas of th",
+            "pred": "3",
+            "gold": [
+              "third-largest"
+            ],
+            "f1": 0.0,
+            "recall": 0.75,
+            "gold_titles": [
+              "papa roach",
+              "san diego",
+              "still swingin'",
+              "pathology (band)"
+            ],
+            "retrieved_titles": [
+              "still swingin",
+              "papa roach",
+              "pathology (band)",
+              "san diego"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 826,
+        "pct": 0.341745966073645,
+        "examples": [
+          {
+            "id": "dev_2",
+            "question": "What administrative territorial entity is the owner of Ciudad Deportiva located?",
+            "pred": "Municipality of Nuevo Laredo",
+            "gold": [
+              "Tamaulipas"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_3",
+            "question": "Where is Ulrich Walter's employer headquartered?",
+            "pred": "German Aerospace Center",
+            "gold": [
+              "Cologne"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_6",
+            "question": "Who is the grandmother of Philippe, Duke of Orléans?",
+            "pred": "Anne of Austria",
+            "gold": [
+              "Marie de' Medici"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_8",
+            "question": "What company succeeded the owner of Empire Sports Network?",
+            "pred": "Windjammer Communications",
+            "gold": [
+              "Time Warner Cable",
+              "Time Warner"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_17",
+            "question": "Who is the spouse of the Rabbit Hole's producer?",
+            "pred": "Nicole Kidman",
+            "gold": [
+              "Keith Urban"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 75,
+        "pct": 0.03103020273065784,
+        "examples": [
+          {
+            "id": "dev_84",
+            "question": "In which state is Vera Barbosa's place of birth located?",
+            "pred": "Vila Franca de Xira is located in the Lisbon District in Portugal.",
+            "gold": [
+              "Lisbon District",
+              "Lisbon",
+              "AML"
+            ],
+            "f1": 0.3076923076923077,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_88",
+            "question": "Where is the country with ISO code ISO 3166-2:CV located?",
+            "pred": "Cabo Verde is an island country spanning an archipelago of 10 volcanic islands in the central Atlant",
+            "gold": [
+              "central Atlantic Ocean",
+              "Atlantic Ocean",
+              "Atlantic"
+            ],
+            "f1": 0.2727272727272727,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_116",
+            "question": "What is the birthplace of the person after whom São José dos Campos was named?",
+            "pred": "São José dos Campos was named after Saint Joseph, who was born in Nazareth.",
+            "gold": [
+              "Nazareth"
+            ],
+            "f1": 0.13333333333333333,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_125",
+            "question": "Who is the child of Chiang Hsiao-wen's father?",
+            "pred": "Chiang Hsiao-wen, Chiang Hsiao-chang, Chiang Hsiao-wu, Chiang Hsiao-yung,",
+            "gold": [
+              "Chiang Hsiao-wu",
+              "Alex Chiang"
+            ],
+            "f1": 0.4,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_157",
+            "question": "What kind of recognition did the actor who played the game maker in hunger games receive?",
+            "pred": "Philip Seymour Hoffman, who is not associated with The Hunger Games but was nominated for an Academy",
+            "gold": [
+              "nominated for an Academy Award for Best Supporting Actor",
+              "Academy Award for Best Supporting Actor"
+            ],
+            "f1": 0.45714285714285713,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "day6_gold_2wiki": {
+    "method": "Gold Context",
+    "dataset": "2wikimultihopqa",
+    "n_total": 12576,
+    "categories": {
+      "correct": {
+        "count": 9100,
+        "pct": 0.7236005089058524,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Who is the mother of the director of film Polish-Russian War (Film)?",
+            "pred": "Małgorzata Braunek",
+            "gold": [
+              "Małgorzata Braunek"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_1",
+            "question": "Which film came out first, Blind Shaft or The Mask Of Fu Manchu?",
+            "pred": "The Mask Of Fu Manchu",
+            "gold": [
+              "The Mask Of Fu Manchu",
+              "Mask of Fu Manchu",
+              "The Mask of Fu Manchu"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_2",
+            "question": "When did John V, Prince Of Anhalt-Zerbst's father die?",
+            "pred": "12 June 1516",
+            "gold": [
+              "12 June 1516"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_3",
+            "question": "What is the award that the director of film Wearing Velvet Slippers Under A Golden Umbrella won?",
+            "pred": "Myanmar Motion Picture Academy Awards",
+            "gold": [
+              "Myanmar Motion Picture Academy Awards"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_4",
+            "question": "Where was the director of film Ronnie Rocket born?",
+            "pred": "Missoula, Montana",
+            "gold": [
+              "Missoula",
+              "Missoula, Montana"
+            ],
+            "f1": 1.0
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 0,
+        "pct": 0.0,
+        "examples": []
+      },
+      "retrieval_miss_partial": {
+        "count": 6,
+        "pct": 0.00047709923664122136,
+        "examples": [
+          {
+            "id": "dev_4339",
+            "question": "Where did Baha Al-Dawla's father die?",
+            "pred": "The document does not provide information about where Baha Al-Dawla's father died.",
+            "gold": [
+              "Bagdad",
+              "Baghdad",
+              "Baghdād"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "baha al-dawla",
+              "'adud al-dawla"
+            ],
+            "retrieved_titles": [
+              "baha al-dawla",
+              "adud al-dawla"
+            ]
+          },
+          {
+            "id": "dev_4931",
+            "question": "Which film has the director died earlier, Hôtel Du Nord or Down In 'Arkansaw'?",
+            "pred": "Hôtel Du Nord",
+            "gold": [
+              "Down In 'Arkansaw'",
+              "Down in 'Arkansaw'"
+            ],
+            "f1": 0.0,
+            "recall": 0.75,
+            "gold_titles": [
+              "marcel carné",
+              "hôtel du nord",
+              "down in 'arkansaw'",
+              "nick grinde"
+            ],
+            "retrieved_titles": [
+              "hôtel du nord",
+              "down in 'arkansaw",
+              "marcel carné",
+              "nick grinde"
+            ]
+          },
+          {
+            "id": "dev_6146",
+            "question": "Which film whose director is younger, Hôtel Du Nord or Down In 'Arkansaw'?",
+            "pred": "Down In 'Arkansaw'",
+            "gold": [
+              "Hôtel Du Nord",
+              "Hôtel du Nord",
+              "Hotel du Nord",
+              "hôtel du Nord"
+            ],
+            "f1": 0.0,
+            "recall": 0.75,
+            "gold_titles": [
+              "marcel carné",
+              "hôtel du nord",
+              "down in 'arkansaw'",
+              "nick grinde"
+            ],
+            "retrieved_titles": [
+              "down in 'arkansaw",
+              "marcel carné",
+              "nick grinde",
+              "hôtel du nord"
+            ]
+          },
+          {
+            "id": "dev_8968",
+            "question": "What nationality is the performer of song Yoda (Song)?",
+            "pred": "American",
+            "gold": [
+              "U.S.A.",
+              "US of A",
+              "US",
+              "United States of America",
+              "USA",
+              "the United States of America",
+              "United States",
+              "the US",
+              "🇺🇸",
+              "the United States",
+              "U.S.",
+              "America",
+              "the USA"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "yoda (song)",
+              "\"weird al\" yankovic"
+            ],
+            "retrieved_titles": [
+              "weird al\" yankovic",
+              "yoda (song)"
+            ]
+          },
+          {
+            "id": "dev_9542",
+            "question": "Where did Taj Al-Dawla's father die?",
+            "pred": "The document does not provide information about where Taj Al-Dawla's father died.",
+            "gold": [
+              "Bagdad",
+              "Baghdad",
+              "Baghdād"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "'adud al-dawla",
+              "taj al-dawla"
+            ],
+            "retrieved_titles": [
+              "adud al-dawla",
+              "taj al-dawla"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 3177,
+        "pct": 0.2526240458015267,
+        "examples": [
+          {
+            "id": "dev_8",
+            "question": "Which film has the director who was born later, El Extraño Viaje or Love In Pawn?",
+            "pred": "Love In Pawn",
+            "gold": [
+              "El extraño viaje",
+              "Extraño viaje",
+              "El Extraño Viaje"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_9",
+            "question": "Who is the maternal grandfather of Antiochus X Eusebes?",
+            "pred": "Antiochus VIII",
+            "gold": [
+              "Ptolemy IX Soter",
+              "Lathyros",
+              "Ptolemy 09",
+              "Ptolemy IX Lathyros",
+              "Ptolemy IX Soter II"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_10",
+            "question": "Which film has the director died first, Crimen A Las Tres or The Working Class Goes To Heaven?",
+            "pred": "Crimen A Las Tres",
+            "gold": [
+              "La classe operaia va in paradiso",
+              "The Working Class Goes To Heaven",
+              "Working Class Goes to Heaven",
+              "The Working Class Goes to Heaven"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_12",
+            "question": "Which film has the director who died earlier, Il Seduttore or The Trial Of Joan Of Arc?",
+            "pred": "Il Seduttore",
+            "gold": [
+              "The Trial of Joan of Arc",
+              "Trial of Joan of Arc",
+              "Procès de Jeanne d'Arc",
+              "The Trial Of Joan Of Arc"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_13",
+            "question": "Where was the director of film Thomas Jefferson (Film) born?",
+            "pred": "1953",
+            "gold": [
+              "Brooklyn, New York",
+              "Brooklyn"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 293,
+        "pct": 0.023298346055979642,
+        "examples": [
+          {
+            "id": "dev_14",
+            "question": "Why did Grand Duke Kirill Vladimirovich Of Russia's wife die?",
+            "pred": "Victoria died after suffering a stroke while visiting her daughter Maria in Amorbach.",
+            "gold": [
+              "embolic stroke",
+              "stroke",
+              "cerebrovascular accident",
+              "CVA",
+              "CVI",
+              "Stroke",
+              "brain attack",
+              "cerebrovascular insult",
+              "cerebrovascular disorder"
+            ],
+            "f1": 0.15384615384615385,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_21",
+            "question": "What nationality is the director of film World And Time Enough?",
+            "pred": "American",
+            "gold": [
+              "U.S.A.",
+              "US of A",
+              "US",
+              "United States of America",
+              "USA",
+              "the United States of America",
+              "United States",
+              "the US",
+              "🇺🇸",
+              "the United States",
+              "U.S.",
+              "America",
+              "the USA"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_34",
+            "question": "Why did John Middleton Murry's wife die?",
+            "pred": "Katherine Mansfield was diagnosed with extrapulmonary tuberculosis in 1917; the disease claimed her ",
+            "gold": [
+              "phthisis",
+              "hydrothorax",
+              "tuberculosis",
+              "Tuberculosis",
+              "consumption",
+              "In the clinic. Tuberculosis",
+              "phthisis pulmonalis",
+              "TB"
+            ],
+            "f1": 0.2,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_69",
+            "question": "Where did Prince Gustav Of Thurn And Taxis (1848–1914)'s mother die?",
+            "pred": "Meran, County of Tyrol, Austria–Hungary",
+            "gold": [
+              "Merano",
+              "Meran"
+            ],
+            "f1": 0.33333333333333337,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_133",
+            "question": "What nationality is the director of film They Call It Love?",
+            "pred": "Austrian",
+            "gold": [
+              "U.S.A.",
+              "American",
+              "US of A",
+              "US",
+              "United States of America",
+              "USA",
+              "the United States of America",
+              "United States",
+              "the US",
+              "🇺🇸",
+              "the United States",
+              "U.S.",
+              "America",
+              "the USA"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "day6_standard_rag_2wiki": {
+    "method": "Standard RAG",
+    "dataset": "2wikimultihopqa",
+    "n_total": 12576,
+    "categories": {
+      "correct": {
+        "count": 4005,
+        "pct": 0.3184637404580153,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Who is the mother of the director of film Polish-Russian War (Film)?",
+            "pred": "Małgorzata Braunek",
+            "gold": [
+              "Małgorzata Braunek"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_2",
+            "question": "When did John V, Prince Of Anhalt-Zerbst's father die?",
+            "pred": "1516",
+            "gold": [
+              "12 June 1516"
+            ],
+            "f1": 0.5
+          },
+          {
+            "id": "dev_5",
+            "question": "Who is Charles Bretagne Marie De La Trémoille's paternal grandfather?",
+            "pred": "Charles Armand René de La Trémoille",
+            "gold": [
+              "Charles Armand René de La Trémoille",
+              "Charles Armand Rene de La Tremoille"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_6",
+            "question": "Where was the father of Ștefan I. Nenițescu born?",
+            "pred": "Galați",
+            "gold": [
+              "Galac",
+              "Galaţi",
+              "Galati",
+              "Galatz",
+              "Galați"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_7",
+            "question": "Are North Marion High School (Oregon) and Seoul High School both located in the same country?",
+            "pred": "No",
+            "gold": [
+              "no"
+            ],
+            "f1": 1.0
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 3084,
+        "pct": 0.2452290076335878,
+        "examples": [
+          {
+            "id": "dev_17",
+            "question": "Which film has the director born first, The Raven'S Dance or Keïta! L'Héritage Du Griot?",
+            "pred": "Keïta! L'Héritage Du Griot",
+            "gold": [
+              "The Raven's Dance",
+              "Raven's Dance",
+              "The Raven'S Dance"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "markku lehmuskallio",
+              "keïta! l'héritage du griot",
+              "the raven's dance",
+              "dani kouyaté"
+            ],
+            "retrieved_titles": [
+              "keïta! l'héritage du griot",
+              "keïta! l'héritage du griot",
+              "keïta! l'héritage du griot",
+              "fodéba keïta",
+              "fodéba keïta"
+            ]
+          },
+          {
+            "id": "dev_22",
+            "question": "Which film has the director died earlier, Poker In Bed or The Machine To Kill Bad People?",
+            "pred": "Death Machine",
+            "gold": [
+              "The Machine To Kill Bad People",
+              "La macchina ammazzacattivi",
+              "The Machine to Kill Bad People",
+              "Machine to Kill Bad People"
+            ],
+            "f1": 0.28571428571428575,
+            "recall": 0.0,
+            "gold_titles": [
+              "giuliano carnimeo",
+              "poker in bed",
+              "roberto rossellini",
+              "the machine to kill bad people"
+            ],
+            "retrieved_titles": [
+              "the gunman (film)",
+              "death machine",
+              "faces in the dark",
+              "in the bedroom",
+              "con games"
+            ]
+          },
+          {
+            "id": "dev_23",
+            "question": "Which film whose director is younger, Heads I Win, Tails You Lose or The Incredible Sarah?",
+            "pred": "The Incredible Sarah",
+            "gold": [
+              "Testa o croce",
+              "Heads I Win, Tails You Lose"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "heads i win, tails you lose",
+              "richard fleischer",
+              "nanni loy",
+              "the incredible sarah"
+            ],
+            "retrieved_titles": [
+              "sarah (film)",
+              "i love sarah jane",
+              "the incredibles (franchise)",
+              "princess sarah",
+              "x+y"
+            ]
+          },
+          {
+            "id": "dev_25",
+            "question": "Who is Marie Zéphyrine Of France's paternal grandmother?",
+            "pred": "Maria Josepha of Saxony",
+            "gold": [
+              "Königin Maria Frankreich",
+              "Queen, consort of Louis XV, King of France Marie Leszczyńska",
+              "Queen, consort of Louis XV, King of France Maria Leszczyńska",
+              "Marie-Catherine Leszczyńska",
+              "Marie Leszczyńska",
+              "Queen consort of Louis XV Marie Leszczyńska",
+              "Marie Leszczyńska reine de France",
+              "queen of France Marie Leszczyńska"
+            ],
+            "f1": 0.28571428571428575,
+            "recall": 0.0,
+            "gold_titles": [
+              "louis, dauphin of france (son of louis xv)",
+              "marie zéphyrine of france"
+            ],
+            "retrieved_titles": [
+              "marie zéphyrine of france",
+              "marie zéphyrine of france",
+              "maria josepha of saxony, dauphine of france",
+              "marie lafarge",
+              "adrienne de la fayette"
+            ]
+          },
+          {
+            "id": "dev_27",
+            "question": "Who is the spouse of the director of film Eden And After?",
+            "pred": "Sven Hansen-Løve",
+            "gold": [
+              "Catherine Robbe-Grillet"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "alain robbe-grillet",
+              "eden and after"
+            ],
+            "retrieved_titles": [
+              "after the wedding (2017 film)",
+              "paul almond",
+              "afterwards",
+              "eden (2014 french film)",
+              "waiting for eden"
+            ]
+          }
+        ]
+      },
+      "retrieval_miss_partial": {
+        "count": 5042,
+        "pct": 0.4009223918575064,
+        "examples": [
+          {
+            "id": "dev_3",
+            "question": "What is the award that the director of film Wearing Velvet Slippers Under A Golden Umbrella won?",
+            "pred": "The director of the film Wearing Velvet Slippers Under A Golden Umbrella, Maung Wunna, won the award",
+            "gold": [
+              "Myanmar Motion Picture Academy Awards"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "wearing velvet slippers under a golden umbrella",
+              "wunna"
+            ],
+            "retrieved_titles": [
+              "wearing velvet slippers under a golden umbrella",
+              "wearing velvet slippers under a golden umbrella",
+              "bigscreen festival",
+              "empire award for best director",
+              "yen tan"
+            ]
+          },
+          {
+            "id": "dev_4",
+            "question": "Where was the director of film Ronnie Rocket born?",
+            "pred": "The information provided does not specify the birthplace of the director of the film Ronnie Rocket. ",
+            "gold": [
+              "Missoula",
+              "Missoula, Montana"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "david lynch",
+              "ronnie rocket"
+            ],
+            "retrieved_titles": [
+              "ronnie rocket",
+              "rocket gibraltar",
+              "ronnie rocket",
+              "ronnie rocket",
+              "rocket gibraltar"
+            ]
+          },
+          {
+            "id": "dev_9",
+            "question": "Who is the maternal grandfather of Antiochus X Eusebes?",
+            "pred": "Antiochus VII Sidetes",
+            "gold": [
+              "Ptolemy IX Soter",
+              "Lathyros",
+              "Ptolemy 09",
+              "Ptolemy IX Lathyros",
+              "Ptolemy IX Soter II"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "cleopatra iv of egypt",
+              "antiochus x eusebes"
+            ],
+            "retrieved_titles": [
+              "antiochus x eusebes",
+              "antiochus x eusebes",
+              "antiochus x eusebes",
+              "antiochus ix cyzicenus",
+              "antiochus x eusebes"
+            ]
+          },
+          {
+            "id": "dev_14",
+            "question": "Why did Grand Duke Kirill Vladimirovich Of Russia's wife die?",
+            "pred": "Grand Duchess Kira Kirillovna of Russia died of a heart attack that night after suffering one during",
+            "gold": [
+              "embolic stroke",
+              "stroke",
+              "cerebrovascular accident",
+              "CVA",
+              "CVI",
+              "Stroke",
+              "brain attack",
+              "cerebrovascular insult",
+              "cerebrovascular disorder"
+            ],
+            "f1": 0.09090909090909091,
+            "recall": 0.5,
+            "gold_titles": [
+              "princess victoria melita of saxe-coburg and gotha",
+              "grand duke kirill vladimirovich of russia"
+            ],
+            "retrieved_titles": [
+              "grand duke kirill vladimirovich of russia",
+              "grand duchess kira kirillovna of russia",
+              "grand duke vladimir kirillovich of russia",
+              "grand duke vladimir alexandrovich of russia",
+              "grand duke vladimir kirillovich of russia"
+            ]
+          },
+          {
+            "id": "dev_15",
+            "question": "Where was the place of death of the director of film Beat Girl?",
+            "pred": "UK",
+            "gold": [
+              "Nice",
+              "Nizza",
+              "Nice, France"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "edmond t. gréville",
+              "beat girl"
+            ],
+            "retrieved_titles": [
+              "beat (2000 film)",
+              "beat girl",
+              "beat richner",
+              "murder of alexandra zapp",
+              "police beat"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 424,
+        "pct": 0.03371501272264631,
+        "examples": [
+          {
+            "id": "dev_1",
+            "question": "Which film came out first, Blind Shaft or The Mask Of Fu Manchu?",
+            "pred": "Blind Shaft",
+            "gold": [
+              "The Mask Of Fu Manchu",
+              "Mask of Fu Manchu",
+              "The Mask of Fu Manchu"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_20",
+            "question": "Which film was released earlier, Moment Of Danger or The Ballad Of Josie?",
+            "pred": "The Ballad Of Josie",
+            "gold": [
+              "Moment Of Danger",
+              "Malaga",
+              "Moment of Danger"
+            ],
+            "f1": 0.3333333333333333,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_54",
+            "question": "Who is Arthur Gore, 2Nd Earl Of Arran's paternal grandfather?",
+            "pred": "Arthur Gore, 1st Earl of Arran",
+            "gold": [
+              "Sir Arthur Gore, 2nd Baronet",
+              "Sir Arthur Gore, 2nd Bt."
+            ],
+            "f1": 0.3636363636363636,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_74",
+            "question": "Are both businesses, Telus and Ztr Control Systems, located in the same country?",
+            "pred": "No",
+            "gold": [
+              "yes"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_120",
+            "question": "Which school was established first, Whitehorse Manor Junior School or Sabawoon Rehabilitation Centre",
+            "pred": "Whitehorse Manor Junior School",
+            "gold": [
+              "Sabawoon Rehabilitation Centre"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 21,
+        "pct": 0.0016698473282442748,
+        "examples": [
+          {
+            "id": "dev_1434",
+            "question": "What nationality is the director of film The Whole Wide World?",
+            "pred": "American",
+            "gold": [
+              "🇨🇦",
+              "Canadian",
+              "CDN",
+              "Canada",
+              "British North America",
+              "CAN",
+              "One Law for the Woman",
+              "CA",
+              "ca",
+              "can",
+              "Dominion of Canada"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_1650",
+            "question": "Where was the father of Emily Eavis born?",
+            "pred": "Athelstan Joseph Michael Eavis was born in Pilton, Somerset.",
+            "gold": [
+              "Pilton, Somerset",
+              "Pilton"
+            ],
+            "f1": 0.3636363636363636,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2037",
+            "question": "Where was the place of death of Michel, 14Th Prince Of Ligne's father?",
+            "pred": "Château de Belœil, Belgium",
+            "gold": [
+              "Beloeil",
+              "Belœil"
+            ],
+            "f1": 0.4,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2152",
+            "question": "Where did Dolores Hope's husband die?",
+            "pred": "at his home in Toluca Lake, California",
+            "gold": [
+              "Toluca Lake, Los Angeles",
+              "Toluca Lake"
+            ],
+            "f1": 0.4444444444444445,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2999",
+            "question": "What nationality is the director of film Armless?",
+            "pred": "American",
+            "gold": [
+              "U.S.A.",
+              "US of A",
+              "US",
+              "United States of America",
+              "USA",
+              "the United States of America",
+              "United States",
+              "the US",
+              "🇺🇸",
+              "the United States",
+              "U.S.",
+              "America",
+              "the USA"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "day6_reranker_2wiki": {
+    "method": "Reranker",
+    "dataset": "2wikimultihopqa",
+    "n_total": 12576,
+    "categories": {
+      "correct": {
+        "count": 4383,
+        "pct": 0.3485209923664122,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Who is the mother of the director of film Polish-Russian War (Film)?",
+            "pred": "Małgorzata Braunek",
+            "gold": [
+              "Małgorzata Braunek"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_1",
+            "question": "Which film came out first, Blind Shaft or The Mask Of Fu Manchu?",
+            "pred": "The Mask Of Fu Manchu",
+            "gold": [
+              "The Mask Of Fu Manchu",
+              "Mask of Fu Manchu",
+              "The Mask of Fu Manchu"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_2",
+            "question": "When did John V, Prince Of Anhalt-Zerbst's father die?",
+            "pred": "1516",
+            "gold": [
+              "12 June 1516"
+            ],
+            "f1": 0.5
+          },
+          {
+            "id": "dev_5",
+            "question": "Who is Charles Bretagne Marie De La Trémoille's paternal grandfather?",
+            "pred": "Jean Bretagne Charles de La Trémoille",
+            "gold": [
+              "Charles Armand René de La Trémoille",
+              "Charles Armand Rene de La Tremoille"
+            ],
+            "f1": 0.6666666666666666
+          },
+          {
+            "id": "dev_7",
+            "question": "Are North Marion High School (Oregon) and Seoul High School both located in the same country?",
+            "pred": "No",
+            "gold": [
+              "no"
+            ],
+            "f1": 1.0
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 2609,
+        "pct": 0.2074586513994911,
+        "examples": [
+          {
+            "id": "dev_6",
+            "question": "Where was the father of Ștefan I. Nenițescu born?",
+            "pred": "Bucharest",
+            "gold": [
+              "Galac",
+              "Galaţi",
+              "Galati",
+              "Galatz",
+              "Galați"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "ioan s. nenițescu",
+              "ștefan i. nenițescu"
+            ],
+            "retrieved_titles": [
+              "ștefan i. nenițescu",
+              "ștefan i. nenițescu",
+              "ioan s. nenițescu",
+              "ioan s. nenițescu",
+              "ion creangă"
+            ]
+          },
+          {
+            "id": "dev_11",
+            "question": "Which film has the director born first, Once A Gentleman or The Girl In White?",
+            "pred": "The Girl In White",
+            "gold": [
+              "Once a Gentleman",
+              "Once A Gentleman"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "james cruze",
+              "once a gentleman",
+              "the girl in white",
+              "john sturges"
+            ],
+            "retrieved_titles": [
+              "lady in white",
+              "the first gentleman",
+              "the white countess",
+              "once a lady",
+              "the woman in white (1948 film)"
+            ]
+          },
+          {
+            "id": "dev_17",
+            "question": "Which film has the director born first, The Raven'S Dance or Keïta! L'Héritage Du Griot?",
+            "pred": "Keïta! l'Héritage du griot",
+            "gold": [
+              "The Raven's Dance",
+              "Raven's Dance",
+              "The Raven'S Dance"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "markku lehmuskallio",
+              "keïta! l'héritage du griot",
+              "the raven's dance",
+              "dani kouyaté"
+            ],
+            "retrieved_titles": [
+              "keïta! l'héritage du griot",
+              "keïta! l'héritage du griot",
+              "alidou badini",
+              "alidou badini",
+              "dani kouyaté"
+            ]
+          },
+          {
+            "id": "dev_19",
+            "question": "Which film has the director who died earlier, Tangled Destinies or The Daltons' Women?",
+            "pred": "La Ballade des Dalton",
+            "gold": [
+              "Tangled Destinies"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "thomas carr (director)",
+              "frank r. strayer",
+              "tangled destinies",
+              "the daltons' women"
+            ],
+            "retrieved_titles": [
+              "robin dalton",
+              "reginald denham",
+              "la ballade des dalton",
+              "tangled (2001 film)",
+              "dorothy dalton"
+            ]
+          },
+          {
+            "id": "dev_22",
+            "question": "Which film has the director died earlier, Poker In Bed or The Machine To Kill Bad People?",
+            "pred": "Death Machine",
+            "gold": [
+              "The Machine To Kill Bad People",
+              "La macchina ammazzacattivi",
+              "The Machine to Kill Bad People",
+              "Machine to Kill Bad People"
+            ],
+            "f1": 0.28571428571428575,
+            "recall": 0.0,
+            "gold_titles": [
+              "giuliano carnimeo",
+              "poker in bed",
+              "roberto rossellini",
+              "the machine to kill bad people"
+            ],
+            "retrieved_titles": [
+              "dario argento",
+              "lem dobbs",
+              "the gunman (film)",
+              "ghost in the machine (film)",
+              "death machine"
+            ]
+          }
+        ]
+      },
+      "retrieval_miss_partial": {
+        "count": 4993,
+        "pct": 0.3970260814249364,
+        "examples": [
+          {
+            "id": "dev_3",
+            "question": "What is the award that the director of film Wearing Velvet Slippers Under A Golden Umbrella won?",
+            "pred": "Maung Wunna won an award for his screenplay in 1970, but the specific award is not mentioned in the ",
+            "gold": [
+              "Myanmar Motion Picture Academy Awards"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "wearing velvet slippers under a golden umbrella",
+              "wunna"
+            ],
+            "retrieved_titles": [
+              "wearing velvet slippers under a golden umbrella",
+              "wearing velvet slippers under a golden umbrella",
+              "stephen frears",
+              "jabbar patel",
+              "velvet goldmine"
+            ]
+          },
+          {
+            "id": "dev_4",
+            "question": "Where was the director of film Ronnie Rocket born?",
+            "pred": "The given documents do not provide information about the birthplace of the director of the film Ronn",
+            "gold": [
+              "Missoula",
+              "Missoula, Montana"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "david lynch",
+              "ronnie rocket"
+            ],
+            "retrieved_titles": [
+              "ronnie rocket",
+              "ronnie rocket",
+              "ronnie rocket",
+              "ronnie rocket",
+              "ronnie rocket"
+            ]
+          },
+          {
+            "id": "dev_9",
+            "question": "Who is the maternal grandfather of Antiochus X Eusebes?",
+            "pred": "Antiochus VII Sidetes",
+            "gold": [
+              "Ptolemy IX Soter",
+              "Lathyros",
+              "Ptolemy 09",
+              "Ptolemy IX Lathyros",
+              "Ptolemy IX Soter II"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "cleopatra iv of egypt",
+              "antiochus x eusebes"
+            ],
+            "retrieved_titles": [
+              "antiochus x eusebes",
+              "antiochus x eusebes",
+              "antiochus x eusebes",
+              "antiochus ix cyzicenus",
+              "antiochus x eusebes"
+            ]
+          },
+          {
+            "id": "dev_13",
+            "question": "Where was the director of film Thomas Jefferson (Film) born?",
+            "pred": "The document does not provide information about the birthplace of the director of the film \"Thomas J",
+            "gold": [
+              "Brooklyn, New York",
+              "Brooklyn"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "ken burns",
+              "thomas jefferson (film)"
+            ],
+            "retrieved_titles": [
+              "thomas jefferson (film)",
+              "thomas jefferson",
+              "thomas jefferson",
+              "uss shadwell (lsd-15)",
+              "jefferson college (mississippi)"
+            ]
+          },
+          {
+            "id": "dev_14",
+            "question": "Why did Grand Duke Kirill Vladimirovich Of Russia's wife die?",
+            "pred": "The document does not provide information about the death of Grand Duke Kirill Vladimirovich of Russ",
+            "gold": [
+              "embolic stroke",
+              "stroke",
+              "cerebrovascular accident",
+              "CVA",
+              "CVI",
+              "Stroke",
+              "brain attack",
+              "cerebrovascular insult",
+              "cerebrovascular disorder"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "princess victoria melita of saxe-coburg and gotha",
+              "grand duke kirill vladimirovich of russia"
+            ],
+            "retrieved_titles": [
+              "grand duchess kira kirillovna of russia",
+              "grand duke kirill vladimirovich of russia",
+              "grand duke kirill vladimirovich of russia",
+              "grand duke vladimir alexandrovich of russia",
+              "grand duchess kira kirillovna of russia"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 555,
+        "pct": 0.04413167938931298,
+        "examples": [
+          {
+            "id": "dev_20",
+            "question": "Which film was released earlier, Moment Of Danger or The Ballad Of Josie?",
+            "pred": "The Ballad Of Josie",
+            "gold": [
+              "Moment Of Danger",
+              "Malaga",
+              "Moment of Danger"
+            ],
+            "f1": 0.3333333333333333,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_40",
+            "question": "Are Simonds Catholic College and Saginaw High School (Texas) both located in the same country?",
+            "pred": "yes",
+            "gold": [
+              "no"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_55",
+            "question": "Are both Kaufland and Otrag located in the same country?",
+            "pred": "No",
+            "gold": [
+              "yes"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_61",
+            "question": "Where was the place of death of the director of film Mole Men Against The Son Of Hercules?",
+            "pred": "Los Angeles, California",
+            "gold": [
+              "Roma",
+              "The Eternal City",
+              "Rome",
+              "Rome Italy"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_82",
+            "question": "Where was the performer of song God (John Lennon Song) born?",
+            "pred": "Ronkonkoma, New York",
+            "gold": [
+              "City of Liverpool",
+              "Liverpool"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 36,
+        "pct": 0.0028625954198473282,
+        "examples": [
+          {
+            "id": "dev_294",
+            "question": "Which country the director of film One Night At Mccool'S is from?",
+            "pred": "Netherlands-Norway",
+            "gold": [
+              "Norwegian",
+              "Kingdom of Norway",
+              "Norvège‏",
+              "Norwegen‏",
+              "no",
+              "NOR",
+              "NO",
+              "🇳🇴",
+              "Norge",
+              "Norway",
+              "Noreg"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_925",
+            "question": "Where does Princess Rym Al-Ali's father work at?",
+            "pred": "former Algerian Minister for Foreign Affairs and senior UN official",
+            "gold": [
+              "United Nations Organization",
+              "UN",
+              "United Nations",
+              "🇺🇳",
+              "UNO"
+            ],
+            "f1": 0.18181818181818182,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_974",
+            "question": "What is the place of birth of the performer of song Outta My Head (Leona Lewis Song)?",
+            "pred": "London Borough of Islington",
+            "gold": [
+              "London, England",
+              "London",
+              "London, United Kingdom",
+              "London, UK"
+            ],
+            "f1": 0.4,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2037",
+            "question": "Where was the place of death of Michel, 14Th Prince Of Ligne's father?",
+            "pred": "Château de Belœil, Belgium",
+            "gold": [
+              "Beloeil",
+              "Belœil"
+            ],
+            "f1": 0.4,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2115",
+            "question": "What is the place of birth of the performer of song Don'T Let Me Down (Leona Lewis Song)?",
+            "pred": "London Borough of Islington",
+            "gold": [
+              "London, England",
+              "London",
+              "London, United Kingdom",
+              "London, UK"
+            ],
+            "f1": 0.4,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  }
+}

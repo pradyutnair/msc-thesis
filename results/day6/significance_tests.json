@@ -1,0 +1,316 @@
+{
+  "hotpotqa": [
+    {
+      "name": "Value of Retrieval (Naive vs Standard RAG)",
+      "method_a": "day1_standard_rag_hotpotqa",
+      "method_b": "day6_naive_hotpotqa",
+      "n_common": 7405,
+      "em": {
+        "method_a_mean": 0.3164078325455773,
+        "method_b_mean": 0.1851451721809588,
+        "observed_diff": 0.1312626603646185,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": 0.13137785280216072,
+        "bootstrap_diff_std": 0.005510855358799065,
+        "n": 7405
+      },
+      "f1": {
+        "method_a_mean": 0.42011981743164534,
+        "method_b_mean": 0.25291178205601916,
+        "observed_diff": 0.16720803537562617,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": 0.1672925837987121,
+        "bootstrap_diff_std": 0.005498602762364474,
+        "n": 7405
+      }
+    },
+    {
+      "name": "Value of Reranking (Standard RAG vs Reranker)",
+      "method_a": "day2_reranker_hotpotqa",
+      "method_b": "day1_standard_rag_hotpotqa",
+      "n_common": 7405,
+      "em": {
+        "method_a_mean": 0.3640783254557731,
+        "method_b_mean": 0.3164078325455773,
+        "observed_diff": 0.047670492910195816,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": 0.04763322079675895,
+        "bootstrap_diff_std": 0.004237176769923655,
+        "n": 7405
+      },
+      "f1": {
+        "method_a_mean": 0.47416919901667737,
+        "method_b_mean": 0.42011981743164534,
+        "observed_diff": 0.05404938158503203,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": 0.05407639662143636,
+        "bootstrap_diff_std": 0.004158979512896214,
+        "n": 7405
+      }
+    },
+    {
+      "name": "Iterative vs Single-shot (Reranker vs IRCoT)",
+      "method_a": "day4_ircot_hotpotqa",
+      "method_b": "day2_reranker_hotpotqa",
+      "n_common": 7405,
+      "em": {
+        "method_a_mean": 0.3064145847400405,
+        "method_b_mean": 0.3640783254557731,
+        "observed_diff": -0.0576637407157326,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": -0.057859554355165425,
+        "bootstrap_diff_std": 0.005300243848199201,
+        "n": 7405
+      },
+      "f1": {
+        "method_a_mean": 0.42605834573646206,
+        "method_b_mean": 0.47416919901667737,
+        "observed_diff": -0.048110853280215304,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": -0.04834749745902025,
+        "bootstrap_diff_std": 0.004962194263525911,
+        "n": 7405
+      }
+    },
+    {
+      "name": "Does CoT help? (Reranker vs Reranker+CoT)",
+      "method_a": "day5_reranker_cot_short_hotpotqa",
+      "method_b": "day2_reranker_hotpotqa",
+      "n_common": 7405,
+      "em": {
+        "method_a_mean": 0.3439567859554355,
+        "method_b_mean": 0.3640783254557731,
+        "observed_diff": -0.020121539500337626,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": -0.020292099932478058,
+        "bootstrap_diff_std": 0.004037400883248198,
+        "n": 7405
+      },
+      "f1": {
+        "method_a_mean": 0.45561765555790185,
+        "method_b_mean": 0.47416919901667737,
+        "observed_diff": -0.01855154345877552,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": -0.01873448383959848,
+        "bootstrap_diff_std": 0.003608737472958102,
+        "n": 7405
+      }
+    },
+    {
+      "name": "Room for Improvement (Reranker vs Gold Context)",
+      "method_a": "day6_gold_hotpotqa",
+      "method_b": "day2_reranker_hotpotqa",
+      "n_common": 7405,
+      "em": {
+        "method_a_mean": 0.4024307900067522,
+        "method_b_mean": 0.3640783254557731,
+        "observed_diff": 0.03835246455097907,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": 0.03820513166779203,
+        "bootstrap_diff_std": 0.005494395882724705,
+        "n": 7405
+      },
+      "f1": {
+        "method_a_mean": 0.5131448477000093,
+        "method_b_mean": 0.47416919901667737,
+        "observed_diff": 0.038975648683331976,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": 0.0388548166751814,
+        "bootstrap_diff_std": 0.00543409474866127,
+        "n": 7405
+      }
+    }
+  ],
+  "musique": [
+    {
+      "name": "Value of Retrieval (Naive vs Standard RAG)",
+      "method_a": "day1_standard_rag_musique",
+      "method_b": "day6_naive_musique",
+      "n_common": 2417,
+      "em": {
+        "method_a_mean": 0.063301613570542,
+        "method_b_mean": 0.03806371534960695,
+        "observed_diff": 0.025237898220935043,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": 0.025405461315680593,
+        "bootstrap_diff_std": 0.005384786434785391,
+        "n": 2417
+      },
+      "f1": {
+        "method_a_mean": 0.13034746134810138,
+        "method_b_mean": 0.0959299732090591,
+        "observed_diff": 0.034417488139042274,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": 0.03453031110247884,
+        "bootstrap_diff_std": 0.006134197180847148,
+        "n": 2417
+      }
+    },
+    {
+      "name": "Value of Reranking (Standard RAG vs Reranker)",
+      "method_a": "day2_reranker_musique",
+      "method_b": "day1_standard_rag_musique",
+      "n_common": 2417,
+      "em": {
+        "method_a_mean": 0.07695490277203144,
+        "method_b_mean": 0.063301613570542,
+        "observed_diff": 0.01365328920148945,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": 0.013600744724865535,
+        "bootstrap_diff_std": 0.0046391022934591936,
+        "n": 2417
+      },
+      "f1": {
+        "method_a_mean": 0.15524343379038064,
+        "method_b_mean": 0.13034746134810138,
+        "observed_diff": 0.024895972442279257,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": 0.024874378783889,
+        "bootstrap_diff_std": 0.005219422759021892,
+        "n": 2417
+      }
+    },
+    {
+      "name": "Room for Improvement (Reranker vs Gold Context)",
+      "method_a": "day6_gold_musique",
+      "method_b": "day2_reranker_musique",
+      "n_common": 2417,
+      "em": {
+        "method_a_mean": 0.4704178733967729,
+        "method_b_mean": 0.07695490277203144,
+        "observed_diff": 0.39346297062474145,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": 0.39337525858502276,
+        "bootstrap_diff_std": 0.01057845501941183,
+        "n": 2417
+      },
+      "f1": {
+        "method_a_mean": 0.5961634565384115,
+        "method_b_mean": 0.15524343379038064,
+        "observed_diff": 0.4409200227480309,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": 0.4408858646446648,
+        "bootstrap_diff_std": 0.009850925191140742,
+        "n": 2417
+      }
+    }
+  ],
+  "2wikimultihopqa": [
+    {
+      "name": "Value of Retrieval (Naive vs Standard RAG)",
+      "method_a": "day6_standard_rag_2wiki",
+      "method_b": "day6_naive_2wiki",
+      "n_common": 12576,
+      "em": {
+        "method_a_mean": 0.2564408396946565,
+        "method_b_mean": 0.2511927480916031,
+        "observed_diff": 0.005248091603053395,
+        "p_value": 0.222,
+        "significant_005": false,
+        "significant_001": false,
+        "bootstrap_diff_mean": 0.0051857506361323155,
+        "bootstrap_diff_std": 0.0044218012544956385,
+        "n": 12576
+      },
+      "f1": {
+        "method_a_mean": 0.321338736864177,
+        "method_b_mean": 0.29686428290119427,
+        "observed_diff": 0.024474453962982756,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": 0.024442312858896906,
+        "bootstrap_diff_std": 0.004408644136571247,
+        "n": 12576
+      }
+    },
+    {
+      "name": "Value of Reranking (Standard RAG vs Reranker)",
+      "method_a": "day6_reranker_2wiki",
+      "method_b": "day6_standard_rag_2wiki",
+      "n_common": 12576,
+      "em": {
+        "method_a_mean": 0.2834764631043257,
+        "method_b_mean": 0.2564408396946565,
+        "observed_diff": 0.02703562340966925,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": 0.02712038804071247,
+        "bootstrap_diff_std": 0.0031275924628200707,
+        "n": 12576
+      },
+      "f1": {
+        "method_a_mean": 0.34783765912471376,
+        "method_b_mean": 0.321338736864177,
+        "observed_diff": 0.02649892226053674,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": 0.02654839983309678,
+        "bootstrap_diff_std": 0.003080749462295558,
+        "n": 12576
+      }
+    },
+    {
+      "name": "Room for Improvement (Reranker vs Gold Context)",
+      "method_a": "day6_gold_2wiki",
+      "method_b": "day6_reranker_2wiki",
+      "n_common": 12576,
+      "em": {
+        "method_a_mean": 0.6241253180661578,
+        "method_b_mean": 0.2834764631043257,
+        "observed_diff": 0.34064885496183206,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": 0.3406610209923664,
+        "bootstrap_diff_std": 0.004983144629753848,
+        "n": 12576
+      },
+      "f1": {
+        "method_a_mean": 0.699572073086691,
+        "method_b_mean": 0.34783765912471376,
+        "observed_diff": 0.35173441396197724,
+        "p_value": 0.0,
+        "significant_005": true,
+        "significant_001": true,
+        "bootstrap_diff_mean": 0.35172063801560977,
+        "bootstrap_diff_std": 0.004736775079383951,
+        "n": 12576
+      }
+    }
+  ]
+}

@@ -1,0 +1,1455 @@
+{
+  "day1_standard_rag_musique": {
+    "method": "Standard RAG",
+    "dataset": "musique",
+    "n_total": 2417,
+    "categories": {
+      "correct": {
+        "count": 316,
+        "pct": 0.1307405875051717,
+        "examples": [
+          {
+            "id": "dev_4",
+            "question": "Which company owns the manufacturer of Learjet 60?",
+            "pred": "Bombardier Aerospace",
+            "gold": [
+              "Bombardier Inc.",
+              "Bombardier"
+            ],
+            "f1": 0.6666666666666666
+          },
+          {
+            "id": "dev_8",
+            "question": "What company succeeded the owner of Empire Sports Network?",
+            "pred": "Time Warner Cable and Comcast",
+            "gold": [
+              "Time Warner Cable",
+              "Time Warner"
+            ],
+            "f1": 0.7499999999999999
+          },
+          {
+            "id": "dev_32",
+            "question": "What is the network which National Cycle Route 57 is part of an example of?",
+            "pred": "national cycling route network",
+            "gold": [
+              "national cycling route network",
+              "National cycling route network"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_38",
+            "question": "What record label did the performer of The Place and the Time belong to?",
+            "pred": "Sundazed Records",
+            "gold": [
+              "Columbia Records"
+            ],
+            "f1": 0.5
+          },
+          {
+            "id": "dev_40",
+            "question": "What team was Anna Benson's husband on?",
+            "pred": "New York Mets",
+            "gold": [
+              "Pittsburgh Pirates",
+              "Orioles",
+              "Pirates",
+              "Baltimore Orioles",
+              "New York Mets",
+              "Mets"
+            ],
+            "f1": 1.0
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 1239,
+        "pct": 0.5126189491104676,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Who is the spouse of the Green performer?",
+            "pred": "Miranda Brooke",
+            "gold": [
+              "Miquette Giraudy"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "miquette giraudy",
+              "green (steve hillage album)"
+            ],
+            "retrieved_titles": [
+              "tina green",
+              "harriet green",
+              "angry grandpa",
+              "leonard i. green",
+              "a. j. green"
+            ]
+          },
+          {
+            "id": "dev_2",
+            "question": "What administrative territorial entity is the owner of Ciudad Deportiva located?",
+            "pred": "Based on the information provided, the owner of Ciudad Deportiva is not explicitly stated in the giv",
+            "gold": [
+              "Tamaulipas"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "nuevo laredo municipality",
+              "ciudad deportiva (nuevo laredo)"
+            ],
+            "retrieved_titles": [
+              "ciudad de los deportes",
+              "ciudad de los deportes",
+              "ciudad real madrid",
+              "club universitario de deportes",
+              "ciudad de los deportes"
+            ]
+          },
+          {
+            "id": "dev_6",
+            "question": "Who is the grandmother of Philippe, Duke of Orléans?",
+            "pred": "Duchess Helena of Mecklenburg-Schwerin",
+            "gold": [
+              "Marie de' Medici"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "leonora dori",
+              "philippe i, duke of orléans"
+            ],
+            "retrieved_titles": [
+              "descendants of philippe i, duke of orléans",
+              "princess hélène of orléans",
+              "philippe ii, duke of orléans",
+              "amélie of orléans",
+              "prince philippe, duke of orléans (1869–1926)"
+            ]
+          },
+          {
+            "id": "dev_9",
+            "question": "What province shares a border with the province where Lago District is located?",
+            "pred": "Uige",
+            "gold": [
+              "Cabo Delgado Province"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "lago district",
+              "niassa reserve"
+            ],
+            "retrieved_titles": [
+              "lago verde, chile",
+              "bengo province",
+              "lago puelo, chubut",
+              "rizal",
+              "taggia"
+            ]
+          },
+          {
+            "id": "dev_10",
+            "question": "What league does the team that plays in Stadio Ciro Vigorito play for?",
+            "pred": "Serie D",
+            "gold": [
+              "Lega Pro Prima Divisione"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "stadio ciro vigorito",
+              "carmelo imbriani"
+            ],
+            "retrieved_titles": [
+              "f.c. francavilla",
+              "f.c. francavilla",
+              "a.s.d. albignasego calcio",
+              "u.s.d. novese",
+              "a.c. montichiari"
+            ]
+          }
+        ]
+      },
+      "retrieval_miss_partial": {
+        "count": 817,
+        "pct": 0.33802234174596607,
+        "examples": [
+          {
+            "id": "dev_1",
+            "question": "Who founded the company that distributed the film UHF?",
+            "pred": "Jerome Hyams",
+            "gold": [
+              "Mike Medavoy"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "mike medavoy",
+              "uhf (film)"
+            ],
+            "retrieved_titles": [
+              "uhf (film)",
+              "uhf (film)",
+              "uhf (film)",
+              "columbia pictures",
+              "new world pictures"
+            ]
+          },
+          {
+            "id": "dev_3",
+            "question": "Where is Ulrich Walter's employer headquartered?",
+            "pred": "Munich, Germany",
+            "gold": [
+              "Cologne"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "ulrich walter",
+              "philae (spacecraft)"
+            ],
+            "retrieved_titles": [
+              "ferdinand walter",
+              "jean walter",
+              "ulrich walter",
+              "arbeitskreis börse",
+              "ulrich walter"
+            ]
+          },
+          {
+            "id": "dev_5",
+            "question": "Who is the child of Caroline LeRoy's spouse?",
+            "pred": "Henri, Count of Chambord",
+            "gold": [
+              "Fletcher Webster"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "caroline leroy",
+              "fletcher webster"
+            ],
+            "retrieved_titles": [
+              "caroline leroy",
+              "caroline leroy",
+              "marie-caroline of bourbon-two sicilies, duchess of berry",
+              "caroline, princess of hanover",
+              "caroline, princess of hanover"
+            ]
+          },
+          {
+            "id": "dev_7",
+            "question": "What is the goal of the group that European Movement Germany is a member of?",
+            "pred": "The goal of the group that European Movement Germany is a member of is to contribute to the establis",
+            "gold": [
+              "European integration"
+            ],
+            "f1": 0.07692307692307693,
+            "recall": 0.5,
+            "gold_titles": [
+              "bernd hüttemann",
+              "european movement international"
+            ],
+            "retrieved_titles": [
+              "european movement germany",
+              "european movement germany",
+              "european movement international",
+              "european movement germany",
+              "european movement germany"
+            ]
+          },
+          {
+            "id": "dev_12",
+            "question": "In which borough was Callum McManaman born?",
+            "pred": "Huyton",
+            "gold": [
+              "Knowsley",
+              "Metropolitan Borough of Knowsley"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "whiston, merseyside",
+              "callum mcmanaman"
+            ],
+            "retrieved_titles": [
+              "callum mcmanaman",
+              "callum mcmanaman",
+              "callum mcmanaman",
+              "callum mcmanaman",
+              "callum mcmanaman"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 41,
+        "pct": 0.01696317749275962,
+        "examples": [
+          {
+            "id": "dev_16",
+            "question": "Where was Tyler MacDuff's child educated?",
+            "pred": "Dana MacDuff, Tyler MacDuff's child, graduated in 1974 from Blair International Baccalaureate School",
+            "gold": [
+              "Blair High School"
+            ],
+            "f1": 0.2222222222222222,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_61",
+            "question": "What event caused the Liberal Party of Australia's longest-serving leader to become Prime Minister?",
+            "pred": "resignation of Robert Menzies",
+            "gold": [
+              "Lyons' death in 1939"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_72",
+            "question": "The Nicole and Natalie album's band is named after who?",
+            "pred": "Nicole and Natalie",
+            "gold": [
+              "Natalie Albino",
+              "Nina Sky"
+            ],
+            "f1": 0.4,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_146",
+            "question": "When did the person who first brought a postal service into Umayyad lands become caliph?",
+            "pred": "Muawiyah",
+            "gold": [
+              "661"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_152",
+            "question": "Who was given India's highest civilian honor before he became President of India?",
+            "pred": "Dr Sarvepalli Radhakrishnan and Dr Zakir Hussain",
+            "gold": [
+              "A.P.J. Abdul Kalam",
+              "A. P. J. Abdul Kalam",
+              "Abdul Kalam",
+              "Kalam",
+              "Avul Pakir Jainulabdeen Abdul Kalam"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 4,
+        "pct": 0.0016549441456350847,
+        "examples": [
+          {
+            "id": "dev_459",
+            "question": "Who does the person telling the story in How I Met Your Mother end up with?",
+            "pred": "The person telling the story, Future Ted, ends up with The Mother (Tracy McConnell).",
+            "gold": [
+              "Tracy McConnell",
+              "The Mother (How I Met Your Mother)",
+              "The Mother"
+            ],
+            "f1": 0.3076923076923077,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_895",
+            "question": "Who sing \"Home Alone Tonight\" with the performer of \"country Man\"?",
+            "pred": "Luke Bryan and Karen Fairchild of Little Big Town sing \"Home Alone Tonight\" with the performer of \"C",
+            "gold": [
+              "Karen Fairchild"
+            ],
+            "f1": 0.19999999999999998,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2237",
+            "question": "Why did the leader who broke the Molotov–Ribbentrop Pact by invading Bukovina first sign it?",
+            "pred": "to facilitate the negotiations that led to the Molotov–Ribbentrop Pact with Germany",
+            "gold": [
+              "reinforce a public affection for Germany",
+              "Germany",
+              "de",
+              "GER"
+            ],
+            "f1": 0.18181818181818182,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2296",
+            "question": "What happened to Buckingham Palace after the first monarch to reside there left?",
+            "pred": "Buckingham Palace became the London residence of the British monarch on the accession of Queen Victo",
+            "gold": [
+              "palace was seldom used, even neglected",
+              "palace",
+              "Palace"
+            ],
+            "f1": 0.125,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "day2_reranker_musique": {
+    "method": "Reranker",
+    "dataset": "musique",
+    "n_total": 2417,
+    "categories": {
+      "correct": {
+        "count": 398,
+        "pct": 0.16466694249069094,
+        "examples": [
+          {
+            "id": "dev_4",
+            "question": "Which company owns the manufacturer of Learjet 60?",
+            "pred": "Bombardier Aerospace",
+            "gold": [
+              "Bombardier Inc.",
+              "Bombardier"
+            ],
+            "f1": 0.6666666666666666
+          },
+          {
+            "id": "dev_5",
+            "question": "Who is the child of Caroline LeRoy's spouse?",
+            "pred": "Daniel Webster",
+            "gold": [
+              "Fletcher Webster"
+            ],
+            "f1": 0.5
+          },
+          {
+            "id": "dev_8",
+            "question": "What company succeeded the owner of Empire Sports Network?",
+            "pred": "Time Warner Cable and Comcast",
+            "gold": [
+              "Time Warner Cable",
+              "Time Warner"
+            ],
+            "f1": 0.7499999999999999
+          },
+          {
+            "id": "dev_13",
+            "question": "What other county does the county where Imperial is located share a border with?",
+            "pred": "Riverside County",
+            "gold": [
+              "Crockett County"
+            ],
+            "f1": 0.5
+          },
+          {
+            "id": "dev_24",
+            "question": "What county was Tim Dubois born in?",
+            "pred": "Fremont County",
+            "gold": [
+              "McDonald County",
+              "McDonald County, Missouri"
+            ],
+            "f1": 0.5
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 1015,
+        "pct": 0.41994207695490277,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Who is the spouse of the Green performer?",
+            "pred": "Miranda Brooke",
+            "gold": [
+              "Miquette Giraudy"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "miquette giraudy",
+              "green (steve hillage album)"
+            ],
+            "retrieved_titles": [
+              "tina green",
+              "vlogbrothers",
+              "robson green",
+              "leonard i. green",
+              "a. j. green"
+            ]
+          },
+          {
+            "id": "dev_6",
+            "question": "Who is the grandmother of Philippe, Duke of Orléans?",
+            "pred": "Princess Isabelle of Orléans",
+            "gold": [
+              "Marie de' Medici"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "leonora dori",
+              "philippe i, duke of orléans"
+            ],
+            "retrieved_titles": [
+              "prince philippe, duke of orléans (1869–1926)",
+              "philippe ii, duke of orléans",
+              "prince philippe, duke of orléans (1869–1926)",
+              "princess louise of orléans",
+              "maria teresa felicitas d'este"
+            ]
+          },
+          {
+            "id": "dev_7",
+            "question": "What is the goal of the group that European Movement Germany is a member of?",
+            "pred": "The goal of the group that European Movement Germany is a member of is to continually improve commun",
+            "gold": [
+              "European integration"
+            ],
+            "f1": 0.07142857142857144,
+            "recall": 0.0,
+            "gold_titles": [
+              "bernd hüttemann",
+              "european movement international"
+            ],
+            "retrieved_titles": [
+              "european movement germany",
+              "european movement germany",
+              "european movement germany",
+              "european movement germany",
+              "european movement germany"
+            ]
+          },
+          {
+            "id": "dev_9",
+            "question": "What province shares a border with the province where Lago District is located?",
+            "pred": "Bengo Province",
+            "gold": [
+              "Cabo Delgado Province"
+            ],
+            "f1": 0.4,
+            "recall": 0.0,
+            "gold_titles": [
+              "lago district",
+              "niassa reserve"
+            ],
+            "retrieved_titles": [
+              "qinghai",
+              "rizal",
+              "bengo province",
+              "bengo province",
+              "taggia"
+            ]
+          },
+          {
+            "id": "dev_10",
+            "question": "What league does the team that plays in Stadio Ciro Vigorito play for?",
+            "pred": "Answer: The document does not provide information about a team that plays in Stadio Ciro Vigorito or",
+            "gold": [
+              "Lega Pro Prima Divisione"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "stadio ciro vigorito",
+              "carmelo imbriani"
+            ],
+            "retrieved_titles": [
+              "real betis baloncesto",
+              "a.s.d. pro settimo & eureka",
+              "u.s.d. novese",
+              "a.s.d. oltrepòvoghera",
+              "a.s.d. s.f.f. atletico"
+            ]
+          }
+        ]
+      },
+      "retrieval_miss_partial": {
+        "count": 933,
+        "pct": 0.38601572196938355,
+        "examples": [
+          {
+            "id": "dev_1",
+            "question": "Who founded the company that distributed the film UHF?",
+            "pred": "Cinecorp",
+            "gold": [
+              "Mike Medavoy"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "mike medavoy",
+              "uhf (film)"
+            ],
+            "retrieved_titles": [
+              "uhf (film)",
+              "uhf (film)",
+              "uhf (film)",
+              "orion pictures",
+              "uhf (film)"
+            ]
+          },
+          {
+            "id": "dev_2",
+            "question": "What administrative territorial entity is the owner of Ciudad Deportiva located?",
+            "pred": "Spain",
+            "gold": [
+              "Tamaulipas"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "nuevo laredo municipality",
+              "ciudad deportiva (nuevo laredo)"
+            ],
+            "retrieved_titles": [
+              "ciudad real madrid",
+              "ciudad real madrid",
+              "ciudad deportiva (nuevo laredo)",
+              "ciudad deportiva josé luis compañón",
+              "ciudad deportiva luis del sol"
+            ]
+          },
+          {
+            "id": "dev_3",
+            "question": "Where is Ulrich Walter's employer headquartered?",
+            "pred": "Technische Universität München",
+            "gold": [
+              "Cologne"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "ulrich walter",
+              "philae (spacecraft)"
+            ],
+            "retrieved_titles": [
+              "ulrich walter",
+              "ulrich walter",
+              "ulrich walter",
+              "walter verlag",
+              "frankfurt"
+            ]
+          },
+          {
+            "id": "dev_12",
+            "question": "In which borough was Callum McManaman born?",
+            "pred": "Huyton",
+            "gold": [
+              "Knowsley",
+              "Metropolitan Borough of Knowsley"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "whiston, merseyside",
+              "callum mcmanaman"
+            ],
+            "retrieved_titles": [
+              "callum mcmanaman",
+              "callum mcmanaman",
+              "callum mcmanaman",
+              "callum mcmanaman",
+              "callum mcmanaman"
+            ]
+          },
+          {
+            "id": "dev_15",
+            "question": "What award did the author of The Red Tree receive?",
+            "pred": "No award for the author of The Red Tree is mentioned in the given documents. The Red Tree was create",
+            "gold": [
+              "Academy Award for Best Animated Short Film"
+            ],
+            "f1": 0.12121212121212123,
+            "recall": 0.5,
+            "gold_titles": [
+              "the red tree (shaun tan)",
+              "passion pictures"
+            ],
+            "retrieved_titles": [
+              "the red tree (shaun tan)",
+              "the red tree (shaun tan)",
+              "my name is red",
+              "western canon",
+              "the people in the trees"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 65,
+        "pct": 0.02689284236657013,
+        "examples": [
+          {
+            "id": "dev_16",
+            "question": "Where was Tyler MacDuff's child educated?",
+            "pred": "Blair International Baccalaureate School in Pasadena",
+            "gold": [
+              "Blair High School"
+            ],
+            "f1": 0.4444444444444444,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_72",
+            "question": "The Nicole and Natalie album's band is named after who?",
+            "pred": "Nicole and Natalie",
+            "gold": [
+              "Natalie Albino",
+              "Nina Sky"
+            ],
+            "f1": 0.4,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_146",
+            "question": "When did the person who first brought a postal service into Umayyad lands become caliph?",
+            "pred": "Mu'awiyah",
+            "gold": [
+              "661"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_152",
+            "question": "Who was given India's highest civilian honor before he became President of India?",
+            "pred": "Dr Sarvepalli Radhakrishnan and Dr Zakir Hussain were given India's highest civilian honor (Bharat R",
+            "gold": [
+              "A.P.J. Abdul Kalam",
+              "A. P. J. Abdul Kalam",
+              "Abdul Kalam",
+              "Kalam",
+              "Avul Pakir Jainulabdeen Abdul Kalam"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_209",
+            "question": "Who did the producer of Big Jim McLain play in True Grit?",
+            "pred": "Jeff Bridges",
+            "gold": [
+              "U.S. Marshal Rooster Cogburn",
+              "the US",
+              "America",
+              "U.S.",
+              "United States",
+              "US"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 6,
+        "pct": 0.0024824162184526274,
+        "examples": [
+          {
+            "id": "dev_125",
+            "question": "Who is the child of Chiang Hsiao-wen's father?",
+            "pred": "Chiang Hsiao-wen, Chiang Hsiao-chang, Chiang Hsiao-wu, Chiang Hsiao-yung,",
+            "gold": [
+              "Chiang Hsiao-wu",
+              "Alex Chiang"
+            ],
+            "f1": 0.4,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_322",
+            "question": "Where is the river where the majority of Egyptians lived located in the world?",
+            "pred": "The river where the majority of Egyptians lived is located in North Africa, specifically near the ba",
+            "gold": [
+              "northeastern Africa",
+              "Africa"
+            ],
+            "f1": 0.0909090909090909,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_672",
+            "question": "When does Pam and the person Pam marries on The Office get together?",
+            "pred": "In the fourth season, Jim and Pam start dating and eventually marry in the sixth season.",
+            "gold": [
+              "in the fourth season"
+            ],
+            "f1": 0.35294117647058826,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2237",
+            "question": "Why did the leader who broke the Molotov–Ribbentrop Pact by invading Bukovina first sign it?",
+            "pred": "To gain an advantage in a potential war against Western powers and to divide Northern and Eastern Eu",
+            "gold": [
+              "reinforce a public affection for Germany",
+              "Germany",
+              "de",
+              "GER"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2252",
+            "question": "What happened to Buckingham palace after the queen Elizabeth surpassed as the longest lived British ",
+            "pred": "The document does not provide information about what happened to Buckingham Palace after Queen Eliza",
+            "gold": [
+              "palace was seldom used, even neglected",
+              "palace",
+              "Palace"
+            ],
+            "f1": 0.0909090909090909,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "day4_ircot_musique": {
+    "method": "IRCoT",
+    "dataset": "musique",
+    "n_total": 2417,
+    "categories": {
+      "correct": {
+        "count": 349,
+        "pct": 0.14439387670666115,
+        "examples": [
+          {
+            "id": "dev_4",
+            "question": "Which company owns the manufacturer of Learjet 60?",
+            "pred": "Bombardier Aerospace.",
+            "gold": [
+              "Bombardier Inc.",
+              "Bombardier"
+            ],
+            "f1": 0.6666666666666666
+          },
+          {
+            "id": "dev_5",
+            "question": "Who is the child of Caroline LeRoy's spouse?",
+            "pred": "Fletcher.",
+            "gold": [
+              "Fletcher Webster"
+            ],
+            "f1": 0.6666666666666666
+          },
+          {
+            "id": "dev_12",
+            "question": "In which borough was Callum McManaman born?",
+            "pred": "Knowsley.",
+            "gold": [
+              "Knowsley",
+              "Metropolitan Borough of Knowsley"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_15",
+            "question": "What award did the author of The Red Tree receive?",
+            "pred": "Academy Award for Best Animated Short.",
+            "gold": [
+              "Academy Award for Best Animated Short Film"
+            ],
+            "f1": 0.923076923076923
+          },
+          {
+            "id": "dev_19",
+            "question": "In which county is Kimbrough Memorial Stadium located?",
+            "pred": "Randall County.",
+            "gold": [
+              "Randall County",
+              "Randall County, Texas"
+            ],
+            "f1": 1.0
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 911,
+        "pct": 0.37691352916839055,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Who is the spouse of the Green performer?",
+            "pred": " The performer in question is A.  J.  Green, a professional football player.  The question asks for ",
+            "gold": [
+              "Miquette Giraudy"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "miquette giraudy",
+              "green (steve hillage album)"
+            ],
+            "retrieved_titles": [
+              "jape (linguistics)",
+              "iso 639:j",
+              "iso 639:j",
+              "j",
+              "professional regurgitator"
+            ]
+          },
+          {
+            "id": "dev_2",
+            "question": "What administrative territorial entity is the owner of Ciudad Deportiva located?",
+            "pred": "the four corporations (Repsol YPF, Mutua Automovilística de Madrid, Sacyr Vallehermoso, and OHL) are",
+            "gold": [
+              "Tamaulipas"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "nuevo laredo municipality",
+              "ciudad deportiva (nuevo laredo)"
+            ],
+            "retrieved_titles": [
+              "land patent",
+              "hacienda luisita",
+              "real madrid c.f.",
+              "ciudad deportiva, madrid",
+              "ciudad deportiva josé ramón cisneros palacios"
+            ]
+          },
+          {
+            "id": "dev_6",
+            "question": "Who is the grandmother of Philippe, Duke of Orléans?",
+            "pred": "Anne of Austria.",
+            "gold": [
+              "Marie de' Medici"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "leonora dori",
+              "philippe i, duke of orléans"
+            ],
+            "retrieved_titles": [
+              "anne marie louise d'orléans, duchess of montpensier",
+              "elizabeth charlotte, madame palatine",
+              "philippe i, duke of orléans",
+              "philippe i, duke of orléans",
+              "philippe ii, duke of orléans"
+            ]
+          },
+          {
+            "id": "dev_9",
+            "question": "What province shares a border with the province where Lago District is located?",
+            "pred": "Río Negro Province.",
+            "gold": [
+              "Cabo Delgado Province"
+            ],
+            "f1": 0.3333333333333333,
+            "recall": 0.0,
+            "gold_titles": [
+              "lago district",
+              "niassa reserve"
+            ],
+            "retrieved_titles": [
+              "taggia",
+              "rizal",
+              "bengo province",
+              "lago verde, chile",
+              "río negro province"
+            ]
+          },
+          {
+            "id": "dev_10",
+            "question": "What league does the team that plays in Stadio Ciro Vigorito play for?",
+            "pred": "Insufficient information to determine the league.",
+            "gold": [
+              "Lega Pro Prima Divisione"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "stadio ciro vigorito",
+              "carmelo imbriani"
+            ],
+            "retrieved_titles": [
+              "lotto sport italia nrfl division 2",
+              "a.s.d. oltrepòvoghera",
+              "a.s.d. oltrepòvoghera",
+              "u.s.d. noto calcio",
+              "a.c. montichiari"
+            ]
+          }
+        ]
+      },
+      "retrieval_miss_partial": {
+        "count": 995,
+        "pct": 0.41166735622672734,
+        "examples": [
+          {
+            "id": "dev_3",
+            "question": "Where is Ulrich Walter's employer headquartered?",
+            "pred": "Munich, Germany.",
+            "gold": [
+              "Cologne"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "ulrich walter",
+              "philae (spacecraft)"
+            ],
+            "retrieved_titles": [
+              "gustavo deco",
+              "michael kohlhase",
+              "walter selke",
+              "arbeitskreis börse",
+              "jean walter"
+            ]
+          },
+          {
+            "id": "dev_7",
+            "question": "What is the goal of the group that European Movement Germany is a member of?",
+            "pred": "to contribute to the establishment of a united, federal Europe founded on the principles of peace, d",
+            "gold": [
+              "European integration"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "bernd hüttemann",
+              "european movement international"
+            ],
+            "retrieved_titles": [
+              "european alternatives",
+              "treaty on european union",
+              "european movement international",
+              "treaties of the european union",
+              "european movement germany"
+            ]
+          },
+          {
+            "id": "dev_8",
+            "question": "What company succeeded the owner of Empire Sports Network?",
+            "pred": "Entercom Communications.",
+            "gold": [
+              "Time Warner Cable",
+              "Time Warner"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "windjammer communications",
+              "empire sports network"
+            ],
+            "retrieved_titles": [
+              "empire sports network",
+              "wlkk",
+              "empire sports network",
+              "empire sports network",
+              "empire sports network"
+            ]
+          },
+          {
+            "id": "dev_17",
+            "question": "Who is the spouse of the Rabbit Hole's producer?",
+            "pred": "Aaron Eckhart.",
+            "gold": [
+              "Keith Urban"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "rabbit hole (film)",
+              "planet cake"
+            ],
+            "retrieved_titles": [
+              "heather rae",
+              "nicole kidman",
+              "nicole kidman",
+              "rabbit hole",
+              "rabbit hole"
+            ]
+          },
+          {
+            "id": "dev_18",
+            "question": "Who is the child of Sigrid Eskilsdotter's child?",
+            "pred": "The child of Sigrid Eskilsdotter's child is not mentioned in the given information.",
+            "gold": [
+              "Svante Stensson Sture"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "sigrid sture",
+              "sigrid eskilsdotter (banér)"
+            ],
+            "retrieved_titles": [
+              "the hidden child",
+              "sigrid undset",
+              "eiríkr hákonarson",
+              "cecilia gyllenhammar",
+              "sigrún"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 141,
+        "pct": 0.05833678113363674,
+        "examples": [
+          {
+            "id": "dev_1",
+            "question": "Who founded the company that distributed the film UHF?",
+            "pred": "Michael Cieply and Michael Ovitz.",
+            "gold": [
+              "Mike Medavoy"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_16",
+            "question": "Where was Tyler MacDuff's child educated?",
+            "pred": "Blair International Baccalaureate School in Pasadena.",
+            "gold": [
+              "Blair High School"
+            ],
+            "f1": 0.4444444444444444,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_22",
+            "question": "In which county is Southern Maryland Electric Cooperative headquartered?",
+            "pred": "Hughesville.",
+            "gold": [
+              "Charles County",
+              "Charles County, Maryland"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_55",
+            "question": "What's the place of birth of the former member of The Sunnyboys?",
+            "pred": "Wagga Wagga.",
+            "gold": [
+              "Kingscliff",
+              "Kingscliff, New South Wales"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_61",
+            "question": "What event caused the Liberal Party of Australia's longest-serving leader to become Prime Minister?",
+            "pred": "Robert Menzies' resignation.",
+            "gold": [
+              "Lyons' death in 1939"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 21,
+        "pct": 0.008688456764584195,
+        "examples": [
+          {
+            "id": "dev_181",
+            "question": "What year was the father of Katherine of England crowned?",
+            "pred": " The passage mentions that Katherine of England was the fifth child of Henry III and his wife, Elean",
+            "gold": [
+              "1216"
+            ],
+            "f1": 0.03225806451612903,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_190",
+            "question": "Who played the king that was king of england in 1951 in the king's speech?",
+            "pred": "Colin Firth played the role of King George VI, but he was not the king in 1951.",
+            "gold": [
+              "Colin Firth"
+            ],
+            "f1": 0.23529411764705882,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_243",
+            "question": "Who did Hayek work for after being hired by the author of Human Action?",
+            "pred": "The information is not provided in the given documents.",
+            "gold": [
+              "the Austrian government",
+              "Austria",
+              "AT",
+              "at",
+              "AUT"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_322",
+            "question": "Where is the river where the majority of Egyptians lived located in the world?",
+            "pred": "the Nile River is located in northern Africa.",
+            "gold": [
+              "northeastern Africa",
+              "Africa"
+            ],
+            "f1": 0.25,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_375",
+            "question": "When does the river that the majority of Egyptians live near flood each year?",
+            "pred": "the Nile River floods in August, September, and October, with early indications visible in June at A",
+            "gold": [
+              "August",
+              "Aug"
+            ],
+            "f1": 0.11764705882352941,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "day6_gold_musique": {
+    "method": "Gold Context",
+    "dataset": "musique",
+    "n_total": 2417,
+    "categories": {
+      "correct": {
+        "count": 1514,
+        "pct": 0.6263963591228796,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Who is the spouse of the Green performer?",
+            "pred": "Miquette Giraudy",
+            "gold": [
+              "Miquette Giraudy"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_1",
+            "question": "Who founded the company that distributed the film UHF?",
+            "pred": "Mike Medavoy",
+            "gold": [
+              "Mike Medavoy"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_4",
+            "question": "Which company owns the manufacturer of Learjet 60?",
+            "pred": "Bombardier Aerospace",
+            "gold": [
+              "Bombardier Inc.",
+              "Bombardier"
+            ],
+            "f1": 0.6666666666666666
+          },
+          {
+            "id": "dev_5",
+            "question": "Who is the child of Caroline LeRoy's spouse?",
+            "pred": "Fletcher Webster",
+            "gold": [
+              "Fletcher Webster"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_7",
+            "question": "What is the goal of the group that European Movement Germany is a member of?",
+            "pred": "promoting European integration",
+            "gold": [
+              "European integration"
+            ],
+            "f1": 0.8
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 0,
+        "pct": 0.0,
+        "examples": []
+      },
+      "retrieval_miss_partial": {
+        "count": 2,
+        "pct": 0.0008274720728175424,
+        "examples": [
+          {
+            "id": "dev_2193",
+            "question": "Where does the city where Alexander Golitzen died rank in the top five largest urban areas of the st",
+            "pred": "3",
+            "gold": [
+              "third-largest"
+            ],
+            "f1": 0.0,
+            "recall": 0.75,
+            "gold_titles": [
+              "papa roach",
+              "san diego",
+              "still swingin'",
+              "alexander golitzen"
+            ],
+            "retrieved_titles": [
+              "still swingin",
+              "papa roach",
+              "alexander golitzen",
+              "san diego"
+            ]
+          },
+          {
+            "id": "dev_2208",
+            "question": "The band Pathology formed in a city whose urban area ranks where by size among the urban areas of th",
+            "pred": "3",
+            "gold": [
+              "third-largest"
+            ],
+            "f1": 0.0,
+            "recall": 0.75,
+            "gold_titles": [
+              "papa roach",
+              "san diego",
+              "still swingin'",
+              "pathology (band)"
+            ],
+            "retrieved_titles": [
+              "still swingin",
+              "papa roach",
+              "pathology (band)",
+              "san diego"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 826,
+        "pct": 0.341745966073645,
+        "examples": [
+          {
+            "id": "dev_2",
+            "question": "What administrative territorial entity is the owner of Ciudad Deportiva located?",
+            "pred": "Municipality of Nuevo Laredo",
+            "gold": [
+              "Tamaulipas"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_3",
+            "question": "Where is Ulrich Walter's employer headquartered?",
+            "pred": "German Aerospace Center",
+            "gold": [
+              "Cologne"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_6",
+            "question": "Who is the grandmother of Philippe, Duke of Orléans?",
+            "pred": "Anne of Austria",
+            "gold": [
+              "Marie de' Medici"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_8",
+            "question": "What company succeeded the owner of Empire Sports Network?",
+            "pred": "Windjammer Communications",
+            "gold": [
+              "Time Warner Cable",
+              "Time Warner"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_17",
+            "question": "Who is the spouse of the Rabbit Hole's producer?",
+            "pred": "Nicole Kidman",
+            "gold": [
+              "Keith Urban"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 75,
+        "pct": 0.03103020273065784,
+        "examples": [
+          {
+            "id": "dev_84",
+            "question": "In which state is Vera Barbosa's place of birth located?",
+            "pred": "Vila Franca de Xira is located in the Lisbon District in Portugal.",
+            "gold": [
+              "Lisbon District",
+              "Lisbon",
+              "AML"
+            ],
+            "f1": 0.3076923076923077,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_88",
+            "question": "Where is the country with ISO code ISO 3166-2:CV located?",
+            "pred": "Cabo Verde is an island country spanning an archipelago of 10 volcanic islands in the central Atlant",
+            "gold": [
+              "central Atlantic Ocean",
+              "Atlantic Ocean",
+              "Atlantic"
+            ],
+            "f1": 0.2727272727272727,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_116",
+            "question": "What is the birthplace of the person after whom São José dos Campos was named?",
+            "pred": "São José dos Campos was named after Saint Joseph, who was born in Nazareth.",
+            "gold": [
+              "Nazareth"
+            ],
+            "f1": 0.13333333333333333,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_125",
+            "question": "Who is the child of Chiang Hsiao-wen's father?",
+            "pred": "Chiang Hsiao-wen, Chiang Hsiao-chang, Chiang Hsiao-wu, Chiang Hsiao-yung,",
+            "gold": [
+              "Chiang Hsiao-wu",
+              "Alex Chiang"
+            ],
+            "f1": 0.4,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_157",
+            "question": "What kind of recognition did the actor who played the game maker in hunger games receive?",
+            "pred": "Philip Seymour Hoffman, who is not associated with The Hunger Games but was nominated for an Academy",
+            "gold": [
+              "nominated for an Academy Award for Best Supporting Actor",
+              "Academy Award for Best Supporting Actor"
+            ],
+            "f1": 0.45714285714285713,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  }
+}

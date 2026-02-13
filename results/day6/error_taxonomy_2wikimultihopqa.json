@@ -1,0 +1,1273 @@
+{
+  "day6_gold_2wiki": {
+    "method": "Gold Context",
+    "dataset": "2wikimultihopqa",
+    "n_total": 12576,
+    "categories": {
+      "correct": {
+        "count": 9100,
+        "pct": 0.7236005089058524,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Who is the mother of the director of film Polish-Russian War (Film)?",
+            "pred": "Małgorzata Braunek",
+            "gold": [
+              "Małgorzata Braunek"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_1",
+            "question": "Which film came out first, Blind Shaft or The Mask Of Fu Manchu?",
+            "pred": "The Mask Of Fu Manchu",
+            "gold": [
+              "The Mask Of Fu Manchu",
+              "Mask of Fu Manchu",
+              "The Mask of Fu Manchu"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_2",
+            "question": "When did John V, Prince Of Anhalt-Zerbst's father die?",
+            "pred": "12 June 1516",
+            "gold": [
+              "12 June 1516"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_3",
+            "question": "What is the award that the director of film Wearing Velvet Slippers Under A Golden Umbrella won?",
+            "pred": "Myanmar Motion Picture Academy Awards",
+            "gold": [
+              "Myanmar Motion Picture Academy Awards"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_4",
+            "question": "Where was the director of film Ronnie Rocket born?",
+            "pred": "Missoula, Montana",
+            "gold": [
+              "Missoula",
+              "Missoula, Montana"
+            ],
+            "f1": 1.0
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 0,
+        "pct": 0.0,
+        "examples": []
+      },
+      "retrieval_miss_partial": {
+        "count": 6,
+        "pct": 0.00047709923664122136,
+        "examples": [
+          {
+            "id": "dev_4339",
+            "question": "Where did Baha Al-Dawla's father die?",
+            "pred": "The document does not provide information about where Baha Al-Dawla's father died.",
+            "gold": [
+              "Bagdad",
+              "Baghdad",
+              "Baghdād"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "baha al-dawla",
+              "'adud al-dawla"
+            ],
+            "retrieved_titles": [
+              "baha al-dawla",
+              "adud al-dawla"
+            ]
+          },
+          {
+            "id": "dev_4931",
+            "question": "Which film has the director died earlier, Hôtel Du Nord or Down In 'Arkansaw'?",
+            "pred": "Hôtel Du Nord",
+            "gold": [
+              "Down In 'Arkansaw'",
+              "Down in 'Arkansaw'"
+            ],
+            "f1": 0.0,
+            "recall": 0.75,
+            "gold_titles": [
+              "marcel carné",
+              "hôtel du nord",
+              "down in 'arkansaw'",
+              "nick grinde"
+            ],
+            "retrieved_titles": [
+              "hôtel du nord",
+              "down in 'arkansaw",
+              "marcel carné",
+              "nick grinde"
+            ]
+          },
+          {
+            "id": "dev_6146",
+            "question": "Which film whose director is younger, Hôtel Du Nord or Down In 'Arkansaw'?",
+            "pred": "Down In 'Arkansaw'",
+            "gold": [
+              "Hôtel Du Nord",
+              "Hôtel du Nord",
+              "Hotel du Nord",
+              "hôtel du Nord"
+            ],
+            "f1": 0.0,
+            "recall": 0.75,
+            "gold_titles": [
+              "marcel carné",
+              "hôtel du nord",
+              "down in 'arkansaw'",
+              "nick grinde"
+            ],
+            "retrieved_titles": [
+              "down in 'arkansaw",
+              "marcel carné",
+              "nick grinde",
+              "hôtel du nord"
+            ]
+          },
+          {
+            "id": "dev_8968",
+            "question": "What nationality is the performer of song Yoda (Song)?",
+            "pred": "American",
+            "gold": [
+              "U.S.A.",
+              "US of A",
+              "US",
+              "United States of America",
+              "USA",
+              "the United States of America",
+              "United States",
+              "the US",
+              "🇺🇸",
+              "the United States",
+              "U.S.",
+              "America",
+              "the USA"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "yoda (song)",
+              "\"weird al\" yankovic"
+            ],
+            "retrieved_titles": [
+              "weird al\" yankovic",
+              "yoda (song)"
+            ]
+          },
+          {
+            "id": "dev_9542",
+            "question": "Where did Taj Al-Dawla's father die?",
+            "pred": "The document does not provide information about where Taj Al-Dawla's father died.",
+            "gold": [
+              "Bagdad",
+              "Baghdad",
+              "Baghdād"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "'adud al-dawla",
+              "taj al-dawla"
+            ],
+            "retrieved_titles": [
+              "adud al-dawla",
+              "taj al-dawla"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 3177,
+        "pct": 0.2526240458015267,
+        "examples": [
+          {
+            "id": "dev_8",
+            "question": "Which film has the director who was born later, El Extraño Viaje or Love In Pawn?",
+            "pred": "Love In Pawn",
+            "gold": [
+              "El extraño viaje",
+              "Extraño viaje",
+              "El Extraño Viaje"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_9",
+            "question": "Who is the maternal grandfather of Antiochus X Eusebes?",
+            "pred": "Antiochus VIII",
+            "gold": [
+              "Ptolemy IX Soter",
+              "Lathyros",
+              "Ptolemy 09",
+              "Ptolemy IX Lathyros",
+              "Ptolemy IX Soter II"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_10",
+            "question": "Which film has the director died first, Crimen A Las Tres or The Working Class Goes To Heaven?",
+            "pred": "Crimen A Las Tres",
+            "gold": [
+              "La classe operaia va in paradiso",
+              "The Working Class Goes To Heaven",
+              "Working Class Goes to Heaven",
+              "The Working Class Goes to Heaven"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_12",
+            "question": "Which film has the director who died earlier, Il Seduttore or The Trial Of Joan Of Arc?",
+            "pred": "Il Seduttore",
+            "gold": [
+              "The Trial of Joan of Arc",
+              "Trial of Joan of Arc",
+              "Procès de Jeanne d'Arc",
+              "The Trial Of Joan Of Arc"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_13",
+            "question": "Where was the director of film Thomas Jefferson (Film) born?",
+            "pred": "1953",
+            "gold": [
+              "Brooklyn, New York",
+              "Brooklyn"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 293,
+        "pct": 0.023298346055979642,
+        "examples": [
+          {
+            "id": "dev_14",
+            "question": "Why did Grand Duke Kirill Vladimirovich Of Russia's wife die?",
+            "pred": "Victoria died after suffering a stroke while visiting her daughter Maria in Amorbach.",
+            "gold": [
+              "embolic stroke",
+              "stroke",
+              "cerebrovascular accident",
+              "CVA",
+              "CVI",
+              "Stroke",
+              "brain attack",
+              "cerebrovascular insult",
+              "cerebrovascular disorder"
+            ],
+            "f1": 0.15384615384615385,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_21",
+            "question": "What nationality is the director of film World And Time Enough?",
+            "pred": "American",
+            "gold": [
+              "U.S.A.",
+              "US of A",
+              "US",
+              "United States of America",
+              "USA",
+              "the United States of America",
+              "United States",
+              "the US",
+              "🇺🇸",
+              "the United States",
+              "U.S.",
+              "America",
+              "the USA"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_34",
+            "question": "Why did John Middleton Murry's wife die?",
+            "pred": "Katherine Mansfield was diagnosed with extrapulmonary tuberculosis in 1917; the disease claimed her ",
+            "gold": [
+              "phthisis",
+              "hydrothorax",
+              "tuberculosis",
+              "Tuberculosis",
+              "consumption",
+              "In the clinic. Tuberculosis",
+              "phthisis pulmonalis",
+              "TB"
+            ],
+            "f1": 0.2,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_69",
+            "question": "Where did Prince Gustav Of Thurn And Taxis (1848–1914)'s mother die?",
+            "pred": "Meran, County of Tyrol, Austria–Hungary",
+            "gold": [
+              "Merano",
+              "Meran"
+            ],
+            "f1": 0.33333333333333337,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_133",
+            "question": "What nationality is the director of film They Call It Love?",
+            "pred": "Austrian",
+            "gold": [
+              "U.S.A.",
+              "American",
+              "US of A",
+              "US",
+              "United States of America",
+              "USA",
+              "the United States of America",
+              "United States",
+              "the US",
+              "🇺🇸",
+              "the United States",
+              "U.S.",
+              "America",
+              "the USA"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "day6_standard_rag_2wiki": {
+    "method": "Standard RAG",
+    "dataset": "2wikimultihopqa",
+    "n_total": 12576,
+    "categories": {
+      "correct": {
+        "count": 4005,
+        "pct": 0.3184637404580153,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Who is the mother of the director of film Polish-Russian War (Film)?",
+            "pred": "Małgorzata Braunek",
+            "gold": [
+              "Małgorzata Braunek"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_2",
+            "question": "When did John V, Prince Of Anhalt-Zerbst's father die?",
+            "pred": "1516",
+            "gold": [
+              "12 June 1516"
+            ],
+            "f1": 0.5
+          },
+          {
+            "id": "dev_5",
+            "question": "Who is Charles Bretagne Marie De La Trémoille's paternal grandfather?",
+            "pred": "Charles Armand René de La Trémoille",
+            "gold": [
+              "Charles Armand René de La Trémoille",
+              "Charles Armand Rene de La Tremoille"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_6",
+            "question": "Where was the father of Ștefan I. Nenițescu born?",
+            "pred": "Galați",
+            "gold": [
+              "Galac",
+              "Galaţi",
+              "Galati",
+              "Galatz",
+              "Galați"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_7",
+            "question": "Are North Marion High School (Oregon) and Seoul High School both located in the same country?",
+            "pred": "No",
+            "gold": [
+              "no"
+            ],
+            "f1": 1.0
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 3084,
+        "pct": 0.2452290076335878,
+        "examples": [
+          {
+            "id": "dev_17",
+            "question": "Which film has the director born first, The Raven'S Dance or Keïta! L'Héritage Du Griot?",
+            "pred": "Keïta! L'Héritage Du Griot",
+            "gold": [
+              "The Raven's Dance",
+              "Raven's Dance",
+              "The Raven'S Dance"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "markku lehmuskallio",
+              "keïta! l'héritage du griot",
+              "the raven's dance",
+              "dani kouyaté"
+            ],
+            "retrieved_titles": [
+              "keïta! l'héritage du griot",
+              "keïta! l'héritage du griot",
+              "keïta! l'héritage du griot",
+              "fodéba keïta",
+              "fodéba keïta"
+            ]
+          },
+          {
+            "id": "dev_22",
+            "question": "Which film has the director died earlier, Poker In Bed or The Machine To Kill Bad People?",
+            "pred": "Death Machine",
+            "gold": [
+              "The Machine To Kill Bad People",
+              "La macchina ammazzacattivi",
+              "The Machine to Kill Bad People",
+              "Machine to Kill Bad People"
+            ],
+            "f1": 0.28571428571428575,
+            "recall": 0.0,
+            "gold_titles": [
+              "giuliano carnimeo",
+              "poker in bed",
+              "roberto rossellini",
+              "the machine to kill bad people"
+            ],
+            "retrieved_titles": [
+              "the gunman (film)",
+              "death machine",
+              "faces in the dark",
+              "in the bedroom",
+              "con games"
+            ]
+          },
+          {
+            "id": "dev_23",
+            "question": "Which film whose director is younger, Heads I Win, Tails You Lose or The Incredible Sarah?",
+            "pred": "The Incredible Sarah",
+            "gold": [
+              "Testa o croce",
+              "Heads I Win, Tails You Lose"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "heads i win, tails you lose",
+              "richard fleischer",
+              "nanni loy",
+              "the incredible sarah"
+            ],
+            "retrieved_titles": [
+              "sarah (film)",
+              "i love sarah jane",
+              "the incredibles (franchise)",
+              "princess sarah",
+              "x+y"
+            ]
+          },
+          {
+            "id": "dev_25",
+            "question": "Who is Marie Zéphyrine Of France's paternal grandmother?",
+            "pred": "Maria Josepha of Saxony",
+            "gold": [
+              "Königin Maria Frankreich",
+              "Queen, consort of Louis XV, King of France Marie Leszczyńska",
+              "Queen, consort of Louis XV, King of France Maria Leszczyńska",
+              "Marie-Catherine Leszczyńska",
+              "Marie Leszczyńska",
+              "Queen consort of Louis XV Marie Leszczyńska",
+              "Marie Leszczyńska reine de France",
+              "queen of France Marie Leszczyńska"
+            ],
+            "f1": 0.28571428571428575,
+            "recall": 0.0,
+            "gold_titles": [
+              "louis, dauphin of france (son of louis xv)",
+              "marie zéphyrine of france"
+            ],
+            "retrieved_titles": [
+              "marie zéphyrine of france",
+              "marie zéphyrine of france",
+              "maria josepha of saxony, dauphine of france",
+              "marie lafarge",
+              "adrienne de la fayette"
+            ]
+          },
+          {
+            "id": "dev_27",
+            "question": "Who is the spouse of the director of film Eden And After?",
+            "pred": "Sven Hansen-Løve",
+            "gold": [
+              "Catherine Robbe-Grillet"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "alain robbe-grillet",
+              "eden and after"
+            ],
+            "retrieved_titles": [
+              "after the wedding (2017 film)",
+              "paul almond",
+              "afterwards",
+              "eden (2014 french film)",
+              "waiting for eden"
+            ]
+          }
+        ]
+      },
+      "retrieval_miss_partial": {
+        "count": 5042,
+        "pct": 0.4009223918575064,
+        "examples": [
+          {
+            "id": "dev_3",
+            "question": "What is the award that the director of film Wearing Velvet Slippers Under A Golden Umbrella won?",
+            "pred": "The director of the film Wearing Velvet Slippers Under A Golden Umbrella, Maung Wunna, won the award",
+            "gold": [
+              "Myanmar Motion Picture Academy Awards"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "wearing velvet slippers under a golden umbrella",
+              "wunna"
+            ],
+            "retrieved_titles": [
+              "wearing velvet slippers under a golden umbrella",
+              "wearing velvet slippers under a golden umbrella",
+              "bigscreen festival",
+              "empire award for best director",
+              "yen tan"
+            ]
+          },
+          {
+            "id": "dev_4",
+            "question": "Where was the director of film Ronnie Rocket born?",
+            "pred": "The information provided does not specify the birthplace of the director of the film Ronnie Rocket. ",
+            "gold": [
+              "Missoula",
+              "Missoula, Montana"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "david lynch",
+              "ronnie rocket"
+            ],
+            "retrieved_titles": [
+              "ronnie rocket",
+              "rocket gibraltar",
+              "ronnie rocket",
+              "ronnie rocket",
+              "rocket gibraltar"
+            ]
+          },
+          {
+            "id": "dev_9",
+            "question": "Who is the maternal grandfather of Antiochus X Eusebes?",
+            "pred": "Antiochus VII Sidetes",
+            "gold": [
+              "Ptolemy IX Soter",
+              "Lathyros",
+              "Ptolemy 09",
+              "Ptolemy IX Lathyros",
+              "Ptolemy IX Soter II"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "cleopatra iv of egypt",
+              "antiochus x eusebes"
+            ],
+            "retrieved_titles": [
+              "antiochus x eusebes",
+              "antiochus x eusebes",
+              "antiochus x eusebes",
+              "antiochus ix cyzicenus",
+              "antiochus x eusebes"
+            ]
+          },
+          {
+            "id": "dev_14",
+            "question": "Why did Grand Duke Kirill Vladimirovich Of Russia's wife die?",
+            "pred": "Grand Duchess Kira Kirillovna of Russia died of a heart attack that night after suffering one during",
+            "gold": [
+              "embolic stroke",
+              "stroke",
+              "cerebrovascular accident",
+              "CVA",
+              "CVI",
+              "Stroke",
+              "brain attack",
+              "cerebrovascular insult",
+              "cerebrovascular disorder"
+            ],
+            "f1": 0.09090909090909091,
+            "recall": 0.5,
+            "gold_titles": [
+              "princess victoria melita of saxe-coburg and gotha",
+              "grand duke kirill vladimirovich of russia"
+            ],
+            "retrieved_titles": [
+              "grand duke kirill vladimirovich of russia",
+              "grand duchess kira kirillovna of russia",
+              "grand duke vladimir kirillovich of russia",
+              "grand duke vladimir alexandrovich of russia",
+              "grand duke vladimir kirillovich of russia"
+            ]
+          },
+          {
+            "id": "dev_15",
+            "question": "Where was the place of death of the director of film Beat Girl?",
+            "pred": "UK",
+            "gold": [
+              "Nice",
+              "Nizza",
+              "Nice, France"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "edmond t. gréville",
+              "beat girl"
+            ],
+            "retrieved_titles": [
+              "beat (2000 film)",
+              "beat girl",
+              "beat richner",
+              "murder of alexandra zapp",
+              "police beat"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 424,
+        "pct": 0.03371501272264631,
+        "examples": [
+          {
+            "id": "dev_1",
+            "question": "Which film came out first, Blind Shaft or The Mask Of Fu Manchu?",
+            "pred": "Blind Shaft",
+            "gold": [
+              "The Mask Of Fu Manchu",
+              "Mask of Fu Manchu",
+              "The Mask of Fu Manchu"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_20",
+            "question": "Which film was released earlier, Moment Of Danger or The Ballad Of Josie?",
+            "pred": "The Ballad Of Josie",
+            "gold": [
+              "Moment Of Danger",
+              "Malaga",
+              "Moment of Danger"
+            ],
+            "f1": 0.3333333333333333,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_54",
+            "question": "Who is Arthur Gore, 2Nd Earl Of Arran's paternal grandfather?",
+            "pred": "Arthur Gore, 1st Earl of Arran",
+            "gold": [
+              "Sir Arthur Gore, 2nd Baronet",
+              "Sir Arthur Gore, 2nd Bt."
+            ],
+            "f1": 0.3636363636363636,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_74",
+            "question": "Are both businesses, Telus and Ztr Control Systems, located in the same country?",
+            "pred": "No",
+            "gold": [
+              "yes"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_120",
+            "question": "Which school was established first, Whitehorse Manor Junior School or Sabawoon Rehabilitation Centre",
+            "pred": "Whitehorse Manor Junior School",
+            "gold": [
+              "Sabawoon Rehabilitation Centre"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 21,
+        "pct": 0.0016698473282442748,
+        "examples": [
+          {
+            "id": "dev_1434",
+            "question": "What nationality is the director of film The Whole Wide World?",
+            "pred": "American",
+            "gold": [
+              "🇨🇦",
+              "Canadian",
+              "CDN",
+              "Canada",
+              "British North America",
+              "CAN",
+              "One Law for the Woman",
+              "CA",
+              "ca",
+              "can",
+              "Dominion of Canada"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_1650",
+            "question": "Where was the father of Emily Eavis born?",
+            "pred": "Athelstan Joseph Michael Eavis was born in Pilton, Somerset.",
+            "gold": [
+              "Pilton, Somerset",
+              "Pilton"
+            ],
+            "f1": 0.3636363636363636,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2037",
+            "question": "Where was the place of death of Michel, 14Th Prince Of Ligne's father?",
+            "pred": "Château de Belœil, Belgium",
+            "gold": [
+              "Beloeil",
+              "Belœil"
+            ],
+            "f1": 0.4,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2152",
+            "question": "Where did Dolores Hope's husband die?",
+            "pred": "at his home in Toluca Lake, California",
+            "gold": [
+              "Toluca Lake, Los Angeles",
+              "Toluca Lake"
+            ],
+            "f1": 0.4444444444444445,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2999",
+            "question": "What nationality is the director of film Armless?",
+            "pred": "American",
+            "gold": [
+              "U.S.A.",
+              "US of A",
+              "US",
+              "United States of America",
+              "USA",
+              "the United States of America",
+              "United States",
+              "the US",
+              "🇺🇸",
+              "the United States",
+              "U.S.",
+              "America",
+              "the USA"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "day6_reranker_2wiki": {
+    "method": "Reranker",
+    "dataset": "2wikimultihopqa",
+    "n_total": 12576,
+    "categories": {
+      "correct": {
+        "count": 4383,
+        "pct": 0.3485209923664122,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Who is the mother of the director of film Polish-Russian War (Film)?",
+            "pred": "Małgorzata Braunek",
+            "gold": [
+              "Małgorzata Braunek"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_1",
+            "question": "Which film came out first, Blind Shaft or The Mask Of Fu Manchu?",
+            "pred": "The Mask Of Fu Manchu",
+            "gold": [
+              "The Mask Of Fu Manchu",
+              "Mask of Fu Manchu",
+              "The Mask of Fu Manchu"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_2",
+            "question": "When did John V, Prince Of Anhalt-Zerbst's father die?",
+            "pred": "1516",
+            "gold": [
+              "12 June 1516"
+            ],
+            "f1": 0.5
+          },
+          {
+            "id": "dev_5",
+            "question": "Who is Charles Bretagne Marie De La Trémoille's paternal grandfather?",
+            "pred": "Jean Bretagne Charles de La Trémoille",
+            "gold": [
+              "Charles Armand René de La Trémoille",
+              "Charles Armand Rene de La Tremoille"
+            ],
+            "f1": 0.6666666666666666
+          },
+          {
+            "id": "dev_7",
+            "question": "Are North Marion High School (Oregon) and Seoul High School both located in the same country?",
+            "pred": "No",
+            "gold": [
+              "no"
+            ],
+            "f1": 1.0
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 2609,
+        "pct": 0.2074586513994911,
+        "examples": [
+          {
+            "id": "dev_6",
+            "question": "Where was the father of Ștefan I. Nenițescu born?",
+            "pred": "Bucharest",
+            "gold": [
+              "Galac",
+              "Galaţi",
+              "Galati",
+              "Galatz",
+              "Galați"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "ioan s. nenițescu",
+              "ștefan i. nenițescu"
+            ],
+            "retrieved_titles": [
+              "ștefan i. nenițescu",
+              "ștefan i. nenițescu",
+              "ioan s. nenițescu",
+              "ioan s. nenițescu",
+              "ion creangă"
+            ]
+          },
+          {
+            "id": "dev_11",
+            "question": "Which film has the director born first, Once A Gentleman or The Girl In White?",
+            "pred": "The Girl In White",
+            "gold": [
+              "Once a Gentleman",
+              "Once A Gentleman"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "james cruze",
+              "once a gentleman",
+              "the girl in white",
+              "john sturges"
+            ],
+            "retrieved_titles": [
+              "lady in white",
+              "the first gentleman",
+              "the white countess",
+              "once a lady",
+              "the woman in white (1948 film)"
+            ]
+          },
+          {
+            "id": "dev_17",
+            "question": "Which film has the director born first, The Raven'S Dance or Keïta! L'Héritage Du Griot?",
+            "pred": "Keïta! l'Héritage du griot",
+            "gold": [
+              "The Raven's Dance",
+              "Raven's Dance",
+              "The Raven'S Dance"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "markku lehmuskallio",
+              "keïta! l'héritage du griot",
+              "the raven's dance",
+              "dani kouyaté"
+            ],
+            "retrieved_titles": [
+              "keïta! l'héritage du griot",
+              "keïta! l'héritage du griot",
+              "alidou badini",
+              "alidou badini",
+              "dani kouyaté"
+            ]
+          },
+          {
+            "id": "dev_19",
+            "question": "Which film has the director who died earlier, Tangled Destinies or The Daltons' Women?",
+            "pred": "La Ballade des Dalton",
+            "gold": [
+              "Tangled Destinies"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "thomas carr (director)",
+              "frank r. strayer",
+              "tangled destinies",
+              "the daltons' women"
+            ],
+            "retrieved_titles": [
+              "robin dalton",
+              "reginald denham",
+              "la ballade des dalton",
+              "tangled (2001 film)",
+              "dorothy dalton"
+            ]
+          },
+          {
+            "id": "dev_22",
+            "question": "Which film has the director died earlier, Poker In Bed or The Machine To Kill Bad People?",
+            "pred": "Death Machine",
+            "gold": [
+              "The Machine To Kill Bad People",
+              "La macchina ammazzacattivi",
+              "The Machine to Kill Bad People",
+              "Machine to Kill Bad People"
+            ],
+            "f1": 0.28571428571428575,
+            "recall": 0.0,
+            "gold_titles": [
+              "giuliano carnimeo",
+              "poker in bed",
+              "roberto rossellini",
+              "the machine to kill bad people"
+            ],
+            "retrieved_titles": [
+              "dario argento",
+              "lem dobbs",
+              "the gunman (film)",
+              "ghost in the machine (film)",
+              "death machine"
+            ]
+          }
+        ]
+      },
+      "retrieval_miss_partial": {
+        "count": 4993,
+        "pct": 0.3970260814249364,
+        "examples": [
+          {
+            "id": "dev_3",
+            "question": "What is the award that the director of film Wearing Velvet Slippers Under A Golden Umbrella won?",
+            "pred": "Maung Wunna won an award for his screenplay in 1970, but the specific award is not mentioned in the ",
+            "gold": [
+              "Myanmar Motion Picture Academy Awards"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "wearing velvet slippers under a golden umbrella",
+              "wunna"
+            ],
+            "retrieved_titles": [
+              "wearing velvet slippers under a golden umbrella",
+              "wearing velvet slippers under a golden umbrella",
+              "stephen frears",
+              "jabbar patel",
+              "velvet goldmine"
+            ]
+          },
+          {
+            "id": "dev_4",
+            "question": "Where was the director of film Ronnie Rocket born?",
+            "pred": "The given documents do not provide information about the birthplace of the director of the film Ronn",
+            "gold": [
+              "Missoula",
+              "Missoula, Montana"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "david lynch",
+              "ronnie rocket"
+            ],
+            "retrieved_titles": [
+              "ronnie rocket",
+              "ronnie rocket",
+              "ronnie rocket",
+              "ronnie rocket",
+              "ronnie rocket"
+            ]
+          },
+          {
+            "id": "dev_9",
+            "question": "Who is the maternal grandfather of Antiochus X Eusebes?",
+            "pred": "Antiochus VII Sidetes",
+            "gold": [
+              "Ptolemy IX Soter",
+              "Lathyros",
+              "Ptolemy 09",
+              "Ptolemy IX Lathyros",
+              "Ptolemy IX Soter II"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "cleopatra iv of egypt",
+              "antiochus x eusebes"
+            ],
+            "retrieved_titles": [
+              "antiochus x eusebes",
+              "antiochus x eusebes",
+              "antiochus x eusebes",
+              "antiochus ix cyzicenus",
+              "antiochus x eusebes"
+            ]
+          },
+          {
+            "id": "dev_13",
+            "question": "Where was the director of film Thomas Jefferson (Film) born?",
+            "pred": "The document does not provide information about the birthplace of the director of the film \"Thomas J",
+            "gold": [
+              "Brooklyn, New York",
+              "Brooklyn"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "ken burns",
+              "thomas jefferson (film)"
+            ],
+            "retrieved_titles": [
+              "thomas jefferson (film)",
+              "thomas jefferson",
+              "thomas jefferson",
+              "uss shadwell (lsd-15)",
+              "jefferson college (mississippi)"
+            ]
+          },
+          {
+            "id": "dev_14",
+            "question": "Why did Grand Duke Kirill Vladimirovich Of Russia's wife die?",
+            "pred": "The document does not provide information about the death of Grand Duke Kirill Vladimirovich of Russ",
+            "gold": [
+              "embolic stroke",
+              "stroke",
+              "cerebrovascular accident",
+              "CVA",
+              "CVI",
+              "Stroke",
+              "brain attack",
+              "cerebrovascular insult",
+              "cerebrovascular disorder"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "princess victoria melita of saxe-coburg and gotha",
+              "grand duke kirill vladimirovich of russia"
+            ],
+            "retrieved_titles": [
+              "grand duchess kira kirillovna of russia",
+              "grand duke kirill vladimirovich of russia",
+              "grand duke kirill vladimirovich of russia",
+              "grand duke vladimir alexandrovich of russia",
+              "grand duchess kira kirillovna of russia"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 555,
+        "pct": 0.04413167938931298,
+        "examples": [
+          {
+            "id": "dev_20",
+            "question": "Which film was released earlier, Moment Of Danger or The Ballad Of Josie?",
+            "pred": "The Ballad Of Josie",
+            "gold": [
+              "Moment Of Danger",
+              "Malaga",
+              "Moment of Danger"
+            ],
+            "f1": 0.3333333333333333,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_40",
+            "question": "Are Simonds Catholic College and Saginaw High School (Texas) both located in the same country?",
+            "pred": "yes",
+            "gold": [
+              "no"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_55",
+            "question": "Are both Kaufland and Otrag located in the same country?",
+            "pred": "No",
+            "gold": [
+              "yes"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_61",
+            "question": "Where was the place of death of the director of film Mole Men Against The Son Of Hercules?",
+            "pred": "Los Angeles, California",
+            "gold": [
+              "Roma",
+              "The Eternal City",
+              "Rome",
+              "Rome Italy"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_82",
+            "question": "Where was the performer of song God (John Lennon Song) born?",
+            "pred": "Ronkonkoma, New York",
+            "gold": [
+              "City of Liverpool",
+              "Liverpool"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 36,
+        "pct": 0.0028625954198473282,
+        "examples": [
+          {
+            "id": "dev_294",
+            "question": "Which country the director of film One Night At Mccool'S is from?",
+            "pred": "Netherlands-Norway",
+            "gold": [
+              "Norwegian",
+              "Kingdom of Norway",
+              "Norvège‏",
+              "Norwegen‏",
+              "no",
+              "NOR",
+              "NO",
+              "🇳🇴",
+              "Norge",
+              "Norway",
+              "Noreg"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_925",
+            "question": "Where does Princess Rym Al-Ali's father work at?",
+            "pred": "former Algerian Minister for Foreign Affairs and senior UN official",
+            "gold": [
+              "United Nations Organization",
+              "UN",
+              "United Nations",
+              "🇺🇳",
+              "UNO"
+            ],
+            "f1": 0.18181818181818182,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_974",
+            "question": "What is the place of birth of the performer of song Outta My Head (Leona Lewis Song)?",
+            "pred": "London Borough of Islington",
+            "gold": [
+              "London, England",
+              "London",
+              "London, United Kingdom",
+              "London, UK"
+            ],
+            "f1": 0.4,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2037",
+            "question": "Where was the place of death of Michel, 14Th Prince Of Ligne's father?",
+            "pred": "Château de Belœil, Belgium",
+            "gold": [
+              "Beloeil",
+              "Belœil"
+            ],
+            "f1": 0.4,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2115",
+            "question": "What is the place of birth of the performer of song Don'T Let Me Down (Leona Lewis Song)?",
+            "pred": "London Borough of Islington",
+            "gold": [
+              "London, England",
+              "London",
+              "London, United Kingdom",
+              "London, UK"
+            ],
+            "f1": 0.4,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  }
+}

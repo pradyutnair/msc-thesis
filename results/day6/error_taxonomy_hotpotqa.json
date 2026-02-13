@@ -1,0 +1,1520 @@
+{
+  "day1_standard_rag_hotpotqa": {
+    "method": "Standard RAG",
+    "dataset": "hotpotqa",
+    "n_total": 7405,
+    "categories": {
+      "correct": {
+        "count": 3250,
+        "pct": 0.43889264010803514,
+        "examples": [
+          {
+            "id": "dev_2",
+            "question": "What science fantasy young adult series, told in first person, has a set of companion books narratin",
+            "pred": "Animorphs",
+            "gold": [
+              "Animorphs"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_3",
+            "question": "Are the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?",
+            "pred": "No",
+            "gold": [
+              "no"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_4",
+            "question": "The director of the romantic comedy \"Big Stone Gap\" is based in what New York city?",
+            "pred": "New York City",
+            "gold": [
+              "Greenwich Village, New York City"
+            ],
+            "f1": 0.7499999999999999
+          },
+          {
+            "id": "dev_5",
+            "question": "2014 S/S is the debut album of a South Korean boy group that was formed by who?",
+            "pred": "YG Entertainment",
+            "gold": [
+              "YG Entertainment"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_6",
+            "question": "Who was known by his stage name Aladin and helped organizations improve their performance as a consu",
+            "pred": "Eenasul Fateh",
+            "gold": [
+              "Eenasul Fateh"
+            ],
+            "f1": 1.0
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 1452,
+        "pct": 0.19608372721134368,
+        "examples": [
+          {
+            "id": "dev_7",
+            "question": "The arena where the Lewiston Maineiacs played their home games can seat how many people?",
+            "pred": "4000",
+            "gold": [
+              "3,677 seated"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "lewiston maineiacs",
+              "androscoggin bank colisée"
+            ],
+            "retrieved_titles": [
+              "androscoggin bank colisée",
+              "androscoggin bank colisée",
+              "cross insurance arena",
+              "floyd l. maines veterans memorial arena",
+              "bangor auditorium"
+            ]
+          },
+          {
+            "id": "dev_10",
+            "question": "What is the name of the fight song of the university whose main campus is in Lawrence, Kansas and wh",
+            "pred": "I'm a Jayhawk",
+            "gold": [
+              "Kansas Song"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "kansas song",
+              "university of kansas"
+            ],
+            "retrieved_titles": [
+              "kansas state university marching band",
+              "i'm a jayhawk",
+              "i'm a jayhawk",
+              "isu fights",
+              "wildcat victory"
+            ]
+          },
+          {
+            "id": "dev_11",
+            "question": "What screenwriter with credits for \"Evolution\" co-wrote a film starring Nicolas Cage and Téa Leoni?",
+            "pred": "Charlie Kaufman",
+            "gold": [
+              "David Weissman"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "the family man",
+              "david weissman"
+            ],
+            "retrieved_titles": [
+              "nicolas cage",
+              "téa leoni",
+              "evolution (2001 film)",
+              "adaptation (film)",
+              "evolution (2001 film)"
+            ]
+          },
+          {
+            "id": "dev_29",
+            "question": "What is the name for the adventure in \"Tunnels and Trolls\", a game designed by Ken St. Andre?",
+            "pred": "Hot Pursuit",
+            "gold": [
+              "Arena of Khazan"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "arena of khazan",
+              "tunnels &amp; trolls"
+            ],
+            "retrieved_titles": [
+              "ken st. andre",
+              "ken st. andre",
+              "ken st. andre",
+              "ken st. andre",
+              "tunnels & trolls"
+            ]
+          },
+          {
+            "id": "dev_41",
+            "question": "Where is the company that Sachin Warrier worked for as a software engineer headquartered? ",
+            "pred": "Based on the given documents, there is no information about a company where Sachin Warrier worked as",
+            "gold": [
+              "Mumbai"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "sachin warrier",
+              "tata consultancy services"
+            ],
+            "retrieved_titles": [
+              "thirdware",
+              "mistral solutions",
+              "microsoft india",
+              "rubrik",
+              "makersquare"
+            ]
+          }
+        ]
+      },
+      "retrieval_miss_partial": {
+        "count": 2189,
+        "pct": 0.29561107359891964,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Were Scott Derrickson and Ed Wood of the same nationality?",
+            "pred": "No",
+            "gold": [
+              "yes"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "ed wood",
+              "scott derrickson"
+            ],
+            "retrieved_titles": [
+              "steve wood (footballer, born february 1963)",
+              "steve wood (footballer, born february 1963)",
+              "george wood (baseball)",
+              "bret wood",
+              "scott derrickson"
+            ]
+          },
+          {
+            "id": "dev_1",
+            "question": "What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tel",
+            "pred": "None",
+            "gold": [
+              "Chief of Protocol"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "shirley temple",
+              "kiss and tell (1945 film)"
+            ],
+            "retrieved_titles": [
+              "kiss and tell (1945 film)",
+              "kiss and tell (1945 film)",
+              "kiss and tell (play)",
+              "kiss and tell (play)",
+              "a kiss for corliss"
+            ]
+          },
+          {
+            "id": "dev_15",
+            "question": "Brown State Fishing Lake is in a country that has a population of how many inhabitants ?",
+            "pred": "10,724",
+            "gold": [
+              "9,984"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "brown state fishing lake",
+              "brown county, kansas"
+            ],
+            "retrieved_titles": [
+              "idaho",
+              "brown county, kansas",
+              "marshall islands",
+              "brown bear",
+              "country"
+            ]
+          },
+          {
+            "id": "dev_18",
+            "question": "Roger O. Egeberg was Assistant Secretary for Health and Scientific Affairs during the administration",
+            "pred": "1969-1974",
+            "gold": [
+              "1969 until 1974"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "roger o. egeberg",
+              "richard nixon"
+            ],
+            "retrieved_titles": [
+              "roger o. egeberg",
+              "roger o. egeberg",
+              "roger o. egeberg",
+              "science advisor to the president",
+              "united states president's council of advisors on science and technology"
+            ]
+          },
+          {
+            "id": "dev_21",
+            "question": "This singer of A Rather Blustery Day also voiced what hedgehog?",
+            "pred": "Pooh",
+            "gold": [
+              "Sonic"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "jim cummings",
+              "a rather blustery day"
+            ],
+            "retrieved_titles": [
+              "a rather blustery day",
+              "asen kisimov",
+              "a rather blustery day",
+              "hedgehog in the fog",
+              "pooh's heffalump movie"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 489,
+        "pct": 0.06603646185010129,
+        "examples": [
+          {
+            "id": "dev_8",
+            "question": "Who is older, Annie Morton or Terry Richardson?",
+            "pred": "Annie Morton",
+            "gold": [
+              "Terry Richardson"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_13",
+            "question": "Are Random House Tower and 888 7th Avenue both used for real estate?",
+            "pred": "yes",
+            "gold": [
+              "no"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_82",
+            "question": "Rostker v. Goldberg held that the practice of what way of filling armed forces vacancies was consitu",
+            "pred": "requiring only men to register for the draft",
+            "gold": [
+              "Conscription"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_89",
+            "question": "What occupation do Chris Menges and Aram Avakian share?",
+            "pred": "film maker",
+            "gold": [
+              "director"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_97",
+            "question": "Which filmmaker was known for animation, Lev Yilmaz or Pamela B. Green?",
+            "pred": "Pamela B. Green",
+            "gold": [
+              "Levni Yilmaz"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 25,
+        "pct": 0.00337609723160027,
+        "examples": [
+          {
+            "id": "dev_530",
+            "question": "What took place first, The Korean War or The Western Allied invasion of Germany?",
+            "pred": "The Korean War took place first, starting on 25 June 1950, while the Western Allied invasion of Germ",
+            "gold": [
+              "The Western Allied invasion of Germany"
+            ],
+            "f1": 0.3846153846153846,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_894",
+            "question": "What was Robert M. Fomon's connection to the New York Stock Exchange located at 11 Wall Street, Lowe",
+            "pred": "Robert M. Fomon was a governor of the New York Stock Exchange.",
+            "gold": [
+              "a governor"
+            ],
+            "f1": 0.18181818181818182,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_2040",
+            "question": "Charles Coughlin was a controversial Canadian-American Roman Catholic who also started what rumor?",
+            "pred": "Charles Coughlin was a controversial Canadian-American Roman Catholic priest who started the \"Boston",
+            "gold": [
+              "Boston Herald"
+            ],
+            "f1": 0.19999999999999998,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_3100",
+            "question": "Josh Trank and Mike Valerio both work in what industry?",
+            "pred": "film/entertainment",
+            "gold": [
+              "entertainment"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_3208",
+            "question": "Which profession do David Breashears and Richard Bass have in common?",
+            "pred": "mountaineering",
+            "gold": [
+              "mountaineer"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "day2_reranker_hotpotqa": {
+    "method": "Reranker",
+    "dataset": "hotpotqa",
+    "n_total": 7405,
+    "categories": {
+      "correct": {
+        "count": 3662,
+        "pct": 0.49453072248480756,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Were Scott Derrickson and Ed Wood of the same nationality?",
+            "pred": "Yes",
+            "gold": [
+              "yes"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_2",
+            "question": "What science fantasy young adult series, told in first person, has a set of companion books narratin",
+            "pred": "Animorphs",
+            "gold": [
+              "Animorphs"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_3",
+            "question": "Are the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?",
+            "pred": "No",
+            "gold": [
+              "no"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_4",
+            "question": "The director of the romantic comedy \"Big Stone Gap\" is based in what New York city?",
+            "pred": "New York City",
+            "gold": [
+              "Greenwich Village, New York City"
+            ],
+            "f1": 0.7499999999999999
+          },
+          {
+            "id": "dev_5",
+            "question": "2014 S/S is the debut album of a South Korean boy group that was formed by who?",
+            "pred": "YG Entertainment",
+            "gold": [
+              "YG Entertainment"
+            ],
+            "f1": 1.0
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 1092,
+        "pct": 0.1474679270762998,
+        "examples": [
+          {
+            "id": "dev_7",
+            "question": "The arena where the Lewiston Maineiacs played their home games can seat how many people?",
+            "pred": "4,800",
+            "gold": [
+              "3,677 seated"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "lewiston maineiacs",
+              "androscoggin bank colisée"
+            ],
+            "retrieved_titles": [
+              "androscoggin bank colisée",
+              "androscoggin bank colisée",
+              "androscoggin bank colisée",
+              "dwyer arena",
+              "dwyer arena"
+            ]
+          },
+          {
+            "id": "dev_16",
+            "question": "The Vermont Catamounts men's soccer team currently competes in a conference that was formerly known ",
+            "pred": "Yankee Conference",
+            "gold": [
+              "the North Atlantic Conference"
+            ],
+            "f1": 0.4,
+            "recall": 0.0,
+            "gold_titles": [
+              "vermont catamounts men's soccer",
+              "america east conference"
+            ],
+            "retrieved_titles": [
+              "vermont catamounts",
+              "vermont catamounts football",
+              "vermont catamounts",
+              "vermont catamounts men's basketball",
+              "2018–19 vermont catamounts men's basketball team"
+            ]
+          },
+          {
+            "id": "dev_29",
+            "question": "What is the name for the adventure in \"Tunnels and Trolls\", a game designed by Ken St. Andre?",
+            "pred": "Khara Kang's Random Rainbow Maze",
+            "gold": [
+              "Arena of Khazan"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "arena of khazan",
+              "tunnels &amp; trolls"
+            ],
+            "retrieved_titles": [
+              "ken st. andre",
+              "ken st. andre",
+              "ken st. andre",
+              "tunnels & trolls",
+              "pool of radiance"
+            ]
+          },
+          {
+            "id": "dev_41",
+            "question": "Where is the company that Sachin Warrier worked for as a software engineer headquartered? ",
+            "pred": "Based on the given documents, there is no specific information about a company where Sachin Warrier ",
+            "gold": [
+              "Mumbai"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "sachin warrier",
+              "tata consultancy services"
+            ],
+            "retrieved_titles": [
+              "bae systems",
+              "microsoft india",
+              "thirdware",
+              "mindtree",
+              "microsoft india"
+            ]
+          },
+          {
+            "id": "dev_42",
+            "question": "A Japanese manga series based on a 16 year old high school student Ichitaka Seto, is written and ill",
+            "pred": "1965",
+            "gold": [
+              "1962"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "i&quot;s",
+              "masakazu katsura"
+            ],
+            "retrieved_titles": [
+              "inuyasha",
+              "nisekoi",
+              "himeanole",
+              "kanojo wa uso o aishisugiteru",
+              "tsutomu takahashi"
+            ]
+          }
+        ]
+      },
+      "retrieval_miss_partial": {
+        "count": 1993,
+        "pct": 0.26914247130317354,
+        "examples": [
+          {
+            "id": "dev_1",
+            "question": "What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tel",
+            "pred": "None",
+            "gold": [
+              "Chief of Protocol"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "shirley temple",
+              "kiss and tell (1945 film)"
+            ],
+            "retrieved_titles": [
+              "kiss and tell (1945 film)",
+              "kiss and tell (1945 film)",
+              "kathryn card",
+              "f. hugh herbert",
+              "kiss and tell (play)"
+            ]
+          },
+          {
+            "id": "dev_10",
+            "question": "What is the name of the fight song of the university whose main campus is in Lawrence, Kansas and wh",
+            "pred": "I'm a Jayhawk",
+            "gold": [
+              "Kansas Song"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "kansas song",
+              "university of kansas"
+            ],
+            "retrieved_titles": [
+              "i'm a jayhawk",
+              "kansas state university",
+              "kansas state university marching band",
+              "i'm a jayhawk",
+              "university of kansas"
+            ]
+          },
+          {
+            "id": "dev_15",
+            "question": "Brown State Fishing Lake is in a country that has a population of how many inhabitants ?",
+            "pred": "10,724",
+            "gold": [
+              "9,984"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "brown state fishing lake",
+              "brown county, kansas"
+            ],
+            "retrieved_titles": [
+              "marshall islands",
+              "brown county, kansas",
+              "arab world",
+              "geography of japan",
+              "idaho"
+            ]
+          },
+          {
+            "id": "dev_18",
+            "question": "Roger O. Egeberg was Assistant Secretary for Health and Scientific Affairs during the administration",
+            "pred": "1969 to 1971",
+            "gold": [
+              "1969 until 1974"
+            ],
+            "f1": 0.3333333333333333,
+            "recall": 0.5,
+            "gold_titles": [
+              "roger o. egeberg",
+              "richard nixon"
+            ],
+            "retrieved_titles": [
+              "roger o. egeberg",
+              "roger o. egeberg",
+              "roger o. egeberg",
+              "roger o. egeberg",
+              "james w. holsinger"
+            ]
+          },
+          {
+            "id": "dev_20",
+            "question": "Which other Mexican Formula One race car driver has held the podium besides the Force India driver b",
+            "pred": "Sergio Pérez",
+            "gold": [
+              "Pedro Rodríguez"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "sergio pérez",
+              "formula one drivers from mexico"
+            ],
+            "retrieved_titles": [
+              "formula one drivers from mexico",
+              "1992 mexican grand prix",
+              "sergio pérez",
+              "force india vjm10",
+              "force india vjm08"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 612,
+        "pct": 0.08264686022957461,
+        "examples": [
+          {
+            "id": "dev_8",
+            "question": "Who is older, Annie Morton or Terry Richardson?",
+            "pred": "Annie Morton",
+            "gold": [
+              "Terry Richardson"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_13",
+            "question": "Are Random House Tower and 888 7th Avenue both used for real estate?",
+            "pred": "yes",
+            "gold": [
+              "no"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_31",
+            "question": "Hayden is a singer-songwriter from Canada, but where does Buck-Tick hail from?",
+            "pred": "Japan",
+            "gold": [
+              "Fujioka, Gunma"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_60",
+            "question": "What distinction is held by the former NBA player who was a member of the Charlotte Hornets during t",
+            "pred": "Muggsy Bogues",
+            "gold": [
+              "shortest player ever to play in the National Basketball Association"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_82",
+            "question": "Rostker v. Goldberg held that the practice of what way of filling armed forces vacancies was consitu",
+            "pred": "draft registration for men only",
+            "gold": [
+              "Conscription"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 46,
+        "pct": 0.006212018906144497,
+        "examples": [
+          {
+            "id": "dev_87",
+            "question": "Where are Teide National Park and Garajonay National Park located?",
+            "pred": "Teide National Park is located in Tenerife, Canary Islands, Spain. Garajonay National Park is locate",
+            "gold": [
+              "Canary Islands, Spain"
+            ],
+            "f1": 0.25,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_478",
+            "question": "What is the shared country of ancestry between Art Laboe and Scout Tufankjian?",
+            "pred": "Armenian-American",
+            "gold": [
+              "Armenian"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_742",
+            "question": "The attraction at universal studios that was based on \"The Tonight Show\" replaced an attraction that",
+            "pred": "Twister...Ride it Out replaced the Ghostbusters Spooktacular attraction, which was based on the Ghos",
+            "gold": [
+              "Ghostbusters Spooktacular"
+            ],
+            "f1": 0.2222222222222222,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_894",
+            "question": "What was Robert M. Fomon's connection to the New York Stock Exchange located at 11 Wall Street, Lowe",
+            "pred": "Robert M. Fomon was a governor of the New York Stock Exchange.",
+            "gold": [
+              "a governor"
+            ],
+            "f1": 0.18181818181818182,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_916",
+            "question": "Wing Chun starred Michelle Yeoh and a Hong Kong actor, martial artist, and film director who won wha",
+            "pred": "Wing Chun starred Michelle Yeoh and Donnie Yen, who won multiple world wushu tournament championship",
+            "gold": [
+              "world wushu tournament"
+            ],
+            "f1": 0.33333333333333337,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "day4_ircot_hotpotqa": {
+    "method": "IRCoT",
+    "dataset": "hotpotqa",
+    "n_total": 7405,
+    "categories": {
+      "correct": {
+        "count": 3245,
+        "pct": 0.43821742066171504,
+        "examples": [
+          {
+            "id": "dev_2",
+            "question": "What science fantasy young adult series, told in first person, has a set of companion books narratin",
+            "pred": "Animorphs.",
+            "gold": [
+              "Animorphs"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_3",
+            "question": "Are the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?",
+            "pred": "no.",
+            "gold": [
+              "no"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_4",
+            "question": "The director of the romantic comedy \"Big Stone Gap\" is based in what New York city?",
+            "pred": "New York City.",
+            "gold": [
+              "Greenwich Village, New York City"
+            ],
+            "f1": 0.7499999999999999
+          },
+          {
+            "id": "dev_5",
+            "question": "2014 S/S is the debut album of a South Korean boy group that was formed by who?",
+            "pred": "YG Entertainment.",
+            "gold": [
+              "YG Entertainment"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_6",
+            "question": "Who was known by his stage name Aladin and helped organizations improve their performance as a consu",
+            "pred": "Eenasul Fateh.",
+            "gold": [
+              "Eenasul Fateh"
+            ],
+            "f1": 1.0
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 1198,
+        "pct": 0.16178257933828494,
+        "examples": [
+          {
+            "id": "dev_7",
+            "question": "The arena where the Lewiston Maineiacs played their home games can seat how many people?",
+            "pred": "4,800.",
+            "gold": [
+              "3,677 seated"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "lewiston maineiacs",
+              "androscoggin bank colisée"
+            ],
+            "retrieved_titles": [
+              "lewiston, maine",
+              "androscoggin bank colisée",
+              "androscoggin bank colisée",
+              "bangor auditorium",
+              "floyd l. maines veterans memorial arena"
+            ]
+          },
+          {
+            "id": "dev_11",
+            "question": "What screenwriter with credits for \"Evolution\" co-wrote a film starring Nicolas Cage and Téa Leoni?",
+            "pred": "Bruce Joel Rubin and Michael Tolkin.",
+            "gold": [
+              "David Weissman"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "the family man",
+              "david weissman"
+            ],
+            "retrieved_titles": [
+              "evolution (2001 film)",
+              "adaptation (film)",
+              "deep impact (film)",
+              "evolution (2001 film)",
+              "alex fernandez (actor)"
+            ]
+          },
+          {
+            "id": "dev_14",
+            "question": "The football manager who recruited David Beckham managed Manchester United during what timeframe?",
+            "pred": "1996-1999.",
+            "gold": [
+              "from 1986 to 2013"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "1995–96 manchester united f.c. season",
+              "alex ferguson"
+            ],
+            "retrieved_titles": [
+              "david beckham",
+              "michael edelson",
+              "the beckham experiment",
+              "steve mcmanaman",
+              "1977–78 in english football"
+            ]
+          },
+          {
+            "id": "dev_16",
+            "question": "The Vermont Catamounts men's soccer team currently competes in a conference that was formerly known ",
+            "pred": "The information provided does not specify the name of the conference from 1988 to 1996.",
+            "gold": [
+              "the North Atlantic Conference"
+            ],
+            "f1": 0.13333333333333333,
+            "recall": 0.0,
+            "gold_titles": [
+              "vermont catamounts men's soccer",
+              "america east conference"
+            ],
+            "retrieved_titles": [
+              "south atlantic conference",
+              "big eight conference",
+              "skyline conference (1938–1962)",
+              "new england conference",
+              "edward mickolus"
+            ]
+          },
+          {
+            "id": "dev_29",
+            "question": "What is the name for the adventure in \"Tunnels and Trolls\", a game designed by Ken St. Andre?",
+            "pred": "Hot Pursuit.",
+            "gold": [
+              "Arena of Khazan"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "arena of khazan",
+              "tunnels &amp; trolls"
+            ],
+            "retrieved_titles": [
+              "ken barlow (meteorologist)",
+              "kenmore square",
+              "ken rinciari",
+              "kenmore, washington",
+              "hot chase"
+            ]
+          }
+        ]
+      },
+      "retrieval_miss_partial": {
+        "count": 1705,
+        "pct": 0.23024983119513842,
+        "examples": [
+          {
+            "id": "dev_10",
+            "question": "What is the name of the fight song of the university whose main campus is in Lawrence, Kansas and wh",
+            "pred": "I'm a Jayhawk.",
+            "gold": [
+              "Kansas Song"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "kansas song",
+              "university of kansas"
+            ],
+            "retrieved_titles": [
+              "marching jayhawks",
+              "rock chalk, jayhawk",
+              "wildcat victory",
+              "isu fights",
+              "university of kansas"
+            ]
+          },
+          {
+            "id": "dev_15",
+            "question": "Brown State Fishing Lake is in a country that has a population of how many inhabitants ?",
+            "pred": "the United States, which has a population of approximately 331,000,000 inhabitants.",
+            "gold": [
+              "9,984"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "brown state fishing lake",
+              "brown county, kansas"
+            ],
+            "retrieved_titles": [
+              "country",
+              "brown bear",
+              "marshall islands",
+              "idaho",
+              "neosho state fishing lake"
+            ]
+          },
+          {
+            "id": "dev_21",
+            "question": "This singer of A Rather Blustery Day also voiced what hedgehog?",
+            "pred": "Maria Vinogradova.",
+            "gold": [
+              "Sonic"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "jim cummings",
+              "a rather blustery day"
+            ],
+            "retrieved_titles": [
+              "pooh's heffalump movie",
+              "hedgehog's home",
+              "asen kisimov",
+              "the elegance of the hedgehog",
+              "hip hip pooh-ray!"
+            ]
+          },
+          {
+            "id": "dev_28",
+            "question": "Kaiser Ventures corporation was founded by an American industrialist who became known as the father ",
+            "pred": "yes.",
+            "gold": [
+              "Henry J. Kaiser"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "kaiser ventures",
+              "henry j. kaiser"
+            ],
+            "retrieved_titles": [
+              "henry smith (speaker)",
+              "henry t. clarke sr.",
+              "henry henry",
+              "henry j",
+              "henry j"
+            ]
+          },
+          {
+            "id": "dev_30",
+            "question": "When was Poison's album \"Shut Up, Make Love\" released?",
+            "pred": "The release date of \"Shut Up, Make Love\" is not provided in the given information.",
+            "gold": [
+              "2000"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "shut up, make love",
+              "poison (american band)"
+            ],
+            "retrieved_titles": [
+              "emoticon",
+              "crack a smile... and more!",
+              "smile",
+              "the power of smile/remember the kiss",
+              "smile"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 1021,
+        "pct": 0.13787981093855503,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Were Scott Derrickson and Ed Wood of the same nationality?",
+            "pred": "no.",
+            "gold": [
+              "yes"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_1",
+            "question": "What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tel",
+            "pred": "Shirley Temple did not hold any government position.",
+            "gold": [
+              "Chief of Protocol"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_8",
+            "question": "Who is older, Annie Morton or Terry Richardson?",
+            "pred": "Annie Morton.",
+            "gold": [
+              "Terry Richardson"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_13",
+            "question": "Are Random House Tower and 888 7th Avenue both used for real estate?",
+            "pred": "yes, both buildings are used for real estate.",
+            "gold": [
+              "no"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_22",
+            "question": "Aside from the Apple Remote, what other device can control the program Apple Remote was originally d",
+            "pred": "the iSight iMac G5.",
+            "gold": [
+              "keyboard function keys"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 236,
+        "pct": 0.03187035786630655,
+        "examples": [
+          {
+            "id": "dev_72",
+            "question": "What color clothing do people of the Netherlands wear during Oranjegekte or to celebrate the nationa",
+            "pred": "Orange clothing such as T-shirts, caps, and scarfs.",
+            "gold": [
+              "orange"
+            ],
+            "f1": 0.2222222222222222,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_78",
+            "question": "What nationality were social anthropologists Alfred Gell and Edmund Leach?",
+            "pred": "both Alfred Gell and Edmund Leach were British.",
+            "gold": [
+              "British"
+            ],
+            "f1": 0.2222222222222222,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_89",
+            "question": "What occupation do Chris Menges and Aram Avakian share?",
+            "pred": "directors.",
+            "gold": [
+              "director"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_93",
+            "question": "Do the drinks Gibson and Zurracapote both contain gin?",
+            "pred": "no, Zurracapote does not contain gin.",
+            "gold": [
+              "no"
+            ],
+            "f1": 0.2857142857142857,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_118",
+            "question": "Were the bands Skin Yard and Ostava from the U.S.?",
+            "pred": " Skin Yard was an American grunge band from Seattle, Washington.  Ostava is an alternative rock band",
+            "gold": [
+              "no"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "day6_gold_hotpotqa": {
+    "method": "Gold Context",
+    "dataset": "hotpotqa",
+    "n_total": 7405,
+    "categories": {
+      "correct": {
+        "count": 3987,
+        "pct": 0.5384199864956111,
+        "examples": [
+          {
+            "id": "dev_2",
+            "question": "What science fantasy young adult series, told in first person, has a set of companion books narratin",
+            "pred": "Animorphs",
+            "gold": [
+              "Animorphs"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_3",
+            "question": "Are the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?",
+            "pred": "No",
+            "gold": [
+              "no"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_5",
+            "question": "2014 S/S is the debut album of a South Korean boy group that was formed by who?",
+            "pred": "JYP Entertainment",
+            "gold": [
+              "YG Entertainment"
+            ],
+            "f1": 0.5
+          },
+          {
+            "id": "dev_6",
+            "question": "Who was known by his stage name Aladin and helped organizations improve their performance as a consu",
+            "pred": "Eenasul Fateh",
+            "gold": [
+              "Eenasul Fateh"
+            ],
+            "f1": 1.0
+          },
+          {
+            "id": "dev_11",
+            "question": "What screenwriter with credits for \"Evolution\" co-wrote a film starring Nicolas Cage and Téa Leoni?",
+            "pred": "David Weissman",
+            "gold": [
+              "David Weissman"
+            ],
+            "f1": 1.0
+          }
+        ]
+      },
+      "retrieval_miss_total": {
+        "count": 872,
+        "pct": 0.11775827143821742,
+        "examples": [
+          {
+            "id": "dev_0",
+            "question": "Were Scott Derrickson and Ed Wood of the same nationality?",
+            "pred": "No",
+            "gold": [
+              "yes"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "ed wood",
+              "scott derrickson"
+            ],
+            "retrieved_titles": []
+          },
+          {
+            "id": "dev_9",
+            "question": "Are Local H and For Against both from the United States?",
+            "pred": "No",
+            "gold": [
+              "yes"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "local h",
+              "for against"
+            ],
+            "retrieved_titles": []
+          },
+          {
+            "id": "dev_20",
+            "question": "Which other Mexican Formula One race car driver has held the podium besides the Force India driver b",
+            "pred": "Esteban Gutiérrez",
+            "gold": [
+              "Pedro Rodríguez"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "sergio pérez",
+              "formula one drivers from mexico"
+            ],
+            "retrieved_titles": []
+          },
+          {
+            "id": "dev_23",
+            "question": "Which performance act has a higher instrument to person ratio, Badly Drawn Boy or Wolf Alice? ",
+            "pred": "Wolf Alice",
+            "gold": [
+              "Badly Drawn Boy"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "wolf alice",
+              "badly drawn boy"
+            ],
+            "retrieved_titles": []
+          },
+          {
+            "id": "dev_31",
+            "question": "Hayden is a singer-songwriter from Canada, but where does Buck-Tick hail from?",
+            "pred": "Japan",
+            "gold": [
+              "Fujioka, Gunma"
+            ],
+            "f1": 0.0,
+            "recall": 0.0,
+            "gold_titles": [
+              "hayden (musician)",
+              "buck-tick"
+            ],
+            "retrieved_titles": []
+          }
+        ]
+      },
+      "retrieval_miss_partial": {
+        "count": 2178,
+        "pct": 0.2941255908170155,
+        "examples": [
+          {
+            "id": "dev_1",
+            "question": "What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tel",
+            "pred": "None",
+            "gold": [
+              "Chief of Protocol"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "shirley temple",
+              "kiss and tell (1945 film)"
+            ],
+            "retrieved_titles": [
+              "kiss and tell (1945 film)"
+            ]
+          },
+          {
+            "id": "dev_4",
+            "question": "The director of the romantic comedy \"Big Stone Gap\" is based in what New York city?",
+            "pred": "New York City is not mentioned in the given document.",
+            "gold": [
+              "Greenwich Village, New York City"
+            ],
+            "f1": 0.42857142857142855,
+            "recall": 0.5,
+            "gold_titles": [
+              "big stone gap (film)",
+              "adriana trigiani"
+            ],
+            "retrieved_titles": [
+              "big stone gap (film)"
+            ]
+          },
+          {
+            "id": "dev_7",
+            "question": "The arena where the Lewiston Maineiacs played their home games can seat how many people?",
+            "pred": "12000",
+            "gold": [
+              "3,677 seated"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "lewiston maineiacs",
+              "androscoggin bank colisée"
+            ],
+            "retrieved_titles": [
+              "lewiston maineiacs"
+            ]
+          },
+          {
+            "id": "dev_8",
+            "question": "Who is older, Annie Morton or Terry Richardson?",
+            "pred": "Annie Morton",
+            "gold": [
+              "Terry Richardson"
+            ],
+            "f1": 0.0,
+            "recall": 0.5,
+            "gold_titles": [
+              "annie morton",
+              "terry richardson"
+            ],
+            "retrieved_titles": [
+              "annie morton"
+            ]
+          },
+          {
+            "id": "dev_10",
+            "question": "What is the name of the fight song of the university whose main campus is in Lawrence, Kansas and wh",
+            "pred": "I'll need the name of the university to answer the question. Based on the document, the university i",
+            "gold": [
+              "Kansas Song"
+            ],
+            "f1": 0.09090909090909091,
+            "recall": 0.5,
+            "gold_titles": [
+              "kansas song",
+              "university of kansas"
+            ],
+            "retrieved_titles": [
+              "university of kansas"
+            ]
+          }
+        ]
+      },
+      "reasoning_failure": {
+        "count": 339,
+        "pct": 0.04577987846049966,
+        "examples": [
+          {
+            "id": "dev_13",
+            "question": "Are Random House Tower and 888 7th Avenue both used for real estate?",
+            "pred": "yes",
+            "gold": [
+              "no"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_28",
+            "question": "Kaiser Ventures corporation was founded by an American industrialist who became known as the father ",
+            "pred": "yes",
+            "gold": [
+              "Henry J. Kaiser"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_82",
+            "question": "Rostker v. Goldberg held that the practice of what way of filling armed forces vacancies was consitu",
+            "pred": "draft",
+            "gold": [
+              "Conscription"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_123",
+            "question": "Maxeda has been owned since 2004 by which American multinational equity firm?",
+            "pred": "Kohlberg Kravis Roberts",
+            "gold": [
+              "KKR & Co"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_160",
+            "question": "Who held the record for the longest service in the Australian Parliament for a woman, and was surpas",
+            "pred": "Kathy Sullivan AM, Bronwyn Bishop",
+            "gold": [
+              "Kathryn Jean Martin"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      },
+      "answer_extraction_failure": {
+        "count": 29,
+        "pct": 0.003916272788656313,
+        "examples": [
+          {
+            "id": "dev_87",
+            "question": "Where are Teide National Park and Garajonay National Park located?",
+            "pred": "Teide National Park and Garajonay National Park are located in the Canary Islands, Spain.",
+            "gold": [
+              "Canary Islands, Spain"
+            ],
+            "f1": 0.375,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_325",
+            "question": "Katherine Waterston and Chrisann Brennan has what in common?",
+            "pred": "Katherine Waterston portrayed Chrisann Brennan in the film \"Steve Jobs\".",
+            "gold": [
+              "Steve Jobs"
+            ],
+            "f1": 0.3636363636363636,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_478",
+            "question": "What is the shared country of ancestry between Art Laboe and Scout Tufankjian?",
+            "pred": "Armenian-American",
+            "gold": [
+              "Armenian"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_773",
+            "question": "What role did Veda Hlubinka-Cook have in the making of this 1997 video game that takes place on the ",
+            "pred": "Veda Hlubinka-Cook was the technical director for the 1997 video game \"The Last Express\", which take",
+            "gold": [
+              "technical director"
+            ],
+            "f1": 0.2222222222222222,
+            "recall": 1.0
+          },
+          {
+            "id": "dev_800",
+            "question": "Daniel Greene has created what for clients including sportscaster Bryant Gumbel, Eleanor Roosevelt, ",
+            "pred": "portraits",
+            "gold": [
+              "portrait"
+            ],
+            "f1": 0.0,
+            "recall": 1.0
+          }
+        ]
+      }
+    }
+  }
+}
