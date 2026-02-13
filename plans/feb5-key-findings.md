@@ -432,8 +432,8 @@ flowchart BT
 |---|---|---|---|
 | **Naive Gen (lower bound)** | 25.29 [24.45, 26.25] | 9.59 [8.63, 10.51] | 29.69 [28.97, 30.41] |
 | Standard RAG (Day 1) | 42.01 [41.03, 43.04] | 13.03 [11.94, 14.18] | 32.13 [31.43, 32.91] |
-| IRCoT (Day 4) | 42.61 [41.62, 43.64] | 14.29 [13.25, 15.48] | — |
-| Reranker+CoT (Day 5) | 45.56 [44.58, 46.68] | — | — |
+| IRCoT (Day 4) | 42.46 [41.47, 43.49] | 14.29 [13.25, 15.48] | — |
+| Reranker+CoT (Day 5) | 45.52 [44.54, 46.64] | — | — |
 | **Reranker (Day 2, best)** | **47.42 [46.39, 48.43]** | **15.52 [14.29, 16.77]** | **34.78 [34.04, 35.57]** |
 | **Gold Context (upper bound)** | **51.31 [50.29, 52.34]** | **59.62 [57.68, 61.49]** | **69.96 [69.21, 70.68]** |
 
@@ -581,3 +581,136 @@ xychart-beta
     bar "HotpotQA" [27.3, 46.8, 19.0, 6.9]
     bar "MuSiQue" [22.7, 46.5, 20.3, 10.5]
 ```
+
+
+## Post-Hoc Analysis: Comprehensive Retrieval & Statistical Evaluation
+
+### Retrieval Metrics (All Methods)
+
+| Method | Dataset | k | Contain@k | Recall@k | Precision@k | MRR | 0 found | Partial | All found |
+|--------|---------|---|-----------|----------|-------------|-----|---------|---------|-----------|
+| Standard RAG | hotpotqa | 5 | 76.2% | 50.0% | 20.0% | 0.660 | 23.8% | 52.3% | 23.9% |
+| Reranker | hotpotqa | 5 | 81.8% | 57.7% | 23.1% | 0.763 | 18.2% | 48.2% | 33.6% |
+| RECOMP | hotpotqa | 5 | 76.2% | 50.0% | 20.0% | 0.660 | 23.8% | 52.3% | 23.9% |
+| Selective-Context | hotpotqa | 5 | 76.2% | 50.0% | 20.0% | 0.660 | 23.8% | 52.3% | 23.9% |
+| IRCoT | hotpotqa | 12 | 82.1% | 64.7% | 12.0% | 0.319 | 17.9% | 34.8% | 47.3% |
+| Reranker+CoT | hotpotqa | 5 | 81.8% | 57.7% | 23.1% | 0.763 | 18.2% | 48.2% | 33.6% |
+| Standard RAG | musique | 5 | 44.2% | 21.4% | 9.5% | 0.324 | 55.8% | 40.9% | 3.3% |
+| Reranker | musique | 5 | 53.5% | 26.2% | 12.0% | 0.445 | 46.5% | 48.4% | 5.1% |
+| RECOMP | musique | 5 | 44.2% | 21.4% | 9.5% | 0.324 | 55.8% | 40.9% | 3.3% |
+| Selective-Context | musique | 5 | 44.2% | 21.4% | 9.5% | 0.324 | 55.8% | 40.9% | 3.3% |
+| IRCoT | musique | 14 | 59.8% | 33.3% | 6.2% | 0.174 | 40.2% | 48.0% | 11.9% |
+| Reranker+CoT | musique | 5 | 53.5% | 26.2% | 12.0% | 0.445 | 46.5% | 48.4% | 5.1% |
+| Standard RAG | 2wikimultihopqa | 5 | 68.9% | 36.1% | 16.5% | 0.611 | 31.1% | 59.9% | 9.0% |
+| Reranker | 2wikimultihopqa | 5 | 72.8% | 40.1% | 18.4% | 0.698 | 27.2% | 60.4% | 12.4% |
+
+**Key observations:**
+- RECOMP and Selective-Context have identical retrieval metrics to Standard RAG (same retriever, refinement is post-retrieval)
+- IRCoT achieves highest Contain@k (82.1% HQA, 59.8% MSQ) and Recall@k (64.7% HQA, 33.3% MSQ) but at lower Precision (12.0% HQA) and MRR (0.319 HQA) due to accumulating ~12-14 docs across rounds
+- **55.8% of MuSiQue questions have ZERO gold docs** with Standard RAG — the fundamental multi-hop retrieval challenge
+- Reranker improves coverage: reduces "0 found" from 23.8% to 18.2% (HQA) and 55.8% to 46.5% (MSQ)
+
+### Stratified Analysis: HotpotQA by Question Type (Bridge vs Comparison)
+
+| Method | Bridge EM | Bridge F1 | Comparison EM | Comparison F1 | Bridge Contain | Comp Contain |
+|--------|-----------|-----------|---------------|---------------|----------------|--------------|
+| Standard RAG | 26.0% | 37.0% | 54.1% | 62.1% | 71.9% | 92.9% |
+| Reranker | 30.7% | 42.4% | 59.2% | 67.2% | 78.2% | 96.0% |
+| RECOMP | 24.0% | 35.2% | 51.7% | 59.2% | 71.9% | 92.9% |
+| Selective-Context | 20.3% | 30.5% | 53.6% | 60.7% | 71.9% | 92.9% |
+| FLARE | 10.1% | 18.0% | 53.7% | 60.9% | -- | -- |
+| IRCoT | 26.6% | 38.8% | 46.6% | 57.2% | 78.7% | 95.6% |
+| Reranker+CoT | 27.6% | 39.4% | 61.5% | 69.8% | 78.2% | 96.0% |
+| Gold Context | 35.8% | 47.8% | 58.1% | 65.2% | -- | -- |
+| Naive Gen | 9.6% | 16.2% | 54.1% | 61.5% | -- | -- |
+
+**Key observations:**
+- **Comparison questions are dramatically easier** than bridge questions across ALL methods (~25 F1 gap)
+- Comparison questions achieve 92-96% Contain@k even with Standard RAG (both entities usually co-occur in documents)
+- **FLARE and Naive Gen match Reranker on comparison** (F1~60-61) — these questions can often be answered from parametric knowledge alone
+- Bridge questions are the true differentiator: Reranker+CoT comparison F1 (69.8%) is best, but CoT hurts bridge F1 (39.4% vs Reranker 42.4%)
+- IRCoT helps bridge (38.8%) but *hurts* comparison (57.2% vs Standard RAG 62.1%) — iterative retrieval adds noise for simple comparison queries
+
+### Stratified Analysis: MuSiQue by Number of Hops (Extended)
+
+| Method | 2-hop F1 (n=1252) | 3-hop F1 (n=760) | 4-hop F1 (n=405) | 2-hop Contain | 3-hop Contain | 4-hop Contain |
+|--------|-------------------|-------------------|-------------------|---------------|---------------|---------------|
+| Standard RAG | 17.2% | 8.8% | 8.0% | 55.8% | 40.5% | 15.3% |
+| Reranker | 20.0% | 11.8% | 8.7% | 61.8% | 53.2% | 28.4% |
+| RECOMP | 16.8% | 6.7% | 6.0% | 55.8% | 40.5% | 15.3% |
+| Selective-Context | 13.6% | 9.5% | 7.2% | 55.8% | 40.5% | 15.3% |
+| FLARE | 12.8% | 10.7% | 8.6% | -- | -- | -- |
+| IRCoT | 19.7% | 8.6% | 8.3% | 65.1% | 61.2% | 41.0% |
+| Reranker+CoT | 19.6% | 9.5% | 5.0% | 61.8% | 53.2% | 28.4% |
+| Gold Context | 63.9% | 60.2% | 45.4% | -- | -- | -- |
+| Naive Gen | 11.0% | 8.4% | 7.1% | -- | -- | -- |
+
+**Key observations:**
+- **Contain@k drops steeply with hops**: Standard RAG goes 55.8% to 40.5% to 15.3% (2 to 3 to 4 hops)
+- IRCoT dramatically improves 3-hop and 4-hop Contain (40.5% to 61.2% and 15.3% to 41.0%) but this doesn't translate to proportional F1 gains
+- Gold Context reveals the reasoning ceiling: 63.9% to 60.2% to 45.4% — even with perfect retrieval, 4-hop questions are fundamentally harder
+- **CoT hurts more on harder questions**: Reranker+CoT 4-hop F1 (5.0%) is worse than Reranker (8.7%) and even Standard RAG (8.0%)
+
+### Stratified Analysis: 2WikiMultihopQA by Question Type
+
+| Method | Compositional F1 (n=5236) | Comparison F1 (n=3040) | Inference F1 (n=1549) | Bridge-Comparison F1 (n=2751) |
+|--------|--------------------------|------------------------|----------------------|------------------------------|
+| Standard RAG | 14.8% | 49.6% | 36.1% | 43.6% |
+| Reranker | 17.1% | 54.4% | 37.2% | 45.4% |
+| Gold Context | 63.5% | 84.2% | 67.0% | 68.1% |
+| Naive Gen | 9.7% | 50.1% | 25.2% | 47.7% |
+
+**Key observations:**
+- **Compositional questions are hardest** (14.8-17.1% F1 with retrieval) — these require combining facts from multiple documents
+- **Comparison and bridge-comparison are partly solvable from parametric knowledge**: Naive Gen (50.1%, 47.7%) nearly matches Standard RAG (49.6%, 43.6%)
+- Gold Context shows massive headroom for compositional (63.5%) and comparison (84.2%) — retrieval quality is the binding constraint
+- Reranker improves compositional most (+2.3 F1) — these benefit most from better document ranking
+
+### HotpotQA Difficulty Level Note
+
+All questions in the FlashRAG HotpotQA test set are labeled "hard" (Easy=0%, Medium=0%, Hard=100%). This is a dataset artifact — the FlashRAG benchmark uses a filtered subset of HotpotQA that contains only hard-level questions. Stratification by difficulty level is therefore not informative for this dataset.
+
+### Retrieval-Answer Correlation (Spearman)
+
+| Method | Dataset | Spearman r | p-value | F1 (recall=0) | F1 (0<r<1) | F1 (recall=1) |
+|--------|---------|------------|---------|---------------|------------|---------------|
+| Standard RAG | hotpotqa | 0.383 | <1e-300 | 17.2% (n=1765) | 41.4% (n=3870) | 68.0% (n=1770) |
+| Reranker | hotpotqa | 0.404 | <1e-300 | 18.7% (n=1350) | 42.2% (n=3570) | 70.5% (n=2485) |
+| IRCoT | hotpotqa | 0.454 | <1e-300 | 10.2% (n=1327) | 32.9% (n=2576) | 61.7% (n=3502) |
+| Reranker+CoT | hotpotqa | 0.437 | <1e-300 | 15.5% (n=1350) | 39.1% (n=3570) | 71.0% (n=2485) |
+| Standard RAG | musique | 0.182 | <1e-300 | 8.4% (n=1348) | 16.8% (n=989) | 43.4% (n=80) |
+| Reranker | musique | 0.197 | <1e-300 | 9.8% (n=1124) | 18.2% (n=1169) | 42.0% (n=124) |
+| IRCoT | musique | 0.276 | <1e-300 | 6.7% (n=971) | 14.1% (n=1159) | 40.7% (n=287) |
+| Reranker+CoT | musique | 0.258 | <1e-300 | 7.1% (n=1124) | 17.1% (n=1169) | 47.5% (n=124) |
+| Standard RAG | 2wikimultihopqa | 0.137 | <1e-300 | 22.8% (n=3913) | 33.0% (n=7535) | 58.5% (n=1128) |
+| Reranker | 2wikimultihopqa | 0.173 | <1e-300 | 24.2% (n=3416) | 34.1% (n=7599) | 61.1% (n=1561) |
+
+**Key observations:**
+- **Correlation is stronger on HotpotQA (r~0.38-0.45) than MuSiQue (r~0.18-0.28) or 2Wiki (r~0.14-0.17)** — retrieval quality is a stronger predictor of answer quality for HotpotQA
+- **IRCoT has highest correlation** (r=0.454 HQA, r=0.276 MSQ) — its iterative retrieval creates a wider spread of recall values
+- **When recall=1 (all gold docs found)**: F1~68-71% (HQA), ~40-47% (MSQ), ~58-61% (2Wiki) — these represent the **reasoning ceiling given perfect retrieval**
+- **When recall=0 (no gold docs found)**: F1~10-19% (HQA), ~7-10% (MSQ), ~23-24% (2Wiki) — this is the **parametric knowledge floor**
+- The gap between recall=0 and recall=1 represents the **maximum possible gain from improving retrieval**: ~50 F1 points on HQA, ~35 F1 on MSQ, ~37 F1 on 2Wiki
+
+### Statistical Significance Tests (Paired Bootstrap, n=10,000)
+
+| Comparison | HQA Delta F1 | HQA p | MSQ Delta F1 | MSQ p | 2Wiki Delta F1 | 2Wiki p |
+|------------|-------------|-------|-------------|-------|----------------|---------|
+| Standard RAG vs Reranker | +5.41*** | <0.001 | +2.49*** | <0.001 | +2.65*** | <0.001 |
+| Standard RAG vs IRCoT | +0.45 ns | 0.328 | +1.25* | 0.023 | -- | -- |
+| Reranker vs IRCoT | -4.96*** | <0.001 | -1.23 ns | 0.053 | -- | -- |
+| Reranker vs Reranker+CoT | -1.90*** | <0.001 | -1.54** | 0.001 | -- | -- |
+| Standard RAG vs RECOMP | -1.99*** | <0.001 | -1.18* | 0.016 | -- | -- |
+| Standard RAG vs SC | -5.45*** | <0.001 | -1.78*** | <0.001 | -- | -- |
+| Standard RAG vs FLARE | -15.44*** | <0.001 | -1.60* | 0.014 | -- | -- |
+| Naive Gen vs Standard RAG | +16.71*** | <0.001 | +3.47*** | <0.001 | +2.45*** | <0.001 |
+| Reranker vs Gold Context | +3.90*** | <0.001 | +44.09*** | <0.001 | +35.17*** | <0.001 |
+
+Significance levels: *** p<0.001, ** p<0.01, * p<0.05, ns = not significant
+
+**Critical significance findings:**
+1. **IRCoT vs Standard RAG on HotpotQA is NOT significant** (p=0.328) — despite higher retrieval recall (64.7% vs 50.0%), context dilution from ~12 accumulated documents neutralizes the retrieval gain
+2. **Reranker vs IRCoT on MuSiQue is NOT significant** (p=0.053) — borderline, but reranker achieves comparable results with 5 docs vs IRCoT's ~14 docs
+3. **CoT significantly hurts** Reranker on both datasets (p<0.001 HQA, p=0.001 MSQ) — verbose reasoning degrades extractive QA performance
+4. **All refiners significantly hurt** performance vs Standard RAG — RECOMP and SC both remove useful information
+5. **Reranker is the only method to significantly improve over Standard RAG** on all datasets where tested
