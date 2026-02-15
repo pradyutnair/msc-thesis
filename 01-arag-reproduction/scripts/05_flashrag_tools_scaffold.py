@@ -272,6 +272,38 @@ class FlashragReadChunkTool(BaseTool):
         }
 
 
+
+
+class FinishTool(BaseTool):
+    """Tool for the agent to submit its final answer."""
+
+    @property
+    def name(self) -> str:
+        return "finish"
+
+    def get_schema(self) -> Dict[str, Any]:
+        return {
+            "type": "function",
+            "function": {
+                "name": "finish",
+                "description": "Submit your final answer. The answer should be concise and directly answer the question. For yes/no questions, answer 'yes' or 'no'. For factual questions, give the specific entity, name, date, or number.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "answer": {
+                            "type": "string",
+                            "description": "Your final concise answer to the question."
+                        },
+                    },
+                    "required": ["answer"],
+                },
+            },
+        }
+
+    def execute(self, context, answer: str = "") -> Tuple[str, Dict[str, Any]]:
+        return answer, {"finish": True, "retrieved_tokens": 0}
+
+
 def build_tools_for_arag(
     corpus_jsonl: str,
     id_offset_json: str,
@@ -295,4 +327,5 @@ def build_tools_for_arag(
         device=device,
     ))
     reg.register(FlashragReadChunkTool(corpus_store=store))
+    reg.register(FinishTool())
     return reg
