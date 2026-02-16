@@ -1,0 +1,61 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+Loading chunks from: /projects/prjs1800/external/arag/data/2wikimultihop/chunks.json
+Loaded 658 chunks
+Extracting sentences...
+Processing chunks:   0%|          | 0/658 [00:00<?, ?it/s]Processing chunks: 100%|██████████| 658/658 [00:00<00:00, 8864.92it/s]
+Could not set the permissions on the file '/projects/prjs1800/.cache/huggingface/models--Qwen--Qwen3-Embedding-0.6B/blobs/952a9b81c0bfd99800fabf352f69c7ccd46c5e43.incomplete'. Error: [Errno 2] No such file or directory: '/projects/prjs1800/.cache/huggingface/models--Qwen--Qwen3-Embedding-0.6B/blobs/952a9b81c0bfd99800fabf352f69c7ccd46c5e43.incomplete'.
+Continuing without setting permissions.
+No sentence-transformers model found with name Qwen/Qwen3-Embedding-0.6B. Creating a new one with mean pooling.
+Total sentences: 25522
+Loading model: Qwen/Qwen3-Embedding-0.6B
+Traceback (most recent call last):
+  File "/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/configuration_utils.py", line 756, in _get_config_dict
+    config_dict = cls._dict_from_json_file(resolved_config_file)
+  File "/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/configuration_utils.py", line 867, in _dict_from_json_file
+    return json.loads(text)
+  File "/home/pnair/.local/share/uv/python/cpython-3.10.18-linux-x86_64-gnu/lib/python3.10/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/home/pnair/.local/share/uv/python/cpython-3.10.18-linux-x86_64-gnu/lib/python3.10/json/decoder.py", line 340, in decode
+    raise JSONDecodeError("Extra data", s, end)
+json.decoder.JSONDecodeError: Extra data: line 31 column 1 (char 727)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/projects/prjs1800/external/arag/scripts/build_index.py", line 135, in <module>
+    main()
+  File "/projects/prjs1800/external/arag/scripts/build_index.py", line 125, in main
+    build_index(
+  File "/projects/prjs1800/external/arag/scripts/build_index.py", line 79, in build_index
+    model = SentenceTransformer(model_name, device=device)
+  File "/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/sentence_transformers/SentenceTransformer.py", line 339, in __init__
+    modules = self._load_auto_model(
+  File "/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/sentence_transformers/SentenceTransformer.py", line 2112, in _load_auto_model
+    transformer_model = Transformer(
+  File "/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/sentence_transformers/models/Transformer.py", line 88, in __init__
+    config, is_peft_model = self._load_config(model_name_or_path, cache_dir, backend, config_args)
+  File "/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/sentence_transformers/models/Transformer.py", line 163, in _load_config
+    return AutoConfig.from_pretrained(model_name_or_path, **config_args, cache_dir=cache_dir), False
+  File "/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/models/auto/configuration_auto.py", line 1332, in from_pretrained
+    config_dict, unused_kwargs = PretrainedConfig.get_config_dict(pretrained_model_name_or_path, **kwargs)
+  File "/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/configuration_utils.py", line 662, in get_config_dict
+    config_dict, kwargs = cls._get_config_dict(pretrained_model_name_or_path, **kwargs)
+  File "/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/configuration_utils.py", line 760, in _get_config_dict
+    raise OSError(f"It looks like the config file at '{resolved_config_file}' is not a valid JSON file.")
+OSError: It looks like the config file at '/projects/prjs1800/.cache/huggingface/models--Qwen--Qwen3-Embedding-0.6B/snapshots/c54f2e6e80b2d7b7de06f51cec4959f6b3e03418/config.json' is not a valid JSON file.
