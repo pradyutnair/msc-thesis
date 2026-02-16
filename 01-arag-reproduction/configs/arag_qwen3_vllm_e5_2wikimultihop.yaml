@@ -1,22 +1,14 @@
-# A-RAG config for MuSiQue using local vLLM (Qwen3-8B) and E5 retrieval.
-#
-# Primary refs:
-# - A-RAG example config: /projects/prjs1800/external/arag/configs/example.yaml
-# - vLLM OpenAI server docs: https://docs.vllm.ai/en/latest/serving/openai_compatible_server.html
+# A-RAG config for 2WikiMultihop using local vLLM (Qwen3-8B) and E5 retrieval.
 
 llm:
-  # This must match --served-model-name in scripts/01_start_vllm_qwen3_8b.sh
   model: "Qwen3-8B"
-  # vLLM accepts any non-empty key when auth is not enabled.
   api_key: "dummy"
   base_url: "http://127.0.0.1:8000/v1"
   temperature: 0.0
-  max_tokens: 16384
+  max_tokens: 8192
 
 embedding:
-  # Keep E5 to stay aligned with baseline retrieval setup.
   model: "intfloat/e5-base-v2"
-  # Query embedding on CPU avoids GPU contention with the generator.
   device: "cpu"
   batch_size: 16
 
@@ -26,7 +18,6 @@ agent:
   verbose: false
 
 data:
-  # Using rag_test 2wikimultihop corpus + the E5 index you already built.
   chunks_file: "/projects/prjs1800/external/arag/data/2wikimultihop/chunks.json"
   questions_file: "/projects/prjs1800/external/arag/data/2wikimultihop/questions.json"
   index_dir: "/projects/prjs1800/external/arag/data/2wikimultihop/index_e5_base_v2"
