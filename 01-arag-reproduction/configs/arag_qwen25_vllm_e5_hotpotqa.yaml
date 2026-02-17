@@ -1,0 +1,26 @@
+# A-RAG config for HotpotQA: Qwen2.5-7B-Instruct generator + E5-base-v2 retrieval.
+
+llm:
+  model: "Qwen2.5-7B-Instruct"
+  api_key: "dummy"
+  base_url: "http://127.0.0.1:8000/v1"
+  temperature: 0.0
+  max_tokens: 8192
+
+embedding:
+  model: "intfloat/e5-base-v2"
+  device: "cpu"
+  batch_size: 16
+
+agent:
+  max_loops: 15
+  max_token_budget: 128000
+  verbose: false
+
+data:
+  chunks_file: "/projects/prjs1800/external/arag/data/hotpotqa/chunks.json"
+  questions_file: "/projects/prjs1800/external/arag/data/hotpotqa/questions.json"
+  index_dir: "/projects/prjs1800/external/arag/data/hotpotqa/index_e5_base_v2"
+
+output:
+  results_dir: "/projects/prjs1800/msc-thesis/01-arag-reproduction/results/qwen25-7b-instruct/hotpotqa"

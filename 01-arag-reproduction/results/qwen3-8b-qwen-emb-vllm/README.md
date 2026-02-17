@@ -1,48 +1,37 @@
-# A-RAG Reproduction Results: Qwen3-8B + Qwen3-Embedding-0.6B (vLLM)
+# A-RAG Results: Qwen3-8B + Qwen3-Embedding-0.6B (DeepSeek Judge)
 
-## Scope
+Updated on 2026-02-17 with unified judge: **DeepSeek-R1-Distill-Qwen-32B**.
 
-This folder contains results for:
-- **Generator**: Qwen3-8B (vLLM)
-- **Embedding**: Qwen3-Embedding-0.6B
-- **Judge**: Qwen3-30B-A3B (vLLM)
-- **Datasets**: HotpotQA, MuSiQue, 2WikiMultihop (1000 each)
+## Setup
 
-Comparison baseline: `/projects/prjs1800/msc-thesis/01-arag-reproduction/results/qwen3-8b-vllm/README.md` (same generator/judge, **E5-base-v2** embeddings).
+- Generator: Qwen3-8B (vLLM)
+- Embedding: Qwen3-Embedding-0.6B
+- Judge: DeepSeek-R1-Distill-Qwen-32B
+- Datasets: HotpotQA, MuSiQue, 2WikiMultihop (1000 each)
 
-## Results vs Baseline (E5-base-v2)
+## Results
 
-| Dataset | Metric | Qwen-Emb | E5 Baseline | Delta (Qwen-Emb - E5) |
+| Dataset | LLM-Acc (%) | Contain-Acc (%) | Avg Loops | Avg Retrieved Tokens |
 |---|---:|---:|---:|---:|
-| HotpotQA | LLM-Acc (%) | 47.5 | 53.2 | -5.7 pp |
-| HotpotQA | Cont-Acc (%) | 59.0 | 62.2 | -3.2 pp |
-| HotpotQA | Avg Loops | 2.53 | 2.44 | +0.09 |
-| HotpotQA | Avg Retrieved Tokens | 783.3 | 714 | +69.3 |
-| MuSiQue | LLM-Acc (%) | 28.6 | 32.0 | -3.4 pp |
-| MuSiQue | Cont-Acc (%) | 24.6 | 29.8 | -5.2 pp |
-| MuSiQue | Avg Loops | 2.63 | 2.65 | -0.02 |
-| MuSiQue | Avg Retrieved Tokens | 803.7 | 751 | +52.7 |
-| 2WikiMultihop | LLM-Acc (%) | 36.3 | 43.1 | -6.8 pp |
-| 2WikiMultihop | Cont-Acc (%) | 52.2 | 57.1 | -4.9 pp |
-| 2WikiMultihop | Avg Loops | 2.84 | 2.78 | +0.06 |
-| 2WikiMultihop | Avg Retrieved Tokens | 935.0 | 811 | +124.0 |
+| HotpotQA | 54.8 | 55.4 | 2.53 | 783.3 |
+| MuSiQue | 25.6 | 21.8 | 2.63 | 803.7 |
+| 2WikiMultihop | 39.8 | 48.9 | 2.84 | 935.0 |
+| **Mean** | **40.1** | **42.0** | **2.67** | **840.7** |
 
-## Aggregate View
+## Delta vs E2 (Qwen3-8B + E5)
 
-- Mean **LLM-Acc**: 37.5% vs 42.8% (**-5.3 pp**)
-- Mean **Cont-Acc**: 45.3% vs 49.7% (**-4.4 pp**)
-- Mean **Avg Loops**: 2.67 vs 2.62 (**+0.04**)
-- Mean **Avg Retrieved Tokens**: 840.7 vs 758.7 (**+82.0**, ~+10.8%)
-- Answer rate: **100%** on all three datasets
-
-## Per-dataset Eval Summaries
-
-- `/projects/prjs1800/msc-thesis/01-arag-reproduction/results/qwen3-8b-qwen-emb-vllm/hotpotqa/predictions_eval_summary.json`
-- `/projects/prjs1800/msc-thesis/01-arag-reproduction/results/qwen3-8b-qwen-emb-vllm/musique/predictions_eval_summary.json`
-- `/projects/prjs1800/msc-thesis/01-arag-reproduction/results/qwen3-8b-qwen-emb-vllm/2wikimultihop/predictions_eval_summary.json`
+| Dataset | LLM-Acc Delta | Contain-Acc Delta | Loops Delta | Retrieved Tokens Delta |
+|---|---:|---:|---:|---:|
+| HotpotQA | -4.5 pp | -4.0 pp | +0.09 | +68.9 |
+| MuSiQue | -4.7 pp | -5.3 pp | -0.02 | +52.6 |
+| 2WikiMultihop | -7.7 pp | -5.5 pp | +0.06 | +124.5 |
+| **Mean** | **-5.6 pp** | **-5.0 pp** | **+0.04** | **+82.0** |
 
 ## Notes
 
-- In this setup, replacing E5 with Qwen3-Embedding-0.6B reduced both LLM-Acc and Cont-Acc across all datasets.
-- Retrieval became more verbose (higher retrieved-token counts) with little or no loop-count reduction.
-- One transient eval API reset occurred on 2Wiki and was rerun successfully with lower eval concurrency.
+- Qwen3-Embedding remains worse than E5-base-v2 in this pipeline.
+- LLM-Acc and Contain-Acc both dropped across all datasets vs E5.
+- Summary files:
+  - `hotpotqa/predictions_eval_summary.json`
+  - `musique/predictions_eval_summary.json`
+  - `2wikimultihop/predictions_eval_summary.json`

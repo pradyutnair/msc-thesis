@@ -1,99 +1,36 @@
-# A-RAG Reproduction Results: Qwen3-8B Backbone
+# A-RAG Results: Qwen3-8B + E5-base-v2 (DeepSeek Judge)
 
-## Experiment Setup
+Updated on 2026-02-17 with unified judge: **DeepSeek-R1-Distill-Qwen-32B**.
 
-| Component | Original (Paper) | This Reproduction |
-|-----------|------------------|-------------------|
-| **Generator** | GPT-4o-mini (API) | Qwen3-8B via vLLM |
-| **Embedding** | Qwen3-Embedding-0.6B | intfloat/e5-base-v2 |
-| **LLM Judge** | GPT-4o-mini (API) | Qwen3-30B-A3B via vLLM |
-| **Serving** | OpenAI API | vLLM 0.15.1 (Hermes tool parser) |
-| **Hardware** | N/A (API) | 1x A100 40GB (gen), 1x H100 80GB (eval) |
-| **Agent Config** | max_loops=15, budget=128k | max_loops=15, budget=128k |
-| **Datasets** | 1000 questions each | 1000 questions each |
+## Setup
 
-## Main Results
+- Generator: Qwen3-8B (vLLM)
+- Embedding: intfloat/e5-base-v2
+- Judge: DeepSeek-R1-Distill-Qwen-32B
+- Datasets: HotpotQA, MuSiQue, 2WikiMultihop (1000 each)
 
-### Accuracy Comparison
+## Results
 
-| Dataset | Metric | GPT-4o-mini A-RAG (Paper) | Qwen3-8B A-RAG (Ours) |
-|---------|--------|:-------------------------:|:----------------------:|
-| **HotpotQA** | LLM-Acc | 77.1 | 53.2 |
-| | Cont-Acc | 74.0 | 62.2 |
-| **MuSiQue** | LLM-Acc | 46.1 | 32.0 |
-| | Cont-Acc | 39.6 | 29.8 |
-| **2WikiMultihop** | LLM-Acc | 60.2 | 43.1 |
-| | Cont-Acc | 63.7 | 57.1 |
+| Dataset | LLM-Acc (%) | Contain-Acc (%) | Avg Loops | Avg Retrieved Tokens |
+|---|---:|---:|---:|---:|
+| HotpotQA | 59.3 | 59.4 | 2.44 | 714.4 |
+| MuSiQue | 30.3 | 27.1 | 2.65 | 751.1 |
+| 2WikiMultihop | 47.5 | 54.4 | 2.78 | 810.5 |
+| **Mean** | **45.7** | **47.0** | **2.62** | **758.7** |
 
-### LLM-Accuracy by Dataset
+## vs Paper (GPT-4o-mini)
 
-```mermaid
-bar chart
-    title LLM-Accuracy (%) — GPT-4o-mini vs Qwen3-8B
-    x-axis ["HotpotQA", "MuSiQue", "2WikiMultihop"]
-    y-axis "Accuracy (%)" 0 --> 100
-    bar [77.1, 46.1, 60.2]
-    bar [53.2, 32.0, 43.1]
-```
-
-```mermaid
-xychart-beta
-    title "LLM-Accuracy (%)"
-    x-axis ["HotpotQA", "MuSiQue", "2WikiMultihop"]
-    y-axis "Accuracy (%)" 0 --> 100
-    bar [77.1, 46.1, 60.2]
-    bar [53.2, 32.0, 43.1]
-```
-
-### Contain-Accuracy by Dataset
-
-```mermaid
-xychart-beta
-    title "Contain-Accuracy (%)"
-    x-axis ["HotpotQA", "MuSiQue", "2WikiMultihop"]
-    y-axis "Accuracy (%)" 0 --> 100
-    bar [74.0, 39.6, 63.7]
-    bar [62.2, 29.8, 57.1]
-```
-
-### Efficiency Metrics (Qwen3-8B)
-
-```mermaid
-xychart-beta
-    title "Average Agent Loops per Question"
-    x-axis ["HotpotQA", "MuSiQue", "2WikiMultihop"]
-    y-axis "Loops" 0 --> 5
-    bar [2.44, 2.65, 2.78]
-```
-
-| Dataset | Avg Loops | Avg Retrieved Tokens | Answer Rate |
-|---------|:---------:|:--------------------:|:-----------:|
-| HotpotQA | 2.44 | 714 | 100% |
-| MuSiQue | 2.65 | 751 | 100% |
-| 2WikiMultihop | 2.78 | 811 | 100% |
-
-## Pipeline Overview
-
-```mermaid
-flowchart LR
-    subgraph Generation["Generation (A100 40GB)"]
-        Q[Questions<br/>1000 per dataset] --> VLLM1[vLLM Server<br/>Qwen3-8B]
-        VLLM1 --> AGENT[A-RAG Agent<br/>max_loops=15]
-        AGENT -->|keyword_search<br/>semantic_search<br/>read_chunk| TOOLS[Retrieval Tools<br/>E5-base-v2 index]
-        TOOLS --> AGENT
-        AGENT --> PRED[predictions.jsonl]
-    end
-
-    subgraph Evaluation["Evaluation (H100 80GB)"]
-        PRED --> VLLM2[vLLM Server<br/>Qwen3-30B-A3B]
-        VLLM2 --> EVAL[ARAG eval.py<br/>LLM Judge]
-        EVAL --> RES[eval_summary.json]
-    end
-```
+| Dataset | LLM-Acc Delta | Contain-Acc Delta |
+|---|---:|---:|
+| HotpotQA | -17.8 pp | -14.6 pp |
+| MuSiQue | -15.8 pp | -12.5 pp |
+| 2WikiMultihop | -12.7 pp | -9.3 pp |
 
 ## Notes
 
-- **Performance gap** is expected: Qwen3-8B (8B params) vs GPT-4o-mini (proprietary, likely larger). The gap is smallest on Contain-Accuracy for HotpotQA (62.2 vs 74.0) and 2WikiMultihop (57.1 vs 63.7), suggesting the retrieval pipeline works well but answer synthesis quality differs.
-- **Embedding difference**: E5-base-v2 vs Qwen3-Embedding-0.6B adds a second variable. Rebuilding indexes with Qwen3-Embedding-0.6B would isolate the generator as the sole variable.
-- **Tool call reliability**: 1 parsing error across 3000 questions (0.03%) with the Hermes tool parser on vLLM. The `max_tokens=8192` setting accommodates Qwen3's thinking tokens.
-- **Judge model**: Qwen3-30B-A3B (MoE, 3B active params) was used instead of GPT-4o-mini. LLM-Acc scores may differ from paper due to judge model differences.
+- These values replace older Qwen3-30B-judge numbers.
+- This directory now uses the same judge family as E1/E3/E4 for apples-to-apples LLM-Acc comparison.
+- Summary files:
+  - `hotpotqa/predictions_eval_summary.json`
+  - `musique/predictions_eval_summary.json`
+  - `2wikimultihop/predictions_eval_summary.json`
