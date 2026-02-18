@@ -1,0 +1,1217 @@
+{
+  "heuristics": {
+    "support_overlap_threshold": 0.35,
+    "correct_if": "llm_accuracy == 1.0",
+    "failure_if": "llm_accuracy < 1.0",
+    "note": "Heuristic taxonomy using MuSiQue decomposition + ARAG retrieval traces."
+  },
+  "experiments": {
+    "E1": {
+      "experiment": "E1",
+      "total_samples": 1000,
+      "correct_samples": 319,
+      "failed_samples": 681,
+      "failure_rate": 0.681,
+      "categories": {
+        "never_searched_hop2": {
+          "count": 3,
+          "pct_of_failures": 0.0044,
+          "pct_of_total": 0.003,
+          "examples": [
+            {
+              "qid": "musique_3hop1__105837_160713_77246",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 3,
+              "support_recall": 0.3333,
+              "matched_supports": 1,
+              "total_supports": 3,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.6667,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop1__228_237521_291682",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.3333,
+              "matched_supports": 1,
+              "total_supports": 3,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__474885_22402",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.5,
+              "matched_supports": 1,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.6667,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            }
+          ]
+        },
+        "searched_but_missed": {
+          "count": 196,
+          "pct_of_failures": 0.2878,
+          "pct_of_total": 0.196,
+          "examples": [
+            {
+              "qid": "musique_4hop1__152562_5274_458768_33633",
+              "retrieval_attempts": 3,
+              "retrieved_chunk_count": 10,
+              "support_recall": 0.75,
+              "matched_supports": 3,
+              "total_supports": 4,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop1__305282_282081_73772",
+              "retrieval_attempts": 4,
+              "retrieved_chunk_count": 19,
+              "support_recall": 0.6667,
+              "matched_supports": 2,
+              "total_supports": 3,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop1__136129_87694_124169",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.6667,
+              "matched_supports": 2,
+              "total_supports": 3,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.25,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__354635_174222",
+              "retrieval_attempts": 3,
+              "retrieved_chunk_count": 10,
+              "support_recall": 0.5,
+              "matched_supports": 1,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.75,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__511296_577502",
+              "retrieval_attempts": 7,
+              "retrieved_chunk_count": 9,
+              "support_recall": 0.5,
+              "matched_supports": 1,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.5,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            }
+          ]
+        },
+        "retrieved_but_couldnt_synthesize": {
+          "count": 479,
+          "pct_of_failures": 0.7034,
+          "pct_of_total": 0.479,
+          "examples": [
+            {
+              "qid": "musique_2hop__13548_13529",
+              "retrieval_attempts": 4,
+              "retrieved_chunk_count": 6,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": true,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__766973_770570",
+              "retrieval_attempts": 3,
+              "retrieved_chunk_count": 9,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.5,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__511454_120259",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 5,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": true,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__170823_120171",
+              "retrieval_attempts": 3,
+              "retrieved_chunk_count": 9,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": true,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_4hop2__71753_648517_70784_79935",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 8,
+              "support_recall": 1.0,
+              "matched_supports": 4,
+              "total_supports": 4,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": true,
+              "answer_in_corpus": true
+            }
+          ]
+        },
+        "decomposition_failure": {
+          "count": 0,
+          "pct_of_failures": 0.0,
+          "pct_of_total": 0.0,
+          "examples": []
+        },
+        "corpus_gap": {
+          "count": 3,
+          "pct_of_failures": 0.0044,
+          "pct_of_total": 0.003,
+          "examples": [
+            {
+              "qid": "musique_2hop__56806_7298",
+              "retrieval_attempts": 3,
+              "retrieved_chunk_count": 5,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.6,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": false
+            },
+            {
+              "qid": "musique_3hop1__103890_10659_83548",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 10,
+              "support_recall": 0.6667,
+              "matched_supports": 2,
+              "total_supports": 3,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": false
+            },
+            {
+              "qid": "musique_2hop__53147_7298",
+              "retrieval_attempts": 4,
+              "retrieved_chunk_count": 11,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": false
+            }
+          ]
+        }
+      }
+    },
+    "E2": {
+      "experiment": "E2",
+      "total_samples": 1000,
+      "correct_samples": 303,
+      "failed_samples": 697,
+      "failure_rate": 0.697,
+      "categories": {
+        "never_searched_hop2": {
+          "count": 142,
+          "pct_of_failures": 0.2037,
+          "pct_of_total": 0.142,
+          "examples": [
+            {
+              "qid": "musique_4hop1__152562_5274_458768_33633",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 2,
+              "support_recall": 0.75,
+              "matched_supports": 3,
+              "total_supports": 4,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.5,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop1__305282_282081_73772",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.6667,
+              "matched_supports": 2,
+              "total_supports": 3,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__731956_126089",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 1,
+              "support_recall": 0.5,
+              "matched_supports": 1,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.2,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__159215_779396",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.5,
+              "matched_supports": 1,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.5,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop1__33845_42197_18397",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 1,
+              "support_recall": 0.6667,
+              "matched_supports": 2,
+              "total_supports": 3,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.3333,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            }
+          ]
+        },
+        "searched_but_missed": {
+          "count": 99,
+          "pct_of_failures": 0.142,
+          "pct_of_total": 0.099,
+          "examples": [
+            {
+              "qid": "musique_2hop__354635_174222",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.5,
+              "matched_supports": 1,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.75,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_4hop2__9988_261673_70784_79935",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.25,
+              "matched_supports": 1,
+              "total_supports": 4,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.75,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_4hop1__802394_153080_159767_81096",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 1,
+              "support_recall": 0.5,
+              "matched_supports": 2,
+              "total_supports": 4,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.75,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop1__28841_547811_41132",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 10,
+              "support_recall": 0.3333,
+              "matched_supports": 1,
+              "total_supports": 3,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.6667,
+              "answer_in_retrieved": true,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__494659_5385",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.5,
+              "matched_supports": 1,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.8333,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            }
+          ]
+        },
+        "retrieved_but_couldnt_synthesize": {
+          "count": 338,
+          "pct_of_failures": 0.4849,
+          "pct_of_total": 0.338,
+          "examples": [
+            {
+              "qid": "musique_2hop__13548_13529",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.5,
+              "answer_in_retrieved": true,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__766973_770570",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 6,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.5,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__170823_120171",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 8,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop1__9285_5188_23307",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 1.0,
+              "matched_supports": 3,
+              "total_supports": 3,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": true,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__511454_120259",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 10,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": true,
+              "answer_in_corpus": true
+            }
+          ]
+        },
+        "decomposition_failure": {
+          "count": 115,
+          "pct_of_failures": 0.165,
+          "pct_of_total": 0.115,
+          "examples": [
+            {
+              "qid": "musique_4hop1__94201_642284_131926_89261",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.0,
+              "matched_supports": 0,
+              "total_supports": 4,
+              "hop1_found": false,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_4hop3__754156_88460_30152_20999",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.0,
+              "matched_supports": 0,
+              "total_supports": 4,
+              "hop1_found": false,
+              "decomp_query_overlap": 0.75,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop1__786632_831637_91775",
+              "retrieval_attempts": 0,
+              "retrieved_chunk_count": 0,
+              "support_recall": 0.0,
+              "matched_supports": 0,
+              "total_supports": 3,
+              "hop1_found": false,
+              "decomp_query_overlap": 0.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__124412_402641",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.0,
+              "matched_supports": 0,
+              "total_supports": 2,
+              "hop1_found": false,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop1__136129_87694_124169",
+              "retrieval_attempts": 0,
+              "retrieved_chunk_count": 0,
+              "support_recall": 0.0,
+              "matched_supports": 0,
+              "total_supports": 3,
+              "hop1_found": false,
+              "decomp_query_overlap": 0.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            }
+          ]
+        },
+        "corpus_gap": {
+          "count": 3,
+          "pct_of_failures": 0.0043,
+          "pct_of_total": 0.003,
+          "examples": [
+            {
+              "qid": "musique_2hop__56806_7298",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 4,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.6,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": false
+            },
+            {
+              "qid": "musique_3hop1__103890_10659_83548",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 10,
+              "support_recall": 0.6667,
+              "matched_supports": 2,
+              "total_supports": 3,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": false
+            },
+            {
+              "qid": "musique_2hop__53147_7298",
+              "retrieval_attempts": 3,
+              "retrieved_chunk_count": 12,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": false
+            }
+          ]
+        }
+      }
+    },
+    "E3": {
+      "experiment": "E3",
+      "total_samples": 1000,
+      "correct_samples": 256,
+      "failed_samples": 744,
+      "failure_rate": 0.744,
+      "categories": {
+        "never_searched_hop2": {
+          "count": 142,
+          "pct_of_failures": 0.1909,
+          "pct_of_total": 0.142,
+          "examples": [
+            {
+              "qid": "musique_4hop1__152562_5274_458768_33633",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 2,
+              "support_recall": 0.75,
+              "matched_supports": 3,
+              "total_supports": 4,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.5,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_4hop3__754156_88460_30152_20999",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.75,
+              "matched_supports": 3,
+              "total_supports": 4,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__731956_126089",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 1,
+              "support_recall": 0.5,
+              "matched_supports": 1,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.2,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__159215_779396",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.5,
+              "matched_supports": 1,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.5,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop1__105837_160713_77246",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 1,
+              "support_recall": 0.3333,
+              "matched_supports": 1,
+              "total_supports": 3,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.3333,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            }
+          ]
+        },
+        "searched_but_missed": {
+          "count": 129,
+          "pct_of_failures": 0.1734,
+          "pct_of_total": 0.129,
+          "examples": [
+            {
+              "qid": "musique_4hop1__94201_642284_131926_89261",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 10,
+              "support_recall": 0.5,
+              "matched_supports": 2,
+              "total_supports": 4,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__199513_801817",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.0,
+              "matched_supports": 0,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__354635_174222",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.5,
+              "matched_supports": 1,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.75,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop1__108833_720914_41132",
+              "retrieval_attempts": 3,
+              "retrieved_chunk_count": 6,
+              "support_recall": 0.3333,
+              "matched_supports": 1,
+              "total_supports": 3,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.6667,
+              "answer_in_retrieved": true,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop1__33845_42197_18397",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 1,
+              "support_recall": 0.6667,
+              "matched_supports": 2,
+              "total_supports": 3,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.3333,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            }
+          ]
+        },
+        "retrieved_but_couldnt_synthesize": {
+          "count": 331,
+          "pct_of_failures": 0.4449,
+          "pct_of_total": 0.331,
+          "examples": [
+            {
+              "qid": "musique_2hop__766973_770570",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 1,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.5,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__170823_120171",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__511454_120259",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.5,
+              "answer_in_retrieved": true,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__13548_13529",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": true,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_4hop2__71753_648517_70784_79935",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 2,
+              "support_recall": 1.0,
+              "matched_supports": 4,
+              "total_supports": 4,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.8,
+              "answer_in_retrieved": true,
+              "answer_in_corpus": true
+            }
+          ]
+        },
+        "decomposition_failure": {
+          "count": 138,
+          "pct_of_failures": 0.1855,
+          "pct_of_total": 0.138,
+          "examples": [
+            {
+              "qid": "musique_2hop__124412_402641",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.0,
+              "matched_supports": 0,
+              "total_supports": 2,
+              "hop1_found": false,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop2__87184_90327_76291",
+              "retrieval_attempts": 0,
+              "retrieved_chunk_count": 0,
+              "support_recall": 0.0,
+              "matched_supports": 0,
+              "total_supports": 3,
+              "hop1_found": false,
+              "decomp_query_overlap": 0.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop1__409517_547811_80702",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.3333,
+              "matched_supports": 1,
+              "total_supports": 3,
+              "hop1_found": false,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop1__857_846_7702",
+              "retrieval_attempts": 0,
+              "retrieved_chunk_count": 0,
+              "support_recall": 0.0,
+              "matched_supports": 0,
+              "total_supports": 3,
+              "hop1_found": false,
+              "decomp_query_overlap": 0.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop2__304722_692815_63959",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.0,
+              "matched_supports": 0,
+              "total_supports": 3,
+              "hop1_found": false,
+              "decomp_query_overlap": 0.4,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            }
+          ]
+        },
+        "corpus_gap": {
+          "count": 4,
+          "pct_of_failures": 0.0054,
+          "pct_of_total": 0.004,
+          "examples": [
+            {
+              "qid": "musique_2hop__835710_7298",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 9,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.7273,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": false
+            },
+            {
+              "qid": "musique_2hop__56806_7298",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 1,
+              "support_recall": 0.5,
+              "matched_supports": 1,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.6,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": false
+            },
+            {
+              "qid": "musique_3hop1__103890_10659_83548",
+              "retrieval_attempts": 3,
+              "retrieved_chunk_count": 10,
+              "support_recall": 0.6667,
+              "matched_supports": 2,
+              "total_supports": 3,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": false
+            },
+            {
+              "qid": "musique_2hop__53147_7298",
+              "retrieval_attempts": 3,
+              "retrieved_chunk_count": 15,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": false
+            }
+          ]
+        }
+      }
+    },
+    "E4": {
+      "experiment": "E4",
+      "total_samples": 1000,
+      "correct_samples": 376,
+      "failed_samples": 624,
+      "failure_rate": 0.624,
+      "categories": {
+        "never_searched_hop2": {
+          "count": 80,
+          "pct_of_failures": 0.1282,
+          "pct_of_total": 0.08,
+          "examples": [
+            {
+              "qid": "musique_4hop3__754156_88460_30152_20999",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.5,
+              "matched_supports": 2,
+              "total_supports": 4,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.5,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__159215_779396",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.5,
+              "matched_supports": 1,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.375,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop1__33845_42197_18397",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.6667,
+              "matched_supports": 2,
+              "total_supports": 3,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.3333,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__14_59409",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 3,
+              "support_recall": 0.5,
+              "matched_supports": 1,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.25,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_4hop1__391525_49925_13759_736921",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.5,
+              "matched_supports": 2,
+              "total_supports": 4,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.75,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            }
+          ]
+        },
+        "searched_but_missed": {
+          "count": 111,
+          "pct_of_failures": 0.1779,
+          "pct_of_total": 0.111,
+          "examples": [
+            {
+              "qid": "musique_4hop1__94201_642284_131926_89261",
+              "retrieval_attempts": 3,
+              "retrieved_chunk_count": 9,
+              "support_recall": 0.5,
+              "matched_supports": 2,
+              "total_supports": 4,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop1__305282_282081_73772",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 10,
+              "support_recall": 0.6667,
+              "matched_supports": 2,
+              "total_supports": 3,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__731956_126089",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.5,
+              "matched_supports": 1,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.2,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop1__849312_503371_21711",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.6667,
+              "matched_supports": 2,
+              "total_supports": 3,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.3333,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_4hop3__524186_219173_638950_72134",
+              "retrieval_attempts": 3,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.75,
+              "matched_supports": 3,
+              "total_supports": 4,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            }
+          ]
+        },
+        "retrieved_but_couldnt_synthesize": {
+          "count": 367,
+          "pct_of_failures": 0.5881,
+          "pct_of_total": 0.367,
+          "examples": [
+            {
+              "qid": "musique_2hop__170823_120171",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 8,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": true,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__13548_13529",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": true,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__511454_120259",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 9,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.5,
+              "answer_in_retrieved": true,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop1__9285_5188_23307",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 7,
+              "support_recall": 1.0,
+              "matched_supports": 3,
+              "total_supports": 3,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.625,
+              "answer_in_retrieved": true,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_4hop2__71753_648517_70784_79935",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 2,
+              "support_recall": 1.0,
+              "matched_supports": 4,
+              "total_supports": 4,
+              "hop1_found": true,
+              "decomp_query_overlap": 0.6,
+              "answer_in_retrieved": true,
+              "answer_in_corpus": true
+            }
+          ]
+        },
+        "decomposition_failure": {
+          "count": 63,
+          "pct_of_failures": 0.101,
+          "pct_of_total": 0.063,
+          "examples": [
+            {
+              "qid": "musique_2hop__124412_402641",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.0,
+              "matched_supports": 0,
+              "total_supports": 2,
+              "hop1_found": false,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop2__127483_60649_10557",
+              "retrieval_attempts": 0,
+              "retrieved_chunk_count": 0,
+              "support_recall": 0.0,
+              "matched_supports": 0,
+              "total_supports": 3,
+              "hop1_found": false,
+              "decomp_query_overlap": 0.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_4hop1__88342_75218_128008_48717",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 5,
+              "support_recall": 0.0,
+              "matched_supports": 0,
+              "total_supports": 4,
+              "hop1_found": false,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_3hop2__304722_692815_63959",
+              "retrieval_attempts": 1,
+              "retrieved_chunk_count": 2,
+              "support_recall": 0.0,
+              "matched_supports": 0,
+              "total_supports": 3,
+              "hop1_found": false,
+              "decomp_query_overlap": 0.4,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            },
+            {
+              "qid": "musique_2hop__130404_59180",
+              "retrieval_attempts": 0,
+              "retrieved_chunk_count": 0,
+              "support_recall": 0.0,
+              "matched_supports": 0,
+              "total_supports": 2,
+              "hop1_found": false,
+              "decomp_query_overlap": 0.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": true
+            }
+          ]
+        },
+        "corpus_gap": {
+          "count": 3,
+          "pct_of_failures": 0.0048,
+          "pct_of_total": 0.003,
+          "examples": [
+            {
+              "qid": "musique_2hop__835710_7298",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 9,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": false
+            },
+            {
+              "qid": "musique_2hop__56806_7298",
+              "retrieval_attempts": 0,
+              "retrieved_chunk_count": 0,
+              "support_recall": 0.0,
+              "matched_supports": 0,
+              "total_supports": 2,
+              "hop1_found": false,
+              "decomp_query_overlap": 0.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": false
+            },
+            {
+              "qid": "musique_2hop__53147_7298",
+              "retrieval_attempts": 2,
+              "retrieved_chunk_count": 9,
+              "support_recall": 1.0,
+              "matched_supports": 2,
+              "total_supports": 2,
+              "hop1_found": true,
+              "decomp_query_overlap": 1.0,
+              "answer_in_retrieved": false,
+              "answer_in_corpus": false
+            }
+          ]
+        }
+      }
+    }
+  }
+}
