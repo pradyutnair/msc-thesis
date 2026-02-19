@@ -26,6 +26,47 @@ All experiments use 1000 questions per dataset across HotpotQA, MuSiQue, and 2Wi
 - E3: `configs/arag_qwen3_vllm_qwenemb_{dataset}.yaml`
 - E4: `configs/arag_qwen3_30b_vllm_e5_{dataset}.yaml`
 
+## Gap 1: Non-Agentic Baseline on ARAG Index (B0)
+
+Implemented B0 on the same ARAG chunked index used by E1-E4:
+`embed question -> retrieve top-5 -> single generation -> DeepSeek judge`
+
+Execution notes:
+- Runner: `scripts/b0_non_agentic_runner.py`
+- Submission scripts: `jobs/5_submit_b0_nonagentic_pipeline.sh` and `jobs/5_submit_b0_nonagentic_q3_only.sh`
+- Reliability fixes in runner: endpoint preflight, env-based model/url override, `<think>/<thnk>` stripping, token cap (`--max-answer-tokens 128`)
+
+### B0 Results: LLM-Accuracy (%)
+
+| Dataset | B0-7B (Q2.5-7B+E5) | B0-8B (Q3-8B+E5) | B0-30B (Q3-30B+E5) |
+|---|---:|---:|---:|
+| HotpotQA | 52.6 | **59.7** | 58.8 |
+| MuSiQue | 24.8 | 26.8 | **28.3** |
+| 2WikiMultihop | 36.2 | **43.7** | 40.0 |
+| **Mean** | 37.9 | **43.4** | 42.4 |
+
+### B0 Results: Contain-Accuracy (%)
+
+| Dataset | B0-7B (Q2.5-7B+E5) | B0-8B (Q3-8B+E5) | B0-30B (Q3-30B+E5) |
+|---|---:|---:|---:|
+| HotpotQA | 51.2 | 58.2 | **58.7** |
+| MuSiQue | 19.3 | 22.4 | **23.9** |
+| 2WikiMultihop | 39.7 | 50.7 | **51.2** |
+| **Mean** | 36.7 | 43.8 | **44.6** |
+
+### B0 Results: EM/F1 (%)
+
+| Dataset | Metric | B0-7B | B0-8B | B0-30B |
+|---|---|---:|---:|---:|
+| HotpotQA | EM | **45.00** | 41.40 | 34.00 |
+| HotpotQA | F1 | 56.57 | **56.74** | 52.13 |
+| MuSiQue | EM | **15.10** | 14.10 | 8.20 |
+| MuSiQue | F1 | 24.18 | **24.86** | 19.83 |
+| 2WikiMultihop | EM | 29.90 | **34.10** | 18.30 |
+| 2WikiMultihop | F1 | 38.48 | **46.55** | 36.34 |
+| Mean | EM | **30.00** | 29.87 | 20.17 |
+| Mean | F1 | 39.74 | **42.72** | 36.10 |
+
 ## Main Results: LLM-Accuracy (%)
 
 | Dataset | E1 (Q2.5-7B) | E2 (Q3-8B+E5) | E3 (Q3-8B+QEmb) | E4 (Q3-30B+E5) | Paper (GPT-4o-mini) |
@@ -179,4 +220,11 @@ Raw analysis output:
 - `results/qwen3-8b-vllm/{hotpotqa,musique,2wikimultihop}/predictions_em_f1_summary.json`
 - `results/qwen3-8b-qwen-emb-vllm/{hotpotqa,musique,2wikimultihop}/predictions_em_f1_summary.json`
 - `results/qwen3-30b-e5-deepseekr1/{hotpotqa,musique,2wikimultihop}/predictions_em_f1_summary.json`
+- `results/b0-qwen25-7b-e5-deepseekr1/{hotpotqa,musique,2wikimultihop}/predictions_eval_summary.json`
+- `results/b0-qwen3-8b-e5-deepseekr1/{hotpotqa,musique,2wikimultihop}/predictions_eval_summary.json`
+- `results/b0-qwen3-30b-e5-deepseekr1/{hotpotqa,musique,2wikimultihop}/predictions_eval_summary.json`
+- `results/b0-qwen25-7b-e5-deepseekr1/{hotpotqa,musique,2wikimultihop}/predictions_em_f1_summary.json`
+- `results/b0-qwen3-8b-e5-deepseekr1/{hotpotqa,musique,2wikimultihop}/predictions_em_f1_summary.json`
+- `results/b0-qwen3-30b-e5-deepseekr1/{hotpotqa,musique,2wikimultihop}/predictions_em_f1_summary.json`
+- `analysis/b0_baseline_summary.json`
 - `analysis/gap2_gap3_audit.json`

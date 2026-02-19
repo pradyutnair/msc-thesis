@@ -1,0 +1,60 @@
+#!/bin/bash
+#SBATCH --job-name=b0g_q25_7b_hotpotqa
+#SBATCH --partition=gpu_a100
+#SBATCH --time=08:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=12
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/01-arag-reproduction/jobs/output/gen_b0_q25_7b_hotpotqa_%j.log
+set -euo pipefail
+module purge
+module load 2025
+module load Anaconda3/2025.06-1
+module load CUDA/12.8.0
+cd /projects/prjs1800/external/arag
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export HF_HUB_CACHE=$HF_HOME
+export TRANSFORMERS_CACHE=$HF_HOME
+export HF_DATASETS_CACHE=$HF_HOME
+export TOKENIZERS_PARALLELISM=false
+
+export ARAG_API_KEY=dummy
+HOST="127.0.0.1"
+PORT="${ARAG_PORT:-$((7000 + (SLURM_JOB_ID % 1000)))}"
+export ARAG_BASE_URL="http://$HOST:$PORT/v1"
+export ARAG_MODEL="Qwen2.5-7B-Instruct"
+
+MODEL_ID="Qwen/Qwen2.5-7B-Instruct"
+SERVED_NAME="Qwen2.5-7B-Instruct"
+RESULT_DIR="/projects/prjs1800/msc-thesis/01-arag-reproduction/results/b0-qwen25-7b-e5-deepseekr1/hotpotqa"
+mkdir -p "$RESULT_DIR"
+
+cleanup() {
+  if [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null; then
+    kill "$VLLM_PID" || true
+    wait "$VLLM_PID" || true
+  fi
+}
+trap cleanup EXIT TERM INT
+
+vllm serve "$MODEL_ID"   --served-model-name "$SERVED_NAME"   --host "$HOST"   --port "$PORT"   --dtype auto   --max-model-len 32768   --gpu-memory-utilization 0.90   --generation-config vllm   --trust-remote-code &
+VLLM_PID=$!
+
+READY_URL="http://$HOST:$PORT/v1/models"
+for i in $(seq 1 360); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then
+    wait "$VLLM_PID" || true
+    exit 1
+  fi
+  resp="$(curl -fsS "$READY_URL" 2>/dev/null || true)"
+  if [[ -n "$resp" ]] && echo "$resp" | python -c "import json,sys; d=json.load(sys.stdin); print(any(m.get('id')=='$SERVED_NAME' for m in d.get('data',[])))" | grep -q True; then
+    break
+  fi
+  sleep 5
+done
+curl -fsS "$READY_URL" >/dev/null
+
+uv run --active python /projects/prjs1800/msc-thesis/01-arag-reproduction/scripts/b0_non_agentic_runner.py   --config "/projects/prjs1800/msc-thesis/01-arag-reproduction/configs/arag_qwen25_vllm_e5_hotpotqa.yaml"   --questions "/projects/prjs1800/external/arag/data/hotpotqa/questions.json"   --output "$RESULT_DIR"   --top-k 5   --overwrite
