@@ -1,0 +1,39 @@
+# M3: Multi-agent + doc cache + LMCache KV sharing.
+# Tests: inference efficiency (KV cache reuse).
+# Hypothesis: M3 ≈ M2 accuracy, 20-30% faster.
+
+llm:
+  model: "Qwen3-30B-A3B"
+  api_key: "dummy"
+  base_url: "http://127.0.0.1:8000/v1"
+  temperature: 0.0
+  max_tokens: 8192
+  chat_template_kwargs:
+    enable_thinking: false
+
+embedding:
+  model: "intfloat/e5-base-v2"
+  device: "cpu"
+
+data:
+  chunks_file: "/projects/prjs1800/msc-thesis/02-arag-multi-agent/data/hotpotqa/chunks.json"
+  questions_file: "/projects/prjs1800/msc-thesis/02-arag-multi-agent/data/hotpotqa/questions.json"
+  index_dir: "/projects/prjs1800/msc-thesis/02-arag-multi-agent/data/hotpotqa/index_e5_base_v2"
+
+multi_agent:
+  enable_decomposer: true
+  enable_doc_cache: true
+  enable_self_verify: true
+  max_loops_per_agent: 5
+  max_token_budget: 64000
+  max_concurrent: 3
+  verbose: false
+
+# LMCache configuration (consumed by vLLM server launch, not by pipeline)
+lmcache:
+  enabled: true
+  chunk_size: 256
+  local_cpu: true
+  max_local_cpu_size: 10.0  # GB
+  enable_blending: false
+  cache_policy: "LRU"
