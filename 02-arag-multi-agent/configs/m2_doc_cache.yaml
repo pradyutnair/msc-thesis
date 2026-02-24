@@ -1,13 +1,14 @@
 # M2: Multi-agent + shared document cache.
 # Tests: evidence sharing value.
-# Hypothesis: M2 > M1 by 1-2pp.
+# Hypothesis: M2 > M1v3 by 1-3pp.
+# Settings match M1v3 exactly, only enable_doc_cache differs.
 
 llm:
   model: "Qwen3-30B-A3B"
   api_key: "dummy"
   base_url: "http://127.0.0.1:8000/v1"
   temperature: 0.0
-  max_tokens: 8192
+  max_tokens: 4096
   chat_template_kwargs:
     enable_thinking: false
 
@@ -22,9 +23,9 @@ data:
 
 multi_agent:
   enable_decomposer: true
-  enable_doc_cache: true          # <-- enabled
+  enable_doc_cache: true
   enable_self_verify: true
-  max_loops_per_agent: 5
+  max_loops_per_agent: 7
   max_token_budget: 64000
   max_concurrent: 3
   verbose: false

@@ -1,11 +1,23 @@
-"""Aggregator: 3-phase evidence synthesis for multi-agent answers."""
+"""Aggregator: DRHR (Decomposed Retrieval, Holistic Reasoning) synthesis — M2.
+
+Core change from M1: sub-answers from agents are IGNORED. The synthesizer
+reasons directly over the raw evidence pool, exactly like E4 but with
+structured, sub-question-targeted retrieval feeding the pool.
+
+Architecture:
+  - comparison: per-entity labeled sections (each agent's chunks in its own section)
+  - bridge:     flat pool ordered by chain step (SQ-0 first, SQ-N last)
+  - single_hop: direct agent answer bypass (unchanged)
+  - No self-verify (removed to reduce noise and overhead)
+"""
 
 from __future__ import annotations
 
 import logging
 import re
 from pathlib import Path
-from typing import Any
+
+import tiktoken
 
 from arag.core.llm import LLMClient
 from multi_agent.evidence_cache import EvidenceCache
@@ -15,128 +27,294 @@ logger = logging.getLogger(__name__)
 
 _PROMPT_PATH = Path(__file__).parent / "prompts" / "aggregator.txt"
 
+_EVIDENCE_TOKEN_BUDGET = 8000          # larger budget — no sub-answer overhead
+_COMPARISON_PER_ENTITY_BUDGET = 4000   # per entity for comparison
+
 _CHAIN_INSTRUCTIONS = {
     "comparison": (
-        "Compare the sub-answers directly. Identify the relevant attribute "
-        "for each entity and determine the answer to the comparison question."
+        "The sub-questions each retrieved documents for a DIFFERENT entity. "
+        "The evidence is split into labeled ENTITY SECTIONS below. "
+        "Read each section's documents to extract that entity's attribute. "
+        "Compare the two attributes and answer the original question. "
+        "If the question asks 'which' entity, output only the entity name. "
+        "If the question asks 'are both' or 'do both', output yes or no."
     ),
     "bridge": (
-        "Chain the sub-answers sequentially. The answer to sub-question 0 "
-        "feeds into sub-question 1, and so on. Follow the chain to reach "
-        "the final answer."
+        "The sub-questions form a reasoning chain. "
+        "SQ-0's documents identify the intermediate entity needed for the next step. "
+        "SQ-1 (and beyond) use that entity to find the final answer. "
+        "Follow the chain through the documents from SQ-0 to the last SQ. "
+        "State the final answer at the end of the chain."
     ),
     "single_hop": (
-        "The sub-answer directly answers the original question. Verify it "
-        "against the evidence and restate it."
+        "A single retrieval agent collected documents for this question. "
+        "Read the documents and extract the direct answer."
     ),
 }
 
+_BAD_ANSWER_RE = re.compile(
+    r"(evidence does not|does not support|cannot be determined|"
+    r"insufficient|no valid|provided does not|cannot answer|"
+    r"question cannot be answered|not enough information|"
+    r"unable to determine|cannot confirm)",
+    re.IGNORECASE,
+)
+
+
+def _is_bad_answer(text: str) -> bool:
+    return bool(_BAD_ANSWER_RE.search(text))
+
+
+def _clean_answer(text: str) -> str:
+    text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
+    m = re.search(
+        r'finish\s*\(\s*(?:\{[^)]*?"answer"\s*:\s*"((?:[^"\\]|\\.)*)"'
+        r'|answer\s*=\s*["\']([^"\']*)["\'])',
+        text,
+    )
+    if m:
+        text = (m.group(1) or m.group(2) or text).replace('\\"', '"')
+    return text.strip()
+
 
 class Aggregator:
-    """Aggregate sub-question answers into a final answer.
-
-    3 phases: evidence assembly → CoT synthesis → self-verification (optional).
-    """
+    """DRHR aggregator: reasons over raw evidence, ignores agent sub-answers."""
 
     def __init__(
         self,
         llm_client: LLMClient,
         evidence_cache: EvidenceCache | None = None,
-        enable_self_verify: bool = True,
+        enable_self_verify: bool = True,   # kept in signature for compat, not used
         prompt_path: str | Path | None = None,
     ):
         self.llm = llm_client
         self.cache = evidence_cache
-        self.enable_self_verify = enable_self_verify
 
         path = Path(prompt_path) if prompt_path else _PROMPT_PATH
         self._prompt_template = path.read_text(encoding="utf-8")
 
-    async def _assemble_evidence(
-        self, plan: DecompositionPlan, agent_results: dict[int, AgentResult],
+        try:
+            self._tokenizer = tiktoken.encoding_for_model("gpt-4o")
+        except Exception:
+            self._tokenizer = tiktoken.get_encoding("cl100k_base")
+
+    # ------------------------------------------------------------------
+    # Helpers
+    # ------------------------------------------------------------------
+
+    def _count_tokens(self, text: str) -> int:
+        return len(self._tokenizer.encode(text))
+
+    def _get_agent_chunks(self, result: AgentResult) -> list[dict]:
+        if result.retrieved_chunks:
+            return result.retrieved_chunks
+        # Fallback: pull from trajectory read_chunk results
+        chunks: list[dict] = []
+        seen: set[str] = set()
+        for entry in result.trajectory:
+            if entry.get("tool_name") != "read_chunk":
+                continue
+            text = entry.get("tool_result", "")
+            if text and "(already read)" not in text:
+                tid = str(hash(text[:100]))
+                if tid not in seen:
+                    seen.add(tid)
+                    chunks.append({"id": "?", "text": text[:1500]})
+        return chunks
+
+    def _fit_chunks_to_budget(
+        self,
+        chunks: list[dict],
+        sq_index: int,
+        budget: int,
     ) -> str:
-        blocks: list[str] = []
+        lines: list[str] = []
+        tokens_used = 0
+        for chunk in chunks:
+            cid = chunk.get("id", "?")
+            text = chunk.get("text", "")
+            block = f"[Doc {cid} | SQ-{sq_index}]\n{text}"
+            block_tokens = self._count_tokens(block)
+            if tokens_used + block_tokens > budget:
+                remaining = budget - tokens_used
+                if remaining > 200:
+                    truncated = self._tokenizer.decode(
+                        self._tokenizer.encode(text)[:remaining - 20]
+                    )
+                    lines.append(f"[Doc {cid} | SQ-{sq_index}]\n{truncated} [truncated]")
+                break
+            lines.append(block)
+            tokens_used += block_tokens
+        return "\n\n---\n\n".join(lines)
+
+    # ------------------------------------------------------------------
+    # Evidence pool builders
+    # ------------------------------------------------------------------
+
+    def _build_comparison_pool(
+        self,
+        plan: DecompositionPlan,
+        agent_results: dict[int, AgentResult],
+    ) -> str:
+        """Per-entity labeled sections — preserves entity-attribute correspondence."""
+        _SEP = "\n\n" + "=" * 60 + "\n\n"
+        sections: list[str] = []
+
+        for sq in plan.sub_questions:
+            result = agent_results.get(sq.index)
+            header = (
+                f"## ENTITY SECTION SQ-{sq.index}\n"
+                f"Sub-question: {sq.text}\n"
+                f"Documents:"
+            )
+            if result:
+                chunks = self._get_agent_chunks(result)
+                docs_str = self._fit_chunks_to_budget(
+                    chunks, sq.index, _COMPARISON_PER_ENTITY_BUDGET
+                )
+            else:
+                docs_str = "(No documents retrieved)"
+
+            sections.append(f"{header}\n\n{docs_str}")
+
+        logger.info("Comparison pool: %d entity sections", len(sections))
+        return _SEP.join(sections)
+
+    def _build_flat_pool(
+        self,
+        plan: DecompositionPlan,
+        agent_results: dict[int, AgentResult],
+    ) -> str:
+        """Flat merged pool ordered by sub-question (bridge & single_hop)."""
+        seen_ids: set[str] = set()
+        ordered_chunks: list[tuple[int, dict]] = []
+
         for sq in plan.sub_questions:
             result = agent_results.get(sq.index)
             if result is None:
-                blocks.append(f"### Sub-Q {sq.index}: {sq.text}\n**Answer**: (no result)\n**Evidence**: None\n")
                 continue
-            evidence_text = await self._get_evidence_for_agent(result)
-            blocks.append(f"### Sub-Q {sq.index}: {sq.text}\n**Answer**: {result.answer}\n**Evidence**:\n{evidence_text}\n")
-        return "\n".join(blocks)
+            for chunk in self._get_agent_chunks(result):
+                cid = str(chunk.get("id", ""))
+                if cid and cid not in seen_ids:
+                    seen_ids.add(cid)
+                    ordered_chunks.append((sq.index, chunk))
 
-    async def _get_evidence_for_agent(self, result: AgentResult) -> str:
+        if not ordered_chunks:
+            return "(No documents retrieved)"
+
         lines: list[str] = []
-        if self.cache is not None and self.cache.enabled:
-            for doc_id in result.evidence_doc_ids:
-                doc = await self.cache.get_by_id(doc_id)
-                if doc:
-                    lines.append(f"[{doc.doc_id}] {doc.text[:500]}")
-        if not lines:
-            for entry in result.trajectory:
-                if entry.get("tool_name") == "read_chunk":
-                    text = entry.get("tool_result", "")
-                    if text and "(already read)" not in text:
-                        lines.append(text[:500])
-        return "\n".join(lines[:5]) if lines else "(No evidence retrieved)"
+        tokens_used = 0
+        for sq_idx, chunk in ordered_chunks:
+            cid = chunk.get("id", "?")
+            text = chunk.get("text", "")
+            block = f"[Doc {cid} | SQ-{sq_idx}]\n{text}"
+            block_tokens = self._count_tokens(block)
+            if tokens_used + block_tokens > _EVIDENCE_TOKEN_BUDGET:
+                remaining = _EVIDENCE_TOKEN_BUDGET - tokens_used
+                if remaining > 200:
+                    truncated = self._tokenizer.decode(
+                        self._tokenizer.encode(text)[:remaining - 20]
+                    )
+                    lines.append(f"[Doc {cid} | SQ-{sq_idx}]\n{truncated} [truncated]")
+                break
+            lines.append(block)
+            tokens_used += block_tokens
 
-    async def _synthesize(self, question: str, plan: DecompositionPlan, evidence_blocks: str) -> tuple[str, float]:
-        chain_instruction = _CHAIN_INSTRUCTIONS.get(plan.question_type, _CHAIN_INSTRUCTIONS["single_hop"])
+        logger.info("Flat pool: %d chunks, %d tokens", len(lines), tokens_used)
+        return "\n\n---\n\n".join(lines)
+
+    def _build_evidence(
+        self,
+        plan: DecompositionPlan,
+        agent_results: dict[int, AgentResult],
+    ) -> str:
+        if plan.question_type == "comparison":
+            return self._build_comparison_pool(plan, agent_results)
+        return self._build_flat_pool(plan, agent_results)
+
+    # ------------------------------------------------------------------
+    # Synthesis (single holistic call — the DRHR core)
+    # ------------------------------------------------------------------
+
+    async def _synthesize(
+        self,
+        question: str,
+        plan: DecompositionPlan,
+        unified_pool: str,
+    ) -> tuple[str, float]:
+        chain_instruction = _CHAIN_INSTRUCTIONS.get(
+            plan.question_type, _CHAIN_INSTRUCTIONS["single_hop"]
+        )
         prompt = self._prompt_template.format(
-            question=question, question_type=plan.question_type,
-            evidence_blocks=evidence_blocks, chain_instruction=chain_instruction,
+            question=question,
+            question_type=plan.question_type,
+            chain_instruction=chain_instruction,
+            unified_pool=unified_pool,
         )
         messages = [{"role": "user", "content": prompt}]
         response = self.llm.chat(messages=messages, tools=None, temperature=0.0)
         raw = response["message"].get("content", "")
         cost = response.get("cost", 0.0)
         answer = self._extract_final_answer(raw)
-        logger.info("Synthesis answer: '%s'", answer[:80])
+        logger.info("Synthesis → '%s'", answer[:80])
         return answer, cost
 
     @staticmethod
     def _extract_final_answer(raw: str) -> str:
         raw = re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL)
-        match = re.search(r"FINAL\s*ANSWER\s*:\s*(.+)", raw, re.IGNORECASE)
-        if match:
-            return match.group(1).strip()
+        m = re.search(r"FINAL\s*ANSWER\s*:\s*(.+)", raw, re.IGNORECASE)
+        if m:
+            return m.group(1).strip()
         lines = [l.strip() for l in raw.strip().split("\n") if l.strip()]
         return lines[-1] if lines else raw.strip()
 
-    async def _self_verify(self, question: str, answer: str, evidence_blocks: str) -> tuple[str, float]:
-        prompt = (
-            f"Question: {question}\nProposed Answer: {answer}\n\n"
-            f"Evidence:\n{evidence_blocks}\n\n"
-            f"Is the proposed answer correct and fully supported by the evidence? "
-            f"If yes, restate it. If no, provide the corrected answer.\n"
-            f"Reply with ONLY the final answer (no explanation)."
-        )
-        messages = [{"role": "user", "content": prompt}]
-        response = self.llm.chat(messages=messages, tools=None, temperature=0.0)
-        raw = response["message"].get("content", "")
-        cost = response.get("cost", 0.0)
-        raw = re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL)
-        verified = raw.strip()
-        if verified and verified != answer:
-            logger.info("Self-verify revised: '%s' → '%s'", answer[:40], verified[:40])
-            return verified, cost
-        return answer, cost
+    # ------------------------------------------------------------------
+    # Agent-answer fallback (only used if synthesis produces bad answer)
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _best_agent_answer(agent_results: dict[int, AgentResult]) -> str:
+        candidates = [
+            _clean_answer(ar.answer)
+            for ar in agent_results.values()
+            if ar.answer and not _is_bad_answer(ar.answer)
+        ]
+        if not candidates:
+            return ""
+        candidates.sort(key=lambda s: abs(len(s) - 40))
+        return candidates[0]
+
+    # ------------------------------------------------------------------
+    # Public API
+    # ------------------------------------------------------------------
 
     async def aggregate(
-        self, question: str, plan: DecompositionPlan, agent_results: dict[int, AgentResult],
+        self,
+        question: str,
+        plan: DecompositionPlan,
+        agent_results: dict[int, AgentResult],
     ) -> tuple[str, int]:
         """Returns (final_answer, approx_token_cost)."""
-        if plan.question_type == "single_hop" and len(agent_results) == 1 and not self.enable_self_verify:
+
+        # Fast path: single-hop — use agent answer directly
+        if plan.question_type == "single_hop" and len(agent_results) == 1:
             result = next(iter(agent_results.values()))
-            return result.answer, 0
+            clean = _clean_answer(result.answer)
+            if clean and not _is_bad_answer(clean):
+                return clean, 0
 
-        evidence_blocks = await self._assemble_evidence(plan, agent_results)
-        answer, synth_cost = await self._synthesize(question, plan, evidence_blocks)
-        total_cost = synth_cost
+        # Build type-specific evidence pool
+        unified_pool = self._build_evidence(plan, agent_results)
 
-        if self.enable_self_verify:
-            answer, verify_cost = await self._self_verify(question, answer, evidence_blocks)
-            total_cost += verify_cost
+        # Single holistic synthesis call (DRHR core — no sub-answers)
+        answer, cost = await self._synthesize(question, plan, unified_pool)
 
-        approx_tokens = int(total_cost * 1_000_000) if total_cost > 0 else 0
+        # Fallback to best agent answer if synthesis fails
+        if _is_bad_answer(answer) or not answer:
+            fallback = self._best_agent_answer(agent_results)
+            if fallback:
+                logger.info("Synthesis fallback → '%s'", fallback[:60])
+                answer = fallback
+
+        approx_tokens = int(cost * 1_000_000) if cost > 0 else 0
         return answer, approx_tokens

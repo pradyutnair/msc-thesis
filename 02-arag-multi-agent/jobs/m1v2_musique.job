@@ -1,12 +1,12 @@
 #!/bin/bash
-#SBATCH --job-name=m1_2wiki
+#SBATCH --job-name=m1v2_musique
 #SBATCH --partition=gpu_h100
 #SBATCH --time=24:00:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=12
 #SBATCH --gpus=1
 #SBATCH --mem=96G
-#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/logs/%j_m1_2wiki.out
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/logs/%j_m1v2_musique.out
 
 set -euo pipefail
 
@@ -32,10 +32,10 @@ MODEL_ID="Qwen/Qwen3-30B-A3B"
 SERVED_NAME="Qwen3-30B-A3B"
 HOST="127.0.0.1"
 PORT="8000"
-RUN_OUT="/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/m1/2wikimultihop"
-QUESTIONS="data/2wikimultihop/questions.json"
-CHUNKS="data/2wikimultihop/chunks.json"
-INDEX="data/2wikimultihop/index_e5_base_v2"
+RUN_OUT="/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/m1v2/musique"
+QUESTIONS="data/musique/questions.json"
+CHUNKS="data/musique/chunks.json"
+INDEX="data/musique/index_e5_base_v2"
 
 mkdir -p "$RUN_OUT"
 mkdir -p results/logs

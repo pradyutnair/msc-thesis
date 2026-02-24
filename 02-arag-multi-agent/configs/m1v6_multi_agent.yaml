@@ -1,6 +1,7 @@
-# M1: Multi-agent architecture, no document cache.
-# Tests: architecture value over single-agent baseline.
-# Hypothesis: M1 > E4 by 3-5pp.
+# M1v6: Option A — unified evidence pool in aggregator.
+# Key change: aggregator now receives full retrieved chunk texts from all
+# agents (deduplicated, token-budgeted), replicating E4's single-context
+# view while preserving decomposition structure.
 
 llm:
   model: "Qwen3-30B-A3B"

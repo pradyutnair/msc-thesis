@@ -16,7 +16,7 @@ class SubQuestion:
     text: str
     search_hints: list[str] = field(default_factory=list)
     depends_on: list[int] = field(default_factory=list)
-    placeholder: str | None = None  # e.g. "[answer_0]"
+    placeholder: str | None = None
 
 
 @dataclass
@@ -27,7 +27,6 @@ class DecompositionPlan:
     sub_questions: list[SubQuestion] = field(default_factory=list)
     dependency_edges: list[tuple[int, int]] = field(default_factory=list)
 
-    # Metadata
     raw_llm_output: str = ""
     parse_retries: int = 0
 
@@ -45,6 +44,10 @@ class AgentResult:
     wall_clock_seconds: float = 0.0
     confidence: float = 1.0
     error: str | None = None
+
+    # Full text of every chunk this agent read — populated by SearchAgent.
+    # Each entry: {"id": str, "text": str}
+    retrieved_chunks: list[dict] = field(default_factory=list)
 
 
 @dataclass
@@ -82,7 +85,6 @@ class PipelineResult:
     total_tokens: int = 0
     wall_clock_seconds: float = 0.0
 
-    # Provenance
     question_type: str = "single_hop"
     num_sub_questions: int = 0
     num_waves: int = 0

@@ -116,6 +116,7 @@ class Dispatcher:
         self,
         sub_question: SubQuestion,
         resolved_answers: dict[int, str],
+        original_question: str = "",
     ) -> AgentResult:
         """Run a single search agent under the concurrency semaphore."""
         async with self._semaphore:
@@ -131,6 +132,7 @@ class Dispatcher:
             return await agent.run(
                 sub_question=sub_question,
                 resolved_answers=resolved_answers,
+                original_question=original_question,
             )
 
     # ------------------------------------------------------------------
@@ -140,6 +142,7 @@ class Dispatcher:
     async def dispatch(
         self,
         plan: DecompositionPlan,
+        original_question: str = "",
     ) -> tuple[dict[int, AgentResult], int]:
         """Dispatch agents for all sub-questions in *plan*.
 
@@ -172,7 +175,7 @@ class Dispatcher:
 
             # Launch all agents in this wave concurrently
             tasks = [
-                self._run_agent(sq, dict(resolved_answers)) for sq in wave
+                self._run_agent(sq, dict(resolved_answers), original_question=original_question) for sq in wave
             ]
             wave_results = await asyncio.gather(*tasks, return_exceptions=True)
 

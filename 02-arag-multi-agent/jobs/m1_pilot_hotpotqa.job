@@ -1,12 +1,12 @@
 #!/bin/bash
-#SBATCH --job-name=m1_2wiki
+#SBATCH --job-name=m1_pilot
 #SBATCH --partition=gpu_h100
-#SBATCH --time=24:00:00
+#SBATCH --time=02:00:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=12
 #SBATCH --gpus=1
 #SBATCH --mem=96G
-#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/logs/%j_m1_2wiki.out
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/logs/%j_m1_pilot.out
 
 set -euo pipefail
 
@@ -32,10 +32,7 @@ MODEL_ID="Qwen/Qwen3-30B-A3B"
 SERVED_NAME="Qwen3-30B-A3B"
 HOST="127.0.0.1"
 PORT="8000"
-RUN_OUT="/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/m1/2wikimultihop"
-QUESTIONS="data/2wikimultihop/questions.json"
-CHUNKS="data/2wikimultihop/chunks.json"
-INDEX="data/2wikimultihop/index_e5_base_v2"
+RUN_OUT="/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/m1/hotpotqa_pilot"
 
 mkdir -p "$RUN_OUT"
 mkdir -p results/logs
@@ -82,12 +79,29 @@ done
 
 curl -fsS "$READY_URL" >/dev/null
 
+echo "Running M1 pilot (10 questions)..."
 PYTHONPATH=src python scripts/multi_agent_runner.py \
   --config configs/m1_multi_agent.yaml \
-  --questions "$QUESTIONS" \
-  --chunks-file "$CHUNKS" \
-  --index-dir "$INDEX" \
+  --questions data/hotpotqa/questions.json \
+  --chunks-file data/hotpotqa/chunks.json \
+  --index-dir data/hotpotqa/index_e5_base_v2 \
   --output "$RUN_OUT" \
-  --concurrent 3
+  --limit 10 \
+  --concurrent 3 \
+  --verbose
 
-echo "Done. Results in $RUN_OUT"
+echo "=== M1 pilot complete ==="
+echo "Results in $RUN_OUT"
+python3 -c "
+import json, sys
+with open('$RUN_OUT/predictions.jsonl') as f:
+    lines = [json.loads(l) for l in f if l.strip()]
+print(f'Questions answered: {len(lines)}')
+for l in lines:
+    print(f\"  [{l.get('question_type','?')}] SQ={l.get('num_sub_questions',0)} ans='{l.get('pred_answer','')[:70]}'\")
+errors = [l for l in lines if l.get('error')]
+if errors:
+    print(f'ERRORS: {len(errors)}')
+    for e in errors[:3]:
+        print(f'  {e[\"qid\"]}: {e[\"error\"]}')
+"

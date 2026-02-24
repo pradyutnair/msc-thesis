@@ -1,6 +1,16 @@
-# M1: Multi-agent architecture, no document cache.
-# Tests: architecture value over single-agent baseline.
-# Hypothesis: M1 > E4 by 3-5pp.
+# M2: DRHR — Decomposed Retrieval, Holistic Reasoning.
+#
+# Key architectural change from M1:
+#   - Search agents are pure RETRIEVAL WORKERS (finish() is a stop signal only)
+#   - Aggregator IGNORES agent sub-answers entirely
+#   - Single holistic synthesis call over the full structured evidence pool
+#   - No self-verify (removed to reduce noise)
+#   - Evidence budget increased to 8k tokens (no sub-answer overhead)
+#
+# Pool structure:
+#   - comparison: per-entity labeled sections (4k tokens/entity)
+#   - bridge:     flat pool ordered by chain step (8k total)
+#   - single_hop: direct agent answer bypass
 
 llm:
   model: "Qwen3-30B-A3B"
@@ -23,7 +33,7 @@ data:
 multi_agent:
   enable_decomposer: true
   enable_doc_cache: false
-  enable_self_verify: true
+  enable_self_verify: false
   max_loops_per_agent: 7
   max_token_budget: 64000
   max_concurrent: 3

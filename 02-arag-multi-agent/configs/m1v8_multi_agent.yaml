@@ -1,6 +1,9 @@
-# M1: Multi-agent architecture, no document cache.
-# Tests: architecture value over single-agent baseline.
-# Hypothesis: M1 > E4 by 3-5pp.
+# M1v8: Fixed comparison aggregation.
+# Over M1v7:
+#   - comparison: fixed chain_instruction (yes/no awareness, no wrong "entity NAME" mandate)
+#   - comparison: self-verify disabled (biased toward entity 0 section)
+#   - bridge: reverted to flat pool (last-agent-only was slightly worse)
+#   - fixed ===== separator bug in per-entity sections
 
 llm:
   model: "Qwen3-30B-A3B"

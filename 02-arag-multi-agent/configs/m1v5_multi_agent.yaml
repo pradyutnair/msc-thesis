@@ -1,6 +1,10 @@
-# M1: Multi-agent architecture, no document cache.
-# Tests: architecture value over single-agent baseline.
-# Hypothesis: M1 > E4 by 3-5pp.
+# M1v5: Multi-agent architecture — all pipeline fixes applied.
+# Fixes vs M1:
+#   - base.py: robust finish() extraction + re-prompt retry
+#   - search_agent.txt: CRITICAL warning against plain-text finish()
+#   - aggregator.py: 10-chunk evidence, single-hop shortcut, strong bad-answer fallback
+#   - aggregator.txt: decisive synthesis, no over-refusing
+#   - self-verify skipped for single_hop questions
 
 llm:
   model: "Qwen3-30B-A3B"

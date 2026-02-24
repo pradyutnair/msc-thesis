@@ -133,7 +133,7 @@ class MultiAgentPipeline:
                     print(f"  SQ-{sq.index}: {sq.text}{deps}")
 
             # --- Phase 2: Dispatch ---
-            agent_results, num_waves = await dispatcher.dispatch(plan)
+            agent_results, num_waves = await dispatcher.dispatch(plan, original_question=question)
             result.agent_results = agent_results
             result.num_waves = num_waves
 
