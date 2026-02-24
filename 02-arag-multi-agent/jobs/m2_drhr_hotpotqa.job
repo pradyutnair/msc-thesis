@@ -22,7 +22,7 @@ export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
 export ARAG_MODEL="Qwen3-30B-A3B"
 
 MODEL_ID="Qwen/Qwen3-30B-A3B"; SERVED_NAME="Qwen3-30B-A3B"
-RUN_OUT="/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/m2/hotpotqa"
+RUN_OUT="/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/m2_drhr/hotpotqa"
 mkdir -p "$RUN_OUT" results/logs
 
 cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }

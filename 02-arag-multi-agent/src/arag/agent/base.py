@@ -85,6 +85,12 @@ _FORCE_PROMPT = (
 )
 
 
+# Qwen3-30B-A3B context limit and tokenizer ratio constants
+_QWEN_CONTEXT_LIMIT = 16384
+# tiktoken (cl100k_base) underestimates Qwen token count; use conservative 2.5x
+_TIKTOKEN_QWEN_RATIO = 2.5
+_MIN_OUTPUT_TOKENS = 256
+
 class BaseAgent:
     """Base agent with tool calling capabilities."""
 
@@ -113,12 +119,19 @@ class BaseAgent:
                 total += len(self.tokenizer.encode(str(content)))
         return total
 
+    def _safe_max_tokens(self, messages: List[Dict[str, Any]]) -> int:
+        """Return a safe max_tokens cap that avoids Qwen context overflow."""
+        tiktoken_count = self._calculate_message_tokens(messages)
+        qwen_est = int(tiktoken_count * _TIKTOKEN_QWEN_RATIO)
+        remaining = _QWEN_CONTEXT_LIMIT - qwen_est - 200
+        return max(_MIN_OUTPUT_TOKENS, min(self.llm.max_tokens, remaining))
+
     def _force_finish(self, messages: List[Dict[str, Any]], context: AgentContext,
                       total_cost: float, tool_schemas: list) -> tuple:
         """Force the model to call finish() via tool call."""
         messages.append({"role": "user", "content": _FORCE_PROMPT})
         try:
-            response = self.llm.chat(messages=messages, tools=tool_schemas, temperature=0.0)
+            response = self.llm.chat(messages=messages, tools=tool_schemas, temperature=0.0, max_tokens=self._safe_max_tokens(messages))
             total_cost += response["cost"]
             message = response["message"]
             messages.append(message)
@@ -183,7 +196,7 @@ class BaseAgent:
                 print(f"Loop {loop_count}/{self.max_loops} (Tokens: {current_tokens}/{self.max_token_budget})")
 
             try:
-                response = self.llm.chat(messages=messages, tools=tool_schemas)
+                response = self.llm.chat(messages=messages, tools=tool_schemas, max_tokens=self._safe_max_tokens(messages))
             except Exception as e:
                 if self.verbose:
                     print(f"LLM error: {e}")

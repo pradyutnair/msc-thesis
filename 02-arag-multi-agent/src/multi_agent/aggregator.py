@@ -27,8 +27,8 @@ logger = logging.getLogger(__name__)
 
 _PROMPT_PATH = Path(__file__).parent / "prompts" / "aggregator.txt"
 
-_EVIDENCE_TOKEN_BUDGET = 8000          # larger budget — no sub-answer overhead
-_COMPARISON_PER_ENTITY_BUDGET = 4000   # per entity for comparison
+_EVIDENCE_TOKEN_BUDGET = 5500          # larger budget — no sub-answer overhead
+_COMPARISON_PER_ENTITY_BUDGET = 2750   # per entity for comparison
 
 _CHAIN_INSTRUCTIONS = {
     "comparison": (
@@ -252,7 +252,7 @@ class Aggregator:
             unified_pool=unified_pool,
         )
         messages = [{"role": "user", "content": prompt}]
-        response = self.llm.chat(messages=messages, tools=None, temperature=0.0)
+        response = self.llm.chat(messages=messages, tools=None, temperature=0.0, max_tokens=512)
         raw = response["message"].get("content", "")
         cost = response.get("cost", 0.0)
         answer = self._extract_final_answer(raw)
@@ -317,4 +317,8 @@ class Aggregator:
                 answer = fallback
 
         approx_tokens = int(cost * 1_000_000) if cost > 0 else 0
+        # Defensive: strip any leaked "FINAL ANSWER:" prefix
+        m_fa = re.match(r"(?i)FINAL\s*ANSWER\s*:\s*(.*)", answer)
+        if m_fa:
+            answer = m_fa.group(1).strip()
         return answer, approx_tokens
