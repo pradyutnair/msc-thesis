@@ -1,0 +1,70 @@
+#!/bin/bash
+#SBATCH --job-name=pilot1_synthesis
+#SBATCH --partition=gpu_h100
+#SBATCH --time=04:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=12
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/logs/%j_pilot1_synthesis.out
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/external/arag
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="Qwen3-30B-A3B"
+
+MODEL_ID="Qwen/Qwen3-30B-A3B"; SERVED_NAME="Qwen3-30B-A3B"
+JUDGE_ID="deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"; JUDGE_NAME="DeepSeek-R1-Distill-Qwen-32B"
+OUT="/projects/prjs1800/msc-thesis/01-arag-reproduction/results/pilot1_synthesis"
+mkdir -p "$OUT"
+
+cleanup() {
+  [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true
+  [[ -n "${JUDGE_PID:-}" ]] && kill -0 "$JUDGE_PID" 2>/dev/null && kill "$JUDGE_PID" || true
+}
+trap cleanup EXIT TERM INT
+
+# Start generator on port 8000
+echo "Starting Qwen3 generator (port 8000)..."
+vllm serve "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port 8000 \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.42 \
+  --trust-remote-code --generation-config vllm &
+VLLM_PID=$!
+
+# Start judge on port 9000
+echo "Starting DeepSeek judge (port 9000)..."
+vllm serve "$JUDGE_ID" --served-model-name "$JUDGE_NAME" --host 127.0.0.1 --port 9000 \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.42 \
+  --trust-remote-code &
+JUDGE_PID=$!
+
+# Wait for both
+for port in 8000 9000; do
+  for i in $(seq 1 360); do
+    resp="$(curl -fsS http://127.0.0.1:$port/v1/models 2>/dev/null || true)"
+    if [[ -n "$resp" ]]; then echo "Port $port ready!"; break; fi
+    sleep 5
+  done
+done
+
+echo "Running Pilot 1: synthesis factorial (conditions A, B, C, D)..."
+PYTHONPATH=/projects/prjs1800/external/arag/src python \
+  /projects/prjs1800/msc-thesis/02-arag-multi-agent/pilots/pilot1_synthesis_factorial.py \
+  --e4-predictions "/projects/prjs1800/msc-thesis/01-arag-reproduction/results/qwen3-30b-e5-deepseekr1/musique/predictions.jsonl" \
+  --output "$OUT" \
+  --n-samples 50 \
+  --llm-base-url "http://127.0.0.1:8000/v1" \
+  --llm-model "$SERVED_NAME" \
+  --judge-base-url "http://127.0.0.1:9000/v1" \
+  --judge-model "$JUDGE_NAME" \
+  --conditions ABCD
+
+echo "RESULTS Pilot1:"; cat "$OUT/pilot1_summary.json" 2>/dev/null
