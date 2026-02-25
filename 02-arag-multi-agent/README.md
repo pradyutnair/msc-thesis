@@ -286,3 +286,213 @@ done
 ```
 
 Built on [A-RAG](https://arxiv.org/abs/2602.03442) by Du et al. (2026).
+
+---
+
+### M3 — CEP: Chain Evidence Propagation
+
+Bridge agents in M2 retrieve independently, so each wave starts cold. CEP injects the **prior waves' evidence chunks** as a read-only context prefix for every subsequent agent.
+
+```mermaid
+flowchart TD
+    Q([Question]) --> D[Decomposer]
+
+    D -->|SQ-0: bridge entity?| A0
+    D -->|SQ-1: final answer?| A1
+
+    subgraph W1["Wave 1"]
+        A0["Agent 0\n(retrieval worker)"]
+    end
+
+    subgraph W2["Wave 2"]
+        direction LR
+        CEP["CEP prefix:\nchunks from Wave 1"]
+        A1["Agent 1\n(retrieval worker)"]
+        CEP --> A1
+    end
+
+    A0 -->|chunks₀| Pool
+    A0 -->|chain evidence| CEP
+    A1 -->|chunks₁| Pool
+
+    Pool --> Syn["Holistic Synthesiser"]
+    Syn --> Ans([Answer])
+
+    style CEP fill:#fff9c4,stroke:#f9a825
+```
+
+**Key change**: Each wave-k agent receives all chunks retrieved by waves 0…k-1 as a chain evidence prefix, so it can skip already-found facts and focus only on what's missing.
+
+---
+
+### M4 — OSPREY: Observe-Scout, Plan, Retrieve, Evidence-Yield
+
+OSPREY adds a **pre-decomposition Scout phase**: before generating any sub-questions, a single agent runs a full 3-loop search on the original question and collects evidence. The decomposer then sees this scout evidence and generates **gap-targeted** sub-questions — skipping chains already resolved by the scout.
+
+```mermaid
+flowchart TD
+    Q([Question]) --> Scout
+
+    subgraph Phase1["Phase 1 — Scout (3 loops)"]
+        Scout["Agent −1\n(full question, ReAct × 3)"]
+    end
+
+    Scout -->|scout_chunks + scout_answer| Gate
+
+    subgraph Phase2["Phase 2 — Confidence Gate"]
+        Gate{{"conf >= threshold?"}}
+    end
+
+    Gate -->|yes — fast exit| Ans([Answer])
+
+    Gate -->|no| Decomp
+
+    subgraph Phase3["Phase 3 — Evidence-Aware Decomposition"]
+        Decomp["Decomposer\nsees scout_chunks + scout_answer\ngenerates gap-targeted sub-Qs only"]
+    end
+
+    Decomp -->|sub-Qs| W1
+
+    subgraph Phase4["Phase 4 — Gap-Filling Agents"]
+        direction LR
+        GE["Global Chain Evidence\n(scout_chunks to all agents)"]
+        W1["Wave 1 agents"]
+        W2["Wave 2 agents"]
+        GE --> W1
+        GE --> W2
+        W1 -->|CEP| W2
+    end
+
+    W1 & W2 -->|chunks| AggPool
+
+    subgraph Phase5["Phase 5 — Anchored Synthesis"]
+        AggPool["[Doc | Scout] prefix\n+ [Doc | SQ-k] chunks"]
+        Syn["Holistic Synthesiser"]
+        AggPool --> Syn
+    end
+
+    Syn --> Ans
+
+    style Phase1 fill:#e8f5e9,stroke:#2e7d32
+    style Phase2 fill:#fff9c4,stroke:#f9a825
+    style Phase3 fill:#e3f2fd,stroke:#1565c0
+    style Phase4 fill:#f3e5f5,stroke:#6a1b9a
+    style Phase5 fill:#fbe9e7,stroke:#bf360c
+```
+
+**Design decisions:**
+- **Scout sentinel index −1** prevents aggregator from treating the scout as a sub-question answer
+- **Fast-exit disabled in v3** (`threshold=1.1 > 1.0`): a text-only gate cannot reliably distinguish a correct short answer from a confident wrong guess
+- **Global chain evidence**: scout chunks injected into every Phase 4 agent (vs CEP which only injects into wave k+1)
+- **Anchored synthesis**: aggregator prepends scout chunks labelled `[Doc X | Scout]` so synthesiser always sees the best initial evidence first
+
+---
+
+## Updated Results
+
+### Full Results Table (all systems)
+
+| Version | HotpotQA | 2WikiMH | MuSiQue | **Mean** | Key Change |
+|---------|:--------:|:-------:|:-------:|:--------:|------------|
+| E4 *(single-agent baseline)* | 66.5 | 56.9 | 37.6 | **53.7** | Single ReAct agent, full iterative search |
+| M1 | 44.7 | 25.4 | 24.9 | 31.7 | Multi-agent baseline; sub-answer aggregation |
+| M1v5 | 55.1 | 32.1 | 29.6 | 38.9 | Fix `finish()` leak; decisive aggregator |
+| M1v8 | 54.9 | 32.3 | 30.3 | 39.2 | Fixed comparison; disabled self-verify |
+| M2 DRHR | 63.4 | 34.2 | 27.2 | 41.6 | Holistic synthesis over raw evidence pool |
+| M3 CEP | 63.4 | 35.4 | 28.7 | 42.5 | Chain evidence propagation across waves |
+| M4v1 OSPREY | 65.0 | 39.3 | 31.5 | 45.3 | Scout + evidence-guided decomposition (high fast-exit) |
+| M4v2 OSPREY | 56.2 | 30.2 | 24.7 | 37.0 | Short-answer scout forced — gate fires on wrong guesses |
+| **M4v3 OSPREY** | **63.8** | **44.0** | **32.2** | **46.7** | Fast-exit disabled; 100% evidence-guided pipeline |
+
+```mermaid
+xychart-beta
+    title "Mean Accuracy (%) — All Systems"
+    x-axis ["E4", "M1", "M1v8", "M2 DRHR", "M3 CEP", "M4v3 OSPREY"]
+    y-axis "Mean Accuracy (%)" 0 --> 60
+    bar [53.7, 31.7, 39.2, 41.6, 42.5, 46.7]
+```
+
+### M4v3 OSPREY — Accuracy by Question Type
+
+| Dataset | bridge | comparison | single_hop | Overall |
+|---------|:------:|:----------:|:----------:|:-------:|
+| HotpotQA | 64.2% (341/531) | 62.7% (143/228) | 63.5% (153/241) | 63.8% |
+| 2WikiMultiHop | 30.7% (103/335) | **63.0%** (302/479) | 18.8% (35/186) | 44.0% |
+| MuSiQue | 32.3% (268/830) | 12.0% (3/25) | 35.2% (51/145) | 32.2% |
+
+**Key findings:**
+- **2WikiMH comparison questions reach 63.0%** — evidence-guided decomposition works well here
+- **2WikiMH bridge at 30.7%** is the dominant bottleneck: scout (3 loops) sometimes misidentifies the intermediate entity, and the decomposer over-collapses bridge chains to a single sub-question
+- **2WikiMH single-hop/inference at 18.8%**: implicit multi-hop inference questions treated as trivial — next target for M5
+
+### Gap to E4 Closed Over Iterations
+
+| System | HotpotQA gap | 2WikiMH gap | MuSiQue gap | Mean gap |
+|--------|:------------:|:-----------:|:-----------:|:--------:|
+| M2 DRHR | −3.1 | −22.7 | −10.4 | −12.1 |
+| M3 CEP | −3.1 | −21.5 | −8.9 | −11.2 |
+| **M4v3 OSPREY** | **−2.7** | **−12.9** | **−5.4** | **−7.0** |
+
+OSPREY closes ~9.8pp of the 2WikiMH gap relative to M3-CEP.
+
+### Token Overhead (M4v3 OSPREY)
+
+| Dataset | Scout avg | Phase 2 agents | Aggregator | Total avg |
+|---------|----------:|---------------:|-----------:|----------:|
+| HotpotQA | 3,293 | 9,306 | 4,171 | 12,599 |
+| 2WikiMultiHop | 4,116 | 12,223 | 5,521 | 16,339 |
+| MuSiQue | 4,549 | 16,092 | 6,224 | 20,641 |
+
+Scout tokens (~25–30% of total) are the OSPREY overhead cost; they enable evidence-guided decomposition.
+
+---
+
+## OSPREY Version History & Lessons
+
+| Version | Config | Fast-exit rate | HotpotQA | 2WikiMH | MuSiQue | Mean | Notes |
+|---------|--------|:--------------:|:--------:|:-------:|:-------:|:----:|-------|
+| v1 | m4_osprey.yaml (threshold=0.65) | ~98% | 65.0 | 39.3 | 31.5 | 45.3 | Base score 0.80 > threshold; almost everything fast-exits with verbose answer |
+| v2 | m4_osprey.yaml (length-first gate) | ~92% | 56.2 | 30.2 | 24.7 | 37.0 | Scout forced short answers → short confident wrong guesses fast-exit |
+| **v3** | **m4v3_osprey.yaml (threshold=1.1)** | **0%** | **63.8** | **44.0** | **32.2** | **46.7** | Gate disabled; all questions go through full evidence-guided pipeline |
+
+**Core lesson**: A text-only confidence gate cannot distinguish a correct short answer from a confident-sounding wrong guess using length or hedging patterns alone. The gate's only reliable behaviour is "never fire" (threshold > 1.0).
+
+---
+
+## Updated Project Structure
+
+```
+02-arag-multi-agent/
+├── src/
+│   ├── arag/
+│   │   ├── agent/base.py          # ReAct loop + _safe_max_tokens fix
+│   │   └── tools/                 # keyword_search, semantic_search, read_chunk
+│   └── multi_agent/
+│       ├── pipeline.py            # Orchestrator: standard path + _run_osprey()
+│       ├── aggregator.py          # Holistic synthesiser + scout_chunks anchor
+│       ├── decomposer.py          # decompose() + decompose_with_evidence()
+│       ├── dispatcher.py          # Wave dispatch + global_chain_evidence (OSPREY)
+│       ├── search_agent.py        # Retrieval worker wrapper
+│       ├── scout.py               # Phase1Scout: 3-loop pre-decomposition agent
+│       ├── confidence_gate.py     # ConfidenceGate: length-first heuristic scorer
+│       ├── types.py               # ScoutResult, PipelineResult (OSPREY fields)
+│       └── prompts/
+│           ├── decomposer.txt           # Standard decomposer
+│           ├── decomposer_osprey.txt    # Evidence-aware decomposer (OSPREY)
+│           ├── scout.txt                # Scout: short direct answers
+│           ├── search_agent.txt         # Base retrieval worker
+│           ├── search_agent_cep.txt     # CEP-aware retrieval worker
+│           └── aggregator.txt
+├── configs/
+│   ├── m2_drhr.yaml          # M2 config
+│   ├── m3_cep.yaml           # M3 CEP config
+│   ├── m4_osprey.yaml        # M4 OSPREY v1/v2 (with gate)
+│   └── m4v3_osprey.yaml      # M4 OSPREY v3 (gate disabled, best)
+├── jobs/                     # SLURM job files (Snellius H100, separate per dataset)
+└── results/
+    ├── m2_drhr/
+    ├── m3_cep/
+    ├── m4_osprey/            # v1 results
+    ├── m4v2_osprey/          # v2 results
+    └── m4v3_osprey/          # v3 results (best)
+```
