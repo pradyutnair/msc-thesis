@@ -1,0 +1,45 @@
+#!/bin/bash
+#SBATCH --job-name=eval_m3_cep_2wikimultihop
+#SBATCH --partition=gpu_h100
+#SBATCH --time=06:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=12
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/logs/%j_eval_m3_cep_2wikimultihop.out
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/external/arag
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY="dummy"; export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="DeepSeek-R1-Distill-Qwen-32B"
+
+MODEL_ID="deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"; SERVED_NAME="DeepSeek-R1-Distill-Qwen-32B"
+PREDICTIONS="/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/m3_cep/2wikimultihop/predictions.jsonl"
+OUTPUT_DIR="/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/m3_cep/2wikimultihop"
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+echo "Starting DeepSeek judge..."
+vllm serve "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port 8000 \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.90 --trust-remote-code &
+VLLM_PID=$!
+
+for i in $(seq 1 600); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  resp="$(curl -fsS http://127.0.0.1:8000/v1/models 2>/dev/null || true)"
+  if [[ -n "$resp" ]] && echo "$resp" | python -c "import json,sys; d=json.load(sys.stdin); print(any(m.get('id')=='$SERVED_NAME' for m in d.get('data',[])))" | grep -q True; then
+    echo "Judge ready!"; break
+  fi
+  sleep 5
+done
+
+python scripts/eval.py --predictions "$PREDICTIONS" --workers 10 --output "$OUTPUT_DIR"
+echo "RESULTS 2wikimultihop:"; cat "$OUTPUT_DIR/predictions_eval_summary.json" 2>/dev/null

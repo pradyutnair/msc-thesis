@@ -171,13 +171,14 @@ class SearchAgent:
         sub_question: SubQuestion,
         resolved_answers: dict[int, str] | None = None,
         original_question: str = "",
+        chain_evidence: str = "",
     ) -> AgentResult:
         t0 = time.monotonic()
 
         if resolved_answers:
             sub_question = self._resolve_placeholders(sub_question, resolved_answers)
 
-        cached_text = await self._gather_cached_evidence(sub_question)
+        cached_text = chain_evidence or await self._gather_cached_evidence(sub_question)
         system_prompt = self._build_system_prompt(
             sub_question.text, cached_text, original_question=original_question,
         )

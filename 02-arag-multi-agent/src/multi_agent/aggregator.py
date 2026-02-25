@@ -4,11 +4,15 @@ Core change from M1: sub-answers from agents are IGNORED. The synthesizer
 reasons directly over the raw evidence pool, exactly like E4 but with
 structured, sub-question-targeted retrieval feeding the pool.
 
+OSPREY extension: optional scout_chunks prepended to the evidence pool as
+a "Phase 1 Scout" preamble — gives the synthesizer the broad context from
+the initial discovery phase before the targeted sub-question evidence.
+
 Architecture:
   - comparison: per-entity labeled sections (each agent's chunks in its own section)
   - bridge:     flat pool ordered by chain step (SQ-0 first, SQ-N last)
   - single_hop: direct agent answer bypass (unchanged)
-  - No self-verify (removed to reduce noise and overhead)
+  - scout:      optional Phase 1 chunks prepended to pool as [Scout] label
 """
 
 from __future__ import annotations
@@ -27,8 +31,9 @@ logger = logging.getLogger(__name__)
 
 _PROMPT_PATH = Path(__file__).parent / "prompts" / "aggregator.txt"
 
-_EVIDENCE_TOKEN_BUDGET = 5500          # larger budget — no sub-answer overhead
-_COMPARISON_PER_ENTITY_BUDGET = 2750   # per entity for comparison
+_EVIDENCE_TOKEN_BUDGET = 5500
+_COMPARISON_PER_ENTITY_BUDGET = 2750
+_SCOUT_CHUNK_BUDGET = 1200   # budget reserved for Phase 1 Scout prefix
 
 _CHAIN_INSTRUCTIONS = {
     "comparison": (
@@ -84,7 +89,7 @@ class Aggregator:
         self,
         llm_client: LLMClient,
         evidence_cache: EvidenceCache | None = None,
-        enable_self_verify: bool = True,   # kept in signature for compat, not used
+        enable_self_verify: bool = True,
         prompt_path: str | Path | None = None,
     ):
         self.llm = llm_client
@@ -108,7 +113,6 @@ class Aggregator:
     def _get_agent_chunks(self, result: AgentResult) -> list[dict]:
         if result.retrieved_chunks:
             return result.retrieved_chunks
-        # Fallback: pull from trajectory read_chunk results
         chunks: list[dict] = []
         seen: set[str] = set()
         for entry in result.trajectory:
@@ -130,10 +134,11 @@ class Aggregator:
     ) -> str:
         lines: list[str] = []
         tokens_used = 0
+        label = "Scout" if sq_index == -1 else str(sq_index)
         for chunk in chunks:
             cid = chunk.get("id", "?")
             text = chunk.get("text", "")
-            block = f"[Doc {cid} | SQ-{sq_index}]\n{text}"
+            block = f"[Doc {cid} | SQ-{label}]\n{text}"
             block_tokens = self._count_tokens(block)
             if tokens_used + block_tokens > budget:
                 remaining = budget - tokens_used
@@ -141,7 +146,7 @@ class Aggregator:
                     truncated = self._tokenizer.decode(
                         self._tokenizer.encode(text)[:remaining - 20]
                     )
-                    lines.append(f"[Doc {cid} | SQ-{sq_index}]\n{truncated} [truncated]")
+                    lines.append(f"[Doc {cid} | SQ-{label}]\n{truncated} [truncated]")
                 break
             lines.append(block)
             tokens_used += block_tokens
@@ -151,14 +156,47 @@ class Aggregator:
     # Evidence pool builders
     # ------------------------------------------------------------------
 
+    def _build_scout_prefix(self, scout_chunks: list[dict]) -> str:
+        """Build Phase 1 Scout evidence prefix for the unified pool."""
+        if not scout_chunks:
+            return ""
+        lines: list[str] = []
+        tokens_used = 0
+        for chunk in scout_chunks:
+            cid = chunk.get("id", "?")
+            text = chunk.get("text", "")
+            block = f"[Doc {cid} | Scout]\n{text}"
+            block_tokens = self._count_tokens(block)
+            if tokens_used + block_tokens > _SCOUT_CHUNK_BUDGET:
+                remaining = _SCOUT_CHUNK_BUDGET - tokens_used
+                if remaining > 200:
+                    truncated = self._tokenizer.decode(
+                        self._tokenizer.encode(text)[:remaining - 20]
+                    )
+                    lines.append(f"[Doc {cid} | Scout]\n{truncated} [truncated]")
+                break
+            lines.append(block)
+            tokens_used += block_tokens
+        if not lines:
+            return ""
+        header = "## Phase 1 Scout Evidence\n\n"
+        return header + "\n\n---\n\n".join(lines)
+
     def _build_comparison_pool(
         self,
         plan: DecompositionPlan,
         agent_results: dict[int, AgentResult],
+        scout_chunks: list[dict] | None = None,
     ) -> str:
         """Per-entity labeled sections — preserves entity-attribute correspondence."""
         _SEP = "\n\n" + "=" * 60 + "\n\n"
         sections: list[str] = []
+
+        # Prepend scout evidence as a preamble section
+        if scout_chunks:
+            scout_prefix = self._build_scout_prefix(scout_chunks)
+            if scout_prefix:
+                sections.append(scout_prefix)
 
         for sq in plan.sub_questions:
             result = agent_results.get(sq.index)
@@ -177,17 +215,29 @@ class Aggregator:
 
             sections.append(f"{header}\n\n{docs_str}")
 
-        logger.info("Comparison pool: %d entity sections", len(sections))
+        logger.info("Comparison pool: %d sections (incl. scout)", len(sections))
         return _SEP.join(sections)
 
     def _build_flat_pool(
         self,
         plan: DecompositionPlan,
         agent_results: dict[int, AgentResult],
+        scout_chunks: list[dict] | None = None,
     ) -> str:
-        """Flat merged pool ordered by sub-question (bridge & single_hop)."""
+        """Flat merged pool ordered by sub-question (bridge & single_hop).
+
+        Scout chunks are prepended, then sub-question chunks follow in order.
+        """
         seen_ids: set[str] = set()
         ordered_chunks: list[tuple[int, dict]] = []
+
+        # Phase 1 Scout chunks first (sq_index = -1 sentinel)
+        if scout_chunks:
+            for chunk in scout_chunks:
+                cid = str(chunk.get("id", ""))
+                if cid and cid not in seen_ids:
+                    seen_ids.add(cid)
+                    ordered_chunks.append((-1, chunk))
 
         for sq in plan.sub_questions:
             result = agent_results.get(sq.index)
@@ -207,7 +257,8 @@ class Aggregator:
         for sq_idx, chunk in ordered_chunks:
             cid = chunk.get("id", "?")
             text = chunk.get("text", "")
-            block = f"[Doc {cid} | SQ-{sq_idx}]\n{text}"
+            label = "Scout" if sq_idx == -1 else str(sq_idx)
+            block = f"[Doc {cid} | SQ-{label}]\n{text}"
             block_tokens = self._count_tokens(block)
             if tokens_used + block_tokens > _EVIDENCE_TOKEN_BUDGET:
                 remaining = _EVIDENCE_TOKEN_BUDGET - tokens_used
@@ -215,22 +266,27 @@ class Aggregator:
                     truncated = self._tokenizer.decode(
                         self._tokenizer.encode(text)[:remaining - 20]
                     )
-                    lines.append(f"[Doc {cid} | SQ-{sq_idx}]\n{truncated} [truncated]")
+                    lines.append(f"[Doc {cid} | SQ-{label}]\n{truncated} [truncated]")
                 break
             lines.append(block)
             tokens_used += block_tokens
 
-        logger.info("Flat pool: %d chunks, %d tokens", len(lines), tokens_used)
+        scout_count = sum(1 for sq_idx, _ in ordered_chunks if sq_idx == -1)
+        logger.info(
+            "Flat pool: %d chunks (%d scout), %d tokens",
+            len(lines), scout_count, tokens_used,
+        )
         return "\n\n---\n\n".join(lines)
 
     def _build_evidence(
         self,
         plan: DecompositionPlan,
         agent_results: dict[int, AgentResult],
+        scout_chunks: list[dict] | None = None,
     ) -> str:
         if plan.question_type == "comparison":
-            return self._build_comparison_pool(plan, agent_results)
-        return self._build_flat_pool(plan, agent_results)
+            return self._build_comparison_pool(plan, agent_results, scout_chunks)
+        return self._build_flat_pool(plan, agent_results, scout_chunks)
 
     # ------------------------------------------------------------------
     # Synthesis (single holistic call — the DRHR core)
@@ -269,15 +325,15 @@ class Aggregator:
         return lines[-1] if lines else raw.strip()
 
     # ------------------------------------------------------------------
-    # Agent-answer fallback (only used if synthesis produces bad answer)
+    # Agent-answer fallback
     # ------------------------------------------------------------------
 
     @staticmethod
     def _best_agent_answer(agent_results: dict[int, AgentResult]) -> str:
         candidates = [
             _clean_answer(ar.answer)
-            for ar in agent_results.values()
-            if ar.answer and not _is_bad_answer(ar.answer)
+            for idx, ar in agent_results.items()
+            if idx != -1 and ar.answer and not _is_bad_answer(ar.answer)
         ]
         if not candidates:
             return ""
@@ -293,20 +349,29 @@ class Aggregator:
         question: str,
         plan: DecompositionPlan,
         agent_results: dict[int, AgentResult],
+        scout_chunks: list[dict] | None = None,
     ) -> tuple[str, int]:
-        """Returns (final_answer, approx_token_cost)."""
+        """Returns (final_answer, approx_token_cost).
 
+        Parameters
+        ----------
+        scout_chunks:
+            Optional Phase 1 Scout chunks (OSPREY). Prepended to the evidence
+            pool so the synthesizer has broad Phase 1 context before the
+            targeted sub-question evidence.
+        """
         # Fast path: single-hop — use agent answer directly
         if plan.question_type == "single_hop" and len(agent_results) == 1:
-            result = next(iter(agent_results.values()))
+            only_idx = next(iter(agent_results))
+            result = agent_results[only_idx]
             clean = _clean_answer(result.answer)
             if clean and not _is_bad_answer(clean):
                 return clean, 0
 
-        # Build type-specific evidence pool
-        unified_pool = self._build_evidence(plan, agent_results)
+        # Build type-specific evidence pool (with optional scout prefix)
+        unified_pool = self._build_evidence(plan, agent_results, scout_chunks)
 
-        # Single holistic synthesis call (DRHR core — no sub-answers)
+        # Single holistic synthesis call (DRHR core)
         answer, cost = await self._synthesize(question, plan, unified_pool)
 
         # Fallback to best agent answer if synthesis fails
@@ -317,7 +382,6 @@ class Aggregator:
                 answer = fallback
 
         approx_tokens = int(cost * 1_000_000) if cost > 0 else 0
-        # Defensive: strip any leaked "FINAL ANSWER:" prefix
         m_fa = re.match(r"(?i)FINAL\s*ANSWER\s*:\s*(.*)", answer)
         if m_fa:
             answer = m_fa.group(1).strip()

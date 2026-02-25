@@ -51,6 +51,18 @@ class AgentResult:
 
 
 @dataclass
+class ScoutResult:
+    """Result from the OSPREY Phase 1 Scout agent."""
+
+    answer: str
+    chunks: list[dict] = field(default_factory=list)
+    confidence: float = 0.0
+    is_confident: bool = False
+    agent_result: AgentResult | None = None
+    wall_clock_seconds: float = 0.0
+
+
+@dataclass
 class CachedDocument:
     """A document stored in the shared evidence cache."""
 
@@ -90,3 +102,9 @@ class PipelineResult:
     num_waves: int = 0
     aggregator_tokens: int = 0
     error: str | None = None
+
+    # OSPREY-specific fields
+    scout_answer: str = ""
+    scout_confidence: float = 0.0
+    osprey_fast_exit: bool = False
+    scout_chunks: list[dict] = field(default_factory=list)
