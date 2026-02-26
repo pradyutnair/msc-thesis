@@ -1,15 +1,10 @@
-#!/usr/bin/env python3
+#\!/usr/bin/env python3
 """
-Pilot 2 — Retrieval Diversity
+Pilot 2 - Retrieval Diversity
 
 For 50 questions, compares chunk coverage between:
-  - Strategy A: 1 query (model generates its own query in E4 style — from trajectory)
-  - Strategy B: 3 diverse queries (keyword variant, entity-focused, paraphrase)
-
-Measures:
-  - Total unique chunks retrieved
-  - Overlap with E4 correct-answer questions (as proxy for relevant chunks)
-  - Unique chunks per strategy not found by the other
+  Strategy A: 1 query (E4-style, from trajectory)
+  Strategy B: 3 diverse queries (keyword, entity, paraphrase)
 """
 
 import os
@@ -42,14 +37,19 @@ Output ONLY a JSON array of 3 query strings, nothing else.
 Example: ["query 1", "query 2", "query 3"]"""
 
 
-def generate_diverse_queries(llm_client: LLMClient, question: str) -> list[str]:
-    """Use LLM to generate 3 diverse search queries."""
+class MockContext:
+    """Minimal AgentContext stub so tool.execute() works outside an agent."""
+    def add_retrieval_log(self, tool_name=None, tokens=0, metadata=None):
+        pass
+
+
+def generate_diverse_queries(llm_client: LLMClient, question: str) -> list:
     prompt = PLANNER_PROMPT.format(question=question)
     try:
-        response = llm_client.chat([{"role": "user", "content": prompt}])
-        # Strip thinking tags
+        resp = llm_client.chat([{"role": "user", "content": prompt}])
+        # chat() returns dict: {"message": {"content": ...}, ...}
+        response = resp["message"]["content"]
         response = re.sub(r"<think>.*?</think>", "", response, flags=re.DOTALL).strip()
-        # Parse JSON array
         match = re.search(r"\[.*?\]", response, re.DOTALL)
         if match:
             queries = json.loads(match.group())
@@ -57,57 +57,45 @@ def generate_diverse_queries(llm_client: LLMClient, question: str) -> list[str]:
                 return queries[:3]
     except Exception as e:
         logger.warning(f"Query generation failed: {e}")
-    # Fallback: use question as-is
     return [question]
 
 
-def extract_e4_first_query(trajectory: list) -> str | None:
-    """Extract the first search query used by E4 for this question."""
+def extract_e4_first_query(trajectory: list):
     for step in trajectory:
         if step.get("tool_name") == "keyword_search":
-            args = step.get("arguments", {})
-            keywords = args.get("keywords", [])
-            if keywords:
-                return " ".join(keywords)
+            kws = step.get("arguments", {}).get("keywords", [])
+            if kws:
+                return " ".join(kws)
         elif step.get("tool_name") == "semantic_search":
-            args = step.get("arguments", {})
-            return args.get("query", "")
+            return step.get("arguments", {}).get("query", "")
     return None
 
 
-def retrieve_chunks(
-    keyword_tool: KeywordSearchTool,
-    semantic_tool: SemanticSearchTool,
-    query: str,
-    top_k: int = 5,
-) -> set[str]:
-    """Retrieve chunk IDs using both keyword and semantic search for a query."""
+def retrieve_chunks(keyword_tool, semantic_tool, query: str, top_k: int = 5):
     chunk_ids = set()
-
+    ctx = MockContext()
     try:
-        kw_result = keyword_tool.run(keywords=query.split()[:6], top_k=top_k)
-        for match in re.finditer(r"Chunk ID: (\d+)", str(kw_result)):
-            chunk_ids.add(match.group(1))
+        kw_result, _ = keyword_tool.execute(ctx, keywords=query.split()[:6], top_k=top_k)
+        for m in re.finditer(r"Chunk ID: (\d+)", str(kw_result)):
+            chunk_ids.add(m.group(1))
     except Exception as e:
-        logger.debug(f"Keyword search error: {e}")
-
+        logger.warning(f"Keyword search error: {e}")
     try:
-        sem_result = semantic_tool.run(query=query, top_k=top_k)
-        for match in re.finditer(r"Chunk ID: (\d+)", str(sem_result)):
-            chunk_ids.add(match.group(1))
+        sem_result, _ = semantic_tool.execute(ctx, query=query, top_k=top_k)
+        for m in re.finditer(r"Chunk ID: (\d+)", str(sem_result)):
+            chunk_ids.add(m.group(1))
     except Exception as e:
-        logger.debug(f"Semantic search error: {e}")
-
+        logger.warning(f"Semantic search error: {e}")
     return chunk_ids
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Pilot 2: Retrieval diversity")
-    parser.add_argument("--e4-predictions", required=True, help="E4 predictions.jsonl")
-    parser.add_argument("--chunks-file", required=True, help="Chunks JSON file")
-    parser.add_argument("--index-dir", required=True, help="FAISS index directory")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--e4-predictions", required=True)
+    parser.add_argument("--chunks-file", required=True)
+    parser.add_argument("--index-dir", required=True)
     parser.add_argument("--embedding-model", default="intfloat/e5-base-v2")
-    parser.add_argument("--output", required=True, help="Output directory")
+    parser.add_argument("--output", required=True)
     parser.add_argument("--n-samples", type=int, default=50)
     parser.add_argument("--llm-base-url", default="http://127.0.0.1:8000/v1")
     parser.add_argument("--llm-model", default="Qwen3-30B-A3B")
@@ -116,23 +104,16 @@ def main():
     output_dir = Path(args.output)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Load E4 predictions (mix correct + incorrect for diversity analysis)
     logger.info("Loading E4 predictions...")
     preds = []
     with open(args.e4_predictions) as f:
         for line in f:
             preds.append(json.loads(line))
 
-    # Take first N samples with trajectory
     samples = [p for p in preds if p.get("trajectory")][:args.n_samples]
-    logger.info(f"Using {len(samples)} questions")
+    logger.info(f"Using {len(samples)} questions with trajectories")
 
-    # Init tools
     logger.info("Loading retrieval tools...")
-    from arag.tools.keyword_search import KeywordSearchTool
-    from arag.tools.semantic_search import SemanticSearchTool
-    from arag import Config
-
     keyword_tool = KeywordSearchTool(chunks_file=args.chunks_file)
     semantic_tool = SemanticSearchTool(
         chunks_file=args.chunks_file,
@@ -140,8 +121,8 @@ def main():
         model_name=args.embedding_model,
         device="cpu",
     )
+    logger.info("Tools loaded.")
 
-    # Init LLM for query generation (nothink is fine for planning)
     llm_client = LLMClient(
         model=args.llm_model,
         api_key=os.getenv("ARAG_API_KEY", "dummy"),
@@ -156,27 +137,20 @@ def main():
         q = p["question"]
         gold_acc = p.get("llm_accuracy", 0)
 
-        # Strategy A: E4's first query
         e4_query = extract_e4_first_query(p.get("trajectory", []))
         if not e4_query:
             e4_query = q
 
-        # Strategy B: 3 diverse queries
         diverse_queries = generate_diverse_queries(llm_client, q)
         logger.info(f"[{i+1}/{len(samples)}] Q: {q[:60]}")
         logger.info(f"  E4 query: {e4_query[:60]}")
         logger.info(f"  Diverse queries: {diverse_queries}")
 
-        # Retrieve for A (single query)
         chunks_a = retrieve_chunks(keyword_tool, semantic_tool, e4_query)
-
-        # Retrieve for B (union of 3 diverse queries)
         chunks_b = set()
         for dq in diverse_queries:
             chunks_b |= retrieve_chunks(keyword_tool, semantic_tool, dq)
 
-        # Metrics
-        overlap = chunks_a & chunks_b
         a_only = chunks_a - chunks_b
         b_only = chunks_b - chunks_a
 
@@ -188,7 +162,7 @@ def main():
             "diverse_queries": diverse_queries,
             "strategy_a_chunks": len(chunks_a),
             "strategy_b_chunks": len(chunks_b),
-            "overlap": len(overlap),
+            "overlap": len(chunks_a & chunks_b),
             "a_only": len(a_only),
             "b_only": len(b_only),
             "b_gain_over_a": len(b_only),
@@ -196,7 +170,6 @@ def main():
         results.append(result)
         logger.info(f"  A: {len(chunks_a)} chunks | B: {len(chunks_b)} chunks | B gain: +{len(b_only)}")
 
-    # Summary stats
     n = len(results)
     avg_a = sum(r["strategy_a_chunks"] for r in results) / n
     avg_b = sum(r["strategy_b_chunks"] for r in results) / n
@@ -222,20 +195,17 @@ def main():
         },
     }
 
-    logger.info(f"\n{'='*60}")
+    logger.info("=" * 60)
     logger.info("PILOT 2 SUMMARY")
     logger.info(f"  Strategy A (1 query):       avg {avg_a:.1f} chunks")
     logger.info(f"  Strategy B (3 diverse):     avg {avg_b:.1f} chunks")
     logger.info(f"  Avg new chunks from diversity: +{avg_gain:.1f}")
     logger.info(f"  Diversity gain: +{summary['pct_increase']:.1f}%")
-    logger.info(f"  Correct questions: A={summary['correct_questions']['avg_a']:.1f}, B={summary['correct_questions']['avg_b']:.1f}")
-    logger.info(f"  Wrong questions:   A={summary['wrong_questions']['avg_a']:.1f}, B={summary['wrong_questions']['avg_b']:.1f}")
 
     with open(output_dir / "pilot2_results.json", "w") as f:
         json.dump({"summary": summary, "per_question": results}, f, indent=2)
     with open(output_dir / "pilot2_summary.json", "w") as f:
         json.dump(summary, f, indent=2)
-
     logger.info(f"Results saved to {output_dir}")
 
 

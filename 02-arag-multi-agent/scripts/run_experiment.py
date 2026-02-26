@@ -49,6 +49,7 @@ EXPERIMENTS = {
     "a2": {"config": "ablations/a2_no_aggregator.yaml", "desc": "No aggregator"},
     "a3": {"config": "ablations/a3_sequential.yaml", "desc": "Sequential dispatch"},
     "a4": {"config": "ablations/a4_no_verify.yaml", "desc": "No self-verification"},
+    "sage": {"config": "sage.yaml", "desc": "SAGE multi-agent"},
 }
 
 PILOT_LIMIT = 100

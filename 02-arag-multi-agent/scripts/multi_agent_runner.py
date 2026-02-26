@@ -163,6 +163,15 @@ class MultiAgentBatchRunner:
         data_cfg = self.config.get("data", {})
         tools = self._build_tools(data_cfg)
 
+        ma_cfg = self.config.get("multi_agent", {}) or {}
+        if ma_cfg.get("enable_sage", False):
+            from multi_agent.sage_pipeline import SagePipeline
+            return SagePipeline(
+                llm_client=client,
+                tools=tools,
+                config=self.config,
+            )
+
         return MultiAgentPipeline(
             llm_client=client,
             tools=tools,

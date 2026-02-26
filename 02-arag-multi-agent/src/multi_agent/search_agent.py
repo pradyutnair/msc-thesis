@@ -147,14 +147,20 @@ class SearchAgent:
         )
 
     def _collect_retrieved_chunks(self, trajectory: list[dict]) -> list[dict]:
-        """Extract full chunk texts from read_chunk trajectory entries."""
+        """Extract full chunk texts from read_chunk and search_and_read entries."""
         chunks: list[dict] = []
         seen_ids: set[str] = set()
         read_tool = self.tools.get("read_chunk")
         for entry in trajectory:
-            if entry.get("tool_name") != "read_chunk":
-                continue
-            for cid in entry.get("arguments", {}).get("chunk_ids", []):
+            tool_name = entry.get("tool_name", "")
+            chunk_ids_to_collect: list = []
+
+            if tool_name == "read_chunk":
+                chunk_ids_to_collect = entry.get("arguments", {}).get("chunk_ids", [])
+            elif tool_name == "search_and_read":
+                chunk_ids_to_collect = entry.get("chunk_ids_read", [])
+
+            for cid in chunk_ids_to_collect:
                 cid = str(cid)
                 if cid in seen_ids:
                     continue

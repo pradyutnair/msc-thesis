@@ -1,0 +1,59 @@
+#!/bin/bash
+#SBATCH --job-name=pilot3_test10
+#SBATCH --partition=gpu_h100
+#SBATCH --gpus=1
+#SBATCH --cpus-per-task=12
+#SBATCH --mem=96G
+#SBATCH --time=01:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/logs/%j_pilot3_test10.out
+#SBATCH --error=/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/logs/%j_pilot3_test10.err
+
+set -euo pipefail
+
+source /projects/prjs1800/venvs/FlashRAG-venv/bin/activate
+export HF_HOME=/projects/prjs1800/hf_cache
+export TRANSFORMERS_CACHE=/projects/prjs1800/hf_cache
+export LD_PRELOAD=/projects/prjs1800/venvs/FlashRAG-venv/lib/libmkl_rt.so.2
+export MKL_THREADING_LAYER=GNU
+export FAISS_NUM_THREADS=16
+export OMP_NUM_THREADS=16
+
+MODEL_ID="Qwen/Qwen3-30B-A3B"
+SERVED_NAME="Qwen3-30B-A3B"
+ARAG_DIR="/projects/prjs1800/external/arag"
+
+echo "Starting vLLM with reasoning parser..."
+vllm serve "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port 8000 \
+    --trust-remote-code --max-model-len 32768 --generation-config vllm \
+    --enable-prefix-caching \
+    --enable-auto-tool-choice --tool-call-parser hermes \
+    --reasoning-parser qwen3 &
+VLLM_PID=$!
+
+echo "Waiting for vLLM..."
+for i in $(seq 1 360); do
+    if curl -s http://127.0.0.1:8000/v1/models | grep -q "$SERVED_NAME"; then
+        echo "vLLM ready!"
+        break
+    fi
+    sleep 5
+done
+
+echo "=== Quick test: 10 HotpotQA questions with thinking ==="
+cd "$ARAG_DIR"
+
+# Clear any previous results
+rm -f /projects/prjs1800/msc-thesis/01-arag-reproduction/results/pilot3_think_fixed/hotpotqa/predictions.jsonl
+
+python -u scripts/batch_runner.py \
+    --config /projects/prjs1800/msc-thesis/01-arag-reproduction/configs/pilots/pilot_think_e4_hotpotqa.yaml \
+    --questions /projects/prjs1800/external/arag/data/hotpotqa/questions.json \
+    --output /projects/prjs1800/msc-thesis/01-arag-reproduction/results/pilot3_think_fixed/hotpotqa \
+    --limit 10 --workers 2
+
+echo "Done. Analyzing results..."
+python3 /tmp/analyze_pilot3.py
+
+kill $VLLM_PID 2>/dev/null || true
+wait $VLLM_PID 2>/dev/null || true
+echo "All done."

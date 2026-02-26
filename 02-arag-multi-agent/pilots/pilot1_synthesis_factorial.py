@@ -148,7 +148,10 @@ Is the predicted answer correct? Reply with only "yes" or "no"."""
 def judge_answer(judge_client: LLMClient, question: str, gold: str, pred: str) -> bool:
     prompt = JUDGE_PROMPT.format(question=question, gold=gold, pred=pred)
     resp = judge_client.chat([{"role": "user", "content": prompt}])
-    return "yes" in resp.lower()
+    # chat() returns a dict: {"message": {"role": ..., "content": ...}, ...}
+    content = resp["message"]["content"]
+    content = re.sub(r"<think>.*?</think>", "", content, flags=re.DOTALL).strip()
+    return "yes" in content.lower()
 
 
 # ─── Main ─────────────────────────────────────────────────────────────────────
@@ -182,7 +185,9 @@ def run_condition(
             prompt = FLAT_SYNTHESIS_PROMPT.format(question=q, evidence=evidence)
 
         try:
-            pred = llm_client.chat([{"role": "user", "content": prompt}])
+            resp = llm_client.chat([{"role": "user", "content": prompt}])
+            # chat() returns a dict: {"message": {"role": ..., "content": ...}, ...}
+            pred = resp["message"]["content"]
             # Strip thinking tags if present
             pred = re.sub(r"<think>.*?</think>", "", pred, flags=re.DOTALL).strip()
             # Take first line as answer
@@ -257,8 +262,8 @@ def main():
     # Condition definitions
     condition_map = {
         "A": (False, False, "flat + nothink (E4 baseline)"),
-        "B": (False, True,  "flat + thinking"),
-        "C": (True,  False, "structured + nothink"),
+        "B": (True,  False, "flat + thinking"),
+        "C": (False, True,  "structured + nothink"),
         "D": (True,  True,  "structured + thinking"),
     }
 

@@ -4,8 +4,8 @@
 #SBATCH --time=04:00:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=12
-#SBATCH --gpus=1
-#SBATCH --mem=96G
+#SBATCH --gpus=2
+#SBATCH --mem=128G
 #SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/logs/%j_pilot1_synthesis.out
 
 set -euo pipefail
@@ -32,31 +32,42 @@ cleanup() {
 }
 trap cleanup EXIT TERM INT
 
-# Start generator on port 8000
-echo "Starting Qwen3 generator (port 8000)..."
-vllm serve "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port 8000 \
-  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.42 \
+# Start generator on GPU 0, port 8000
+echo "Starting Qwen3 generator on GPU 0 (port 8000)..."
+CUDA_VISIBLE_DEVICES=0 vllm serve "$MODEL_ID" --served-model-name "$SERVED_NAME" \
+  --host 127.0.0.1 --port 8000 \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.85 \
   --trust-remote-code --generation-config vllm &
 VLLM_PID=$!
 
-# Start judge on port 9000
-echo "Starting DeepSeek judge (port 9000)..."
-vllm serve "$JUDGE_ID" --served-model-name "$JUDGE_NAME" --host 127.0.0.1 --port 9000 \
-  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.42 \
+# Start judge on GPU 1, port 9000
+echo "Starting DeepSeek judge on GPU 1 (port 9000)..."
+CUDA_VISIBLE_DEVICES=1 vllm serve "$JUDGE_ID" --served-model-name "$JUDGE_NAME" \
+  --host 127.0.0.1 --port 9000 \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.85 \
   --trust-remote-code &
 JUDGE_PID=$!
 
-# Wait for both
-for port in 8000 9000; do
-  for i in $(seq 1 360); do
-    resp="$(curl -fsS http://127.0.0.1:$port/v1/models 2>/dev/null || true)"
-    if [[ -n "$resp" ]]; then echo "Port $port ready!"; break; fi
-    sleep 5
-  done
+# Wait for generator (port 8000)
+echo "Waiting for generator..."
+for i in $(seq 1 360); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then echo "Generator died!"; exit 1; fi
+  resp="$(curl -fsS http://127.0.0.1:8000/v1/models 2>/dev/null || true)"
+  if [[ -n "$resp" ]]; then echo "Generator ready!"; break; fi
+  sleep 5
 done
 
-echo "Running Pilot 1: synthesis factorial (conditions A, B, C, D)..."
-PYTHONPATH=/projects/prjs1800/external/arag/src python \
+# Wait for judge (port 9000)
+echo "Waiting for judge..."
+for i in $(seq 1 360); do
+  if ! kill -0 "$JUDGE_PID" 2>/dev/null; then echo "Judge died!"; exit 1; fi
+  resp="$(curl -fsS http://127.0.0.1:9000/v1/models 2>/dev/null || true)"
+  if [[ -n "$resp" ]]; then echo "Judge ready!"; break; fi
+  sleep 5
+done
+
+echo "Both models ready. Running Pilot 1: synthesis factorial (conditions A, B, C, D)..."
+PYTHONPATH=/projects/prjs1800/external/arag/src python -u \
   /projects/prjs1800/msc-thesis/02-arag-multi-agent/pilots/pilot1_synthesis_factorial.py \
   --e4-predictions "/projects/prjs1800/msc-thesis/01-arag-reproduction/results/qwen3-30b-e5-deepseekr1/musique/predictions.jsonl" \
   --output "$OUT" \
