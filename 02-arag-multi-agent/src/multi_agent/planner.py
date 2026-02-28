@@ -97,6 +97,7 @@ class Planner:
         raw_clean = re.sub(r"^```(?:json)?\s*", "", raw_clean)
         raw_clean = re.sub(r"\s*```$", "", raw_clean)
         raw_clean = re.sub(r"<think>.*?</think>", "", raw_clean, flags=re.DOTALL)
+        raw_clean = re.sub(r"<think>.*", "", raw_clean, flags=re.DOTALL)
         raw_clean = raw_clean.strip()
 
         data = json.loads(raw_clean)

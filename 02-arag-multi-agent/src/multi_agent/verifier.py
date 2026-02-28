@@ -98,7 +98,7 @@ class Verifier:
 
         try:
             response = self.llm.chat(
-                messages=messages, tools=None, temperature=0.0, max_tokens=512,
+                messages=messages, tools=None, temperature=0.0,
             )
             raw = response["message"].get("content", "")
             return self._parse_response(raw, chunks)
@@ -113,9 +113,8 @@ class Verifier:
         raw_clean = raw.strip()
         raw_clean = re.sub(r"^```(?:json)?\s*", "", raw_clean)
         raw_clean = re.sub(r"\s*```$", "", raw_clean)
-        raw_clean = re.sub(
-            r"<think>.*?</think>", "", raw_clean, flags=re.DOTALL,
-        )
+        raw_clean = re.sub(r"<think>.*?</think>", "", raw_clean, flags=re.DOTALL)
+        raw_clean = re.sub(r"<think>.*", "", raw_clean, flags=re.DOTALL)
         raw_clean = raw_clean.strip()
 
         try:

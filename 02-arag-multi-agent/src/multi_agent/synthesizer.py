@@ -80,7 +80,7 @@ class Synthesizer:
         messages = [{"role": "user", "content": prompt}]
 
         response = self.llm.chat(
-            messages=messages, tools=None, temperature=0.0, max_tokens=512,
+            messages=messages, tools=None, temperature=0.0,
         )
         raw = response["message"].get("content", "")
         cost = response.get("cost", 0.0)
@@ -92,6 +92,7 @@ class Synthesizer:
     @staticmethod
     def _extract_answer(raw: str) -> str:
         raw = re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL)
+        raw = re.sub(r"<think>.*", "", raw, flags=re.DOTALL)
         m = re.search(r"FINAL\s*ANSWER\s*:\s*(.+)", raw, re.IGNORECASE)
         if m:
             return m.group(1).strip()
