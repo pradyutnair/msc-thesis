@@ -1,0 +1,14 @@
+Decompose this multi-hop question into ordered sub-questions.
+Return strict JSON only:
+{"sub_questions": ["sub-question 1", "sub-question 2", ...]}
+
+Rules:
+- Each sub-question should be independently searchable.
+- Order them so later questions can use answers from earlier ones.
+- Use pronouns like "this person" or "that team" to reference answers from prior sub-questions.
+- For comparison questions ("Are X and Y both Z?"), create one sub-question per entity.
+- For simple single-hop questions, return just one sub-question identical to the original.
+- 1 to 4 sub-questions max.
+
+Question:
+{question}
