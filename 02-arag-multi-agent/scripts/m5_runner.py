@@ -185,6 +185,15 @@ class M5BatchRunner:
             chat_template_kwargs=llm_cfg.get("chat_template_kwargs"),
         )
 
+        subagent_client = LLMClient(
+            model=llm_cfg.get("model") or os.getenv("ARAG_MODEL", "Qwen3-30B-A3B"),
+            api_key=llm_cfg.get("api_key") or os.getenv("ARAG_API_KEY", "dummy"),
+            base_url=llm_cfg.get("base_url") or os.getenv("ARAG_BASE_URL", "http://127.0.0.1:8000/v1"),
+            temperature=0.0,
+            max_tokens=256,
+            chat_template_kwargs={"enable_thinking": False},
+        )
+
         sub_cfg = self.config.get("subagent", {}) or {}
         prompt_dir = PROJECT_ROOT / "src" / "multi_agent" / "m5" / "prompts"
 
@@ -192,7 +201,7 @@ class M5BatchRunner:
         tools.register(
             KeywordAgentTool(
                 raw_tool=self._shared_raw_tools["keyword"],
-                llm_client=client,
+                llm_client=subagent_client,
                 prompt_path=str(prompt_dir / "keyword_extract.txt"),
                 max_tokens=int(sub_cfg.get("keyword_max_tokens", 64)),
             )
@@ -202,7 +211,7 @@ class M5BatchRunner:
             tools.register(
                 SemanticAgentTool(
                     raw_tool=self._shared_raw_tools["semantic"],
-                    llm_client=client,
+                    llm_client=subagent_client,
                     prompt_path=str(prompt_dir / "query_formulate.txt"),
                     max_tokens=int(sub_cfg.get("semantic_max_tokens", 128)),
                 )
@@ -211,7 +220,7 @@ class M5BatchRunner:
         tools.register(
             ChunkReaderAgentTool(
                 raw_tool=self._shared_raw_tools["reader"],
-                llm_client=client,
+                llm_client=subagent_client,
                 prompt_path=str(prompt_dir / "extract_evidence.txt"),
                 max_tokens=int(sub_cfg.get("chunk_reader_max_tokens", 256)),
             )

@@ -17,10 +17,13 @@ from arag.tools.semantic_search import SemanticSearchTool
 logger = logging.getLogger(__name__)
 
 _THINK_RE = re.compile(r"<think>.*?</think>", re.DOTALL)
+_THINK_OPEN_RE = re.compile(r"<think>.*", re.DOTALL)
 
 
 def _strip_thinking(text: str) -> str:
-    return _THINK_RE.sub("", str(text or "")).strip()
+    text = _THINK_RE.sub("", str(text or ""))
+    text = _THINK_OPEN_RE.sub("", text)
+    return text.strip()
 
 
 def _message_to_text(message: Dict[str, Any]) -> str:

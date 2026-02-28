@@ -85,12 +85,6 @@ _FORCE_PROMPT = (
 )
 
 
-# Qwen3-30B-A3B context limit and tokenizer ratio constants
-_QWEN_CONTEXT_LIMIT = 16384
-# tiktoken (cl100k_base) underestimates Qwen token count; use conservative 2.5x
-_TIKTOKEN_QWEN_RATIO = 2.5
-_MIN_OUTPUT_TOKENS = 256
-
 class BaseAgent:
     """Base agent with tool calling capabilities."""
 
@@ -119,19 +113,12 @@ class BaseAgent:
                 total += len(self.tokenizer.encode(str(content)))
         return total
 
-    def _safe_max_tokens(self, messages: List[Dict[str, Any]]) -> int:
-        """Return a safe max_tokens cap that avoids Qwen context overflow."""
-        tiktoken_count = self._calculate_message_tokens(messages)
-        qwen_est = int(tiktoken_count * _TIKTOKEN_QWEN_RATIO)
-        remaining = _QWEN_CONTEXT_LIMIT - qwen_est - 200
-        return max(_MIN_OUTPUT_TOKENS, min(self.llm.max_tokens, remaining))
-
     def _force_finish(self, messages: List[Dict[str, Any]], context: AgentContext,
                       total_cost: float, tool_schemas: list) -> tuple:
         """Force the model to call finish() via tool call."""
         messages.append({"role": "user", "content": _FORCE_PROMPT})
         try:
-            response = self.llm.chat(messages=messages, tools=tool_schemas, temperature=0.0, max_tokens=self._safe_max_tokens(messages))
+            response = self.llm.chat(messages=messages, tools=tool_schemas, temperature=0.0)
             total_cost += response["cost"]
             message = response["message"]
             messages.append(message)
@@ -196,7 +183,7 @@ class BaseAgent:
                 print(f"Loop {loop_count}/{self.max_loops} (Tokens: {current_tokens}/{self.max_token_budget})")
 
             try:
-                response = self.llm.chat(messages=messages, tools=tool_schemas, max_tokens=self._safe_max_tokens(messages))
+                response = self.llm.chat(messages=messages, tools=tool_schemas)
             except Exception as e:
                 if self.verbose:
                     print(f"LLM error: {e}")
@@ -204,39 +191,33 @@ class BaseAgent:
 
             total_cost += response["cost"]
             message = response["message"]
+
+            # Merge reasoning_content back into content for multi-turn context
+            # (matches E4 behavior — preserves thinking chain across turns)
+            reasoning = message.get("reasoning_content") or message.get("reasoning") or ""
+            if reasoning:
+                existing = message.get("content") or ""
+                message["content"] = "<think>\n" + reasoning + "\n</think>\n\n" + existing
+                message.pop("reasoning_content", None)
+                message.pop("reasoning", None)
+
             messages.append(message)
 
             if self.verbose and message.get("content"):
-                print(f"Assistant: {message['content'][:200]}...")
+                content_preview = _strip_thinking(message['content'])
+                if content_preview:
+                    print(f"Assistant: {content_preview[:200]}...")
 
             tool_calls = message.get("tool_calls")
 
             if not tool_calls:
                 content = _strip_thinking(message.get("content", ""))
-
-                # Check if model wrote finish() as plain text instead of tool call
                 extracted = _extract_finish_answer(content)
-                if extracted is not None:
-                    if self.verbose:
-                        print(f"Recovered finish() from plain text: '{extracted[:80]}'")
-                    return {
-                        "answer": extracted,
-                        "trajectory": trajectory,
-                        "total_cost": total_cost,
-                        "loops": loop_count,
-                        **context.get_summary(),
-                    }
-
-                # Model gave a plain-text response without tools — re-prompt once
-                if loop_idx < self.max_loops - 1:
-                    if self.verbose:
-                        print(f"No tool call — re-prompting to use tools...")
-                    messages.append({"role": "user", "content": _RETRY_PROMPT})
-                    continue
-
-                # Last loop — return whatever the model said
+                answer = extracted if extracted is not None else content
+                if self.verbose and extracted is not None:
+                    print(f"Recovered finish() from plain text: '{extracted[:80]}'")
                 return {
-                    "answer": content,
+                    "answer": answer,
                     "trajectory": trajectory,
                     "total_cost": total_cost,
                     "loops": loop_count,
