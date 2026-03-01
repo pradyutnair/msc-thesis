@@ -426,10 +426,23 @@ class SagePipeline:
                     print(f"  Re-verification: {status}")
 
             # Phase 4: Synthesize from verified evidence
-            answer, synth_cost = await self.synthesizer.synthesize(
-                question, verification.verified_chunks,
-                agent_results=agent_results,
-            )
+            # Single-hop bypass: skip synthesizer noise, use agent answer directly
+            if plan.question_type == "single" and len(agent_results) == 1:
+                sole_result = next(iter(agent_results.values()))
+                if sole_result.answer and sole_result.answer.strip():
+                    answer = sole_result.answer.strip()
+                    synth_cost = 0.0
+                    logger.info("Single-hop bypass: using agent answer directly")
+                else:
+                    answer, synth_cost = await self.synthesizer.synthesize(
+                        question, verification.verified_chunks,
+                        agent_results=agent_results,
+                    )
+            else:
+                answer, synth_cost = await self.synthesizer.synthesize(
+                    question, verification.verified_chunks,
+                    agent_results=agent_results,
+                )
             result.final_answer = answer
 
             # Token counting

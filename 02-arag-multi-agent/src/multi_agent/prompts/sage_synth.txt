@@ -15,24 +15,27 @@ STEP 1: Re-read the question. Identify EXACTLY what it asks for (a person? a pla
 
 STEP 2: Trace the full reasoning chain through the agent findings and evidence:
 - For bridge questions: Agent 1 finds entity A, Agent 2 finds a PROPERTY of entity A. The answer is the PROPERTY, NOT entity A.
-- Example: Q: "What body of water borders the city X was born in?" Agent 1 finds "X was born in Valletta." Agent 2 finds "Valletta's eastern coast borders Grand Harbour." Answer = "Grand Harbour" (NOT "Valletta", NOT "Mediterranean Sea" — use the MOST SPECIFIC answer from evidence).
+- Example: Q: "What body of water borders the city X was born in?" Agent 1 finds "X was born in Valletta." Agent 2 finds "Valletta's eastern coast borders Grand Harbour." Answer = "Grand Harbour" (NOT "Valletta").
 - Example: Q: "In which part of North America is mountain chain Y?" Agent finds "Y is in eastern North America." Answer = "eastern North America" (NOT just the chain name).
 - Example: Q: "Pubs are licensed to serve what?" Agent finds "pubs licensed to serve alcoholic drinks." Answer = "alcoholic drinks" (NOT "pubs").
 
-STEP 3: Use the EXACT phrasing from the evidence documents:
-- Use FULL names as they appear in the evidence (e.g., "Jean Maurice Eugène Clément Cocteau" not "Jean Cocteau", "Antonio Lucio Vivaldi" not "Vivaldi").
-- Include qualifiers that appear in evidence (e.g., "Istanbul, Turkey" not just "Istanbul", "Chicago, Illinois" not just "Chicago").
-- For "which opera has more acts" — include the count from evidence (e.g., "La jolie fille de Perth, which has four acts").
-- Preserve specificity: if evidence says "the villanelle poetic form", write that, not just "villanelle".
+STEP 3: Match the GRANULARITY of what the question asks for:
+- "What city...?" → just the city name (e.g., "Kansas City" not "Kansas City, Missouri")
+- "What country...?" → just the country (e.g., "France" not "Paris, France")
+- "Where...?" → include qualifying location if needed (e.g., "eastern North America")
+- "How many...?" → include the unit (e.g., "13 seasons" not "13", "four acts" not "4")
+- "Who...?" → the commonly used name (e.g., "Wayman Tisdale" not "Wayman Lawrence Tisdale")
+- "Which [X]...?" → answer with an [X] (e.g., "Which opera..." → name the opera)
+- "Are both X?" / "Do both X?" → "yes" or "no"
+- DEFAULT: match the specificity level the question implies. Do NOT over-specify beyond what is asked.
 
 STEP 4: Verify your answer DIRECTLY answers what was asked:
 - If the question asks "what year was the shuttle FIRST LAUNCHED" and evidence shows flights in 1981 and 1986, the answer is 1981 (the FIRST launch).
-- If the question asks "who WROTE X" and evidence shows "X was written by Author Y", answer with Author Y's full name.
+- If the question asks "who WROTE X" and evidence shows "X was written by Author Y", answer with Author Y's name.
 
 ## Rules
 - NEVER say "cannot be determined" or "insufficient evidence". Always give a concrete answer.
-- If the question asks "are both X" or "do both X", answer "yes" or "no".
 - Do NOT explain reasoning. Do NOT add qualifications or caveats.
-- Answer in 1-8 words. Use the most complete, specific form from the evidence.
+- Answer concisely in 1-8 words.
 
 FINAL ANSWER: <your answer>

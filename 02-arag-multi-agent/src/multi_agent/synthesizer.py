@@ -95,6 +95,10 @@ class Synthesizer:
         raw = re.sub(r"<think>.*", "", raw, flags=re.DOTALL)
         m = re.search(r"FINAL\s*ANSWER\s*:\s*(.+)", raw, re.IGNORECASE)
         if m:
-            return m.group(1).strip()
-        lines = [l.strip() for l in raw.strip().split("\n") if l.strip()]
-        return lines[-1] if lines else raw.strip()
+            answer = m.group(1).strip()
+        else:
+            lines = [l.strip() for l in raw.strip().split("\n") if l.strip()]
+            answer = lines[-1] if lines else raw.strip()
+        # Strip XML-style tag leaks
+        answer = re.sub(r"</?(?:answer|your[_ ]?answer|response|result)[^>]*>", "", answer, flags=re.IGNORECASE).strip()
+        return answer
