@@ -35,6 +35,7 @@ class Synthesizer:
         question: str,
         verified_chunks: list[dict],
         agent_results: dict | None = None,
+        expected_answer_type: str | None = None,
     ) -> tuple[str, float]:
         """Synthesize answer from verified evidence.
 
@@ -45,6 +46,8 @@ class Synthesizer:
             Verified evidence chunks with 'id' and 'text'.
         agent_results : dict, optional
             Mapping of task_id -> AgentResult with intermediate answers.
+        expected_answer_type : str, optional
+            Hint from planner: person, location, date, number, yes_no, entity.
 
         Returns (answer, cost).
         """
@@ -71,11 +74,14 @@ class Synthesizer:
             else "No evidence available."
         )
 
+        answer_type_hint = expected_answer_type or "entity"
+
         prompt = (
             self._prompt_template
             .replace("{question}", question)
             .replace("{agent_findings}", findings_text)
             .replace("{evidence}", evidence_text)
+            .replace("{expected_answer_type}", answer_type_hint)
         )
         messages = [{"role": "user", "content": prompt}]
 

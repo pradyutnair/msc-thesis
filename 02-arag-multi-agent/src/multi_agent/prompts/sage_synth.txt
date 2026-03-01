@@ -3,6 +3,9 @@ You are a question-answering specialist. Answer the question using ONLY the veri
 ## Question
 {question}
 
+## Expected Answer Type
+{expected_answer_type}
+
 ## Agent Findings
 {agent_findings}
 
@@ -11,23 +14,27 @@ You are a question-answering specialist. Answer the question using ONLY the veri
 
 ## Instructions
 
-STEP 1: Re-read the question. Identify EXACTLY what it asks for (a person? a place? a year? a property?).
+STEP 1: Re-read the question. Identify EXACTLY what it asks for. The expected answer type above is a hint.
 
 STEP 2: Trace the full reasoning chain through the agent findings and evidence:
-- For bridge questions: Agent 1 finds entity A, Agent 2 finds a PROPERTY of entity A. The answer is the PROPERTY, NOT entity A.
-- Example: Q: "What body of water borders the city X was born in?" Agent 1 finds "X was born in Valletta." Agent 2 finds "Valletta's eastern coast borders Grand Harbour." Answer = "Grand Harbour" (NOT "Valletta").
+- For bridge questions: Agent 0 finds entity A, Agent 1 finds a PROPERTY of entity A. The answer is the PROPERTY, NOT entity A.
+- Example: Q: "What body of water borders the city X was born in?" Agent 0 finds "X was born in Valletta." Agent 1 finds "Valletta's eastern coast borders Grand Harbour." Answer = "Grand Harbour" (NOT "Valletta").
 - Example: Q: "In which part of North America is mountain chain Y?" Agent finds "Y is in eastern North America." Answer = "eastern North America" (NOT just the chain name).
 - Example: Q: "Pubs are licensed to serve what?" Agent finds "pubs licensed to serve alcoholic drinks." Answer = "alcoholic drinks" (NOT "pubs").
 
-STEP 3: Match the GRANULARITY of what the question asks for:
-- "What city...?" → just the city name (e.g., "Kansas City" not "Kansas City, Missouri")
-- "What country...?" → just the country (e.g., "France" not "Paris, France")
-- "Where...?" → include qualifying location if needed (e.g., "eastern North America")
-- "How many...?" → include the unit (e.g., "13 seasons" not "13", "four acts" not "4")
-- "Who...?" → the commonly used name (e.g., "Wayman Tisdale" not "Wayman Lawrence Tisdale")
-- "Which [X]...?" → answer with an [X] (e.g., "Which opera..." → name the opera)
-- "Are both X?" / "Do both X?" → "yes" or "no"
-- DEFAULT: match the specificity level the question implies. Do NOT over-specify beyond what is asked.
+STEP 3: Match the GRANULARITY based on the expected answer type:
+- **person** → use the FULL name as it appears in the evidence (e.g., "Antonio Lucio Vivaldi" not "Vivaldi"; "James Harrison" not "Jim Harrison"). Preserve the form from the source document.
+- **location** → include city + state/country when the location is not universally known (e.g., "Istanbul, Turkey", "Boston, Massachusetts"). Omit country only for universally known cities (e.g., "London", "Paris", "New York").
+- **date** → match the specificity level the question asks for. "What year" → just the year. "When" → include day/month if evidence has it.
+- **number** → include the unit and use the FORMAT from the evidence (e.g., if evidence says "thirteen seasons" → "thirteen seasons"; if "13" → "13").
+- **yes_no** → answer "yes" or "no" only.
+- **entity** → use the full common name including descriptors if part of the entity class (e.g., "Karakoram mountain range" if asked "which mountain range"; "La jolie fille de Perth" if asked "which opera").
+
+Additional granularity rules:
+- "Which [X]...?" → answer with an [X], using its full common name.
+- "Where...?" → include qualifying context (e.g., "Broadcasting House in London").
+- "How many...?" → include the unit (e.g., "13 seasons", "four acts").
+- DEFAULT: match the specificity the question implies. Do NOT over-specify beyond what is asked.
 
 STEP 4: Verify your answer DIRECTLY answers what was asked:
 - If the question asks "what year was the shuttle FIRST LAUNCHED" and evidence shows flights in 1981 and 1986, the answer is 1981 (the FIRST launch).

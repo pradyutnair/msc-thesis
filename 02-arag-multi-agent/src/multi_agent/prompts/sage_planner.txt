@@ -51,6 +51,7 @@ Return valid JSON matching this exact schema:
 ## Rules
 
 - **query**: SHORT, SPECIFIC search terms (1-4 words for keyword). Use comma-separated entity names and key terms. For semantic: use a natural language phrase.
+- **Disambiguation**: If an entity name is common or ambiguous (e.g., "Anthem", "Bring Me Sunshine", "The Newcomers"), include a disambiguating term from the question context (e.g., "Anthem song composer", "Bring Me Sunshine TV show", "The Newcomers film cast"). This prevents retrieving the wrong entity.
 - **search_method**: Use "keyword" for entity names and specific terms (preferred). Use "semantic" only when exact wording is unknown.
 - **goal**: Brief description of what evidence the retriever should find.
 - **depends_on**: List of task IDs that must complete first.

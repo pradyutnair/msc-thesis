@@ -101,6 +101,15 @@ The generated answer should be considered correct if it:
 2. Is factually accurate and consistent with the gold answer
 3. Does not contain any contradicting information
 
+IMPORTANT equivalence rules — these are ALL correct:
+- Common name = full legal name (e.g., "Jean Cocteau" = "Jean Maurice Eugène Clément Cocteau")
+- Abbreviations = full form (e.g., "IWC" = "International Watch Co.")
+- With/without location qualifier (e.g., "Istanbul" = "Istanbul, Turkey")
+- With/without descriptor (e.g., "Karakoram" = "Karakoram mountain range")
+- Case differences (e.g., "DeskMate" = "Deskmate")
+- A specific example of a general category (e.g., "Captain America" is correct for "superhero roles")
+- Partial title match (e.g., "Geet" = "Geet or The Song")
+
 Respond with ONLY 'correct' or 'incorrect'.
 Response:"""
         
