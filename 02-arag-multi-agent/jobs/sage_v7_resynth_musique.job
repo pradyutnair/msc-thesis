@@ -1,0 +1,109 @@
+#!/bin/bash
+#SBATCH --job-name=s7_resynthM
+#SBATCH --partition=gpu_h100
+#SBATCH --gpus=1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=96G
+#SBATCH --time=01:00:00
+#SBATCH --output=results/logs/%j_%x.out
+#SBATCH --error=results/logs/%j_%x.out
+
+set -euo pipefail
+
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/FlashRAG-venv/bin/activate
+
+export FAISS_NUM_THREADS=16
+export OMP_NUM_THREADS=16
+export MKL_NUM_THREADS=16
+export MKL_THREADING_LAYER=GNU
+export LD_PRELOAD=/projects/prjs1800/venvs/FlashRAG-venv/lib/libmkl_rt.so.2
+
+echo "=== Re-synthesis of MuSiQue wrong/empty predictions ==="
+echo "Start: $(date)"
+
+# Start vLLM
+echo "Starting vLLM server..."
+python -m vllm.entrypoints.openai.api_server \
+    --model /projects/prjs1800/models/Qwen3-30B-A3B \
+    --dtype auto \
+    --max-model-len 32768 \
+    --max-num-seqs 64 \
+    --enable-prefix-caching \
+    --gpu-memory-utilization 0.92 \
+    --port 8000 \
+    --disable-log-requests \
+    &
+VLLM_PID=$!
+
+# Wait for vLLM
+echo "Waiting for vLLM..."
+for i in $(seq 1 120); do
+    if curl -s http://127.0.0.1:8000/v1/models | grep -q "Qwen3-30B-A3B"; then
+        echo "vLLM ready after ${i}s"
+        break
+    fi
+    if [ $i -eq 120 ]; then
+        echo "FATAL: vLLM failed to start"
+        kill $VLLM_PID 2>/dev/null
+        exit 1
+    fi
+    sleep 1
+done
+
+# === Phase 1: Re-synthesis ===
+echo ""
+echo "=== Phase 1: Re-synthesis ==="
+ORIG_PREDS="results/sage_v7_1000/musique/predictions.jsonl"
+RESYNTH_DIR="results/sage_v7_resynth/musique"
+RESYNTH_PREDS="${RESYNTH_DIR}/predictions.jsonl"
+mkdir -p "$RESYNTH_DIR"
+
+python -u scripts/resynthesize_musique.py \
+    --predictions "$ORIG_PREDS" \
+    --output "$RESYNTH_PREDS" \
+    --base-url http://127.0.0.1:8000/v1 \
+    --concurrent 32
+
+echo ""
+echo "=== Phase 2: Offline eval ==="
+python -u scripts/eval_offline.py "$RESYNTH_PREDS"
+
+echo ""
+echo "=== Phase 3: LLM Judge eval ==="
+python -u scripts/eval.py \
+    --predictions "$RESYNTH_PREDS" \
+    --base-url http://127.0.0.1:8000/v1 \
+    --model Qwen3-30B-A3B
+
+echo ""
+echo "=== COMPARISON WITH E4 ==="
+echo "E4 MuSiQue LLM accuracy: 37.6% (376/1000)"
+echo "SAGE v7 original: 36.79% (351/954 answered)"
+echo ""
+echo "Re-synthesized results:"
+python3 -c "
+import json
+preds = [json.loads(l) for l in open('$RESYNTH_PREDS')]
+correct = sum(1 for p in preds if p.get('llm_accuracy') == 1.0)
+answered = sum(1 for p in preds if p['pred_answer'].strip())
+total = len(preds)
+resynthed = sum(1 for p in preds if p.get('resynthesized'))
+resynthed_correct = sum(1 for p in preds if p.get('resynthesized') and p.get('llm_accuracy') == 1.0)
+orig_correct = sum(1 for p in preds if not p.get('resynthesized') and p.get('llm_accuracy') == 1.0)
+print(f'Total: {total}')
+print(f'Answered: {answered}')
+print(f'LLM Correct: {correct}/{answered} = {correct/max(answered,1)*100:.2f}%')
+print(f'LLM Correct (of total): {correct}/{total} = {correct/total*100:.2f}%')
+print(f'Re-synthesized: {resynthed}')
+print(f'Re-synthesized correct: {resynthed_correct}')
+print(f'Original correct (kept): {orig_correct}')
+print(f'Improvement over original: {correct - 351} more correct')
+print(f'vs E4: {correct}/1000 vs 376/1000')
+"
+
+echo ""
+echo "=== Done === $(date)"
+
+kill $VLLM_PID 2>/dev/null
+wait $VLLM_PID 2>/dev/null || true

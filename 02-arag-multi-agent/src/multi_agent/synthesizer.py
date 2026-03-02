@@ -85,7 +85,7 @@ class Synthesizer:
         )
         messages = [{"role": "user", "content": prompt}]
 
-        response = self.llm.chat(
+        response = await self.llm.async_chat(
             messages=messages, tools=None, temperature=0.0,
         )
         raw = response["message"].get("content", "")

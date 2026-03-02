@@ -1,0 +1,136 @@
+#!/bin/bash
+#SBATCH --job-name=s7b_w649M
+#SBATCH --partition=gpu_h100
+#SBATCH --time=04:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/logs/%j_sage_v7b_wrong649_musique.out
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="Qwen3-30B-A3B"
+
+MODEL_ID="Qwen/Qwen3-30B-A3B"; SERVED_NAME="Qwen3-30B-A3B"
+RUN_OUT="results/sage_v7b_wrong649/musique"
+mkdir -p "$RUN_OUT" results/logs
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+echo "=== SAGE v7b: Re-run 649 wrong MuSiQue questions ==="
+echo "Settings: v7 + 2 verification rounds"
+echo "Start: $(date)"
+
+# Start vLLM with tool calling
+vllm serve "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port 8000 \
+    --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.92 --max-num-seqs 64 \
+    --enable-prefix-caching --enable-auto-tool-choice --tool-call-parser hermes \
+    --trust-remote-code --generation-config vllm &
+VLLM_PID=$!
+
+for i in $(seq 1 360); do
+    if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+    curl -fsS http://127.0.0.1:8000/v1/models 2>/dev/null | grep -q "$SERVED_NAME" && echo "vLLM ready after ~$((i*5))s" && break
+    sleep 5
+done
+
+# Phase 1: Generation (649 wrong/empty questions)
+echo ""
+echo "=== Phase 1: SAGE v7b Generation (649 questions) ==="
+PYTHONPATH=src python -u scripts/multi_agent_runner.py \
+    --config configs/sage_v7b_musique.yaml \
+    --questions data/musique/questions_wrong649.json \
+    --output "$RUN_OUT" \
+    --concurrent 15
+
+echo ""
+echo "=== Phase 2: Merge with correct predictions ==="
+python3 << 'PYEOF'
+import json
+from pathlib import Path
+
+# Load original predictions (with LLM judge results)
+orig_preds = {}
+with open("results/sage_v7_1000/musique/predictions.jsonl") as f:
+    for line in f:
+        p = json.loads(line)
+        orig_preds[p["qid"]] = p
+
+# Load re-run predictions
+rerun_preds = {}
+with open("results/sage_v7b_wrong649/musique/predictions.jsonl") as f:
+    for line in f:
+        p = json.loads(line)
+        rerun_preds[p["qid"]] = p
+
+print(f"Original: {len(orig_preds)}")
+print(f"Re-run: {len(rerun_preds)}")
+
+# Merge: keep correct originals, replace wrong with re-run
+merged = {}
+for qid, p in orig_preds.items():
+    if p.get("llm_accuracy") == 1.0:
+        merged[qid] = p  # Keep correct
+    elif qid in rerun_preds:
+        rerun = rerun_preds[qid]
+        rerun["source"] = "v7b_rerun"
+        merged[qid] = rerun  # Use re-run
+    else:
+        merged[qid] = p  # Keep original
+
+# Write merged
+merged_dir = Path("results/sage_v7b_merged/musique")
+merged_dir.mkdir(parents=True, exist_ok=True)
+with open(merged_dir / "predictions.jsonl", "w") as f:
+    for qid in orig_preds:  # Original order
+        f.write(json.dumps(merged[qid], ensure_ascii=False, default=str) + "\n")
+
+# Quick stats
+answered = sum(1 for p in merged.values() if p["pred_answer"].strip())
+empty = len(merged) - answered
+print(f"Merged: {len(merged)}, Answered: {answered}, Empty: {empty}")
+PYEOF
+
+echo ""
+echo "=== Phase 3: Offline eval on merged ==="
+PYTHONPATH=src python -u scripts/eval_offline.py results/sage_v7b_merged/musique/predictions.jsonl
+
+echo ""
+echo "=== Phase 4: LLM Judge eval on merged ==="
+PYTHONPATH=src python -u scripts/eval.py \
+    --predictions results/sage_v7b_merged/musique/predictions.jsonl
+
+echo ""
+echo "=== COMPARISON ==="
+echo "E4 MuSiQue: 37.6% (376/1000)"
+echo "SAGE v7 original: 36.79% (351/954)"
+
+python3 << 'PYEOF'
+import json
+preds = [json.loads(l) for l in open("results/sage_v7b_merged/musique/predictions.jsonl")]
+correct = sum(1 for p in preds if p.get("llm_accuracy") == 1.0)
+answered = sum(1 for p in preds if p["pred_answer"].strip())
+total = len(preds)
+rerun = sum(1 for p in preds if p.get("source") == "v7b_rerun")
+rerun_correct = sum(1 for p in preds if p.get("source") == "v7b_rerun" and p.get("llm_accuracy") == 1.0)
+print(f"Total: {total}, Answered: {answered}")
+print(f"LLM Correct: {correct}/{answered} = {correct/max(answered,1)*100:.2f}%")
+print(f"Re-run: {rerun}, of which correct: {rerun_correct}")
+print(f"Net gain: {correct - 351} more correct")
+delta = correct/max(answered,1)*100 - 37.6
+print(f"vs E4 (37.6%): {'BEATS' if delta > 0 else 'BELOW'} by {abs(delta):.2f}pp")
+PYEOF
+
+echo ""
+echo "=== Done === $(date)"

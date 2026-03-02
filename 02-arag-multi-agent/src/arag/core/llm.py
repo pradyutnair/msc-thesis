@@ -3,6 +3,7 @@
 import os
 from typing import Any, Dict, List, Optional
 
+import aiohttp
 import requests
 import tiktoken
 
@@ -181,3 +182,52 @@ class LLMClient:
         content = result["message"].get("content", "")
         cost = result["cost"]
         return content, cost
+
+    async def async_chat(
+        self,
+        messages: List[Dict[str, Any]],
+        tools: List[Dict[str, Any]] = None,
+        temperature: float = None,
+        max_tokens: int = None,
+        _session: "aiohttp.ClientSession | None" = None,
+    ) -> Dict[str, Any]:
+        """Async version of chat() using aiohttp for non-blocking HTTP."""
+        url = f"{self.base_url}/chat/completions"
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+        }
+        payload = {
+            "model": self.model,
+            "messages": messages,
+            "temperature": temperature if temperature is not None else self.temperature,
+            "max_tokens": max_tokens or self.max_tokens,
+        }
+        if tools:
+            payload["tools"] = tools
+            payload["tool_choice"] = "auto"
+        if self.reasoning_effort:
+            payload["reasoning_effort"] = self.reasoning_effort
+        if self.chat_template_kwargs:
+            payload["chat_template_kwargs"] = self.chat_template_kwargs
+
+        timeout = aiohttp.ClientTimeout(total=600)
+        own_session = _session is None
+        session = _session or aiohttp.ClientSession(timeout=timeout)
+        try:
+            async with session.post(url, headers=headers, json=payload) as resp:
+                resp.raise_for_status()
+                result = await resp.json()
+        finally:
+            if own_session:
+                await session.close()
+
+        usage = result.get("usage", {})
+        return {
+            "message": result["choices"][0]["message"],
+            "input_tokens": usage.get("prompt_tokens", 0),
+            "output_tokens": usage.get("completion_tokens", 0),
+            "cost": self.calculate_cost(usage),
+            "raw_response": result,
+        }
+

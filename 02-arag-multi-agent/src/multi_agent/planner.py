@@ -64,7 +64,7 @@ class Planner:
         last_raw = ""
         for attempt in range(self.max_retries + 1):
             try:
-                response = self.llm.chat(
+                response = await self.llm.async_chat(
                     messages=messages, tools=None, temperature=0.0,
                 )
                 raw = response["message"].get("content", "")

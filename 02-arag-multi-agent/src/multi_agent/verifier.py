@@ -97,7 +97,7 @@ class Verifier:
         messages = [{"role": "user", "content": prompt}]
 
         try:
-            response = self.llm.chat(
+            response = await self.llm.async_chat(
                 messages=messages, tools=None, temperature=0.0,
             )
             raw = response["message"].get("content", "")

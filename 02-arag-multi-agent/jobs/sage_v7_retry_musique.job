@@ -1,0 +1,105 @@
+#!/bin/bash
+#SBATCH --job-name=s7_rtM
+#SBATCH --partition=gpu_h100
+#SBATCH --time=01:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/logs/%j_sage_v7_retry_musique.out
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="Qwen3-30B-A3B"
+
+MODEL_ID="Qwen/Qwen3-30B-A3B"; SERVED_NAME="Qwen3-30B-A3B"
+RUN_OUT="results/sage_v7_retry/musique"
+mkdir -p "$RUN_OUT" results/logs
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+echo "Starting vLLM server..."
+vllm serve "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port 8000 \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.92 --max-num-seqs 32 \
+  --enable-prefix-caching --enable-auto-tool-choice --tool-call-parser hermes \
+  --trust-remote-code --generation-config vllm &
+VLLM_PID=$!
+
+for i in $(seq 1 360); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  curl -fsS http://127.0.0.1:8000/v1/models 2>/dev/null | grep -q "Qwen3-30B-A3B" && echo "vLLM ready after ~$((i*5))s" && break
+  sleep 5
+done
+
+echo "=== SAGE v7 RETRY: 46 failed MuSiQue questions (enhanced settings) ==="
+PYTHONPATH=src python -u scripts/multi_agent_runner.py \
+  --config configs/sage_v7_enhanced.yaml \
+  --questions data/musique/questions_failed46.json \
+  --output "$RUN_OUT" --limit 46 --concurrent 5 -v
+
+echo "=== Retry complete ==="
+echo "Predictions: $(wc -l < "$RUN_OUT/predictions.jsonl") lines"
+
+# Merge with original
+echo "=== Merging results ==="
+python3 -u -c "
+import json
+
+# Load original predictions
+orig_path = results/sage_v7_1000/musique/predictions.jsonl
+with open(orig_path) as f:
+    preds = [json.loads(l) for l in f if l.strip()]
+
+# Load retry predictions
+retry_path = /predictions.jsonl
+retry_preds = {}
+with open(retry_path) as f:
+    for l in f:
+        if l.strip():
+            p = json.loads(l)
+            qid = p.get(qid) or p.get(id)
+            retry_preds[qid] = p
+
+# Replace empty predictions with retried ones
+replaced = 0
+for i, p in enumerate(preds):
+    pred = str(p.get(pred_answer, ) or )
+    qid = p.get(qid)
+    if not pred.strip() and qid in retry_preds:
+        new_answer = str(retry_preds[qid].get(pred_answer, ) or )
+        if new_answer.strip():
+            preds[i][pred_answer] = new_answer
+            replaced += 1
+
+# Write merged
+merged_path = results/sage_v7_1000/musique/predictions_merged.jsonl
+with open(merged_path, w) as f:
+    for p in preds:
+        f.write(json.dumps(p, ensure_ascii=False, default=str) + n)
+
+print(fReplaced {replaced} empty predictions with retry answers)
+print(fWritten to {merged_path})
+"
+
+# Offline eval on merged
+echo "=== Offline eval on merged ==="
+PYTHONPATH=src python -u scripts/eval_offline.py results/sage_v7_1000/musique/predictions_merged.jsonl
+
+# LLM judge eval on merged
+echo "=== LLM judge eval on merged ==="
+PYTHONPATH=src python -u scripts/eval.py \
+  --predictions results/sage_v7_1000/musique/predictions_merged.jsonl \
+  --workers 30
+
+echo "=== Done ==="
+echo "E4 MuSiQue LLM Judge: 37.6%"

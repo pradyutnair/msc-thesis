@@ -292,3 +292,152 @@ class BaseAgent:
             "max_loops_exceeded": True,
             **context.get_summary(),
         }
+
+    async def async_run(self, query: str, context: Optional[AgentContext] = None) -> Dict[str, Any]:
+        """Async version of run() using async_chat() for non-blocking LLM calls."""
+        import aiohttp
+
+        context = context or AgentContext()
+        messages = [
+            {"role": "system", "content": self.system_prompt},
+            {"role": "user", "content": query},
+        ]
+
+        trajectory = []
+        total_cost = 0.0
+        loop_count = 0
+        tool_schemas = self.tools.get_all_schemas()
+        timeout = aiohttp.ClientTimeout(total=600)
+
+        async with aiohttp.ClientSession(timeout=timeout) as session:
+            for loop_idx in range(self.max_loops):
+                loop_count = loop_idx + 1
+
+                current_tokens = self._calculate_message_tokens(messages)
+                if current_tokens > self.max_token_budget:
+                    final_answer, total_cost = await self._async_force_finish(
+                        messages, context, total_cost, tool_schemas, session
+                    )
+                    return {
+                        "answer": final_answer,
+                        "trajectory": trajectory,
+                        "total_cost": total_cost,
+                        "loops": loop_count,
+                        "token_budget_exceeded": True,
+                        **context.get_summary(),
+                    }
+
+                try:
+                    response = await self.llm.async_chat(
+                        messages=messages, tools=tool_schemas, _session=session
+                    )
+                except Exception as e:
+                    if self.verbose:
+                        print(f"LLM error: {e}")
+                    break
+
+                total_cost += response["cost"]
+                message = response["message"]
+
+                reasoning = message.get("reasoning_content") or message.get("reasoning") or ""
+                if reasoning:
+                    existing = message.get("content") or ""
+                    message["content"] = "<think>\n" + reasoning + "\n</think>\n\n" + existing
+                    message.pop("reasoning_content", None)
+                    message.pop("reasoning", None)
+
+                messages.append(message)
+
+                tool_calls = message.get("tool_calls")
+
+                if not tool_calls:
+                    content = _strip_thinking(message.get("content", ""))
+                    extracted = _extract_finish_answer(content)
+                    answer = extracted if extracted is not None else content
+                    return {
+                        "answer": answer,
+                        "trajectory": trajectory,
+                        "total_cost": total_cost,
+                        "loops": loop_count,
+                        **context.get_summary(),
+                    }
+
+                for tc in tool_calls:
+                    func_name = tc["function"]["name"]
+                    try:
+                        func_args = json.loads(tc["function"]["arguments"])
+                    except json.JSONDecodeError:
+                        func_args = {}
+
+                    try:
+                        tool_result, tool_log = self.tools.execute(func_name, context, **func_args)
+                    except Exception as e:
+                        tool_result = f"Error executing tool: {str(e)}"
+                        tool_log = {"retrieved_tokens": 0, "error": str(e)}
+
+                    messages.append({
+                        "role": "tool",
+                        "tool_call_id": tc["id"],
+                        "content": tool_result,
+                    })
+
+                    traj_entry = {
+                        "loop": loop_count,
+                        "tool_name": func_name,
+                        "arguments": func_args,
+                        "tool_result": tool_result,
+                        **tool_log,
+                    }
+                    trajectory.append(traj_entry)
+
+                    if func_name == "finish":
+                        return {
+                            "answer": _strip_thinking(func_args.get("answer", tool_result)),
+                            "trajectory": trajectory,
+                            "total_cost": total_cost,
+                            "loops": loop_count,
+                            "confidence": tool_log.get("confidence", 1.0),
+                            "supporting_chunk_ids": tool_log.get("supporting_chunk_ids", []),
+                            **context.get_summary(),
+                        }
+
+            # Max loops reached
+            final_answer, total_cost = await self._async_force_finish(
+                messages, context, total_cost, tool_schemas, session
+            )
+            return {
+                "answer": final_answer,
+                "trajectory": trajectory,
+                "total_cost": total_cost,
+                "loops": loop_count,
+                "max_loops_exceeded": True,
+                **context.get_summary(),
+            }
+
+    async def _async_force_finish(self, messages, context, total_cost, tool_schemas, session):
+        """Async version of _force_finish."""
+        messages.append({"role": "user", "content": _FORCE_PROMPT})
+        try:
+            response = await self.llm.async_chat(
+                messages=messages, tools=tool_schemas, temperature=0.0, _session=session
+            )
+            total_cost += response["cost"]
+            message = response["message"]
+            messages.append(message)
+
+            tool_calls = message.get("tool_calls") or []
+            for tc in tool_calls:
+                if tc["function"]["name"] == "finish":
+                    try:
+                        args = json.loads(tc["function"]["arguments"])
+                    except json.JSONDecodeError:
+                        args = {}
+                    answer = _strip_thinking(args.get("answer", ""))
+                    return answer, total_cost
+
+            content = _strip_thinking(message.get("content", ""))
+            extracted = _extract_finish_answer(content)
+            return (extracted or content or ""), total_cost
+        except Exception as e:
+            return "", total_cost
+

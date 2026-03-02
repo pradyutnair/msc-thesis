@@ -199,11 +199,8 @@ class SearchAgent:
         context.source_agent = sub_question.index
         context.evidence_cache = self.cache
 
-        loop = asyncio.get_event_loop()
         try:
-            result = await loop.run_in_executor(
-                None, lambda: agent.run(sub_question.text, context=context),
-            )
+            result = await agent.async_run(sub_question.text, context=context)
         except Exception as exc:
             logger.error("Agent %d failed: %s", sub_question.index, exc)
             return AgentResult(

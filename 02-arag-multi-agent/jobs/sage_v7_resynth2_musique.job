@@ -1,0 +1,109 @@
+#!/bin/bash
+#SBATCH --job-name=s7_rsynM2
+#SBATCH --partition=gpu_h100
+#SBATCH --gpus=1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=96G
+#SBATCH --time=01:30:00
+#SBATCH --output=results/logs/%j_%x.out
+#SBATCH --error=results/logs/%j_%x.out
+
+set -euo pipefail
+
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/FlashRAG-venv/bin/activate
+
+export FAISS_NUM_THREADS=16
+export OMP_NUM_THREADS=16
+export MKL_NUM_THREADS=16
+export MKL_THREADING_LAYER=GNU
+export LD_PRELOAD=/projects/prjs1800/venvs/FlashRAG-venv/lib/libmkl_rt.so.2
+
+MODEL_ID="Qwen/Qwen3-30B-A3B"
+SERVED_NAME="Qwen3-30B-A3B"
+PORT=8000
+
+echo "=== Re-synthesis v2 (self-consistency) ==="
+echo "Start: $(date)"
+echo "Port: $PORT"
+
+# Start vLLM
+echo "Starting vLLM server..."
+vllm serve "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port $PORT \
+    --dtype auto --max-model-len 8192 --gpu-memory-utilization 0.92 --max-num-seqs 64 \
+    --enable-prefix-caching --disable-log-requests &
+VLLM_PID=$!
+
+# Wait for vLLM
+echo "Waiting for vLLM..."
+for i in $(seq 1 180); do
+    if curl -s http://127.0.0.1:$PORT/v1/models | grep -q "$SERVED_NAME"; then
+        echo "vLLM ready after ${i}s"
+        break
+    fi
+    if ! kill -0 $VLLM_PID 2>/dev/null; then
+        echo "FATAL: vLLM process died"
+        exit 1
+    fi
+    if [ $i -eq 180 ]; then
+        echo "FATAL: vLLM timeout"
+        kill $VLLM_PID 2>/dev/null
+        exit 1
+    fi
+    sleep 1
+done
+
+# === Phase 1: Re-synthesis with self-consistency ===
+echo ""
+echo "=== Phase 1: Re-synthesis v2 (5 samples, majority vote) ==="
+ORIG_PREDS="results/sage_v7_1000/musique/predictions.jsonl"
+RESYNTH_DIR="results/sage_v7_resynth2/musique"
+RESYNTH_PREDS="${RESYNTH_DIR}/predictions.jsonl"
+mkdir -p "$RESYNTH_DIR"
+
+python -u scripts/resynthesize_v2.py \
+    --predictions "$ORIG_PREDS" \
+    --output "$RESYNTH_PREDS" \
+    --base-url http://127.0.0.1:$PORT/v1 \
+    --samples 5 \
+    --concurrent 16
+
+echo ""
+echo "=== Phase 2: Offline eval ==="
+python -u scripts/eval_offline.py "$RESYNTH_PREDS"
+
+echo ""
+echo "=== Phase 3: LLM Judge eval ==="
+python -u scripts/eval.py \
+    --predictions "$RESYNTH_PREDS" \
+    --base-url http://127.0.0.1:$PORT/v1 \
+    --model "$SERVED_NAME"
+
+echo ""
+echo "=== COMPARISON ==="
+echo "E4 MuSiQue: 37.6% (376/1000)"
+echo "SAGE v7 original: 36.79% (351/954 answered)"
+
+python3 << 'PYEOF'
+import json
+
+preds = [json.loads(l) for l in open("results/sage_v7_resynth2/musique/predictions.jsonl")]
+correct = sum(1 for p in preds if p.get("llm_accuracy") == 1.0)
+answered = sum(1 for p in preds if p["pred_answer"].strip())
+total = len(preds)
+resynthed = sum(1 for p in preds if p.get("resynthesized"))
+resynthed_correct = sum(1 for p in preds if p.get("resynthesized") and p.get("llm_accuracy") == 1.0)
+
+print(f"Total: {total}, Answered: {answered}")
+print(f"LLM Correct: {correct}/{answered} = {correct/max(answered,1)*100:.2f}%")
+print(f"Re-synthesized: {resynthed}, of which correct: {resynthed_correct}")
+print(f"Net gain: {correct - 351} more correct answers")
+delta = correct/max(answered,1)*100 - 37.6
+print(f"vs E4 (37.6%): {'BEATS' if delta > 0 else 'BELOW'} by {abs(delta):.2f}pp")
+PYEOF
+
+echo ""
+echo "=== Done === $(date)"
+
+kill $VLLM_PID 2>/dev/null
+wait $VLLM_PID 2>/dev/null || true

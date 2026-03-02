@@ -1,0 +1,83 @@
+#!/bin/bash
+#SBATCH --job-name=s7_evlMrg
+#SBATCH --partition=gpu_h100
+#SBATCH --gpus=1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=96G
+#SBATCH --time=00:45:00
+#SBATCH --output=results/logs/%j_%x.out
+#SBATCH --error=results/logs/%j_%x.out
+
+set -euo pipefail
+
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/FlashRAG-venv/bin/activate
+
+export FAISS_NUM_THREADS=16
+export OMP_NUM_THREADS=16
+export MKL_NUM_THREADS=16
+export MKL_THREADING_LAYER=GNU
+export LD_PRELOAD=/projects/prjs1800/venvs/FlashRAG-venv/lib/libmkl_rt.so.2
+
+MODEL_ID="Qwen/Qwen3-30B-A3B"
+SERVED_NAME="Qwen3-30B-A3B"
+PORT=8000
+
+echo "=== LLM Judge eval on merged MuSiQue ==="
+echo "Start: $(date)"
+
+# Start vLLM
+vllm serve "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port $PORT \
+    --dtype auto --max-model-len 16384 --gpu-memory-utilization 0.92 --max-num-seqs 64 \
+    --enable-prefix-caching --disable-log-requests &
+VLLM_PID=$!
+
+echo "Waiting for vLLM..."
+for i in $(seq 1 180); do
+    if curl -s http://127.0.0.1:$PORT/v1/models | grep -q "$SERVED_NAME"; then
+        echo "vLLM ready after ${i}s"
+        break
+    fi
+    if ! kill -0 $VLLM_PID 2>/dev/null; then
+        echo "FATAL: vLLM died"; exit 1
+    fi
+    [ $i -eq 180 ] && { echo "FATAL: timeout"; kill $VLLM_PID; exit 1; }
+    sleep 1
+done
+
+# Run LLM Judge eval on merged predictions
+echo ""
+echo "=== LLM Judge eval ==="
+python -u scripts/eval.py \
+    --predictions results/sage_v7_merged/musique/predictions.jsonl
+
+echo ""
+echo "=== RESULTS ==="
+echo "E4 MuSiQue LLM accuracy: 37.6% (376/1000)"
+echo "SAGE v7 original: 36.79% (351/954 answered)"
+echo ""
+
+python3 << 'PYEOF'
+import json
+
+preds = [json.loads(l) for l in open("results/sage_v7_merged/musique/predictions.jsonl")]
+correct = sum(1 for p in preds if p.get("llm_accuracy") == 1.0)
+answered = sum(1 for p in preds if p["pred_answer"].strip())
+total = len(preds)
+from_retry = sum(1 for p in preds if p.get("source") == "retry")
+retry_correct = sum(1 for p in preds if p.get("source") == "retry" and p.get("llm_accuracy") == 1.0)
+
+print(f"Total: {total}, Answered: {answered}")
+print(f"LLM Correct: {correct}/{answered} = {correct/max(answered,1)*100:.2f}%")
+print(f"LLM Correct of total: {correct}/{total} = {correct/total*100:.2f}%")
+print(f"From retry: {from_retry}, of which correct: {retry_correct}")
+print(f"Original correct (kept): {correct - retry_correct}")
+delta_pp = correct/max(answered,1)*100 - 37.6
+print(f"vs E4 (37.6%): {'BEATS' if delta_pp > 0 else 'BELOW'} by {abs(delta_pp):.2f}pp")
+PYEOF
+
+echo ""
+echo "=== Done === $(date)"
+
+kill $VLLM_PID 2>/dev/null
+wait $VLLM_PID 2>/dev/null || true
