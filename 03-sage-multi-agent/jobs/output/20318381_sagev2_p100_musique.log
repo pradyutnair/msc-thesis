@@ -1,0 +1,903 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+wait
+wait
+wait
+wait
+wait
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+wait
+wait
+wait
+wait
+wait
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:17:34 [utils.py:325] 
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:17:34 [utils.py:325]        █     █     █▄   ▄█
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:17:34 [utils.py:325]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.15.1
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:17:34 [utils.py:325]   █▄█▀ █     █     █     █  model   Qwen/Qwen3-8B
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:17:34 [utils.py:325]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:17:34 [utils.py:325] 
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:17:34 [utils.py:261] non-default args: {'host': '127.0.0.1', 'model': 'Qwen/Qwen3-8B', 'trust_remote_code': True, 'max_model_len': 32768, 'served_model_name': ['Qwen3-8B'], 'generation_config': 'vllm'}
+[0;36m(APIServer pid=105767)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[0;36m(APIServer pid=105767)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:17:34 [model.py:541] Resolved architecture: Qwen3ForCausalLM
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:17:34 [model.py:1561] Using max model len 32768
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:17:35 [scheduler.py:226] Chunked prefill is enabled with max_num_batched_tokens=2048.
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:17:35 [vllm.py:624] Asynchronous scheduling is enabled.
+wait
+wait
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+wait
+[0;36m(EngineCore_DP0 pid=105958)[0;0m INFO 03-04 11:17:45 [core.py:96] Initializing a V1 LLM engine (v0.15.1) with config: model='Qwen/Qwen3-8B', speculative_config=None, tokenizer='Qwen/Qwen3-8B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=Qwen3-8B, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'splitting_ops': ['vllm::unified_attention', 'vllm::unified_attention_with_output', 'vllm::unified_mla_attention', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::gdn_attention_core', 'vllm::kda_attention', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::unified_kv_cache_update'], 'compile_mm_encoder': False, 'compile_sizes': [], 'compile_ranges_split_points': [2048], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False}, 'max_cudagraph_capture_size': 512, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': True}, 'local_cache_dir': None, 'static_all_moe_layers': []}
+wait
+wait
+[0;36m(EngineCore_DP0 pid=105958)[0;0m INFO 03-04 11:17:50 [parallel_state.py:1212] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://145.136.62.38:54731 backend=nccl
+[0;36m(EngineCore_DP0 pid=105958)[0;0m INFO 03-04 11:17:50 [parallel_state.py:1423] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A
+wait
+[0;36m(EngineCore_DP0 pid=105958)[0;0m INFO 03-04 11:17:52 [gpu_model_runner.py:4033] Starting to load model Qwen/Qwen3-8B...
+wait
+[0;36m(EngineCore_DP0 pid=105958)[0;0m INFO 03-04 11:17:55 [cuda.py:364] Using FLASH_ATTN attention backend out of potential backends: ('FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION')
+[0;36m(EngineCore_DP0 pid=105958)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/5 [00:00<?, ?it/s]
+wait
+[0;36m(EngineCore_DP0 pid=105958)[0;0m Loading safetensors checkpoint shards:  20% Completed | 1/5 [00:03<00:12,  3.15s/it]
+wait
+wait
+[0;36m(EngineCore_DP0 pid=105958)[0;0m Loading safetensors checkpoint shards:  40% Completed | 2/5 [00:10<00:17,  5.74s/it]
+wait
+wait
+wait
+wait
+[0;36m(EngineCore_DP0 pid=105958)[0;0m Loading safetensors checkpoint shards:  60% Completed | 3/5 [00:20<00:15,  7.53s/it]
+wait
+wait
+wait
+[0;36m(EngineCore_DP0 pid=105958)[0;0m Loading safetensors checkpoint shards:  80% Completed | 4/5 [00:29<00:08,  8.24s/it]
+wait
+wait
+wait
+[0;36m(EngineCore_DP0 pid=105958)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:39<00:00,  8.73s/it]
+[0;36m(EngineCore_DP0 pid=105958)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:39<00:00,  7.86s/it]
+[0;36m(EngineCore_DP0 pid=105958)[0;0m 
+[0;36m(EngineCore_DP0 pid=105958)[0;0m INFO 03-04 11:18:36 [default_loader.py:291] Loading weights took 39.46 seconds
+[0;36m(EngineCore_DP0 pid=105958)[0;0m INFO 03-04 11:18:36 [gpu_model_runner.py:4130] Model loading took 15.27 GiB memory and 43.836398 seconds
+wait
+wait
+wait
+wait
+[0;36m(EngineCore_DP0 pid=105958)[0;0m INFO 03-04 11:18:47 [backends.py:812] Using cache directory: /home/pnair/.cache/vllm/torch_compile_cache/3dd797eba8/rank_0_0/backbone for vLLM's torch.compile
+[0;36m(EngineCore_DP0 pid=105958)[0;0m INFO 03-04 11:18:47 [backends.py:872] Dynamo bytecode transform time: 10.85 s
+wait
+wait
+[0;36m(EngineCore_DP0 pid=105958)[0;0m INFO 03-04 11:18:54 [backends.py:267] Directly load the compiled graph(s) for compile range (1, 2048) from the cache, took 2.274 s
+[0;36m(EngineCore_DP0 pid=105958)[0;0m INFO 03-04 11:18:54 [monitor.py:34] torch.compile takes 13.13 s in total
+[0;36m(EngineCore_DP0 pid=105958)[0;0m INFO 03-04 11:18:55 [gpu_worker.py:356] Available KV cache memory: 18.83 GiB
+[0;36m(EngineCore_DP0 pid=105958)[0;0m INFO 03-04 11:18:55 [kv_cache_utils.py:1307] GPU KV cache size: 137,136 tokens
+[0;36m(EngineCore_DP0 pid=105958)[0;0m INFO 03-04 11:18:55 [kv_cache_utils.py:1312] Maximum concurrency for 32,768 tokens per request: 4.19x
+[0;36m(EngineCore_DP0 pid=105958)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/51 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   4%|▍         | 2/51 [00:00<00:03, 13.50it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   8%|▊         | 4/51 [00:00<00:03, 14.22it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  12%|█▏        | 6/51 [00:00<00:03, 14.66it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  16%|█▌        | 8/51 [00:00<00:02, 15.14it/s]wait
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  20%|█▉        | 10/51 [00:00<00:02, 16.06it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  24%|██▎       | 12/51 [00:00<00:02, 16.66it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  27%|██▋       | 14/51 [00:00<00:02, 17.12it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  31%|███▏      | 16/51 [00:00<00:02, 17.45it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  37%|███▋      | 19/51 [00:01<00:01, 18.53it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  43%|████▎     | 22/51 [00:01<00:01, 19.13it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  49%|████▉     | 25/51 [00:01<00:01, 19.63it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  55%|█████▍    | 28/51 [00:01<00:01, 20.03it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  59%|█████▉    | 30/51 [00:01<00:01, 19.25it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  65%|██████▍   | 33/51 [00:01<00:00, 19.76it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  71%|███████   | 36/51 [00:01<00:00, 20.07it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  76%|███████▋  | 39/51 [00:02<00:00, 20.19it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  82%|████████▏ | 42/51 [00:02<00:00, 20.11it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  88%|████████▊ | 45/51 [00:02<00:00, 20.37it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  94%|█████████▍| 48/51 [00:02<00:00, 20.59it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:02<00:00, 20.19it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:02<00:00, 18.82it/s]
+[0;36m(EngineCore_DP0 pid=105958)[0;0m Capturing CUDA graphs (decode, FULL):   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL):   6%|▌         | 2/35 [00:00<00:02, 16.38it/s]Capturing CUDA graphs (decode, FULL):  14%|█▍        | 5/35 [00:00<00:01, 20.04it/s]Capturing CUDA graphs (decode, FULL):  23%|██▎       | 8/35 [00:00<00:01, 21.06it/s]Capturing CUDA graphs (decode, FULL):  31%|███▏      | 11/35 [00:00<00:01, 21.69it/s]Capturing CUDA graphs (decode, FULL):  40%|████      | 14/35 [00:00<00:00, 22.04it/s]Capturing CUDA graphs (decode, FULL):  49%|████▊     | 17/35 [00:00<00:00, 22.18it/s]wait
+Capturing CUDA graphs (decode, FULL):  57%|█████▋    | 20/35 [00:01<00:01, 12.29it/s]Capturing CUDA graphs (decode, FULL):  66%|██████▌   | 23/35 [00:01<00:00, 14.30it/s]Capturing CUDA graphs (decode, FULL):  74%|███████▍  | 26/35 [00:01<00:00, 16.15it/s]Capturing CUDA graphs (decode, FULL):  83%|████████▎ | 29/35 [00:01<00:00, 17.70it/s]Capturing CUDA graphs (decode, FULL):  91%|█████████▏| 32/35 [00:01<00:00, 19.08it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 20.20it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 18.27it/s]
+[0;36m(EngineCore_DP0 pid=105958)[0;0m INFO 03-04 11:19:01 [gpu_model_runner.py:5063] Graph capturing finished in 5 secs, took 0.53 GiB
+[0;36m(EngineCore_DP0 pid=105958)[0;0m INFO 03-04 11:19:01 [core.py:272] init engine (profile, create kv cache, warmup model) took 24.38 seconds
+[0;36m(EngineCore_DP0 pid=105958)[0;0m INFO 03-04 11:19:02 [vllm.py:624] Asynchronous scheduling is enabled.
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:02 [api_server.py:665] Supported tasks: ['generate']
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:02 [serving.py:177] Warming up chat template processing...
+wait
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [hf.py:310] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [serving.py:212] Chat template warmup completed in 1506.3ms
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [api_server.py:946] Starting vLLM API server 0 on http://127.0.0.1:8000
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:38] Available routes are:
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /openapi.json, Methods: HEAD, GET
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /docs, Methods: HEAD, GET
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /docs/oauth2-redirect, Methods: HEAD, GET
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /redoc, Methods: HEAD, GET
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /scale_elastic_ep, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /is_scaling_elastic_ep, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /tokenize, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /detokenize, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /inference/v1/generate, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /pause, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /resume, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /is_paused, Methods: GET
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /metrics, Methods: GET
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /health, Methods: GET
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /v1/chat/completions, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /v1/chat/completions/render, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /v1/responses, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /v1/responses/{response_id}, Methods: GET
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /v1/responses/{response_id}/cancel, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /v1/audio/transcriptions, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /v1/audio/translations, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /v1/completions, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /v1/completions/render, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /v1/messages, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /v1/models, Methods: GET
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /load, Methods: GET
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /version, Methods: GET
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /ping, Methods: GET
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /ping, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /invocations, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /classify, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /v1/embeddings, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /score, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /v1/score, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /rerank, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /v1/rerank, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /v2/rerank, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO 03-04 11:19:04 [launcher.py:46] Route: /pooling, Methods: POST
+[0;36m(APIServer pid=105767)[0;0m INFO:     Started server process [105767]
+[0;36m(APIServer pid=105767)[0;0m INFO:     Waiting for application startup.
+[0;36m(APIServer pid=105767)[0;0m INFO:     Application startup complete.
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:51406 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:44226 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:44230 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:44234 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:44252 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:38588 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:38640 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:38650 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:38658 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:58412 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:58446 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:58472 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:47008 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:47020 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:47028 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:51092 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:51094 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:51096 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:51114 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:51122 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:58306 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:58318 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:58330 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:58344 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:58360 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:58368 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:36784 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:36796 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:36800 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:35532 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:35536 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:35542 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:35562 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:49090 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:54252 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:54254 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:54264 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:54278 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:54292 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:54300 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:49226 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:49242 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:49254 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:49258 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:49282 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:52530 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:52548 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:52562 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:52566 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:56492 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:56502 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:56516 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:56536 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:56758 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:36194 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:36210 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:36220 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:51020 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:51042 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:51052 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:51072 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:35332 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:45234 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:45236 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:45242 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:45250 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:45264 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:45274 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:58188 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:58200 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:58206 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:58212 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:44062 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:44068 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:44096 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:36082 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:36100 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:36108 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:36114 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:36118 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:45106 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:45126 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:45138 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:45154 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:45158 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:35770 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:35778 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:45350 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:45382 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:45398 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:42692 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:42700 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:42716 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:42720 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:42742 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:34828 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:34872 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:34886 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:44146 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:50106 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:50120 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:50132 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:52306 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:52310 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:52320 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:52336 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:44702 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:40716 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:40728 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:40738 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:40744 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:36246 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:36248 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:36280 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:52700 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:52708 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:52710 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:52740 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:45258 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:45312 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:44048 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:44050 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:37118 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:37134 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:37140 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:57528 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:57536 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:57558 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:57572 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:57580 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:34218 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:34238 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:34268 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:34274 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:34282 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:36268 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:36326 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:60674 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:60680 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:60692 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:46320 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:46348 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:46354 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:42068 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+ok
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:34086 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:34112 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:52632 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:52634 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:52640 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:52646 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:35532 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:35562 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:59438 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:59452 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:59462 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:59472 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:55218 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:55222 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:55232 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:55244 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:47372 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:46002 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:46018 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:45122 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:45136 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:43734 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:43746 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:43768 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:33702 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:33710 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:39180 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:39188 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:39212 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:39224 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:42272 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:42288 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:42312 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:42316 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:42340 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:42354 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:51018 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:51050 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:51052 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:44376 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:44384 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:44386 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:44398 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:44406 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:37718 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:59536 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:59550 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:59560 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:59572 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:59602 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:59604 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:43834 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:43850 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:43862 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:43874 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:43886 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:40602 - "GET /v1/models HTTP/1.1" 200 OK
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:40614 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:40632 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:40644 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:44702 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:44718 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+[0;36m(APIServer pid=105767)[0;0m INFO:     127.0.0.1:57084 - "GET /v1/models HTTP/1.1" 200 OK
+ok
+2026-03-04 11:29:26,136 [INFO] __main__: Using chunks file: /gpfs/work5/0/prjs1800/msc-thesis/03-sage-multi-agent/data/musique/chunks.json
+2026-03-04 11:29:26,137 [INFO] __main__: Using index dir: /gpfs/work5/0/prjs1800/msc-thesis/03-sage-multi-agent/data/musique/index_e5_base_v2
+2026-03-04 11:29:26,160 [INFO] __main__: Total: 100 | Completed: 0 | Pending: 100
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+2026-03-04 11:29:36,939 [INFO] __main__: Loading embedding model: intfloat/e5-base-v2
+2026-03-04 11:29:36,940 [INFO] sentence_transformers.SentenceTransformer: Load pretrained SentenceTransformer: intfloat/e5-base-v2
+2026-03-04 11:29:39,924 [INFO] __main__: Embedding model loaded successfully!
+2026-03-04 11:29:39,941 [INFO] __main__: Processing musique_2hop__215896_460425: What is the location of formation of the film company distri
+2026-03-04 11:29:39,942 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the location of formation of the film company distributing The Boss?': '\n  "mode"'
+2026-03-04 11:29:39,952 [INFO] __main__: Done musique_2hop__215896_460425: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,952 [INFO] __main__: Processing musique_2hop__655505_110949: What is the Till dom ensamma performer's birth date?
+2026-03-04 11:29:39,952 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the Till dom ensamma performer's birth date?': '\n  "mode"'
+2026-03-04 11:29:39,952 [INFO] __main__: Done musique_2hop__655505_110949: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,961 [INFO] __main__: Processing musique_4hop1__342858_131850_33952_34099: How long are the city council terms in the second largest ci
+2026-03-04 11:29:39,961 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How long are the city council terms in the second largest city in the state wher': '\n  "mode"'
+2026-03-04 11:29:39,961 [INFO] __main__: Done musique_4hop1__342858_131850_33952_34099: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,961 [INFO] __main__: Processing musique_2hop__619265_45326: How many episodes are in season 5 of the series with The Bag
+2026-03-04 11:29:39,961 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How many episodes are in season 5 of the series with The Bag or the Bat?': '\n  "mode"'
+2026-03-04 11:29:39,961 [INFO] __main__: Done musique_2hop__619265_45326: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,961 [INFO] __main__: Processing musique_2hop__63214_319330: Who is the child of the president under whom prohibition occ
+2026-03-04 11:29:39,961 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the child of the president under whom prohibition occurred?': '\n  "mode"'
+2026-03-04 11:29:39,962 [INFO] __main__: Done musique_2hop__63214_319330: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,962 [INFO] __main__: Processing musique_4hop3__754156_88460_30152_20999: How were the people from whom new coins were a proclamation 
+2026-03-04 11:29:39,962 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How were the people from whom new coins were a proclamation of independence by t': '\n  "mode"'
+2026-03-04 11:29:39,962 [INFO] __main__: Done musique_4hop3__754156_88460_30152_20999: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,962 [INFO] __main__: Processing musique_2hop__304852_758385: What administrative territorial entity contains the place wh
+2026-03-04 11:29:39,962 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What administrative territorial entity contains the place where KPRM is licensed': '\n  "mode"'
+2026-03-04 11:29:39,962 [INFO] __main__: Done musique_2hop__304852_758385: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,962 [INFO] __main__: Processing musique_2hop__199513_801817: What is the birthplace of the person after whom São José dos
+2026-03-04 11:29:39,962 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the birthplace of the person after whom São José dos Campos was named?': '\n  "mode"'
+2026-03-04 11:29:39,964 [INFO] __main__: Done musique_2hop__199513_801817: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,964 [INFO] __main__: Processing musique_2hop__71016_75184: Who played the girlfriend of who plays marty mcfly's daughte
+2026-03-04 11:29:39,964 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who played the girlfriend of who plays marty mcfly's daughter in back to the fut': '\n  "mode"'
+2026-03-04 11:29:39,965 [INFO] __main__: Done musique_2hop__71016_75184: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,965 [INFO] __main__: Processing musique_3hop1__820301_720914_41132: How many times did plague occur in the place where Crucifixi
+2026-03-04 11:29:39,965 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How many times did plague occur in the place where Crucifixion's creator died?': '\n  "mode"'
+2026-03-04 11:29:39,965 [INFO] __main__: Done musique_3hop1__820301_720914_41132: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,965 [INFO] __main__: Processing musique_4hop1__58323_375563_161848_53331: When was the death penalty abolished in the country near the
+2026-03-04 11:29:39,965 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was the death penalty abolished in the country near the country where the w': '\n  "mode"'
+2026-03-04 11:29:39,965 [INFO] __main__: Done musique_4hop1__58323_375563_161848_53331: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,965 [INFO] __main__: Processing musique_3hop1__136129_87694_124169: What year did the Governor of the city where the basilica na
+2026-03-04 11:29:39,965 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What year did the Governor of the city where the basilica named after the same s': '\n  "mode"'
+2026-03-04 11:29:39,966 [INFO] __main__: Done musique_3hop1__136129_87694_124169: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,966 [INFO] __main__: Processing musique_2hop__131455_11960: What is the tallest building in the state where KZAR is loca
+2026-03-04 11:29:39,966 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the tallest building in the state where KZAR is located?': '\n  "mode"'
+2026-03-04 11:29:39,966 [INFO] __main__: Done musique_2hop__131455_11960: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,966 [INFO] __main__: Processing musique_2hop__354635_174222: What company succeeded the owner of Empire Sports Network?
+2026-03-04 11:29:39,966 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What company succeeded the owner of Empire Sports Network?': '\n  "mode"'
+2026-03-04 11:29:39,966 [INFO] __main__: Done musique_2hop__354635_174222: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,966 [INFO] __main__: Processing musique_2hop__998_25839: What is the maximum load drawn by the 1.0 and 2.0 versions o
+2026-03-04 11:29:39,966 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the maximum load drawn by the 1.0 and 2.0 versions of the device that re': '\n  "mode"'
+2026-03-04 11:29:39,966 [INFO] __main__: Done musique_2hop__998_25839: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,966 [INFO] __main__: Processing musique_3hop1__849312_503371_21711: When was the Palau de la Generalitat constructed in the city
+2026-03-04 11:29:39,966 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was the Palau de la Generalitat constructed in the city where Martin from t': '\n  "mode"'
+2026-03-04 11:29:39,967 [INFO] __main__: Done musique_3hop1__849312_503371_21711: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,967 [INFO] __main__: Processing musique_3hop1__127821_157828_239539: Where is the headquarters of Radio Television of this countr
+2026-03-04 11:29:39,967 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Where is the headquarters of Radio Television of this country that has a co-offi': '\n  "mode"'
+2026-03-04 11:29:39,967 [INFO] __main__: Done musique_3hop1__127821_157828_239539: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,967 [INFO] __main__: Processing musique_2hop__511296_577502: Who married the actor from Terminator?
+2026-03-04 11:29:39,967 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who married the actor from Terminator?': '\n  "mode"'
+2026-03-04 11:29:39,967 [INFO] __main__: Done musique_2hop__511296_577502: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,967 [INFO] __main__: Processing musique_4hop1__130623_32392_823060_610794: What county has a city that is adjacent to the capital city 
+2026-03-04 11:29:39,967 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What county has a city that is adjacent to the capital city of Erskine College's': '\n  "mode"'
+2026-03-04 11:29:39,967 [INFO] __main__: Done musique_4hop1__130623_32392_823060_610794: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,968 [INFO] __main__: Processing musique_2hop__731956_126089: Who was in charge of the place where Castricum is located?
+2026-03-04 11:29:39,968 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who was in charge of the place where Castricum is located?': '\n  "mode"'
+2026-03-04 11:29:39,968 [INFO] __main__: Done musique_2hop__731956_126089: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,968 [INFO] __main__: Processing musique_3hop2__89854_92991_76291: When did the majority party in the House of Representatives 
+2026-03-04 11:29:39,968 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did the majority party in the House of Representatives gain control of the ': '\n  "mode"'
+2026-03-04 11:29:39,968 [INFO] __main__: Done musique_3hop2__89854_92991_76291: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,968 [INFO] __main__: Processing musique_2hop__123545_47134: Who is the mascot of the university related to Randy Conrads
+2026-03-04 11:29:39,968 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the mascot of the university related to Randy Conrads?': '\n  "mode"'
+2026-03-04 11:29:39,968 [INFO] __main__: Done musique_2hop__123545_47134: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,968 [INFO] __main__: Processing musique_3hop2__132957_133264_40768: When did Nissan, the Acura Legend maker and the Scion Fuse m
+2026-03-04 11:29:39,968 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did Nissan, the Acura Legend maker and the Scion Fuse manufacturer open US ': '\n  "mode"'
+2026-03-04 11:29:39,970 [INFO] __main__: Done musique_3hop2__132957_133264_40768: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,970 [INFO] __main__: Processing musique_3hop1__786632_831637_91775: What does seal stand for in the U.S. military branch that op
+2026-03-04 11:29:39,970 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What does seal stand for in the U.S. military branch that operates destroyers, a': '\n  "mode"'
+2026-03-04 11:29:39,971 [INFO] __main__: Done musique_3hop1__786632_831637_91775: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,971 [INFO] __main__: Processing musique_4hop1__88342_75218_128008_46894: Who had the lowest batting average in the league where the t
+2026-03-04 11:29:39,971 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who had the lowest batting average in the league where the team with the most ga': '\n  "mode"'
+2026-03-04 11:29:39,971 [INFO] __main__: Done musique_4hop1__88342_75218_128008_46894: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,971 [INFO] __main__: Processing musique_2hop__124412_402641: Who is the child of Chiang Hsiao-wen's father?
+2026-03-04 11:29:39,971 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the child of Chiang Hsiao-wen's father?': '\n  "mode"'
+2026-03-04 11:29:39,971 [INFO] __main__: Done musique_2hop__124412_402641: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,971 [INFO] __main__: Processing musique_2hop__92385_2072: What is the public library system called in the place where 
+2026-03-04 11:29:39,971 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the public library system called in the place where the Cosbys live in N': '\n  "mode"'
+2026-03-04 11:29:39,971 [INFO] __main__: Done musique_2hop__92385_2072: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,971 [INFO] __main__: Processing musique_2hop__159215_779396: Where was the person who wrote about the rioting being a div
+2026-03-04 11:29:39,971 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Where was the person who wrote about the rioting being a dividing factor in Birm': '\n  "mode"'
+2026-03-04 11:29:39,972 [INFO] __main__: Done musique_2hop__159215_779396: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,972 [INFO] __main__: Processing musique_2hop__33288_157788: What is an example of a railroad line in the country first t
+2026-03-04 11:29:39,972 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is an example of a railroad line in the country first to invade Manchuria?': '\n  "mode"'
+2026-03-04 11:29:39,972 [INFO] __main__: Done musique_2hop__33288_157788: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,972 [INFO] __main__: Processing musique_2hop__59048_827343: Whose sister played Susie in miracle on 34th street?
+2026-03-04 11:29:39,972 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Whose sister played Susie in miracle on 34th street?': '\n  "mode"'
+2026-03-04 11:29:39,972 [INFO] __main__: Done musique_2hop__59048_827343: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,972 [INFO] __main__: Processing musique_2hop__554167_451128: Who is the child of the Victim of Romance performer?
+2026-03-04 11:29:39,972 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the child of the Victim of Romance performer?': '\n  "mode"'
+2026-03-04 11:29:39,972 [INFO] __main__: Done musique_2hop__554167_451128: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,972 [INFO] __main__: Processing musique_4hop1__726675_508773_85832_745702: Who is the child of the Italian navigator who explored the e
+2026-03-04 11:29:39,973 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the child of the Italian navigator who explored the eastern coast of the ': '\n  "mode"'
+2026-03-04 11:29:39,973 [INFO] __main__: Done musique_4hop1__726675_508773_85832_745702: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,973 [INFO] __main__: Processing musique_3hop1__28841_547811_41132: How many times did the plague occur in the birth place of Co
+2026-03-04 11:29:39,973 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How many times did the plague occur in the birth place of Concerto in C Major Op': '\n  "mode"'
+2026-03-04 11:29:39,975 [INFO] __main__: Done musique_3hop1__28841_547811_41132: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,975 [INFO] __main__: Processing musique_2hop__693444_220151: Who is the spouse of Young Man Luther's author?
+2026-03-04 11:29:39,975 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the spouse of Young Man Luther's author?': '\n  "mode"'
+2026-03-04 11:29:39,975 [INFO] __main__: Done musique_2hop__693444_220151: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,975 [INFO] __main__: Processing musique_4hop1__638988_17130_70784_61381: When was the region immediately north of the region where th
+2026-03-04 11:29:39,975 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was the region immediately north of the region where the country in which A': '\n  "mode"'
+2026-03-04 11:29:39,975 [INFO] __main__: Done musique_4hop1__638988_17130_70784_61381: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,975 [INFO] __main__: Processing musique_3hop1__108833_720914_41132: How many times did the plague occur in the city where the pa
+2026-03-04 11:29:39,975 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How many times did the plague occur in the city where the painter of The Bacchan': '\n  "mode"'
+2026-03-04 11:29:39,976 [INFO] __main__: Done musique_3hop1__108833_720914_41132: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,976 [INFO] __main__: Processing musique_2hop__347686_127399: In what year was the group who performed Attics To Eden form
+2026-03-04 11:29:39,976 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'In what year was the group who performed Attics To Eden formed?': '\n  "mode"'
+2026-03-04 11:29:39,976 [INFO] __main__: Done musique_2hop__347686_127399: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,976 [INFO] __main__: Processing musique_3hop1__33845_42197_18397: Where did the arguer that the country Directive 10/2 called 
+2026-03-04 11:29:39,976 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Where did the arguer that the country Directive 10/2 called for actions against ': '\n  "mode"'
+2026-03-04 11:29:39,976 [INFO] __main__: Done musique_3hop1__33845_42197_18397: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,976 [INFO] __main__: Processing musique_2hop__645448_77615: When did military instruction start at the place where Larry
+2026-03-04 11:29:39,976 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did military instruction start at the place where Larry Alcala was educated': '\n  "mode"'
+2026-03-04 11:29:39,976 [INFO] __main__: Done musique_2hop__645448_77615: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,976 [INFO] __main__: Processing musique_4hop3__524186_219173_638950_72134: When did the city where Greenwood Laboratory School is locat
+2026-03-04 11:29:39,976 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did the city where Greenwood Laboratory School is located become capitol of': '\n  "mode"'
+2026-03-04 11:29:39,977 [INFO] __main__: Done musique_4hop3__524186_219173_638950_72134: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,977 [INFO] __main__: Processing musique_2hop__734582_71302: Who is played by the director of The Good Shepherd in The Go
+2026-03-04 11:29:39,977 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is played by the director of The Good Shepherd in The Godfather?': '\n  "mode"'
+2026-03-04 11:29:39,977 [INFO] __main__: Done musique_2hop__734582_71302: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,977 [INFO] __main__: Processing musique_3hop1__639955_834494_34099: How long are the council terms of the city that shares a cou
+2026-03-04 11:29:39,977 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How long are the council terms of the city that shares a county with Helvetia?': '\n  "mode"'
+2026-03-04 11:29:39,977 [INFO] __main__: Done musique_3hop1__639955_834494_34099: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,977 [INFO] __main__: Processing musique_4hop2__9988_261673_70784_79935: When was the region immediately north of the region that pre
+2026-03-04 11:29:39,977 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was the region immediately north of the region that prevailed with the disg': '\n  "mode"'
+2026-03-04 11:29:39,977 [INFO] __main__: Done musique_4hop2__9988_261673_70784_79935: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,978 [INFO] __main__: Processing musique_2hop__77233_33207: How did did the people fare during the reign of the abolishe
+2026-03-04 11:29:39,978 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How did did the people fare during the reign of the abolisher of sati partha in ': '\n  "mode"'
+2026-03-04 11:29:39,978 [INFO] __main__: Done musique_2hop__77233_33207: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,978 [INFO] __main__: Processing musique_2hop__84847_148696: What is the position of the 1st governor general of India?
+2026-03-04 11:29:39,978 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the position of the 1st governor general of India?': '\n  "mode"'
+2026-03-04 11:29:39,978 [INFO] __main__: Done musique_2hop__84847_148696: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,978 [INFO] __main__: Processing musique_3hop1__90327_83076_319330: Who is the child of the president who suffered a major defea
+2026-03-04 11:29:39,978 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the child of the president who suffered a major defeat when the body whic': '\n  "mode"'
+2026-03-04 11:29:39,978 [INFO] __main__: Done musique_3hop1__90327_83076_319330: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,978 [INFO] __main__: Processing musique_2hop__998_25855: What does dell call the feature letting the interface replac
+2026-03-04 11:29:39,978 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What does dell call the feature letting the interface replacing FireWire in late': '\n  "mode"'
+2026-03-04 11:29:39,979 [INFO] __main__: Done musique_2hop__998_25855: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,979 [INFO] __main__: Processing musique_2hop__81659_52835: Who wrote Turn Me On by the singer of Come Away with Me?
+2026-03-04 11:29:39,979 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who wrote Turn Me On by the singer of Come Away with Me?': '\n  "mode"'
+2026-03-04 11:29:39,979 [INFO] __main__: Done musique_2hop__81659_52835: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,979 [INFO] __main__: Processing musique_4hop1__88342_75218_128008_48717: Who was second pick in the 1999 draft of the league that has
+2026-03-04 11:29:39,979 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who was second pick in the 1999 draft of the league that has a competition where': '\n  "mode"'
+2026-03-04 11:29:39,979 [INFO] __main__: Done musique_4hop1__88342_75218_128008_48717: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,979 [INFO] __main__: Processing musique_3hop1__144678_443779_52195: The Commission of Truth and Friendship established governmen
+2026-03-04 11:29:39,979 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'The Commission of Truth and Friendship established governments for Bustami's bir': '\n  "mode"'
+2026-03-04 11:29:39,979 [INFO] __main__: Done musique_3hop1__144678_443779_52195: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,979 [INFO] __main__: Processing musique_2hop__865961_159109: Where is the country with ISO code ISO 3166-2:CV located?
+2026-03-04 11:29:39,979 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Where is the country with ISO code ISO 3166-2:CV located?': '\n  "mode"'
+2026-03-04 11:29:39,986 [INFO] __main__: Done musique_2hop__865961_159109: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,986 [INFO] __main__: Processing musique_3hop2__127483_60649_10557: What was the form of the language Auctor is in, used in the 
+2026-03-04 11:29:39,986 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What was the form of the language Auctor is in, used in the era of the Frankish ': '\n  "mode"'
+2026-03-04 11:29:39,986 [INFO] __main__: Done musique_3hop2__127483_60649_10557: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,986 [INFO] __main__: Processing musique_2hop__46862_68042: When did the political party that favored harsh punishment o
+2026-03-04 11:29:39,987 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did the political party that favored harsh punishment of southern states af': '\n  "mode"'
+2026-03-04 11:29:39,987 [INFO] __main__: Done musique_2hop__46862_68042: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,987 [INFO] __main__: Processing musique_2hop__78401_158262: When did the person chosen to be president of the confederac
+2026-03-04 11:29:39,987 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did the person chosen to be president of the confederacy end his fight in t': '\n  "mode"'
+2026-03-04 11:29:39,987 [INFO] __main__: Done musique_2hop__78401_158262: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,987 [INFO] __main__: Processing musique_2hop__95970_152907: What city is the star of Sous les pieds des femmes from?
+2026-03-04 11:29:39,987 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What city is the star of Sous les pieds des femmes from?': '\n  "mode"'
+2026-03-04 11:29:39,987 [INFO] __main__: Done musique_2hop__95970_152907: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,987 [INFO] __main__: Processing musique_3hop1__105837_160713_77246: what is meaning of the word that is a majority religion of t
+2026-03-04 11:29:39,987 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'what is meaning of the word that is a majority religion of the area that became ': '\n  "mode"'
+2026-03-04 11:29:39,987 [INFO] __main__: Done musique_3hop1__105837_160713_77246: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,987 [INFO] __main__: Processing musique_2hop__179322_83289: Who stars in the video "One Last Time" by the performer of B
+2026-03-04 11:29:39,988 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who stars in the video "One Last Time" by the performer of Baby I?': '\n  "mode"'
+2026-03-04 11:29:39,988 [INFO] __main__: Done musique_2hop__179322_83289: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,988 [INFO] __main__: Processing musique_3hop2__87184_90327_76291: When did the majority party in the House of Representatives 
+2026-03-04 11:29:39,988 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did the majority party in the House of Representatives gain control of the ': '\n  "mode"'
+2026-03-04 11:29:39,988 [INFO] __main__: Done musique_3hop2__87184_90327_76291: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,988 [INFO] __main__: Processing musique_4hop1__152146_5274_458768_33637: How many ethnic minorities were looked at differently in the
+2026-03-04 11:29:39,988 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How many ethnic minorities were looked at differently in the city where the head': '\n  "mode"'
+2026-03-04 11:29:39,988 [INFO] __main__: Done musique_4hop1__152146_5274_458768_33637: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,988 [INFO] __main__: Processing musique_3hop1__106845_5188_86687: When did the country the top-ranking Warsaw Pact operatives 
+2026-03-04 11:29:39,988 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did the country the top-ranking Warsaw Pact operatives came from, despite i': '\n  "mode"'
+2026-03-04 11:29:39,988 [INFO] __main__: Done musique_3hop1__106845_5188_86687: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,988 [INFO] __main__: Processing musique_4hop1__842143_153080_33897_81096: Who won the Indy Car Race in the largest populated city of t
+2026-03-04 11:29:39,989 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who won the Indy Car Race in the largest populated city of the state where the p': '\n  "mode"'
+2026-03-04 11:29:39,989 [INFO] __main__: Done musique_4hop1__842143_153080_33897_81096: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,989 [INFO] __main__: Processing musique_2hop__85325_88165: Who did the person who married their half sister in the bibl
+2026-03-04 11:29:39,989 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who did the person who married their half sister in the bible marry after the de': '\n  "mode"'
+2026-03-04 11:29:39,989 [INFO] __main__: Done musique_2hop__85325_88165: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,989 [INFO] __main__: Processing musique_3hop1__622497_160088_85460: What is the average salary of a working person with the same
+2026-03-04 11:29:39,990 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the average salary of a working person with the same nationality as the ': '\n  "mode"'
+2026-03-04 11:29:39,990 [INFO] __main__: Done musique_3hop1__622497_160088_85460: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,990 [INFO] __main__: Processing musique_2hop__14_59409: Who was Beyonce's husband talking about in the the song Cry?
+2026-03-04 11:29:39,991 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who was Beyonce's husband talking about in the the song Cry?': '\n  "mode"'
+2026-03-04 11:29:39,992 [INFO] __main__: Done musique_2hop__14_59409: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,992 [INFO] __main__: Processing musique_4hop2__71753_158985_70784_61381: When was the region immediately north of the region where Is
+2026-03-04 11:29:39,992 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was the region immediately north of the region where Israel is located and ': '\n  "mode"'
+2026-03-04 11:29:39,993 [INFO] __main__: Done musique_4hop2__71753_158985_70784_61381: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,993 [INFO] __main__: Processing musique_4hop1__802394_153080_159767_81096: An Indy car race was held in the capital of the state where 
+2026-03-04 11:29:39,993 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'An Indy car race was held in the capital of the state where the performer of Min': '\n  "mode"'
+2026-03-04 11:29:39,993 [INFO] __main__: Done musique_4hop1__802394_153080_159767_81096: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,993 [INFO] __main__: Processing musique_3hop1__409517_547811_80702: What is the name of the famous bridge in the birth city of t
+2026-03-04 11:29:39,993 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the name of the famous bridge in the birth city of the composer of Scand': '\n  "mode"'
+2026-03-04 11:29:39,993 [INFO] __main__: Done musique_3hop1__409517_547811_80702: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,993 [INFO] __main__: Processing musique_2hop__76314_177869: Who was the spouse of a leading speaker against slavery and 
+2026-03-04 11:29:39,993 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who was the spouse of a leading speaker against slavery and publisher of an anti': '\n  "mode"'
+2026-03-04 11:29:39,993 [INFO] __main__: Done musique_2hop__76314_177869: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,993 [INFO] __main__: Processing musique_4hop1__391525_49925_13759_736921: Where is the district that the person who wanted to reform a
+2026-03-04 11:29:39,993 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Where is the district that the person who wanted to reform and address John Kodw': '\n  "mode"'
+2026-03-04 11:29:39,994 [INFO] __main__: Done musique_4hop1__391525_49925_13759_736921: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,994 [INFO] __main__: Processing musique_2hop__802991_443552: What is the capital of the county where Fort Deposit is loca
+2026-03-04 11:29:39,994 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the capital of the county where Fort Deposit is located?': '\n  "mode"'
+2026-03-04 11:29:39,994 [INFO] __main__: Done musique_2hop__802991_443552: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,994 [INFO] __main__: Processing musique_3hop2__851134_613770_7713: How long had Pfrang Association's headquarters location been
+2026-03-04 11:29:39,994 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How long had Pfrang Association's headquarters location been the capitol city of': '\n  "mode"'
+2026-03-04 11:29:39,994 [INFO] __main__: Done musique_3hop2__851134_613770_7713: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,994 [INFO] __main__: Processing musique_3hop2__127483_91678_10557: What was the language Auctor comes from during the era of th
+2026-03-04 11:29:39,994 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What was the language Auctor comes from during the era of the man crowned first ': '\n  "mode"'
+2026-03-04 11:29:39,995 [INFO] __main__: Done musique_3hop2__127483_91678_10557: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,995 [INFO] __main__: Processing musique_2hop__629030_56873: When did the 1979-80 European Cup winner win the FA Cup?
+2026-03-04 11:29:39,995 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did the 1979-80 European Cup winner win the FA Cup?': '\n  "mode"'
+2026-03-04 11:29:39,995 [INFO] __main__: Done musique_2hop__629030_56873: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,995 [INFO] __main__: Processing musique_3hop1__321720_650651_7262: Who was a prominent figure at the radio division of the netw
+2026-03-04 11:29:39,995 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who was a prominent figure at the radio division of the network that created the': '\n  "mode"'
+2026-03-04 11:29:39,995 [INFO] __main__: Done musique_3hop1__321720_650651_7262: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,995 [INFO] __main__: Processing musique_2hop__81268_85407: What was the 2018 population of the Italian city that's unde
+2026-03-04 11:29:39,995 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What was the 2018 population of the Italian city that's underwater?': '\n  "mode"'
+2026-03-04 11:29:39,995 [INFO] __main__: Done musique_2hop__81268_85407: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,995 [INFO] __main__: Processing musique_3hop2__90098_76623_10557: What was the language from which the last name Sylvester ori
+2026-03-04 11:29:39,996 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What was the language from which the last name Sylvester originated during the e': '\n  "mode"'
+2026-03-04 11:29:39,996 [INFO] __main__: Done musique_3hop2__90098_76623_10557: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,996 [INFO] __main__: Processing musique_2hop__391873_88622: Who is the head of the agency that created MYSTIC?
+2026-03-04 11:29:39,996 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the head of the agency that created MYSTIC?': '\n  "mode"'
+2026-03-04 11:29:39,996 [INFO] __main__: Done musique_2hop__391873_88622: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,996 [INFO] __main__: Processing musique_3hop1__764280_834494_34053: What was the wettest year of the administrative territorial 
+2026-03-04 11:29:39,996 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What was the wettest year of the administrative territorial entity that contains': '\n  "mode"'
+2026-03-04 11:29:39,996 [INFO] __main__: Done musique_3hop1__764280_834494_34053: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,996 [INFO] __main__: Processing musique_4hop1__802394_153080_33897_81096: Who won the Indy Car Race in the largest populated city of t
+2026-03-04 11:29:39,996 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who won the Indy Car Race in the largest populated city of the state where the p': '\n  "mode"'
+2026-03-04 11:29:39,996 [INFO] __main__: Done musique_4hop1__802394_153080_33897_81096: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,996 [INFO] __main__: Processing musique_2hop__155781_155922: What does the river that Darling Mills Creek turns into flow
+2026-03-04 11:29:39,997 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What does the river that Darling Mills Creek turns into flow into?': '\n  "mode"'
+2026-03-04 11:29:39,997 [INFO] __main__: Done musique_2hop__155781_155922: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,997 [INFO] __main__: Processing musique_2hop__829358_754719: What administrative territorial entity does Darley Ramon Tor
+2026-03-04 11:29:39,997 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What administrative territorial entity does Darley Ramon Torres's place of birth': '\n  "mode"'
+2026-03-04 11:29:39,997 [INFO] __main__: Done musique_2hop__829358_754719: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,997 [INFO] __main__: Processing musique_2hop__13548_13529: When was the person who Messi's goals in Copa del Rey compar
+2026-03-04 11:29:39,997 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was the person who Messi's goals in Copa del Rey compared to get signed by ': '\n  "mode"'
+2026-03-04 11:29:39,997 [INFO] __main__: Done musique_2hop__13548_13529: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,997 [INFO] __main__: Processing musique_4hop1__131113_59747_211319_557671: Which county shares a border with the county where the most 
+2026-03-04 11:29:39,997 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Which county shares a border with the county where the most populous city in the': '\n  "mode"'
+2026-03-04 11:29:39,998 [INFO] __main__: Done musique_4hop1__131113_59747_211319_557671: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,998 [INFO] __main__: Processing musique_3hop1__9285_5188_23307: What month did the Tripartite discussions begin between Brit
+2026-03-04 11:29:39,998 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What month did the Tripartite discussions begin between Britain, France, and the': '\n  "mode"'
+2026-03-04 11:29:39,998 [INFO] __main__: Done musique_3hop1__9285_5188_23307: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,998 [INFO] __main__: Processing musique_3hop1__857_846_7702: What is the meaning of the name of the city where the Yongle
+2026-03-04 11:29:39,998 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the meaning of the name of the city where the Yongle emperor greeted the': '\n  "mode"'
+2026-03-04 11:29:39,998 [INFO] __main__: Done musique_3hop1__857_846_7702: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,998 [INFO] __main__: Processing musique_2hop__766973_770570: What county is Erik Hort's birthplace a part of?
+2026-03-04 11:29:39,998 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What county is Erik Hort's birthplace a part of?': '\n  "mode"'
+2026-03-04 11:29:39,998 [INFO] __main__: Done musique_2hop__766973_770570: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,998 [INFO] __main__: Processing musique_3hop1__635099_131926_87157: What is the direction of flow of the body of water by the ci
+2026-03-04 11:29:39,999 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the direction of flow of the body of water by the city where Write This ': '\n  "mode"'
+2026-03-04 11:29:39,999 [INFO] __main__: Done musique_3hop1__635099_131926_87157: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,999 [INFO] __main__: Processing musique_2hop__170823_120171: What year did the publisher of Labyrinth end?
+2026-03-04 11:29:39,999 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What year did the publisher of Labyrinth end?': '\n  "mode"'
+2026-03-04 11:29:39,999 [INFO] __main__: Done musique_2hop__170823_120171: '' (0.0s, 0 tokens)
+2026-03-04 11:29:39,999 [INFO] __main__: Processing musique_4hop3__474028_88460_30152_20999: How were people from whom new coins were a proclamation of i
+2026-03-04 11:29:39,999 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How were people from whom new coins were a proclamation of independence by the S': '\n  "mode"'
+2026-03-04 11:29:40,001 [INFO] __main__: Done musique_4hop3__474028_88460_30152_20999: '' (0.0s, 0 tokens)
+2026-03-04 11:29:40,001 [INFO] __main__: Processing musique_2hop__511454_120259: When was Lady Godiva's birthplace abolished?
+2026-03-04 11:29:40,001 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was Lady Godiva's birthplace abolished?': '\n  "mode"'
+2026-03-04 11:29:40,001 [INFO] __main__: Done musique_2hop__511454_120259: '' (0.0s, 0 tokens)
+2026-03-04 11:29:40,001 [INFO] __main__: Processing musique_2hop__668407_683671: Who is the father of Empress Wang's husband?
+2026-03-04 11:29:40,001 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the father of Empress Wang's husband?': '\n  "mode"'
+2026-03-04 11:29:40,001 [INFO] __main__: Done musique_2hop__668407_683671: '' (0.0s, 0 tokens)
+2026-03-04 11:29:40,001 [INFO] __main__: Processing musique_4hop2__71753_648517_70784_79935: When was the region immediately north of the region where Is
+2026-03-04 11:29:40,002 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was the region immediately north of the region where Israel is located and ': '\n  "mode"'
+2026-03-04 11:29:40,002 [INFO] __main__: Done musique_4hop2__71753_648517_70784_79935: '' (0.0s, 0 tokens)
+2026-03-04 11:29:40,002 [INFO] __main__: Processing musique_4hop1__9007_698949_157828_162309: When did the country with a co-official language used in the
+2026-03-04 11:29:40,002 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did the country with a co-official language used in the film titled after t': '\n  "mode"'
+2026-03-04 11:29:40,002 [INFO] __main__: Done musique_4hop1__9007_698949_157828_162309: '' (0.0s, 0 tokens)
+2026-03-04 11:29:40,002 [INFO] __main__: Processing musique_4hop1__94201_642284_131926_89261: Where does the body of water by the city where the Southeast
+2026-03-04 11:29:40,002 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Where does the body of water by the city where the Southeast Library designer di': '\n  "mode"'
+2026-03-04 11:29:40,002 [INFO] __main__: Done musique_4hop1__94201_642284_131926_89261: '' (0.0s, 0 tokens)
+2026-03-04 11:29:40,002 [INFO] __main__: Processing musique_2hop__56851_343058: Who is the spouse of the actress who played the fairy god mo
+2026-03-04 11:29:40,002 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the spouse of the actress who played the fairy god mother in Shrek 2?': '\n  "mode"'
+2026-03-04 11:29:40,004 [INFO] __main__: Done musique_2hop__56851_343058: '' (0.0s, 0 tokens)
+2026-03-04 11:29:40,004 [INFO] __main__: Processing musique_4hop1__152562_5274_458768_33633: When did the explorer reach the city where the headquarters 
+2026-03-04 11:29:40,004 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did the explorer reach the city where the headquarters of the only group la': '\n  "mode"'
+2026-03-04 11:29:40,004 [INFO] __main__: Done musique_4hop1__152562_5274_458768_33633: '' (0.0s, 0 tokens)
+2026-03-04 11:29:40,004 [INFO] __main__: Processing musique_3hop2__304722_692815_63959: When was the last time Darren Carter's team beat the 1894-95
+2026-03-04 11:29:40,005 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was the last time Darren Carter's team beat the 1894-95 FA Cup winner?': '\n  "mode"'
+2026-03-04 11:29:40,005 [INFO] __main__: Done musique_3hop2__304722_692815_63959: '' (0.0s, 0 tokens)
+2026-03-04 11:29:40,005 [INFO] __main__: Processing musique_3hop1__305282_282081_73772: When was the start of the battle of the birthplace of the pe
+2026-03-04 11:29:40,005 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was the start of the battle of the birthplace of the performer of III?': '\n  "mode"'
+2026-03-04 11:29:40,005 [INFO] __main__: Done musique_3hop1__305282_282081_73772: '' (0.0s, 0 tokens)
+2026-03-04 11:29:40,005 [INFO] __main__: Processing musique_3hop1__208108_547811_80702: What is the name of the famous bridge in the city where the 
+2026-03-04 11:29:40,005 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the name of the famous bridge in the city where the composer of La Silvi': '\n  "mode"'
+2026-03-04 11:29:40,005 [INFO] __main__: Done musique_3hop1__208108_547811_80702: '' (0.0s, 0 tokens)
+2026-03-04 11:29:40,005 [INFO] __main__: Processing musique_2hop__68322_510545: Who is the spouse of the actor that plays Jarvis in the Aven
+2026-03-04 11:29:40,005 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the spouse of the actor that plays Jarvis in the Avengers Age of Ultron?': '\n  "mode"'
+2026-03-04 11:29:40,006 [INFO] __main__: Done musique_2hop__68322_510545: '' (0.0s, 0 tokens)
+2026-03-04 11:29:40,006 [INFO] __main__: Progress: 10/100 (552918 Q/hr)
+2026-03-04 11:29:40,006 [INFO] __main__: Progress: 20/100 (1104806 Q/hr)
+2026-03-04 11:29:40,006 [INFO] __main__: Progress: 30/100 (1655963 Q/hr)
+2026-03-04 11:29:40,006 [INFO] __main__: Progress: 40/100 (2206401 Q/hr)
+2026-03-04 11:29:40,006 [INFO] __main__: Progress: 50/100 (2756082 Q/hr)
+2026-03-04 11:29:40,006 [INFO] __main__: Progress: 60/100 (3305005 Q/hr)
+2026-03-04 11:29:40,006 [INFO] __main__: Progress: 70/100 (3853115 Q/hr)
+2026-03-04 11:29:40,006 [INFO] __main__: Progress: 80/100 (4400131 Q/hr)
+2026-03-04 11:29:40,006 [INFO] __main__: Progress: 90/100 (4946566 Q/hr)
+2026-03-04 11:29:40,006 [INFO] __main__: Progress: 100/100 (5492316 Q/hr)
+2026-03-04 11:29:40,007 [INFO] __main__: Batch complete: 100 questions in 0.0 min (5448907.0 Q/hr)
+File                                                       N  NormEM      F1    Cont
+------------------------------------------------------------------------------------
+sage_v2_p100/musique                                     100    0.0%    0.0%  100.0%
+
+Saved: results/sage_v2_p100/musique/offline_eval_summary.json
+
+============================================================
+ARAG Evaluation
+============================================================
+Predictions: results/sage_v2_p100/musique/predictions.jsonl
+Workers: 8
+============================================================
+
+Evaluating:   0%|          | 0/100 [00:00<?, ?sample/s]Evaluating:   0%|          | 0/100 [00:00<?, ?sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:   1%|          | 1/100 [00:00<00:00, 2517.59sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:   2%|▏         | 2/100 [00:00<00:00, 4062.28sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:   3%|▎         | 3/100 [00:00<00:00, 5201.70sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:   4%|▍         | 4/100 [00:00<00:00, 6150.01sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:   5%|▌         | 5/100 [00:00<00:00, 6932.73sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:   6%|▌         | 6/100 [00:00<00:00, 7577.79sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:   7%|▋         | 7/100 [00:00<00:00, 8130.75sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:   8%|▊         | 8/100 [00:00<00:00, 8590.48sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:   9%|▉         | 9/100 [00:00<00:00, 8979.24sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  10%|█         | 10/100 [00:00<00:00, 9333.12sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  11%|█         | 11/100 [00:00<00:00, 9623.98sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  12%|█▏        | 12/100 [00:00<00:00, 9847.71sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  13%|█▎        | 13/100 [00:00<00:00, 10091.79sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  14%|█▍        | 14/100 [00:00<00:00, 10303.61sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  15%|█▌        | 15/100 [00:00<00:00, 10512.04sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  16%|█▌        | 16/100 [00:00<00:00, 10704.88sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  17%|█▋        | 17/100 [00:00<00:00, 10884.32sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  18%|█▊        | 18/100 [00:00<00:00, 11042.49sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  19%|█▉        | 19/100 [00:00<00:00, 10114.45sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  20%|██        | 20/100 [00:00<00:00, 10253.77sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  21%|██        | 21/100 [00:00<00:00, 10395.42sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  22%|██▏       | 22/100 [00:00<00:00, 10533.64sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  23%|██▎       | 23/100 [00:00<00:00, 10667.81sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  24%|██▍       | 24/100 [00:00<00:00, 10764.98sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  25%|██▌       | 25/100 [00:00<00:00, 10882.99sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  26%|██▌       | 26/100 [00:00<00:00, 10996.46sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  27%|██▋       | 27/100 [00:00<00:00, 11100.39sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  28%|██▊       | 28/100 [00:00<00:00, 11200.81sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  29%|██▉       | 29/100 [00:00<00:00, 11290.71sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  30%|███       | 30/100 [00:00<00:00, 11379.01sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  31%|███       | 31/100 [00:00<00:00, 11455.81sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  32%|███▏      | 32/100 [00:00<00:00, 11535.69sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  33%|███▎      | 33/100 [00:00<00:00, 11612.72sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  34%|███▍      | 34/100 [00:00<00:00, 11685.21sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  35%|███▌      | 35/100 [00:00<00:00, 11753.45sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  36%|███▌      | 36/100 [00:00<00:00, 11817.71sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  37%|███▋      | 37/100 [00:00<00:00, 11882.79sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  38%|███▊      | 38/100 [00:00<00:00, 11945.11sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  39%|███▉      | 39/100 [00:00<00:00, 11979.34sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  40%|████      | 40/100 [00:00<00:00, 12033.58sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  41%|████      | 41/100 [00:00<00:00, 12081.39sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  42%|████▏     | 42/100 [00:00<00:00, 12132.28sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  43%|████▎     | 43/100 [00:00<00:00, 12177.10sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  44%|████▍     | 44/100 [00:00<00:00, 12221.00sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  45%|████▌     | 45/100 [00:00<00:00, 12266.44sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  46%|████▌     | 46/100 [00:00<00:00, 12306.29sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  47%|████▋     | 47/100 [00:00<00:00, 12348.55sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  48%|████▊     | 48/100 [00:00<00:00, 12385.52sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  49%|████▉     | 49/100 [00:00<00:00, 12424.94sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  50%|█████     | 50/100 [00:00<00:00, 12463.02sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  51%|█████     | 51/100 [00:00<00:00, 12496.17sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  52%|█████▏    | 52/100 [00:00<00:00, 12526.06sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  53%|█████▎    | 53/100 [00:00<00:00, 12180.72sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  54%|█████▍    | 54/100 [00:00<00:00, 12201.94sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  55%|█████▌    | 55/100 [00:00<00:00, 12234.13sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  56%|█████▌    | 56/100 [00:00<00:00, 12266.61sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  57%|█████▋    | 57/100 [00:00<00:00, 12299.38sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  58%|█████▊    | 58/100 [00:00<00:00, 12332.44sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  59%|█████▉    | 59/100 [00:00<00:00, 12361.45sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  60%|██████    | 60/100 [00:00<00:00, 12389.63sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  61%|██████    | 61/100 [00:00<00:00, 12417.01sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  62%|██████▏   | 62/100 [00:00<00:00, 12444.22sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  63%|██████▎   | 63/100 [00:00<00:00, 12469.50sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  64%|██████▍   | 64/100 [00:00<00:00, 12497.00sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  65%|██████▌   | 65/100 [00:00<00:00, 12527.21sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  66%|██████▌   | 66/100 [00:00<00:00, 12535.62sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  67%|██████▋   | 67/100 [00:00<00:00, 12561.16sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  68%|██████▊   | 68/100 [00:00<00:00, 12583.84sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  69%|██████▉   | 69/100 [00:00<00:00, 12605.93sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  70%|███████   | 70/100 [00:00<00:00, 12628.56sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  71%|███████   | 71/100 [00:00<00:00, 12650.62sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  72%|███████▏  | 72/100 [00:00<00:00, 12671.61sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  73%|███████▎  | 73/100 [00:00<00:00, 12689.47sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  74%|███████▍  | 74/100 [00:00<00:00, 12707.41sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  75%|███████▌  | 75/100 [00:00<00:00, 12727.50sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  76%|███████▌  | 76/100 [00:00<00:00, 12749.66sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  77%|███████▋  | 77/100 [00:00<00:00, 12768.30sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  78%|███████▊  | 78/100 [00:00<00:00, 12789.51sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  79%|███████▉  | 79/100 [00:00<00:00, 12808.27sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  80%|████████  | 80/100 [00:00<00:00, 12815.84sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  81%|████████  | 81/100 [00:00<00:00, 12830.49sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  82%|████████▏ | 82/100 [00:00<00:00, 12848.66sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  83%|████████▎ | 83/100 [00:00<00:00, 12867.39sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  84%|████████▍ | 84/100 [00:00<00:00, 12884.78sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  85%|████████▌ | 85/100 [00:00<00:00, 12210.28sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  86%|████████▌ | 86/100 [00:00<00:00, 12227.05sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  87%|████████▋ | 87/100 [00:00<00:00, 12249.23sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  88%|████████▊ | 88/100 [00:00<00:00, 12269.75sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  89%|████████▉ | 89/100 [00:00<00:00, 12281.80sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  90%|█████████ | 90/100 [00:00<00:00, 12302.02sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  91%|█████████ | 91/100 [00:00<00:00, 12323.44sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  92%|█████████▏| 92/100 [00:00<00:00, 12344.48sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  93%|█████████▎| 93/100 [00:00<00:00, 12363.95sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  94%|█████████▍| 94/100 [00:00<00:00, 12384.24sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  95%|█████████▌| 95/100 [00:00<00:00, 12404.93sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  96%|█████████▌| 96/100 [00:00<00:00, 12423.35sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  97%|█████████▋| 97/100 [00:00<00:00, 12442.20sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  98%|█████████▊| 98/100 [00:00<00:00, 12460.34sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  99%|█████████▉| 99/100 [00:00<00:00, 12476.67sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating: 100%|██████████| 100/100 [00:00<00:00, 12457.10sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]
+2026-03-04 11:29:42,302 - INFO - Evaluation Results:
+2026-03-04 11:29:42,302 - INFO -   Total Samples: 100
+2026-03-04 11:29:42,302 - INFO -   Answered: 0 (0.00%)
+2026-03-04 11:29:42,302 - INFO -   Failed: 100
+2026-03-04 11:29:42,302 - INFO -   LLM Accuracy: 0.0000
+2026-03-04 11:29:42,302 - INFO -   Contain Accuracy: 0.0000
+2026-03-04 11:29:42,303 - INFO -   Total Cost: $0.0000
+2026-03-04 11:29:42,303 - INFO -   Avg Loops: 0.00
+2026-03-04 11:29:42,305 - INFO - Summary saved to: results/sage_v2_p100/musique/predictions_eval_summary.json
+
+============================================================
+Results
+============================================================
+LLM Accuracy: 0.0000
+Contain Accuracy: 0.0000
+============================================================
+

@@ -228,6 +228,9 @@ class MultiAgentBatchRunner:
                 "total_tokens": ar.total_tokens,
                 "wall_clock_seconds": ar.wall_clock_seconds,
                 "confidence": ar.confidence,
+                "unsupported_answer": ar.unsupported_answer,
+                "extracted_evidence": ar.extracted_evidence,
+                "evidence_count": ar.evidence_count,
                 "error": ar.error,
             }
 
@@ -239,6 +242,9 @@ class MultiAgentBatchRunner:
             "question_type": result.question_type,
             "num_sub_questions": result.num_sub_questions,
             "num_waves": result.num_waves,
+            "pass_id": result.pass_id,
+            "retry_trigger_reasons": result.retry_trigger_reasons,
+            "verifier_parse_ok": result.verifier_parse_ok,
             "agent_results": agent_results_ser,
             "cache_analytics": result.cache_analytics,
             "total_tokens": result.total_tokens,

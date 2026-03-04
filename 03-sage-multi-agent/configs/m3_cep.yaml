@@ -1,0 +1,40 @@
+# M3: CEP — Chain Evidence Passing.
+#
+# Key architectural change from M2 DRHR:
+#   - After each bridge wave, top retrieved chunks are injected into
+#     the next wave's agents as "chain evidence from prior retrieval step"
+#   - Wave-(k+1) agents use the intermediate entity found in wave-k
+#     to guide their search, rather than searching blind
+#   - CEP only applies to bridge questions; comparison/single_hop unchanged
+#
+# Hypothesis: fixes 2Wiki bridge (21% accuracy in M2) — agents couldn't find
+#   the final answer because they didn't know the intermediate entity.
+
+llm:
+  model: "Qwen3-30B-A3B"
+  api_key: "dummy"
+  base_url: "http://127.0.0.1:8000/v1"
+  temperature: 0.0
+  max_tokens: 512
+  chat_template_kwargs:
+    enable_thinking: false
+
+embedding:
+  model: "intfloat/e5-base-v2"
+  device: "cpu"
+
+data:
+  chunks_file: "/projects/prjs1800/msc-thesis/02-arag-multi-agent/data/hotpotqa/chunks.json"
+  questions_file: "/projects/prjs1800/msc-thesis/02-arag-multi-agent/data/hotpotqa/questions.json"
+  index_dir: "/projects/prjs1800/msc-thesis/02-arag-multi-agent/data/hotpotqa/index_e5_base_v2"
+
+multi_agent:
+  enable_decomposer: true
+  enable_doc_cache: false
+  enable_self_verify: false
+  enable_cep: true
+  max_loops_per_agent: 7
+  max_token_budget: 64000
+  max_concurrent: 3
+  verbose: false
+  search_agent_prompt: "src/multi_agent/prompts/search_agent_cep.txt"

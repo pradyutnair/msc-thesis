@@ -1,0 +1,28 @@
+# SAGE v7 enhanced: More loops and verification for hard multi-hop questions
+llm:
+  model: "Qwen3-30B-A3B"
+  api_key: "dummy"
+  base_url: "http://127.0.0.1:8000/v1"
+  temperature: 0.0
+  max_tokens: 4096
+
+embedding:
+  model: "intfloat/e5-base-v2"
+  device: "cpu"
+
+data:
+  chunks_file: "/projects/prjs1800/msc-thesis/02-arag-multi-agent/data/musique/chunks.json"
+  questions_file: "/projects/prjs1800/msc-thesis/02-arag-multi-agent/data/musique/questions_failed46.json"
+  index_dir: "/projects/prjs1800/msc-thesis/02-arag-multi-agent/data/musique/index_e5_base_v2"
+
+multi_agent:
+  enable_sage: true
+  sage_planner_prompt: "src/multi_agent/prompts/sage_planner.txt"
+  sage_retriever_prompt: "src/multi_agent/prompts/sage_retriever.txt"
+  sage_retriever_max_loops: 5
+  sage_max_concurrent: 3
+  sage_verifier_prompt: "src/multi_agent/prompts/sage_verifier.txt"
+  sage_max_verification_rounds: 2
+  sage_synth_prompt: "src/multi_agent/prompts/sage_synth.txt"
+  max_token_budget: 32768
+  verbose: true

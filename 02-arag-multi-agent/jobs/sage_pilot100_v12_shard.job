@@ -1,0 +1,80 @@
+#!/bin/bash
+#SBATCH --job-name=s_v12s
+#SBATCH --partition=gpu_h100
+#SBATCH --time=02:30:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/logs/%j_sage_pilot100_v12_shard%a.out
+
+set -euo pipefail
+: "${SHARD:?SHARD env var required (0..3)}"
+
+module purge
+module load 2025
+module load Anaconda3/2025.06-1
+module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"
+export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="Qwen3-30B-A3B"
+
+MODEL_ID="Qwen/Qwen3-30B-A3B"
+SERVED_NAME="Qwen3-30B-A3B"
+QFILE="data/musique/questions_pilot100_seed42_shard${SHARD}.json"
+OUT="results/sage_pilot100_seed42_v12_shards/shard${SHARD}"
+mkdir -p "$OUT" results/logs
+rm -f "$OUT/predictions.jsonl" "$OUT/decompositions.jsonl"
+
+cleanup() {
+  [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true
+}
+trap cleanup EXIT TERM INT
+
+echo "=== v12 shard $SHARD ==="
+echo "QFILE=$QFILE"
+echo "Start: $(date)"
+
+vllm serve "$MODEL_ID" \
+  --served-model-name "$SERVED_NAME" \
+  --host 127.0.0.1 --port 8000 \
+  --dtype auto \
+  --max-model-len 32768 \
+  --gpu-memory-utilization 0.94 \
+  --max-num-seqs 96 \
+  --enable-prefix-caching \
+  --enable-auto-tool-choice \
+  --tool-call-parser hermes \
+  --trust-remote-code \
+  --generation-config vllm &
+VLLM_PID=$!
+
+for i in $(seq 1 360); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then
+    wait "$VLLM_PID" || true
+    exit 1
+  fi
+  if curl -fsS http://127.0.0.1:8000/v1/models 2>/dev/null | grep -q "$SERVED_NAME"; then
+    echo "vLLM ready after ~$((i*5))s"
+    break
+  fi
+  sleep 5
+done
+
+PYTHONPATH=src python -u scripts/multi_agent_runner.py \
+  --config configs/sage_v12_musique.yaml \
+  --questions "$QFILE" \
+  --output "$OUT" \
+  --limit 25 \
+  --concurrent 12
+
+echo "Done shard $SHARD at $(date)"

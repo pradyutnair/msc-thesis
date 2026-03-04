@@ -1,0 +1,108 @@
+#!/bin/bash
+#SBATCH --job-name=eval_s7bf
+#SBATCH --partition=gpu_h100
+#SBATCH --time=01:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/logs/%j_eval_sage_v7b_fast_1000_musique.out
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="Qwen3-30B-A3B"
+
+MODEL_ID="Qwen/Qwen3-30B-A3B"; SERVED_NAME="Qwen3-30B-A3B"
+RUN_OUT="results/sage_v7b_fast_1000/musique"
+
+echo "=== Dependency eval for SAGE v7b-fast 1000q MuSiQue ==="
+echo "Start: $(date)"
+
+PRED_FILE="$RUN_OUT/predictions.jsonl"
+if [ ! -f "$PRED_FILE" ]; then
+    echo "ERROR: No predictions file found at $PRED_FILE"
+    exit 1
+fi
+PRED_COUNT=$(wc -l < "$PRED_FILE")
+echo "Found $PRED_COUNT predictions"
+
+# Offline eval first (no GPU needed)
+echo ""
+echo "--- Offline eval ---"
+PYTHONPATH=src python -u scripts/eval_offline.py "$PRED_FILE"
+
+# Check if LLM judge already ran
+HAS_LLM=$(python3 -c "
+import json
+preds = [json.loads(l) for l in open('$PRED_FILE')]
+has = any('llm_accuracy' in p for p in preds)
+print('yes' if has else 'no')
+")
+
+if [ "$HAS_LLM" = "yes" ]; then
+    echo "LLM judge already completed. Printing summary only."
+else
+    echo ""
+    echo "--- Starting vLLM for LLM Judge eval ---"
+    cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+    trap cleanup EXIT TERM INT
+
+    vllm serve "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port 8000 \
+        --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.92 \
+        --max-num-seqs 128 --max-num-batched-tokens 32768 \
+        --enable-prefix-caching --enable-auto-tool-choice --tool-call-parser hermes \
+        --trust-remote-code --generation-config vllm &
+    VLLM_PID=$!
+
+    for i in $(seq 1 360); do
+        if ! kill -0 "$VLLM_PID" 2>/dev/null; then echo "vLLM died!"; wait "$VLLM_PID" || true; exit 1; fi
+        resp="$(curl -fsS http://127.0.0.1:8000/v1/models 2>/dev/null || true)"
+        if [[ -n "$resp" ]] && echo "$resp" | python -c "import json,sys; d=json.load(sys.stdin); print(any(m.get('id')=='$SERVED_NAME' for m in d.get('data',[])))" | grep -q True; then
+            echo "vLLM ready after ~$((i*5))s"
+            break
+        fi
+        sleep 5
+    done
+
+    echo ""
+    echo "--- LLM Judge eval ---"
+    PYTHONPATH=src python -u scripts/eval.py --predictions "$PRED_FILE"
+fi
+
+# Summary
+echo ""
+echo "=== RESULTS COMPARISON ==="
+python3 -u << 'PYEOF'
+import json, statistics
+preds = [json.loads(l) for l in open("results/sage_v7b_fast_1000/musique/predictions.jsonl")]
+total = len(preds)
+answered = sum(1 for p in preds if p["pred_answer"].strip())
+empty = total - answered
+
+has_llm = any("llm_accuracy" in p for p in preds)
+if has_llm:
+    correct = sum(1 for p in preds if p.get("llm_accuracy") == 1.0)
+    pct = correct / max(answered, 1) * 100
+    print(f"SAGE v7b-fast MuSiQue: {correct}/{answered} = {pct:.2f}%")
+    print(f"  vs E4 (37.6%): {'BEATS' if pct > 37.6 else 'BELOW'} by {abs(pct - 37.6):.2f}pp")
+    print(f"  vs SAGE v7 (36.79%): {'BEATS' if pct > 36.79 else 'BELOW'} by {abs(pct - 36.79):.2f}pp")
+else:
+    print(f"Total: {total}, Answered: {answered}, Empty: {empty}")
+    print("No LLM judge scores found.")
+
+wall_times = [p.get("wall_clock_seconds", 0) for p in preds if p.get("wall_clock_seconds")]
+if wall_times:
+    print(f"\nTiming: mean={statistics.mean(wall_times):.1f}s, median={statistics.median(wall_times):.1f}s, p90={sorted(wall_times)[int(0.9*len(wall_times))]:.1f}s")
+PYEOF
+
+echo ""
+echo "=== Done === $(date)"

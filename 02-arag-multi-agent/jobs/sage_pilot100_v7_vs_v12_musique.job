@@ -1,0 +1,197 @@
+#!/bin/bash
+#SBATCH --job-name=s_p100_v7v12
+#SBATCH --partition=gpu_h100
+#SBATCH --time=03:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/logs/%j_sage_pilot100_v7_vs_v12_musique.out
+
+set -euo pipefail
+module purge
+module load 2025
+module load Anaconda3/2025.06-1
+module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"
+export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="Qwen3-30B-A3B"
+
+MODEL_ID="Qwen/Qwen3-30B-A3B"
+SERVED_NAME="Qwen3-30B-A3B"
+QFILE="data/musique/questions_pilot100_seed42.json"
+ROOT_OUT="results/sage_pilot100_seed42"
+V7_OUT="$ROOT_OUT/v7"
+V12_OUT="$ROOT_OUT/v12"
+mkdir -p "$ROOT_OUT" results/logs
+rm -rf "$V7_OUT" "$V12_OUT"
+
+cleanup() {
+  [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true
+}
+trap cleanup EXIT TERM INT
+
+echo "=== MuSiQue pilot100 (seed42): v7 vs v12 ==="
+echo "Questions file: $QFILE"
+echo "Start: $(date)"
+
+vllm serve "$MODEL_ID" \
+  --served-model-name "$SERVED_NAME" \
+  --host 127.0.0.1 --port 8000 \
+  --dtype auto \
+  --max-model-len 32768 \
+  --gpu-memory-utilization 0.94 \
+  --max-num-seqs 96 \
+  --enable-prefix-caching \
+  --enable-auto-tool-choice \
+  --tool-call-parser hermes \
+  --trust-remote-code \
+  --generation-config vllm &
+VLLM_PID=$!
+
+for i in $(seq 1 360); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then
+    wait "$VLLM_PID" || true
+    exit 1
+  fi
+  if curl -fsS http://127.0.0.1:8000/v1/models 2>/dev/null | grep -q "$SERVED_NAME"; then
+    echo "vLLM ready after ~$((i*5))s"
+    break
+  fi
+  sleep 5
+done
+
+echo "--- Run v7 pilot (100) ---"
+PYTHONPATH=src python -u scripts/multi_agent_runner.py \
+  --config configs/sage_v7_musique.yaml \
+  --questions "$QFILE" \
+  --output "$V7_OUT" \
+  --limit 100 \
+  --concurrent 20
+
+echo "--- Run v12 pilot (100) ---"
+PYTHONPATH=src python -u scripts/multi_agent_runner.py \
+  --config configs/sage_v12_musique.yaml \
+  --questions "$QFILE" \
+  --output "$V12_OUT" \
+  --limit 100 \
+  --concurrent 20
+
+# offline metrics for both
+PYTHONPATH=src python -u scripts/eval_offline.py "$V7_OUT/predictions.jsonl" "$V12_OUT/predictions.jsonl"
+
+# compare against E4 on same 100 qids
+python - <<'PY'
+import json
+from pathlib import Path
+from collections import Counter
+
+root = Path('results/sage_pilot100_seed42')
+v7_path = root/'v7'/'predictions.jsonl'
+v12_path = root/'v12'/'predictions.jsonl'
+e4_path = Path('/projects/prjs1800/msc-thesis/01-arag-reproduction/results/qwen3-30b-e5-deepseekr1/musique/predictions.jsonl')
+
+
+def load_jsonl(p):
+    out=[]
+    with open(p) as f:
+        for line in f:
+            line=line.strip()
+            if line:
+                out.append(json.loads(line))
+    return out
+
+
+def norm(s):
+    import re, string
+    s=(s or '').lower()
+    s=re.sub(r'\b(a|an|the)\b',' ',s)
+    s=''.join(ch for ch in s if ch not in string.punctuation)
+    return ' '.join(s.split())
+
+
+def score(rows):
+    n=len(rows)
+    em=0
+    by_hop=Counter()
+    by_hop_n=Counter()
+    for r in rows:
+        pred=norm(r.get('pred_answer',''))
+        gold=norm(r.get('gold_answer') or r.get('answer',''))
+        ok=int(pred==gold and gold!='')
+        em+=ok
+        qid=r.get('qid') or r.get('id','')
+        hop='unknown'
+        if isinstance(qid,str):
+            if '2hop' in qid: hop='2hop'
+            elif '3hop' in qid: hop='3hop'
+            elif '4hop' in qid: hop='4hop'
+        by_hop[hop]+=ok
+        by_hop_n[hop]+=1
+    return {
+        'n': n,
+        'em_correct': em,
+        'em': em/n if n else 0.0,
+        'by_hop': {
+            h: {'n': by_hop_n[h], 'em_correct': by_hop[h], 'em': (by_hop[h]/by_hop_n[h] if by_hop_n[h] else 0.0)}
+            for h in sorted(by_hop_n)
+        }
+    }
+
+v7 = load_jsonl(v7_path)
+v12 = load_jsonl(v12_path)
+v7_qids = {r.get('qid') or r.get('id') for r in v7}
+v12_qids = {r.get('qid') or r.get('id') for r in v12}
+common = v7_qids & v12_qids
+
+# Align e4 to same subset
+all_e4 = load_jsonl(e4_path)
+e4 = [r for r in all_e4 if (r.get('qid') or r.get('id')) in common]
+
+# Align v7/v12 explicitly to common
+v7 = [r for r in v7 if (r.get('qid') or r.get('id')) in common]
+v12 = [r for r in v12 if (r.get('qid') or r.get('id')) in common]
+
+s7 = score(v7)
+s12 = score(v12)
+se4 = score(e4)
+
+summary = {
+    'subset_size_common': len(common),
+    'v7': s7,
+    'v12': s12,
+    'e4_same_subset': se4,
+    'delta_v12_minus_v7_em_pp': round((s12['em'] - s7['em']) * 100, 2),
+    'delta_v12_minus_e4_em_pp': round((s12['em'] - se4['em']) * 100, 2),
+}
+
+out_json = root/'pilot_compare_v7_v12_vs_e4.json'
+out_txt = root/'pilot_compare_v7_v12_vs_e4.txt'
+out_json.write_text(json.dumps(summary, indent=2))
+
+lines = []
+lines.append(f"common_n={summary['subset_size_common']}")
+for name, s in [('v7', s7), ('v12', s12), ('e4', se4)]:
+    lines.append(f"{name}: EM={s['em']*100:.2f}% ({s['em_correct']}/{s['n']})")
+    for hop in ['2hop','3hop','4hop']:
+        if hop in s['by_hop']:
+            hs=s['by_hop'][hop]
+            lines.append(f"  {hop}: {hs['em']*100:.2f}% ({hs['em_correct']}/{hs['n']})")
+lines.append(f"delta v12-v7: {summary['delta_v12_minus_v7_em_pp']:+.2f} pp")
+lines.append(f"delta v12-e4: {summary['delta_v12_minus_e4_em_pp']:+.2f} pp")
+out_txt.write_text('\n'.join(lines)+"\n")
+print('\n'.join(lines))
+print(f"saved: {out_json}")
+print(f"saved: {out_txt}")
+PY
+
+echo "=== Done === $(date)"

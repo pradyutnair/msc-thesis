@@ -1,0 +1,34 @@
+# M1v5: Multi-agent architecture — all pipeline fixes applied.
+# Fixes vs M1:
+#   - base.py: robust finish() extraction + re-prompt retry
+#   - search_agent.txt: CRITICAL warning against plain-text finish()
+#   - aggregator.py: 10-chunk evidence, single-hop shortcut, strong bad-answer fallback
+#   - aggregator.txt: decisive synthesis, no over-refusing
+#   - self-verify skipped for single_hop questions
+
+llm:
+  model: "Qwen3-30B-A3B"
+  api_key: "dummy"
+  base_url: "http://127.0.0.1:8000/v1"
+  temperature: 0.0
+  max_tokens: 4096
+  chat_template_kwargs:
+    enable_thinking: false
+
+embedding:
+  model: "intfloat/e5-base-v2"
+  device: "cpu"
+
+data:
+  chunks_file: "/projects/prjs1800/msc-thesis/02-arag-multi-agent/data/hotpotqa/chunks.json"
+  questions_file: "/projects/prjs1800/msc-thesis/02-arag-multi-agent/data/hotpotqa/questions.json"
+  index_dir: "/projects/prjs1800/msc-thesis/02-arag-multi-agent/data/hotpotqa/index_e5_base_v2"
+
+multi_agent:
+  enable_decomposer: true
+  enable_doc_cache: false
+  enable_self_verify: true
+  max_loops_per_agent: 7
+  max_token_budget: 64000
+  max_concurrent: 3
+  verbose: false

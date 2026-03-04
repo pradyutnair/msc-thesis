@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=s8_1kMus
 #SBATCH --partition=gpu_h100
-#SBATCH --time=06:00:00
+#SBATCH --time=08:00:00
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16
 #SBATCH --gpus=1
@@ -17,20 +17,30 @@ export PYTHONNOUSERSITE=1
 export HF_HOME="/projects/prjs1800/.cache/huggingface"
 export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
 export TOKENIZERS_PARALLELISM=false
+export PYTHONPATH=src
 export ARAG_API_KEY="dummy"
 export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
 export ARAG_MODEL="Qwen3-30B-A3B"
 
 MODEL_ID="Qwen/Qwen3-30B-A3B"; SERVED_NAME="Qwen3-30B-A3B"
+RUN_OUT="results/sage_v8_1000/musique"
 
-echo "=== SAGE v8 MuSiQue 1000q (4 loops, 2 verify, concurrent 6) ==="
+echo "=== SAGE v8 MuSiQue 1000q ==="
+echo "Fixes: A(refusal retry), B(3-hop planner), C(4 loops), E(fallback), F(synth prompt)"
+echo "Config: retriever_max_loops=4, verification_rounds=1, concurrent=15"
 echo "Start: $(date)"
+T_START=$SECONDS
+
+# Clean slate — runner skips existing predictions
+rm -rf "$RUN_OUT"
+mkdir -p "$RUN_OUT" results/logs
 
 cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
 trap cleanup EXIT TERM INT
 
 # Start vLLM with tool calling support
-echo "Starting vLLM server..."
+echo ""
+echo "--- Starting vLLM server ---"
 vllm serve "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port 8000 \
     --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.92 --max-num-seqs 64 \
     --enable-prefix-caching --enable-auto-tool-choice --tool-call-parser hermes \
@@ -38,46 +48,109 @@ vllm serve "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --por
 VLLM_PID=$!
 
 for i in $(seq 1 360); do
-    if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
-    curl -fsS http://127.0.0.1:8000/v1/models 2>/dev/null | grep -q "$SERVED_NAME" && echo "vLLM ready after ~$((i*5))s" && break
+    if ! kill -0 "$VLLM_PID" 2>/dev/null; then echo "vLLM died!"; wait "$VLLM_PID" || true; exit 1; fi
+    resp="$(curl -fsS http://127.0.0.1:8000/v1/models 2>/dev/null || true)"
+    if [[ -n "$resp" ]] && echo "$resp" | python3 -c "import json,sys; d=json.load(sys.stdin); print(any(m.get('id')=='$SERVED_NAME' for m in d.get('data',[])))" | grep -q True; then
+        echo "vLLM ready after ~$((i*5))s"
+        break
+    fi
     sleep 5
 done
+T_VLLM_READY=$SECONDS
 
 # Phase 1: Generation
 echo ""
-echo "=== Phase 1: SAGE v8 Generation ==="
-PYTHONPATH=src python -u scripts/multi_agent_runner.py \
+echo "=== Phase 1: SAGE v8 Generation (1000 questions, concurrent=15) ==="
+T_GEN_START=$SECONDS
+python -u scripts/multi_agent_runner.py \
     --config configs/sage_v8_musique.yaml \
     --questions data/musique/questions.json \
-    --output results/sage_v8_1000/musique \
-    --limit 1000 --concurrent 12
+    --output "$RUN_OUT" \
+    --limit 1000 --concurrent 15
+T_GEN_END=$SECONDS
 
+PRED_COUNT=$(wc -l < "$RUN_OUT/predictions.jsonl")
+echo ""
+echo "Predictions: $PRED_COUNT lines"
+echo "Generation time: $(( (T_GEN_END - T_GEN_START) / 60 )) min"
+
+# Phase 2: Offline eval
 echo ""
 echo "=== Phase 2: Offline eval ==="
-PYTHONPATH=src python -u scripts/eval_offline.py results/sage_v8_1000/musique/predictions.jsonl
+python -u scripts/eval_offline.py "$RUN_OUT/predictions.jsonl"
 
+# Phase 3: LLM Judge eval
 echo ""
 echo "=== Phase 3: LLM Judge eval ==="
-PYTHONPATH=src python -u scripts/eval.py \
-    --predictions results/sage_v8_1000/musique/predictions.jsonl
+python -u scripts/eval.py \
+    --predictions "$RUN_OUT/predictions.jsonl"
+T_EVAL_END=$SECONDS
 
+# Phase 4: Summary comparison
 echo ""
-echo "=== COMPARISON ==="
-echo "E4 MuSiQue: 37.6% (376/1000)"
-echo "SAGE v7: 36.79% (351/954)"
+echo "=== RESULTS COMPARISON ==="
+python3 -u << 'PYEOF'
+import json, statistics
 
-python3 << 'PYEOF'
-import json
 preds = [json.loads(l) for l in open("results/sage_v8_1000/musique/predictions.jsonl")]
-correct = sum(1 for p in preds if p.get("llm_accuracy") == 1.0)
-answered = sum(1 for p in preds if p["pred_answer"].strip())
 total = len(preds)
+answered = sum(1 for p in preds if p["pred_answer"].strip())
 empty = total - answered
-print(f"Total: {total}, Answered: {answered}, Empty: {empty}")
-print(f"LLM Correct: {correct}/{answered} = {correct/max(answered,1)*100:.2f}%")
-delta = correct/max(answered,1)*100 - 37.6
-print(f"vs E4 (37.6%): {'BEATS' if delta > 0 else 'BELOW'} by {abs(delta):.2f}pp")
+
+# Count refusals
+refusal_kw = ["cannot be determined", "insufficient information", "not mentioned",
+              "no evidence", "unable to determine", "no information"]
+refusals = sum(1 for p in preds if any(k in p["pred_answer"].lower() for k in refusal_kw))
+
+# LLM judge accuracy
+has_llm = any("llm_accuracy" in p for p in preds)
+if has_llm:
+    correct = sum(1 for p in preds if p.get("llm_accuracy") == 1.0)
+    pct = correct / max(total, 1) * 100
+    pct_answered = correct / max(answered, 1) * 100
+    print(f"SAGE v8 MuSiQue:")
+    print(f"  Total: {total}, Answered: {answered}, Empty: {empty}, Refusals: {refusals}")
+    print(f"  LLM Correct: {correct}/{total} = {pct:.2f}% (of answered: {pct_answered:.2f}%)")
+    print()
+    print("Reference baselines:")
+    print(f"  E4 MuSiQue:       37.6%  (376/1000)")
+    print(f"  SAGE v7 MuSiQue:  35.55% (339/954)")
+    delta_e4 = pct - 37.6
+    delta_v7 = pct - 35.55
+    print()
+    print(f"  vs E4 (37.6%):   {'BEATS' if delta_e4 > 0 else 'BELOW'} by {abs(delta_e4):.2f}pp")
+    print(f"  vs v7 (35.55%):  {'BEATS' if delta_v7 > 0 else 'BELOW'} by {abs(delta_v7):.2f}pp")
+
+    # Breakdown by hop count if available
+    by_hops = {}
+    for p in preds:
+        hops = p.get("num_hops", p.get("question_type", "unknown"))
+        by_hops.setdefault(str(hops), []).append(p.get("llm_accuracy", 0.0))
+    if len(by_hops) > 1:
+        print()
+        print("By hop count:")
+        for h in sorted(by_hops.keys()):
+            vals = by_hops[h]
+            acc = sum(v == 1.0 for v in vals)
+            print(f"  {h}-hop: {acc}/{len(vals)} = {acc/max(len(vals),1)*100:.1f}%")
+else:
+    print(f"SAGE v8 MuSiQue (offline eval only):")
+    print(f"  Total: {total}, Answered: {answered}, Empty: {empty}, Refusals: {refusals}")
+
+# Timing stats
+wall_times = [p.get("wall_clock_seconds", 0) for p in preds if p.get("wall_clock_seconds")]
+if wall_times:
+    print(f"\nTiming per question:")
+    print(f"  Mean: {statistics.mean(wall_times):.1f}s, Median: {statistics.median(wall_times):.1f}s")
+    print(f"  P90: {sorted(wall_times)[int(0.9*len(wall_times))]:.1f}s, Max: {max(wall_times):.1f}s")
 PYEOF
 
+# Timing summary
+echo ""
+echo "=== TIMING ==="
+echo "vLLM startup:   $((T_VLLM_READY - T_START))s"
+echo "Generation:     $((T_GEN_END - T_GEN_START))s ($((($T_GEN_END - $T_GEN_START)/60)) min)"
+echo "Eval:           $((T_EVAL_END - T_GEN_END))s"
+echo "Total wall:     $((SECONDS - T_START))s ($((($SECONDS - $T_START)/60)) min)"
 echo ""
 echo "=== Done === $(date)"

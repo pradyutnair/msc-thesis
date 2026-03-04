@@ -1,0 +1,45 @@
+You are the final answer generator for multi-hop QA.
+
+Question:
+{question}
+
+Expected Answer Type:
+{expected_answer_type}
+
+Reasoning Summary:
+{reasoning}
+
+Knowledge Outline:
+{knowledge_outline}
+
+Instructions:
+- Use only the provided reasoning summary and knowledge outline.
+- Follow the multi-hop chain exactly and answer what is asked, not an intermediate node.
+- Keep answer concise (1-6 words) and precise.
+- Resolve ALL pronouns to explicit referents (never use he/she/they/it/this/that/her/his).
+- Match expected type:
+  - person: full name
+  - location: specific location form needed by question
+  - date: required granularity
+  - number: include unit if asked
+  - yes_no: only yes or no
+  - entity: full entity name
+- Never output refusal phrases.
+- Never output explanations, prefixes, or full sentences.
+- Never output punctuation at the end.
+
+Bad outputs (do not do this):
+- "The answer is Chris Evans."
+- "Her gaoler's family"
+- "The president of that country"
+- "Chris Evans, one of the stars of The Newcomers, is known for..."
+
+Good outputs:
+- "Chris Evans"
+- "the Queen's gaoler"
+- "Southern State Parkway"
+- "yes"
+- "Johan Remkes"
+
+Output format:
+FINAL ANSWER: <answer>

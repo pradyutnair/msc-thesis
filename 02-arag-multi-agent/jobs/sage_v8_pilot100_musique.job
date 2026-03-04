@@ -1,0 +1,138 @@
+#!/bin/bash
+#SBATCH --job-name=s8_p100M
+#SBATCH --partition=gpu_h100
+#SBATCH --time=02:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/logs/%j_sage_v8_pilot100_musique.out
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="Qwen3-30B-A3B"
+
+MODEL_ID="Qwen/Qwen3-30B-A3B"; SERVED_NAME="Qwen3-30B-A3B"
+RUN_OUT="results/sage_v8_pilot100/musique"
+
+rm -rf "$RUN_OUT"
+mkdir -p "$RUN_OUT" results/logs
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+echo "=== SAGE v8 MuSiQue Pilot: 100 questions ==="
+echo "Fixes: better planner decomposition, refusal elimination, 4 retriever loops, synth fallback"
+echo "Start: $(date)"
+
+# Start vLLM
+vllm serve "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port 8000 \
+    --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.92 --max-num-seqs 64 \
+    --enable-prefix-caching --enable-auto-tool-choice --tool-call-parser hermes \
+    --trust-remote-code --generation-config vllm &
+VLLM_PID=$!
+
+for i in $(seq 1 360); do
+    if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+    curl -fsS http://127.0.0.1:8000/v1/models 2>/dev/null | grep -q "$SERVED_NAME" && echo "vLLM ready after ~$((i*5))s" && break
+    sleep 5
+done
+
+# Phase 1: Generation (100 questions)
+echo ""
+echo "=== Phase 1: Generation (100 questions) ==="
+PYTHONPATH=src python -u scripts/multi_agent_runner.py \
+    --config configs/sage_v8_musique.yaml \
+    --questions data/musique/questions.json \
+    --output "$RUN_OUT" \
+    --limit 100 --concurrent 15
+
+# Phase 2: Offline eval
+echo ""
+echo "=== Phase 2: Offline eval ==="
+PYTHONPATH=src python -u scripts/eval_offline.py "$RUN_OUT/predictions.jsonl"
+
+# Phase 3: LLM Judge eval
+echo ""
+echo "=== Phase 3: LLM Judge eval ==="
+PYTHONPATH=src python -u scripts/eval.py \
+    --predictions "$RUN_OUT/predictions.jsonl"
+
+# Phase 4: Compare with E4 on same 100 questions
+echo ""
+echo "=== Phase 4: Head-to-head vs E4 on same 100 questions ==="
+python3 -u << 'PYEOF'
+import json
+
+# Load SAGE v8 predictions
+sage = {}
+for line in open("results/sage_v8_pilot100/musique/predictions.jsonl"):
+    p = json.loads(line)
+    sage[p["qid"]] = p
+
+# Load E4 predictions
+e4 = {}
+for line in open("/projects/prjs1800/msc-thesis/01-arag-reproduction/results/qwen3-30b-e5-deepseekr1/musique/predictions.jsonl"):
+    p = json.loads(line)
+    if p["qid"] in sage:
+        e4[p["qid"]] = p
+
+# Load SAGE v7 clean predictions for same questions
+v7 = {}
+for line in open("results/sage_v7_1000_clean/musique/predictions.jsonl"):
+    p = json.loads(line)
+    if p["qid"] in sage:
+        v7[p["qid"]] = p
+
+n = len(sage)
+sage_correct = sum(1 for p in sage.values() if p.get("llm_accuracy") == 1.0)
+sage_answered = sum(1 for p in sage.values() if p["pred_answer"].strip())
+sage_empty = n - sage_answered
+
+e4_correct = sum(1 for p in e4.values() if p.get("llm_accuracy") == 1.0)
+
+v7_correct = sum(1 for p in v7.values() if p.get("llm_accuracy") == 1.0)
+v7_answered = sum(1 for p in v7.values() if p["pred_answer"].strip())
+v7_empty = n - v7_answered
+
+print(f"Questions compared: {n}")
+print(f"")
+print(f"SAGE v8:  {sage_correct}/{n} correct ({sage_correct/n*100:.1f}%), {sage_empty} empty")
+print(f"SAGE v7:  {v7_correct}/{n} correct ({v7_correct/n*100:.1f}%), {v7_empty} empty")
+print(f"E4:       {e4_correct}/{n} correct ({e4_correct/n*100:.1f}%), 0 empty")
+print(f"")
+print(f"v8 vs E4: {sage_correct - e4_correct:+d} ({(sage_correct-e4_correct)/n*100:+.1f}pp)")
+print(f"v8 vs v7: {sage_correct - v7_correct:+d} ({(sage_correct-v7_correct)/n*100:+.1f}pp)")
+print(f"")
+
+# Breakdown by hop count
+for hops in ["2hop", "3hop", "4hop"]:
+    s = {k:v for k,v in sage.items() if hops in k}
+    e = {k:v for k,v in e4.items() if hops in k}
+    v = {k:v for k,v in v7.items() if hops in k}
+    if not s: continue
+    sc = sum(1 for p in s.values() if p.get("llm_accuracy") == 1.0)
+    ec = sum(1 for p in e.values() if p.get("llm_accuracy") == 1.0)
+    vc = sum(1 for p in v.values() if p.get("llm_accuracy") == 1.0)
+    ns = len(s)
+    print(f"  {hops}: v8={sc}/{ns} ({sc/ns*100:.0f}%) | v7={vc}/{ns} ({vc/ns*100:.0f}%) | E4={ec}/{ns} ({ec/ns*100:.0f}%) | v8-E4={sc-ec:+d}")
+
+# How many refusals/empty in v8?
+refusals = sum(1 for p in sage.values() if any(r in p["pred_answer"].lower() for r in ["cannot be determined", "insufficient", "no evidence", "not mentioned"]))
+print(f"")
+print(f"v8 refusals: {refusals}")
+print(f"v8 empty: {sage_empty}")
+print(f"v7 empty: {v7_empty}")
+PYEOF
+
+echo ""
+echo "=== Done === $(date)"
