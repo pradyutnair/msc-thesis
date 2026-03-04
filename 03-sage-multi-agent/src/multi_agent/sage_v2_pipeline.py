@@ -82,6 +82,7 @@ def _normalize_final_answer(answer: str, expected_answer_type: str) -> str:
     text = text.strip().strip("\"'`")
     text = re.sub(r"\s+", " ", text)
     text = re.sub(r"\s*[\.,;:!?]+$", "", text)
+    text = re.sub(r"\s*\([^)]*\)", "", text).strip()
     text = re.sub(r"^(the answer is|answer is)\s+", "", text, flags=re.IGNORECASE).strip()
 
     if expected_answer_type == "yes_no":
@@ -90,35 +91,19 @@ def _normalize_final_answer(answer: str, expected_answer_type: str) -> str:
             return "yes"
         if lowered.startswith("no"):
             return "no"
+    words = text.split()
+    if len(words) > 8:
+        text = " ".join(words[:8]).strip()
     return text
 
 
 def _loads_json_with_repair(raw: str) -> dict[str, Any]:
-    if not raw or not raw.strip():
-        raise json.JSONDecodeError("Empty response", raw or "", 0)
     try:
         return json.loads(raw)
     except json.JSONDecodeError:
-        pass
-    # Extract first JSON object from mixed content
-    match = re.search(r"\{[\s\S]*\}", raw)
-    if not match:
-        raise json.JSONDecodeError("No JSON object found", raw, 0)
-    extracted = match.group(0)
-    try:
-        return json.loads(extracted)
-    except json.JSONDecodeError:
-        pass
-    # Fix common escape issues
-    repaired = extracted.replace("\\'", "'")
-    repaired = re.sub(r"\\(?![\"\\/bfnrtu])", r"\\\\", repaired)
-    try:
+        repaired = (raw or "").replace("\\'", "'")
+        repaired = re.sub(r"\\(?![\"\\/bfnrtu])", r"\\\\", repaired)
         return json.loads(repaired)
-    except json.JSONDecodeError:
-        pass
-    # Last resort: strip control characters
-    cleaned = re.sub(r"[\x00-\x1f]", " ", repaired)
-    return json.loads(cleaned)
 
 
 class SageV2Pipeline:
@@ -189,24 +174,7 @@ class SageV2Pipeline:
             temperature=0.0,
         )
         raw = _strip_llm_wrappers((response.get("message") or {}).get("content", ""))
-        try:
-            data = _loads_json_with_repair(raw)
-        except (json.JSONDecodeError, ValueError):
-            logger.warning("Reasoner JSON parse error (iter %d), defaulting to retrieve", iteration)
-            return {
-                "mode": "retrieve",
-                "reasoning": "Parse error — continuing retrieval",
-                "answer": "",
-                "expected_answer_type": _infer_expected_answer_type(question),
-                "missing": [
-                    {
-                        "entity": "question_focus",
-                        "goal": "Retrieve evidence for the question",
-                        "queries": [question],
-                        "method": "semantic",
-                    },
-                ],
-            }
+        data = _loads_json_with_repair(raw)
 
         mode = data.get("mode", "retrieve")
         if mode not in {"answer", "retrieve"}:
@@ -242,31 +210,6 @@ class SageV2Pipeline:
                         "method": method,
                     },
                 )
-
-        # Safety: if Reasoner says "answer" but sub_questions have unresolved entries, override
-        sub_questions = data.get("sub_questions", [])
-        resolved = data.get("resolved", [])
-        if (
-            mode == "answer"
-            and isinstance(sub_questions, list)
-            and isinstance(resolved, list)
-            and len(sub_questions) == len(resolved)
-            and sub_questions
-        ):
-            unresolved = [sq for sq, res in zip(sub_questions, resolved) if not str(res).strip()]
-            if unresolved:
-                mode = "retrieve"
-                answer = ""
-                sq = str(unresolved[0])
-                if not normalized_missing:
-                    normalized_missing = [
-                        {
-                            "entity": sq[:60],
-                            "goal": sq,
-                            "queries": [sq],
-                            "method": "semantic",
-                        },
-                    ]
 
         if mode == "answer" and not answer:
             mode = "retrieve"
@@ -368,17 +311,6 @@ class SageV2Pipeline:
             if not isinstance(facts_raw, list):
                 facts_raw = []
             facts = _dedupe_keep_order([str(x).strip() for x in facts_raw if str(x).strip()])
-            # Extractive fallback: if summarizer returned no facts but chunks exist
-            if not facts and chunks:
-                entity_lower = entity_request["entity"].lower()
-                for chunk in chunks[:3]:
-                    for sent in re.split(r"[.!?\n]+", str(chunk.get("text", ""))):
-                        sent = sent.strip()
-                        if 20 <= len(sent) <= 250 and entity_lower in sent.lower():
-                            facts.append(sent)
-                            break
-                    if facts:
-                        break
             confidence = float(data.get("confidence", 0.0))
             confidence = max(0.0, min(1.0, confidence))
             supporting_chunk_ids = data.get("supporting_chunk_ids", [])
@@ -498,7 +430,10 @@ class SageV2Pipeline:
                             },
                         ]
                     else:
-                        # Don't use Reasoner's raw answer — always synthesize via Answer Generator
+                        final_answer = _normalize_final_answer(
+                            decision["answer"].strip(),
+                            expected_answer_type,
+                        )
                         break
 
                 missing = decision["missing"]
@@ -548,18 +483,18 @@ class SageV2Pipeline:
                     )
                     task_idx += 1
 
-                # Avoid spinning when retrieval adds no new knowledge (but allow at least 3 iterations)
-                if added_facts == 0 and iteration >= 3:
+                # Avoid spinning when retrieval adds no new knowledge.
+                if added_facts == 0:
                     break
 
-            # Always synthesize via Answer Generator for consistent, concise output
-            final_answer, synthesis_cost = await self._generate_final_answer(
-                question=question,
-                expected_answer_type=expected_answer_type,
-                reasoning=final_reasoning or " ".join(reasoning_history[-2:]),
-                knowledge_outline=knowledge_outline,
-            )
-            final_answer = _normalize_final_answer(final_answer, expected_answer_type)
+            if not final_answer or _is_refusal(final_answer):
+                final_answer, synthesis_cost = await self._generate_final_answer(
+                    question=question,
+                    expected_answer_type=expected_answer_type,
+                    reasoning=final_reasoning or " ".join(reasoning_history[-2:]),
+                    knowledge_outline=knowledge_outline,
+                )
+                final_answer = _normalize_final_answer(final_answer, expected_answer_type)
 
             if not final_answer or _is_refusal(final_answer):
                 # Last-resort fallback: first fact of most confident entity.
