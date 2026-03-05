@@ -122,14 +122,26 @@ Response:"""
         )
         
         # Strip thinking tags (e.g. <think>...</think>) from models like DeepSeek-R1 / Qwen3
-        cleaned = strip_reasoning_tags(response).lower()
-        # Flexible matching: look for verdict anywhere in the response
-        if "incorrect" in cleaned:
-            return 0.0
-        elif "correct" in cleaned:
+        cleaned = strip_reasoning_tags(response).lower().strip()
+        # Take only the last line to get the final verdict (skip reasoning)
+        last_line = cleaned.split("\n")[-1].strip()
+        # Check last line first for a clean verdict
+        if last_line in ("correct", "correct."):
             return 1.0
-        else:
+        if last_line in ("incorrect", "incorrect."):
             return 0.0
+        # Fallback: check last word
+        last_word = cleaned.rstrip(".").split()[-1] if cleaned.split() else ""
+        if last_word == "incorrect":
+            return 0.0
+        elif last_word == "correct":
+            return 1.0
+        # Final fallback: count occurrences, last mention wins
+        import re as _re
+        verdicts = _re.findall(r"\b(correct|incorrect)\b", cleaned)
+        if verdicts:
+            return 0.0 if verdicts[-1] == "incorrect" else 1.0
+        return 0.0
     
     def calculate_contain(self, pred_answer, gold_answer):
         """Check if gold answer is contained in prediction."""

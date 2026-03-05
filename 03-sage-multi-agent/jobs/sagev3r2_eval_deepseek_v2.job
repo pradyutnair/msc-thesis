@@ -1,0 +1,93 @@
+#!/bin/bash
+#SBATCH --job-name=s3_eval2
+#SBATCH --partition=gpu_h100
+#SBATCH --time=04:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/03-sage-multi-agent/jobs/output/%j_sagev3r2_eval_deepseek_v2.log
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/03-sage-multi-agent
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+
+MODEL_ID="deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
+SERVED_NAME="DeepSeek-R1-Distill-Qwen-7B"
+
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="$SERVED_NAME"
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+python -m vllm.entrypoints.openai.api_server \
+  --model "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port 8000 \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.90 \
+  --trust-remote-code --generation-config vllm &
+VLLM_PID=$!
+
+for i in $(seq 1 300); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  STATUS="$(python - <<'PY'
+import json, urllib.request
+try:
+    d=json.load(urllib.request.urlopen("http://127.0.0.1:8000/v1/models", timeout=2))
+    print("ok" if any("DeepSeek" in m.get("id","") for m in d.get("data",[])) else "wait")
+except Exception:
+    print("wait")
+PY
+)"
+  echo "$STATUS"
+  if [[ "$STATUS" == "ok" ]]; then break; fi
+  sleep 3
+done
+
+# --- SAGE v3r2 (1000 questions) ---
+echo "=== SAGE v3r2: Evaluating HotpotQA ==="
+PYTHONPATH=src python -u scripts/eval.py \
+  --predictions "results/sage_v3r2_1000/hotpotqa/predictions.jsonl" \
+  --workers 10 \
+  --output "results/sage_v3r2_1000/hotpotqa"
+
+echo "=== SAGE v3r2: Evaluating 2WikiMultiHop ==="
+PYTHONPATH=src python -u scripts/eval.py \
+  --predictions "results/sage_v3r2_1000/2wikimultihop/predictions.jsonl" \
+  --workers 10 \
+  --output "results/sage_v3r2_1000/2wikimultihop"
+
+echo "=== SAGE v3r2: Evaluating MuSiQue ==="
+PYTHONPATH=src python -u scripts/eval.py \
+  --predictions "results/sage_v3r2_1000/musique/predictions.jsonl" \
+  --workers 10 \
+  --output "results/sage_v3r2_1000/musique"
+
+# --- E4: qwen3-30b-e5-deepseekr1 ---
+E4="/projects/prjs1800/msc-thesis/01-arag-reproduction/results/qwen3-30b-e5-deepseekr1"
+
+echo "=== E4: Evaluating HotpotQA ==="
+PYTHONPATH=src python -u scripts/eval.py \
+  --predictions "$E4/hotpotqa/predictions.jsonl" \
+  --workers 10 \
+  --output "$E4/hotpotqa"
+
+echo "=== E4: Evaluating 2WikiMultiHop ==="
+PYTHONPATH=src python -u scripts/eval.py \
+  --predictions "$E4/2wikimultihop/predictions.jsonl" \
+  --workers 10 \
+  --output "$E4/2wikimultihop"
+
+echo "=== E4: Evaluating MuSiQue ==="
+PYTHONPATH=src python -u scripts/eval.py \
+  --predictions "$E4/musique/predictions.jsonl" \
+  --workers 10 \
+  --output "$E4/musique"
+
+echo "=== All evaluations complete ==="
