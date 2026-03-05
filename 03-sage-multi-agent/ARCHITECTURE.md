@@ -4,11 +4,64 @@ This document compares three QA pipeline architectures evaluated on HotpotQA, 2W
 
 ## Results Overview
 
-| Dataset | E2 (Qwen3-8B) | M5 (Qwen3-30B-A3B) | SAGE v3r2 (Qwen3-8B) |
-|---------|---------------|---------------------|----------------------|
-| HotpotQA | 70.00% | 69.94% | **73.45%** |
-| 2WikiMultiHop | 63.60% | 53.01% | **77.11%** |
-| MuSiQue | 46.20% | 33.54% | **51.74%** |
+### LLM Accuracy (Primary Metric — DeepSeek-R1-Distill-Qwen-7B Judge)
+
+| Dataset | E2 (Qwen3-8B) | E4 (Qwen3-30B) | M5 (Qwen3-30B-A3B) | SAGE v3r2 (Qwen3-8B) |
+|---------|---------------|-----------------|---------------------|----------------------|
+| HotpotQA | 70.00% | 77.10% | 69.94% | **73.45%** |
+| 2WikiMultiHop | 63.60% | 70.70% | 53.01% | **77.11%** |
+| MuSiQue | 46.20% | 53.30% | 33.54% | **51.74%** |
+
+> E4 uses the same E2 architecture with a larger Qwen3-30B model. SAGE v3r2 outperforms all systems on 2Wiki (+6.4pp vs E4) and is competitive on MuSiQue (-1.6pp vs E4) despite using a 4x smaller model.
+
+### Full Metrics Comparison
+
+#### HotpotQA (2-hop, 1000 questions)
+
+| Metric | E2 | E4 | M5 | SAGE v3r2 |
+|--------|-----|-----|-----|-----------|
+| **LLM Accuracy** | 70.00% | **77.10%** | 69.94% | 73.45% |
+| **Contain (bidirectional)** | 59.40% | 67.70% | 67.40% | **75.30%** |
+| **Token F1** | 3.6%* | 3.9%* | 56.90% | **72.54%** |
+| **Norm EM** | 0.0%* | 0.0%* | 41.70% | **58.20%** |
+| **Contain (eval.py)** | 59.40% | 67.70% | 62.32% | **67.64%** |
+| Answer Rate | 100.0% | 100.0% | 99.8% | 99.8% |
+| Avg Loops / Iterations | 2.44 | 2.66 | 4.62 | — |
+
+#### 2WikiMultiHopQA (2-hop, 1000 questions)
+
+| Metric | E2 | E4 | M5 | SAGE v3r2 |
+|--------|-----|-----|-----|-----------|
+| **LLM Accuracy** | 63.60% | 70.70% | 53.01% | **77.11%** |
+| **Contain (bidirectional)** | 54.40% | 63.90% | 52.20% | **79.70%** |
+| **Token F1** | 3.9%* | 4.4%* | 39.70% | **74.65%** |
+| **Norm EM** | 0.0%* | 0.0%* | 28.90% | **66.00%** |
+| **Contain (eval.py)** | 54.40% | 63.90% | 51.00% | **78.31%** |
+| Answer Rate | 100.0% | 100.0% | 99.6% | 99.6% |
+| Avg Loops / Iterations | 2.78 | 3.05 | 5.14 | — |
+
+#### MuSiQue (3-4 hop, 1000 questions)
+
+| Metric | E2 | E4 | M5 | SAGE v3r2 |
+|--------|-----|-----|-----|-----------|
+| **LLM Accuracy** | 46.20% | **53.30%** | 33.54% | 51.74% |
+| **Contain (bidirectional)** | 27.10% | 34.40% | 30.60% | **51.20%** |
+| **Token F1** | 2.4%* | 2.6%* | 27.30% | **47.29%** |
+| **Norm EM** | 0.0%* | 0.0%* | 17.10% | **34.90%** |
+| **Contain (eval.py)** | 27.10% | 34.40% | 25.74% | **43.87%** |
+| Answer Rate | 100.0% | 100.0% | 97.5% | 97.8% |
+| Avg Loops / Iterations | 2.65 | 2.98 | 5.52 | — |
+
+\* *E2 and E4 `pred_answer` fields contain verbose reasoning (including `<think>` tags and full sentences), making EM and Token F1 unreliable for these systems. The LLM judge and contain metrics are more meaningful for comparison. SAGE and M5 output clean short answers.*
+
+### Efficiency Metrics
+
+| Metric | E2 | E4 | M5 | SAGE v3r2 |
+|--------|-----|-----|-----|-----------|
+| Avg retrieved tokens (HotpotQA) | 714 | 842 | 5,044 | — |
+| Avg retrieved tokens (2Wiki) | 811 | 800 | 6,879 | — |
+| Avg retrieved tokens (MuSiQue) | 751 | 873 | 7,784 | — |
+| Avg loops/iterations | 2.4–2.8 | 2.7–3.0 | 4.6–5.5 | up to 8 |
 
 ---
 
@@ -383,13 +436,13 @@ The core insight is that **multi-hop QA requires structured reasoning, not gener
 
 ### Performance Scaling by Hop Complexity
 
-| Dataset | Hops | E2 | M5 | SAGE v3r2 | SAGE Gain vs E2 |
-|---------|------|-----|-----|-----------|-----------------|
-| HotpotQA | 2 | 70.0% | 69.9% | 73.4% | +3.4pp |
-| 2WikiMultiHop | 2 | 63.6% | 53.0% | 77.1% | **+13.5pp** |
-| MuSiQue | 3–4 | 46.2% | 33.5% | 51.7% | +5.5pp |
+| Dataset | Hops | E2 (8B) | E4 (30B) | M5 (3B active) | SAGE v3r2 (8B) | SAGE vs Best Baseline |
+|---------|------|---------|----------|----------------|----------------|-----------------------|
+| HotpotQA | 2 | 70.0% | **77.1%** | 69.9% | 73.5% | -3.6pp vs E4 |
+| 2WikiMultiHop | 2 | 63.6% | 70.7% | 53.0% | **77.1%** | **+6.4pp vs E4** |
+| MuSiQue | 3–4 | 46.2% | **53.3%** | 33.5% | 51.7% | -1.6pp vs E4 |
 
-SAGE's advantage grows most on 2WikiMultiHop, where the structured entity propagation and systematic retrieval overcome the dataset's particular challenges (compositional questions requiring precise entity linking).
+SAGE v3r2 with Qwen3-8B is the strongest system on 2WikiMultiHop, surpassing even E4's Qwen3-30B by 6.4pp. On MuSiQue, SAGE nearly matches the 4x larger model (-1.6pp). The structured pipeline's advantage is most pronounced on compositional questions requiring precise entity linking (2Wiki) where systematic retrieval and entity propagation compensate for model size.
 
 ---
 
@@ -397,9 +450,21 @@ SAGE's advantage grows most on 2WikiMultiHop, where the structured entity propag
 
 All results use **DeepSeek-R1-Distill-Qwen-7B** as an independent LLM judge (not the same model that generated answers). The judge evaluates whether predictions are semantically equivalent to gold answers, with equivalence rules for name variants, abbreviations, and partial matches.
 
-| Metric | Description |
-|--------|-------------|
-| **LLM Accuracy** | DeepSeek judge rates prediction as correct/incorrect (primary metric) |
-| **Contain Accuracy** | Normalized gold answer is a substring of normalized prediction |
-| **Norm EM** | Exact match after normalization (lowercase, strip articles/punctuation) |
-| **Token F1** | Token-level F1 between normalized prediction and gold |
+### Metrics
+
+| Metric | Description | Reliability |
+|--------|-------------|-------------|
+| **LLM Accuracy** | DeepSeek judge rates prediction as correct/incorrect | Primary metric — handles paraphrases, name variants, partial matches |
+| **Contain (bidirectional)** | Normalized gold is substring of pred OR pred is substring of gold | High for short answers; false negatives on paraphrases |
+| **Token F1** | Token-level F1 between normalized prediction and gold answer | Requires clean `pred_answer` field (unreliable for E2/E4) |
+| **Norm EM** | Exact match after normalization (lowercase, strip articles/punctuation) | Strictest metric; requires clean `pred_answer` (unreliable for E2/E4) |
+| **Contain (eval.py)** | Gold substring in prediction (unidirectional, from `eval.py`) | Slightly different from bidirectional contain |
+
+### Note on Metric Reliability
+
+E2 and E4 store the **full LLM response** (including `<think>` reasoning blocks and verbose sentences) in their `pred_answer` field. While the offline eval script strips `<think>` tags, the remaining verbose text means:
+- **EM = 0%** for all E2/E4 runs (answers are never exact matches)
+- **Token F1 = 2-4%** (prediction contains far more tokens than the gold answer)
+- **Contain and LLM Accuracy** remain reliable since they tolerate extra text
+
+SAGE v3r2 and M5 output **clean short answers**, making all metrics reliable for these systems. For fair cross-system comparison, use **LLM Accuracy** (primary) and **Contain (bidirectional)** (secondary).
