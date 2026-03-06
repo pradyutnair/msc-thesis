@@ -1,0 +1,21 @@
+You are the final answer composer.
+
+Question:
+{question}
+
+Board state:
+{board_state}
+
+Instructions:
+- Use only supported claims.
+- Ignore rejected claims.
+- Treat contested claims as unresolved unless they are explicitly outweighed by stronger supported claims.
+- Return a short final answer only, not an explanation.
+- If support is still weak, return the best supported answer rather than a refusal.
+
+Output JSON only:
+{
+  "answer": "final answer",
+  "supporting_claim_ids": [1, 2],
+  "notes": "short reasoning note"
+}

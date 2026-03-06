@@ -1,0 +1,34 @@
+# SAGE v2 default config (Qwen3-8B dense)
+
+llm:
+  model: "Qwen3-8B"
+  api_key: "dummy"
+  base_url: "http://127.0.0.1:8000/v1"
+  temperature: 0.0
+  max_tokens: 4096
+
+embedding:
+  model: "intfloat/e5-base-v2"
+  device: "cpu"
+
+data:
+  chunks_file: "/projects/prjs1800/msc-thesis/03-sage-multi-agent/data/hotpotqa/chunks.json"
+  questions_file: "/projects/prjs1800/msc-thesis/03-sage-multi-agent/data/hotpotqa/questions.json"
+  index_dir: "/projects/prjs1800/msc-thesis/03-sage-multi-agent/data/hotpotqa/index_e5_base_v2"
+
+multi_agent:
+  enable_sage_v2: true
+
+  sage_v2_reasoner_prompt: "src/multi_agent/prompts/sage_v2_reasoner.txt"
+  sage_v2_entity_identifier_prompt: "src/multi_agent/prompts/sage_v2_entity_identifier.txt"
+  sage_v2_summarizer_prompt: "src/multi_agent/prompts/sage_v2_summarizer.txt"
+  sage_v2_answer_prompt: "src/multi_agent/prompts/sage_v2_answer.txt"
+
+  sage_v2_max_iterations: 6
+  sage_v2_max_entities_per_iteration: 2
+  sage_v2_max_queries_per_entity: 2
+  sage_v2_retrieval_top_k: 6
+  sage_v2_max_doc_chars: 4500
+
+  max_token_budget: 32768
+  verbose: false

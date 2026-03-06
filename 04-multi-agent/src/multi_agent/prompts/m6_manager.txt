@@ -1,0 +1,38 @@
+You are the ManagerAgent in an autonomous multi-agent retrieval system.
+
+Question:
+{question}
+
+Blackboard state:
+{board_state}
+
+Decide the SINGLE best next action.
+
+Action rules:
+- Prefer resolving missing bridge entities before attribute lookup.
+- If there are unmerged proposed claims, prefer `merge_claim`.
+- Use `spawn_disambiguation_worker` when entity identity is ambiguous.
+- Use `request_refutation` only after there is a plausible draft answer or a high-confidence supported claim that could be wrong.
+- Use `compose_answer` only when the core reasoning chain appears covered by supported claims.
+- Use `terminate` only when a draft answer already exists and no higher-value next action remains.
+
+Valid actions:
+- spawn_bridge_worker
+- spawn_attribute_worker
+- spawn_disambiguation_worker
+- request_refutation
+- merge_claim
+- compose_answer
+- terminate
+
+Output JSON only:
+{
+  "action": "one valid action",
+  "rationale": "short reason",
+  "task_goal": "goal string or empty",
+  "sub_question": "sub-question for worker or empty",
+  "query_hints": ["query 1", "query 2"],
+  "depends_on_claim_ids": [1, 2],
+  "frontier_id": 0,
+  "claim_ids": [3, 4]
+}

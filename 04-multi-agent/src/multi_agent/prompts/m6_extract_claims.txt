@@ -1,0 +1,58 @@
+You convert one worker result into structured blackboard updates.
+
+Question:
+{question}
+
+Current board:
+{board_state}
+
+Worker role:
+{task_role}
+
+Worker goal:
+{task_goal}
+
+Worker sub-question:
+{task_sub_question}
+
+Worker answer:
+{agent_answer}
+
+Evidence lines:
+{evidence_lines}
+
+Chunk snippets:
+{chunk_snippets}
+
+Instructions:
+- Extract only evidence-backed claims.
+- Keep claims atomic.
+- If the worker found an intermediate entity, emit it as a bridge-style claim.
+- If more search is needed, emit a frontier update.
+- If nothing reliable was found, return empty arrays.
+- For refuter output, emit a claim with relation `refuter` only if there is real contradiction evidence.
+
+Output JSON only:
+{
+  "message": "short summary",
+  "proposed_claims": [
+    {
+      "entity": "entity name",
+      "relation": "bridge|attribute|fact|refuter",
+      "value": "claim value",
+      "confidence": 0.0,
+      "supporting_chunk_ids": ["1", "2"],
+      "notes": "optional"
+    }
+  ],
+  "frontier_updates": [
+    {
+      "role_hint": "bridge|attribute|disambiguation|refuter",
+      "goal": "next unresolved search goal",
+      "query_hints": ["query 1", "query 2"],
+      "depends_on_claim_ids": [1],
+      "priority": 1,
+      "notes": "optional"
+    }
+  ]
+}
