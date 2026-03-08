@@ -1,0 +1,1569 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:10:39 [utils.py:325] 
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:10:39 [utils.py:325]        █     █     █▄   ▄█
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:10:39 [utils.py:325]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.15.1
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:10:39 [utils.py:325]   █▄█▀ █     █     █     █  model   Qwen/Qwen3-8B
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:10:39 [utils.py:325]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:10:39 [utils.py:325] 
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:10:39 [utils.py:261] non-default args: {'host': '127.0.0.1', 'port': 8290, 'enable_auto_tool_choice': True, 'tool_call_parser': 'hermes', 'model': 'Qwen/Qwen3-8B', 'trust_remote_code': True, 'max_model_len': 32768, 'served_model_name': ['Qwen3-8B'], 'generation_config': 'vllm', 'max_num_seqs': 256}
+[0;36m(APIServer pid=2214102)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[0;36m(APIServer pid=2214102)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:10:40 [model.py:541] Resolved architecture: Qwen3ForCausalLM
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:10:40 [model.py:1561] Using max model len 32768
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:10:40 [scheduler.py:226] Chunked prefill is enabled with max_num_batched_tokens=2048.
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:10:40 [vllm.py:624] Asynchronous scheduling is enabled.
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m INFO 03-07 22:10:49 [core.py:96] Initializing a V1 LLM engine (v0.15.1) with config: model='Qwen/Qwen3-8B', speculative_config=None, tokenizer='Qwen/Qwen3-8B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=Qwen3-8B, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'splitting_ops': ['vllm::unified_attention', 'vllm::unified_attention_with_output', 'vllm::unified_mla_attention', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::gdn_attention_core', 'vllm::kda_attention', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::unified_kv_cache_update'], 'compile_mm_encoder': False, 'compile_sizes': [], 'compile_ranges_split_points': [2048], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False}, 'max_cudagraph_capture_size': 512, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': True}, 'local_cache_dir': None, 'static_all_moe_layers': []}
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m INFO 03-07 22:10:52 [parallel_state.py:1212] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://145.136.62.30:37189 backend=nccl
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m INFO 03-07 22:10:52 [parallel_state.py:1423] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m INFO 03-07 22:10:52 [gpu_model_runner.py:4033] Starting to load model Qwen/Qwen3-8B...
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m INFO 03-07 22:10:53 [cuda.py:364] Using FLASH_ATTN attention backend out of potential backends: ('FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION')
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/5 [00:00<?, ?it/s]
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m Loading safetensors checkpoint shards:  20% Completed | 1/5 [00:00<00:02,  1.55it/s]
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m Loading safetensors checkpoint shards:  40% Completed | 2/5 [00:02<00:03,  1.18s/it]
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m Loading safetensors checkpoint shards:  60% Completed | 3/5 [00:04<00:03,  1.54s/it]
+Waiting for vLLM on port 8290 (PID=2214102)...
+Check 1: wait
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m Loading safetensors checkpoint shards:  80% Completed | 4/5 [00:06<00:01,  1.70s/it]
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:08<00:00,  1.79s/it]
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:08<00:00,  1.61s/it]
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m 
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m INFO 03-07 22:11:03 [default_loader.py:291] Loading weights took 8.12 seconds
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m INFO 03-07 22:11:03 [gpu_model_runner.py:4130] Model loading took 15.27 GiB memory and 10.027063 seconds
+Check 2: wait
+Check 3: wait
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m INFO 03-07 22:11:13 [backends.py:812] Using cache directory: /home/pnair/.cache/vllm/torch_compile_cache/3dd797eba8/rank_0_0/backbone for vLLM's torch.compile
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m INFO 03-07 22:11:13 [backends.py:872] Dynamo bytecode transform time: 9.91 s
+Check 4: wait
+Check 5: wait
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m INFO 03-07 22:11:20 [backends.py:267] Directly load the compiled graph(s) for compile range (1, 2048) from the cache, took 2.263 s
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m INFO 03-07 22:11:20 [monitor.py:34] torch.compile takes 12.18 s in total
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m INFO 03-07 22:11:21 [gpu_worker.py:356] Available KV cache memory: 18.83 GiB
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m INFO 03-07 22:11:21 [kv_cache_utils.py:1307] GPU KV cache size: 137,136 tokens
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m INFO 03-07 22:11:21 [kv_cache_utils.py:1312] Maximum concurrency for 32,768 tokens per request: 4.19x
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/51 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   4%|▍         | 2/51 [00:00<00:03, 13.41it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   8%|▊         | 4/51 [00:00<00:03, 14.20it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  12%|█▏        | 6/51 [00:00<00:03, 14.90it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  16%|█▌        | 8/51 [00:00<00:02, 15.27it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  20%|█▉        | 10/51 [00:00<00:02, 16.12it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  24%|██▎       | 12/51 [00:00<00:02, 16.66it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  27%|██▋       | 14/51 [00:00<00:02, 17.08it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  31%|███▏      | 16/51 [00:00<00:02, 17.36it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  37%|███▋      | 19/51 [00:01<00:01, 18.37it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  41%|████      | 21/51 [00:01<00:01, 18.77it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  47%|████▋     | 24/51 [00:01<00:01, 19.36it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  53%|█████▎    | 27/51 [00:01<00:01, 19.79it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  57%|█████▋    | 29/51 [00:01<00:01, 19.56it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  63%|██████▎   | 32/51 [00:01<00:00, 19.95it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  69%|██████▊   | 35/51 [00:01<00:00, 20.03it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  75%|███████▍  | 38/51 [00:02<00:00, 20.09it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  80%|████████  | 41/51 [00:02<00:00, 20.05it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  86%|████████▋ | 44/51 [00:02<00:00, 20.21it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  92%|█████████▏| 47/51 [00:02<00:00, 20.43it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  98%|█████████▊| 50/51 [00:02<00:00, 20.60it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:02<00:00, 18.80it/s]
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m Capturing CUDA graphs (decode, FULL):   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL):   6%|▌         | 2/35 [00:00<00:01, 18.97it/s]Capturing CUDA graphs (decode, FULL):  14%|█▍        | 5/35 [00:00<00:01, 20.84it/s]Check 6: wait
+Capturing CUDA graphs (decode, FULL):  23%|██▎       | 8/35 [00:00<00:01, 21.27it/s]Capturing CUDA graphs (decode, FULL):  31%|███▏      | 11/35 [00:00<00:01, 21.57it/s]Capturing CUDA graphs (decode, FULL):  40%|████      | 14/35 [00:00<00:00, 21.34it/s]Capturing CUDA graphs (decode, FULL):  49%|████▊     | 17/35 [00:00<00:00, 21.55it/s]Capturing CUDA graphs (decode, FULL):  57%|█████▋    | 20/35 [00:00<00:00, 21.59it/s]Capturing CUDA graphs (decode, FULL):  66%|██████▌   | 23/35 [00:01<00:00, 21.52it/s]Capturing CUDA graphs (decode, FULL):  74%|███████▍  | 26/35 [00:01<00:00, 21.68it/s]Capturing CUDA graphs (decode, FULL):  83%|████████▎ | 29/35 [00:01<00:00, 21.77it/s]Capturing CUDA graphs (decode, FULL):  91%|█████████▏| 32/35 [00:01<00:00, 22.05it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 22.26it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 21.71it/s]
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m INFO 03-07 22:11:26 [gpu_model_runner.py:5063] Graph capturing finished in 5 secs, took 0.53 GiB
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m INFO 03-07 22:11:26 [core.py:272] init engine (profile, create kv cache, warmup model) took 23.03 seconds
+[0;36m(EngineCore_DP0 pid=2214175)[0;0m INFO 03-07 22:11:28 [vllm.py:624] Asynchronous scheduling is enabled.
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:28 [api_server.py:665] Supported tasks: ['generate']
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:28 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:28 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:28 [serving.py:177] Warming up chat template processing...
+Check 7: wait
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [hf.py:310] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [serving.py:212] Chat template warmup completed in 1625.8ms
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [api_server.py:946] Starting vLLM API server 0 on http://127.0.0.1:8290
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:38] Available routes are:
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /openapi.json, Methods: HEAD, GET
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /docs, Methods: HEAD, GET
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /docs/oauth2-redirect, Methods: HEAD, GET
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /redoc, Methods: HEAD, GET
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /scale_elastic_ep, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /is_scaling_elastic_ep, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /tokenize, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /detokenize, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /inference/v1/generate, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /pause, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /resume, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /is_paused, Methods: GET
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /metrics, Methods: GET
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /health, Methods: GET
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /v1/chat/completions, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /v1/chat/completions/render, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /v1/responses, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /v1/responses/{response_id}, Methods: GET
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /v1/responses/{response_id}/cancel, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /v1/audio/transcriptions, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /v1/audio/translations, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /v1/completions, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /v1/completions/render, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /v1/messages, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /v1/models, Methods: GET
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /load, Methods: GET
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /version, Methods: GET
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /ping, Methods: GET
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /ping, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /invocations, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /classify, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /v1/embeddings, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /score, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /v1/score, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /rerank, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /v1/rerank, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /v2/rerank, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:30 [launcher.py:46] Route: /pooling, Methods: POST
+[0;36m(APIServer pid=2214102)[0;0m INFO:     Started server process [2214102]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     Waiting for application startup.
+[0;36m(APIServer pid=2214102)[0;0m INFO:     Application startup complete.
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:37208 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Check 8: ok
+vLLM ready!
+2026-03-07 22:11:35,968 [INFO] __main__: Using chunks file: /gpfs/work5/0/prjs1800/msc-thesis/04-sage-autonomous/data/hotpotqa/chunks.json
+2026-03-07 22:11:35,968 [INFO] __main__: Using index dir: /gpfs/work5/0/prjs1800/msc-thesis/04-sage-autonomous/data/hotpotqa/index_e5_base_v2
+2026-03-07 22:11:35,997 [INFO] __main__: Total: 200 | Completed: 0 | Pending: 200
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:40 [loggers.py:257] Engine 000: Avg prompt throughput: 0.8 tokens/s, Avg generation throughput: 0.7 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 0.0%
+2026-03-07 22:11:45,184 [INFO] __main__: Loading embedding model: intfloat/e5-base-v2
+2026-03-07 22:11:45,185 [INFO] sentence_transformers.SentenceTransformer: Load pretrained SentenceTransformer: intfloat/e5-base-v2
+2026-03-07 22:11:47,260 [INFO] __main__: Embedding model loaded successfully!
+2026-03-07 22:11:47,269 [INFO] __main__: Processing 5ae53de455429908b6326599: The creek of which Paradise Creek is a tributary is a tribut
+2026-03-07 22:11:47,272 [INFO] __main__: Processing 5ae163b3554299422ee99678: Who wrote Bring Me Sunshine and where did they write it?
+2026-03-07 22:11:47,272 [INFO] __main__: Processing 5add97c15542997545bbbd80: In which sport does both Virginia Ruzici and Andy Murray par
+2026-03-07 22:11:47,273 [INFO] __main__: Processing 5a7f7b365542992097ad2f80: Did the Beaulieu Mine or the McIntyre Mines yield gold and c
+2026-03-07 22:11:47,274 [INFO] __main__: Processing 5a77cb335542997042120b3a: What American professional Hawaiian surfer born 18 October 1
+2026-03-07 22:11:47,274 [INFO] __main__: Processing 5a7bc1bf55429927d897c033: Which breed was bred first, the English Water Spaniel or the
+2026-03-07 22:11:47,275 [INFO] __main__: Processing 5a7b24fe55429931da12c9f7: Which dog breed has more derivative breeds from the original
+2026-03-07 22:11:47,275 [INFO] __main__: Processing 5ae4a0ca5542995ad6573dcb: Bill Nelson flew as a Payload Specialist on a Space Shuttle 
+2026-03-07 22:11:47,276 [INFO] __main__: Processing 5a84ad3a5542992a431d1a8b: What notable work from French music video director Yoann Lem
+2026-03-07 22:11:47,276 [INFO] __main__: Processing 5a7a919455429941d65f26b5: Which album was released first, "Talk That Talk" or "Loud"?
+2026-03-07 22:11:47,277 [INFO] __main__: Processing 5a84e21d5542997b5ce3ff7c: The actress and singer Heather Morris is best known for her 
+2026-03-07 22:11:47,277 [INFO] __main__: Processing 5a8a793555429930ff3c0de7: Did Zaza Pachulia win an NBA Championship with the Atlanta H
+2026-03-07 22:11:47,278 [INFO] __main__: Processing 5ae10572554299422ee995cd: What was the name of the storm that was the fifth hurricane 
+2026-03-07 22:11:47,279 [INFO] __main__: Processing 5a797bd95542994bb9457016: What age was Georgia Middleman when she started singing in t
+2026-03-07 22:11:47,279 [INFO] __main__: Processing 5a7b5af7554299042af8f752: The company that created the Data Universal Numbering System
+2026-03-07 22:11:47,280 [INFO] __main__: Processing 5a8adbf55542992d82986fab:  Hans Florian Zimmer composed The original music score for  
+2026-03-07 22:11:47,280 [INFO] __main__: Processing 5a84973e5542992a431d1a67: Stockely Webster has paintings hanging in what home (that se
+2026-03-07 22:11:47,281 [INFO] __main__: Processing 5add3fe05542992c1e3a2580: What 1997 song was on the Garth Brooks album that debuted at
+2026-03-07 22:11:47,281 [INFO] __main__: Processing 5a7cad635542996dd594b97f: Who is older, Tarryl Lynn Clark or Michele Marie Bachmann?
+2026-03-07 22:11:47,282 [INFO] __main__: Processing 5a7736bc554299373536021b: What composer with an Italian libretto was born 4 March 1678
+2026-03-07 22:11:47,282 [INFO] __main__: Processing 5ae712fa554299572ea546b9: What was the name of the band of Confederate army deserters 
+2026-03-07 22:11:47,283 [INFO] __main__: Processing 5ab30f9a554299233954fef2: What Harry Potter actor strred in My Boy Jack?
+2026-03-07 22:11:47,283 [INFO] __main__: Processing 5add7c9c5542990dbb2f7e60: Ellie Parker is a 2005 American drama-comedy film whose titl
+2026-03-07 22:11:47,284 [INFO] __main__: Processing 5ac289ff5542996366519a02: Is the Marsilea or the Brabejum the genus of more individual
+2026-03-07 22:11:47,284 [INFO] __main__: Processing 5a7147fd5542994082a3e758: When was the king that started coin production in Copenhagen
+2026-03-07 22:11:47,284 [INFO] __main__: Processing 5a7d3470554299452d57bb56: A scam involving a male calling small town fast-food restaur
+2026-03-07 22:11:47,285 [INFO] __main__: Processing 5abaf0e055429966062416a3: In which period was this German composer, pianist, organist 
+2026-03-07 22:11:47,285 [INFO] __main__: Processing 5a7f113d55429934daa2fcbe: Which professional baseball player and National 1993 Basebal
+2026-03-07 22:11:47,286 [INFO] __main__: Processing 5ab3a83d5542992ade7c6e08: Faith Goldy got fired after an interview she gave on what pr
+2026-03-07 22:11:47,286 [INFO] __main__: Processing 5ab3d2b7554299233954ffb8: The king deposed in the Glorious Revolution of 1688 was supp
+2026-03-07 22:11:47,287 [INFO] __main__: Processing 5ae1d1995542997283cd226c: Additi Gupta is known for negative roles in the drama series
+2026-03-07 22:11:47,287 [INFO] __main__: Processing 5a8a2a5555429930ff3c0ccc: What is the current home arena of the NHL team Chris Summers
+2026-03-07 22:11:47,288 [INFO] __main__: Processing 5adc8c545542994734353734: Are Wilco Melissant and Todd Field both involved in the film
+2026-03-07 22:11:47,288 [INFO] __main__: Processing 5ae7385d5542992ae0d163da: Bartlett's Bridge was built by the engineer who worked for t
+2026-03-07 22:11:47,288 [INFO] __main__: Processing 5ae526c455429908b6326529: Where is the headquarters for the service broadcaster the sh
+2026-03-07 22:11:47,289 [INFO] __main__: Processing 5ae74818554299572ea547ad: James Fowle Baldwin helped design a historic railroad that o
+2026-03-07 22:11:47,289 [INFO] __main__: Processing 5ab504865542991779162d52: What term is the current chairman of Prince William County s
+2026-03-07 22:11:47,290 [INFO] __main__: Processing 5a8031c1554299485f598585: Meghan Strange is an American actress and voice actress, kno
+2026-03-07 22:11:47,290 [INFO] __main__: Processing 5a7ba11d554299294a54aa39: What Danish sports club based in Copenhagen  did striker Sør
+2026-03-07 22:11:47,291 [INFO] __main__: Processing 5ab874ba5542990e739ec904: The Twelfth United States Army Group commander was the first
+2026-03-07 22:11:47,291 [INFO] __main__: Processing 5ac3bd0c554299204fd21e21: Sam Mendes and Ruby Yang share what profession?
+2026-03-07 22:11:47,292 [INFO] __main__: Processing 5adfec5f55429942ec259b8d: Are Mirpur University of Science and Technology and Universi
+2026-03-07 22:11:47,292 [INFO] __main__: Processing 5ac1a4ed5542994d76dcce90: Are William James and Bret Easton Ellis both screenwriters?
+2026-03-07 22:11:47,293 [INFO] __main__: Processing 5ae7281c5542991e8301cb69: The fourth episode The Simpsons' seventh season has what kin
+2026-03-07 22:11:47,293 [INFO] __main__: Processing 5ac4e476554299076e296e34: One of Central Dublin's most historic working-class neighbou
+2026-03-07 22:11:47,293 [INFO] __main__: Processing 5abcf14f55429959677d6b5b: La Machine a ecirire was written by what French writer, desi
+2026-03-07 22:11:47,294 [INFO] __main__: Processing 5adffc8d55429925eb1afbc6: What where Mark Chamberlain and Alex Oxlade-Chamberlain bein
+2026-03-07 22:11:47,294 [INFO] __main__: Processing 5ae0818e55429924de1b70e9: Gleanntáin Ghlas' Ghaoth Dobhair is a song that can be heard
+2026-03-07 22:11:47,295 [INFO] __main__: Processing 5ac3e01d5542997ea680c969: Dianne Hiles is the current Australian Greens candidate for 
+2026-03-07 22:11:47,295 [INFO] __main__: Processing 5adc46665542994650320cc8: In what year was the composer of "Anthem" born?
+2026-03-07 22:11:47,295 [INFO] __main__: Processing 5abac35055429901930fa8ae: Which character did this Australian-American actress who app
+2026-03-07 22:11:47,296 [INFO] __main__: Processing 5ac00278554299012d1db56b: What profession do Raj Kapoor and Mike Cahill share?
+2026-03-07 22:11:47,296 [INFO] __main__: Processing 5a84af3e5542991dd0999d7c: Which city in Missouri is the Route 66 State Park closest to
+2026-03-07 22:11:47,297 [INFO] __main__: Processing 5a7b3fc155429931da12ca3a: Wexner Graduate Fellowships are given to students who show a
+2026-03-07 22:11:47,297 [INFO] __main__: Processing 5a9068f85542990a98493623: What was the nickname of the 76er who was drafted 3rd in the
+2026-03-07 22:11:47,298 [INFO] __main__: Processing 5ae7f0c75542994a481bbe44: What is the birthdate of this Norwegian professional footbal
+2026-03-07 22:11:47,298 [INFO] __main__: Processing 5ab281ec554299449642c8d1: Red Bend Catholic College contributes 800 students of the 7,
+2026-03-07 22:11:47,298 [INFO] __main__: Processing 5ab8854555429934fafe6e0c: Works by Hanna Leena Kristiina Varis are part of a collectio
+2026-03-07 22:11:47,299 [INFO] __main__: Processing 5adc597d55429947ff17392f: In what year was the narrator of "Blackadder's Christmas Car
+2026-03-07 22:11:47,299 [INFO] __main__: Processing 5a84fd085542994c784ddaba: Devil's Food is a singles compilation by an American rock an
+2026-03-07 22:11:47,300 [INFO] __main__: Processing 5a8c7ac2554299653c1aa08e: Black Journal is based on the real life events of what seria
+2026-03-07 22:11:47,301 [INFO] __main__: Processing 5adc6a3b55429947ff173953: What musical was inspired by the films that included Ruth Le
+2026-03-07 22:11:47,301 [INFO] __main__: Processing 5a85eed75542996432c5713b: Where did the descendants of the group of black Indians asso
+2026-03-07 22:11:47,302 [INFO] __main__: Processing 5a7732dc55429972597f149b: What 1944 Bollywood film was the mother of Bollywood actor G
+2026-03-07 22:11:47,302 [INFO] __main__: Processing 5ab2e84855429929539468a6: What state was the dissenter in Kessler v. Treat from?
+2026-03-07 22:11:47,303 [INFO] __main__: Processing 5ac3ce74554299204fd21e71: How many episodes were in the original run of the HBO show t
+2026-03-07 22:11:47,303 [INFO] __main__: Processing 5ae1500655429920d52343cc: In what town is the office organization solutions company wh
+2026-03-07 22:11:47,304 [INFO] __main__: Processing 5a8cee9b554299441c6b9f87: Haier has North American rights to which appliance company h
+2026-03-07 22:11:47,304 [INFO] __main__: Processing 5ab2b7c1554299166977406a: What was the name of the lawyer who took the main role in th
+2026-03-07 22:11:47,304 [INFO] __main__: Processing 5ae7ff745542994a481bbe6e: When was the track from which a sample was featured in "Take
+2026-03-07 22:11:47,305 [INFO] __main__: Processing 5ae1a7c8554299234fd042b0: Which American anthology horror series created and produced 
+2026-03-07 22:11:47,305 [INFO] __main__: Processing 5a88a1bb5542997e5c09a64c: Who directed a 2006 film where Ron Perkins character plays t
+2026-03-07 22:11:47,306 [INFO] __main__: Processing 5a8778d25542994846c1cd89: Has Stefan Edberg won more events than  Édouard Roger-Vassel
+2026-03-07 22:11:47,306 [INFO] __main__: Processing 5a88f7bf5542997e5c09a6dd: What movie did Chris Duesterdiek work on that was directed b
+2026-03-07 22:11:47,306 [INFO] __main__: Processing 5a729fa15542994cef4bc397: Which movie came out first, "Bambi" or "Underdog"?
+2026-03-07 22:11:47,307 [INFO] __main__: Processing 5ab545d3554299494045ef5c: The producer of "Live By NIght" began his film career playin
+2026-03-07 22:11:47,307 [INFO] __main__: Processing 5ab298fb554299449642c922: Who was known for playing a fictionalized version of the wil
+2026-03-07 22:11:47,307 [INFO] __main__: Processing 5a8e41735542995085b37406: What is the county seat of the county in which Keokuk Falls,
+2026-03-07 22:11:47,308 [INFO] __main__: Processing 5ab69f9a554299710c8d1ef8: The fictional private detective that appears in "The Adventu
+2026-03-07 22:11:47,308 [INFO] __main__: Processing 5a85df525542994c784ddb9f: What former president of ABC television is a high ranking of
+2026-03-07 22:11:47,309 [INFO] __main__: Processing 5ae786c8554299540e5a55d7: In the The Simpsons episode "Principal Charming, Homer invit
+2026-03-07 22:11:47,309 [INFO] __main__: Processing 5abc030e554299642a094bdc: The Distribution of Industry act was passed by a man who was
+2026-03-07 22:11:47,309 [INFO] __main__: Processing 5a86b13f55429960ec39b6c3: Where was the second World Junior Ice Hockey Championship in
+2026-03-07 22:11:47,310 [INFO] __main__: Processing 5ab3eb1955429969a97a81f6: The comedy play written by Shakespeare titled Twelfth Night 
+2026-03-07 22:11:47,310 [INFO] __main__: Processing 5ae6c2285542995703ce8b9a: Sparking the Marian civil war, who helped the recently abdic
+2026-03-07 22:11:47,311 [INFO] __main__: Processing 5a78d35e55429974737f78c3: Between two bands Audioslave and Bodyjar, which group formed
+2026-03-07 22:11:47,311 [INFO] __main__: Processing 5ab310bb554299233954fef9: Which author found inspiration in their career prior to writ
+2026-03-07 22:11:47,311 [INFO] __main__: Processing 5ab57fc4554299488d4d99c0: In which county is the town in which Raymond Robertsen was b
+2026-03-07 22:11:47,312 [INFO] __main__: Processing 5a8b45765542995d1e6f1333: What music school did the singer of The Search for Everythin
+2026-03-07 22:11:47,312 [INFO] __main__: Processing 5a7de63c5542995f4f4022f5: In what year was the Commander of the second human spaceflig
+2026-03-07 22:11:47,313 [INFO] __main__: Processing 5ade9c9c5542997c77adee8c: What screenplay was worked on by both Edward Carfagno and Mi
+2026-03-07 22:11:47,313 [INFO] __main__: Processing 5ade56ed5542997c77adee04: Gérald Genta, a Swiss jewelllery designer, worked with what 
+2026-03-07 22:11:47,313 [INFO] __main__: Processing 5ac3a0b25542993915413838: Which of Mabel Keyes Babcock's distant relatives wrote "Of P
+2026-03-07 22:11:47,314 [INFO] __main__: Processing 5a749af055429979e28829b7: Which Walt Disney film was produced first, The Apple Dumplin
+2026-03-07 22:11:47,314 [INFO] __main__: Processing 5ab3b42c5542992ade7c6e4f: What city did the musician whose debut album shares its titl
+2026-03-07 22:11:47,314 [INFO] __main__: Processing 5ae3e59a5542994393b9e79e: Bride of the Regiment was later remade into a 1948 film star
+2026-03-07 22:11:47,315 [INFO] __main__: Processing 5ae1389655429901ffe4ae05: Bethpage State Parkway begins with an interchange at which L
+2026-03-07 22:11:47,315 [INFO] __main__: Processing 5ae7535c5542997b22f6a6d8: The 53rd National Hockey League All-Star Game took place at 
+2026-03-07 22:11:47,316 [INFO] __main__: Processing 5abd882f55429924427fd045: When was the multinational group headquartered in the Nether
+2026-03-07 22:11:47,316 [INFO] __main__: Processing 5adcd4325542994d58a2f6ed: Are Colocasia and Coronilla both flowering plants?
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:11:50 [loggers.py:257] Engine 000: Avg prompt throughput: 4780.7 tokens/s, Avg generation throughput: 67.6 tokens/s, Running: 60 reqs, Waiting: 40 reqs, GPU KV cache usage: 35.9%, Prefix cache hit rate: 3.7%
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:12:00 [loggers.py:257] Engine 000: Avg prompt throughput: 3606.3 tokens/s, Avg generation throughput: 3012.7 tokens/s, Running: 100 reqs, Waiting: 0 reqs, GPU KV cache usage: 81.9%, Prefix cache hit rate: 3.8%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55216 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54784 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54454 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54674 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55018 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54742 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54682 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54854 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54540 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54776 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54906 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55166 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55322 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54894 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55190 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54926 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55094 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54586 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55262 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55110 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54964 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55340 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55232 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54996 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54948 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55042 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55350 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55026 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55270 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55082 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:12:10 [loggers.py:257] Engine 000: Avg prompt throughput: 859.8 tokens/s, Avg generation throughput: 3167.3 tokens/s, Running: 101 reqs, Waiting: 0 reqs, GPU KV cache usage: 82.9%, Prefix cache hit rate: 3.9%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54812 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55050 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55140 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55198 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55156 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54514 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54600 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54828 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55300 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54980 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55164 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54878 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54624 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54636 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54696 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54730 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54688 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:12:20 [loggers.py:257] Engine 000: Avg prompt throughput: 603.1 tokens/s, Avg generation throughput: 3367.2 tokens/s, Running: 107 reqs, Waiting: 0 reqs, GPU KV cache usage: 92.3%, Prefix cache hit rate: 4.0%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55336 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54608 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54830 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54786 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54654 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55280 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55248 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:02<00:00,  2.77s/it]Batches: 100%|██████████| 1/1 [00:02<00:00,  2.77s/it]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.71it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.69it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.78it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.76it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.86it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.85it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.32it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.30it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55274 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54552 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54754 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55056 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:12:30 [loggers.py:257] Engine 000: Avg prompt throughput: 273.1 tokens/s, Avg generation throughput: 3181.7 tokens/s, Running: 95 reqs, Waiting: 17 reqs, GPU KV cache usage: 99.7%, Prefix cache hit rate: 1.9%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55252 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55120 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54524 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54978 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54494 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39598 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 65.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54480 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  9.01it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.96it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.51it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.53it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54740 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 36.17it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.85it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.00it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.94it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54648 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 38.39it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.19it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.41it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.72it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55366 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54634 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54672 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54566 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.74it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.73it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.87it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54810 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  3.28it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.89it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.90it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54880 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 18.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.98it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 26.73it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.68it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.12it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54840 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:12:40 [loggers.py:257] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 2408.5 tokens/s, Running: 89 reqs, Waiting: 25 reqs, GPU KV cache usage: 99.7%, Prefix cache hit rate: 1.9%
+Batches: 100%|██████████| 1/1 [00:00<00:00,  2.02it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.01it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.24it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.83it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.90it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.66it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 28.11it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54596 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55168 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 28.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.06it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.62it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54680 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54834 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 38.44it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.97it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39762 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.48it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.86it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54662 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 16.38it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 30.43it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54556 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43140 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 27.63it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.44it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.15it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.14it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54846 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:12:50 [loggers.py:257] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 2274.2 tokens/s, Running: 71 reqs, Waiting: 48 reqs, GPU KV cache usage: 99.7%, Prefix cache hit rate: 1.9%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54792 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54970 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55002 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55108 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39622 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39682 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39634 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55130 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  1.23it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.23it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.77it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.69it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.36it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.67it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.24it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.82it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.38it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54826 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54758 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54658 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.05it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.37it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54890 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.54it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.37it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.81it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.69it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54868 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 13.88it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.01it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:13:00 [loggers.py:257] Engine 000: Avg prompt throughput: 754.2 tokens/s, Avg generation throughput: 1808.9 tokens/s, Running: 70 reqs, Waiting: 49 reqs, GPU KV cache usage: 99.9%, Prefix cache hit rate: 1.9%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39726 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 37.85it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.28it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.80it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54702 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54798 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54766 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39752 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  1.22it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.38it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.92it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39654 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 11.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.71it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.01it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.36it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.44it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54584 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  4.03it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.83it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.87it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.00it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.37it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.25it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.46it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54700 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 39.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.36it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.77it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 26.23it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.99it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:13:10 [loggers.py:257] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 1951.5 tokens/s, Running: 59 reqs, Waiting: 60 reqs, GPU KV cache usage: 98.1%, Prefix cache hit rate: 1.9%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39728 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 36.22it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39666 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.15it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43182 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39580 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  9.51it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54756 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  1.48it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.01it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43170 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  4.24it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.23it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.32it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.39it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.92it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.44it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.55it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.44it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.04it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.46it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.39it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.95it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43160 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 40.17it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.69it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.67it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54470 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39770 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 39.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.82it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.71it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.97it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39786 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:13:20 [loggers.py:257] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 1639.3 tokens/s, Running: 53 reqs, Waiting: 65 reqs, GPU KV cache usage: 100.0%, Prefix cache hit rate: 1.9%
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 53.54it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55184 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.92it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.93it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.23it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54576 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 50.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.09it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39614 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.54it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.50it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.39it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39722 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 38.13it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.79it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.25it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55290 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39774 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 42.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.45it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54782 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 60.46it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54650 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 19.15it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39710 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54560 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.17it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.40it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.58it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.63it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54922 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54714 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:13:30 [loggers.py:257] Engine 000: Avg prompt throughput: 1814.3 tokens/s, Avg generation throughput: 1528.3 tokens/s, Running: 62 reqs, Waiting: 58 reqs, GPU KV cache usage: 99.1%, Prefix cache hit rate: 1.6%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55014 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43152 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54856 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.53it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54698 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 10.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 28.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.28it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.35it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54690 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:13:40 [loggers.py:257] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 1705.6 tokens/s, Running: 53 reqs, Waiting: 66 reqs, GPU KV cache usage: 99.7%, Prefix cache hit rate: 1.6%
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 35.54it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.93it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46102 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55212 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54548 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39794 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 30.98it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39740 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  9.64it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.11it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.07it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.71it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:13:50 [loggers.py:257] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 1472.9 tokens/s, Running: 52 reqs, Waiting: 66 reqs, GPU KV cache usage: 97.2%, Prefix cache hit rate: 1.6%
+Batches: 100%|██████████| 1/1 [00:00<00:00, 16.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.17it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.25it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54500 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39650 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 44.98it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55284 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46120 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:45988 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 52.26it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:14:00 [loggers.py:257] Engine 000: Avg prompt throughput: 498.1 tokens/s, Avg generation throughput: 1469.2 tokens/s, Running: 48 reqs, Waiting: 72 reqs, GPU KV cache usage: 97.7%, Prefix cache hit rate: 1.6%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46050 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54720 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.62it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.66it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46020 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  3.83it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.83it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.87it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 28.26it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.26it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.83it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.28it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.55it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.65it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46064 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 40.76it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.59it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46000 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 40.75it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43228 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43266 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54818 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  5.57it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.55it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.44it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.10it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43230 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:14:10 [loggers.py:257] Engine 000: Avg prompt throughput: 1506.2 tokens/s, Avg generation throughput: 1217.6 tokens/s, Running: 43 reqs, Waiting: 78 reqs, GPU KV cache usage: 99.4%, Prefix cache hit rate: 1.0%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54582 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:14:11,092 [WARNING] multi_agent.strategist: Failed to parse plan JSON, falling back to single hop
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54614 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:14:11,153 [WARNING] multi_agent.strategist: Failed to parse plan JSON, falling back to single hop
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54706 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:14:11,885 [WARNING] multi_agent.strategist: Failed to parse plan JSON, falling back to single hop
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54762 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:14:12,101 [WARNING] multi_agent.strategist: Failed to parse plan JSON, falling back to single hop
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54806 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:14:12,469 [WARNING] multi_agent.strategist: Failed to parse plan JSON, falling back to single hop
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54932 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:14:13,352 [WARNING] multi_agent.strategist: Failed to parse plan JSON, falling back to single hop
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43274 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55066 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:14:14,109 [WARNING] multi_agent.strategist: Failed to parse plan JSON, falling back to single hop
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 36.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.07it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.78it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55308 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:14:14,740 [WARNING] multi_agent.strategist: Failed to parse plan JSON, falling back to single hop
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43208 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 38.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.37it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.49it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:58928 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46036 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 38.56it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:58922 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 35.23it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.40it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.06it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:14:20 [loggers.py:257] Engine 000: Avg prompt throughput: 4334.6 tokens/s, Avg generation throughput: 1030.1 tokens/s, Running: 48 reqs, Waiting: 72 reqs, GPU KV cache usage: 96.4%, Prefix cache hit rate: 0.9%
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.00it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.86it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46090 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 38.47it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54848 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 39.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.23it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.83it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43254 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 58.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.69it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.26it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43188 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 35.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:59044 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 12.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.51it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.12it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.16it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 26.94it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:58968 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 39.81it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.75it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.47it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54590 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 39.60it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:59004 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43218 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 39.81it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60354 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  2.92it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.55it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.79it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 26.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.25it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.13it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:14:30 [loggers.py:257] Engine 000: Avg prompt throughput: 2434.2 tokens/s, Avg generation throughput: 1103.5 tokens/s, Running: 46 reqs, Waiting: 74 reqs, GPU KV cache usage: 96.8%, Prefix cache hit rate: 0.9%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54626 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 86.34it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60362 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54686 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 44.53it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54716 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.79it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46142 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 44.18it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54726 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 54.78it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:59040 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54788 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.77it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.76it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.71it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.77it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.07it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60338 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 38.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.40it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.67it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.21it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39582 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46006 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.09it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.09it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 11.06it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.74it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:14:40 [loggers.py:257] Engine 000: Avg prompt throughput: 3036.6 tokens/s, Avg generation throughput: 1070.1 tokens/s, Running: 40 reqs, Waiting: 80 reqs, GPU KV cache usage: 96.5%, Prefix cache hit rate: 0.8%
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.87it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43198 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 38.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.77it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.28it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.71it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.46it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:58980 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 39.22it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60392 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 30.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.31it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46040 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 59.82it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 29.65it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60308 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39694 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.31it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.19it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.35it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.86it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.87it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.15it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:39738 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 38.07it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.24it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.68it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.09it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.17it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54350 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60412 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60378 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54412 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.06it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54416 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60366 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:14:50 [loggers.py:257] Engine 000: Avg prompt throughput: 3553.9 tokens/s, Avg generation throughput: 873.8 tokens/s, Running: 38 reqs, Waiting: 82 reqs, GPU KV cache usage: 98.7%, Prefix cache hit rate: 0.7%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46074 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 50.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.44it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.54it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:41190 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 20.65it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54356 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 36.69it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.25it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.81it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:58990 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 36.93it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54374 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60314 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 39.45it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 27.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.37it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 26.91it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43246 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 48.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.49it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.38it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.28it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54386 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 71.46it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 26.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.88it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.26it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:45726 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60322 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:15:00 [loggers.py:257] Engine 000: Avg prompt throughput: 3148.6 tokens/s, Avg generation throughput: 946.4 tokens/s, Running: 40 reqs, Waiting: 77 reqs, GPU KV cache usage: 98.5%, Prefix cache hit rate: 0.6%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:41202 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 39.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.32it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.08it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:58958 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 36.75it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.49it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.07it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:41252 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43272 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:59024 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  4.06it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.55it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.79it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 26.17it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.90it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46136 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:45764 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 35.09it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.68it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.76it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:45776 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 59.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 26.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.42it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:59008 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:45766 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 33.79it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.07it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.51it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.71it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.54it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.25it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:15:10 [loggers.py:257] Engine 000: Avg prompt throughput: 3146.7 tokens/s, Avg generation throughput: 931.0 tokens/s, Running: 40 reqs, Waiting: 76 reqs, GPU KV cache usage: 98.1%, Prefix cache hit rate: 0.6%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:45800 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60402 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 42.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.01it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.63it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.72it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60344 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 36.02it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:45818 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36480 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:15:20 [loggers.py:257] Engine 000: Avg prompt throughput: 583.6 tokens/s, Avg generation throughput: 1151.4 tokens/s, Running: 39 reqs, Waiting: 77 reqs, GPU KV cache usage: 99.1%, Prefix cache hit rate: 0.6%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36464 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46028 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 36.90it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.23it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.92it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.20it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:51548 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:45802 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:15:30 [loggers.py:257] Engine 000: Avg prompt throughput: 498.0 tokens/s, Avg generation throughput: 1147.7 tokens/s, Running: 34 reqs, Waiting: 81 reqs, GPU KV cache usage: 96.4%, Prefix cache hit rate: 0.6%
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 35.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.92it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 26.40it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:52980 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54360 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 42.81it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46148 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 38.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.41it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.03it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:41186 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36444 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 36.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.68it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.13it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.90it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.04it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.64it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:15:40 [loggers.py:257] Engine 000: Avg prompt throughput: 507.6 tokens/s, Avg generation throughput: 979.1 tokens/s, Running: 30 reqs, Waiting: 86 reqs, GPU KV cache usage: 96.9%, Prefix cache hit rate: 0.6%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60324 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 40.51it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.82it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.84it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:51564 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 33.73it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.28it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.84it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.09it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.51it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.35it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:45832 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 35.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.19it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.83it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.98it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36412 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 39.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:15:50 [loggers.py:257] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 906.9 tokens/s, Running: 26 reqs, Waiting: 89 reqs, GPU KV cache usage: 98.2%, Prefix cache hit rate: 0.6%
+Batches: 100%|██████████| 1/1 [00:00<00:00, 20.04it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.68it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:45978 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 44.03it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:52952 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 36.33it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.83it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.90it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:52970 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  3.27it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.26it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.81it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.08it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.70it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:51534 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 48.71it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.72it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46108 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 35.01it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.07it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.55it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:16:00 [loggers.py:257] Engine 000: Avg prompt throughput: 991.6 tokens/s, Avg generation throughput: 700.3 tokens/s, Running: 24 reqs, Waiting: 92 reqs, GPU KV cache usage: 97.7%, Prefix cache hit rate: 0.6%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:51568 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 33.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.73it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.77it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.76it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:41236 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36424 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 35.77it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46044 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.55it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 26.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.58it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:45742 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.56it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:16:10 [loggers.py:257] Engine 000: Avg prompt throughput: 1521.2 tokens/s, Avg generation throughput: 708.8 tokens/s, Running: 24 reqs, Waiting: 91 reqs, GPU KV cache usage: 99.6%, Prefix cache hit rate: 0.6%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:41228 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46066 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:41216 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46080 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:16:20 [loggers.py:257] Engine 000: Avg prompt throughput: 1845.2 tokens/s, Avg generation throughput: 833.3 tokens/s, Running: 31 reqs, Waiting: 83 reqs, GPU KV cache usage: 96.4%, Prefix cache hit rate: 0.6%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46126 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46144 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 42.55it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.17it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.26it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:16:30 [loggers.py:257] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 958.3 tokens/s, Running: 31 reqs, Waiting: 82 reqs, GPU KV cache usage: 99.7%, Prefix cache hit rate: 0.6%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:58932 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 42.44it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 26.46it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:58940 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.41it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.07it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:58950 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 39.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.01it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.68it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.70it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:16:40 [loggers.py:257] Engine 000: Avg prompt throughput: 1978.5 tokens/s, Avg generation throughput: 798.0 tokens/s, Running: 31 reqs, Waiting: 82 reqs, GPU KV cache usage: 96.6%, Prefix cache hit rate: 0.5%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36726 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 36.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.69it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.82it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36802 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 45.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.58it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.63it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.85it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:16:50 [loggers.py:257] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 936.4 tokens/s, Running: 29 reqs, Waiting: 84 reqs, GPU KV cache usage: 98.5%, Prefix cache hit rate: 0.5%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46152 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36812 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54398 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 51.76it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.39it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.96it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46052 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 35.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.75it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 26.85it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36782 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 66.19it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.85it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.18it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:52924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:17:00 [loggers.py:257] Engine 000: Avg prompt throughput: 2125.6 tokens/s, Avg generation throughput: 719.8 tokens/s, Running: 29 reqs, Waiting: 83 reqs, GPU KV cache usage: 99.7%, Prefix cache hit rate: 0.5%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:45786 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 51.81it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.06it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.36it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:52928 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.28it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36772 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46116 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  1.23it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.23it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.83it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.35it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.38it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.79it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.25it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:41224 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  3.94it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.93it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.92it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.90it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.09it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 30.28it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:52950 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:41266 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:17:10 [loggers.py:257] Engine 000: Avg prompt throughput: 1558.2 tokens/s, Avg generation throughput: 774.0 tokens/s, Running: 27 reqs, Waiting: 84 reqs, GPU KV cache usage: 96.8%, Prefix cache hit rate: 0.5%
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 37.35it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46072 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 37.28it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.67it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.27it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:45754 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 46.85it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.84it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.37it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.63it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46086 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 42.31it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:52960 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36768 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36714 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.65it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.92it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.26it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:52936 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  3.74it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.73it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.32it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.93it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.88it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.36it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.58it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.07it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:17:20 [loggers.py:257] Engine 000: Avg prompt throughput: 3447.0 tokens/s, Avg generation throughput: 623.6 tokens/s, Running: 27 reqs, Waiting: 85 reqs, GPU KV cache usage: 98.5%, Prefix cache hit rate: 0.5%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:45834 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36438 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60386 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.22it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.93it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.07it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36752 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 49.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.82it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60368 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 14.26it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.04it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.64it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:46104 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 37.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.81it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:52918 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 14.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 31.63it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60404 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36448 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 44.66it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:17:30 [loggers.py:257] Engine 000: Avg prompt throughput: 3473.3 tokens/s, Avg generation throughput: 575.6 tokens/s, Running: 27 reqs, Waiting: 84 reqs, GPU KV cache usage: 99.1%, Prefix cache hit rate: 0.5%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:52934 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 39.67it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60356 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.66it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.41it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.40it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.84it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 26.39it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:52948 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.12it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.73it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60408 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 43.42it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60416 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60428 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:17:40 [loggers.py:257] Engine 000: Avg prompt throughput: 3785.4 tokens/s, Avg generation throughput: 683.6 tokens/s, Running: 31 reqs, Waiting: 80 reqs, GPU KV cache usage: 98.6%, Prefix cache hit rate: 0.5%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:52982 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:52958 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 58.56it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:44164 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:44126 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:44140 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:17:50 [loggers.py:257] Engine 000: Avg prompt throughput: 2060.6 tokens/s, Avg generation throughput: 844.0 tokens/s, Running: 30 reqs, Waiting: 80 reqs, GPU KV cache usage: 96.9%, Prefix cache hit rate: 0.5%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:44200 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:58686 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 49.08it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:44196 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:58722 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:58708 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 42.90it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.28it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.41it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:58740 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:58700 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36730 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 39.90it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:58734 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 15.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.26it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:18:00 [loggers.py:257] Engine 000: Avg prompt throughput: 2593.4 tokens/s, Avg generation throughput: 754.3 tokens/s, Running: 28 reqs, Waiting: 81 reqs, GPU KV cache usage: 99.7%, Prefix cache hit rate: 0.4%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:50460 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36822 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:58752 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 38.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:50448 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 16.36it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.39it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.33it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.91it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:52972 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:59094 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:18:10 [loggers.py:257] Engine 000: Avg prompt throughput: 1700.1 tokens/s, Avg generation throughput: 849.9 tokens/s, Running: 30 reqs, Waiting: 78 reqs, GPU KV cache usage: 99.6%, Prefix cache hit rate: 0.4%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:50510 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:50488 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:59114 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:40372 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:59104 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:44208 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:59128 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:34440 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:18:19,242 [INFO] __main__: Done 5ac4e476554299076e296e34: 'fai junior cup' (391.9s, 0 tokens)
+2026-03-07 22:18:19,242 [INFO] __main__: Processing 5a7b88b45542997c3ec97201: Which of Damon Stoudamire's cousins once played college bask
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:44090 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:18:20 [loggers.py:257] Engine 000: Avg prompt throughput: 2230.2 tokens/s, Avg generation throughput: 751.5 tokens/s, Running: 27 reqs, Waiting: 80 reqs, GPU KV cache usage: 96.9%, Prefix cache hit rate: 0.4%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:59134 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:40366 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:44148 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:18:30 [loggers.py:257] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 867.0 tokens/s, Running: 25 reqs, Waiting: 81 reqs, GPU KV cache usage: 98.0%, Prefix cache hit rate: 0.4%
+Batches: 100%|██████████| 1/1 [00:00<00:00, 18.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.87it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.18it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:44112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 46.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.73it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.76it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.12it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:50476 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 40.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.48it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:50496 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 36.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.25it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.98it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:34474 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 20.26it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:44190 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:40396 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 36.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.13it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.84it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.11it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:18:40 [loggers.py:257] Engine 000: Avg prompt throughput: 1993.8 tokens/s, Avg generation throughput: 674.8 tokens/s, Running: 22 reqs, Waiting: 85 reqs, GPU KV cache usage: 98.5%, Prefix cache hit rate: 0.4%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36740 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 39.27it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:44098 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 37.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.06it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.45it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:36786 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 43.73it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.51it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:58738 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:33840 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.65it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:18:50 [loggers.py:257] Engine 000: Avg prompt throughput: 2032.2 tokens/s, Avg generation throughput: 596.3 tokens/s, Running: 22 reqs, Waiting: 84 reqs, GPU KV cache usage: 98.4%, Prefix cache hit rate: 0.4%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:34478 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:33832 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:51960 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 64.37it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.68it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.25it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:33844 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:44150 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 50.41it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.32it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:40386 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 36.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.09it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.16it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:19:00 [loggers.py:257] Engine 000: Avg prompt throughput: 3182.1 tokens/s, Avg generation throughput: 582.6 tokens/s, Running: 25 reqs, Waiting: 82 reqs, GPU KV cache usage: 98.1%, Prefix cache hit rate: 0.4%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:51974 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:33732 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:47104 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60414 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:59130 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:51986 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 38.50it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:34444 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:33758 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 39.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.58it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:45906 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:19:10 [loggers.py:257] Engine 000: Avg prompt throughput: 4084.8 tokens/s, Avg generation throughput: 554.0 tokens/s, Running: 27 reqs, Waiting: 79 reqs, GPU KV cache usage: 99.0%, Prefix cache hit rate: 0.4%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:33768 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:51978 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:19:20 [loggers.py:257] Engine 000: Avg prompt throughput: 987.2 tokens/s, Avg generation throughput: 804.2 tokens/s, Running: 25 reqs, Waiting: 81 reqs, GPU KV cache usage: 97.4%, Prefix cache hit rate: 0.4%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43364 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60394 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.02it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:33814 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 38.81it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.64it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:57218 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:19:30 [loggers.py:257] Engine 000: Avg prompt throughput: 1617.1 tokens/s, Avg generation throughput: 711.2 tokens/s, Running: 25 reqs, Waiting: 81 reqs, GPU KV cache usage: 96.4%, Prefix cache hit rate: 0.4%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:52954 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.12it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.87it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:56786 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:19:32,456 [INFO] __main__: Done 5a7d3470554299452d57bb56: 'Compliance' (465.2s, 0 tokens)
+2026-03-07 22:19:32,457 [INFO] __main__: Processing 5a7f3361554299306751369a: Which film has more writers, Splash or Christopher Robin?
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:33748 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:33824 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:57204 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.77it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 31.41it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:33830 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:33834 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 40.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:33836 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 20.37it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 29.06it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.02it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:34458 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 36.75it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.66it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.98it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.98it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:19:40 [loggers.py:257] Engine 000: Avg prompt throughput: 4207.2 tokens/s, Avg generation throughput: 559.4 tokens/s, Running: 26 reqs, Waiting: 80 reqs, GPU KV cache usage: 96.6%, Prefix cache hit rate: 0.3%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60372 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.73it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:60396 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 49.53it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:56788 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:51972 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 49.50it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:47108 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:19:50 [loggers.py:257] Engine 000: Avg prompt throughput: 2113.4 tokens/s, Avg generation throughput: 706.2 tokens/s, Running: 28 reqs, Waiting: 78 reqs, GPU KV cache usage: 97.3%, Prefix cache hit rate: 0.3%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:56804 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:56814 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:47122 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:56832 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 44.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.39it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.67it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.25it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.09it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.34it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:35742 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:56794 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:35736 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:20:00 [loggers.py:257] Engine 000: Avg prompt throughput: 2812.6 tokens/s, Avg generation throughput: 748.1 tokens/s, Running: 31 reqs, Waiting: 73 reqs, GPU KV cache usage: 96.7%, Prefix cache hit rate: 0.3%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:57174 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 38.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.77it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.69it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.50it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.95it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:35772 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:35754 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:56848 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:44176 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:33728 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 40.82it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.73it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.87it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 26.58it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:35726 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:20:08,062 [INFO] __main__: Done 5abc030e554299642a094bdc: '1945 to 1951' (500.8s, 0 tokens)
+2026-03-07 22:20:08,062 [INFO] __main__: Processing 5a85c3225542992a431d1b95: The 2000 ICC KnockOut Trophy was the debut of a Jamaican cri
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:48630 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:34830 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:20:10 [loggers.py:257] Engine 000: Avg prompt throughput: 2102.8 tokens/s, Avg generation throughput: 834.4 tokens/s, Running: 32 reqs, Waiting: 72 reqs, GPU KV cache usage: 99.7%, Prefix cache hit rate: 0.3%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:48610 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:48596 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:57190 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:57704 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:42240 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:57648 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:20:20 [loggers.py:257] Engine 000: Avg prompt throughput: 1896.2 tokens/s, Avg generation throughput: 1046.5 tokens/s, Running: 40 reqs, Waiting: 64 reqs, GPU KV cache usage: 99.2%, Prefix cache hit rate: 0.3%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54914 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:20:20,853 [INFO] __main__: Done 5a7bc1bf55429927d897c033: 'English Water Spaniel' (513.6s, 0 tokens)
+2026-03-07 22:20:20,854 [INFO] __main__: Processing 5ae6fee3554299572ea54670: The player who defeated Johnny Majors for the Heisman Trophy
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54944 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:20:21,618 [INFO] __main__: Done 5ab3eb1955429969a97a81f6: 'Twelfth Night: Or What You Will' (514.3s, 0 tokens)
+2026-03-07 22:20:21,619 [INFO] __main__: Processing 5a8319b255429940e5e1a960: Who composed the theme music in 1989 of an animated televisi
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:57670 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:37546 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:20:22,628 [INFO] __main__: Done 5ae1389655429901ffe4ae05: 'Southern State Parkway' (515.3s, 0 tokens)
+2026-03-07 22:20:22,628 [INFO] __main__: Processing 5ab94bc2554299743d22eacf: Bytham Castle is a castle in the civil parish of how many ho
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:37540 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:20:23,302 [INFO] __main__: Done 5a7cad635542996dd594b97f: 'Michele Marie Bachmann' (516.0s, 0 tokens)
+2026-03-07 22:20:23,302 [INFO] __main__: Processing 5ab3bcc55542992ade7c6e66: In which election did Norm Coleman won to become the last re
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:37560 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:48634 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:37554 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:50490 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:37576 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54906 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:42248 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:57658 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:20:28,803 [INFO] __main__: Done 5ab57fc4554299488d4d99c0: 'Finnmark' (521.5s, 0 tokens)
+2026-03-07 22:20:28,804 [INFO] __main__: Processing 5abdc8e755429965af743e3f: Ist das Ihr Fahrrad Mr O’Brien? is a German biographical rad
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:34812 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 32.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.87it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.77it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.54it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.97it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:20:30 [loggers.py:257] Engine 000: Avg prompt throughput: 3039.0 tokens/s, Avg generation throughput: 875.1 tokens/s, Running: 33 reqs, Waiting: 71 reqs, GPU KV cache usage: 96.8%, Prefix cache hit rate: 0.3%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:57714 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 39.32it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.38it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.67it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55724 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 23.59it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:35776 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.00it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.25it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 27.96it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:57672 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:34834 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:57498 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 42.10it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:48624 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:20:40 [loggers.py:257] Engine 000: Avg prompt throughput: 1742.5 tokens/s, Avg generation throughput: 891.9 tokens/s, Running: 34 reqs, Waiting: 69 reqs, GPU KV cache usage: 96.7%, Prefix cache hit rate: 0.3%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55726 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55764 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54940 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:57522 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:34426 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.89it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:37556 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 36.75it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.69it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.93it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.36it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.19it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:35760 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 21.37it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:20:50 [loggers.py:257] Engine 000: Avg prompt throughput: 2655.5 tokens/s, Avg generation throughput: 969.4 tokens/s, Running: 40 reqs, Waiting: 62 reqs, GPU KV cache usage: 97.9%, Prefix cache hit rate: 0.3%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:53722 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:53712 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:20:51,521 [INFO] __main__: Done 5a7b5af7554299042af8f752: '265 million' (544.2s, 0 tokens)
+2026-03-07 22:20:51,522 [INFO] __main__: Processing 5ae1f17e554299234fd04349: Which is located in Cornwall, Southwell Minster or Truro Cat
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:59736 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:57176 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 42.08it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.32it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.84it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.75it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.85it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:53754 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:37562 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:56824 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:40166 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:41384 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:21:00 [loggers.py:257] Engine 000: Avg prompt throughput: 1318.1 tokens/s, Avg generation throughput: 1044.7 tokens/s, Running: 41 reqs, Waiting: 60 reqs, GPU KV cache usage: 99.9%, Prefix cache hit rate: 0.3%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:38120 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.41it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.75it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.49it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.82it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.80it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:59726 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:40186 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 37.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.39it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.17it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:53690 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:37538 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55752 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[2026-03-07T22:21:07.715] error: *** JOB 20569959 ON gcn30 CANCELLED AT 2026-03-07T22:21:07 DUE to SIGNAL Terminated ***
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:40180 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:40200 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:21:10 [loggers.py:257] Engine 000: Avg prompt throughput: 2098.7 tokens/s, Avg generation throughput: 1017.8 tokens/s, Running: 34 reqs, Waiting: 67 reqs, GPU KV cache usage: 96.4%, Prefix cache hit rate: 0.3%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55750 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43314 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:59738 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 44.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.46it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.45it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.92it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.36it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:57636 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 47.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.60it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43316 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43318 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:52120 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:55760 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 39.13it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:21:20 [loggers.py:257] Engine 000: Avg prompt throughput: 1044.4 tokens/s, Avg generation throughput: 906.5 tokens/s, Running: 30 reqs, Waiting: 69 reqs, GPU KV cache usage: 99.5%, Prefix cache hit rate: 0.3%
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.77it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.55it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.95it/s]
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:54926 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:41390 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:53734 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:59740 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:59734 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43366 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:59708 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO 03-07 22:21:30 [loggers.py:257] Engine 000: Avg prompt throughput: 1990.1 tokens/s, Avg generation throughput: 819.3 tokens/s, Running: 34 reqs, Waiting: 66 reqs, GPU KV cache usage: 98.3%, Prefix cache hit rate: 0.3%
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:35302 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:21:33,460 [INFO] __main__: Done 5ab504865542991779162d52: 'fourth term' (586.2s, 0 tokens)
+2026-03-07 22:21:33,460 [INFO] __main__: Processing 5a7f33115542992e7d278c84: Who is the mother of Mary, Crown Princess of Denmark's husba
+2026-03-07 22:21:33,461 [INFO] __main__: Progress: 10/200 (61 Q/hr)
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:43304 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2214102)[0;0m INFO:     127.0.0.1:35328 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-07 22:21:35,287 [INFO] __main__: Done 5add7c9c5542990dbb2f7e60: 'For Love Alone' (588.0s, 0 tokens)
+2026-03-07 22:21:35,288 [INFO] __main__: Processing 5ab859a955429934fafe6d7b: Who is the writer of this song that was inspired by words on

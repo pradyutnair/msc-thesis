@@ -1,0 +1,751 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:06:31 [utils.py:325] 
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:06:31 [utils.py:325]        █     █     █▄   ▄█
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:06:31 [utils.py:325]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.15.1
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:06:31 [utils.py:325]   █▄█▀ █     █     █     █  model   Qwen/Qwen3-8B
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:06:31 [utils.py:325]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:06:31 [utils.py:325] 
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:06:31 [utils.py:261] non-default args: {'host': '127.0.0.1', 'port': 8147, 'enable_auto_tool_choice': True, 'tool_call_parser': 'hermes', 'model': 'Qwen/Qwen3-8B', 'trust_remote_code': True, 'max_model_len': 32768, 'served_model_name': ['Qwen3-8B'], 'generation_config': 'vllm', 'max_num_seqs': 256}
+[0;36m(APIServer pid=4028754)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[0;36m(APIServer pid=4028754)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:06:31 [model.py:541] Resolved architecture: Qwen3ForCausalLM
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:06:31 [model.py:1561] Using max model len 32768
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:06:32 [scheduler.py:226] Chunked prefill is enabled with max_num_batched_tokens=2048.
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:06:32 [vllm.py:624] Asynchronous scheduling is enabled.
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m INFO 03-07 22:06:40 [core.py:96] Initializing a V1 LLM engine (v0.15.1) with config: model='Qwen/Qwen3-8B', speculative_config=None, tokenizer='Qwen/Qwen3-8B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=Qwen3-8B, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'splitting_ops': ['vllm::unified_attention', 'vllm::unified_attention_with_output', 'vllm::unified_mla_attention', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::gdn_attention_core', 'vllm::kda_attention', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::unified_kv_cache_update'], 'compile_mm_encoder': False, 'compile_sizes': [], 'compile_ranges_split_points': [2048], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False}, 'max_cudagraph_capture_size': 512, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': True}, 'local_cache_dir': None, 'static_all_moe_layers': []}
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m INFO 03-07 22:06:43 [parallel_state.py:1212] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://145.136.62.36:57637 backend=nccl
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m INFO 03-07 22:06:43 [parallel_state.py:1423] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m INFO 03-07 22:06:44 [gpu_model_runner.py:4033] Starting to load model Qwen/Qwen3-8B...
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m INFO 03-07 22:06:45 [cuda.py:364] Using FLASH_ATTN attention backend out of potential backends: ('FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION')
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/5 [00:00<?, ?it/s]
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m Loading safetensors checkpoint shards:  20% Completed | 1/5 [00:00<00:03,  1.25it/s]
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m Loading safetensors checkpoint shards:  40% Completed | 2/5 [00:02<00:04,  1.51s/it]
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m Loading safetensors checkpoint shards:  60% Completed | 3/5 [00:05<00:03,  1.99s/it]
+Waiting for vLLM on port 8147 (PID=4028754)...
+Check 1: wait
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m Loading safetensors checkpoint shards:  80% Completed | 4/5 [00:07<00:02,  2.17s/it]
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:10<00:00,  2.29s/it]
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:10<00:00,  2.06s/it]
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m 
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m INFO 03-07 22:06:56 [default_loader.py:291] Loading weights took 10.36 seconds
+Check 2: wait
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m INFO 03-07 22:06:57 [gpu_model_runner.py:4130] Model loading took 15.27 GiB memory and 12.143775 seconds
+Check 3: wait
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m INFO 03-07 22:07:07 [backends.py:812] Using cache directory: /home/pnair/.cache/vllm/torch_compile_cache/3dd797eba8/rank_0_0/backbone for vLLM's torch.compile
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m INFO 03-07 22:07:07 [backends.py:872] Dynamo bytecode transform time: 9.61 s
+Check 4: wait
+Check 5: wait
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m INFO 03-07 22:07:13 [backends.py:267] Directly load the compiled graph(s) for compile range (1, 2048) from the cache, took 1.807 s
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m INFO 03-07 22:07:13 [monitor.py:34] torch.compile takes 11.42 s in total
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m INFO 03-07 22:07:14 [gpu_worker.py:356] Available KV cache memory: 18.83 GiB
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m INFO 03-07 22:07:14 [kv_cache_utils.py:1307] GPU KV cache size: 137,136 tokens
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m INFO 03-07 22:07:14 [kv_cache_utils.py:1312] Maximum concurrency for 32,768 tokens per request: 4.19x
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/51 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   4%|▍         | 2/51 [00:00<00:03, 13.50it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   8%|▊         | 4/51 [00:00<00:03, 14.34it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  12%|█▏        | 6/51 [00:00<00:03, 14.75it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  16%|█▌        | 8/51 [00:00<00:02, 15.18it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  20%|█▉        | 10/51 [00:00<00:02, 16.08it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  24%|██▎       | 12/51 [00:00<00:02, 16.66it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  27%|██▋       | 14/51 [00:00<00:02, 17.11it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  31%|███▏      | 16/51 [00:00<00:02, 17.43it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  37%|███▋      | 19/51 [00:01<00:01, 18.49it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  43%|████▎     | 22/51 [00:01<00:01, 19.12it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  49%|████▉     | 25/51 [00:01<00:01, 19.60it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  55%|█████▍    | 28/51 [00:01<00:01, 19.98it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  59%|█████▉    | 30/51 [00:01<00:01, 19.74it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  65%|██████▍   | 33/51 [00:01<00:00, 20.08it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  71%|███████   | 36/51 [00:01<00:00, 20.23it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  76%|███████▋  | 39/51 [00:02<00:00, 20.28it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  82%|████████▏ | 42/51 [00:02<00:00, 20.35it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  88%|████████▊ | 45/51 [00:02<00:00, 20.52it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  94%|█████████▍| 48/51 [00:02<00:00, 20.77it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:02<00:00, 20.24it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:02<00:00, 18.91it/s]
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m Capturing CUDA graphs (decode, FULL):   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL):   6%|▌         | 2/35 [00:00<00:01, 19.14it/s]Check 6: wait
+Capturing CUDA graphs (decode, FULL):  14%|█▍        | 5/35 [00:00<00:01, 20.41it/s]Capturing CUDA graphs (decode, FULL):  23%|██▎       | 8/35 [00:00<00:01, 21.05it/s]Capturing CUDA graphs (decode, FULL):  31%|███▏      | 11/35 [00:00<00:01, 21.68it/s]Capturing CUDA graphs (decode, FULL):  40%|████      | 14/35 [00:00<00:00, 22.03it/s]Capturing CUDA graphs (decode, FULL):  49%|████▊     | 17/35 [00:00<00:00, 22.16it/s]Capturing CUDA graphs (decode, FULL):  57%|█████▋    | 20/35 [00:00<00:00, 22.17it/s]Capturing CUDA graphs (decode, FULL):  66%|██████▌   | 23/35 [00:01<00:00, 22.06it/s]Capturing CUDA graphs (decode, FULL):  74%|███████▍  | 26/35 [00:01<00:00, 22.17it/s]Capturing CUDA graphs (decode, FULL):  83%|████████▎ | 29/35 [00:01<00:00, 22.26it/s]Capturing CUDA graphs (decode, FULL):  91%|█████████▏| 32/35 [00:01<00:00, 22.51it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 22.73it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 22.11it/s]
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m INFO 03-07 22:07:19 [gpu_model_runner.py:5063] Graph capturing finished in 5 secs, took 0.53 GiB
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m INFO 03-07 22:07:19 [core.py:272] init engine (profile, create kv cache, warmup model) took 22.11 seconds
+[0;36m(EngineCore_DP0 pid=4030069)[0;0m INFO 03-07 22:07:20 [vllm.py:624] Asynchronous scheduling is enabled.
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:21 [api_server.py:665] Supported tasks: ['generate']
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:21 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:21 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:21 [serving.py:177] Warming up chat template processing...
+Check 7: wait
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [hf.py:310] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [serving.py:212] Chat template warmup completed in 1552.2ms
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [api_server.py:946] Starting vLLM API server 0 on http://127.0.0.1:8147
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:38] Available routes are:
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /openapi.json, Methods: GET, HEAD
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /docs, Methods: GET, HEAD
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /docs/oauth2-redirect, Methods: GET, HEAD
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /redoc, Methods: GET, HEAD
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /scale_elastic_ep, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /is_scaling_elastic_ep, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /tokenize, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /detokenize, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /inference/v1/generate, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /pause, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /resume, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /is_paused, Methods: GET
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /metrics, Methods: GET
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /health, Methods: GET
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /v1/chat/completions, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /v1/chat/completions/render, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /v1/responses, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /v1/responses/{response_id}, Methods: GET
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /v1/responses/{response_id}/cancel, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /v1/audio/transcriptions, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /v1/audio/translations, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /v1/completions, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /v1/completions/render, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /v1/messages, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /v1/models, Methods: GET
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /load, Methods: GET
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /version, Methods: GET
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /ping, Methods: GET
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /ping, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /invocations, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /classify, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /v1/embeddings, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /score, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /v1/score, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /rerank, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /v1/rerank, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /v2/rerank, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:22 [launcher.py:46] Route: /pooling, Methods: POST
+[0;36m(APIServer pid=4028754)[0;0m INFO:     Started server process [4028754]
+[0;36m(APIServer pid=4028754)[0;0m INFO:     Waiting for application startup.
+[0;36m(APIServer pid=4028754)[0;0m INFO:     Application startup complete.
+[0;36m(APIServer pid=4028754)[0;0m INFO:     127.0.0.1:33906 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Check 8: ok
+vLLM ready!
+2026-03-07 22:07:28,284 [INFO] __main__: Using chunks file: /gpfs/work5/0/prjs1800/msc-thesis/04-sage-autonomous/data/hotpotqa/chunks.json
+2026-03-07 22:07:28,284 [INFO] __main__: Using index dir: /gpfs/work5/0/prjs1800/msc-thesis/04-sage-autonomous/data/hotpotqa/index_e5_base_v2
+2026-03-07 22:07:28,293 [INFO] __main__: Total: 200 | Completed: 0 | Pending: 200
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(APIServer pid=4028754)[0;0m INFO 03-07 22:07:32 [loggers.py:257] Engine 000: Avg prompt throughput: 0.8 tokens/s, Avg generation throughput: 0.7 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 0.0%
+2026-03-07 22:07:36,172 [INFO] __main__: Loading embedding model: intfloat/e5-base-v2
+2026-03-07 22:07:36,173 [INFO] sentence_transformers.SentenceTransformer: Load pretrained SentenceTransformer: intfloat/e5-base-v2
+2026-03-07 22:07:37,974 [INFO] __main__: Embedding model loaded successfully!
+2026-03-07 22:07:37,983 [INFO] __main__: Processing 5a7ca33f5542990527d554ee: Which restaurant chain is based further south, Pizza Fusion 
+2026-03-07 22:07:37,985 [INFO] __main__: Processing 5ae5db98554299546bf82fa6: Shane and Friends have interviewed an American YouTube perso
+2026-03-07 22:07:37,985 [INFO] __main__: Processing 5a78e49855429974737f78f3: How many small-box format stores are there for one of Newell
+2026-03-07 22:07:37,986 [INFO] __main__: Processing 5a87868c5542996e4f308828: Which restaurant was founded first, Papa Murphy's or Gino's 
+2026-03-07 22:07:37,986 [INFO] __main__: Processing 5ac292175542996366519a14: "52nd Street" is a 1978 album that earned two Grammy Awards 
+2026-03-07 22:07:37,986 [INFO] __main__: Processing 5abd0814554299700f9d797a: Jimmy D'Arcy played in Northern Ireland for the team based i
+2026-03-07 22:07:37,987 [INFO] __main__: Processing 5a78a84d554299148911f8fd: Which team was older when it had it's worst season, The Clev
+2026-03-07 22:07:37,987 [INFO] __main__: Processing 5a80ad205542992bc0c4a79d: Who preceded the man who had the Nassak Diamond cut and plac
+2026-03-07 22:07:37,987 [INFO] __main__: Processing 5a8ec7cc5542995a26add518: Which was published more frequently, Popular Science or Girl
+2026-03-07 22:07:37,988 [INFO] __main__: Processing 5adfa451554299025d62a319: The first Latina Supreme Court Justice was part of the major
+2026-03-07 22:07:37,988 [INFO] __main__: Processing 5a8331f15542993344745fe8: What other jobs did the man that co-produced Gyara Hazar Lad
+2026-03-07 22:07:37,988 [INFO] __main__: Processing 5a794f8155429970f5fffe95: Who was born first, Martin Degville or Richie Furay?
+2026-03-07 22:07:37,989 [INFO] __main__: Processing 5a75377c55429929fddd8514: Which Australian professional women's basketball team has an
+2026-03-07 22:07:37,989 [INFO] __main__: Processing 5a8a410655429970aeb70279: Pyotr Verzilov is married to a Russian conceptual artist and
+2026-03-07 22:07:37,989 [INFO] __main__: Processing 5ac1767a5542994d76dcce48: What is the 2010 census population of the county where Wildc
+2026-03-07 22:07:37,990 [INFO] __main__: Processing 5a75e61c5542992d0ec06012: What singer who was the seventh place finalist on the 7th se
+2026-03-07 22:07:37,990 [INFO] __main__: Processing 5ae3d6bd5542991a06ce9a2b: Which American band from Knoxville Tennessee released the al
+2026-03-07 22:07:37,990 [INFO] __main__: Processing 5a7cbf8c554299452d57b9f4: Which came out first, Dinosaur or McFarland, USA
+2026-03-07 22:07:37,990 [INFO] __main__: Processing 5ab67bf255429954757d32f5: PISCES was developed by the company that is headquartered in
+2026-03-07 22:07:37,991 [INFO] __main__: Processing 5a712fca5542994082a3e641: Renáta Tomanová and Larisa Neiland are former professional a
+2026-03-07 22:07:37,991 [INFO] __main__: Processing 5a90b7f355429916514e752d: In which city did he painter and printmaker associated with 
+2026-03-07 22:07:37,991 [INFO] __main__: Processing 5a7302b75542991f9a20c5fd: What supernatural horror film did Miles Doleac have a role i
+2026-03-07 22:07:37,992 [INFO] __main__: Processing 5ac2f1d1554299218029dba4: What is in both the Lithocarpus and Duranta species?
+2026-03-07 22:07:37,992 [INFO] __main__: Processing 5a7265815542990c210a411b: What is the call sign of the airline that operates the fligh
+2026-03-07 22:07:37,992 [INFO] __main__: Processing 5ae528e655429908b632652c: Which publisher released the prequel to the 2012 novel Bonel
+2026-03-07 22:07:37,993 [INFO] __main__: Processing 5a7263e05542997f82783998: What medieval fortress is believed to refer to a chapel at t
+2026-03-07 22:07:37,993 [INFO] __main__: Processing 5ae3d67f5542992f92d8238f: The man who currently serves as the wide receivers coach for
+2026-03-07 22:07:37,993 [INFO] __main__: Processing 5a72a0be5542992359bc3143: This work of literature _______ , known by its Greek title O
+2026-03-07 22:07:37,994 [INFO] __main__: Processing 5ae038e955429942ec259c4d: When was the Russian composer who composed "Prisoner of the 
+2026-03-07 22:07:37,994 [INFO] __main__: Processing 5abd9c2355429924427fd06c: In what year did the actor who starred in the TV Land origin
+2026-03-07 22:07:37,994 [INFO] __main__: Processing 5a87ab9b5542996e4f3088c2: In what century did this Native warrior and chief, whose bro
+2026-03-07 22:07:37,995 [INFO] __main__: Processing 5a8afb9955429971feec45c2: The eighth-longest rollercoaster in the world is located in 
+2026-03-07 22:07:37,995 [INFO] __main__: Processing 5a80ecea55429938b6142254: My Secret Hotel is a television series starring a South Kore
+2026-03-07 22:07:37,995 [INFO] __main__: Processing 5ae005b555429942ec259bec: In what year was the novel that Lourenço Mutarelli based "Ni
+2026-03-07 22:07:37,996 [INFO] __main__: Processing 5abd516a5542992ac4f3825c: What religion is the composer for India's first science fict
+2026-03-07 22:07:37,996 [INFO] __main__: Processing 5abc41315542993a06baf8bb: Mía Maestro had a role in the 2002 biopic directed by whom?
+2026-03-07 22:07:37,996 [INFO] __main__: Processing 5ae3d2715542990afbd1e1e9: Are Control Room and Meeting Resistance both documentary fil
+2026-03-07 22:07:37,997 [INFO] __main__: Processing 5a8fd9ac5542990a98493570: Which feature film was released earlier, One Magic Christmas
+2026-03-07 22:07:37,997 [INFO] __main__: Processing 5a84e61b5542997b5ce3ff86: The Simpsons episode that aired on February 19, 2012 entitle
+2026-03-07 22:07:37,997 [INFO] __main__: Processing 5a7c634c55429907fabeef79: Which writer died later, Agatha Christie or Clement Greenber
+2026-03-07 22:07:37,997 [INFO] __main__: Processing 5a8d93ad554299653c1aa13d: Who was also an actor, Serri or John Fogerty?
+2026-03-07 22:07:37,998 [INFO] __main__: Processing 5a7e49e05542991319bc9463: What sibling of John D. Rockefeller III was the chairman of 
+2026-03-07 22:07:37,998 [INFO] __main__: Processing 5a84a4e35542992a431d1a81: Does Jimmy Barnes have more hits, both solo and in a group, 
+2026-03-07 22:07:37,998 [INFO] __main__: Processing 5ae0800055429924de1b70db: In which Sottish Region is the castle in which] Sir Roger de
+2026-03-07 22:07:37,999 [INFO] __main__: Processing 5abdf12255429976d4830a2f: The Album Against the Wind was the 11th Album of a Rock sing
+2026-03-07 22:07:37,999 [INFO] __main__: Processing 5a85f98e5542996432c57152: Where did the designer of the Van de Graaff generator teach 
+2026-03-07 22:07:37,999 [INFO] __main__: Processing 5ae236da5542994d89d5b397: When was the American actor, film director which  Dana Brune
+2026-03-07 22:07:38,000 [INFO] __main__: Processing 5a7a15d35542996a35c170c4: In what city does a Christian minister who won the singles t
+2026-03-07 22:07:38,000 [INFO] __main__: Processing 5adc2ae5554299438c868d64: Are Yucca and Rodgersia both perennials?
+2026-03-07 22:07:38,000 [INFO] __main__: Processing 5ab6988a554299710c8d1edc: Which building, the Metropolitan Life Insurance Company Towe
+2026-03-07 22:07:38,001 [INFO] __main__: Processing 5a8aa5835542996c9b8d5f4e: Which rock band chose its name by drawing it out of a hat, S
+2026-03-07 22:07:38,001 [INFO] __main__: Processing 5adc3a7055429947ff173913: What is the nationality of the poet who wrote Une Tempete an
+2026-03-07 22:07:38,001 [INFO] __main__: Processing 5a793f505542994bb9456fd1: Who was born first out of Leopold Lummerstorfer and Laurent 
+2026-03-07 22:07:38,002 [INFO] __main__: Processing 5ae446825542995ad6573d21: What character did G.D. Spradlin's collaborator Marlon Brand
+2026-03-07 22:07:38,002 [INFO] __main__: Processing 5a75da6d5542992db94736fa: The Declaration of Montreal was the founding document of whi
+2026-03-07 22:07:38,002 [INFO] __main__: Processing 5a732ca45542992359bc325d: Which conflict involving the Mende ethnic group lasted for e
+2026-03-07 22:07:38,002 [INFO] __main__: Processing 5a881d2355429938390d3eeb:  If You Ever Get Lonely was covered by what Lyric Street Rec
+2026-03-07 22:07:38,003 [INFO] __main__: Processing 5ab6b13b554299710c8d1f3f: The Roissy Airport connects to Paris and cities in what coun
+2026-03-07 22:07:38,003 [INFO] __main__: Processing 5adf9d135542995534e8c817: Are Des Moines International Airport and Grand Canyon Nation
+2026-03-07 22:07:38,003 [INFO] __main__: Processing 5ab672165542995eadeeffe0: Which genus has more species, Azorina or Azadirachta?
+2026-03-07 22:07:38,004 [INFO] __main__: Processing 5ab4bea15542990594ba9cae: What city did the Freebooters F.C. soccer team lose in that 
+2026-03-07 22:07:38,005 [INFO] __main__: Processing 5ade6fcd55429975fa854ecf: Often seen at the Academy Awards pre-show, what is Robin Rob
+2026-03-07 22:07:38,005 [INFO] __main__: Processing 5ab7268b5542992aa3b8c7b1: Heath Ledger Australian actor was in the movie Brokeback Mou
+2026-03-07 22:07:38,005 [INFO] __main__: Processing 5adeb95d5542992fa25da827: Are Chlidanthus and Maianthemum both flowering plants?
+2026-03-07 22:07:38,006 [INFO] __main__: Processing 5ae7ef625542994a481bbe40: What is the name of this suburb within the Central Coast Cou
+2026-03-07 22:07:38,006 [INFO] __main__: Processing 5a7e689f55429934daa2fc1c: Daddy was an American Pit Bull who was integral to the work 
+2026-03-07 22:07:38,006 [INFO] __main__: Processing 5abc36cc55429959677d6a50: Were both Life magazine and Strictly Slots magazine publishe
+2026-03-07 22:07:38,007 [INFO] __main__: Processing 5a81f10055429903bc27ba06: Sum 41 and Passion Pit have what in common?
+2026-03-07 22:07:38,007 [INFO] __main__: Processing 5ae5fb2d554299546bf82ff5: Who is the father of the king who attempted to have Eardwulf
+2026-03-07 22:07:38,007 [INFO] __main__: Processing 5ac24ad7554299636651995a: Which was Disney's 2nd animated production, Pinocchio or Hom
+2026-03-07 22:07:38,008 [INFO] __main__: Processing 5ab85e9e55429934fafe6d8b: What is the founding year of this public research university
+2026-03-07 22:07:38,008 [INFO] __main__: Processing 5a7bd791554299683c1c62c2: Howard Bilerman produced an album for which songwriter from 
+2026-03-07 22:07:38,008 [INFO] __main__: Processing 5a7b63eb55429931da12ca7e: What city does Paul Clyne and David Soares have in common?
+2026-03-07 22:07:38,008 [INFO] __main__: Processing 5ab624b855429953192ad26d: To Catch a Predator was devoted to impersonating people belo
+2026-03-07 22:07:38,009 [INFO] __main__: Processing 5a7143625542994082a3e71e: Who co-founded View Askew Productions and produced numerous 
+2026-03-07 22:07:38,009 [INFO] __main__: Processing 5abc19705542993a06baf86e: Black Book starred the actress and writer of what heritage?
+2026-03-07 22:07:38,009 [INFO] __main__: Processing 5ab46d195542991751b4d76a: Whistle and Yodel both specialize in what service?
+2026-03-07 22:07:38,010 [INFO] __main__: Processing 5a729cc25542991f9a20c532: Which author wrote about a woman captured by the Symbionese 
+2026-03-07 22:07:38,010 [INFO] __main__: Processing 5a82bdd655429940e5e1a92a: In what year did the parent show of The URL with Phred Show 
+2026-03-07 22:07:38,010 [INFO] __main__: Processing 5ac3a2fa5542993915413857: This One's for the Children had lead vocals by the singer an
+2026-03-07 22:07:38,011 [INFO] __main__: Processing 5ab2c0de5542992953946870: Football at the 2006 Asian Games with Wisoon Wichaya as its 
+2026-03-07 22:07:38,011 [INFO] __main__: Processing 5adfa6c7554299025d62a326: What is the birthday of the Earl of Merioneth?
+2026-03-07 22:07:38,011 [INFO] __main__: Processing 5a8b4ec155429949d91db53f: Flynn Rider is voiced by which American actor and singer bor
+2026-03-07 22:07:38,012 [INFO] __main__: Processing 5ae09ec055429924de1b7116: Which of the steering committee was an American broadcast jo
+2026-03-07 22:07:38,012 [INFO] __main__: Processing 5ab4355555429942dd415ee3: What novella was "Eyes Wide Shut," starring Vinessa Elizabet
+2026-03-07 22:07:38,012 [INFO] __main__: Processing 5a895f6155429946c8d6e914: What was the position in the United States Army of the Lieut
+2026-03-07 22:07:38,013 [INFO] __main__: Processing 5add98985542990dbb2f7e82: What was the occupation of the man who published an individu
+2026-03-07 22:07:38,013 [INFO] __main__: Processing 5ab2f6bd554299166977415e: Whose helmet is it discovered in 1939 which is well preserve
+2026-03-07 22:07:38,013 [INFO] __main__: Processing 5a8832d355429938390d3f03: Who was the ruler ousted by the 30th Prime Minister of Cambo
+2026-03-07 22:07:38,013 [INFO] __main__: Processing 5ab5052a5542990594ba9ccf: Who did a new permanent member on the fourteenth season of  
+2026-03-07 22:07:38,014 [INFO] __main__: Processing 5abbf8be554299114383a0c1: The 1996 film "The Christmas Tree" stars Andrew McCarthy and
+2026-03-07 22:07:38,014 [INFO] __main__: Processing 5a7543d555429916b01642ce: Who was born more recently, Flula Borg, or Dirk Nowitzki?
+2026-03-07 22:07:38,014 [INFO] __main__: Processing 5adcc7395542990d50227d13: Which amusement park at Coney Island, Brooklyn, New York Cit
+2026-03-07 22:07:38,015 [INFO] __main__: Processing 5add292b5542990d50227e0a: In what city is the mortgage lending company, founded by Dan
+2026-03-07 22:07:38,015 [INFO] __main__: Processing 5a8911ad554299515336129c: Nuestra Belleza México 2010 was crowned by the winner of wha
+2026-03-07 22:07:38,015 [INFO] __main__: Processing 5adf24155542992d7e9f92af: Richard Münch portrayed the German general who served in wha
+2026-03-07 22:07:38,016 [INFO] __main__: Processing 5a85fb5e5542994775f606df: What is the nickname of the peninsula that is home to the Ca
+2026-03-07 22:07:38,016 [INFO] __main__: Processing 5a8bbfb15542995e66a474f6: Peter Curtis and Scott Draper are both what?
+2026-03-07 22:07:38,016 [INFO] __main__: Processing 5a736aa95542991f29ee2dfa: Cordyline ruba grows from Bundaberg, Queensland to which nor
+2026-03-07 22:07:38,017 [INFO] __main__: Processing 5ac54c435542993e66e822d1: Where did Cale Gundy's brother play football in college?
+2026-03-07 22:07:38,022 [ERROR] __main__: Pipeline error for 5a7ca33f5542990527d554ee: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,024 [INFO] __main__: Done 5a7ca33f5542990527d554ee: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,024 [ERROR] __main__: Pipeline error for 5ae5db98554299546bf82fa6: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,024 [INFO] __main__: Done 5ae5db98554299546bf82fa6: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,024 [ERROR] __main__: Pipeline error for 5a78e49855429974737f78f3: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,024 [INFO] __main__: Done 5a78e49855429974737f78f3: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,024 [ERROR] __main__: Pipeline error for 5a87868c5542996e4f308828: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,024 [INFO] __main__: Done 5a87868c5542996e4f308828: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,024 [ERROR] __main__: Pipeline error for 5ac292175542996366519a14: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,024 [INFO] __main__: Done 5ac292175542996366519a14: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,024 [ERROR] __main__: Pipeline error for 5abd0814554299700f9d797a: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,026 [INFO] __main__: Done 5abd0814554299700f9d797a: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,027 [ERROR] __main__: Pipeline error for 5a78a84d554299148911f8fd: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,027 [INFO] __main__: Done 5a78a84d554299148911f8fd: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,027 [ERROR] __main__: Pipeline error for 5a80ad205542992bc0c4a79d: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,027 [INFO] __main__: Done 5a80ad205542992bc0c4a79d: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,027 [ERROR] __main__: Pipeline error for 5a8ec7cc5542995a26add518: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,027 [INFO] __main__: Done 5a8ec7cc5542995a26add518: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,027 [ERROR] __main__: Pipeline error for 5adfa451554299025d62a319: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,027 [INFO] __main__: Done 5adfa451554299025d62a319: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,027 [ERROR] __main__: Pipeline error for 5a8331f15542993344745fe8: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,027 [INFO] __main__: Done 5a8331f15542993344745fe8: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,028 [ERROR] __main__: Pipeline error for 5a794f8155429970f5fffe95: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,028 [INFO] __main__: Done 5a794f8155429970f5fffe95: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,028 [ERROR] __main__: Pipeline error for 5a75377c55429929fddd8514: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,028 [INFO] __main__: Done 5a75377c55429929fddd8514: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,028 [ERROR] __main__: Pipeline error for 5a8a410655429970aeb70279: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,028 [INFO] __main__: Done 5a8a410655429970aeb70279: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,028 [ERROR] __main__: Pipeline error for 5ac1767a5542994d76dcce48: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,028 [INFO] __main__: Done 5ac1767a5542994d76dcce48: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,028 [ERROR] __main__: Pipeline error for 5a75e61c5542992d0ec06012: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,029 [INFO] __main__: Done 5a75e61c5542992d0ec06012: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,029 [ERROR] __main__: Pipeline error for 5ae3d6bd5542991a06ce9a2b: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,029 [INFO] __main__: Done 5ae3d6bd5542991a06ce9a2b: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,029 [ERROR] __main__: Pipeline error for 5a7cbf8c554299452d57b9f4: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,029 [INFO] __main__: Done 5a7cbf8c554299452d57b9f4: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,029 [ERROR] __main__: Pipeline error for 5ab67bf255429954757d32f5: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,029 [INFO] __main__: Done 5ab67bf255429954757d32f5: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,029 [ERROR] __main__: Pipeline error for 5a712fca5542994082a3e641: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,029 [INFO] __main__: Done 5a712fca5542994082a3e641: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,029 [ERROR] __main__: Pipeline error for 5a90b7f355429916514e752d: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,030 [INFO] __main__: Done 5a90b7f355429916514e752d: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,030 [ERROR] __main__: Pipeline error for 5a7302b75542991f9a20c5fd: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,030 [INFO] __main__: Done 5a7302b75542991f9a20c5fd: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,030 [ERROR] __main__: Pipeline error for 5ac2f1d1554299218029dba4: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,030 [INFO] __main__: Done 5ac2f1d1554299218029dba4: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,030 [ERROR] __main__: Pipeline error for 5a7265815542990c210a411b: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,032 [INFO] __main__: Done 5a7265815542990c210a411b: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,032 [ERROR] __main__: Pipeline error for 5ae528e655429908b632652c: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,032 [INFO] __main__: Done 5ae528e655429908b632652c: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,032 [ERROR] __main__: Pipeline error for 5a7263e05542997f82783998: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,034 [INFO] __main__: Done 5a7263e05542997f82783998: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,034 [ERROR] __main__: Pipeline error for 5ae3d67f5542992f92d8238f: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,034 [INFO] __main__: Done 5ae3d67f5542992f92d8238f: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,034 [ERROR] __main__: Pipeline error for 5a72a0be5542992359bc3143: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,034 [INFO] __main__: Done 5a72a0be5542992359bc3143: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,034 [ERROR] __main__: Pipeline error for 5ae038e955429942ec259c4d: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,034 [INFO] __main__: Done 5ae038e955429942ec259c4d: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,034 [ERROR] __main__: Pipeline error for 5abd9c2355429924427fd06c: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,035 [INFO] __main__: Done 5abd9c2355429924427fd06c: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,035 [ERROR] __main__: Pipeline error for 5a87ab9b5542996e4f3088c2: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,035 [INFO] __main__: Done 5a87ab9b5542996e4f3088c2: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,035 [ERROR] __main__: Pipeline error for 5a8afb9955429971feec45c2: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,035 [INFO] __main__: Done 5a8afb9955429971feec45c2: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,035 [ERROR] __main__: Pipeline error for 5a80ecea55429938b6142254: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,035 [INFO] __main__: Done 5a80ecea55429938b6142254: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,035 [ERROR] __main__: Pipeline error for 5ae005b555429942ec259bec: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,035 [INFO] __main__: Done 5ae005b555429942ec259bec: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,035 [ERROR] __main__: Pipeline error for 5abd516a5542992ac4f3825c: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,036 [INFO] __main__: Done 5abd516a5542992ac4f3825c: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,036 [ERROR] __main__: Pipeline error for 5abc41315542993a06baf8bb: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,036 [INFO] __main__: Done 5abc41315542993a06baf8bb: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,036 [ERROR] __main__: Pipeline error for 5ae3d2715542990afbd1e1e9: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,036 [INFO] __main__: Done 5ae3d2715542990afbd1e1e9: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,036 [ERROR] __main__: Pipeline error for 5a8fd9ac5542990a98493570: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,036 [INFO] __main__: Done 5a8fd9ac5542990a98493570: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,036 [ERROR] __main__: Pipeline error for 5a84e61b5542997b5ce3ff86: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,036 [INFO] __main__: Done 5a84e61b5542997b5ce3ff86: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,037 [ERROR] __main__: Pipeline error for 5a7c634c55429907fabeef79: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,037 [INFO] __main__: Done 5a7c634c55429907fabeef79: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,037 [ERROR] __main__: Pipeline error for 5a8d93ad554299653c1aa13d: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,037 [INFO] __main__: Done 5a8d93ad554299653c1aa13d: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,037 [ERROR] __main__: Pipeline error for 5a7e49e05542991319bc9463: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,037 [INFO] __main__: Done 5a7e49e05542991319bc9463: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,037 [ERROR] __main__: Pipeline error for 5a84a4e35542992a431d1a81: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,037 [INFO] __main__: Done 5a84a4e35542992a431d1a81: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,037 [ERROR] __main__: Pipeline error for 5ae0800055429924de1b70db: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,037 [INFO] __main__: Done 5ae0800055429924de1b70db: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,038 [ERROR] __main__: Pipeline error for 5abdf12255429976d4830a2f: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,038 [INFO] __main__: Done 5abdf12255429976d4830a2f: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,038 [ERROR] __main__: Pipeline error for 5a85f98e5542996432c57152: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,038 [INFO] __main__: Done 5a85f98e5542996432c57152: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,038 [ERROR] __main__: Pipeline error for 5ae236da5542994d89d5b397: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,038 [INFO] __main__: Done 5ae236da5542994d89d5b397: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,038 [ERROR] __main__: Pipeline error for 5a7a15d35542996a35c170c4: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,038 [INFO] __main__: Done 5a7a15d35542996a35c170c4: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,038 [ERROR] __main__: Pipeline error for 5adc2ae5554299438c868d64: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,038 [INFO] __main__: Done 5adc2ae5554299438c868d64: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,039 [ERROR] __main__: Pipeline error for 5ab6988a554299710c8d1edc: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,041 [INFO] __main__: Done 5ab6988a554299710c8d1edc: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,041 [ERROR] __main__: Pipeline error for 5a8aa5835542996c9b8d5f4e: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,041 [INFO] __main__: Done 5a8aa5835542996c9b8d5f4e: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,041 [ERROR] __main__: Pipeline error for 5adc3a7055429947ff173913: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,041 [INFO] __main__: Done 5adc3a7055429947ff173913: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,041 [ERROR] __main__: Pipeline error for 5a793f505542994bb9456fd1: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,041 [INFO] __main__: Done 5a793f505542994bb9456fd1: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,041 [ERROR] __main__: Pipeline error for 5ae446825542995ad6573d21: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,041 [INFO] __main__: Done 5ae446825542995ad6573d21: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,041 [ERROR] __main__: Pipeline error for 5a75da6d5542992db94736fa: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,042 [INFO] __main__: Done 5a75da6d5542992db94736fa: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,042 [ERROR] __main__: Pipeline error for 5a732ca45542992359bc325d: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,042 [INFO] __main__: Done 5a732ca45542992359bc325d: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,042 [ERROR] __main__: Pipeline error for 5a881d2355429938390d3eeb: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,042 [INFO] __main__: Done 5a881d2355429938390d3eeb: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,042 [ERROR] __main__: Pipeline error for 5ab6b13b554299710c8d1f3f: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,042 [INFO] __main__: Done 5ab6b13b554299710c8d1f3f: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,042 [ERROR] __main__: Pipeline error for 5adf9d135542995534e8c817: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,042 [INFO] __main__: Done 5adf9d135542995534e8c817: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,042 [ERROR] __main__: Pipeline error for 5ab672165542995eadeeffe0: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,043 [INFO] __main__: Done 5ab672165542995eadeeffe0: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,043 [ERROR] __main__: Pipeline error for 5ab4bea15542990594ba9cae: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,043 [INFO] __main__: Done 5ab4bea15542990594ba9cae: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,043 [ERROR] __main__: Pipeline error for 5ade6fcd55429975fa854ecf: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,043 [INFO] __main__: Done 5ade6fcd55429975fa854ecf: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,043 [ERROR] __main__: Pipeline error for 5ab7268b5542992aa3b8c7b1: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,043 [INFO] __main__: Done 5ab7268b5542992aa3b8c7b1: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,043 [ERROR] __main__: Pipeline error for 5adeb95d5542992fa25da827: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,043 [INFO] __main__: Done 5adeb95d5542992fa25da827: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,043 [ERROR] __main__: Pipeline error for 5ae7ef625542994a481bbe40: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,044 [INFO] __main__: Done 5ae7ef625542994a481bbe40: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,044 [ERROR] __main__: Pipeline error for 5a7e689f55429934daa2fc1c: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,044 [INFO] __main__: Done 5a7e689f55429934daa2fc1c: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,044 [ERROR] __main__: Pipeline error for 5abc36cc55429959677d6a50: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,044 [INFO] __main__: Done 5abc36cc55429959677d6a50: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,044 [ERROR] __main__: Pipeline error for 5a81f10055429903bc27ba06: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,044 [INFO] __main__: Done 5a81f10055429903bc27ba06: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,044 [ERROR] __main__: Pipeline error for 5ae5fb2d554299546bf82ff5: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,044 [INFO] __main__: Done 5ae5fb2d554299546bf82ff5: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,044 [ERROR] __main__: Pipeline error for 5ac24ad7554299636651995a: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,045 [INFO] __main__: Done 5ac24ad7554299636651995a: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,045 [ERROR] __main__: Pipeline error for 5ab85e9e55429934fafe6d8b: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,045 [INFO] __main__: Done 5ab85e9e55429934fafe6d8b: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,045 [ERROR] __main__: Pipeline error for 5a7bd791554299683c1c62c2: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,045 [INFO] __main__: Done 5a7bd791554299683c1c62c2: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,045 [ERROR] __main__: Pipeline error for 5a7b63eb55429931da12ca7e: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,045 [INFO] __main__: Done 5a7b63eb55429931da12ca7e: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,045 [ERROR] __main__: Pipeline error for 5ab624b855429953192ad26d: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,045 [INFO] __main__: Done 5ab624b855429953192ad26d: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,045 [ERROR] __main__: Pipeline error for 5a7143625542994082a3e71e: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,047 [INFO] __main__: Done 5a7143625542994082a3e71e: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,047 [ERROR] __main__: Pipeline error for 5abc19705542993a06baf86e: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,047 [INFO] __main__: Done 5abc19705542993a06baf86e: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,047 [ERROR] __main__: Pipeline error for 5ab46d195542991751b4d76a: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,047 [INFO] __main__: Done 5ab46d195542991751b4d76a: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,047 [ERROR] __main__: Pipeline error for 5a729cc25542991f9a20c532: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,047 [INFO] __main__: Done 5a729cc25542991f9a20c532: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,047 [ERROR] __main__: Pipeline error for 5a82bdd655429940e5e1a92a: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,047 [INFO] __main__: Done 5a82bdd655429940e5e1a92a: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,048 [ERROR] __main__: Pipeline error for 5ac3a2fa5542993915413857: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,048 [INFO] __main__: Done 5ac3a2fa5542993915413857: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,048 [ERROR] __main__: Pipeline error for 5ab2c0de5542992953946870: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,048 [INFO] __main__: Done 5ab2c0de5542992953946870: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,048 [ERROR] __main__: Pipeline error for 5adfa6c7554299025d62a326: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,048 [INFO] __main__: Done 5adfa6c7554299025d62a326: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,048 [ERROR] __main__: Pipeline error for 5a8b4ec155429949d91db53f: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,048 [INFO] __main__: Done 5a8b4ec155429949d91db53f: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,048 [ERROR] __main__: Pipeline error for 5ae09ec055429924de1b7116: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,048 [INFO] __main__: Done 5ae09ec055429924de1b7116: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,049 [ERROR] __main__: Pipeline error for 5ab4355555429942dd415ee3: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,049 [INFO] __main__: Done 5ab4355555429942dd415ee3: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,049 [ERROR] __main__: Pipeline error for 5a895f6155429946c8d6e914: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,049 [INFO] __main__: Done 5a895f6155429946c8d6e914: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,049 [ERROR] __main__: Pipeline error for 5add98985542990dbb2f7e82: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,049 [INFO] __main__: Done 5add98985542990dbb2f7e82: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,049 [ERROR] __main__: Pipeline error for 5ab2f6bd554299166977415e: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,049 [INFO] __main__: Done 5ab2f6bd554299166977415e: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,049 [ERROR] __main__: Pipeline error for 5a8832d355429938390d3f03: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,049 [INFO] __main__: Done 5a8832d355429938390d3f03: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,050 [ERROR] __main__: Pipeline error for 5ab5052a5542990594ba9ccf: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,050 [INFO] __main__: Done 5ab5052a5542990594ba9ccf: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,050 [ERROR] __main__: Pipeline error for 5abbf8be554299114383a0c1: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,050 [INFO] __main__: Done 5abbf8be554299114383a0c1: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,050 [ERROR] __main__: Pipeline error for 5a7543d555429916b01642ce: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,050 [INFO] __main__: Done 5a7543d555429916b01642ce: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,050 [ERROR] __main__: Pipeline error for 5adcc7395542990d50227d13: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,050 [INFO] __main__: Done 5adcc7395542990d50227d13: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,050 [ERROR] __main__: Pipeline error for 5add292b5542990d50227e0a: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,050 [INFO] __main__: Done 5add292b5542990d50227e0a: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,051 [ERROR] __main__: Pipeline error for 5a8911ad554299515336129c: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,051 [INFO] __main__: Done 5a8911ad554299515336129c: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,051 [ERROR] __main__: Pipeline error for 5adf24155542992d7e9f92af: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,051 [INFO] __main__: Done 5adf24155542992d7e9f92af: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,051 [ERROR] __main__: Pipeline error for 5a85fb5e5542994775f606df: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,051 [INFO] __main__: Done 5a85fb5e5542994775f606df: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,051 [ERROR] __main__: Pipeline error for 5a8bbfb15542995e66a474f6: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,051 [INFO] __main__: Done 5a8bbfb15542995e66a474f6: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,051 [ERROR] __main__: Pipeline error for 5a736aa95542991f29ee2dfa: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,051 [INFO] __main__: Done 5a736aa95542991f29ee2dfa: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,052 [ERROR] __main__: Pipeline error for 5ac54c435542993e66e822d1: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,055 [INFO] __main__: Done 5ac54c435542993e66e822d1: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,055 [INFO] __main__: Processing 5ab234c65542993be8fa98c6: Armie Hammer stars as Oliver in a film directed by who ?
+2026-03-07 22:07:38,055 [INFO] __main__: Processing 5a851b0d5542997175ce1f7f: Are Dogo Cubano and the Dutch Shepherd both breeds of dog?
+2026-03-07 22:07:38,055 [INFO] __main__: Processing 5ae537e45542990ba0bbb235: When was the American singer, songwriter, record producer, d
+2026-03-07 22:07:38,056 [INFO] __main__: Processing 5ae4ebeb55429908b63264bb: Are Jiujiang, Guangdong and Ruzhou located in the same Chine
+2026-03-07 22:07:38,056 [INFO] __main__: Processing 5ae515bb55429913cc204584: When did the British philosopher whose works inspired Kate H
+2026-03-07 22:07:38,057 [INFO] __main__: Processing 5a8518a75542994c784ddaf7: What type of structure does 277 Park Avenue and 126 Madison 
+2026-03-07 22:07:38,057 [INFO] __main__: Processing 5ab32256554299233954ff22: What position does Kyle York hold at the internet performanc
+2026-03-07 22:07:38,057 [INFO] __main__: Processing 5ae657d55542995703ce8b5b: This stadium, the largest in eastern Europe, was home to the
+2026-03-07 22:07:38,058 [INFO] __main__: Processing 5a8e08d35542995085b37395: Anna Lewandowska is married to a footballer who plays for wh
+2026-03-07 22:07:38,058 [INFO] __main__: Processing 5adfc77b554299603e4183ab: Is Edison Sault Power Canal somehow linked with or used with
+2026-03-07 22:07:38,058 [INFO] __main__: Processing 5a76364d5542994ccc918719: When was the anthology, in which fisrt pages of The Incal" w
+2026-03-07 22:07:38,060 [INFO] __main__: Processing 5a8c6ebd5542996e8ac88aa9: What city is the army division that conducted Operation Blue
+2026-03-07 22:07:38,061 [INFO] __main__: Processing 5ae52cb955429908b6326540: What is type of philosophies is The Structure of Liberty abo
+2026-03-07 22:07:38,061 [INFO] __main__: Processing 5a76648f5542992db9473795: Figure 2 Ranch Airport supports launch operations of what ae
+2026-03-07 22:07:38,061 [INFO] __main__: Processing 5a773e3955429972597f14c9: Who was born in Ireland and has coached the captain of MLS c
+2026-03-07 22:07:38,061 [INFO] __main__: Processing 5abcf9d155429959677d6b90: The director of a film about Wong Fei-hung also made what fi
+2026-03-07 22:07:38,062 [INFO] __main__: Processing 5adf5fa65542993a75d264db: When did the University, of which The Dove Marine Laboratory
+2026-03-07 22:07:38,062 [INFO] __main__: Processing 5adbe75455429944faac23af: What record company does distribution for Joan Marie Larkin 
+2026-03-07 22:07:38,062 [INFO] __main__: Processing 5a849c1b5542997175ce1ef9: What sort of activist is the author of The Irrational Atheis
+2026-03-07 22:07:38,063 [INFO] __main__: Processing 5a7ca4485542990527d554f1: What was the address of the penitentiary where Jimmy Elliot 
+2026-03-07 22:07:38,063 [INFO] __main__: Processing 5ac439005542995c82c4acf9: where was the 2006 Commonwealth Games that Mmoloki Nogeng wo
+2026-03-07 22:07:38,063 [INFO] __main__: Processing 5a8501915542997175ce1f5a: Are PC Magazine and Sculptural Pursuit both technology publi
+2026-03-07 22:07:38,064 [INFO] __main__: Processing 5a8b465855429949d91db522: Who produced the film that was Jennifer Kent's directorial d
+2026-03-07 22:07:38,064 [INFO] __main__: Processing 5a8babf05542996e8ac8899e: Whose native growing land is more south, Beech or Daviesia?
+2026-03-07 22:07:38,064 [INFO] __main__: Processing 5ade126355429939a52fe7ea: What film, based on the book “Boston Strong”, featured the a
+2026-03-07 22:07:38,065 [INFO] __main__: Processing 5ae09d6155429945ae9593d4: Lee Sung-jae stars in the film Barking Dogs Never Bite which
+2026-03-07 22:07:38,065 [INFO] __main__: Processing 5a84b5f05542991dd0999da5: In the muti-sport games usually held every four years betwee
+2026-03-07 22:07:38,065 [INFO] __main__: Processing 5ab64285554299637185c67c: George H. W. Bush,  a resident of West Oaks Subdivision in H
+2026-03-07 22:07:38,065 [INFO] __main__: Processing 5a79258a55429974737f79a8: In the seventh-largest country in Africa, what is the oil pr
+2026-03-07 22:07:38,066 [INFO] __main__: Processing 5ae1fd995542997283cd2313: Is It Just Me? was a single by the English rock band from wh
+2026-03-07 22:07:38,066 [INFO] __main__: Processing 5ae375955542990afbd1e15d: what is the group called that Dianne Morgan and Joe Wilkinso
+2026-03-07 22:07:38,066 [INFO] __main__: Processing 5a77121a5542994aec3b71db:  Which 1970's film was released first, Charley and the Angel
+2026-03-07 22:07:38,067 [INFO] __main__: Processing 5ac3e5de554299204fd21ebc: How many records did the boy band who released "Said and Don
+2026-03-07 22:07:38,067 [INFO] __main__: Processing 5ab3460055429976abd1bc80: What singer-songwriter from Derry appeared on Paul van Dyk's
+2026-03-07 22:07:38,067 [INFO] __main__: Processing 5a8afa4d55429949d91db44c: Not About Angels was used in the film adaptation of what nov
+2026-03-07 22:07:38,068 [INFO] __main__: Processing 5abe67ae5542991f6610616b: What is the name of the region that includes the cities Dove
+2026-03-07 22:07:38,068 [INFO] __main__: Processing 5a8fa4d95542995b4424207b: Which airport is busier, Palm Springs International Airport 
+2026-03-07 22:07:38,068 [INFO] __main__: Processing 5a8c66db554299585d9e3683: What year was the film "Mom" released, starring the voice of
+2026-03-07 22:07:38,069 [INFO] __main__: Processing 5ae78f3b554299540e5a5608: Mr. & Mrs. Mxyzptlk is an episode of the superhero TV series
+2026-03-07 22:07:38,069 [INFO] __main__: Processing 5ac0c5805542992a796ded80: The thid episode of the first season of The Simpsons, featur
+2026-03-07 22:07:38,069 [INFO] __main__: Processing 5add695a5542992ae4cec557: What bluegrass singer provides vocals for a song on the albu
+2026-03-07 22:07:38,069 [INFO] __main__: Processing 5a7624b85542992db947372c: When was the plaintiff in the 1892 Barbed Wire Patent Case b
+2026-03-07 22:07:38,070 [INFO] __main__: Processing 5ab529965542990594ba9d1e: Which casino closed first The Atlantic Club Casino Hotel or 
+2026-03-07 22:07:38,070 [INFO] __main__: Processing 5a72a9145542994cef4bc3c1: Which player signed to Bayern Munich before the 2012-2013 se
+2026-03-07 22:07:38,070 [INFO] __main__: Processing 5a8ea03e5542990e94052b81: Atlanta Zero Mile Post is located within a historic area ope
+2026-03-07 22:07:38,071 [INFO] __main__: Processing 5ae18d615542997283cd2229: To what sport does the Atomweight class belong?
+2026-03-07 22:07:38,071 [INFO] __main__: Processing 5a774e9c55429972597f14f3: David Huntsinger has worked with this gospel singer born in 
+2026-03-07 22:07:38,071 [INFO] __main__: Processing 5aded04755429975fa854fa7: What team won the XLII super bowl in their 48th overall seas
+2026-03-07 22:07:38,072 [INFO] __main__: Processing 5abaee4f5542996cc5e49f15: Were Cinderella and The Emperor's New Groove released by the
+2026-03-07 22:07:38,072 [INFO] __main__: Processing 5a8933fe55429951533612df: The younger brother, who became king, of Princess Mafalda of
+2026-03-07 22:07:38,072 [INFO] __main__: Processing 5a7a9a2255429941d65f26eb: Kang Sung-yeon played Prince Yeonsan in a film that runs for
+2026-03-07 22:07:38,072 [INFO] __main__: Processing 5a83c9445542992ef85e2360: Viscount Yamaji Motoharu was a general in the early Imperial
+2026-03-07 22:07:38,073 [INFO] __main__: Processing 5ab97a315542996be2020517: Which actor that has performed as Inspector Javert in a Les 
+2026-03-07 22:07:38,073 [INFO] __main__: Processing 5a7271525542997f827839d0: What are the colors of the tricolour flag that was adopted i
+2026-03-07 22:07:38,073 [INFO] __main__: Processing 5ae5691055429960a22e02f3: Boggle is a word game originally distributed by a toy and ga
+2026-03-07 22:07:38,074 [INFO] __main__: Processing 5abbf3845542993f40c73c2e: Of which band was the singer who released the record I Get W
+2026-03-07 22:07:38,074 [INFO] __main__: Processing 5ac55ba05542993e66e8233d: An cricket star who played a supporting role in the film Sin
+2026-03-07 22:07:38,074 [INFO] __main__: Processing 5a8f5a185542992414482a71: Of these two publication--Báiki and Sick--what type of publi
+2026-03-07 22:07:38,075 [INFO] __main__: Processing 5a88e75c5542993b751ca8c7: Which of the following buildings was designed by SHoP Archit
+2026-03-07 22:07:38,075 [INFO] __main__: Processing 5adbf44355429944faac23ce: In which county does the  8th Military Police Brigade  of th
+2026-03-07 22:07:38,075 [INFO] __main__: Processing 5ab90fdd55429916710eb0fc: Wheelock Whitney is just one member of the Whitney Family. W
+2026-03-07 22:07:38,076 [INFO] __main__: Processing 5ae608c15542992663a4f246: What magazine was started in 1925 and features the work of B
+2026-03-07 22:07:38,076 [INFO] __main__: Processing 5ab3c270554299233954ff9e: Midland F1 Racing was a racing team that, in 2007, competed 
+2026-03-07 22:07:38,076 [INFO] __main__: Processing 5abb23035542992ccd8e7f22: Kenneth Arnold reported the first unidentified object sighti
+2026-03-07 22:07:38,076 [INFO] __main__: Processing 5ae4d2a55542990ba0bbb161: Giselle Cossard was known as Mother Giselle of what type of 
+2026-03-07 22:07:38,077 [INFO] __main__: Processing 5ae20c245542997283cd2367: Hina is derived from a dye prepared in what areas?
+2026-03-07 22:07:38,077 [INFO] __main__: Processing 5a7943c655429970f5fffe89: Which of the teams that Sun-woo Kim played on never won a di
+2026-03-07 22:07:38,077 [INFO] __main__: Processing 5abbdaef554299642a094b5d: The title track of Carla Bruni discography was used in a  fi
+2026-03-07 22:07:38,078 [INFO] __main__: Processing 5a83aaeb5542996488c2e483: What studio album did Kanye West record with Roc-A-Fella Rec
+2026-03-07 22:07:38,078 [INFO] __main__: Processing 5ab5f854554299637185c64e: What country do both Adnan Akmal and Kamran Akmal represent 
+2026-03-07 22:07:38,078 [INFO] __main__: Processing 5a724a2b5542990c210a40bc: What team plays within the Big 12 Conference and has Kevin B
+2026-03-07 22:07:38,079 [INFO] __main__: Processing 5ac31129554299741d48a1a2: Woodland is a census-designated place in a town that had thi
+2026-03-07 22:07:38,079 [INFO] __main__: Processing 5a7cb94f554299683c1c6353: What is the first two words of the fifth studio album of Jos
+2026-03-07 22:07:38,079 [INFO] __main__: Processing 5a8cc8c2554299441c6b9efc: When did the author of the book One More River is based on w
+2026-03-07 22:07:38,080 [INFO] __main__: Processing 5a87560d5542994775f607d9: In what year was the soft drink that the Coca-Cola Company d
+2026-03-07 22:07:38,080 [INFO] __main__: Processing 5a8d8e4f5542994ba4e3dca7: The NG postcode area is situated approximately how many mile
+2026-03-07 22:07:38,080 [INFO] __main__: Processing 5ab88c075542991b5579efbe: Which "The Chronicles of Narnia" character is prominently fe
+2026-03-07 22:07:38,080 [INFO] __main__: Processing 5ae35b035542992e3233c3ae: William Bromley-Davenport held political office under the Pr
+2026-03-07 22:07:38,081 [INFO] __main__: Processing 5a7a030c5542996a35c17077: J.B. Scotts located on this 11 mile stretch in Albany New Yo
+2026-03-07 22:07:38,081 [INFO] __main__: Processing 5ab2a308554299340b52553b: What is the nationality of the author of Fifty Shades Freed?
+2026-03-07 22:07:38,082 [INFO] __main__: Processing 5adfda5255429942ec259b5e: What county in Minnesota holds a 202 lb slab of greywacke co
+2026-03-07 22:07:38,083 [INFO] __main__: Processing 5a8612d45542996432c5719b: Are both Grapico and Izze artificially flavored soft drinks?
+2026-03-07 22:07:38,083 [INFO] __main__: Processing 5a8d227a554299585d9e37b1:  What annual event occurs on a property co-founded by an Ame
+2026-03-07 22:07:38,083 [INFO] __main__: Processing 5ab48bab5542991779162cd3: Which Canadian Professional ice hockey player of Albanian or
+2026-03-07 22:07:38,084 [INFO] __main__: Processing 5ae0156455429942ec259c15: What is the name of the fashion label that the founder of th
+2026-03-07 22:07:38,084 [INFO] __main__: Processing 5a7a8d2355429941d65f26a1: Zacarías Ferreira is the uncle of a professional basketball 
+2026-03-07 22:07:38,084 [INFO] __main__: Processing 5a8763475542996e4f3087c0: What championship did the person who substituted for Simon P
+2026-03-07 22:07:38,085 [INFO] __main__: Processing 5ae39fb85542990afbd1e197: Do both Changle District and Longkou face water?
+2026-03-07 22:07:38,085 [INFO] __main__: Processing 5a8549c65542997b5ce3ffe6: Are both Barry Unsworth and P. G. Wodehouse from the same co
+2026-03-07 22:07:38,085 [INFO] __main__: Processing 5ae268f35542994d89d5b416: What job do both Alfred Santell and David Fincher have in co
+2026-03-07 22:07:38,086 [INFO] __main__: Processing 5ae1054055429920d5234284: To which taxonomic category do both Hyacinthoides and Anthri
+2026-03-07 22:07:38,086 [INFO] __main__: Processing 5a8887a055429938390d3f72: Which reservation is located in Hill and Chouteau and named 
+2026-03-07 22:07:38,086 [INFO] __main__: Processing 5a7125b95542994082a3e5d5: Which town has a greater population as of the 2010 census, M
+2026-03-07 22:07:38,087 [INFO] __main__: Processing 5a77c8905542995d831812ce: Who constructed Auburn the Antebellum mansion and was accuse
+2026-03-07 22:07:38,087 [INFO] __main__: Processing 5ac3adc35542995ef918c1e2: Which is in the pop genre, Capital Cities or Tweaker?
+2026-03-07 22:07:38,087 [INFO] __main__: Processing 5a8e0370554299068b959e2d: In which Florida city is Skyplex being constructed, featurin
+2026-03-07 22:07:38,088 [INFO] __main__: Processing 5ae0b7cf554299603e418446: Which dog originated in Galicia, the Bullenbeisser or Can de
+2026-03-07 22:07:38,088 [INFO] __main__: Processing 5a903b7255429933b8a204ae: What Canadian filmmaker created a film about Bettie Page in 
+2026-03-07 22:07:38,088 [INFO] __main__: Processing 5ab82fe155429919ba4e225a: What is the name of one the Italian Navy's new warship?
+2026-03-07 22:07:38,088 [INFO] __main__: Processing 5ae4a91d5542995ad6573e09: What movement was the the person referred to as Mumia part o
+2026-03-07 22:07:38,089 [INFO] __main__: Progress: 10/200 (335158 Q/hr)
+2026-03-07 22:07:38,089 [INFO] __main__: Progress: 20/200 (669738 Q/hr)
+2026-03-07 22:07:38,089 [INFO] __main__: Progress: 30/200 (1004106 Q/hr)
+2026-03-07 22:07:38,089 [INFO] __main__: Progress: 40/200 (1338221 Q/hr)
+2026-03-07 22:07:38,089 [INFO] __main__: Progress: 50/200 (1672068 Q/hr)
+2026-03-07 22:07:38,089 [INFO] __main__: Progress: 60/200 (2005636 Q/hr)
+2026-03-07 22:07:38,089 [INFO] __main__: Progress: 70/200 (2338922 Q/hr)
+2026-03-07 22:07:38,089 [INFO] __main__: Progress: 80/200 (2671947 Q/hr)
+2026-03-07 22:07:38,089 [INFO] __main__: Progress: 90/200 (3004684 Q/hr)
+2026-03-07 22:07:38,089 [INFO] __main__: Progress: 100/200 (3337154 Q/hr)
+2026-03-07 22:07:38,094 [ERROR] __main__: Pipeline error for 5ab234c65542993be8fa98c6: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,095 [INFO] __main__: Done 5ab234c65542993be8fa98c6: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,095 [ERROR] __main__: Pipeline error for 5a851b0d5542997175ce1f7f: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,095 [INFO] __main__: Done 5a851b0d5542997175ce1f7f: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,095 [ERROR] __main__: Pipeline error for 5ae537e45542990ba0bbb235: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,095 [INFO] __main__: Done 5ae537e45542990ba0bbb235: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,095 [ERROR] __main__: Pipeline error for 5ae4ebeb55429908b63264bb: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,095 [INFO] __main__: Done 5ae4ebeb55429908b63264bb: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,095 [ERROR] __main__: Pipeline error for 5ae515bb55429913cc204584: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,095 [INFO] __main__: Done 5ae515bb55429913cc204584: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,095 [ERROR] __main__: Pipeline error for 5a8518a75542994c784ddaf7: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,096 [INFO] __main__: Done 5a8518a75542994c784ddaf7: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,096 [ERROR] __main__: Pipeline error for 5ab32256554299233954ff22: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,096 [INFO] __main__: Done 5ab32256554299233954ff22: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,096 [ERROR] __main__: Pipeline error for 5ae657d55542995703ce8b5b: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,096 [INFO] __main__: Done 5ae657d55542995703ce8b5b: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,096 [ERROR] __main__: Pipeline error for 5a8e08d35542995085b37395: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,096 [INFO] __main__: Done 5a8e08d35542995085b37395: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,096 [ERROR] __main__: Pipeline error for 5adfc77b554299603e4183ab: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,096 [INFO] __main__: Done 5adfc77b554299603e4183ab: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,096 [ERROR] __main__: Pipeline error for 5a76364d5542994ccc918719: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,097 [INFO] __main__: Done 5a76364d5542994ccc918719: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,097 [ERROR] __main__: Pipeline error for 5a8c6ebd5542996e8ac88aa9: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,097 [INFO] __main__: Done 5a8c6ebd5542996e8ac88aa9: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,097 [ERROR] __main__: Pipeline error for 5ae52cb955429908b6326540: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,097 [INFO] __main__: Done 5ae52cb955429908b6326540: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,097 [ERROR] __main__: Pipeline error for 5a76648f5542992db9473795: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,097 [INFO] __main__: Done 5a76648f5542992db9473795: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,097 [ERROR] __main__: Pipeline error for 5a773e3955429972597f14c9: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,097 [INFO] __main__: Done 5a773e3955429972597f14c9: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,097 [ERROR] __main__: Pipeline error for 5abcf9d155429959677d6b90: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,097 [INFO] __main__: Done 5abcf9d155429959677d6b90: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,098 [ERROR] __main__: Pipeline error for 5adf5fa65542993a75d264db: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,098 [INFO] __main__: Done 5adf5fa65542993a75d264db: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,098 [ERROR] __main__: Pipeline error for 5adbe75455429944faac23af: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,098 [INFO] __main__: Done 5adbe75455429944faac23af: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,098 [ERROR] __main__: Pipeline error for 5a849c1b5542997175ce1ef9: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,098 [INFO] __main__: Done 5a849c1b5542997175ce1ef9: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,098 [ERROR] __main__: Pipeline error for 5a7ca4485542990527d554f1: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,098 [INFO] __main__: Done 5a7ca4485542990527d554f1: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,098 [ERROR] __main__: Pipeline error for 5ac439005542995c82c4acf9: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,098 [INFO] __main__: Done 5ac439005542995c82c4acf9: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,099 [ERROR] __main__: Pipeline error for 5a8501915542997175ce1f5a: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,099 [INFO] __main__: Done 5a8501915542997175ce1f5a: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,099 [ERROR] __main__: Pipeline error for 5a8b465855429949d91db522: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,099 [INFO] __main__: Done 5a8b465855429949d91db522: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,099 [ERROR] __main__: Pipeline error for 5a8babf05542996e8ac8899e: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,099 [INFO] __main__: Done 5a8babf05542996e8ac8899e: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,099 [ERROR] __main__: Pipeline error for 5ade126355429939a52fe7ea: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,101 [INFO] __main__: Done 5ade126355429939a52fe7ea: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,101 [ERROR] __main__: Pipeline error for 5ae09d6155429945ae9593d4: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,101 [INFO] __main__: Done 5ae09d6155429945ae9593d4: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,101 [ERROR] __main__: Pipeline error for 5a84b5f05542991dd0999da5: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,101 [INFO] __main__: Done 5a84b5f05542991dd0999da5: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,101 [ERROR] __main__: Pipeline error for 5ab64285554299637185c67c: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,102 [INFO] __main__: Done 5ab64285554299637185c67c: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,102 [ERROR] __main__: Pipeline error for 5a79258a55429974737f79a8: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,102 [INFO] __main__: Done 5a79258a55429974737f79a8: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,102 [ERROR] __main__: Pipeline error for 5ae1fd995542997283cd2313: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,102 [INFO] __main__: Done 5ae1fd995542997283cd2313: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,102 [ERROR] __main__: Pipeline error for 5ae375955542990afbd1e15d: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,102 [INFO] __main__: Done 5ae375955542990afbd1e15d: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,102 [ERROR] __main__: Pipeline error for 5a77121a5542994aec3b71db: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,102 [INFO] __main__: Done 5a77121a5542994aec3b71db: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,102 [ERROR] __main__: Pipeline error for 5ac3e5de554299204fd21ebc: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,103 [INFO] __main__: Done 5ac3e5de554299204fd21ebc: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,103 [ERROR] __main__: Pipeline error for 5ab3460055429976abd1bc80: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,103 [INFO] __main__: Done 5ab3460055429976abd1bc80: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,103 [ERROR] __main__: Pipeline error for 5a8afa4d55429949d91db44c: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,103 [INFO] __main__: Done 5a8afa4d55429949d91db44c: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,103 [ERROR] __main__: Pipeline error for 5abe67ae5542991f6610616b: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,103 [INFO] __main__: Done 5abe67ae5542991f6610616b: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,103 [ERROR] __main__: Pipeline error for 5a8fa4d95542995b4424207b: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,103 [INFO] __main__: Done 5a8fa4d95542995b4424207b: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,103 [ERROR] __main__: Pipeline error for 5a8c66db554299585d9e3683: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,104 [INFO] __main__: Done 5a8c66db554299585d9e3683: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,104 [ERROR] __main__: Pipeline error for 5ae78f3b554299540e5a5608: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,104 [INFO] __main__: Done 5ae78f3b554299540e5a5608: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,104 [ERROR] __main__: Pipeline error for 5ac0c5805542992a796ded80: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,104 [INFO] __main__: Done 5ac0c5805542992a796ded80: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,104 [ERROR] __main__: Pipeline error for 5add695a5542992ae4cec557: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,104 [INFO] __main__: Done 5add695a5542992ae4cec557: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,104 [ERROR] __main__: Pipeline error for 5a7624b85542992db947372c: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,104 [INFO] __main__: Done 5a7624b85542992db947372c: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,104 [ERROR] __main__: Pipeline error for 5ab529965542990594ba9d1e: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,105 [INFO] __main__: Done 5ab529965542990594ba9d1e: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,105 [ERROR] __main__: Pipeline error for 5a72a9145542994cef4bc3c1: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,105 [INFO] __main__: Done 5a72a9145542994cef4bc3c1: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,105 [ERROR] __main__: Pipeline error for 5a8ea03e5542990e94052b81: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,105 [INFO] __main__: Done 5a8ea03e5542990e94052b81: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,105 [ERROR] __main__: Pipeline error for 5ae18d615542997283cd2229: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,105 [INFO] __main__: Done 5ae18d615542997283cd2229: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,105 [ERROR] __main__: Pipeline error for 5a774e9c55429972597f14f3: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,105 [INFO] __main__: Done 5a774e9c55429972597f14f3: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,105 [ERROR] __main__: Pipeline error for 5aded04755429975fa854fa7: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,106 [INFO] __main__: Done 5aded04755429975fa854fa7: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,106 [ERROR] __main__: Pipeline error for 5abaee4f5542996cc5e49f15: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,106 [INFO] __main__: Done 5abaee4f5542996cc5e49f15: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,106 [ERROR] __main__: Pipeline error for 5a8933fe55429951533612df: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,107 [INFO] __main__: Done 5a8933fe55429951533612df: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,107 [ERROR] __main__: Pipeline error for 5a7a9a2255429941d65f26eb: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,107 [INFO] __main__: Done 5a7a9a2255429941d65f26eb: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,107 [ERROR] __main__: Pipeline error for 5a83c9445542992ef85e2360: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,107 [INFO] __main__: Done 5a83c9445542992ef85e2360: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,107 [ERROR] __main__: Pipeline error for 5ab97a315542996be2020517: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,108 [INFO] __main__: Done 5ab97a315542996be2020517: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,108 [ERROR] __main__: Pipeline error for 5a7271525542997f827839d0: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,108 [INFO] __main__: Done 5a7271525542997f827839d0: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,108 [ERROR] __main__: Pipeline error for 5ae5691055429960a22e02f3: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,108 [INFO] __main__: Done 5ae5691055429960a22e02f3: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,108 [ERROR] __main__: Pipeline error for 5abbf3845542993f40c73c2e: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,108 [INFO] __main__: Done 5abbf3845542993f40c73c2e: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,108 [ERROR] __main__: Pipeline error for 5ac55ba05542993e66e8233d: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,108 [INFO] __main__: Done 5ac55ba05542993e66e8233d: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,108 [ERROR] __main__: Pipeline error for 5a8f5a185542992414482a71: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,108 [INFO] __main__: Done 5a8f5a185542992414482a71: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,109 [ERROR] __main__: Pipeline error for 5a88e75c5542993b751ca8c7: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,109 [INFO] __main__: Done 5a88e75c5542993b751ca8c7: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,109 [ERROR] __main__: Pipeline error for 5adbf44355429944faac23ce: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,109 [INFO] __main__: Done 5adbf44355429944faac23ce: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,109 [ERROR] __main__: Pipeline error for 5ab90fdd55429916710eb0fc: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,109 [INFO] __main__: Done 5ab90fdd55429916710eb0fc: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,109 [ERROR] __main__: Pipeline error for 5ae608c15542992663a4f246: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,109 [INFO] __main__: Done 5ae608c15542992663a4f246: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,109 [ERROR] __main__: Pipeline error for 5ab3c270554299233954ff9e: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,109 [INFO] __main__: Done 5ab3c270554299233954ff9e: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,109 [ERROR] __main__: Pipeline error for 5abb23035542992ccd8e7f22: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,110 [INFO] __main__: Done 5abb23035542992ccd8e7f22: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,110 [ERROR] __main__: Pipeline error for 5ae4d2a55542990ba0bbb161: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,110 [INFO] __main__: Done 5ae4d2a55542990ba0bbb161: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,110 [ERROR] __main__: Pipeline error for 5ae20c245542997283cd2367: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,110 [INFO] __main__: Done 5ae20c245542997283cd2367: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,110 [ERROR] __main__: Pipeline error for 5a7943c655429970f5fffe89: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,110 [INFO] __main__: Done 5a7943c655429970f5fffe89: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,110 [ERROR] __main__: Pipeline error for 5abbdaef554299642a094b5d: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,110 [INFO] __main__: Done 5abbdaef554299642a094b5d: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,110 [ERROR] __main__: Pipeline error for 5a83aaeb5542996488c2e483: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,111 [INFO] __main__: Done 5a83aaeb5542996488c2e483: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,111 [ERROR] __main__: Pipeline error for 5ab5f854554299637185c64e: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,111 [INFO] __main__: Done 5ab5f854554299637185c64e: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,111 [ERROR] __main__: Pipeline error for 5a724a2b5542990c210a40bc: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,111 [INFO] __main__: Done 5a724a2b5542990c210a40bc: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,111 [ERROR] __main__: Pipeline error for 5ac31129554299741d48a1a2: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,111 [INFO] __main__: Done 5ac31129554299741d48a1a2: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,111 [ERROR] __main__: Pipeline error for 5a7cb94f554299683c1c6353: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,111 [INFO] __main__: Done 5a7cb94f554299683c1c6353: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,112 [ERROR] __main__: Pipeline error for 5a8cc8c2554299441c6b9efc: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,112 [INFO] __main__: Done 5a8cc8c2554299441c6b9efc: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,112 [ERROR] __main__: Pipeline error for 5a87560d5542994775f607d9: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,113 [INFO] __main__: Done 5a87560d5542994775f607d9: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,114 [ERROR] __main__: Pipeline error for 5a8d8e4f5542994ba4e3dca7: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,114 [INFO] __main__: Done 5a8d8e4f5542994ba4e3dca7: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,114 [ERROR] __main__: Pipeline error for 5ab88c075542991b5579efbe: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,114 [INFO] __main__: Done 5ab88c075542991b5579efbe: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,114 [ERROR] __main__: Pipeline error for 5ae35b035542992e3233c3ae: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,114 [INFO] __main__: Done 5ae35b035542992e3233c3ae: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,114 [ERROR] __main__: Pipeline error for 5a7a030c5542996a35c17077: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,114 [INFO] __main__: Done 5a7a030c5542996a35c17077: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,114 [ERROR] __main__: Pipeline error for 5ab2a308554299340b52553b: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,114 [INFO] __main__: Done 5ab2a308554299340b52553b: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,115 [ERROR] __main__: Pipeline error for 5adfda5255429942ec259b5e: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,115 [INFO] __main__: Done 5adfda5255429942ec259b5e: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,115 [ERROR] __main__: Pipeline error for 5a8612d45542996432c5719b: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,115 [INFO] __main__: Done 5a8612d45542996432c5719b: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,115 [ERROR] __main__: Pipeline error for 5a8d227a554299585d9e37b1: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,115 [INFO] __main__: Done 5a8d227a554299585d9e37b1: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,115 [ERROR] __main__: Pipeline error for 5ab48bab5542991779162cd3: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,115 [INFO] __main__: Done 5ab48bab5542991779162cd3: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,115 [ERROR] __main__: Pipeline error for 5ae0156455429942ec259c15: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,115 [INFO] __main__: Done 5ae0156455429942ec259c15: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,116 [ERROR] __main__: Pipeline error for 5a7a8d2355429941d65f26a1: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,116 [INFO] __main__: Done 5a7a8d2355429941d65f26a1: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,116 [ERROR] __main__: Pipeline error for 5a8763475542996e4f3087c0: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,116 [INFO] __main__: Done 5a8763475542996e4f3087c0: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,116 [ERROR] __main__: Pipeline error for 5ae39fb85542990afbd1e197: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,116 [INFO] __main__: Done 5ae39fb85542990afbd1e197: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,116 [ERROR] __main__: Pipeline error for 5a8549c65542997b5ce3ffe6: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,116 [INFO] __main__: Done 5a8549c65542997b5ce3ffe6: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,116 [ERROR] __main__: Pipeline error for 5ae268f35542994d89d5b416: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,116 [INFO] __main__: Done 5ae268f35542994d89d5b416: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,117 [ERROR] __main__: Pipeline error for 5ae1054055429920d5234284: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,117 [INFO] __main__: Done 5ae1054055429920d5234284: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,117 [ERROR] __main__: Pipeline error for 5a8887a055429938390d3f72: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,117 [INFO] __main__: Done 5a8887a055429938390d3f72: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,117 [ERROR] __main__: Pipeline error for 5a7125b95542994082a3e5d5: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,117 [INFO] __main__: Done 5a7125b95542994082a3e5d5: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,117 [ERROR] __main__: Pipeline error for 5a77c8905542995d831812ce: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,117 [INFO] __main__: Done 5a77c8905542995d831812ce: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,117 [ERROR] __main__: Pipeline error for 5ac3adc35542995ef918c1e2: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,117 [INFO] __main__: Done 5ac3adc35542995ef918c1e2: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,118 [ERROR] __main__: Pipeline error for 5a8e0370554299068b959e2d: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,118 [INFO] __main__: Done 5a8e0370554299068b959e2d: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,118 [ERROR] __main__: Pipeline error for 5ae0b7cf554299603e418446: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,118 [INFO] __main__: Done 5ae0b7cf554299603e418446: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,118 [ERROR] __main__: Pipeline error for 5a903b7255429933b8a204ae: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,118 [INFO] __main__: Done 5a903b7255429933b8a204ae: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,118 [ERROR] __main__: Pipeline error for 5ab82fe155429919ba4e225a: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,118 [INFO] __main__: Done 5ab82fe155429919ba4e225a: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,118 [ERROR] __main__: Pipeline error for 5ae4a91d5542995ad6573e09: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:07:38,121 [INFO] __main__: Done 5ae4a91d5542995ad6573e09: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:07:38,121 [INFO] __main__: Progress: 110/200 (2837353 Q/hr)
+2026-03-07 22:07:38,121 [INFO] __main__: Progress: 120/200 (3093948 Q/hr)
+2026-03-07 22:07:38,121 [INFO] __main__: Progress: 130/200 (3350607 Q/hr)
+2026-03-07 22:07:38,121 [INFO] __main__: Progress: 140/200 (3607157 Q/hr)
+2026-03-07 22:07:38,121 [INFO] __main__: Progress: 150/200 (3863564 Q/hr)
+2026-03-07 22:07:38,121 [INFO] __main__: Progress: 160/200 (4119780 Q/hr)
+2026-03-07 22:07:38,121 [INFO] __main__: Progress: 170/200 (4375858 Q/hr)
+2026-03-07 22:07:38,121 [INFO] __main__: Progress: 180/200 (4631814 Q/hr)
+2026-03-07 22:07:38,122 [INFO] __main__: Progress: 190/200 (4887599 Q/hr)
+2026-03-07 22:07:38,122 [INFO] __main__: Progress: 200/200 (5143247 Q/hr)
+2026-03-07 22:07:38,122 [INFO] __main__: Batch complete: 200 questions in 0.0 min (5116602.7 Q/hr)
+Shard 2 complete: 200 predictions

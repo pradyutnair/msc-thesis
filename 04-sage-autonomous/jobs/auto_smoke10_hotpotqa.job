@@ -1,0 +1,67 @@
+#!/bin/bash
+#SBATCH --job-name=as_hot10
+#SBATCH --partition=gpu_a100
+#SBATCH --time=02:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/04-sage-autonomous/jobs/output/%j_auto_smoke10_hotpotqa.log
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/04-sage-autonomous
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="Qwen3-8B"
+
+MODEL_ID="Qwen/Qwen3-8B"
+SERVED_NAME="Qwen3-8B"
+DATASET="hotpotqa"
+LIMIT=10
+RUN_OUT="results/auto_smoke10/$DATASET"
+mkdir -p "$RUN_OUT" jobs/output
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+python -m vllm.entrypoints.openai.api_server \
+  --model "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port 8000 \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.90 \
+  --max-num-seqs 256 \
+  --enable-auto-tool-choice --tool-call-parser hermes \
+  --trust-remote-code --generation-config vllm &
+VLLM_PID=$!
+
+for i in $(seq 1 300); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  STATUS="$(python - <<'PY'
+import json, urllib.request
+try:
+    d=json.load(urllib.request.urlopen("http://127.0.0.1:8000/v1/models", timeout=2))
+    print("ok" if any("Qwen3-8B" in m.get("id","") or "Qwen/Qwen3-8B" in m.get("id","") for m in d.get("data",[])) else "wait")
+except Exception:
+    print("wait")
+PY
+)"
+  echo "$STATUS"
+  if [[ "$STATUS" == "ok" ]]; then break; fi
+  sleep 3
+done
+
+rm -f "$RUN_OUT/predictions.jsonl" "$RUN_OUT/decompositions.jsonl"
+
+PYTHONPATH=src python -u scripts/multi_agent_runner.py \
+  --config configs/autonomous.yaml \
+  --questions "data/$DATASET/questions.json" \
+  --output "$RUN_OUT" \
+  --limit "$LIMIT" \
+  --concurrent 10
+
+PYTHONPATH=src python -u scripts/eval_offline.py "$RUN_OUT/predictions.jsonl"

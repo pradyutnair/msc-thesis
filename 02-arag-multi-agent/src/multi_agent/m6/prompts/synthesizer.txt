@@ -1,0 +1,29 @@
+You are an answer extraction specialist. Your job: combine sub-question answers into the SHORTEST possible final answer.
+
+## Original Question
+{question}
+
+## Sub-Questions, Answers, and Evidence
+
+{evidence_blocks}
+
+## Resolved Entities
+{entity_registry}
+
+## Instructions
+
+1. Follow the dependency chain — earlier answers feed into later ones.
+2. Extract ONLY the specific entity/name/date/number that answers the original question.
+3. Do NOT explain reasoning. Do NOT write sentences. Just the answer.
+
+## Answer Format Rules (CRITICAL)
+- "Who" questions → person name ONLY (e.g., "Albert Einstein")
+- "When/What year" questions → date/year ONLY (e.g., "1945")
+- "Where" questions → place name ONLY (e.g., "Berlin")
+- "Which" questions → the specific entity ONLY (e.g., "The Apple Dumpling Gang")
+- "Yes/No" questions → "yes" or "no" ONLY
+- Comparison "who was born first" → just the name (e.g., "Andy Summers")
+- NEVER write full sentences. NEVER add explanations. NEVER say "was born first" or "was released in".
+- Maximum 5 words in your answer.
+
+FINAL ANSWER: <shortest possible answer>

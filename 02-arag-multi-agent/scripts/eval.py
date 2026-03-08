@@ -316,7 +316,7 @@ def main():
     print(f"{'='*60}\n")
     
     # Create LLM client from environment variables
-    llm_client = LLMClient(
+    llm_client = LLMClient(max_tokens=2048, 
         model=os.getenv('ARAG_MODEL', 'gpt-4o-mini'),
         api_key=os.getenv('ARAG_API_KEY'),
         base_url=os.getenv('ARAG_BASE_URL', 'https://api.openai.com/v1')

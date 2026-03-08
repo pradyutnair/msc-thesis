@@ -1,0 +1,761 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:06:50 [utils.py:325] 
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:06:50 [utils.py:325]        █     █     █▄   ▄█
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:06:50 [utils.py:325]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.15.1
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:06:50 [utils.py:325]   █▄█▀ █     █     █     █  model   Qwen/Qwen3-8B
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:06:50 [utils.py:325]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:06:50 [utils.py:325] 
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:06:50 [utils.py:261] non-default args: {'host': '127.0.0.1', 'port': 8157, 'enable_auto_tool_choice': True, 'tool_call_parser': 'hermes', 'model': 'Qwen/Qwen3-8B', 'trust_remote_code': True, 'max_model_len': 32768, 'served_model_name': ['Qwen3-8B'], 'generation_config': 'vllm', 'max_num_seqs': 256}
+[0;36m(APIServer pid=1092604)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[0;36m(APIServer pid=1092604)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:06:51 [model.py:541] Resolved architecture: Qwen3ForCausalLM
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:06:51 [model.py:1561] Using max model len 32768
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:06:52 [scheduler.py:226] Chunked prefill is enabled with max_num_batched_tokens=2048.
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:06:52 [vllm.py:624] Asynchronous scheduling is enabled.
+Waiting for vLLM on port 8157 (PID=1092604)...
+Check 1: wait
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+Check 2: wait
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m INFO 03-07 22:07:02 [core.py:96] Initializing a V1 LLM engine (v0.15.1) with config: model='Qwen/Qwen3-8B', speculative_config=None, tokenizer='Qwen/Qwen3-8B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=Qwen3-8B, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'splitting_ops': ['vllm::unified_attention', 'vllm::unified_attention_with_output', 'vllm::unified_mla_attention', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::gdn_attention_core', 'vllm::kda_attention', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::unified_kv_cache_update'], 'compile_mm_encoder': False, 'compile_sizes': [], 'compile_ranges_split_points': [2048], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False}, 'max_cudagraph_capture_size': 512, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': True}, 'local_cache_dir': None, 'static_all_moe_layers': []}
+Check 3: wait
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m INFO 03-07 22:07:07 [parallel_state.py:1212] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://145.136.62.71:50419 backend=nccl
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m INFO 03-07 22:07:07 [parallel_state.py:1423] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m INFO 03-07 22:07:08 [gpu_model_runner.py:4033] Starting to load model Qwen/Qwen3-8B...
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m INFO 03-07 22:07:10 [cuda.py:364] Using FLASH_ATTN attention backend out of potential backends: ('FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION')
+Check 4: wait
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/5 [00:00<?, ?it/s]
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m Loading safetensors checkpoint shards:  20% Completed | 1/5 [00:03<00:12,  3.05s/it]
+Check 5: wait
+Check 6: wait
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m Loading safetensors checkpoint shards:  40% Completed | 2/5 [00:10<00:17,  5.74s/it]
+Check 7: wait
+Check 8: wait
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m Loading safetensors checkpoint shards:  60% Completed | 3/5 [00:20<00:14,  7.46s/it]
+Check 9: wait
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m Loading safetensors checkpoint shards:  80% Completed | 4/5 [00:29<00:08,  8.11s/it]
+Check 10: wait
+Check 11: wait
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:38<00:00,  8.55s/it]
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:38<00:00,  7.72s/it]
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m 
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m INFO 03-07 22:07:50 [default_loader.py:291] Loading weights took 38.69 seconds
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m INFO 03-07 22:07:51 [gpu_model_runner.py:4130] Model loading took 15.27 GiB memory and 41.935208 seconds
+Check 12: wait
+Check 13: wait
+Check 14: wait
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m INFO 03-07 22:08:03 [backends.py:812] Using cache directory: /home/pnair/.cache/vllm/torch_compile_cache/3dd797eba8/rank_0_0/backbone for vLLM's torch.compile
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m INFO 03-07 22:08:03 [backends.py:872] Dynamo bytecode transform time: 11.93 s
+Check 15: wait
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m INFO 03-07 22:08:11 [backends.py:267] Directly load the compiled graph(s) for compile range (1, 2048) from the cache, took 2.589 s
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m INFO 03-07 22:08:11 [monitor.py:34] torch.compile takes 14.52 s in total
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m INFO 03-07 22:08:12 [gpu_worker.py:356] Available KV cache memory: 18.83 GiB
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m INFO 03-07 22:08:12 [kv_cache_utils.py:1307] GPU KV cache size: 137,136 tokens
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m INFO 03-07 22:08:12 [kv_cache_utils.py:1312] Maximum concurrency for 32,768 tokens per request: 4.19x
+Check 16: wait
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/51 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   4%|▍         | 2/51 [00:00<00:04, 12.06it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   8%|▊         | 4/51 [00:00<00:03, 12.06it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  12%|█▏        | 6/51 [00:00<00:03, 12.64it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  16%|█▌        | 8/51 [00:00<00:03, 12.93it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  20%|█▉        | 10/51 [00:00<00:03, 13.55it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  24%|██▎       | 12/51 [00:00<00:02, 13.91it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  27%|██▋       | 14/51 [00:01<00:02, 14.20it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  31%|███▏      | 16/51 [00:01<00:02, 14.41it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  35%|███▌      | 18/51 [00:01<00:02, 14.78it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  39%|███▉      | 20/51 [00:01<00:02, 14.93it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  43%|████▎     | 22/51 [00:01<00:01, 15.03it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  47%|████▋     | 24/51 [00:01<00:01, 15.18it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  51%|█████     | 26/51 [00:01<00:01, 15.27it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  55%|█████▍    | 28/51 [00:01<00:01, 15.34it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  59%|█████▉    | 30/51 [00:02<00:01, 14.95it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  63%|██████▎   | 32/51 [00:02<00:01, 15.10it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  67%|██████▋   | 34/51 [00:02<00:01, 15.02it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  71%|███████   | 36/51 [00:02<00:01, 14.72it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  75%|███████▍  | 38/51 [00:02<00:00, 14.72it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  78%|███████▊  | 40/51 [00:02<00:00, 14.60it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  82%|████████▏ | 42/51 [00:02<00:00, 14.75it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  86%|████████▋ | 44/51 [00:03<00:00, 14.86it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  90%|█████████ | 46/51 [00:03<00:00, 14.97it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  94%|█████████▍| 48/51 [00:03<00:00, 15.15it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  98%|█████████▊| 50/51 [00:03<00:00, 16.13it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:03<00:00, 14.74it/s]
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m Capturing CUDA graphs (decode, FULL):   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL):   6%|▌         | 2/35 [00:00<00:01, 17.19it/s]Capturing CUDA graphs (decode, FULL):  11%|█▏        | 4/35 [00:00<00:01, 18.60it/s]Capturing CUDA graphs (decode, FULL):  20%|██        | 7/35 [00:00<00:01, 19.98it/s]Capturing CUDA graphs (decode, FULL):  29%|██▊       | 10/35 [00:00<00:01, 20.76it/s]Capturing CUDA graphs (decode, FULL):  37%|███▋      | 13/35 [00:00<00:01, 21.27it/s]Capturing CUDA graphs (decode, FULL):  46%|████▌     | 16/35 [00:00<00:00, 21.57it/s]Capturing CUDA graphs (decode, FULL):  54%|█████▍    | 19/35 [00:00<00:00, 21.58it/s]Capturing CUDA graphs (decode, FULL):  63%|██████▎   | 22/35 [00:01<00:00, 21.50it/s]Capturing CUDA graphs (decode, FULL):  71%|███████▏  | 25/35 [00:01<00:00, 21.59it/s]Capturing CUDA graphs (decode, FULL):  80%|████████  | 28/35 [00:01<00:00, 21.73it/s]Capturing CUDA graphs (decode, FULL):  89%|████████▊ | 31/35 [00:01<00:00, 21.97it/s]Check 17: wait
+Capturing CUDA graphs (decode, FULL):  97%|█████████▋| 34/35 [00:01<00:00, 22.23it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 21.48it/s]
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m INFO 03-07 22:08:18 [gpu_model_runner.py:5063] Graph capturing finished in 6 secs, took 0.53 GiB
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m INFO 03-07 22:08:18 [core.py:272] init engine (profile, create kv cache, warmup model) took 26.78 seconds
+[0;36m(EngineCore_DP0 pid=1092758)[0;0m INFO 03-07 22:08:19 [vllm.py:624] Asynchronous scheduling is enabled.
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:20 [api_server.py:665] Supported tasks: ['generate']
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:20 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:20 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:20 [serving.py:177] Warming up chat template processing...
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [hf.py:310] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [serving.py:212] Chat template warmup completed in 1621.2ms
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [api_server.py:946] Starting vLLM API server 0 on http://127.0.0.1:8157
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:38] Available routes are:
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /openapi.json, Methods: GET, HEAD
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /docs, Methods: GET, HEAD
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /docs/oauth2-redirect, Methods: GET, HEAD
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /redoc, Methods: GET, HEAD
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /scale_elastic_ep, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /is_scaling_elastic_ep, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /tokenize, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /detokenize, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /inference/v1/generate, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /pause, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /resume, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /is_paused, Methods: GET
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /metrics, Methods: GET
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /health, Methods: GET
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /v1/chat/completions, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /v1/chat/completions/render, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /v1/responses, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /v1/responses/{response_id}, Methods: GET
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /v1/responses/{response_id}/cancel, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /v1/audio/transcriptions, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /v1/audio/translations, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /v1/completions, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /v1/completions/render, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /v1/messages, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /v1/models, Methods: GET
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /load, Methods: GET
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /version, Methods: GET
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /ping, Methods: GET
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /ping, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /invocations, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /classify, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /v1/embeddings, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /score, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /v1/score, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /rerank, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /v1/rerank, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /v2/rerank, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:21 [launcher.py:46] Route: /pooling, Methods: POST
+[0;36m(APIServer pid=1092604)[0;0m INFO:     Started server process [1092604]
+[0;36m(APIServer pid=1092604)[0;0m INFO:     Waiting for application startup.
+[0;36m(APIServer pid=1092604)[0;0m INFO:     Application startup complete.
+[0;36m(APIServer pid=1092604)[0;0m INFO:     127.0.0.1:38712 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Check 18: ok
+vLLM ready!
+2026-03-07 22:08:23,754 [INFO] __main__: Using chunks file: /gpfs/work5/0/prjs1800/msc-thesis/04-sage-autonomous/data/musique/chunks.json
+2026-03-07 22:08:23,755 [INFO] __main__: Using index dir: /gpfs/work5/0/prjs1800/msc-thesis/04-sage-autonomous/data/musique/index_e5_base_v2
+2026-03-07 22:08:23,758 [INFO] __main__: Total: 200 | Completed: 0 | Pending: 200
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(APIServer pid=1092604)[0;0m INFO 03-07 22:08:32 [loggers.py:257] Engine 000: Avg prompt throughput: 0.8 tokens/s, Avg generation throughput: 0.7 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 0.0%
+2026-03-07 22:08:33,892 [INFO] __main__: Loading embedding model: intfloat/e5-base-v2
+2026-03-07 22:08:33,893 [INFO] sentence_transformers.SentenceTransformer: Load pretrained SentenceTransformer: intfloat/e5-base-v2
+2026-03-07 22:08:36,187 [INFO] __main__: Embedding model loaded successfully!
+2026-03-07 22:08:36,216 [INFO] __main__: Processing musique_2hop__142699_67465: When did the rapper on On and On and Beyond release Best day
+2026-03-07 22:08:36,219 [INFO] __main__: Processing musique_4hop2__103790_14670_8987_8529: A country's military branch, the equivalent of which in the 
+2026-03-07 22:08:36,220 [INFO] __main__: Processing musique_3hop1__302383_503371_21711: When was the Palau de la Generalitat constructed in the city
+2026-03-07 22:08:36,221 [INFO] __main__: Processing musique_4hop1__76111_624859_355213_203322: What county shares a border with the county where the singer
+2026-03-07 22:08:36,222 [INFO] __main__: Processing musique_3hop1__31995_24918_24939: The leader visiting where Steven Spielberg's grandparents ar
+2026-03-07 22:08:36,223 [INFO] __main__: Processing musique_2hop__326404_120065: When did Charles Frederick II's birthplace fall?
+2026-03-07 22:08:36,224 [INFO] __main__: Processing musique_4hop2__9988_158985_70784_79935: When was the kingdom lying immediately to the north of the r
+2026-03-07 22:08:36,225 [INFO] __main__: Processing musique_2hop__765678_310556: Who was married to the star of No Escape?
+2026-03-07 22:08:36,226 [INFO] __main__: Processing musique_2hop__96414_159054: What was the story of the character from The Bourne Ultimatu
+2026-03-07 22:08:36,227 [INFO] __main__: Processing musique_3hop2__304722_740784_63959: When was the last time Krystian Pearce's sports team beat th
+2026-03-07 22:08:36,227 [INFO] __main__: Processing musique_3hop1__689538_547811_80702: What is the name of the famous bridge in the city where the 
+2026-03-07 22:08:36,228 [INFO] __main__: Processing musique_2hop__92590_43786: Where is the newspaper that originated the term Baby Boomer 
+2026-03-07 22:08:36,229 [INFO] __main__: Processing musique_2hop__496792_392646: A participant of the Battle of Brechin is an instance of?
+2026-03-07 22:08:36,230 [INFO] __main__: Processing musique_3hop1__568951_567566_84283: Who owns the record label of the Every Turn of the World per
+2026-03-07 22:08:36,231 [INFO] __main__: Processing musique_3hop1__132795_40769_64047: When did the luxury division of the company that produces TM
+2026-03-07 22:08:36,232 [INFO] __main__: Processing musique_2hop__238499_431914: What administrative territorial entity includes the arrondis
+2026-03-07 22:08:36,233 [INFO] __main__: Processing musique_4hop1__344155_765799_282674_759393: What is the capital of the county that shares a border with 
+2026-03-07 22:08:36,234 [INFO] __main__: Processing musique_2hop__128342_375952: In which county is the city of KABG located?
+2026-03-07 22:08:36,234 [INFO] __main__: Processing musique_2hop__708145_30351: Who did Hayek work for upon being hired by the author of Bur
+2026-03-07 22:08:36,235 [INFO] __main__: Processing musique_2hop__35137_22940: What is the Book of Healing by the writer of The Canon of Me
+2026-03-07 22:08:36,236 [INFO] __main__: Processing musique_3hop1__641921_42197_18397: Where did the arguer that Nadezhda Tkachenko's country of ci
+2026-03-07 22:08:36,237 [INFO] __main__: Processing musique_2hop__756620_127399: What year did the Leone brothers start their band?
+2026-03-07 22:08:36,237 [INFO] __main__: Processing musique_2hop__50199_59409: Who was the person talking at the beginning of Thriller by F
+2026-03-07 22:08:36,238 [INFO] __main__: Processing musique_2hop__128608_82341: The city where WOCA is located is in which part of Florida?
+2026-03-07 22:08:36,239 [INFO] __main__: Processing musique_3hop1__71549_486583_84283: Who owns the record label where Neil Young's co-singer on Fo
+2026-03-07 22:08:36,240 [INFO] __main__: Processing musique_2hop__235471_565925: What record label did the performer of The Place and the Tim
+2026-03-07 22:08:36,243 [INFO] __main__: Processing musique_3hop1__9285_5188_63702: When did the country where the top-ranking Warsaw Pact opera
+2026-03-07 22:08:36,244 [INFO] __main__: Processing musique_2hop__543050_245420: Which city shares border with the area having Bella Vista Hi
+2026-03-07 22:08:36,244 [INFO] __main__: Processing musique_2hop__780652_93362: What film features Anil Devgan's sibling?
+2026-03-07 22:08:36,245 [INFO] __main__: Processing musique_2hop__705035_152093: What label is responsible for the performer of Crazy Love?
+2026-03-07 22:08:36,246 [INFO] __main__: Processing musique_2hop__123148_5385: How many people work in Susan Winchester's alma mater?
+2026-03-07 22:08:36,247 [INFO] __main__: Processing musique_3hop2__92991_38326_76291: When did the party Harlan and Stewart were affiliated with g
+2026-03-07 22:08:36,247 [INFO] __main__: Processing musique_3hop2__802066_223623_162182: In what region of the country where Châu Đức is found, is th
+2026-03-07 22:08:36,248 [INFO] __main__: Processing musique_2hop__30384_30351: Who did Hay work for after being hired by his other notable 
+2026-03-07 22:08:36,249 [INFO] __main__: Processing musique_2hop__403580_37168: According to QS World University Rankings, what is the ranki
+2026-03-07 22:08:36,249 [INFO] __main__: Processing musique_4hop1__833841_378185_282674_759393: What is the seat of the county sharing a border with the cou
+2026-03-07 22:08:36,250 [INFO] __main__: Processing musique_3hop1__389069_132457_51423: What is the name of the castle in the city where the perform
+2026-03-07 22:08:36,251 [INFO] __main__: Processing musique_3hop1__103662_443779_52195: Who is the president of the newly declared independent count
+2026-03-07 22:08:36,251 [INFO] __main__: Processing musique_3hop1__103180_214799_259594: What is the country of the border troops of the country of t
+2026-03-07 22:08:36,252 [INFO] __main__: Processing musique_2hop__123145_80420: Who was the first African American student to attend Stewart
+2026-03-07 22:08:36,252 [INFO] __main__: Processing musique_2hop__76402_653666: Who is the mother of the founder of Mormonism?
+2026-03-07 22:08:36,253 [INFO] __main__: Processing musique_2hop__463884_807572: What county is the Ira C. Allen Mansion located in?
+2026-03-07 22:08:36,254 [INFO] __main__: Processing musique_2hop__43579_289940: What sports team is the person who had the most sacks in the
+2026-03-07 22:08:36,254 [INFO] __main__: Processing musique_3hop1__487301_443779_52195: Who is the president of newly declared independent country p
+2026-03-07 22:08:36,255 [INFO] __main__: Processing musique_3hop1__632623_160713_77246: In the arabic dictionary what is the meaning of the word tha
+2026-03-07 22:08:36,256 [INFO] __main__: Processing musique_2hop__472486_97805: Which war did the operator of the Fabian Wrede-class trainin
+2026-03-07 22:08:36,256 [INFO] __main__: Processing musique_2hop__77832_159673: The actor who plays copper in Fox and the Hound is a charact
+2026-03-07 22:08:36,257 [INFO] __main__: Processing musique_2hop__574496_123283: Where did the founder of the Acting Company study?
+2026-03-07 22:08:36,258 [INFO] __main__: Processing musique_2hop__73069_88165: Who did the person considered the founder of three major mon
+2026-03-07 22:08:36,258 [INFO] __main__: Processing musique_4hop1__277409_49925_13759_736921: The German priest, who wanted Joseph Strickland's religious 
+2026-03-07 22:08:36,259 [INFO] __main__: Processing musique_3hop1__64957_87694_64412: When did the city that contains the basilica named after the
+2026-03-07 22:08:36,260 [INFO] __main__: Processing musique_3hop2__125104_90098_10557: What was where the last name sylvester comes from of who was
+2026-03-07 22:08:36,260 [INFO] __main__: Processing musique_2hop__567588_67465: When did the performer of Goosebumpz release best day ever?
+2026-03-07 22:08:36,261 [INFO] __main__: Processing musique_2hop__10017_18974: Who led the military expedition in the province that borders
+2026-03-07 22:08:36,262 [INFO] __main__: Processing musique_2hop__35445_22458: What is the full name of the organization that publishes he 
+2026-03-07 22:08:36,262 [INFO] __main__: Processing musique_2hop__137061_45752: Why does the place where Step Up Revolution takes place have
+2026-03-07 22:08:36,263 [INFO] __main__: Processing musique_4hop1__94201_642284_131926_87157: What is the direction of the flow of the river near the city
+2026-03-07 22:08:36,264 [INFO] __main__: Processing musique_2hop__367318_7292: What artist was featured on Smooth Jazz Stations, along with
+2026-03-07 22:08:36,264 [INFO] __main__: Processing musique_3hop1__694534_160088_49779: Who is the host of Who Wants to be a Millionaire in the coun
+2026-03-07 22:08:36,265 [INFO] __main__: Processing musique_2hop__822113_91104: What is the experimental satellite which was the forerunner 
+2026-03-07 22:08:36,265 [INFO] __main__: Processing musique_2hop__785711_63853: What is the source of the body of water where Augrabies Fall
+2026-03-07 22:08:36,266 [INFO] __main__: Processing musique_2hop__347_59409: Who was the person who acquired the parent company of the mu
+2026-03-07 22:08:36,267 [INFO] __main__: Processing musique_2hop__481809_184805: Who is the child of the horse who also fathered Tompion?
+2026-03-07 22:08:36,267 [INFO] __main__: Processing musique_2hop__52283_75184: Who play's Marty's girlfriend in back to the future?
+2026-03-07 22:08:36,268 [INFO] __main__: Processing musique_2hop__227791_75487: Who is the federal leader of the political party Ken Epp bel
+2026-03-07 22:08:36,268 [INFO] __main__: Processing musique_2hop__853227_68633: Arthur Marryatt is a member of a sports association that has
+2026-03-07 22:08:36,269 [INFO] __main__: Processing musique_2hop__126306_396277: What is another notable work by the illustrator of Sylvester
+2026-03-07 22:08:36,270 [INFO] __main__: Processing musique_4hop1__58323_375563_161848_28750: Where was Popper's academic appointment in the country near 
+2026-03-07 22:08:36,270 [INFO] __main__: Processing musique_2hop__591435_51329: What movie won the Knock on Any Door cast member his only Os
+2026-03-07 22:08:36,271 [INFO] __main__: Processing musique_2hop__159741_161674: What month did the person who retained trust in Longchamp go
+2026-03-07 22:08:36,272 [INFO] __main__: Processing musique_2hop__363214_590899: The city that Psycho Donuts is located in is in which county
+2026-03-07 22:08:36,272 [INFO] __main__: Processing musique_2hop__169443_83769: Who did the screenwriter for Good Will Hunting play in Dazed
+2026-03-07 22:08:36,273 [INFO] __main__: Processing musique_2hop__6827_79845: How many atms does the bank that bought FleetBoston Financia
+2026-03-07 22:08:36,273 [INFO] __main__: Processing musique_2hop__10515_21567: Who introduced a system of musical notation in the 14th cent
+2026-03-07 22:08:36,274 [INFO] __main__: Processing musique_2hop__80375_90181: what is the deepest part of the ocean off the east coast of 
+2026-03-07 22:08:36,275 [INFO] __main__: Processing musique_2hop__683835_709167: What award did the author of The Red Tree receive?
+2026-03-07 22:08:36,275 [INFO] __main__: Processing musique_2hop__69_59409: Who was the artist who is associated with Beyonce's premiere
+2026-03-07 22:08:36,276 [INFO] __main__: Processing musique_2hop__77518_548781: Where was the president born on the fourth of July born?
+2026-03-07 22:08:36,276 [INFO] __main__: Processing musique_3hop1__652852_2053_52946: When is Celebrity Big Brother coming to the network that, al
+2026-03-07 22:08:36,277 [INFO] __main__: Processing musique_2hop__40485_40502: What was the population of the European country the Huguenot
+2026-03-07 22:08:36,278 [INFO] __main__: Processing musique_3hop1__765565_326948_78782: Who was the British general in the birthplace of the perform
+2026-03-07 22:08:36,278 [INFO] __main__: Processing musique_2hop__460091_405771: What taxa is Ommatidae part of?
+2026-03-07 22:08:36,279 [INFO] __main__: Processing musique_3hop2__49541_140712_51068: Who is the actress who played the woman who was the Queen of
+2026-03-07 22:08:36,280 [INFO] __main__: Processing musique_2hop__59612_50883: The London broil cut comes from a country with an emergency 
+2026-03-07 22:08:36,280 [INFO] __main__: Processing musique_2hop__817096_15463: What company merged in 2002 with the CEMM developer?
+2026-03-07 22:08:36,282 [INFO] __main__: Processing musique_4hop3__862_846_613770_7713: How long was the place where the Yongle Emperor greeted who 
+2026-03-07 22:08:36,283 [INFO] __main__: Processing musique_4hop1__567737_141375_458768_33632: What day is the feast held in the city containing the headqu
+2026-03-07 22:08:36,283 [INFO] __main__: Processing musique_3hop1__198276_709625_84283: Who is the owner of the record label of the performer of Wha
+2026-03-07 22:08:36,284 [INFO] __main__: Processing musique_3hop2__92991_72083_76291: When did the party who gained control of congress in the mid
+2026-03-07 22:08:36,284 [INFO] __main__: Processing musique_4hop1__88342_75218_128008_87812: When is the opening day of the league in which the team with
+2026-03-07 22:08:36,285 [INFO] __main__: Processing musique_2hop__525581_161450: Where is the province of Aqqala County located?
+2026-03-07 22:08:36,286 [INFO] __main__: Processing musique_2hop__689472_52835: Who wrote the song turn me on that is performed by performer
+2026-03-07 22:08:36,286 [INFO] __main__: Processing musique_3hop2__855821_223623_162182: In what region of the country where Lam Dong is located is J
+2026-03-07 22:08:36,287 [INFO] __main__: Processing musique_4hop1__436202_765799_282674_759393: What is the seat of the county sharing a border with the cou
+2026-03-07 22:08:36,287 [INFO] __main__: Processing musique_2hop__593633_82341: Where is New Perry's place of death found in Florida?
+2026-03-07 22:08:36,288 [INFO] __main__: Processing musique_3hop1__838590_831637_91775: What does seal stand for in the U.S. military branch that op
+2026-03-07 22:08:36,289 [INFO] __main__: Processing musique_3hop2__87184_92991_76291: When did the party that controls the House of Representative
+2026-03-07 22:08:36,289 [INFO] __main__: Processing musique_3hop1__228_237521_291682: Who is the wife of the man who produced the documentary of t
+2026-03-07 22:08:36,290 [INFO] __main__: Processing musique_2hop__96137_62765: Who did the cast member of The Woman in the Window play in t
+2026-03-07 22:08:36,290 [INFO] __main__: Processing musique_3hop1__406043_831637_91775: What does seal stand for in the seals of the service operati
+2026-03-07 22:08:36,300 [ERROR] __main__: Pipeline error for musique_2hop__142699_67465: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,316 [INFO] __main__: Done musique_2hop__142699_67465: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,316 [ERROR] __main__: Pipeline error for musique_4hop2__103790_14670_8987_8529: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,317 [INFO] __main__: Done musique_4hop2__103790_14670_8987_8529: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,317 [ERROR] __main__: Pipeline error for musique_3hop1__302383_503371_21711: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,317 [INFO] __main__: Done musique_3hop1__302383_503371_21711: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,317 [ERROR] __main__: Pipeline error for musique_4hop1__76111_624859_355213_203322: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,318 [INFO] __main__: Done musique_4hop1__76111_624859_355213_203322: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,318 [ERROR] __main__: Pipeline error for musique_3hop1__31995_24918_24939: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,318 [INFO] __main__: Done musique_3hop1__31995_24918_24939: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,318 [ERROR] __main__: Pipeline error for musique_2hop__326404_120065: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,322 [INFO] __main__: Done musique_2hop__326404_120065: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,322 [ERROR] __main__: Pipeline error for musique_4hop2__9988_158985_70784_79935: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,323 [INFO] __main__: Done musique_4hop2__9988_158985_70784_79935: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,323 [ERROR] __main__: Pipeline error for musique_2hop__765678_310556: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,323 [INFO] __main__: Done musique_2hop__765678_310556: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,323 [ERROR] __main__: Pipeline error for musique_2hop__96414_159054: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,323 [INFO] __main__: Done musique_2hop__96414_159054: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,324 [ERROR] __main__: Pipeline error for musique_3hop2__304722_740784_63959: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,324 [INFO] __main__: Done musique_3hop2__304722_740784_63959: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,324 [ERROR] __main__: Pipeline error for musique_3hop1__689538_547811_80702: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,324 [INFO] __main__: Done musique_3hop1__689538_547811_80702: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,324 [ERROR] __main__: Pipeline error for musique_2hop__92590_43786: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,325 [INFO] __main__: Done musique_2hop__92590_43786: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,325 [ERROR] __main__: Pipeline error for musique_2hop__496792_392646: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,325 [INFO] __main__: Done musique_2hop__496792_392646: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,325 [ERROR] __main__: Pipeline error for musique_3hop1__568951_567566_84283: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,325 [INFO] __main__: Done musique_3hop1__568951_567566_84283: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,325 [ERROR] __main__: Pipeline error for musique_3hop1__132795_40769_64047: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,326 [INFO] __main__: Done musique_3hop1__132795_40769_64047: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,326 [ERROR] __main__: Pipeline error for musique_2hop__238499_431914: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,326 [INFO] __main__: Done musique_2hop__238499_431914: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,326 [ERROR] __main__: Pipeline error for musique_4hop1__344155_765799_282674_759393: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,326 [INFO] __main__: Done musique_4hop1__344155_765799_282674_759393: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,326 [ERROR] __main__: Pipeline error for musique_2hop__128342_375952: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,327 [INFO] __main__: Done musique_2hop__128342_375952: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,327 [ERROR] __main__: Pipeline error for musique_2hop__708145_30351: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,327 [INFO] __main__: Done musique_2hop__708145_30351: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,328 [ERROR] __main__: Pipeline error for musique_2hop__35137_22940: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,328 [INFO] __main__: Done musique_2hop__35137_22940: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,328 [ERROR] __main__: Pipeline error for musique_3hop1__641921_42197_18397: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,328 [INFO] __main__: Done musique_3hop1__641921_42197_18397: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,329 [ERROR] __main__: Pipeline error for musique_2hop__756620_127399: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,332 [INFO] __main__: Done musique_2hop__756620_127399: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,332 [ERROR] __main__: Pipeline error for musique_2hop__50199_59409: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,333 [INFO] __main__: Done musique_2hop__50199_59409: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,333 [ERROR] __main__: Pipeline error for musique_2hop__128608_82341: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,333 [INFO] __main__: Done musique_2hop__128608_82341: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,333 [ERROR] __main__: Pipeline error for musique_3hop1__71549_486583_84283: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,336 [INFO] __main__: Done musique_3hop1__71549_486583_84283: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,336 [ERROR] __main__: Pipeline error for musique_2hop__235471_565925: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,337 [INFO] __main__: Done musique_2hop__235471_565925: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,337 [ERROR] __main__: Pipeline error for musique_3hop1__9285_5188_63702: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,337 [INFO] __main__: Done musique_3hop1__9285_5188_63702: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,337 [ERROR] __main__: Pipeline error for musique_2hop__543050_245420: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,338 [INFO] __main__: Done musique_2hop__543050_245420: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,338 [ERROR] __main__: Pipeline error for musique_2hop__780652_93362: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,338 [INFO] __main__: Done musique_2hop__780652_93362: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,338 [ERROR] __main__: Pipeline error for musique_2hop__705035_152093: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,339 [INFO] __main__: Done musique_2hop__705035_152093: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,339 [ERROR] __main__: Pipeline error for musique_2hop__123148_5385: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,339 [INFO] __main__: Done musique_2hop__123148_5385: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,339 [ERROR] __main__: Pipeline error for musique_3hop2__92991_38326_76291: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,340 [INFO] __main__: Done musique_3hop2__92991_38326_76291: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,340 [ERROR] __main__: Pipeline error for musique_3hop2__802066_223623_162182: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,340 [INFO] __main__: Done musique_3hop2__802066_223623_162182: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,340 [ERROR] __main__: Pipeline error for musique_2hop__30384_30351: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,341 [INFO] __main__: Done musique_2hop__30384_30351: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,341 [ERROR] __main__: Pipeline error for musique_2hop__403580_37168: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,341 [INFO] __main__: Done musique_2hop__403580_37168: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,341 [ERROR] __main__: Pipeline error for musique_4hop1__833841_378185_282674_759393: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,342 [INFO] __main__: Done musique_4hop1__833841_378185_282674_759393: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,342 [ERROR] __main__: Pipeline error for musique_3hop1__389069_132457_51423: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,342 [INFO] __main__: Done musique_3hop1__389069_132457_51423: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,342 [ERROR] __main__: Pipeline error for musique_3hop1__103662_443779_52195: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,343 [INFO] __main__: Done musique_3hop1__103662_443779_52195: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,343 [ERROR] __main__: Pipeline error for musique_3hop1__103180_214799_259594: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,343 [INFO] __main__: Done musique_3hop1__103180_214799_259594: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,343 [ERROR] __main__: Pipeline error for musique_2hop__123145_80420: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,344 [INFO] __main__: Done musique_2hop__123145_80420: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,344 [ERROR] __main__: Pipeline error for musique_2hop__76402_653666: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,344 [INFO] __main__: Done musique_2hop__76402_653666: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,345 [ERROR] __main__: Pipeline error for musique_2hop__463884_807572: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,345 [INFO] __main__: Done musique_2hop__463884_807572: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,345 [ERROR] __main__: Pipeline error for musique_2hop__43579_289940: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,346 [INFO] __main__: Done musique_2hop__43579_289940: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,346 [ERROR] __main__: Pipeline error for musique_3hop1__487301_443779_52195: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,346 [INFO] __main__: Done musique_3hop1__487301_443779_52195: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,346 [ERROR] __main__: Pipeline error for musique_3hop1__632623_160713_77246: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,347 [INFO] __main__: Done musique_3hop1__632623_160713_77246: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,347 [ERROR] __main__: Pipeline error for musique_2hop__472486_97805: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,347 [INFO] __main__: Done musique_2hop__472486_97805: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,347 [ERROR] __main__: Pipeline error for musique_2hop__77832_159673: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,348 [INFO] __main__: Done musique_2hop__77832_159673: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,348 [ERROR] __main__: Pipeline error for musique_2hop__574496_123283: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,348 [INFO] __main__: Done musique_2hop__574496_123283: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,348 [ERROR] __main__: Pipeline error for musique_2hop__73069_88165: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,351 [INFO] __main__: Done musique_2hop__73069_88165: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,351 [ERROR] __main__: Pipeline error for musique_4hop1__277409_49925_13759_736921: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,351 [INFO] __main__: Done musique_4hop1__277409_49925_13759_736921: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,351 [ERROR] __main__: Pipeline error for musique_3hop1__64957_87694_64412: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,352 [INFO] __main__: Done musique_3hop1__64957_87694_64412: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,352 [ERROR] __main__: Pipeline error for musique_3hop2__125104_90098_10557: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,352 [INFO] __main__: Done musique_3hop2__125104_90098_10557: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,352 [ERROR] __main__: Pipeline error for musique_2hop__567588_67465: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,353 [INFO] __main__: Done musique_2hop__567588_67465: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,353 [ERROR] __main__: Pipeline error for musique_2hop__10017_18974: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,353 [INFO] __main__: Done musique_2hop__10017_18974: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,353 [ERROR] __main__: Pipeline error for musique_2hop__35445_22458: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,354 [INFO] __main__: Done musique_2hop__35445_22458: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,354 [ERROR] __main__: Pipeline error for musique_2hop__137061_45752: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,354 [INFO] __main__: Done musique_2hop__137061_45752: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,355 [ERROR] __main__: Pipeline error for musique_4hop1__94201_642284_131926_87157: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,355 [INFO] __main__: Done musique_4hop1__94201_642284_131926_87157: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,355 [ERROR] __main__: Pipeline error for musique_2hop__367318_7292: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,356 [INFO] __main__: Done musique_2hop__367318_7292: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,356 [ERROR] __main__: Pipeline error for musique_3hop1__694534_160088_49779: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,356 [INFO] __main__: Done musique_3hop1__694534_160088_49779: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,356 [ERROR] __main__: Pipeline error for musique_2hop__822113_91104: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,357 [INFO] __main__: Done musique_2hop__822113_91104: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,357 [ERROR] __main__: Pipeline error for musique_2hop__785711_63853: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,357 [INFO] __main__: Done musique_2hop__785711_63853: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,357 [ERROR] __main__: Pipeline error for musique_2hop__347_59409: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,358 [INFO] __main__: Done musique_2hop__347_59409: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,358 [ERROR] __main__: Pipeline error for musique_2hop__481809_184805: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,358 [INFO] __main__: Done musique_2hop__481809_184805: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,358 [ERROR] __main__: Pipeline error for musique_2hop__52283_75184: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,359 [INFO] __main__: Done musique_2hop__52283_75184: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,359 [ERROR] __main__: Pipeline error for musique_2hop__227791_75487: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,359 [INFO] __main__: Done musique_2hop__227791_75487: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,359 [ERROR] __main__: Pipeline error for musique_2hop__853227_68633: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,360 [INFO] __main__: Done musique_2hop__853227_68633: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,360 [ERROR] __main__: Pipeline error for musique_2hop__126306_396277: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,360 [INFO] __main__: Done musique_2hop__126306_396277: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,360 [ERROR] __main__: Pipeline error for musique_4hop1__58323_375563_161848_28750: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,361 [INFO] __main__: Done musique_4hop1__58323_375563_161848_28750: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,361 [ERROR] __main__: Pipeline error for musique_2hop__591435_51329: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,361 [INFO] __main__: Done musique_2hop__591435_51329: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,361 [ERROR] __main__: Pipeline error for musique_2hop__159741_161674: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,362 [INFO] __main__: Done musique_2hop__159741_161674: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,362 [ERROR] __main__: Pipeline error for musique_2hop__363214_590899: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,362 [INFO] __main__: Done musique_2hop__363214_590899: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,362 [ERROR] __main__: Pipeline error for musique_2hop__169443_83769: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,363 [INFO] __main__: Done musique_2hop__169443_83769: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,363 [ERROR] __main__: Pipeline error for musique_2hop__6827_79845: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,363 [INFO] __main__: Done musique_2hop__6827_79845: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,363 [ERROR] __main__: Pipeline error for musique_2hop__10515_21567: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,368 [INFO] __main__: Done musique_2hop__10515_21567: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,368 [ERROR] __main__: Pipeline error for musique_2hop__80375_90181: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,368 [INFO] __main__: Done musique_2hop__80375_90181: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,368 [ERROR] __main__: Pipeline error for musique_2hop__683835_709167: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,368 [INFO] __main__: Done musique_2hop__683835_709167: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,369 [ERROR] __main__: Pipeline error for musique_2hop__69_59409: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,369 [INFO] __main__: Done musique_2hop__69_59409: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,369 [ERROR] __main__: Pipeline error for musique_2hop__77518_548781: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,369 [INFO] __main__: Done musique_2hop__77518_548781: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,370 [ERROR] __main__: Pipeline error for musique_3hop1__652852_2053_52946: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,370 [INFO] __main__: Done musique_3hop1__652852_2053_52946: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,370 [ERROR] __main__: Pipeline error for musique_2hop__40485_40502: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,370 [INFO] __main__: Done musique_2hop__40485_40502: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,370 [ERROR] __main__: Pipeline error for musique_3hop1__765565_326948_78782: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,371 [INFO] __main__: Done musique_3hop1__765565_326948_78782: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,371 [ERROR] __main__: Pipeline error for musique_2hop__460091_405771: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,372 [INFO] __main__: Done musique_2hop__460091_405771: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,372 [ERROR] __main__: Pipeline error for musique_3hop2__49541_140712_51068: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,372 [INFO] __main__: Done musique_3hop2__49541_140712_51068: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,372 [ERROR] __main__: Pipeline error for musique_2hop__59612_50883: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,373 [INFO] __main__: Done musique_2hop__59612_50883: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,373 [ERROR] __main__: Pipeline error for musique_2hop__817096_15463: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,373 [INFO] __main__: Done musique_2hop__817096_15463: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,373 [ERROR] __main__: Pipeline error for musique_4hop3__862_846_613770_7713: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,374 [INFO] __main__: Done musique_4hop3__862_846_613770_7713: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,374 [ERROR] __main__: Pipeline error for musique_4hop1__567737_141375_458768_33632: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,374 [INFO] __main__: Done musique_4hop1__567737_141375_458768_33632: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,374 [ERROR] __main__: Pipeline error for musique_3hop1__198276_709625_84283: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,375 [INFO] __main__: Done musique_3hop1__198276_709625_84283: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,375 [ERROR] __main__: Pipeline error for musique_3hop2__92991_72083_76291: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,375 [INFO] __main__: Done musique_3hop2__92991_72083_76291: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,375 [ERROR] __main__: Pipeline error for musique_4hop1__88342_75218_128008_87812: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,376 [INFO] __main__: Done musique_4hop1__88342_75218_128008_87812: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,376 [ERROR] __main__: Pipeline error for musique_2hop__525581_161450: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,376 [INFO] __main__: Done musique_2hop__525581_161450: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,376 [ERROR] __main__: Pipeline error for musique_2hop__689472_52835: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,377 [INFO] __main__: Done musique_2hop__689472_52835: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,377 [ERROR] __main__: Pipeline error for musique_3hop2__855821_223623_162182: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,377 [INFO] __main__: Done musique_3hop2__855821_223623_162182: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,377 [ERROR] __main__: Pipeline error for musique_4hop1__436202_765799_282674_759393: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,380 [INFO] __main__: Done musique_4hop1__436202_765799_282674_759393: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,380 [ERROR] __main__: Pipeline error for musique_2hop__593633_82341: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,381 [INFO] __main__: Done musique_2hop__593633_82341: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,381 [ERROR] __main__: Pipeline error for musique_3hop1__838590_831637_91775: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,381 [INFO] __main__: Done musique_3hop1__838590_831637_91775: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,381 [ERROR] __main__: Pipeline error for musique_3hop2__87184_92991_76291: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,382 [INFO] __main__: Done musique_3hop2__87184_92991_76291: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,382 [ERROR] __main__: Pipeline error for musique_3hop1__228_237521_291682: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,386 [INFO] __main__: Done musique_3hop1__228_237521_291682: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,386 [ERROR] __main__: Pipeline error for musique_2hop__96137_62765: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,386 [INFO] __main__: Done musique_2hop__96137_62765: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,386 [ERROR] __main__: Pipeline error for musique_3hop1__406043_831637_91775: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,387 [INFO] __main__: Done musique_3hop1__406043_831637_91775: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,387 [INFO] __main__: Processing musique_4hop1__152146_5274_458768_33632: What day is the Feast held in the city where the headquarter
+2026-03-07 22:08:36,388 [INFO] __main__: Processing musique_2hop__519160_78303: What was the name of Forced Vengeance's producer in Walker, 
+2026-03-07 22:08:36,389 [INFO] __main__: Processing musique_3hop1__141138_2053_52946: When is Celebrity Big Brother coming to the network which, a
+2026-03-07 22:08:36,389 [INFO] __main__: Processing musique_3hop1__635099_131926_13165: What treaty ceded territory to the US extending west to the 
+2026-03-07 22:08:36,390 [INFO] __main__: Processing musique_2hop__504464_708278: Who was the company preceding Metalmark Capital named after?
+2026-03-07 22:08:36,392 [INFO] __main__: Processing musique_2hop__37656_160040: Who is the guy defending this stuff from the highest authori
+2026-03-07 22:08:36,393 [INFO] __main__: Processing musique_2hop__152052_141308: What company is the label responsible for Don't Let Me Wait 
+2026-03-07 22:08:36,393 [INFO] __main__: Processing musique_3hop2__89854_90327_76291: When did the party that hold the majority in the House of Re
+2026-03-07 22:08:36,394 [INFO] __main__: Processing musique_3hop1__28527_42197_18397: Where did the arguer that the country in control of Estonia 
+2026-03-07 22:08:36,395 [INFO] __main__: Processing musique_2hop__575188_342798: Who is the child of Mahmoud Mirza's father?
+2026-03-07 22:08:36,396 [INFO] __main__: Processing musique_2hop__351045_47134: What is the mascot of the operator of RV Wecoma?
+2026-03-07 22:08:36,396 [INFO] __main__: Processing musique_2hop__170914_152093: What label is responsible for the performer of "Friend Like 
+2026-03-07 22:08:36,397 [INFO] __main__: Processing musique_2hop__96411_159054: What was the story of the character from The Bourne Deceptio
+2026-03-07 22:08:36,398 [INFO] __main__: Processing musique_2hop__53175_548781: What is the birth place of the US president with whose elect
+2026-03-07 22:08:36,399 [INFO] __main__: Processing musique_2hop__595747_31270: How many miles is Sloan Thomas' birthplace from Nashville?
+2026-03-07 22:08:36,399 [INFO] __main__: Processing musique_2hop__71336_604644: Which record label does the band who sang hey now you're an 
+2026-03-07 22:08:36,400 [INFO] __main__: Processing musique_2hop__848156_130869: What state contains the place where Fatata te Miti is displa
+2026-03-07 22:08:36,401 [INFO] __main__: Processing musique_4hop1__31333_59747_211319_557671: Which county shares a border with the county where the most 
+2026-03-07 22:08:36,402 [INFO] __main__: Processing musique_2hop__34734_92852: When did the U.S. stop trading with the country that started
+2026-03-07 22:08:36,402 [INFO] __main__: Processing musique_2hop__606439_127399: What year did the group that performed From Them, Through Us
+2026-03-07 22:08:36,403 [INFO] __main__: Processing musique_4hop1__708184_153080_159767_81096: Who won the Indy car race in the largest city and the capita
+2026-03-07 22:08:36,404 [INFO] __main__: Processing musique_2hop__57638_615257: What team is the person with the highest point average in NB
+2026-03-07 22:08:36,404 [INFO] __main__: Processing musique_3hop1__17192_78396_54865: When were the American colonies lost by the country that own
+2026-03-07 22:08:36,405 [INFO] __main__: Processing musique_2hop__71294_494136: Who is the spouse of the actor who plays the father on I Can
+2026-03-07 22:08:36,406 [INFO] __main__: Processing musique_2hop__245835_762148: Who is part of the group performing Ask the Fish?
+2026-03-07 22:08:36,407 [INFO] __main__: Processing musique_2hop__82669_768138: Who is the brother of the Melissa and Joey Theme Song singer
+2026-03-07 22:08:36,407 [INFO] __main__: Processing musique_2hop__71755_463572: What is the record label for the singer who originally sang 
+2026-03-07 22:08:36,408 [INFO] __main__: Processing musique_3hop2__222979_132477_40768: When did the maker of the Acura RLX, the owner of Scion, and
+2026-03-07 22:08:36,409 [INFO] __main__: Processing musique_2hop__543853_124498: Who is the father of the Labo M performer?
+2026-03-07 22:08:36,409 [INFO] __main__: Processing musique_3hop2__326964_811351_7713: How long had Lijia Zhang's birthplace been the capitol city 
+2026-03-07 22:08:36,410 [INFO] __main__: Processing musique_2hop__35137_22932: Which interpretation of the work of the writer of The Canon 
+2026-03-07 22:08:36,411 [INFO] __main__: Processing musique_3hop2__132957_76377_40768: When did Nissan, the Acura Legend maker and the top selling 
+2026-03-07 22:08:36,411 [INFO] __main__: Processing musique_2hop__242938_18803: What did M. King Hubbert's employer announce it was in the p
+2026-03-07 22:08:36,412 [INFO] __main__: Processing musique_3hop2__11282_57233_56883: The native country of emu birds started conscription. This o
+2026-03-07 22:08:36,413 [INFO] __main__: Processing musique_3hop1__46571_87694_124169: When did the Governor of the city where the Basilica named a
+2026-03-07 22:08:36,413 [INFO] __main__: Processing musique_3hop1__239036_15840_36014: What was Nintendo's limit on games per developer per year on
+2026-03-07 22:08:36,414 [INFO] __main__: Processing musique_2hop__219456_87295: What character in Princess Diaries does the actress play who
+2026-03-07 22:08:36,415 [INFO] __main__: Processing musique_3hop1__671542_665330_47686: Where do greyhound buses leave from in the city where the pe
+2026-03-07 22:08:36,415 [INFO] __main__: Processing musique_2hop__433694_20273: In what year did Margaret Knox's spouse pass away?
+2026-03-07 22:08:36,418 [INFO] __main__: Processing musique_3hop1__649930_15840_36002: What were the Genesis' advantages over the platform of Color
+2026-03-07 22:08:36,419 [INFO] __main__: Processing musique_2hop__83257_19033: Where did the inventor of the Money in the Bank ladder match
+2026-03-07 22:08:36,420 [INFO] __main__: Processing musique_2hop__253612_110882: What is the date of birth of the performer of Stand Up?
+2026-03-07 22:08:36,420 [INFO] __main__: Processing musique_4hop1__58323_375563_161848_83118: When does daylight savings end in the country near the count
+2026-03-07 22:08:36,421 [INFO] __main__: Processing musique_2hop__70338_160040: Who is the guy defending this stuff from the book from which
+2026-03-07 22:08:36,422 [INFO] __main__: Processing musique_3hop1__131783_131926_13165: What treaty ceded territory to the US extending west to the 
+2026-03-07 22:08:36,422 [INFO] __main__: Processing musique_3hop2__782397_467331_162182: In what region of the country that contains Phu Luong, is th
+2026-03-07 22:08:36,423 [INFO] __main__: Processing musique_3hop1__222497_309482_41132: How many times did plague occur in Al gran sole carico d'amo
+2026-03-07 22:08:36,424 [INFO] __main__: Processing musique_2hop__847433_11402: According to the organization that creates census county div
+2026-03-07 22:08:36,424 [INFO] __main__: Processing musique_4hop1__88342_75218_128008_80286: who has had the most hits in the league that includes the te
+2026-03-07 22:08:36,425 [INFO] __main__: Processing musique_2hop__156085_436709: Who is the creator of Mickey Mouse's spouse?
+2026-03-07 22:08:36,425 [INFO] __main__: Processing musique_2hop__51881_20590: When was self-government achieved in the location where Lord
+2026-03-07 22:08:36,426 [INFO] __main__: Processing musique_3hop1__617062_127905_80286: Who has the most hits in the history of the organization tha
+2026-03-07 22:08:36,427 [INFO] __main__: Processing musique_4hop3__160230_470287_128875_72134: When did the town WLUJ is licensed in become capitol of the 
+2026-03-07 22:08:36,427 [INFO] __main__: Processing musique_3hop1__390673_228453_10972: When did the headquarters city of Kentucky Tavern's manufact
+2026-03-07 22:08:36,428 [INFO] __main__: Processing musique_2hop__642686_7292: Along with Kenny G and the performer of Hello Tomorrow, what
+2026-03-07 22:08:36,428 [INFO] __main__: Processing musique_4hop1__159467_725495_49925_267352: In New Zealand, 12.6% of Christians belong to a church that 
+2026-03-07 22:08:36,429 [INFO] __main__: Processing musique_3hop2__20335_8533_9331: What dissolved the privileges of the empire using Pan-Slavis
+2026-03-07 22:08:36,429 [INFO] __main__: Processing musique_4hop2__161602_474028_88460_21034: What year did the country that is the natural boundary betwe
+2026-03-07 22:08:36,430 [INFO] __main__: Processing musique_2hop__130508_32379: What is the oldest college in the state that contains Boroug
+2026-03-07 22:08:36,431 [INFO] __main__: Processing musique_4hop3__131775_29339_508306_70744: Which has more national championships, university of the sta
+2026-03-07 22:08:36,431 [INFO] __main__: Processing musique_2hop__608902_653666: Who is the mother of Katharine Smith Salisbury's brother?
+2026-03-07 22:08:36,432 [INFO] __main__: Processing musique_3hop1__77966_91191_156667: Who was the spouse of the first convert to the faith that is
+2026-03-07 22:08:36,433 [INFO] __main__: Processing musique_3hop1__401538_132457_51423: What is the name of the castle in the city where the perform
+2026-03-07 22:08:36,433 [INFO] __main__: Processing musique_2hop__478978_124498: Who is the father of the performer of Je dis aime?
+2026-03-07 22:08:36,434 [INFO] __main__: Processing musique_2hop__412633_15781: Who, along with the author of An Essay on the History of Civ
+2026-03-07 22:08:36,434 [INFO] __main__: Processing musique_3hop1__161433_33952_34099: How long are the council terms in the second largest city in
+2026-03-07 22:08:36,435 [INFO] __main__: Processing musique_2hop__38229_84500: What does the name of the topic that Eisenhower didn't discu
+2026-03-07 22:08:36,436 [INFO] __main__: Processing musique_2hop__839126_472799: Which competition did the performer of Cadore 33 participate
+2026-03-07 22:08:36,436 [INFO] __main__: Processing musique_3hop2__831456_223623_162182: In what region of the country where Sa Thay is located is Jo
+2026-03-07 22:08:36,437 [INFO] __main__: Processing musique_2hop__16581_16525: When did the person who first brought a postal service into 
+2026-03-07 22:08:36,438 [INFO] __main__: Processing musique_4hop1__152146_5274_458768_33677: When was the most recent Bicycle Friendly Community Award gi
+2026-03-07 22:08:36,438 [INFO] __main__: Processing musique_2hop__488811_30113: What else happened in the northern part of Erich Zakowski's 
+2026-03-07 22:08:36,439 [INFO] __main__: Processing musique_3hop1__768500_730460_70315: Where did Katrina hit the hardest in the Toussaint performer
+2026-03-07 22:08:36,439 [INFO] __main__: Processing musique_2hop__286621_67370: When does the show of the cast member of Politically Incorre
+2026-03-07 22:08:36,440 [INFO] __main__: Processing musique_2hop__734582_74481: Who was played by the director of The Good Shepherd in The G
+2026-03-07 22:08:36,441 [INFO] __main__: Processing musique_2hop__847760_80026: Who played Seether's performer in willy wonka and the chocol
+2026-03-07 22:08:36,441 [INFO] __main__: Processing musique_2hop__166820_52835: Who wrote turn me on, which was performed by the person who 
+2026-03-07 22:08:36,442 [INFO] __main__: Processing musique_3hop1__313670_42197_18397: Another world leader said that Vladimir Rapoport's country w
+2026-03-07 22:08:36,442 [INFO] __main__: Processing musique_3hop1__829944_474097_84283: Who is the owner of the record label that the performer of B
+2026-03-07 22:08:36,443 [INFO] __main__: Processing musique_3hop1__662413_42197_18397: Where did the arguer that Kirill Eskov's country of citizens
+2026-03-07 22:08:36,443 [INFO] __main__: Processing musique_2hop__586343_83289: Who is the guy in the video of the performer of One Last Tim
+2026-03-07 22:08:36,444 [INFO] __main__: Processing musique_3hop1__354480_834494_34109: What is the administrative territorial entity that contains 
+2026-03-07 22:08:36,445 [INFO] __main__: Processing musique_2hop__771477_149987: Which mythological tradition has the group of heroes that in
+2026-03-07 22:08:36,445 [INFO] __main__: Processing musique_4hop1__525129_315334_131926_13165: What treaty ceded territory to the US extending west to body
+2026-03-07 22:08:36,446 [INFO] __main__: Processing musique_2hop__21103_16254: By 1931, what percentage of the world's Jews were the group 
+2026-03-07 22:08:36,446 [INFO] __main__: Processing musique_2hop__20268_42014: How many members in the seats of the organization that enact
+2026-03-07 22:08:36,447 [INFO] __main__: Processing musique_2hop__268084_78303: What was the name of the star of Forced Vengeance in Walter,
+2026-03-07 22:08:36,447 [INFO] __main__: Processing musique_2hop__678516_179720: Who was married to the creator of Ruby Loftus Screwing a Bre
+2026-03-07 22:08:36,448 [INFO] __main__: Processing musique_2hop__821197_368148: In which county is Southern Maryland Electric Cooperative he
+2026-03-07 22:08:36,448 [INFO] __main__: Processing musique_3hop1__796649_720914_27537: Why did Roncalli leave the city where the creator of Flora d
+2026-03-07 22:08:36,449 [INFO] __main__: Processing musique_4hop1__161810_583746_457883_650651: Country A has an embassy from the country that contains the 
+2026-03-07 22:08:36,450 [INFO] __main__: Processing musique_2hop__93230_319887: What institute did the actor playing the voice of John Smith
+2026-03-07 22:08:36,450 [INFO] __main__: Processing musique_4hop3__630723_88460_30152_20999: How were people from whom new coins were a proclamation of i
+2026-03-07 22:08:36,451 [INFO] __main__: Processing musique_3hop1__786067_228453_86925: What is the symbol of the Saints from the city where the hea
+2026-03-07 22:08:36,451 [INFO] __main__: Processing musique_3hop2__368986_89048_66294: Who played who sang is she really going out with him in the 
+2026-03-07 22:08:36,452 [INFO] __main__: Processing musique_2hop__835914_91104: The space agency operating IRS-P2 had a communication satell
+2026-03-07 22:08:36,452 [INFO] __main__: Processing musique_3hop1__320697_547811_80702: What is the name of the famous bridge located in the birthpl
+2026-03-07 22:08:36,453 [INFO] __main__: Processing musique_2hop__223655_463572: What record label released the debut album of the artist beh
+2026-03-07 22:08:36,453 [INFO] __main__: Processing musique_4hop2__797545_14670_8987_8974: A country's military branch, which in the US contains the Ai
+2026-03-07 22:08:36,454 [INFO] __main__: Processing musique_2hop__645367_68633: Who is the president of the group Kim Un-yong is a member of
+2026-03-07 22:08:36,455 [INFO] __main__: Progress: 10/200 (148576 Q/hr)
+2026-03-07 22:08:36,455 [INFO] __main__: Progress: 20/200 (296974 Q/hr)
+2026-03-07 22:08:36,455 [INFO] __main__: Progress: 30/200 (445319 Q/hr)
+2026-03-07 22:08:36,455 [INFO] __main__: Progress: 40/200 (593590 Q/hr)
+2026-03-07 22:08:36,455 [INFO] __main__: Progress: 50/200 (741783 Q/hr)
+2026-03-07 22:08:36,455 [INFO] __main__: Progress: 60/200 (889903 Q/hr)
+2026-03-07 22:08:36,455 [INFO] __main__: Progress: 70/200 (1037952 Q/hr)
+2026-03-07 22:08:36,455 [INFO] __main__: Progress: 80/200 (1185924 Q/hr)
+2026-03-07 22:08:36,455 [INFO] __main__: Progress: 90/200 (1333825 Q/hr)
+2026-03-07 22:08:36,456 [INFO] __main__: Progress: 100/200 (1481651 Q/hr)
+2026-03-07 22:08:36,463 [ERROR] __main__: Pipeline error for musique_4hop1__152146_5274_458768_33632: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,463 [INFO] __main__: Done musique_4hop1__152146_5274_458768_33632: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,463 [ERROR] __main__: Pipeline error for musique_2hop__519160_78303: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,463 [INFO] __main__: Done musique_2hop__519160_78303: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,463 [ERROR] __main__: Pipeline error for musique_3hop1__141138_2053_52946: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,464 [INFO] __main__: Done musique_3hop1__141138_2053_52946: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,464 [ERROR] __main__: Pipeline error for musique_3hop1__635099_131926_13165: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,464 [INFO] __main__: Done musique_3hop1__635099_131926_13165: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,464 [ERROR] __main__: Pipeline error for musique_2hop__504464_708278: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,464 [INFO] __main__: Done musique_2hop__504464_708278: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,464 [ERROR] __main__: Pipeline error for musique_2hop__37656_160040: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,465 [INFO] __main__: Done musique_2hop__37656_160040: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,465 [ERROR] __main__: Pipeline error for musique_2hop__152052_141308: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,465 [INFO] __main__: Done musique_2hop__152052_141308: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,465 [ERROR] __main__: Pipeline error for musique_3hop2__89854_90327_76291: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,465 [INFO] __main__: Done musique_3hop2__89854_90327_76291: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,465 [ERROR] __main__: Pipeline error for musique_3hop1__28527_42197_18397: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,465 [INFO] __main__: Done musique_3hop1__28527_42197_18397: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,465 [ERROR] __main__: Pipeline error for musique_2hop__575188_342798: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,466 [INFO] __main__: Done musique_2hop__575188_342798: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,466 [ERROR] __main__: Pipeline error for musique_2hop__351045_47134: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,466 [INFO] __main__: Done musique_2hop__351045_47134: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,466 [ERROR] __main__: Pipeline error for musique_2hop__170914_152093: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,466 [INFO] __main__: Done musique_2hop__170914_152093: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,467 [ERROR] __main__: Pipeline error for musique_2hop__96411_159054: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,467 [INFO] __main__: Done musique_2hop__96411_159054: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,467 [ERROR] __main__: Pipeline error for musique_2hop__53175_548781: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,467 [INFO] __main__: Done musique_2hop__53175_548781: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,467 [ERROR] __main__: Pipeline error for musique_2hop__595747_31270: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,467 [INFO] __main__: Done musique_2hop__595747_31270: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,467 [ERROR] __main__: Pipeline error for musique_2hop__71336_604644: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,468 [INFO] __main__: Done musique_2hop__71336_604644: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,468 [ERROR] __main__: Pipeline error for musique_2hop__848156_130869: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,468 [INFO] __main__: Done musique_2hop__848156_130869: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,468 [ERROR] __main__: Pipeline error for musique_4hop1__31333_59747_211319_557671: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,468 [INFO] __main__: Done musique_4hop1__31333_59747_211319_557671: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,468 [ERROR] __main__: Pipeline error for musique_2hop__34734_92852: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,468 [INFO] __main__: Done musique_2hop__34734_92852: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,469 [ERROR] __main__: Pipeline error for musique_2hop__606439_127399: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,469 [INFO] __main__: Done musique_2hop__606439_127399: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,469 [ERROR] __main__: Pipeline error for musique_4hop1__708184_153080_159767_81096: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,469 [INFO] __main__: Done musique_4hop1__708184_153080_159767_81096: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,469 [ERROR] __main__: Pipeline error for musique_2hop__57638_615257: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,469 [INFO] __main__: Done musique_2hop__57638_615257: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,469 [ERROR] __main__: Pipeline error for musique_3hop1__17192_78396_54865: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,473 [INFO] __main__: Done musique_3hop1__17192_78396_54865: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,474 [ERROR] __main__: Pipeline error for musique_2hop__71294_494136: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,474 [INFO] __main__: Done musique_2hop__71294_494136: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,474 [ERROR] __main__: Pipeline error for musique_2hop__245835_762148: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,474 [INFO] __main__: Done musique_2hop__245835_762148: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,474 [ERROR] __main__: Pipeline error for musique_2hop__82669_768138: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,474 [INFO] __main__: Done musique_2hop__82669_768138: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,475 [ERROR] __main__: Pipeline error for musique_2hop__71755_463572: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,475 [INFO] __main__: Done musique_2hop__71755_463572: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,475 [ERROR] __main__: Pipeline error for musique_3hop2__222979_132477_40768: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,475 [INFO] __main__: Done musique_3hop2__222979_132477_40768: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,475 [ERROR] __main__: Pipeline error for musique_2hop__543853_124498: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,475 [INFO] __main__: Done musique_2hop__543853_124498: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,475 [ERROR] __main__: Pipeline error for musique_3hop2__326964_811351_7713: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,476 [INFO] __main__: Done musique_3hop2__326964_811351_7713: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,476 [ERROR] __main__: Pipeline error for musique_2hop__35137_22932: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,476 [INFO] __main__: Done musique_2hop__35137_22932: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,476 [ERROR] __main__: Pipeline error for musique_3hop2__132957_76377_40768: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,476 [INFO] __main__: Done musique_3hop2__132957_76377_40768: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,476 [ERROR] __main__: Pipeline error for musique_2hop__242938_18803: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,477 [INFO] __main__: Done musique_2hop__242938_18803: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,477 [ERROR] __main__: Pipeline error for musique_3hop2__11282_57233_56883: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,477 [INFO] __main__: Done musique_3hop2__11282_57233_56883: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,477 [ERROR] __main__: Pipeline error for musique_3hop1__46571_87694_124169: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,477 [INFO] __main__: Done musique_3hop1__46571_87694_124169: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,477 [ERROR] __main__: Pipeline error for musique_3hop1__239036_15840_36014: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,478 [INFO] __main__: Done musique_3hop1__239036_15840_36014: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,478 [ERROR] __main__: Pipeline error for musique_2hop__219456_87295: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,478 [INFO] __main__: Done musique_2hop__219456_87295: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,478 [ERROR] __main__: Pipeline error for musique_3hop1__671542_665330_47686: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,478 [INFO] __main__: Done musique_3hop1__671542_665330_47686: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,478 [ERROR] __main__: Pipeline error for musique_2hop__433694_20273: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,479 [INFO] __main__: Done musique_2hop__433694_20273: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,479 [ERROR] __main__: Pipeline error for musique_3hop1__649930_15840_36002: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,479 [INFO] __main__: Done musique_3hop1__649930_15840_36002: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,479 [ERROR] __main__: Pipeline error for musique_2hop__83257_19033: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,479 [INFO] __main__: Done musique_2hop__83257_19033: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,479 [ERROR] __main__: Pipeline error for musique_2hop__253612_110882: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,479 [INFO] __main__: Done musique_2hop__253612_110882: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,480 [ERROR] __main__: Pipeline error for musique_4hop1__58323_375563_161848_83118: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,480 [INFO] __main__: Done musique_4hop1__58323_375563_161848_83118: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,480 [ERROR] __main__: Pipeline error for musique_2hop__70338_160040: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,480 [INFO] __main__: Done musique_2hop__70338_160040: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,480 [ERROR] __main__: Pipeline error for musique_3hop1__131783_131926_13165: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,480 [INFO] __main__: Done musique_3hop1__131783_131926_13165: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,480 [ERROR] __main__: Pipeline error for musique_3hop2__782397_467331_162182: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,481 [INFO] __main__: Done musique_3hop2__782397_467331_162182: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,481 [ERROR] __main__: Pipeline error for musique_3hop1__222497_309482_41132: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,485 [INFO] __main__: Done musique_3hop1__222497_309482_41132: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,485 [ERROR] __main__: Pipeline error for musique_2hop__847433_11402: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,485 [INFO] __main__: Done musique_2hop__847433_11402: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,485 [ERROR] __main__: Pipeline error for musique_4hop1__88342_75218_128008_80286: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,486 [INFO] __main__: Done musique_4hop1__88342_75218_128008_80286: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,486 [ERROR] __main__: Pipeline error for musique_2hop__156085_436709: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,486 [INFO] __main__: Done musique_2hop__156085_436709: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,486 [ERROR] __main__: Pipeline error for musique_2hop__51881_20590: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,486 [INFO] __main__: Done musique_2hop__51881_20590: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,486 [ERROR] __main__: Pipeline error for musique_3hop1__617062_127905_80286: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,487 [INFO] __main__: Done musique_3hop1__617062_127905_80286: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,487 [ERROR] __main__: Pipeline error for musique_4hop3__160230_470287_128875_72134: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,487 [INFO] __main__: Done musique_4hop3__160230_470287_128875_72134: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,487 [ERROR] __main__: Pipeline error for musique_3hop1__390673_228453_10972: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,487 [INFO] __main__: Done musique_3hop1__390673_228453_10972: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,487 [ERROR] __main__: Pipeline error for musique_2hop__642686_7292: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,487 [INFO] __main__: Done musique_2hop__642686_7292: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,487 [ERROR] __main__: Pipeline error for musique_4hop1__159467_725495_49925_267352: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,488 [INFO] __main__: Done musique_4hop1__159467_725495_49925_267352: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,488 [ERROR] __main__: Pipeline error for musique_3hop2__20335_8533_9331: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,488 [INFO] __main__: Done musique_3hop2__20335_8533_9331: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,488 [ERROR] __main__: Pipeline error for musique_4hop2__161602_474028_88460_21034: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,488 [INFO] __main__: Done musique_4hop2__161602_474028_88460_21034: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,488 [ERROR] __main__: Pipeline error for musique_2hop__130508_32379: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,489 [INFO] __main__: Done musique_2hop__130508_32379: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,489 [ERROR] __main__: Pipeline error for musique_4hop3__131775_29339_508306_70744: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,489 [INFO] __main__: Done musique_4hop3__131775_29339_508306_70744: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,489 [ERROR] __main__: Pipeline error for musique_2hop__608902_653666: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,489 [INFO] __main__: Done musique_2hop__608902_653666: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,490 [ERROR] __main__: Pipeline error for musique_3hop1__77966_91191_156667: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,490 [INFO] __main__: Done musique_3hop1__77966_91191_156667: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,490 [ERROR] __main__: Pipeline error for musique_3hop1__401538_132457_51423: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,490 [INFO] __main__: Done musique_3hop1__401538_132457_51423: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,490 [ERROR] __main__: Pipeline error for musique_2hop__478978_124498: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,490 [INFO] __main__: Done musique_2hop__478978_124498: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,490 [ERROR] __main__: Pipeline error for musique_2hop__412633_15781: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,491 [INFO] __main__: Done musique_2hop__412633_15781: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,491 [ERROR] __main__: Pipeline error for musique_3hop1__161433_33952_34099: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,491 [INFO] __main__: Done musique_3hop1__161433_33952_34099: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,491 [ERROR] __main__: Pipeline error for musique_2hop__38229_84500: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,491 [INFO] __main__: Done musique_2hop__38229_84500: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,491 [ERROR] __main__: Pipeline error for musique_2hop__839126_472799: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,491 [INFO] __main__: Done musique_2hop__839126_472799: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,492 [ERROR] __main__: Pipeline error for musique_3hop2__831456_223623_162182: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,492 [INFO] __main__: Done musique_3hop2__831456_223623_162182: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,492 [ERROR] __main__: Pipeline error for musique_2hop__16581_16525: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,492 [INFO] __main__: Done musique_2hop__16581_16525: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,492 [ERROR] __main__: Pipeline error for musique_4hop1__152146_5274_458768_33677: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,496 [INFO] __main__: Done musique_4hop1__152146_5274_458768_33677: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,496 [ERROR] __main__: Pipeline error for musique_2hop__488811_30113: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,496 [INFO] __main__: Done musique_2hop__488811_30113: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,496 [ERROR] __main__: Pipeline error for musique_3hop1__768500_730460_70315: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,496 [INFO] __main__: Done musique_3hop1__768500_730460_70315: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,496 [ERROR] __main__: Pipeline error for musique_2hop__286621_67370: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,497 [INFO] __main__: Done musique_2hop__286621_67370: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,497 [ERROR] __main__: Pipeline error for musique_2hop__734582_74481: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,497 [INFO] __main__: Done musique_2hop__734582_74481: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,497 [ERROR] __main__: Pipeline error for musique_2hop__847760_80026: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,497 [INFO] __main__: Done musique_2hop__847760_80026: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,497 [ERROR] __main__: Pipeline error for musique_2hop__166820_52835: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,498 [INFO] __main__: Done musique_2hop__166820_52835: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,498 [ERROR] __main__: Pipeline error for musique_3hop1__313670_42197_18397: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,498 [INFO] __main__: Done musique_3hop1__313670_42197_18397: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,498 [ERROR] __main__: Pipeline error for musique_3hop1__829944_474097_84283: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,498 [INFO] __main__: Done musique_3hop1__829944_474097_84283: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,498 [ERROR] __main__: Pipeline error for musique_3hop1__662413_42197_18397: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,499 [INFO] __main__: Done musique_3hop1__662413_42197_18397: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,499 [ERROR] __main__: Pipeline error for musique_2hop__586343_83289: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,499 [INFO] __main__: Done musique_2hop__586343_83289: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,499 [ERROR] __main__: Pipeline error for musique_3hop1__354480_834494_34109: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,499 [INFO] __main__: Done musique_3hop1__354480_834494_34109: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,499 [ERROR] __main__: Pipeline error for musique_2hop__771477_149987: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,500 [INFO] __main__: Done musique_2hop__771477_149987: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,500 [ERROR] __main__: Pipeline error for musique_4hop1__525129_315334_131926_13165: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,500 [INFO] __main__: Done musique_4hop1__525129_315334_131926_13165: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,500 [ERROR] __main__: Pipeline error for musique_2hop__21103_16254: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,503 [INFO] __main__: Done musique_2hop__21103_16254: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,503 [ERROR] __main__: Pipeline error for musique_2hop__20268_42014: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,503 [INFO] __main__: Done musique_2hop__20268_42014: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,504 [ERROR] __main__: Pipeline error for musique_2hop__268084_78303: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,504 [INFO] __main__: Done musique_2hop__268084_78303: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,504 [ERROR] __main__: Pipeline error for musique_2hop__678516_179720: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,504 [INFO] __main__: Done musique_2hop__678516_179720: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,504 [ERROR] __main__: Pipeline error for musique_2hop__821197_368148: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,505 [INFO] __main__: Done musique_2hop__821197_368148: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,505 [ERROR] __main__: Pipeline error for musique_3hop1__796649_720914_27537: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,505 [INFO] __main__: Done musique_3hop1__796649_720914_27537: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,505 [ERROR] __main__: Pipeline error for musique_4hop1__161810_583746_457883_650651: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,505 [INFO] __main__: Done musique_4hop1__161810_583746_457883_650651: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,505 [ERROR] __main__: Pipeline error for musique_2hop__93230_319887: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,505 [INFO] __main__: Done musique_2hop__93230_319887: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,506 [ERROR] __main__: Pipeline error for musique_4hop3__630723_88460_30152_20999: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,506 [INFO] __main__: Done musique_4hop3__630723_88460_30152_20999: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,506 [ERROR] __main__: Pipeline error for musique_3hop1__786067_228453_86925: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,506 [INFO] __main__: Done musique_3hop1__786067_228453_86925: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,506 [ERROR] __main__: Pipeline error for musique_3hop2__368986_89048_66294: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,509 [INFO] __main__: Done musique_3hop2__368986_89048_66294: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,509 [ERROR] __main__: Pipeline error for musique_2hop__835914_91104: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,509 [INFO] __main__: Done musique_2hop__835914_91104: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,509 [ERROR] __main__: Pipeline error for musique_3hop1__320697_547811_80702: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,509 [INFO] __main__: Done musique_3hop1__320697_547811_80702: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,510 [ERROR] __main__: Pipeline error for musique_2hop__223655_463572: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,510 [INFO] __main__: Done musique_2hop__223655_463572: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,510 [ERROR] __main__: Pipeline error for musique_4hop2__797545_14670_8987_8974: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,510 [INFO] __main__: Done musique_4hop2__797545_14670_8987_8974: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,510 [ERROR] __main__: Pipeline error for musique_2hop__645367_68633: Cannot connect to host 127.0.0.1:8000 ssl:default [Connect call failed ('127.0.0.1', 8000)]
+2026-03-07 22:08:36,511 [INFO] __main__: Done musique_2hop__645367_68633: 'Error: Cannot connect to host 127.0.0.1:' (0.0s, 0 tokens)
+2026-03-07 22:08:36,511 [INFO] __main__: Progress: 110/200 (1326832 Q/hr)
+2026-03-07 22:08:36,511 [INFO] __main__: Progress: 120/200 (1446995 Q/hr)
+2026-03-07 22:08:36,511 [INFO] __main__: Progress: 130/200 (1567162 Q/hr)
+2026-03-07 22:08:36,511 [INFO] __main__: Progress: 140/200 (1687294 Q/hr)
+2026-03-07 22:08:36,511 [INFO] __main__: Progress: 150/200 (1807366 Q/hr)
+2026-03-07 22:08:36,511 [INFO] __main__: Progress: 160/200 (1927383 Q/hr)
+2026-03-07 22:08:36,511 [INFO] __main__: Progress: 170/200 (2047337 Q/hr)
+2026-03-07 22:08:36,512 [INFO] __main__: Progress: 180/200 (2167231 Q/hr)
+2026-03-07 22:08:36,512 [INFO] __main__: Progress: 190/200 (2286956 Q/hr)
+2026-03-07 22:08:36,512 [INFO] __main__: Progress: 200/200 (2406702 Q/hr)
+2026-03-07 22:08:36,513 [INFO] __main__: Batch complete: 200 questions in 0.0 min (2397546.4 Q/hr)
+Shard 2 complete: 200 predictions

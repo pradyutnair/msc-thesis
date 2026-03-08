@@ -1,0 +1,95 @@
+#!/bin/bash
+#SBATCH --job-name=eval_ds_p100
+#SBATCH --partition=gpu_a100
+#SBATCH --time=02:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=2
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/jobs/output/%j_eval_deepseek_p100.log
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+
+MODEL_ID="deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+SERVED_NAME="DeepSeek-R1-32B"
+
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="$SERVED_NAME"
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+echo "Starting DeepSeek-R1-32B vLLM server (2 GPUs, TP=2)..."
+python -m vllm.entrypoints.openai.api_server \
+  --model "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port 8000 \
+  --dtype auto --max-model-len 8192 --gpu-memory-utilization 0.95 \
+  --tensor-parallel-size 2 \
+  --max-num-seqs 64 \
+  --enable-prefix-caching \
+  --trust-remote-code &
+VLLM_PID=$!
+
+for i in $(seq 1 300); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  STATUS="$(python -c "
+import json, urllib.request
+try:
+    d=json.load(urllib.request.urlopen('http://127.0.0.1:8000/v1/models', timeout=2))
+    print('ok' if any('$SERVED_NAME' in m.get('id','') for m in d.get('data',[])) else 'wait')
+except Exception:
+    print('wait')
+")"
+  if [[ "$STATUS" == "ok" ]]; then echo "DeepSeek-R1 ready"; break; fi
+  sleep 3
+done
+
+echo "=== DeepSeek-R1 LLM Judge Evaluation ==="
+
+for SYSTEM in m5_p100 m6_p100; do
+  for DATASET in hotpotqa 2wiki musique; do
+    PRED="results/$SYSTEM/$DATASET/predictions.jsonl"
+    if [ ! -f "$PRED" ]; then
+      echo "SKIP: $PRED not found"
+      continue
+    fi
+    N=$(wc -l < "$PRED")
+    echo ""
+    echo "--- Evaluating $SYSTEM/$DATASET ($N predictions) ---"
+    python -u scripts/eval.py \
+      --predictions "$PRED" \
+      --workers 20 \
+      --output "results/$SYSTEM/$DATASET"
+  done
+done
+
+echo ""
+echo "=== Final Summary (EM/F1/LLM Judge) ==="
+for SYSTEM in m5_p100 m6_p100; do
+  echo ""
+  echo "--- $SYSTEM ---"
+  PREDS=""
+  for DATASET in hotpotqa 2wiki musique; do
+    f="results/$SYSTEM/$DATASET/predictions.jsonl"
+    if [ -f "$f" ]; then PREDS="$PREDS $f"; fi
+  done
+  if [ -n "$PREDS" ]; then
+    python -u scripts/eval_offline.py $PREDS
+  fi
+done
+
+echo ""
+echo "=== SAGE v3r2 p100 reference ==="
+echo "  hotpotqa:       EM=63% F1=75.5% LLM=84%"
+echo "  2wikimultihop:  EM=64% F1=73.0% LLM=79%"
+echo "  musique:        EM=43% F1=56.6% LLM=55%"
+
+echo "DeepSeek eval complete"

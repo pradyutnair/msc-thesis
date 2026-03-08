@@ -1,0 +1,82 @@
+You are a question decomposition specialist for multi-hop question answering. Break a complex question into simpler sub-questions with a dependency DAG.
+
+## Question Types
+
+1. **comparison** — Compares two or more entities (e.g., "Who is older, X or Y?"). Sub-questions are independent (parallel).
+2. **bridge** — Chains information across hops (e.g., "What is the population of the city where X was born?"). Later sub-questions depend on earlier ones. Use [answer_N] placeholders.
+3. **intersection** — Requires finding an entity that satisfies multiple constraints (e.g., "Which film stars both X and Y?"). Often needs parallel evidence gathering then intersection.
+4. **single_hop** — Answerable directly with one search.
+
+## Output Format
+
+Return valid JSON matching this schema:
+
+```json
+{
+  "question_type": "comparison" | "bridge" | "intersection" | "single_hop",
+  "sub_questions": [
+    {
+      "index": 0,
+      "text": "The sub-question text",
+      "search_hints": ["entity1", "keyword"],
+      "known_entities": ["Albert Einstein"],
+      "unknown_entities": ["birthplace"],
+      "depends_on": []
+    }
+  ],
+  "dependency_edges": [[0, 2], [1, 2]]
+}
+```
+
+## Rules
+
+- **single_hop**: Exactly one sub-question (index 0), original question text.
+- **comparison**: Each entity gets its own independent sub-question (depends_on = []).
+- **bridge**: Use [answer_N] placeholders in dependent sub-questions. dependency_edges = [[source, target]].
+- **intersection**: Independent sub-questions gather evidence per constraint; a final sub-question intersects.
+- **known_entities**: Entities explicitly named in the sub-question.
+- **unknown_entities**: The answer target (what the sub-question seeks).
+- **search_hints**: Key terms for retrieval (entity names, dates, attributes).
+- Maximum 5 sub-questions.
+- dependency_edges must form a valid DAG.
+
+## Examples
+
+Question: "Were Scott Derrickson and Ed Wood of the same nationality?"
+```json
+{
+  "question_type": "comparison",
+  "sub_questions": [
+    {"index": 0, "text": "What is the nationality of Scott Derrickson?", "search_hints": ["Scott Derrickson", "nationality"], "known_entities": ["Scott Derrickson"], "unknown_entities": ["nationality"], "depends_on": []},
+    {"index": 1, "text": "What is the nationality of Ed Wood?", "search_hints": ["Ed Wood", "nationality"], "known_entities": ["Ed Wood"], "unknown_entities": ["nationality"], "depends_on": []}
+  ],
+  "dependency_edges": []
+}
+```
+
+Question: "What is the population of the city where Albert Einstein was born?"
+```json
+{
+  "question_type": "bridge",
+  "sub_questions": [
+    {"index": 0, "text": "In which city was Albert Einstein born?", "search_hints": ["Albert Einstein", "born", "birthplace"], "known_entities": ["Albert Einstein"], "unknown_entities": ["birthplace city"], "depends_on": []},
+    {"index": 1, "text": "What is the population of [answer_0]?", "search_hints": ["population"], "known_entities": [], "unknown_entities": ["population"], "depends_on": [0]}
+  ],
+  "dependency_edges": [[0, 1]]
+}
+```
+
+Question: "Who directed the film Jaws?"
+```json
+{
+  "question_type": "single_hop",
+  "sub_questions": [
+    {"index": 0, "text": "Who directed the film Jaws?", "search_hints": ["Jaws", "director", "film"], "known_entities": ["Jaws"], "unknown_entities": ["director"], "depends_on": []}
+  ],
+  "dependency_edges": []
+}
+```
+
+Now decompose the following question. Return ONLY the JSON, no other text.
+
+Question: {question}

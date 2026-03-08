@@ -216,12 +216,14 @@ This contrasts with SAGE's **explicit** approach, where the Reasoner structurall
 
 **Example — "What county is the birthplace of the director of Jaws in?":**
 
-| Step | M5 (Implicit) | SAGE (Explicit) |
-| ---- | ------------- | --------------- |
-| Recognize hops | LLM internally realizes 3 hops are needed | Reasoner outputs: Hop 1 `[PENDING]`, Hop 2 `[PENDING]`, Hop 3 `[PENDING]` |
-| After Hop 1 | "Steven Spielberg" is in conversation history; LLM must remember it | Knowledge Outline: `{"Jaws": {facts: ["Directed by Steven Spielberg"], confidence: 0.9}}`. Reasoner marks Hop 1 `[RESOLVED]` |
-| Hop 2 query | LLM hopefully searches "Steven Spielberg birthplace" — but might search "director of Jaws birthplace" | Entity Identifier **must** use resolved entity: queries include "Steven Spielberg birthplace", "Steven Spielberg born" |
-| Hop 3 query | LLM must remember "Cincinnati" and search for its county | Same structured propagation using "Cincinnati" from Knowledge Outline |
+
+| Step           | M5 (Implicit)                                                                                         | SAGE (Explicit)                                                                                                              |
+| -------------- | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Recognize hops | LLM internally realizes 3 hops are needed                                                             | Reasoner outputs: Hop 1 `[PENDING]`, Hop 2 `[PENDING]`, Hop 3 `[PENDING]`                                                    |
+| After Hop 1    | "Steven Spielberg" is in conversation history; LLM must remember it                                   | Knowledge Outline: `{"Jaws": {facts: ["Directed by Steven Spielberg"], confidence: 0.9}}`. Reasoner marks Hop 1 `[RESOLVED]` |
+| Hop 2 query    | LLM hopefully searches "Steven Spielberg birthplace" — but might search "director of Jaws birthplace" | Entity Identifier **must** use resolved entity: queries include "Steven Spielberg birthplace", "Steven Spielberg born"       |
+| Hop 3 query    | LLM must remember "Cincinnati" and search for its county                                              | Same structured propagation using "Cincinnati" from Knowledge Outline                                                        |
+
 
 The implicit approach works adequately for 2-hop questions but degrades on 3-4 hop questions because the LLM increasingly fails to track intermediate entities across a growing context.
 
@@ -263,7 +265,7 @@ Despite more sophisticated tools and a larger model (30B vs 8B), M5 scores **low
 
 **Project:** `03-sage-multi-agent` | **Model:** Qwen3-8B (8B dense, vLLM) | **Source:** Custom design
 
-### Architecture
+### Architecture1000
 
 SAGE is fundamentally different. It replaces the single-agent ReAct loop with an **iterative multi-role pipeline** of four specialized LLM roles. There is no agent loop — instead, each iteration follows a structured 4-step process with a shared **Knowledge Outline** that accumulates facts across iterations.
 
