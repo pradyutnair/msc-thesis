@@ -154,7 +154,7 @@ class M6BatchRunner:
         api_key = llm_cfg.get("api_key") or os.getenv("ARAG_API_KEY", "dummy")
         base_url = llm_cfg.get("base_url") or os.getenv("ARAG_BASE_URL", "http://127.0.0.1:8000/v1")
 
-        # Main LLM: thinking ON (for decomposer, critic, synthesizer)
+        # Planner LLM: thinking ON (decompose + synthesize)
         main_client = LLMClient(
             model=model,
             api_key=api_key,
@@ -163,43 +163,38 @@ class M6BatchRunner:
             max_tokens=llm_cfg.get("max_tokens", 8192),
         )
 
-        # Retriever LLM: thinking OFF (thinking ON wastes tokens on think blocks)
-        retriever_client = LLMClient(
+        # Worker LLM: thinking OFF — tool-calling agents perform better
+        # with more iterations rather than more reasoning per step.
+        worker_client = LLMClient(
             model=model,
             api_key=api_key,
             base_url=base_url,
             temperature=llm_cfg.get("temperature", 0.0),
-            max_tokens=4096,
-            chat_template_kwargs={"enable_thinking": False},
+            max_tokens=8192,
+            chat_template_kwargs={"enable_thinking": True},
         )
 
-        # Shared tools
         tools = build_tools(self.config)
-
-        # Load M6 config section
         m6_cfg = self.config.get("m6", {})
-
-        # Prompt paths
         prompts_dir = PROJECT_ROOT / "src" / "multi_agent" / "m6" / "prompts"
 
         return M6Pipeline(
             llm_client=main_client,
-            retriever_llm_client=retriever_client,
+            worker_llm_client=worker_client,
             tools=tools,
             decomposer_prompt=str(prompts_dir / "decomposer.txt"),
-            retriever_prompt=str(prompts_dir / "retriever.txt"),
-            critic_prompt=str(prompts_dir / "critic.txt"),
             synthesizer_prompt=str(prompts_dir / "synthesizer.txt"),
             synthesizer_consistency_prompt=str(prompts_dir / "synthesizer_consistency.txt"),
-            num_retrievers=m6_cfg.get("num_retrievers", 2),
-            retriever_max_loops=m6_cfg.get("retriever_max_loops", 5),
-            retriever_max_budget=m6_cfg.get("retriever_max_budget", 32000),
-            max_ticks=m6_cfg.get("max_ticks", 30),
+            worker_plan_prompt=str(prompts_dir / "worker_plan.txt"),
+            worker_verify_prompt=str(prompts_dir / "worker_verify.txt"),
+            num_workers=m6_cfg.get("num_workers", m6_cfg.get("num_retrievers", 2)),
+            worker_max_steps=m6_cfg.get("worker_max_steps", 8),
             token_budget=m6_cfg.get("token_budget", 200000),
             wall_clock_timeout=m6_cfg.get("wall_clock_timeout", 300.0),
-            enable_critic=m6_cfg.get("enable_critic", True),
-            enable_backtracking=m6_cfg.get("enable_backtracking", True),
+            idle_timeout=m6_cfg.get("idle_timeout", 30.0),
+            max_actions=m6_cfg.get("max_actions", 100),
             enable_consistency_check=m6_cfg.get("enable_consistency_check", True),
+            max_redecompositions=m6_cfg.get("max_redecompositions", 1),
         )
 
     async def _process_one(

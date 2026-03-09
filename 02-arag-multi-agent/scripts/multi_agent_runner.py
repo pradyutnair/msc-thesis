@@ -1,5 +1,16 @@
 #!/usr/bin/env python3
-"""Async batch runner for MA²RAG multi-agent pipeline."""
+"""Async batch runner for MA²RAG multi-agent pipeline.
+
+Replaces ThreadPoolExecutor with asyncio + Semaphore for proper
+concurrency control over vLLM requests.
+
+Usage:
+    python scripts/multi_agent_runner.py \
+        --config configs/m1_multi_agent.yaml \
+        --questions /path/to/questions.json \
+        --output results/m1/hotpotqa/ \
+        --limit 100
+"""
 
 from __future__ import annotations
 
@@ -9,6 +20,7 @@ import logging
 import os
 import sys
 import time
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
@@ -25,13 +37,6 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
 )
 logger = logging.getLogger(__name__)
-
-PROJECT_ROOT = Path(__file__).parent.parent
-LOCAL_DATASET_DIRS = {
-    "hotpotqa": "hotpotqa",
-    "musique": "musique",
-    "2wiki": "2wikimultihop",
-}
 
 
 class MultiAgentBatchRunner:
@@ -54,9 +59,6 @@ class MultiAgentBatchRunner:
         self.max_concurrent_questions = max_concurrent_questions
         self.verbose = verbose
 
-        # Keep config/tooling aligned with selected dataset.
-        self._align_data_paths_with_questions()
-
         # Output files
         self.predictions_file = self.output_dir / "predictions.jsonl"
         self.decompositions_file = self.output_dir / "decompositions.jsonl"
@@ -64,52 +66,6 @@ class MultiAgentBatchRunner:
 
         self._write_lock = asyncio.Lock()
         self.questions = self._load_questions()
-
-    def _infer_dataset_key(self, path: Path) -> str | None:
-        raw = str(path).lower()
-        if "hotpot" in raw:
-            return "hotpotqa"
-        if "musique" in raw:
-            return "musique"
-        if "2wiki" in raw:
-            return "2wiki"
-        return None
-
-    def _align_data_paths_with_questions(self) -> None:
-        """Auto-align retrieval corpus paths to the selected question dataset.
-
-        This avoids accidental cross-dataset runs (e.g., MuSiQue questions with
-        Hotpot chunks/index).
-        """
-        self.config.set("data.questions_file", str(self.questions_file))
-
-        dataset_key = self._infer_dataset_key(self.questions_file)
-        if dataset_key is None:
-            return
-
-        dataset_dir = LOCAL_DATASET_DIRS[dataset_key]
-        local_data_dir = PROJECT_ROOT / "data" / dataset_dir
-        chunks_candidate = local_data_dir / "chunks.json"
-        index_candidate = local_data_dir / "index_e5_base_v2"
-
-        if not chunks_candidate.exists():
-            logger.warning(
-                "Could not align chunks path for dataset '%s' (missing %s)",
-                dataset_key,
-                chunks_candidate,
-            )
-            return
-
-        configured_chunks = str(self.config.get("data.chunks_file", ""))
-        configured_index = str(self.config.get("data.index_dir", ""))
-
-        if configured_chunks != str(chunks_candidate):
-            self.config.set("data.chunks_file", str(chunks_candidate))
-            logger.info("Using chunks file: %s", chunks_candidate)
-
-        if index_candidate.exists() and configured_index != str(index_candidate):
-            self.config.set("data.index_dir", str(index_candidate))
-            logger.info("Using index dir: %s", index_candidate)
 
     def _load_questions(self) -> list[dict[str, Any]]:
         with open(self.questions_file, "r", encoding="utf-8") as f:
@@ -163,15 +119,6 @@ class MultiAgentBatchRunner:
         data_cfg = self.config.get("data", {})
         tools = self._build_tools(data_cfg)
 
-        ma_cfg = self.config.get("multi_agent", {}) or {}
-        if ma_cfg.get("enable_sage", False):
-            from multi_agent.sage_pipeline import SagePipeline
-            return SagePipeline(
-                llm_client=client,
-                tools=tools,
-                config=self.config,
-            )
-
         return MultiAgentPipeline(
             llm_client=client,
             tools=tools,
@@ -179,18 +126,19 @@ class MultiAgentBatchRunner:
         )
 
     def _build_tools(self, data_cfg: dict) -> Any:
-        """Build tool registry from data config."""
+        """Build tool registry from data config.
+
+        Uses ARAG chunked-index tools (same pattern as existing batch_runner).
+        """
         from arag.tools.registry import ToolRegistry
         from arag.tools.keyword_search import KeywordSearchTool
         from arag.tools.semantic_search import SemanticSearchTool
         from arag.tools.read_chunk import ReadChunkTool
-        from arag.tools.finish import FinishTool
 
         chunks_file = data_cfg.get("chunks_file", "data/chunks.json")
         reg = ToolRegistry()
         reg.register(KeywordSearchTool(chunks_file=chunks_file))
         reg.register(ReadChunkTool(chunks_file=chunks_file))
-        reg.register(FinishTool())
 
         index_dir = data_cfg.get("index_dir")
         if index_dir and Path(index_dir).exists():
@@ -218,6 +166,7 @@ class MultiAgentBatchRunner:
         qid = item.get("qid") or item.get("id")
         gold = item.get("answer", item.get("gold_answer", ""))
 
+        # Serialize agent results (strip numpy arrays)
         agent_results_ser = {}
         for idx, ar in result.agent_results.items():
             agent_results_ser[str(idx)] = {
@@ -227,10 +176,6 @@ class MultiAgentBatchRunner:
                 "loops": ar.loops,
                 "total_tokens": ar.total_tokens,
                 "wall_clock_seconds": ar.wall_clock_seconds,
-                "confidence": ar.confidence,
-                "unsupported_answer": ar.unsupported_answer,
-                "extracted_evidence": ar.extracted_evidence,
-                "evidence_count": ar.evidence_count,
                 "error": ar.error,
             }
 
@@ -242,9 +187,6 @@ class MultiAgentBatchRunner:
             "question_type": result.question_type,
             "num_sub_questions": result.num_sub_questions,
             "num_waves": result.num_waves,
-            "pass_id": result.pass_id,
-            "retry_trigger_reasons": result.retry_trigger_reasons,
-            "verifier_parse_ok": result.verifier_parse_ok,
             "agent_results": agent_results_ser,
             "cache_analytics": result.cache_analytics,
             "total_tokens": result.total_tokens,
@@ -364,14 +306,21 @@ class MultiAgentBatchRunner:
             except Exception as exc:
                 logger.error("Unhandled error: %s", exc)
 
+        # Write aggregate cache analytics
         all_cache = [r.get("cache_analytics", {}) for r in results if r]
         if all_cache:
             agg_analytics = {
                 "total_questions": len(results),
-                "mean_doc_cache_hit_rate": sum(c.get("get_hit_rate", 0) for c in all_cache)
+                "mean_doc_cache_hit_rate": sum(
+                    c.get("get_hit_rate", 0) for c in all_cache
+                )
                 / max(len(all_cache), 1),
-                "total_cross_agent_reuses": sum(c.get("cross_agent_reuses", 0) for c in all_cache),
-                "total_unique_docs": sum(c.get("unique_docs", 0) for c in all_cache),
+                "total_cross_agent_reuses": sum(
+                    c.get("cross_agent_reuses", 0) for c in all_cache
+                ),
+                "total_unique_docs": sum(
+                    c.get("unique_docs", 0) for c in all_cache
+                ),
             }
             with open(self.cache_analytics_file, "w") as f:
                 json.dump(agg_analytics, f, indent=2)
@@ -393,8 +342,6 @@ def main():
     parser.add_argument("--questions", "-q", required=True, help="Questions JSON path")
     parser.add_argument("--output", "-o", required=True, help="Output directory")
     parser.add_argument("--limit", "-l", type=int, default=None)
-    parser.add_argument("--chunks-file", type=str, default=None, help="Override chunks file")
-    parser.add_argument("--index-dir", type=str, default=None, help="Override semantic index dir")
     parser.add_argument(
         "--concurrent", type=int, default=5, help="Max concurrent questions"
     )
@@ -402,10 +349,9 @@ def main():
     args = parser.parse_args()
 
     config = Config.from_yaml(args.config)
-    if args.chunks_file:
-        config.set("data.chunks_file", args.chunks_file)
-    if args.index_dir:
-        config.set("data.index_dir", args.index_dir)
+
+    # Override verbose from CLI — verbose is handled by runner, not config
+    # The pipeline reads verbose from config, but we pass it via runner too
 
     runner = MultiAgentBatchRunner(
         config=config,

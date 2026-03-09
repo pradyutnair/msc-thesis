@@ -1,0 +1,78 @@
+#!/bin/bash
+#SBATCH --job-name=m6v11b_smoke
+#SBATCH --partition=gpu_a100
+#SBATCH --time=01:30:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/jobs/output/%j_m6v11b_smoke10_%a.log
+#SBATCH --array=0-2
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="Qwen3-8B"
+
+MODEL_ID="Qwen/Qwen3-8B"
+SERVED_NAME="Qwen3-8B"
+
+DATASETS=(hotpotqa 2wiki musique)
+DATASET="${DATASETS[$SLURM_ARRAY_TASK_ID]}"
+LIMIT=10
+RUN_OUT="results/m6v11b_smoke10/$DATASET"
+mkdir -p "$RUN_OUT" jobs/output
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+echo "Starting vLLM server..."
+python -m vllm.entrypoints.openai.api_server \
+  --model "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port 8000 \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.90 \
+  --max-num-seqs 100 \
+  --enable-prefix-caching \
+  --enable-auto-tool-choice --tool-call-parser hermes \
+  --trust-remote-code --generation-config vllm &
+VLLM_PID=$!
+
+for i in $(seq 1 300); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  STATUS="$(python -c "
+import json, urllib.request
+try:
+    d=json.load(urllib.request.urlopen('http://127.0.0.1:8000/v1/models', timeout=2))
+    print('ok' if any('$SERVED_NAME' in m.get('id','') for m in d.get('data',[])) else 'wait')
+except Exception:
+    print('wait')
+")"
+  if [[ "$STATUS" == "ok" ]]; then echo "vLLM ready"; break; fi
+  sleep 3
+done
+
+echo "=== Running M6v11b Pipeline (v11b: stricter answer format, better extraction) ==="
+echo "Dataset: $DATASET, Limit: $LIMIT"
+python -u scripts/m6_runner.py \
+  --config configs/m6_blackboard.yaml \
+  --dataset "$DATASET" \
+  --output "$RUN_OUT" \
+  --limit "$LIMIT" \
+  --workers 2
+
+echo ""
+echo "=== Eval ==="
+python -u scripts/eval_offline.py "$RUN_OUT/predictions.jsonl"
+
+echo ""
+echo "=== M6 Analysis ==="
+python -u scripts/analyze_m6.py --results "$RUN_OUT"
+
+echo "M6v11b smoke10 $DATASET complete"

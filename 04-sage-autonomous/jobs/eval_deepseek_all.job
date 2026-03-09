@@ -1,0 +1,81 @@
+#!/bin/bash
+#SBATCH --job-name=ev_ds
+#SBATCH --partition=gpu_a100
+#SBATCH --time=02:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/04-sage-autonomous/jobs/output/%j_eval_deepseek_all.log
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/04-sage-autonomous
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+
+MODEL_ID="deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
+SERVED_NAME="DeepSeek-R1-Distill-Qwen-7B"
+
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="$SERVED_NAME"
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+python -m vllm.entrypoints.openai.api_server \
+  --model "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port 8000 \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.90 \
+  --trust-remote-code --generation-config vllm &
+VLLM_PID=$!
+
+for i in $(seq 1 300); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  STATUS="$(python - <<'PY'
+import json, urllib.request
+try:
+    d=json.load(urllib.request.urlopen("http://127.0.0.1:8000/v1/models", timeout=2))
+    print("ok" if any("DeepSeek" in m.get("id","") for m in d.get("data",[])) else "wait")
+except Exception:
+    print("wait")
+PY
+)"
+  echo "Check $i: $STATUS"
+  if [[ "$STATUS" == "ok" ]]; then echo "DeepSeek ready!"; break; fi
+  sleep 3
+done
+
+echo "=== Evaluating HotpotQA (1000q) ==="
+PYTHONPATH=src python -u scripts/eval.py \
+  --predictions results/auto_1k_final/hotpotqa/predictions.jsonl \
+  --workers 20 \
+  --output results/auto_1k_final/hotpotqa
+
+echo "=== Evaluating 2WikiMultiHop (1000q) ==="
+PYTHONPATH=src python -u scripts/eval.py \
+  --predictions results/auto_1k_final/2wikimultihop/predictions.jsonl \
+  --workers 20 \
+  --output results/auto_1k_final/2wikimultihop
+
+echo "=== Evaluating MuSiQue (1000q) ==="
+PYTHONPATH=src python -u scripts/eval.py \
+  --predictions results/auto_1k_final/musique/predictions.jsonl \
+  --workers 20 \
+  --output results/auto_1k_final/musique
+
+echo ""
+echo "=== Offline eval with v3r2 comparison ==="
+PYTHONPATH=src python -u scripts/eval_offline.py \
+  results/auto_1k_final/hotpotqa/predictions.jsonl \
+  results/auto_1k_final/2wikimultihop/predictions.jsonl \
+  results/auto_1k_final/musique/predictions.jsonl \
+  results/sage_v3r2_1000/hotpotqa/predictions.jsonl \
+  results/sage_v3r2_1000/2wikimultihop/predictions.jsonl \
+  results/sage_v3r2_1000/musique/predictions.jsonl
+
+echo "=== ALL DONE ==="

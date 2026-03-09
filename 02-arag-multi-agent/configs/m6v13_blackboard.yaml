@@ -1,0 +1,24 @@
+# M6v13: PlannerAgent + WorkerAgent architecture (Qwen3-8B dense).
+# PlannerAgent: decompose → monitor → synthesize lifecycle
+# WorkerAgents: plan → execute → verify loop per sub-question
+
+llm:
+  model: "Qwen3-8B"
+  api_key: "dummy"
+  base_url: "http://127.0.0.1:8000/v1"
+  temperature: 0.0
+  max_tokens: 8192
+
+embedding:
+  model: "intfloat/e5-base-v2"
+  device: "cpu"
+
+m6:
+  num_workers: 2
+  worker_max_steps: 12
+  max_actions: 100
+  token_budget: 300000
+  wall_clock_timeout: 900.0
+  idle_timeout: 300.0
+  enable_consistency_check: false
+  max_redecompositions: 1

@@ -35,7 +35,6 @@ class Dispatcher:
         max_concurrent: int = 3,
         verbose: bool = False,
         search_agent_prompt_path: str | None = None,
-        enable_cep: bool = False,
     ):
         self.llm = llm_client
         self.tools = tools
@@ -45,7 +44,6 @@ class Dispatcher:
         self.max_concurrent = max_concurrent
         self.verbose = verbose
         self.search_agent_prompt_path = search_agent_prompt_path
-        self.enable_cep = enable_cep
         self._semaphore = asyncio.Semaphore(max_concurrent)
 
     # ------------------------------------------------------------------
@@ -62,21 +60,23 @@ class Dispatcher:
         sq_map = {sq.index: sq for sq in plan.sub_questions}
         indices = set(sq_map.keys())
 
-        # Build adjacency from both dependency_edges and depends_on.
-        edge_set: set[tuple[int, int]] = set()
-        for src, tgt in plan.dependency_edges:
-            if src in indices and tgt in indices and src != tgt:
-                edge_set.add((src, tgt))
-        for sq in plan.sub_questions:
-            for dep in sq.depends_on:
-                if dep in indices and sq.index in indices and dep != sq.index:
-                    edge_set.add((dep, sq.index))
-
+        # Build adjacency (src → list[tgt])
         children: dict[int, list[int]] = defaultdict(list)
         in_degree: dict[int, int] = {i: 0 for i in indices}
-        for src, tgt in edge_set:
+        for src, tgt in plan.dependency_edges:
             children[src].append(tgt)
             in_degree[tgt] += 1
+
+        # Also honour SubQuestion.depends_on (may differ from edges)
+        for sq in plan.sub_questions:
+            for dep in sq.depends_on:
+                if dep in indices and sq.index != dep:
+                    if sq.index not in children[dep]:
+                        children[dep].append(sq.index)
+                    in_degree[sq.index] = max(
+                        in_degree[sq.index],
+                        in_degree.get(sq.index, 0),
+                    )
 
         # Kahn's algorithm, grouping by BFS level
         waves: list[list[SubQuestion]] = []
@@ -97,6 +97,7 @@ class Dispatcher:
         # Sanity: all sub-Qs placed
         placed = sum(len(w) for w in waves)
         if placed != len(indices):
+            # Cycle or orphan — put remaining in a final wave
             placed_indices = {sq.index for w in waves for sq in w}
             remaining = [sq_map[i] for i in indices - placed_indices]
             if remaining:
@@ -110,41 +111,6 @@ class Dispatcher:
         return waves
 
     # ------------------------------------------------------------------
-    # Chain Evidence Passing (M3-CEP and OSPREY global evidence)
-    # ------------------------------------------------------------------
-
-    @staticmethod
-    def _build_chain_evidence(
-        wave_results: list[AgentResult],
-        wave_idx: int,
-        max_chunks: int = 3,
-        max_chars_per_chunk: int = 600,
-    ) -> str:
-        """Build CEP chain evidence string from completed wave results.
-
-        Extracts top retrieved chunks from wave_idx agents to pass as
-        context to the next wave's agents (bridge questions only).
-        """
-        lines: list[str] = []
-        for result in wave_results:
-            if not result.retrieved_chunks:
-                continue
-            sq_idx = result.sub_question_index
-            for chunk in result.retrieved_chunks[:max_chunks]:
-                cid = chunk.get("id", "?")
-                text = chunk.get("text", "")[:max_chars_per_chunk]
-                lines.append(f"[Chunk {cid} | SQ-{sq_idx}]:\n{text}")
-
-        if not lines:
-            return ""
-
-        header = (
-            f"[Evidence from Wave {wave_idx} — "
-            "use to identify the key intermediate entity and guide your search]\n\n"
-        )
-        return header + "\n\n---\n\n".join(lines)
-
-    # ------------------------------------------------------------------
     # Agent execution
     # ------------------------------------------------------------------
 
@@ -152,8 +118,6 @@ class Dispatcher:
         self,
         sub_question: SubQuestion,
         resolved_answers: dict[int, str],
-        original_question: str = "",
-        chain_evidence: str = "",
     ) -> AgentResult:
         """Run a single search agent under the concurrency semaphore."""
         async with self._semaphore:
@@ -169,8 +133,6 @@ class Dispatcher:
             return await agent.run(
                 sub_question=sub_question,
                 resolved_answers=resolved_answers,
-                original_question=original_question,
-                chain_evidence=chain_evidence,
             )
 
     # ------------------------------------------------------------------
@@ -180,21 +142,8 @@ class Dispatcher:
     async def dispatch(
         self,
         plan: DecompositionPlan,
-        original_question: str = "",
-        global_chain_evidence: str = "",
     ) -> tuple[dict[int, AgentResult], int]:
         """Dispatch agents for all sub-questions in *plan*.
-
-        Parameters
-        ----------
-        plan:
-            Decomposition plan from the Decomposer.
-        original_question:
-            The original question (for agent context).
-        global_chain_evidence:
-            Optional evidence to inject into ALL agents regardless of wave.
-            Used by OSPREY to propagate Phase 1 Scout chunks into every agent.
-            CEP (wave-specific) evidence is combined on top of this.
 
         Returns
         -------
@@ -207,15 +156,11 @@ class Dispatcher:
         results: dict[int, AgentResult] = {}
         resolved_answers: dict[int, str] = {}
 
-        # CEP: per-wave chain evidence accumulates across bridge waves
-        cep_chain_evidence: str = ""
-
         logger.info(
-            "Dispatching %d sub-Qs in %d waves for '%s' question%s",
+            "Dispatching %d sub-Qs in %d waves for '%s' question",
             len(plan.sub_questions),
             len(waves),
             plan.question_type,
-            " [+global evidence]" if global_chain_evidence else "",
         )
 
         for wave_idx, wave in enumerate(waves):
@@ -227,43 +172,13 @@ class Dispatcher:
                 ", ".join(f"SQ-{sq.index}" for sq in wave),
             )
 
-            # CEP only applies to bridge questions (wave > 0)
-            use_cep = (
-                self.enable_cep
-                and plan.question_type == "bridge"
-                and wave_idx > 0
-                and bool(cep_chain_evidence)
-            )
-            if use_cep:
-                logger.info(
-                    "CEP: injecting %d chars of wave evidence into wave %d",
-                    len(cep_chain_evidence), wave_idx,
-                )
-
-            # Combine global (scout) evidence with wave-specific CEP evidence
-            if global_chain_evidence and use_cep:
-                effective_chain = global_chain_evidence + "\n\n" + cep_chain_evidence
-            elif global_chain_evidence:
-                effective_chain = global_chain_evidence
-            elif use_cep:
-                effective_chain = cep_chain_evidence
-            else:
-                effective_chain = ""
-
             # Launch all agents in this wave concurrently
             tasks = [
-                self._run_agent(
-                    sq,
-                    dict(resolved_answers),
-                    original_question=original_question,
-                    chain_evidence=effective_chain,
-                )
-                for sq in wave
+                self._run_agent(sq, dict(resolved_answers)) for sq in wave
             ]
             wave_results = await asyncio.gather(*tasks, return_exceptions=True)
 
             # Collect results
-            good_results: list[AgentResult] = []
             for sq, result in zip(wave, wave_results):
                 if isinstance(result, Exception):
                     logger.error(
@@ -277,7 +192,6 @@ class Dispatcher:
 
                 results[sq.index] = result
                 resolved_answers[sq.index] = result.answer
-                good_results.append(result)
 
                 if self.verbose:
                     print(
@@ -285,9 +199,5 @@ class Dispatcher:
                         f"'{result.answer[:60]}' "
                         f"({result.loops} loops, {result.wall_clock_seconds:.1f}s)"
                     )
-
-            # CEP: build wave-specific chain evidence for next bridge wave
-            if self.enable_cep and plan.question_type == "bridge":
-                cep_chain_evidence = self._build_chain_evidence(good_results, wave_idx)
 
         return results, len(waves)

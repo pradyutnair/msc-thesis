@@ -1,10 +1,22 @@
 #!/usr/bin/env python3
-"""CLI entry point for running MA²RAG experiments."""
+"""CLI entry point for running experiments from the experiment matrix.
+
+Usage:
+    # Run a single experiment
+    python scripts/run_experiment.py --experiment m1 --dataset hotpotqa
+
+    # Run all datasets for an experiment
+    python scripts/run_experiment.py --experiment m1 --dataset all
+
+    # Run with pilot mode (100 questions)
+    python scripts/run_experiment.py --experiment m1 --dataset musique --pilot
+"""
 
 from __future__ import annotations
 
 import argparse
 import logging
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -22,20 +34,14 @@ RESULTS_DIR = PROJECT_ROOT / "results"
 DATASETS = {
     "hotpotqa": {
         "questions": str(PROJECT_ROOT / "data" / "hotpotqa" / "questions.json"),
-        "chunks": str(PROJECT_ROOT / "data" / "hotpotqa" / "chunks.json"),
-        "index_dir": str(PROJECT_ROOT / "data" / "hotpotqa" / "index_e5_base_v2"),
         "name": "HotpotQA",
     },
     "musique": {
         "questions": str(PROJECT_ROOT / "data" / "musique" / "questions.json"),
-        "chunks": str(PROJECT_ROOT / "data" / "musique" / "chunks.json"),
-        "index_dir": str(PROJECT_ROOT / "data" / "musique" / "index_e5_base_v2"),
         "name": "MuSiQue",
     },
     "2wiki": {
         "questions": str(PROJECT_ROOT / "data" / "2wikimultihop" / "questions.json"),
-        "chunks": str(PROJECT_ROOT / "data" / "2wikimultihop" / "chunks.json"),
-        "index_dir": str(PROJECT_ROOT / "data" / "2wikimultihop" / "index_e5_base_v2"),
         "name": "2WikiMultihopQA",
     },
 }
@@ -49,7 +55,6 @@ EXPERIMENTS = {
     "a2": {"config": "ablations/a2_no_aggregator.yaml", "desc": "No aggregator"},
     "a3": {"config": "ablations/a3_sequential.yaml", "desc": "Sequential dispatch"},
     "a4": {"config": "ablations/a4_no_verify.yaml", "desc": "No self-verification"},
-    "sage": {"config": "sage.yaml", "desc": "SAGE multi-agent"},
 }
 
 PILOT_LIMIT = 100
@@ -88,18 +93,10 @@ def run_experiment(
     cmd = [
         sys.executable,
         str(PROJECT_ROOT / "scripts" / "multi_agent_runner.py"),
-        "--config",
-        str(config_path),
-        "--questions",
-        ds["questions"],
-        "--chunks-file",
-        ds["chunks"],
-        "--index-dir",
-        ds["index_dir"],
-        "--output",
-        str(output_dir),
-        "--limit",
-        str(limit),
+        "--config", str(config_path),
+        "--questions", ds["questions"],
+        "--output", str(output_dir),
+        "--limit", str(limit),
     ]
     if verbose:
         cmd.append("--verbose")

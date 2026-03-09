@@ -18,7 +18,7 @@ from arag.core.llm import LLMClient
 from arag.tools.registry import ToolRegistry
 from multi_agent.m6.autonomous_agent import AutonomousAgent
 from multi_agent.m6.blackboard import Blackboard
-from multi_agent.m6.types import EntityEntry, EvidenceEntry, SubQuestionStatus
+from multi_agent.m6.types import EvidenceEntry, SubQuestionStatus
 
 logger = logging.getLogger(__name__)
 
@@ -61,31 +61,30 @@ class RetrieverAgent(AutonomousAgent):
         return len(observation["available_sub_questions"]) > 0
 
     async def act(self, observation: dict[str, Any], blackboard: Blackboard) -> int:
-        # Step 1: Get or claim a sub-question
         sq_dict = observation["claimed_sub_question"]
         if sq_dict is None:
             sq_dict = await self._try_claim(observation, blackboard)
             if sq_dict is None:
-                return 0  # Nothing to claim
+                return 0
 
         sq_id = sq_dict["id"]
         self._current_sq_id = sq_id
         entity_registry = observation["entity_registry"]
 
-        # Step 2: Resolve [answer_N] placeholders
         resolved_text = self._resolve_placeholders(sq_dict["text"], entity_registry)
 
-        # Step 3: Build enriched prompt
         original_question = observation.get("question", resolved_text)
+        blackboard_context = observation.get("blackboard_context", "No findings from other agents yet.")
+        knowledge_gaps = observation.get("knowledge_gaps", {}).get(sq_id, [])
+
         system_prompt = self._build_prompt(
             resolved_text,
-            sq_dict.get("known_entities", []),
-            sq_dict.get("search_hints", []),
             entity_registry,
             original_question=original_question,
+            blackboard_context=blackboard_context,
+            knowledge_gaps=knowledge_gaps,
         )
 
-        # Step 4: Run BaseAgent ReAct loop in executor (sync → async)
         agent = BaseAgent(
             llm_client=self.llm,
             tools=self.tools,
@@ -94,43 +93,30 @@ class RetrieverAgent(AutonomousAgent):
             max_token_budget=self.max_token_budget,
         )
 
-        loop = asyncio.get_event_loop()
+        loop = asyncio.get_running_loop()
         try:
             result = await loop.run_in_executor(None, agent.run, resolved_text)
         except Exception as exc:
             logger.error("%s: BaseAgent error for SQ-%d: %s", self.agent_id, sq_id, exc)
-            # Post empty evidence so critic can handle it
             await blackboard.post_evidence([], sq_id, f"Error: {exc}", self.agent_id)
             self._current_sq_id = None
             return 0
 
         answer = result.get("answer", "")
-        # Clean up LLM artifacts
-        if answer.startswith("finish("):
-            answer = re.sub(r"^finish\((.+?)\)$", r"\1", answer).strip("'\" ")
-        answer = re.sub(r"^\s*(final answer\s*:|answer\s*:)\s*", "", answer, flags=re.IGNORECASE)
-        answer = re.sub(r"^(the answer is|answer is)\s+", "", answer, flags=re.IGNORECASE)
-        answer = answer.strip().strip("\"'`")
-        answer = re.sub(r"\s*[\.,;:!?]+$", "", answer)  # trailing punctuation
+        answer = re.sub(r"<think>.*?</think>\s*", "", answer, flags=re.DOTALL)
+        answer = re.sub(r"\*\*(.+?)\*\*", r"\1", answer)
+        answer = re.sub(r"\*(.+?)\*", r"\1", answer)
+        answer = answer.split("\n")[0].strip()
+        answer = answer.strip().strip("\"'`*")
+        answer = re.sub(r"\s*[\.,;:!?]+$", "", answer)
         trajectory = result.get("trajectory", [])
         total_tokens = result.get("total_retrieved_tokens", 0)
 
-        # Step 5: Extract evidence from trajectory (read_chunk results)
         evidence_entries = self._extract_evidence(sq_id, trajectory)
-
-        # Step 6: Post evidence + answer
         await blackboard.post_evidence(evidence_entries, sq_id, answer, self.agent_id)
 
-        # Step 7: Post resolved entity
-        if answer and answer.lower() not in ("unknown", "error", ""):
-            entity = EntityEntry(
-                name=f"answer_{sq_id}",
-                value=answer,
-                source_evidence_id=f"ev_{sq_id}_0",
-            )
-            await blackboard.post_entity(entity)
-
-        # Step 8: Auto-verify if no critic
+        # Entities are only posted by verify_sub_question (critic or auto-verify),
+        # ensuring dependents only unblock after verification.
         if self.auto_verify and answer:
             await blackboard.verify_sub_question(sq_id, verified=True)
 
@@ -148,12 +134,16 @@ class RetrieverAgent(AutonomousAgent):
         observation: dict[str, Any],
         blackboard: Blackboard,
     ) -> dict[str, Any] | None:
-        """Try to claim a READY or NEEDS_RETRY sub-question."""
+        """Try to claim a READY or NEEDS_RETRY sub-question.
+
+        Priority: retries first, then by number of downstream dependents
+        (critical-path heuristic), then by ID.
+        """
         available = observation["available_sub_questions"]
-        # Prefer NEEDS_RETRY (these have priority for re-attempts)
         available.sort(
             key=lambda sq: (
                 0 if sq["status"] == SubQuestionStatus.NEEDS_RETRY.value else 1,
+                -sq.get("num_dependents", 0),
                 sq["id"],
             )
         )
@@ -174,30 +164,31 @@ class RetrieverAgent(AutonomousAgent):
     def _build_prompt(
         self,
         resolved_text: str,
-        known_entities: list[str],
-        search_hints: list[str],
         entity_registry: dict[str, str],
         original_question: str = "",
+        blackboard_context: str = "",
+        knowledge_gaps: list[dict] | None = None,
     ) -> str:
-        """Build system prompt with context enrichment."""
-        entities_str = ""
-        if known_entities:
-            entities_str = "Known entities: " + ", ".join(known_entities)
+        """Build system prompt with cross-agent context and retry feedback."""
+        context_parts = [blackboard_context] if blackboard_context else []
         if entity_registry:
-            resolved = [f"{k}={v}" for k, v in entity_registry.items()]
-            if entities_str:
-                entities_str += "\nResolved values: " + ", ".join(resolved)
-            else:
-                entities_str = "Resolved values: " + ", ".join(resolved)
+            resolved = [f"{k} = {v}" for k, v in entity_registry.items()]
+            context_parts.append("Resolved entities: " + ", ".join(resolved))
 
-        hints_str = ", ".join(search_hints) if search_hints else "None"
+        if knowledge_gaps:
+            gap_lines = ["Previous attempt feedback (use this to improve your search):"]
+            for gap in knowledge_gaps:
+                gap_lines.append(f"- {gap['description']}")
+                if gap.get("suggested_query"):
+                    gap_lines.append(f"  Try searching: {gap['suggested_query']}")
+            context_parts.append("\n".join(gap_lines))
+
+        full_context = "\n".join(context_parts) if context_parts else "No findings from other agents yet."
 
         return self._prompt_template.format(
             sub_question=resolved_text,
-            known_entities=entities_str or "None",
-            search_hints=hints_str,
-            max_loops=self.max_loops,
             original_question=original_question or resolved_text,
+            blackboard_context=full_context,
         )
 
     def _extract_evidence(self, sq_id: int, trajectory: list[dict]) -> list[EvidenceEntry]:

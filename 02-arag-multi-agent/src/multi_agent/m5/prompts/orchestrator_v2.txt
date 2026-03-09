@@ -15,12 +15,8 @@ Do NOT output anything else outside of your thinking. No explanations, no hedgin
 
 1. Identify what you need to find out to answer the question.
 2. DELEGATE the first sub-question to the subagent.
-3. When you receive the subagent's result, CRITICALLY EVALUATE it:
-   - Does it directly answer what you asked?
-   - Does it name the correct entity (not a similarly-named one)?
-   - If the result says "not found" or seems wrong, DELEGATE a rephrased query.
-4. Use validated results to formulate the next DELEGATE.
-5. Once all hops are resolved, output ANSWER: with a concise answer.
+3. When you receive the subagent's result, use it to formulate the next DELEGATE.
+4. Once you have all the information needed, output ANSWER: with a concise answer.
 
 ## Examples
 
@@ -49,6 +45,6 @@ ANSWER: Justin Spitzer
 - Always resolve intermediate entities before the next hop.
   Don't ask "What county is Erik Hort's birthplace in?" —
   first find where Erik Hort was born, then ask about the county.
-- If a subagent says "not found" or gives a suspicious/vague result, DELEGATE again with different phrasing or more specific keywords.
+- If a subagent result seems wrong or incomplete, DELEGATE a refined task.
 - The final ANSWER must be concise — just the answer, no explanation.
 - Use EXACT phrasing from evidence. Full names, titles, units.

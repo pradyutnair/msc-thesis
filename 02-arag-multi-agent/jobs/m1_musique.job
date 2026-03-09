@@ -1,9 +1,9 @@
 #!/bin/bash
 #SBATCH --job-name=m1_musique
-#SBATCH --partition=gpu_h100
+#SBATCH --partition=gpu_a100
 #SBATCH --time=24:00:00
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=12
+#SBATCH --cpus-per-task=8
 #SBATCH --gpus=1
 #SBATCH --mem=96G
 #SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/logs/%j_m1_musique.out
@@ -33,9 +33,6 @@ SERVED_NAME="Qwen3-30B-A3B"
 HOST="127.0.0.1"
 PORT="8000"
 RUN_OUT="/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/m1/musique"
-QUESTIONS="data/musique/questions.json"
-CHUNKS="data/musique/chunks.json"
-INDEX="data/musique/index_e5_base_v2"
 
 mkdir -p "$RUN_OUT"
 mkdir -p results/logs
@@ -48,7 +45,7 @@ cleanup() {
 }
 trap cleanup EXIT TERM INT
 
-echo "Starting vLLM server on H100..."
+echo "Starting vLLM server..."
 vllm serve "$MODEL_ID" \
   --served-model-name "$SERVED_NAME" \
   --host "$HOST" \
@@ -84,10 +81,8 @@ curl -fsS "$READY_URL" >/dev/null
 
 PYTHONPATH=src python scripts/multi_agent_runner.py \
   --config configs/m1_multi_agent.yaml \
-  --questions "$QUESTIONS" \
-  --chunks-file "$CHUNKS" \
-  --index-dir "$INDEX" \
+  --questions data/musique/questions.json \
   --output "$RUN_OUT" \
   --concurrent 3
 
-echo "Done. Results in $RUN_OUT"
+echo "M1 MuSiQue complete"

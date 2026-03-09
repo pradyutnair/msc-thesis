@@ -1,8 +1,8 @@
 """Base class for M6 autonomous agents.
 
-Each agent follows the observe → should_act → act cycle, triggered by the
-coordinator's tick loop. Agents are autonomous (decide *whether* to act)
-but not polling (coordinator triggers checks).
+Each agent follows the observe → should_act → act cycle in an independent
+async loop. Agents are fully autonomous: they decide *whether* and *when*
+to act based on blackboard state, running concurrently with other agents.
 """
 
 from __future__ import annotations
@@ -36,11 +36,10 @@ class AutonomousAgent(ABC):
         if not self.should_act(obs):
             return False
 
-        logger.debug("%s (%s) acting on tick %d", self.agent_id, self.agent_type,
+        logger.debug("%s (%s) acting (action %d)", self.agent_id, self.agent_type,
                      blackboard.current_tick)
         tokens = await self.act(obs, blackboard)
-        if tokens > 0:
-            await blackboard.add_tokens(tokens)
+        await blackboard.record_action(tokens)
         return True
 
     @abstractmethod

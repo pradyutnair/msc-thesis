@@ -33,7 +33,7 @@ class M6SubQuestion:
     claimed_by: str | None = None
     answer: str | None = None
     attempt_count: int = 0
-    max_attempts: int = 2
+    max_attempts: int = 3
 
 
 @dataclass

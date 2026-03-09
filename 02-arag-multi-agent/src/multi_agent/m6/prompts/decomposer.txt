@@ -66,6 +66,18 @@ Question: "What is the population of the city where Albert Einstein was born?"
 }
 ```
 
+Question: "What is the Till dom ensamma performer's birth date?"
+```json
+{
+  "question_type": "bridge",
+  "sub_questions": [
+    {"index": 0, "text": "Who is the performer of Till dom ensamma?", "search_hints": ["Till dom ensamma", "performer", "artist", "singer"], "known_entities": ["Till dom ensamma"], "unknown_entities": ["performer"], "depends_on": []},
+    {"index": 1, "text": "What is [answer_0]'s birth date?", "search_hints": ["birth date", "born"], "known_entities": [], "unknown_entities": ["birth date"], "depends_on": [0]}
+  ],
+  "dependency_edges": [[0, 1]]
+}
+```
+
 Question: "Who directed the film Jaws?"
 ```json
 {

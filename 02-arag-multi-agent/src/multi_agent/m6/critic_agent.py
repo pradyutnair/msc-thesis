@@ -50,6 +50,7 @@ class CriticAgent(AutonomousAgent):
         pending_sqs = observation["pending_sub_questions"]
         sq_evidence = observation["sub_question_evidence"]
         entity_registry = observation["entity_registry"]
+        verified_answers = observation.get("verified_answers", {})
 
         for sq_dict in pending_sqs:
             sq_id = sq_dict["id"]
@@ -57,7 +58,8 @@ class CriticAgent(AutonomousAgent):
             answer = sq_dict.get("answer", "")
 
             tokens = await self._verify_one(
-                sq_dict, evidence, answer, entity_registry, blackboard,
+                sq_dict, evidence, answer, entity_registry,
+                verified_answers, blackboard,
             )
             total_tokens += tokens
 
@@ -69,27 +71,36 @@ class CriticAgent(AutonomousAgent):
         evidence: list[dict[str, Any]],
         answer: str,
         entity_registry: dict[str, str],
+        verified_answers: dict[int, dict[str, str]],
         blackboard: Blackboard,
     ) -> int:
         """Verify one sub-question's evidence and answer."""
         sq_id = sq_dict["id"]
 
-        # Build evidence text
         evidence_text = ""
         if evidence:
             parts = []
             for ev in evidence:
-                parts.append(f"[{ev['source_chunk_id']}] {ev['content'][:500]}")
+                parts.append(f"[{ev['source_chunk_id']}] {ev['content']}")
             evidence_text = "\n\n".join(parts)
         else:
             evidence_text = "(No evidence found)"
 
-        # Build prompt
+        # Build verified context for cross-SQ consistency checking
+        if verified_answers:
+            v_lines = []
+            for v_id, v_info in verified_answers.items():
+                v_lines.append(f"- SQ-{v_id}: \"{v_info['text']}\" → {v_info['answer']}")
+            verified_context = "\n".join(v_lines)
+        else:
+            verified_context = "(No verified answers yet)"
+
         prompt = self._prompt_template.format(
             sub_question=sq_dict["text"],
             answer=answer or "(no answer)",
             evidence=evidence_text,
             entity_registry=json.dumps(entity_registry, indent=2) if entity_registry else "{}",
+            verified_context=verified_context,
         )
         messages = [{"role": "user", "content": prompt}]
 
@@ -97,8 +108,8 @@ class CriticAgent(AutonomousAgent):
             response = self.llm.chat(messages=messages, tools=None, temperature=0.0)
         except Exception as exc:
             logger.error("Critic LLM error for SQ-%d: %s", sq_id, exc)
-            # Default to pass on error to avoid blocking
-            await blackboard.verify_sub_question(sq_id, verified=True)
+            # On error, retry rather than blindly passing
+            await blackboard.verify_sub_question(sq_id, verified=False)
             return 0
 
         raw = response["message"].get("content", "")
@@ -141,10 +152,10 @@ class CriticAgent(AutonomousAgent):
                 await blackboard.verify_sub_question(sq_id, verified=False)
 
         else:
-            # Unknown verdict → default pass
-            logger.warning("Critic unknown verdict '%s' for SQ-%d, defaulting to PASS",
+            # Unknown verdict → retry rather than blindly passing
+            logger.warning("Critic unknown verdict '%s' for SQ-%d, defaulting to NEEDS_RETRY",
                            verdict["verdict"], sq_id)
-            await blackboard.verify_sub_question(sq_id, verified=True)
+            await blackboard.verify_sub_question(sq_id, verified=False)
 
         return tokens
 

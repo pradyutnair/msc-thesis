@@ -139,12 +139,29 @@ class SynthesizerAgent(AutonomousAgent):
     def should_act(self, observation: dict[str, Any]) -> bool:
         if self._acted:
             return False
-        # Act when all sub-questions are terminal (VERIFIED or FAILED)
         sqs = observation.get("sub_questions", [])
         if not sqs:
             return False
+
         terminal_statuses = {SubQuestionStatus.VERIFIED.value, SubQuestionStatus.FAILED.value}
-        return all(sq["status"] in terminal_statuses for sq in sqs)
+        n_total = len(sqs)
+        n_terminal = sum(1 for sq in sqs if sq["status"] in terminal_statuses)
+        n_verified = sum(1 for sq in sqs if sq["status"] == SubQuestionStatus.VERIFIED.value)
+
+        # Case 1: All sub-questions are terminal
+        if n_terminal == n_total:
+            return True
+
+        # Case 2: Partial synthesis — at least N-1 terminal AND majority verified
+        # This handles cases where one SQ is stuck but we have enough to synthesize
+        if n_total >= 2 and n_terminal >= n_total - 1 and n_verified >= (n_total + 1) // 2:
+            logger.info(
+                "Synthesizer: partial synthesis (%d/%d terminal, %d verified)",
+                n_terminal, n_total, n_verified,
+            )
+            return True
+
+        return False
 
     async def act(self, observation: dict[str, Any], blackboard: Blackboard) -> int:
         self._acted = True
@@ -153,10 +170,8 @@ class SynthesizerAgent(AutonomousAgent):
         verified_evidence = observation["verified_evidence"]
         entity_registry = observation["entity_registry"]
 
-        # Build evidence blocks per sub-question
         evidence_blocks = self._build_evidence_blocks(sub_questions, verified_evidence, entity_registry)
 
-        # Synthesis LLM call
         prompt = self._prompt_template.format(
             question=question,
             evidence_blocks=evidence_blocks,
@@ -171,30 +186,28 @@ class SynthesizerAgent(AutonomousAgent):
             total_tokens += int(response.get("cost", 0.0) * 1_000_000)
         except Exception as exc:
             logger.error("Synthesizer LLM error: %s", exc)
-            # Fallback: use entity registry
-            answer = self._salvage_from_entities(entity_registry, sub_questions)
+            answer = await blackboard.salvage_answer()
             answer = _normalize_answer(answer, question)
-            await blackboard.terminate(f"SYNTHESIZED: {answer}")
+            await blackboard.set_final_answer(answer)
+            await blackboard.terminate("SYNTHESIZED_FALLBACK")
             return 0
 
         answer = self._extract_answer(raw)
 
-        # Fallback if extraction returned empty or refusal
         if not answer or _is_refusal(answer):
-            answer = self._salvage_from_entities(entity_registry, sub_questions)
+            answer = await blackboard.salvage_answer()
             logger.info("Synthesizer: extraction empty/refusal, salvaged: '%s'", answer[:80])
 
-        # Apply full normalization pipeline
         answer = _normalize_answer(answer, question)
 
-        # Optional consistency check
         if self.enable_consistency_check and self._consistency_template and answer:
             answer, cons_tokens = await self._consistency_check(
                 question, answer, evidence_blocks,
             )
             total_tokens += cons_tokens
 
-        await blackboard.terminate(f"SYNTHESIZED: {answer}")
+        await blackboard.set_final_answer(answer)
+        await blackboard.terminate("SYNTHESIZED")
         logger.info("Synthesizer: '%s'", answer[:80])
 
         return total_tokens
@@ -253,51 +266,6 @@ class SynthesizerAgent(AutonomousAgent):
         # Fallback: last non-empty line
         lines = [line.strip() for line in raw.strip().split("\n") if line.strip()]
         return lines[-1] if lines else raw.strip()
-
-    @staticmethod
-    def _salvage_from_entities(
-        entity_registry: dict[str, str],
-        sub_questions: list[dict[str, Any]],
-    ) -> str:
-        """Fallback: return the best available answer from entities or sub-questions."""
-        if not sub_questions:
-            return ""
-
-        # Strategy 1: Entity registry — prefer last (highest-id) sub-question
-        if entity_registry:
-            max_sq_id = max(sq["id"] for sq in sub_questions)
-            key = f"answer_{max_sq_id}"
-            val = entity_registry.get(key)
-            if val and val.lower() not in ("unknown", "none", "error", ""):
-                return val
-            # Try any entity that isn't garbage
-            for v in reversed(list(entity_registry.values())):
-                if v and v.lower() not in ("unknown", "none", "error", ""):
-                    return v
-
-        # Strategy 2: Sub-question answers (even unverified)
-        # Prefer verified, then evidence_found, ordered by highest ID
-        for status_pref in ("verified", "evidence_found", "claimed"):
-            candidates = [
-                sq for sq in sub_questions
-                if sq.get("status") == status_pref and sq.get("answer")
-                and sq["answer"].lower() not in ("unknown", "none", "error", "")
-            ]
-            if candidates:
-                best = max(candidates, key=lambda sq: sq["id"])
-                return best["answer"]
-
-        # Strategy 3: Any non-empty answer at all
-        for sq in sorted(sub_questions, key=lambda sq: sq["id"], reverse=True):
-            ans = sq.get("answer", "")
-            if ans and ans.lower() not in ("unknown", "none", "error", ""):
-                return ans
-
-        # Last resort: first entity value (might be an intermediate answer)
-        if entity_registry:
-            return next(iter(entity_registry.values()))
-
-        return ""
 
     async def _consistency_check(
         self,
