@@ -1,0 +1,86 @@
+#!/bin/bash
+#SBATCH --job-name=m6v13l_gen
+#SBATCH --partition=gpu_h100
+#SBATCH --time=01:30:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/jobs/output/%j_m6v13l_1000_gen_%a.log
+#SBATCH --array=0-14
+
+# 15 tasks: 3 datasets × 5 shards of 200q each
+# Array 0-4:  hotpotqa  shards 0-4
+# Array 5-9:  2wiki     shards 0-4
+# Array 10-14: musique  shards 0-4
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="Qwen3-8B"
+
+MODEL_ID="Qwen/Qwen3-8B"
+SERVED_NAME="Qwen3-8B"
+
+# Map array task to dataset + shard
+DATASETS=(hotpotqa hotpotqa hotpotqa hotpotqa hotpotqa 2wiki 2wiki 2wiki 2wiki 2wiki musique musique musique musique musique)
+OFFSETS=(0 200 400 600 800 0 200 400 600 800 0 200 400 600 800)
+
+DATASET="${DATASETS[$SLURM_ARRAY_TASK_ID]}"
+OFFSET="${OFFSETS[$SLURM_ARRAY_TASK_ID]}"
+SHARD=$((SLURM_ARRAY_TASK_ID % 5))
+LIMIT=200
+
+RUN_OUT="results/m6v13l_1000/${DATASET}/shard_${SHARD}"
+mkdir -p "$RUN_OUT" jobs/output
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+echo "Starting vLLM server on H100..."
+echo "Dataset: $DATASET, Shard: $SHARD, Offset: $OFFSET, Limit: $LIMIT"
+python -m vllm.entrypoints.openai.api_server \
+  --model "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port 8000 \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.90 \
+  --max-num-seqs 256 \
+  --enable-prefix-caching \
+  --enable-auto-tool-choice --tool-call-parser hermes \
+  --trust-remote-code --generation-config vllm &
+VLLM_PID=$!
+
+for i in $(seq 1 300); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  STATUS="$(python -c "
+import json, urllib.request
+try:
+    d=json.load(urllib.request.urlopen('http://127.0.0.1:8000/v1/models', timeout=2))
+    print('ok' if any('$SERVED_NAME' in m.get('id','') for m in d.get('data',[])) else 'wait')
+except Exception:
+    print('wait')
+")"
+  if [[ "$STATUS" == "ok" ]]; then echo "vLLM ready"; break; fi
+  sleep 3
+done
+
+echo "=== Running M6v13l 1000q Generation ==="
+python -u scripts/m6_runner.py \
+  --config configs/m6v13_blackboard.yaml \
+  --dataset "$DATASET" \
+  --output "$RUN_OUT" \
+  --offset "$OFFSET" \
+  --limit "$LIMIT" \
+  --workers 50
+
+echo ""
+echo "=== Offline Eval (shard) ==="
+python -u scripts/eval_offline.py "$RUN_OUT/predictions.jsonl"
+
+echo "M6v13l gen $DATASET shard $SHARD complete"

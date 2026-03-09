@@ -1,0 +1,114 @@
+#!/bin/bash
+#SBATCH --job-name=m6v13l_eval
+#SBATCH --partition=gpu_a100
+#SBATCH --time=01:30:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=2
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/jobs/output/%j_m6v13l_1000_eval.log
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+
+# ── Step 1: Merge shards ──
+echo "=== Merging shards ==="
+for DATASET in hotpotqa 2wiki musique; do
+  BASE="results/m6v13l_1000/$DATASET"
+  MERGED="$BASE/predictions.jsonl"
+  > "$MERGED"  # Clear merged file
+  for SHARD in 0 1 2 3 4; do
+    SHARD_FILE="$BASE/shard_${SHARD}/predictions.jsonl"
+    if [ -f "$SHARD_FILE" ]; then
+      N=$(wc -l < "$SHARD_FILE")
+      echo "  $DATASET shard $SHARD: $N predictions"
+      cat "$SHARD_FILE" >> "$MERGED"
+    else
+      echo "  WARNING: $SHARD_FILE not found!"
+    fi
+  done
+  TOTAL=$(wc -l < "$MERGED")
+  echo "  $DATASET total: $TOTAL predictions"
+done
+
+# ── Step 2: Offline eval (NormEM/F1, instant) ──
+echo ""
+echo "=== Offline Eval (NormEM/F1) ==="
+for DATASET in hotpotqa 2wiki musique; do
+  python -u scripts/eval_offline.py "results/m6v13l_1000/$DATASET/predictions.jsonl"
+done
+
+# ── Step 3: DeepSeek R1 LLM Judge ──
+MODEL_ID="deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+SERVED_NAME="DeepSeek-R1-32B"
+
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="$SERVED_NAME"
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+echo ""
+echo "Starting DeepSeek-R1-32B vLLM server (2 GPUs, TP=2)..."
+python -m vllm.entrypoints.openai.api_server \
+  --model "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port 8000 \
+  --dtype auto --max-model-len 8192 --gpu-memory-utilization 0.95 \
+  --tensor-parallel-size 2 \
+  --max-num-seqs 64 \
+  --enable-prefix-caching \
+  --trust-remote-code &
+VLLM_PID=$!
+
+for i in $(seq 1 300); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  STATUS="$(python -c "
+import json, urllib.request
+try:
+    d=json.load(urllib.request.urlopen('http://127.0.0.1:8000/v1/models', timeout=2))
+    print('ok' if any('$SERVED_NAME' in m.get('id','') for m in d.get('data',[])) else 'wait')
+except Exception:
+    print('wait')
+")"
+  if [[ "$STATUS" == "ok" ]]; then echo "DeepSeek-R1 ready"; break; fi
+  sleep 3
+done
+
+echo ""
+echo "=== DeepSeek-R1 LLM Judge Evaluation ==="
+for DATASET in hotpotqa 2wiki musique; do
+  PRED="results/m6v13l_1000/$DATASET/predictions.jsonl"
+  if [ ! -f "$PRED" ]; then
+    echo "SKIP: $PRED not found"
+    continue
+  fi
+  N=$(wc -l < "$PRED")
+  echo ""
+  echo "--- Evaluating $DATASET ($N predictions) ---"
+  python -u scripts/eval.py \
+    --predictions "$PRED" \
+    --workers 40 \
+    --output "results/m6v13l_1000/$DATASET"
+done
+
+echo ""
+echo "=== M6 Analysis ==="
+for DATASET in hotpotqa 2wiki musique; do
+  python -u scripts/analyze_m6.py --results "results/m6v13l_1000/$DATASET" 2>/dev/null || true
+done
+
+echo ""
+echo "=== Final Summary ==="
+python -u scripts/eval_offline.py \
+  results/m6v13l_1000/hotpotqa/predictions.jsonl \
+  results/m6v13l_1000/2wiki/predictions.jsonl \
+  results/m6v13l_1000/musique/predictions.jsonl
+
+echo "M6v13l 1000q evaluation complete"
