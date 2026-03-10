@@ -9,23 +9,15 @@ You are verifying whether the proposed answer to a sub-question is CORRECT.
 ## Proposed Answer (if any)
 {proposed_answer}
 
-## STEP 1: Answer Format Check (do this FIRST)
-Reject immediately (→ CONTINUE) if ANY of these are true:
-- The answer is more than 8 words (answers must be concise entities, not sentences)
-- The answer contains "not mentioned", "does not contain", "no evidence", "no information", "not found", "never", "unfortunately"
-- The answer is a full explanation or sentence describing why something cannot be found
-- The answer starts with "The evidence", "The provided", "Based on", "According to"
-
-## STEP 2: Evidence Verification (only if format is OK)
+## Verification Checklist
 1. Does the evidence DIRECTLY mention the proposed answer entity?
-2. Is this the RIGHT entity? Could there be a different entity with a similar name? (e.g., father vs son, city vs county, country vs city, different people with same surname)
-3. Does the evidence confirm the specific RELATIONSHIP asked about? (e.g., if asking "who directed X", does evidence say this person directed X?)
-4. Does the answer type match the question type? (e.g., "where was X born" should be a city, not a country; "when" should be a date, not an event)
+2. Is this the RIGHT entity? Could there be a different entity with a similar name that is the actual answer?
+3. Does the evidence confirm the specific RELATIONSHIP asked about in the sub-question?
 
 ## Decision
-- STOP if: the answer passes both format AND evidence checks.
-- CONTINUE if: format check fails, evidence is about a different entity, answer is unsupported, or answer type is wrong.
+- STOP if: the evidence directly confirms the proposed answer is correct for this specific sub-question.
+- CONTINUE if: the evidence is about a different entity, the answer is unsupported, or there is ambiguity that needs resolving.
 
 Respond with EXACTLY two lines:
 Line 1: STOP or CONTINUE
-Line 2: If STOP, the concise answer (entity/name/date only). If CONTINUE, what specifically needs to be fixed or searched.
+Line 2: If STOP, the concise answer (entity/name/date only). If CONTINUE, what specifically needs to be verified or searched.

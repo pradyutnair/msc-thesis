@@ -78,9 +78,16 @@ class WorkerAgent(AutonomousAgent):
         original_question = observation.get("question", resolved_text)
         blackboard_context = observation.get("blackboard_context", "")
         knowledge_gaps = observation.get("knowledge_gaps", {}).get(sq_id, [])
+        search_queries = observation.get("search_queries", [])
+        warm_start_context = observation.get("warm_start_context", "")
+
+        # Resolve [answer_N] placeholders in search queries
+        resolved_queries = [self._resolve_placeholders(q, entity_registry) for q in search_queries]
 
         loop = asyncio.get_running_loop()
-        answer, evidence, tokens = await loop.run_in_executor(
+
+        # Run _solve in executor with periodic heartbeat to prevent IDLE termination
+        solve_future = loop.run_in_executor(
             None,
             self._solve,
             sq_id,
@@ -89,13 +96,38 @@ class WorkerAgent(AutonomousAgent):
             blackboard_context,
             knowledge_gaps,
             entity_registry,
+            resolved_queries,
+            warm_start_context,
         )
+
+        async def _heartbeat():
+            while True:
+                await asyncio.sleep(30)
+                await blackboard.record_action(0)
+
+        heartbeat_task = asyncio.create_task(_heartbeat())
+        try:
+            answer, evidence, tokens = await solve_future
+        finally:
+            heartbeat_task.cancel()
 
         answer = self._clean_answer(answer)
 
+        # Targeted verbose/refusal cleanup: only for long answers with clear refusal text
+        if len(answer) > 60:
+            answer_lower = answer.lower()
+            _verbose_patterns = [
+                "the evidence does not", "does not mention", "not explicitly mentioned",
+                "no evidence confirms", "not specified in", "the provided documents",
+                "there is no ", "cannot be determined", "not found in the",
+            ]
+            if any(p in answer_lower for p in _verbose_patterns):
+                logger.info("%s: SQ-%d verbose/refusal answer cleared: '%s'", self.agent_id, sq_id, answer[:60])
+                answer = ""
+
         await blackboard.post_evidence(evidence, sq_id, answer, self.agent_id)
 
-        is_usable = bool(answer) and not self._is_refusal(answer)
+        is_usable = bool(answer) and answer.lower() not in ("unknown", "error", "")
         await blackboard.verify_sub_question(sq_id, verified=is_usable)
 
         logger.info(
@@ -114,6 +146,8 @@ class WorkerAgent(AutonomousAgent):
         blackboard_context: str,
         knowledge_gaps: list[dict],
         entity_registry: dict[str, str],
+        search_queries: list[str] | None = None,
+        warm_start_context: str = "",
     ) -> tuple[str, list[EvidenceEntry], int]:
         """Plan → execute → verify loop. Runs in a thread executor."""
         context = AgentContext()
@@ -123,6 +157,8 @@ class WorkerAgent(AutonomousAgent):
         system_prompt = self._build_system_prompt(
             sq_text, original_question, blackboard_context,
             knowledge_gaps, entity_registry,
+            search_queries=search_queries or [],
+            warm_start_context=warm_start_context,
         )
         messages: list[dict[str, Any]] = [
             {"role": "system", "content": system_prompt},
@@ -165,26 +201,9 @@ class WorkerAgent(AutonomousAgent):
                 # LLM stopped calling tools — proposed answer in content
                 answer = assistant_msg.get("content", "")
 
-            # ── VERIFY: only when LLM proposes an answer (stops calling tools) ──
-            # Verifying after every read_chunk wastes LLM calls and search budget.
+            # When LLM stops calling tools, accept its answer
             if not tool_calls:
-                conclusion, v_answer, reason, v_tokens = self._verify(
-                    sq_text, memory, answer,
-                )
-                total_tokens += v_tokens
-
-                if conclusion == "STOP":
-                    answer = v_answer or answer
-                    break
-
-                # Verifier says CONTINUE — push agent to search more
-                messages.append({
-                    "role": "user",
-                    "content": (
-                        f"Your answer is not sufficiently supported. "
-                        f"{reason} Search for more evidence."
-                    ),
-                })
+                break
 
         if not answer or answer.lower() in ("unknown", "error", ""):
             answer = self._fallback_answer_from_memory(sq_text, memory)
@@ -260,6 +279,8 @@ class WorkerAgent(AutonomousAgent):
         blackboard_context: str,
         knowledge_gaps: list[dict],
         entity_registry: dict[str, str],
+        search_queries: list[str] | None = None,
+        warm_start_context: str = "",
     ) -> str:
         context_parts = [blackboard_context] if blackboard_context else []
         if entity_registry:
@@ -277,74 +298,33 @@ class WorkerAgent(AutonomousAgent):
             "\n".join(context_parts) if context_parts
             else "No findings from other agents yet."
         )
+
+        # Format search queries
+        if search_queries:
+            queries_str = "\n".join(f"- {q}" for q in search_queries)
+        else:
+            queries_str = "(no pre-planned queries — use your own search strategy)"
+
+        # Format warm-start context
+        warm_str = warm_start_context if warm_start_context else "No warm-start context available."
+
         return self._plan_template.format(
             sub_question=sq_text,
             original_question=original_question or sq_text,
             blackboard_context=full_context,
+            search_queries=queries_str,
+            warm_start_context=warm_str,
         )
 
-    @staticmethod
-    def _is_refusal(text: str) -> bool:
-        """Check if answer is a refusal, explanation, or non-entity sentence."""
-        lowered = (text or "").strip().lower()
-        if not lowered or lowered in ("none", "n/a", "unknown", "null", "error", "never"):
-            return True
-
-        _CONTAINS_PATTERNS = [
-            "cannot be determined", "insufficient information", "not mentioned",
-            "no evidence", "unable to determine", "not enough information",
-            "cannot determine", "no information", "not found in the provided",
-            "the question is invalid", "not applicable", "no answer",
-            "i don't know", "i cannot", "does not contain", "does not mention",
-            "is not mentioned", "was never", "were never",
-            "provided documents do not", "provided evidence do",
-            "there is no", "no data", "no record",
-        ]
-        if any(p in lowered for p in _CONTAINS_PATTERNS):
-            return True
-
-        _STARTS_PATTERNS = [
-            "your answer is not", "the evidence does not", "the evidence is",
-            "not found", "i could not", "based on the",
-            "unfortunately", "the provided",
-        ]
-        if any(lowered.startswith(p) for p in _STARTS_PATTERNS):
-            return True
-
-        return False
 
     def _clean_answer(self, answer: str) -> str:
         answer = re.sub(r"<think>.*?</think>\s*", "", answer, flags=re.DOTALL)
+        answer = re.sub(r"<think>.*", "", answer, flags=re.DOTALL)  # unclosed tags
         answer = re.sub(r"\*\*(.+?)\*\*", r"\1", answer)
         answer = re.sub(r"\*(.+?)\*", r"\1", answer)
         answer = answer.split("\n")[0].strip()
         answer = answer.strip().strip("\"'`*")
-
-        answer = re.sub(
-            r"^(the answer is|answer is|based on.*?,|according to.*?,|therefore,?|thus,?|so,?)\s+",
-            "", answer, flags=re.IGNORECASE,
-        )
-
-        if self._is_refusal(answer):
-            return ""
-
-        answer = answer.strip().strip("\"'`*")
         answer = re.sub(r"\s*[\.,;:!?]+$", "", answer)
-
-        word_count = len(answer.split())
-        if word_count > 10:
-            m = re.match(
-                r"^(.+?)\s+(?:is|was|were|are|has|have|had)\s+",
-                answer, re.IGNORECASE,
-            )
-            if m:
-                subject = m.group(1).strip()
-                rest = answer[m.end():].strip().strip("\"'`.,")
-                if 2 < len(rest) < 60 and len(rest.split()) < 8:
-                    answer = rest
-                elif 2 < len(subject) < 60 and len(subject.split()) < 6:
-                    answer = subject
-
         return answer
 
     def _fallback_answer_from_memory(self, sq_text: str, memory: Memory) -> str:

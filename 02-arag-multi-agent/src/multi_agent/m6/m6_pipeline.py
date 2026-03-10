@@ -12,6 +12,7 @@ Architecture (AgentFlow-inspired):
 
 from __future__ import annotations
 
+import asyncio
 import logging
 import time
 from typing import Any
@@ -85,6 +86,11 @@ class M6Pipeline:
         # Create blackboard
         blackboard = Blackboard(question=question, token_budget=self.token_budget)
 
+        # Warm-start: keyword search on full question for initial context
+        warm_ctx = await self._warm_start_search(question)
+        if warm_ctx:
+            blackboard.warm_start_context = warm_ctx
+
         # Create agents
         agents = self._create_agents()
 
@@ -114,6 +120,45 @@ class M6Pipeline:
         snapshot = await blackboard.get_snapshot()
         result = self._build_result(question, answer, snapshot, elapsed)
         return result
+
+    async def _warm_start_search(self, question: str) -> str:
+        """Run keyword_search on the full question for initial context."""
+        try:
+            keyword_tool = self.tools.get("keyword_search")
+            if keyword_tool is None:
+                return ""
+            # Direct keyword matching on the tool's chunks — bypass execute()
+            # which requires an AgentContext we don't have here.
+            keywords = [w for w in question.replace("?", "").split() if len(w) > 2]
+            if not keywords or not hasattr(keyword_tool, "chunks"):
+                return ""
+
+            def _search():
+                scored = []
+                for chunk in keyword_tool.chunks:
+                    text_lower = chunk["text"].lower()
+                    score = sum(
+                        text_lower.count(kw.lower()) * len(kw)
+                        for kw in keywords
+                    )
+                    if score > 0:
+                        scored.append((score, chunk))
+                scored.sort(key=lambda x: -x[0])
+                return scored[:5]
+
+            loop = asyncio.get_running_loop()
+            top = await loop.run_in_executor(None, _search)
+            if not top:
+                return ""
+            lines = ["Top chunks from initial question search:"]
+            for _, chunk in top:
+                cid = chunk.get("id", "?")
+                text = chunk.get("text", "")[:500]
+                lines.append(f"[{cid}] {text}")
+            return "\n".join(lines)
+        except Exception as exc:
+            logger.warning("Warm-start search failed: %s", exc)
+            return ""
 
     def _create_agents(self) -> list:
         """Create the agent list: 1 PlannerAgent + N WorkerAgents."""

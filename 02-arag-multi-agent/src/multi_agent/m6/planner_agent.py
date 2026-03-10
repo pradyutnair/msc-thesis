@@ -12,6 +12,8 @@ making the planner genuinely agentic rather than a one-shot call.
 from __future__ import annotations
 
 import json
+import asyncio
+import functools
 import logging
 import re
 from pathlib import Path
@@ -41,9 +43,18 @@ def _infer_expected_answer_type(question: str) -> str:
         return "location"
     if q.startswith("who "):
         return "person"
-    if q.startswith("how many ") or q.startswith("how much "):
+    if "how many" in q or "how much" in q or q.startswith("what age "):
         return "number"
     return "entity"
+
+
+_DIGIT_TO_WORD = {
+    "0": "zero", "1": "one", "2": "two", "3": "three", "4": "four",
+    "5": "five", "6": "six", "7": "seven", "8": "eight", "9": "nine",
+    "10": "ten", "11": "eleven", "12": "twelve", "13": "thirteen",
+    "14": "fourteen", "15": "fifteen", "16": "sixteen", "17": "seventeen",
+    "18": "eighteen", "19": "nineteen", "20": "twenty",
+}
 
 
 def _normalize_answer(answer: str, question: str) -> str:
@@ -60,6 +71,10 @@ def _normalize_answer(answer: str, question: str) -> str:
         if lowered.startswith("no"):
             return "no"
 
+    # Convert digit-only answers to words for "how many" questions
+    if expected_type == "number" and text in _DIGIT_TO_WORD:
+        text = _DIGIT_TO_WORD[text]
+
     for pattern in [
         r"^(.*?)\s+was\s+born\s+first\.?$",
         r"^(.*?)\s+was\s+(?:produced|released|published|created|formed|founded)\s+first\.?$",
@@ -73,9 +88,16 @@ def _normalize_answer(answer: str, question: str) -> str:
             text = m.group(1).strip()
             break
 
-    text = re.sub(r"\s*\([^)]*\)\s*$", "", text)
+    # Strip parenthetical annotations: "Egremont (market town)" → "Egremont"
+    text = re.sub(r"\s*\([^)]*\)\s*", " ", text).strip()
     text = re.sub(r"\s*[\.,;:!?]+$", "", text)
     text = re.sub(r"\s+", " ", text).strip()
+
+    # Strip trailing noise words from comparison answers
+    text = re.sub(
+        r"\s+(?:theme|genre|style|type|form|category)$",
+        "", text, flags=re.IGNORECASE,
+    )
 
     if len(text) > 60:
         m = re.match(r"^(.{3,50}?)[.,;]", text)
@@ -138,6 +160,13 @@ class PlannerAgent(AutonomousAgent):
         c_path = Path(consistency_prompt_path) if consistency_prompt_path else _CONSISTENCY_PROMPT_PATH
         self._consistency_template = c_path.read_text(encoding="utf-8") if c_path.exists() else None
 
+    async def _async_chat(self, **kwargs):
+        """Run synchronous llm.chat in executor to avoid blocking event loop."""
+        loop = asyncio.get_running_loop()
+        return await loop.run_in_executor(
+            None, functools.partial(self.llm.chat, **kwargs),
+        )
+
     async def observe(self, blackboard: Blackboard) -> dict[str, Any]:
         if self._phase == "decompose":
             return await blackboard.read_for_decomposer()
@@ -175,19 +204,9 @@ class PlannerAgent(AutonomousAgent):
                 self._phase = "synthesize"
                 return True
 
-            # Partial synthesis: only for comparison/independent questions.
-            # Bridge questions MUST wait for all SQs — the last hop IS the answer.
-            is_bridge = self._question_type == "bridge" or any(
-                sq.get("dependencies") for sq in sqs
-            )
-            if not is_bridge and n_total >= 2 and n_terminal >= n_total - 1 and n_verified >= (n_total + 1) // 2:
-                logger.info(
-                    "Planner: partial synthesis (%d/%d terminal, %d verified)",
-                    n_terminal, n_total, n_verified,
-                )
-                self._phase = "synthesize"
-                return True
-
+            # Wait for ALL sub-questions to complete before synthesizing.
+            # Partial synthesis was removed — it caused correctness issues
+            # (e.g., "Are both X and Y Z?" needs all answers, not just one).
             return False
 
         if self._phase == "synthesize":
@@ -202,6 +221,10 @@ class PlannerAgent(AutonomousAgent):
             return tokens
 
         if self._phase == "synthesize":
+            # Re-observe: should_act may have transitioned from monitor,
+            # but the observation was fetched with read_for_decomposer
+            # which lacks verified_evidence needed for synthesis.
+            observation = await blackboard.read_for_synthesizer()
             tokens = await self._synthesize(observation, blackboard)
             self._phase = "done"
             return tokens
@@ -228,7 +251,7 @@ class PlannerAgent(AutonomousAgent):
 
         total_tokens = 0
         for attempt in range(self.max_parse_retries):
-            response = self.llm.chat(messages=messages, tools=None, temperature=0.0)
+            response = await self._async_chat(messages=messages, tools=None, temperature=0.0)
             total_tokens += int(response.get("cost", 0.0) * 1_000_000)
             raw = response["message"].get("content", "")
 
@@ -242,6 +265,7 @@ class PlannerAgent(AutonomousAgent):
                 await blackboard.reset_search_plan(sub_questions, preserve_verified=True)
             else:
                 await blackboard.set_search_plan(sub_questions)
+                blackboard.expected_answer = getattr(self, "_expected_answer", "")
 
             logger.info(
                 "Planner: %sdecomposed '%s' → %d sub-questions",
@@ -293,6 +317,7 @@ Question: {question}"""
 
         data = json.loads(raw_clean)
         self._question_type = data.get("question_type", "unknown")
+        self._expected_answer = data.get("expected_answer", "")
         sub_questions: list[M6SubQuestion] = []
         for sq_data in data.get("sub_questions", []):
             sq = M6SubQuestion(
@@ -302,6 +327,7 @@ Question: {question}"""
                 known_entities=list(sq_data.get("known_entities", [])),
                 unknown_entities=list(sq_data.get("unknown_entities", [])),
                 search_hints=list(sq_data.get("search_hints", [])),
+                search_queries=list(sq_data.get("search_queries", [])),
             )
             sub_questions.append(sq)
 
@@ -366,17 +392,31 @@ Question: {question}"""
 
         evidence_blocks = self._build_evidence_blocks(sub_questions, verified_evidence, entity_registry)
         entity_str = "\n".join(f"- {k} = {v}" for k, v in entity_registry.items()) if entity_registry else "None"
+        expected_answer = getattr(blackboard, "expected_answer", "") or ""
 
-        prompt = self._synthesize_template.format(
-            question=question,
-            evidence_blocks=evidence_blocks,
-            entity_registry=entity_str,
-        )
-        messages = [{"role": "user", "content": prompt}]
+        # Simple reasoning prompt — no template, no overrides. Planner reasons with thinking ON.
+        prompt_parts = [
+            f"Question: {question}",
+            "",
+            f"Sub-question answers:\n{evidence_blocks}",
+            "",
+            f"Entity registry (authoritative worker answers):\n{entity_str}",
+        ]
+        if expected_answer:
+            prompt_parts.append(f"\nThe answer should be: {expected_answer}")
+        prompt_parts.append("""
+The entity registry contains verified answers from workers who searched the knowledge base.
+Trust these answers — workers already verified them against retrieved evidence.
+If evidence sections show "(no evidence)", the worker found the answer in initial context and confirmed it.
+
+Using the sub-question answers and entity registry, answer the original question.
+Reply with ONLY the final answer — a short entity, name, number, date, or yes/no. Nothing else.""")
+
+        messages = [{"role": "user", "content": "\n".join(prompt_parts)}]
 
         total_tokens = 0
         try:
-            response = self.llm.chat(messages=messages, tools=None, temperature=0.0)
+            response = await self._async_chat(messages=messages, tools=None, temperature=0.0)
             raw = response["message"].get("content", "")
             total_tokens += int(response.get("cost", 0.0) * 1_000_000)
         except Exception as exc:
@@ -394,25 +434,176 @@ Question: {question}"""
 
         answer = _normalize_answer(answer, question)
 
-        # ── Bridge answer correction ──
-        # If the synthesizer returned an intermediate entity instead of the
-        # final-hop answer, correct it. This is the #1 failure mode on MuSiQue.
-        is_bridge = self._question_type == "bridge" or any(
-            sq.get("dependencies") for sq in sub_questions
-        )
-        if is_bridge and answer:
-            answer = self._correct_bridge_answer(
-                answer, question, sub_questions, entity_registry,
-            )
-
-        if self.enable_consistency_check and self._consistency_template and answer:
-            answer, cons_tokens = await self._consistency_check(question, answer, evidence_blocks)
-            total_tokens += cons_tokens
-
         await blackboard.set_final_answer(answer)
         await blackboard.terminate("SYNTHESIZED")
         logger.info("Planner: final answer '%s'", answer[:80])
         return total_tokens
+
+    def _correct_comparison_answer(
+        self,
+        answer: str,
+        question: str,
+        sub_questions: list[dict[str, Any]],
+        entity_registry: dict[str, str],
+    ) -> str:
+        """Programmatic fallback for comparison questions.
+
+        Handles 3 patterns that Qwen3-8B consistently gets wrong:
+        1. "Who was born first / formed earlier" → smaller year = first
+        2. "Are both X and Y Z?" → if both sub-answers confirm Z, answer yes
+        3. "Which has more X" → larger number wins
+        """
+        q = question.lower().strip()
+
+        # Pattern 1: "who/which was X first/earlier" — compare years
+        # Only use programmatic comparison when we have exactly 2 entities
+        # with parseable years — otherwise trust the LLM synthesizer
+        is_first = any(p in q for p in (
+            "born first", "formed first", "formed earlier", "founded first",
+            "released first", "published first", "created first", "came first",
+            "which was founded", "in between",
+        ))
+        if is_first:
+            q_entities = self._extract_entities_from_question(question)
+            if len(q_entities) == 2:
+                # Verify both sub-answers have parseable years before overriding
+                year_count = 0
+                for sq in sub_questions:
+                    val = entity_registry.get(f"answer_{sq['id']}", "")
+                    if self._extract_year(val) is not None:
+                        year_count += 1
+                if year_count >= 2:
+                    return self._compare_by_date(
+                        question, sub_questions, entity_registry, pick="smallest",
+                    )
+            # Fall through to LLM synthesizer answer
+
+        # Pattern 2: "Are both X and Y Z?" — check if both sub-answers confirm
+        is_both = re.match(r"^(are|were|do|does|did|is)\s+.+\s+both\b", q)
+        if is_both:
+            return self._check_both(
+                answer, sub_questions, entity_registry, question,
+            )
+
+        # Pattern 3: "Which has more" — compare numbers
+        is_more = any(p in q for p in (
+            "has more", "have more", "which is longer", "which is larger",
+            "which is bigger", "more acts", "more episodes", "more seasons",
+        ))
+        if is_more:
+            return self._compare_by_date(
+                question, sub_questions, entity_registry, pick="largest",
+            )
+
+        return answer
+
+    @staticmethod
+    def _extract_year(text: str) -> int | None:
+        """Extract the first 4-digit year or last integer from text."""
+        m = re.search(r"\b(1[0-9]{3}|20[0-9]{2})\b", text)
+        if m:
+            return int(m.group(1))
+        m = re.search(r"\b(\d+)\b", text)
+        return int(m.group(1)) if m else None
+
+    def _compare_by_date(
+        self,
+        question: str,
+        sub_questions: list[dict[str, Any]],
+        entity_registry: dict[str, str],
+        pick: str,
+    ) -> str:
+        """Pick the entity whose sub-answer has the smallest/largest numeric value."""
+        # Extract entity names from the original question
+        q_entities = self._extract_entities_from_question(question)
+
+        pairs: list[tuple[str, int]] = []
+        for i, sq in enumerate(sub_questions):
+            sq_id = sq["id"]
+            val = entity_registry.get(f"answer_{sq_id}", "")
+            year = self._extract_year(val)
+            if year is None:
+                continue
+            # Map SQ to entity: prefer entity from question, fall back to known_entities
+            entity = q_entities[i] if i < len(q_entities) else ""
+            if not entity:
+                for known in sq.get("known_entities", []):
+                    entity = known
+                    break
+            if not entity:
+                entity = sq.get("text", "")
+            pairs.append((entity, year))
+
+        if len(pairs) < 2:
+            return ""
+
+        if pick == "smallest":
+            pairs.sort(key=lambda x: x[1])
+        else:
+            pairs.sort(key=lambda x: -x[1])
+
+        return pairs[0][0]
+
+    @staticmethod
+    def _extract_entities_from_question(question: str) -> list[str]:
+        """Extract entity names from comparison questions.
+
+        Handles: "Who was born first, X or Y?", "Was X or Y born first?",
+                 "Between X and Y, ...", "born first out of X and Y"
+        """
+        q = question.strip().rstrip("?").strip()
+        # Pattern: "..., X or Y"
+        m = re.search(r",\s*(.+?)\s+or\s+(.+?)$", q, re.IGNORECASE)
+        if m:
+            return [m.group(1).strip(), m.group(2).strip()]
+        # Pattern: "Was/Is X or Y ..."  (no comma)
+        m = re.match(r"(?:was|is|were|are|did|has)\s+(.+?)\s+or\s+(.+?)\s+(?:born|died|formed|founded|established|released|created|published)", q, re.IGNORECASE)
+        if m:
+            return [m.group(1).strip(), m.group(2).strip()]
+        # Pattern: "... out of X and Y"
+        m = re.search(r"out of\s+(.+?)\s+and\s+(.+?)$", q, re.IGNORECASE)
+        if m:
+            return [m.group(1).strip(), m.group(2).strip()]
+        # Pattern: "Between X and Y, ..."
+        m = re.match(r"(?:between|in between)\s+(.+?)\s+and\s+(.+?),", q, re.IGNORECASE)
+        if m:
+            return [m.group(1).strip(), m.group(2).strip()]
+        # Pattern: "X and Y" for "Are X and Y both Z?"
+        m = re.match(r"(?:are|were|is|do|does)\s+(.+?)\s+and\s+(.+?)\s+both\b", q, re.IGNORECASE)
+        if m:
+            return [m.group(1).strip(), m.group(2).strip()]
+        return []
+
+    @staticmethod
+    def _check_both(
+        current_answer: str,
+        sub_questions: list[dict[str, Any]],
+        entity_registry: dict[str, str],
+        question: str,
+    ) -> str:
+        """For 'are both X and Y Z?' questions, check if both sub-answers confirm Z."""
+        _refusals = {"unknown", "no evidence", "not mentioned", "not found", "n/a", "none"}
+        non_refusal_count = 0
+        denial_count = 0
+
+        for sq in sub_questions:
+            sq_id = sq["id"]
+            val = entity_registry.get(f"answer_{sq_id}", "").strip().lower()
+            if not val or val in _refusals or any(r in val for r in _refusals):
+                continue
+            # Only count explicit "no" denial, not words starting with "no"
+            if val in ("no", "no."):
+                denial_count += 1
+            elif val.startswith("no,") or val.startswith("no "):
+                denial_count += 1
+            else:
+                non_refusal_count += 1
+
+        if non_refusal_count >= 2 and denial_count == 0:
+            return "yes"
+        if denial_count > 0:
+            return "no"
+        return current_answer
 
     def _correct_bridge_answer(
         self,
@@ -506,7 +697,7 @@ Question: {question}"""
             question=question, answer=answer, evidence_blocks=evidence_blocks,
         )
         try:
-            response = self.llm.chat(
+            response = await self._async_chat(
                 messages=[{"role": "user", "content": prompt}], tools=None, temperature=0.0,
             )
             raw = response["message"].get("content", "")

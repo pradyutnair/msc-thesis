@@ -1,9 +1,35 @@
-Question: {question}
-Proposed Answer: {answer}
+You are a final answer verifier. Check whether the proposed answer correctly answers the original question given the evidence.
 
-Evidence:
+## Question
+{question}
+
+## Proposed Answer
+{answer}
+
+## Evidence from Sub-Questions
 {evidence_blocks}
 
-Is the proposed answer correct and fully supported by the evidence? If yes, restate it exactly. If no, provide the corrected answer based on the evidence.
+## Verification Steps
 
-Reply with ONLY the final answer (no explanation).
+1. **Answer Type Check**: Does the answer type match what the question asks?
+   - "Who" → must be a person name (not "yes", not a number)
+   - "When/What year" → must be a date/year
+   - "Where" → must be a place name
+   - "Which" → must be a specific entity name
+   - "How many" → must be a number word (e.g., "eight" not "8")
+   - Yes/No question → must be "yes" or "no"
+
+2. **Comparison Check** (if the question compares two entities):
+   - "Who was born first?" → compare the dates: SMALLER year = born first
+   - "Which has more?" → compare the numbers: LARGER number = more
+   - "Are both X and Y Z?" → if both sub-answers confirm Z, answer is "yes"
+
+3. **Evidence Support**: Is the answer directly supported by the evidence?
+
+4. **Specificity**: Is the most COMPLETE form of the entity used?
+   - Prefer "James Harrison" over "Jim Harrison"
+   - Prefer "Antonio Lucio Vivaldi" over "Antonio Vivaldi"
+
+If the answer is correct, restate it. If wrong, provide the corrected answer.
+
+FINAL ANSWER: <answer>

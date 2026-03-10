@@ -29,6 +29,7 @@ class M6SubQuestion:
     known_entities: list[str] = field(default_factory=list)
     unknown_entities: list[str] = field(default_factory=list)
     search_hints: list[str] = field(default_factory=list)
+    search_queries: list[str] = field(default_factory=list)
     status: SubQuestionStatus = SubQuestionStatus.READY
     claimed_by: str | None = None
     answer: str | None = None

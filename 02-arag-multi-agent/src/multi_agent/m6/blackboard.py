@@ -39,6 +39,12 @@ class Blackboard:
         self.tokens_used: int = 0
         self.current_tick: int = 0
 
+        # Warm-start context from full-question retrieval
+        self.warm_start_context: str = ""
+
+        # Expected answer type from decomposer
+        self.expected_answer: str = ""
+
         # Core state
         self.search_plan: list[M6SubQuestion] = []
         self.evidence: list[EvidenceEntry] = []
@@ -131,6 +137,14 @@ class Blackboard:
                     "suggested_query": gap.suggested_query,
                 })
 
+            # Search queries from decomposer for claimed sub-question
+            search_queries: list[str] = []
+            if claimed_sq is not None:
+                for sq in self.search_plan:
+                    if sq.id == claimed_sq["id"]:
+                        search_queries = list(getattr(sq, "search_queries", []))
+                        break
+
             return {
                 "question": self.question,
                 "available_sub_questions": available_sqs,
@@ -140,6 +154,8 @@ class Blackboard:
                 "tokens_remaining": self.token_budget - self.tokens_used,
                 "blackboard_context": blackboard_context,
                 "knowledge_gaps": gaps_by_sq,
+                "search_queries": search_queries,
+                "warm_start_context": getattr(self, "warm_start_context", ""),
             }
 
     async def read_for_worker(self, worker_id: str) -> dict[str, Any]:
@@ -609,6 +625,7 @@ class Blackboard:
             "known_entities": sq.known_entities,
             "unknown_entities": sq.unknown_entities,
             "search_hints": sq.search_hints,
+            "search_queries": getattr(sq, "search_queries", []),
             "status": sq.status.value,
             "claimed_by": sq.claimed_by,
             "answer": sq.answer,

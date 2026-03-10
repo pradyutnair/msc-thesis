@@ -12,6 +12,7 @@ Usage:
 from __future__ import annotations
 
 import asyncio
+import concurrent.futures
 import json
 import logging
 import os
@@ -237,6 +238,11 @@ class M6BatchRunner:
             return prediction
 
     async def run(self) -> None:
+        # Use large thread pool for parallel LLM requests
+        loop = asyncio.get_running_loop()
+        loop.set_default_executor(
+            concurrent.futures.ThreadPoolExecutor(max_workers=256)
+        )
         completed = self._load_completed_qids()
         pending = [
             q for q in self.questions
