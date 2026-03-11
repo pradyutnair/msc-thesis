@@ -22,6 +22,7 @@ from arag.tools.registry import ToolRegistry
 from multi_agent.m6.blackboard import Blackboard
 from multi_agent.m6.coordinator import Coordinator
 from multi_agent.m6.planner_agent import PlannerAgent
+from multi_agent.m6.synthesizer_agent import SynthesizerAgent
 from multi_agent.m6.worker_agent import WorkerAgent
 from multi_agent.m6.types import M6PipelineResult
 
@@ -164,13 +165,21 @@ class M6Pipeline:
         """Create the agent list: 1 PlannerAgent + N WorkerAgents."""
         agents = []
 
-        # PlannerAgent (thinking ON — decompose + monitor + synthesize)
+        # PlannerAgent (thinking ON — decompose + monitor)
         agents.append(PlannerAgent(
             llm_client=self.llm,
             decompose_prompt_path=self.decomposer_prompt,
             synthesize_prompt_path=self.synthesizer_prompt,
             consistency_prompt_path=self.synthesizer_consistency_prompt,
             max_redecompositions=self.max_redecompositions,
+            enable_consistency_check=self.enable_consistency_check,
+        ))
+
+        # SynthesizerAgent (thinking ON — combines sub-answers with reasoning)
+        agents.append(SynthesizerAgent(
+            llm_client=self.llm,
+            prompt_path=self.synthesizer_prompt,
+            consistency_prompt_path=self.synthesizer_consistency_prompt,
             enable_consistency_check=self.enable_consistency_check,
         ))
 
@@ -211,7 +220,8 @@ class M6Pipeline:
             backtrack_count=snapshot.get("backtrack_count", 0),
             sub_question_details=sqs,
             entity_registry=snapshot.get("entity_registry", {}),
-            evidence_count=snapshot.get("evidence_count", 0),
+            evidence=snapshot.get("evidence", []),
+        evidence_count=snapshot.get("evidence_count", 0),
             verified_count=status_counts.get("verified", 0),
             failed_count=status_counts.get("failed", 0),
             contradictions=snapshot.get("contradictions", []),

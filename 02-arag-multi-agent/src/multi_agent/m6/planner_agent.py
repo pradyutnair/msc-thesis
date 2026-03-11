@@ -201,8 +201,11 @@ class PlannerAgent(AutonomousAgent):
                     )
                     self._phase = "decompose"
                     return True
-                self._phase = "synthesize"
-                return True
+                # All sub-questions complete — SynthesizerAgent will handle synthesis.
+                # Stay in monitor phase so the agent loop keeps polling.
+                # This prevents the IDLE watchdog from firing before the
+                # synthesizer picks up (synthesizer has its own polling backoff).
+                return False
 
             # Wait for ALL sub-questions to complete before synthesizing.
             # Partial synthesis was removed — it caused correctness issues

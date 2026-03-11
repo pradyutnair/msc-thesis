@@ -1,6 +1,7 @@
-# M6: Blackboard-coordinated multi-agent RAG (Qwen3-8B dense).
-# 5 agents: Decomposer, Retriever×2, Critic, Synthesizer.
-# Tick-based coordination with per-hop verification and backtracking.
+# M6v17: v13l base + dedicated SynthesizerAgent
+# PlannerAgent: decompose → monitor (no synthesis)
+# WorkerAgents: plan → execute (v13l prompt, no verify)
+# SynthesizerAgent: dedicated synthesis with reasoning
 
 llm:
   model: "Qwen3-8B"
@@ -14,14 +15,11 @@ embedding:
   device: "cpu"
 
 m6:
-  num_retrievers: 2
-  retriever_max_loops: 10
-  retriever_max_budget: 80000
-  max_ticks: 20
-  token_budget: 400000
-  wall_clock_timeout: 1200.0
-  enable_critic: false
-  enable_backtracking: false
+  num_workers: 2
+  worker_max_steps: 12
+  max_actions: 100
+  token_budget: 300000
+  wall_clock_timeout: 900.0
+  idle_timeout: 300.0
   enable_consistency_check: false
-  worker_max_steps: 16
   max_redecompositions: 1

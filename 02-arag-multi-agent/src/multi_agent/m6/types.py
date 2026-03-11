@@ -108,6 +108,7 @@ class M6PipelineResult:
     backtrack_count: int = 0
     sub_question_details: list[dict[str, Any]] = field(default_factory=list)
     entity_registry: dict[str, str] = field(default_factory=dict)
+    evidence: list[dict[str, Any]] = field(default_factory=list)
     evidence_count: int = 0
     verified_count: int = 0
     failed_count: int = 0

@@ -658,6 +658,7 @@ class Blackboard:
                 "final_answer": self.final_answer,
                 "backtrack_count": self.backtrack_count,
                 "sub_questions": [self._sq_to_dict(sq) for sq in self.search_plan],
+                "evidence": [self._ev_to_dict(ev) for ev in self.evidence],
                 "evidence_count": len(self.evidence),
                 "verified_evidence_count": sum(1 for ev in self.evidence if ev.verified),
                 "entity_registry": {e.name: e.value for e in self.entity_registry},

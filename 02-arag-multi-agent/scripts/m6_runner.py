@@ -90,6 +90,11 @@ def result_to_prediction(item: dict[str, Any], result: M6PipelineResult) -> dict
         "entity_registry": result.entity_registry,
         "termination_reason": result.termination_reason,
         "error": result.error,
+        "retrieved_chunks": [
+            {"chunk_id": ev["source_chunk_id"], "worker": ev.get("retriever_id", ""), "sq_id": ev["sub_question_id"]}
+            for ev in getattr(result, "evidence", [])
+        ],
+        "sub_questions": getattr(result, "sub_question_details", []),
     }
 
 
@@ -147,6 +152,27 @@ class M6BatchRunner:
         async with self._write_lock:
             with open(self.predictions_file, "a", encoding="utf-8") as f:
                 f.write(json.dumps(prediction, ensure_ascii=False, default=str) + "\n")
+
+    async def _save_blackboard(self, qid: str, result: M6PipelineResult) -> None:
+        """Save full blackboard snapshot for debugging."""
+        bb_dir = self.output_dir / "blackboards"
+        bb_dir.mkdir(exist_ok=True)
+        snapshot = {
+            "qid": qid,
+            "question": result.question,
+            "pred_answer": result.pred_answer,
+            "sub_questions": getattr(result, "sub_question_details", []),
+            "evidence": getattr(result, "evidence", []),
+            "entity_registry": result.entity_registry,
+            "execution_log": getattr(result, "execution_log", []),
+            "termination_reason": result.termination_reason,
+            "total_ticks": result.total_ticks,
+            "total_tokens": result.total_tokens,
+        }
+        bb_file = bb_dir / f"{qid}.json"
+        async with self._write_lock:
+            with open(bb_file, "w", encoding="utf-8") as f:
+                json.dump(snapshot, f, ensure_ascii=False, default=str, indent=2)
 
     def _create_pipeline(self) -> M6Pipeline:
         """Create M6Pipeline from config."""
@@ -226,6 +252,7 @@ class M6BatchRunner:
 
             prediction = result_to_prediction(item, result)
             await self._append_prediction(prediction)
+            await self._save_blackboard(prediction["qid"], result)
 
             logger.info(
                 "Done %s: '%s' (ticks=%d, tokens=%d, %.1fs)",

@@ -7,6 +7,8 @@ extracts FINAL ANSWER, and terminates the blackboard.
 
 from __future__ import annotations
 
+import asyncio
+import functools
 import logging
 import re
 from pathlib import Path
@@ -24,7 +26,7 @@ _CONSISTENCY_PROMPT_PATH = Path(__file__).parent / "prompts" / "synthesizer_cons
 
 
 # ---------------------------------------------------------------------------
-# Answer normalization (ported from 04-sota-multi-agent/src/normalizer.py)
+# Answer normalization
 # ---------------------------------------------------------------------------
 
 def _infer_expected_answer_type(question: str) -> str:
@@ -85,13 +87,11 @@ def _normalize_answer(answer: str, question: str) -> str:
 
     # 7. Truncate verbose answers — if still > 60 chars, take first phrase
     if len(text) > 60:
-        # Try to extract up to first period/comma
         m = re.match(r"^(.{3,50}?)[.,;]", text)
         if m:
             text = m.group(1).strip()
 
     return text
-
 
 
 def _is_refusal(text: str) -> bool:
@@ -133,6 +133,13 @@ class SynthesizerAgent(AutonomousAgent):
         else:
             self._consistency_template = None
 
+    async def _async_chat(self, **kwargs):
+        """Run synchronous llm.chat in executor to avoid blocking event loop."""
+        loop = asyncio.get_running_loop()
+        return await loop.run_in_executor(
+            None, functools.partial(self.llm.chat, **kwargs),
+        )
+
     async def observe(self, blackboard: Blackboard) -> dict[str, Any]:
         return await blackboard.read_for_synthesizer()
 
@@ -146,22 +153,11 @@ class SynthesizerAgent(AutonomousAgent):
         terminal_statuses = {SubQuestionStatus.VERIFIED.value, SubQuestionStatus.FAILED.value}
         n_total = len(sqs)
         n_terminal = sum(1 for sq in sqs if sq["status"] in terminal_statuses)
-        n_verified = sum(1 for sq in sqs if sq["status"] == SubQuestionStatus.VERIFIED.value)
 
-        # Case 1: All sub-questions are terminal
-        if n_terminal == n_total:
-            return True
-
-        # Case 2: Partial synthesis — at least N-1 terminal AND majority verified
-        # This handles cases where one SQ is stuck but we have enough to synthesize
-        if n_total >= 2 and n_terminal >= n_total - 1 and n_verified >= (n_total + 1) // 2:
-            logger.info(
-                "Synthesizer: partial synthesis (%d/%d terminal, %d verified)",
-                n_terminal, n_total, n_verified,
-            )
-            return True
-
-        return False
+        # Only synthesize when ALL sub-questions are complete.
+        # Partial synthesis was removed — it caused correctness issues
+        # (e.g., "Are both X and Y Z?" needs all answers, not just one).
+        return n_terminal == n_total
 
     async def act(self, observation: dict[str, Any], blackboard: Blackboard) -> int:
         self._acted = True
@@ -175,13 +171,13 @@ class SynthesizerAgent(AutonomousAgent):
         prompt = self._prompt_template.format(
             question=question,
             evidence_blocks=evidence_blocks,
-            entity_registry=self._format_entities(entity_registry),
+            entity_registry=self._format_entities(entity_registry, sub_questions),
         )
         messages = [{"role": "user", "content": prompt}]
 
         total_tokens = 0
         try:
-            response = self.llm.chat(messages=messages, tools=None, temperature=0.0)
+            response = await self._async_chat(messages=messages, tools=None, temperature=0.0)
             raw = response["message"].get("content", "")
             total_tokens += int(response.get("cost", 0.0) * 1_000_000)
         except Exception as exc:
@@ -219,7 +215,6 @@ class SynthesizerAgent(AutonomousAgent):
         entity_registry: dict[str, str],
     ) -> str:
         """Build structured evidence blocks per sub-question."""
-        # Index evidence by sub-question ID
         ev_by_sq: dict[int, list[dict]] = {}
         for ev in verified_evidence:
             sq_id = ev["sub_question_id"]
@@ -235,7 +230,7 @@ class SynthesizerAgent(AutonomousAgent):
 
             evidence_texts = []
             for ev in ev_by_sq.get(sq_id, []):
-                evidence_texts.append(f"  [{ev['source_chunk_id']}] {ev['content'][:500]}")
+                evidence_texts.append(f"  [{ev['source_chunk_id']}] {ev['content'][:1500]}")
 
             evidence_str = "\n".join(evidence_texts) if evidence_texts else "  (no evidence)"
 
@@ -250,20 +245,39 @@ class SynthesizerAgent(AutonomousAgent):
         return "\n".join(blocks)
 
     @staticmethod
-    def _format_entities(entity_registry: dict[str, str]) -> str:
+    def _format_entities(
+        entity_registry: dict[str, str],
+        sub_questions: list[dict[str, Any]] | None = None,
+    ) -> str:
+        """Format entity registry with sub-question context for clearer mapping."""
         if not entity_registry:
             return "None"
-        return "\n".join(f"- {k} = {v}" for k, v in entity_registry.items())
+        if sub_questions:
+            sq_map = {sq["id"]: sq["text"] for sq in sub_questions}
+            lines = []
+            for key, val in entity_registry.items():
+                try:
+                    sq_id = int(key.split("_")[1])
+                    sq_text = sq_map.get(sq_id, "")
+                    if sq_text:
+                        lines.append(f"- SQ{sq_id} \"{sq_text[:80]}\": {val}")
+                    else:
+                        lines.append(f"- {key} = {val}")
+                except (ValueError, IndexError):
+                    lines.append(f"- {key} = {val}")
+            return "\n".join(lines)
+        return "\n".join(f"- {key} = {val}" for key, val in entity_registry.items())
 
     @staticmethod
     def _extract_answer(raw: str) -> str:
         """Extract FINAL ANSWER from LLM response."""
         raw = re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL)
         raw = re.sub(r"<think>.*", "", raw, flags=re.DOTALL)
+        # Strip markdown bold markers (LLM sometimes outputs **FINAL ANSWER**: ...)
+        raw = raw.replace("**", "")
         match = re.search(r"FINAL\s*ANSWER\s*:\s*(.+)", raw, re.IGNORECASE)
         if match:
             return match.group(1).strip()
-        # Fallback: last non-empty line
         lines = [line.strip() for line in raw.strip().split("\n") if line.strip()]
         return lines[-1] if lines else raw.strip()
 
@@ -282,7 +296,7 @@ class SynthesizerAgent(AutonomousAgent):
         messages = [{"role": "user", "content": prompt}]
 
         try:
-            response = self.llm.chat(messages=messages, tools=None, temperature=0.0)
+            response = await self._async_chat(messages=messages, tools=None, temperature=0.0)
             raw = response["message"].get("content", "")
             tokens = int(response.get("cost", 0.0) * 1_000_000)
         except Exception as exc:
@@ -292,15 +306,13 @@ class SynthesizerAgent(AutonomousAgent):
         raw = re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL)
         raw = re.sub(r"<think>.*", "", raw, flags=re.DOTALL)
 
-        # Extract concise answer: try FINAL ANSWER: pattern, then last line
         revised = self._extract_answer(raw) if "FINAL ANSWER" in raw.upper() else raw.strip()
-        # If still verbose (>100 chars), take just the last line
         if len(revised) > 100:
             lines = [l.strip() for l in revised.split("\n") if l.strip()]
             revised = lines[-1] if lines else revised
-        # Apply normalization
         revised = _normalize_answer(revised, question)
-        if revised and revised.lower() != answer.lower():
+        # Don't let consistency check override with a refusal or empty answer
+        if revised and revised.lower() != answer.lower() and not _is_refusal(revised):
             logger.info("Consistency check revised: '%s' → '%s'", answer[:40], revised[:40])
             return revised, tokens
         return answer, tokens
