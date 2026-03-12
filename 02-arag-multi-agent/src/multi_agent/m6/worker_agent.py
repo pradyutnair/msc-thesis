@@ -62,7 +62,14 @@ class WorkerAgent(AutonomousAgent):
     def should_act(self, observation: dict[str, Any]) -> bool:
         if observation["claimed_sub_question"] is not None:
             return True
-        return len(observation["available_sub_questions"]) > 0
+        avail = observation["available_sub_questions"]
+        if avail:
+            logger.debug(
+                "%s: should_act=True, %d available SQs: %s",
+                self.agent_id, len(avail),
+                [(sq["id"], sq["status"]) for sq in avail],
+            )
+        return len(avail) > 0
 
     async def act(self, observation: dict[str, Any], blackboard: Blackboard) -> int:
         sq_dict = observation["claimed_sub_question"]
@@ -252,6 +259,7 @@ class WorkerAgent(AutonomousAgent):
     ) -> dict[str, Any] | None:
         """Claim a sub-question. Priority: retries > most dependents > lowest ID."""
         available = observation["available_sub_questions"]
+        logger.info("%s: trying to claim from %d available SQs", self.agent_id, len(available))
         available.sort(
             key=lambda sq: (
                 0 if sq["status"] == SubQuestionStatus.NEEDS_RETRY.value else 1,

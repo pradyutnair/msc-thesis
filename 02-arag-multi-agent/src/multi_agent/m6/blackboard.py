@@ -61,6 +61,10 @@ class Blackboard:
         # Final answer (set by synthesizer or salvage)
         self.final_answer: str | None = None
 
+        # Synthesis gate: set by planner when it decides NOT to re-decompose.
+        # Prevents race between re-decomposition and synthesis.
+        self.allow_synthesis: bool = False
+
         # Activity tracking for idle detection
         self._last_action_time: float = 0.0
 
@@ -217,6 +221,7 @@ class Blackboard:
                 "sub_questions": all_sqs,
                 "verified_evidence": verified_evidence,
                 "entity_registry": entities,
+                "allow_synthesis": self.allow_synthesis,
             }
 
     async def read_for_coordinator(self) -> dict[str, Any]:
@@ -266,6 +271,8 @@ class Blackboard:
         Clears failed/unfinished sub-questions and their evidence.
         """
         async with self._lock:
+            # Reset synthesis gate — new SQs need to be worked first
+            self.allow_synthesis = False
             if preserve_verified:
                 # Keep verified entities — new SQs may reference them via [answer_N]
                 # But clear all non-verified evidence and SQs

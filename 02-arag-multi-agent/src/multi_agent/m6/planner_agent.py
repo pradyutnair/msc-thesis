@@ -201,11 +201,11 @@ class PlannerAgent(AutonomousAgent):
                     )
                     self._phase = "decompose"
                     return True
-                # All sub-questions complete — SynthesizerAgent will handle synthesis.
-                # Stay in monitor phase so the agent loop keeps polling.
-                # This prevents the IDLE watchdog from firing before the
-                # synthesizer picks up (synthesizer has its own polling backoff).
-                return False
+                # All sub-questions complete and no re-decomposition needed.
+                # Transition to synthesize so we can set allow_synthesis flag,
+                # then let SynthesizerAgent handle the actual synthesis.
+                self._phase = "signal_synthesis"
+                return True
 
             # Wait for ALL sub-questions to complete before synthesizing.
             # Partial synthesis was removed — it caused correctness issues
@@ -222,6 +222,15 @@ class PlannerAgent(AutonomousAgent):
             tokens = await self._decompose(observation, blackboard)
             self._phase = "monitor"
             return tokens
+
+        if self._phase == "signal_synthesis":
+            # Set allow_synthesis flag so the SynthesizerAgent can fire.
+            # This prevents the race where re-decomposition and synthesis
+            # both trigger on the same "all terminal" observation.
+            blackboard.allow_synthesis = True
+            self._phase = "done"
+            logger.info("Planner: signaled allow_synthesis, handing off to SynthesizerAgent")
+            return 0
 
         if self._phase == "synthesize":
             # Re-observe: should_act may have transitioned from monitor,

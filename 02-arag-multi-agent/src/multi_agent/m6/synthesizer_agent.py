@@ -146,6 +146,11 @@ class SynthesizerAgent(AutonomousAgent):
     def should_act(self, observation: dict[str, Any]) -> bool:
         if self._acted:
             return False
+        # Only synthesize when the planner has explicitly allowed it.
+        # This prevents a race condition where re-decomposition resets the
+        # search plan while the synthesizer tries to synthesize from stale state.
+        if not observation.get("allow_synthesis", False):
+            return False
         sqs = observation.get("sub_questions", [])
         if not sqs:
             return False
@@ -154,9 +159,6 @@ class SynthesizerAgent(AutonomousAgent):
         n_total = len(sqs)
         n_terminal = sum(1 for sq in sqs if sq["status"] in terminal_statuses)
 
-        # Only synthesize when ALL sub-questions are complete.
-        # Partial synthesis was removed — it caused correctness issues
-        # (e.g., "Are both X and Y Z?" needs all answers, not just one).
         return n_terminal == n_total
 
     async def act(self, observation: dict[str, Any], blackboard: Blackboard) -> int:

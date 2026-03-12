@@ -1,0 +1,70 @@
+#!/bin/bash
+#SBATCH --job-name=m6v15_judge
+#SBATCH --partition=gpu_h100
+#SBATCH --time=01:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/jobs/output/%j_m6v15_judge_%a.log
+#SBATCH --array=0-2
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+
+MODEL_ID="deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+SERVED_NAME="DeepSeek-R1-Distill-Qwen-32B"
+
+DATASETS=(hotpotqa 2wiki musique)
+DATASET="${DATASETS[$SLURM_ARRAY_TASK_ID]}"
+RUN_OUT="results/m6v15_1000/$DATASET"
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+echo "Starting vLLM server for DeepSeek-R1-Distill-Qwen-32B..."
+python -m vllm.entrypoints.openai.api_server \
+  --model "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port 8000 \
+  --dtype auto --max-model-len 16384 --gpu-memory-utilization 0.92 \
+  --max-num-seqs 64 \
+  --enable-prefix-caching \
+  --trust-remote-code &
+VLLM_PID=$!
+
+for i in $(seq 1 300); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  STATUS="$(python -c "
+import json, urllib.request
+try:
+    d=json.load(urllib.request.urlopen('http://127.0.0.1:8000/v1/models', timeout=2))
+    print('ok' if any('DeepSeek' in m.get('id','') for m in d.get('data',[])) else 'wait')
+except Exception:
+    print('wait')
+")"
+  if [[ "$STATUS" == "ok" ]]; then echo "vLLM ready after ${i} checks"; break; fi
+  sleep 3
+done
+
+echo ""
+echo "=== LLM Judge Eval (DeepSeek-R1-Distill-Qwen-32B): $DATASET ==="
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="$SERVED_NAME"
+
+python -u scripts/eval.py \
+  --predictions "$RUN_OUT/predictions.jsonl" \
+  --workers 40 \
+  --output "$RUN_OUT"
+
+echo ""
+echo "=== M6v15 Analysis: $DATASET ==="
+python -u scripts/analyze_m6.py --results "$RUN_OUT" 2>/dev/null || true
+
+echo "M6v15 judge eval $DATASET complete"

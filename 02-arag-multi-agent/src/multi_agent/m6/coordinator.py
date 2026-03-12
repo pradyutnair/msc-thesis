@@ -78,17 +78,24 @@ class Coordinator:
         """Run a single agent's observe/act loop until blackboard terminates."""
         backoff = 0.05
         max_backoff = 2.0
+        loop_count = 0
 
         while not blackboard.terminated:
             try:
                 acted = await agent.tick(blackboard)
+                loop_count += 1
                 if acted:
                     backoff = 0.05
                 else:
+                    if loop_count <= 3 or loop_count % 50 == 0:
+                        logger.debug(
+                            "Agent %s: no action (loop %d, backoff %.2fs)",
+                            agent.agent_id, loop_count, backoff,
+                        )
                     await asyncio.sleep(backoff)
                     backoff = min(backoff * 1.5, max_backoff)
             except Exception as exc:
-                logger.error("Agent %s error: %s", agent.agent_id, exc)
+                logger.error("Agent %s error: %s", agent.agent_id, exc, exc_info=True)
                 await asyncio.sleep(1.0)
 
     async def _watchdog(self, blackboard: Blackboard, t0: float) -> None:

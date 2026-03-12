@@ -13,6 +13,7 @@ Architecture (AgentFlow-inspired):
 from __future__ import annotations
 
 import asyncio
+import re
 import logging
 import time
 from typing import Any
