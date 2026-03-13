@@ -167,6 +167,17 @@ class PlannerAgent(AutonomousAgent):
             None, functools.partial(self.llm.chat, **kwargs),
         )
 
+    async def decompose_first(self, blackboard: Blackboard) -> int:
+        """Run decomposition upfront (before coordinator loop).
+
+        Returns the number of sub-questions produced so the pipeline
+        can create the right number of worker agents.
+        """
+        obs = await self.observe(blackboard)
+        await self._decompose(obs, blackboard)
+        self._phase = "monitor"
+        return len(blackboard.search_plan)
+
     async def observe(self, blackboard: Blackboard) -> dict[str, Any]:
         if self._phase == "decompose":
             return await blackboard.read_for_decomposer()

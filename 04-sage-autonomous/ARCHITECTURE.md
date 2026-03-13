@@ -1,70 +1,71 @@
 # Multi-Hop Question Answering: Architecture Comparison
 
-This document compares three QA pipeline architectures evaluated on HotpotQA, 2WikiMultiHopQA, and MuSiQue (1000 questions each), all judged by DeepSeek-R1-Distill-Qwen-7B.
+This document compares three QA pipeline architectures evaluated on HotpotQA, 2WikiMultiHopQA, and MuSiQue (1000 questions each). E2/E4 are judged by DeepSeek-R1-Distill-Qwen-32B; M6, SAGE, and SAGE-Auto are judged by DeepSeek-R1-Distill-Qwen-7B.
 
 ## Results Overview
 
-### LLM Accuracy (Primary Metric — DeepSeek-R1-Distill-Qwen-7B Judge)
+### LLM Accuracy (Primary Metric)
 
 
-| Dataset       | E2 (Qwen3-8B) | E4 (Qwen3-30B) | M5 (Qwen3-30B-A3B) | SAGE (Qwen3-8B) | SAGE-Auto (Qwen3-8B) |
-| ------------- | ------------- | -------------- | ------------------ | --------------- | -------------------- |
-| HotpotQA      | 70.00%        | 77.10%         | 69.94%             | 73.45%          | **79.30%**           |
-| 2WikiMultiHop | 63.60%        | 70.70%         | 53.01%             | 77.11%          | **78.00%**           |
-| MuSiQue       | 46.20%        | 53.30%         | 33.54%             | 51.74%          | **51.50%**           |
+| Dataset       | E2 (Qwen3-8B) | E4 (Qwen3-30B) | M6 (Qwen3-8B) | SAGE (Qwen3-8B) | SAGE-Auto (Qwen3-8B) |
+| ------------- | ------------- | -------------- | -------------- | --------------- | -------------------- |
+| HotpotQA      | 59.30%        | 77.10%         | 49.63%         | 73.45%          | **73.50%**           |
+| 2WikiMultiHop | 47.50%        | 70.70%         | 53.97%         | 77.11%          | **77.68%**           |
+| MuSiQue       | 30.30%        | 53.30%         | 32.52%         | 51.74%          | **49.60%**           |
 
 
-> E4 uses the same E2 architecture with a larger Qwen3-30B model. SAGE-Autonomous achieves the highest LLM accuracy on HotpotQA (79.3%) and 2Wiki (78.0%), outperforming all systems including E4's Qwen3-30B (+2.2pp on HotpotQA, +7.3pp on 2Wiki) while using a 4x smaller model.
+> E4 uses the same E2 architecture with a larger Qwen3-30B model. M6 uses Qwen3-8B in a blackboard-coordinated multi-agent system. SAGE-Autonomous achieves the highest LLM accuracy on 2Wiki (77.68%) and matches SAGE on HotpotQA and MuSiQue while using a dynamic autonomous architecture.
 
 ### Full Metrics Comparison
 
 #### HotpotQA (2-hop, 1000 questions)
 
 
-| Metric                      | E2     | E4     | M5     | SAGE   | SAGE-Auto      |
-| --------------------------- | ------ | ------ | ------ | ------ | -------------- |
-| **LLM Accuracy**            | 70.00% | 77.10% | 69.94% | 73.45% | **79.30%**     |
-| **Contain (bidirectional)** | 59.40% | 67.70% | 67.40% | **77.60%** | 75.30%     |
-| **Token F1**                | 3.6%*  | 3.9%*  | 56.90% | **72.54%** | —          |
-| **Norm EM**                 | 0.0%*  | 0.0%*  | 41.70% | **58.20%** | —          |
-| Answer Rate                 | 100.0% | 100.0% | 99.8%  | 99.8%  | 99.8%          |
+| Metric                      | E2     | E4     | M6     | SAGE       | SAGE-Auto      |
+| --------------------------- | ------ | ------ | ------ | ---------- | -------------- |
+| **LLM Accuracy**            | 59.30% | 77.10% | 49.63% | **73.45%** | 73.50%         |
+| **Contain (bidirectional)** | 59.40% | 67.70% | 54.15% | **77.60%** | 74.10%         |
+| **Token F1**                | 3.6%*  | 3.9%*  | 52.36% | **72.54%** | 71.68%         |
+| **Norm EM**                 | 0.0%*  | 0.0%*  | 41.44% | **58.20%** | 57.50%         |
+| Answer Rate                 | 100.0% | 100.0% | 94.0%  | 99.8%      | 100.0%         |
 
 
 #### 2WikiMultiHopQA (2-hop, 1000 questions)
 
 
-| Metric                      | E2     | E4     | M5     | SAGE       | SAGE-Auto      |
+| Metric                      | E2     | E4     | M6     | SAGE       | SAGE-Auto      |
 | --------------------------- | ------ | ------ | ------ | ---------- | -------------- |
-| **LLM Accuracy**            | 63.60% | 70.70% | 53.01% | 77.11%     | **78.00%**     |
-| **Contain (bidirectional)** | 54.40% | 63.90% | 52.20% | **81.70%** | 79.30%         |
-| **Token F1**                | 3.9%*  | 4.4%*  | 39.70% | **74.65%** | —              |
-| **Norm EM**                 | 0.0%*  | 0.0%*  | 28.90% | **66.00%** | —              |
-| Answer Rate                 | 100.0% | 100.0% | 99.6%  | 99.6%      | 99.6%          |
+| **LLM Accuracy**            | 47.50% | 70.70% | 53.97% | 77.11%     | **77.68%**     |
+| **Contain (bidirectional)** | 54.40% | 63.90% | 56.70% | **81.70%** | 77.10%         |
+| **Token F1**                | 3.9%*  | 4.4%*  | 55.77% | **74.65%** | 73.57%         |
+| **Norm EM**                 | 0.0%*  | 0.0%*  | 49.70% | **66.00%** | 64.00%         |
+| Answer Rate                 | 100.0% | 100.0% | 93.2%  | 99.6%      | 99.9%          |
 
 
 #### MuSiQue (3-4 hop, 1000 questions)
 
 
-| Metric                      | E2     | E4         | M5     | SAGE       | SAGE-Auto  |
+| Metric                      | E2     | E4         | M6     | SAGE       | SAGE-Auto  |
 | --------------------------- | ------ | ---------- | ------ | ---------- | ---------- |
-| **LLM Accuracy**            | 46.20% | **53.30%** | 33.54% | 51.74%     | 51.50%     |
-| **Contain (bidirectional)** | 27.10% | 34.40%     | 30.60% | **53.80%** | 50.90%     |
-| **Token F1**                | 2.4%*  | 2.6%*      | 27.30% | **47.29%** | —          |
-| **Norm EM**                 | 0.0%*  | 0.0%*      | 17.10% | **34.90%** | —          |
-| Answer Rate                 | 100.0% | 100.0%     | 97.5%  | 97.8%      | 99.0%      |
+| **LLM Accuracy**            | 30.30% | **53.30%** | 32.52% | 51.74%     | 49.60%     |
+| **Contain (bidirectional)** | 27.10% | 34.40%     | 34.60% | **53.80%** | 47.90%     |
+| **Token F1**                | 2.4%*  | 2.6%*      | 34.51% | **47.29%** | 47.58%     |
+| **Norm EM**                 | 0.0%*  | 0.0%*      | 25.70% | **34.90%** | 36.90%     |
+| Answer Rate                 | 100.0% | 100.0%     | 94.7%  | 97.8%      | 99.8%      |
 
 
- *E2 and E4 `pred_answer` fields contain verbose reasoning (including `<think>` tags and full sentences), making EM and Token F1 unreliable for these systems. The LLM judge and contain metrics are more meaningful for comparison. SAGE and M5 output clean short answers.*
+ *E2 and E4 `pred_answer` fields contain verbose reasoning (including `<think>` tags and full sentences), making EM and Token F1 unreliable for these systems. The LLM judge and contain metrics are more meaningful for comparison. SAGE, M6, and SAGE-Auto output clean short answers.*
 
 ### Efficiency Metrics
 
 
-| Metric                          | E2      | E4      | M5      | SAGE    |
-| ------------------------------- | ------- | ------- | ------- | ------- |
-| Avg retrieved tokens (HotpotQA) | 714     | 842     | 5,044   | —       |
-| Avg retrieved tokens (2Wiki)    | 811     | 800     | 6,879   | —       |
-| Avg retrieved tokens (MuSiQue)  | 751     | 873     | 7,784   | —       |
-| Avg loops/iterations            | 2.4–2.8 | 2.7–3.0 | 4.6–5.5 | up to 8 |
+| Metric                          | E2      | E4      | M6          | SAGE    |
+| ------------------------------- | ------- | ------- | ----------- | ------- |
+| Avg tokens per question (HotpotQA) | 714     | 842     | 62,681      | —       |
+| Avg tokens per question (2Wiki)    | 811     | 800     | 59,379      | —       |
+| Avg tokens per question (MuSiQue)  | 751     | 873     | 75,720      | —       |
+| Avg loops/ticks per question       | 2.4–2.8 | 2.7–3.0 | 6.8–7.8     | up to 8 |
+| Avg latency (seconds)             | —       | —       | 103–149     | —       |
 
 
 ---
@@ -136,120 +137,181 @@ Multi-hop is handled **implicitly** — the system prompt says "decompose the pr
 | Simple, well-studied ReAct pattern | No explicit decomposition for multi-hop           |
 | Low overhead per question          | Agent must track hop chain in context window      |
 | Flexible tool use                  | Keyword/query formulation depends entirely on LLM |
-| Proven on 2-hop questions          | Degrades sharply on 3-4 hop (MuSiQue: 46.2%)      |
+| Proven on 2-hop questions          | Degrades sharply on 3-4 hop (MuSiQue: 30.3%)      |
 
 
 ---
 
-## 2. M5 — Multi-Agent Orchestrator
+## 2. M6 — Blackboard-Coordinated Multi-Agent System
 
-**Project:** `02-arag-multi-agent` | **Model:** Qwen3-30B-A3B (30B MoE, 3B active) | **Source:** Custom design
+**Project:** `02-arag-multi-agent` | **Model:** Qwen3-8B (8B dense, vLLM) | **Source:** Custom design
 
 ### Architecture
 
-M5 uses the **same BaseAgent ReAct loop** as E2, but wraps the raw tools in **LLM-augmented subagent wrappers**. Each tool call triggers a lightweight LLM call that translates the agent's natural-language task description into optimized search parameters.
+M6 replaces the single-agent ReAct loop with **four specialized agents coordinated through a shared Blackboard data structure**. The system follows the blackboard architectural pattern: agents run as independent asynchronous loops, each observing shared state, deciding whether to act, and modifying the state — without direct inter-agent communication. All blackboard mutations are protected by an `asyncio.Lock`.
 
 ```mermaid
 flowchart TD
-    Q[Question] --> Orch[Orchestrator Agent\nReAct Loop]
-    Orch --> Decision{LLM Decision}
-    Decision -->|Text Response| Answer[Final Answer via finish tool]
+    Q[Question] --> WS[Warm-Start\nKeyword search on full question]
+    WS --> BB
 
-    Decision -->|keyword_agent| KA
-    Decision -->|semantic_agent| SA
-    Decision -->|chunk_reader| CR
-
-    subgraph KA [Keyword Subagent]
-        KA1[LLM extracts 2-5 keywords\nfrom natural-language task\nmax_tokens=64] --> KA2[keyword_search\nraw tool execution]
+    subgraph BB [Blackboard - Shared Mutable State]
+        SP[Search Plan: Sub-question DAG]
+        EV[Evidence Registry]
+        ER[Entity Registry: answer_0, answer_1, ...]
+        KG[Knowledge Gaps]
     end
 
-    subgraph SA [Semantic Subagent]
-        SA1[LLM formulates dense query\nfrom task description\nmax_tokens=128] --> SA2[semantic_search\nraw tool execution]
+    BB --> P[PlannerAgent\nDecompose → Monitor → Signal Synthesis]
+    BB --> W1[WorkerAgent 0\nClaim → Solve → Verify]
+    BB --> W2[WorkerAgent 1\nClaim → Solve → Verify]
+    BB --> SYN[SynthesizerAgent\nCombine evidence → Final answer]
+
+    P -->|DAG of sub-questions| BB
+    W1 -->|Evidence + entity| BB
+    W2 -->|Evidence + entity| BB
+    SYN -->|Final answer| Answer[Final Answer]
+
+    subgraph Tools [Retrieval Tools]
+        KW[keyword_search]
+        SEM[semantic_search]
+        READ[read_chunk]
     end
 
-    subgraph CR [Chunk Reader Subagent]
-        CR1[read_chunk\nfull text retrieval] --> CR2[LLM extracts evidence\nrelevant to focus\nmax_tokens=256]
-    end
+    W1 --> Tools
+    W2 --> Tools
 
-    KA -->|Results| Orch
-    SA -->|Results| Orch
-    CR -->|Results| Orch
-
-    style Orch fill:#4a90d9,color:#fff
+    style P fill:#9b59b6,color:#fff
+    style W1 fill:#e67e22,color:#fff
+    style W2 fill:#e67e22,color:#fff
+    style SYN fill:#27ae60,color:#fff
     style Answer fill:#27ae60,color:#fff
-    style KA1 fill:#e74c3c,color:#fff
-    style SA1 fill:#e74c3c,color:#fff
-    style CR2 fill:#e74c3c,color:#fff
-    style KA2 fill:#f39c12,color:#fff
-    style SA2 fill:#f39c12,color:#fff
-    style CR1 fill:#f39c12,color:#fff
+    style BB fill:#34495e,color:#fff
 ```
-
-
 
 ### How It Works
 
-1. The **orchestrator prompt** explicitly teaches multi-hop strategy with examples (e.g., "If you found an intermediate entity but the question asks about a PROPERTY of that entity, search for that property")
-2. Tools accept **natural-language task descriptions** instead of raw keywords/queries
-3. Each tool call involves **two LLM calls**: one small subagent call (thinking disabled, small token budget) + the actual tool execution
-4. A dedicated `**finish` tool** forces structured answer submission with confidence score and supporting evidence
-5. Uses `ThreadPoolExecutor` with 3 concurrent workers
+#### Question Decomposition (Planner Agent)
+
+The PlannerAgent receives the original question and decomposes it into a **directed acyclic graph (DAG)** of up to 5 sub-questions. The decomposition prompt classifies questions into four types:
+
+- **Bridge** — Sequential dependency chains where later sub-questions reference earlier answers via `[answer_N]` placeholders (e.g., "What is the population of [answer_0]?")
+- **Comparison** — Parallel independent sub-questions about different entities followed by a combining sub-question
+- **Intersection** — Parallel constraint-gathering followed by a combining step
+- **Single_hop** — Passed through as-is
+
+Each sub-question is annotated with dependency edges, known/unknown entities, search hints, and 3–5 pre-planned keyword queries. The DAG is validated using **Kahn's algorithm** (topological sort) to reject cycles. If JSON parsing fails after 3 retries, the system falls back to a single sub-question containing the original question verbatim.
+
+#### Sub-Question Lifecycle on the Blackboard
+
+Sub-questions follow a strict state machine:
+
+```
+BLOCKED → READY → CLAIMED → EVIDENCE_FOUND → VERIFIED
+                                            ↘ NEEDS_RETRY (attempt < max) → reclaim
+                                            ↘ FAILED (max attempts) → propagate to dependents
+```
+
+- **BLOCKED → READY**: Triggered automatically when ALL prerequisite sub-questions reach VERIFIED status
+- **READY → CLAIMED**: Atomic check-and-claim prevents two workers from claiming the same sub-question
+- **EVIDENCE_FOUND → VERIFIED**: Posts the answer to the entity registry and triggers dependency unblocking
+- **EVIDENCE_FOUND → NEEDS_RETRY**: If `attempt_count < max_attempts` (default 3), clears `claimed_by` for reclaim
+- **FAILED**: When max attempts exhausted; `_propagate_failure()` recursively marks all BLOCKED dependents as FAILED
+
+#### Worker Agents (Plan → Execute → Verify)
+
+Two WorkerAgents run concurrently, each following an **AgentFlow-inspired** autonomous solve loop. Workers prioritize: (1) NEEDS_RETRY sub-questions (error recovery), (2) sub-questions with the most downstream dependents (critical-path heuristic), (3) lowest ID.
+
+Upon claiming a sub-question, the worker:
+
+1. **Resolves placeholders**: `[answer_N]` tokens are substituted with entity registry values via regex
+2. **Builds context**: Resolved sub-question + cross-agent context (findings from other completed SQs, up to 800 chars each) + knowledge gaps from failed attempts + pre-planned search queries + warm-start context
+3. **Enters a ReAct tool-calling loop** (up to 12 steps): The LLM decides which retrieval tool to call at each step. Workers have access to `keyword_search`, `semantic_search`, `read_chunk`, and a composite `search_and_read`
+4. **Self-verifies**: Strips thinking tags, applies verbose/refusal detection (answers >60 chars with refusal patterns are cleared), and posts evidence with verification verdict
+
+A **heartbeat coroutine** pings the blackboard every 30 seconds during long solves to prevent the coordinator's idle detector from timing out.
+
+#### Synthesis
+
+The SynthesizerAgent activates only when (1) all sub-questions have reached terminal states and (2) the PlannerAgent has set the `allow_synthesis` flag. It:
+
+1. Builds structured evidence blocks per sub-question
+2. Sends type-specific reasoning instructions to the LLM (comparison: extract and compare dates/numbers; yes/no: semantic equivalence; bridge: follow dependency chain to leaf answer)
+3. Extracts the answer after a "FINAL ANSWER:" marker
+4. Applies normalization: strips LLM artifacts, handles yes/no detection, truncates verbose answers
+5. Runs **programmatic comparison correction** for patterns Qwen3-8B gets wrong (e.g., "who was born first" → extract years, compare numerically)
+
+If synthesis fails, `salvage_answer()` implements a three-tier fallback: (1) leaf sub-question answers for bridge questions, (2) any sub-question with a usable answer, (3) any entity value from the registry.
+
+#### Coordination and Budgets
+
+The Coordinator runs all agents as independent async loops via `asyncio.gather()` plus a watchdog coroutine. Agents use **exponential backoff** when idle (0.05s to 2.0s). The watchdog checks four termination conditions every second:
+
+- **Token budget**: 300,000 tokens
+- **Wall-clock timeout**: 900 seconds (15 minutes)
+- **Idle timeout**: 300 seconds after at least one action
+- **Max actions**: 100 total
+
+The PlannerAgent supports **one re-decomposition attempt**: if more sub-questions failed than succeeded, it re-enters decomposition with failure context while preserving already-verified entities.
 
 ### Multi-Hop Handling
 
-Like E2, multi-hop is handled **implicitly** by the orchestrator's ReAct loop, but with two advantages:
+Multi-hop is handled **explicitly** through the sub-question DAG:
 
-1. The orchestrator prompt explicitly teaches hop-by-hop strategy with concrete examples
-2. The subagent tools are better at translating high-level intents into effective searches
+1. **DAG decomposition**: The Planner decomposes the question and encodes dependencies between sub-questions
+2. **Entity propagation**: Workers resolve `[answer_N]` placeholders using the entity registry before searching
+3. **Cross-agent context**: Each worker sees findings from other completed sub-questions via the blackboard
+4. **Dependency-aware scheduling**: BLOCKED sub-questions auto-unblock when prerequisites are VERIFIED
 
-There is **no explicit decomposition** — the agent still decides the search strategy step by step.
+**What "explicit" means here:** The hop chain is tracked in an external data structure (the blackboard's search plan), not in the LLM's attention. Sub-question status transitions are enforced programmatically. If a dependency fails, all downstream sub-questions are automatically marked as FAILED. This structural enforcement means the system cannot accidentally skip a hop or answer with an intermediate entity.
 
-**What "implicit" means here:** The hop chain lives entirely inside the LLM's attention — it is implicit in the conversation history. The orchestrator must internally figure out how many hops the question requires, remember which intermediate answers it has already found across a growing context window, and decide on its own when to stop searching and answer. If the LLM forgets an intermediate entity, gets distracted by irrelevant results, or prematurely decides it has enough information, there is no structural mechanism to catch this. There is no external data structure tracking which hops are resolved.
+**Comparison with E2 — "What county is the birthplace of the director of Jaws in?":**
 
-This contrasts with SAGE's **explicit** approach, where the Reasoner structurally decomposes hops and marks them `[RESOLVED]`/`[PENDING]`, the Entity Identifier is forced to use resolved entities in subsequent queries, and the Knowledge Outline accumulates facts with confidence scores. SAGE's pipeline will not proceed to answer mode until all hops are marked resolved.
-
-**Example — "What county is the birthplace of the director of Jaws in?":**
-
-| Step | M5 (Implicit) | SAGE (Explicit) |
-| ---- | ------------- | --------------- |
-| Recognize hops | LLM internally realizes 3 hops are needed | Reasoner outputs: Hop 1 `[PENDING]`, Hop 2 `[PENDING]`, Hop 3 `[PENDING]` |
-| After Hop 1 | "Steven Spielberg" is in conversation history; LLM must remember it | Knowledge Outline: `{"Jaws": {facts: ["Directed by Steven Spielberg"], confidence: 0.9}}`. Reasoner marks Hop 1 `[RESOLVED]` |
-| Hop 2 query | LLM hopefully searches "Steven Spielberg birthplace" — but might search "director of Jaws birthplace" | Entity Identifier **must** use resolved entity: queries include "Steven Spielberg birthplace", "Steven Spielberg born" |
-| Hop 3 query | LLM must remember "Cincinnati" and search for its county | Same structured propagation using "Cincinnati" from Knowledge Outline |
-
-The implicit approach works adequately for 2-hop questions but degrades on 3-4 hop questions because the LLM increasingly fails to track intermediate entities across a growing context.
+| Step | E2 (Implicit) | M6 (Explicit) |
+| ---- | ------------- | ------------- |
+| Recognize hops | LLM internally realizes 3 hops are needed | Planner outputs DAG: SQ0 → SQ1 → SQ2 with dependency edges |
+| After Hop 1 | "Steven Spielberg" is in conversation history; LLM must remember it | Entity registry: `answer_0 = "Steven Spielberg"`. SQ0 → VERIFIED. SQ1 auto-unblocks |
+| Hop 2 query | LLM hopefully searches "Steven Spielberg birthplace" — but might search "director of Jaws birthplace" | Worker resolves `[answer_0]` → "Steven Spielberg" in SQ1's queries before searching |
+| Hop 3 query | LLM must remember "Cincinnati" and search for its county | Same structured propagation using `answer_1 = "Cincinnati"` from registry |
 
 ### Key Parameters
 
 
-| Parameter                | Value                            |
-| ------------------------ | -------------------------------- |
-| Model                    | Qwen3-30B-A3B (3B active params) |
-| Max loops                | 15                               |
-| Token budget             | 128,000                          |
-| Subagent keyword tokens  | 64                               |
-| Subagent query tokens    | 128                              |
-| Subagent evidence tokens | 256                              |
+| Parameter              | Value               |
+| ---------------------- | ------------------- |
+| Model                  | Qwen3-8B            |
+| Num workers            | 2                   |
+| Worker max steps       | 12                  |
+| Token budget           | 300,000             |
+| Wall-clock timeout     | 900s                |
+| Idle timeout           | 300s                |
+| Max actions            | 100                 |
+| Max re-decompositions  | 1                   |
+| Embedding              | intfloat/e5-base-v2 |
+| Temperature            | 0.0                 |
+| Thinking mode          | Disabled            |
 
 
 ### Strengths and Weaknesses
 
 
-| Strengths                                     | Weaknesses                                          |
-| --------------------------------------------- | --------------------------------------------------- |
-| Natural-language tool interface               | Extra LLM calls add latency and error propagation   |
-| Better query formulation via subagents        | Still no explicit hop decomposition                 |
-| Explicit `finish` tool for structured answers | Orchestrator can get confused by subagent verbosity |
-| Multi-hop examples in prompt                  | **Underperforms E2 on 2Wiki and MuSiQue**           |
+| Strengths                                        | Weaknesses                                          |
+| ------------------------------------------------ | --------------------------------------------------- |
+| Explicit DAG decomposition for multi-hop         | ReAct workers still unreliable with 8B LLM          |
+| Dependency-aware sub-question scheduling         | Workers generate one query at a time (low recall)   |
+| Entity registry enables hop propagation          | High token overhead (59K–76K per question)           |
+| Parallel workers for independent sub-questions   | Self-verification is heuristic, not evidence-based  |
+| Programmatic comparison correction               | No systematic query augmentation                    |
+| Failure propagation prevents impossible sub-questions | Single re-decomposition may not recover complex failures |
 
+### Why M6 Underperforms
 
-### Why M5 Underperforms
+M6 shows mixed results compared to E2: it scores lower on HotpotQA (49.6% vs 59.3%) but higher on 2Wiki (54.0% vs 47.5%) and MuSiQue (32.5% vs 30.3%). The explicit decomposition helps on datasets requiring precise entity linking (2Wiki, MuSiQue) but hurts on HotpotQA where E2's simpler approach suffices. Key limitations:
 
-Despite more sophisticated tools and a larger model (30B vs 8B), M5 scores **lower** than E2 on 2WikiMultiHop (-10.6pp) and MuSiQue (-12.7pp). The likely causes:
-
-- Extra LLM calls in the subagent wrappers introduce **error propagation** — each translation step can lose or distort information
-- The Qwen3-30B-A3B MoE model (only 3B active) may be **weaker at following complex instructions** than the dense 8B
-- Higher per-question latency means **fewer effective iterations** within the token budget
+- **ReAct workers are unreliable at 8B scale**: Workers have 12 steps of LLM-guided tool calling, but Qwen3-8B frequently produces malformed tool calls, calls irrelevant tools, or exits the loop prematurely. The multi-agent overhead can amplify rather than mitigate this failure mode.
+- **Single-query retrieval**: Workers generate one search query per ReAct step, typically executing 1–2 total queries per sub-question. This narrow retrieval misses relevant evidence that alternative phrasings would find.
+- **Token overhead**: M6 uses 59K–76K tokens per question (vs E2's ~750 tokens), indicating that the additional context from cross-agent communication and sub-question management is expensive relative to its gains.
+- **Answer rate**: M6 only answers 93–95% of questions (vs E2's 100%), meaning some questions are lost to budget/timeout termination.
 
 ---
 
@@ -436,7 +498,7 @@ flowchart TD
 
         subgraph PAR ["Parallel Investigators"]
             direction LR
-            I1[Investigator A\nEntity ID → Multi-query\nKeyword + Semantic\nLLM Summarize] 
+            I1[Investigator A\nEntity ID → Multi-query\nKeyword + Semantic\nLLM Summarize]
             I2[Investigator B\nEntity ID → Multi-query\nKeyword + Semantic\nLLM Summarize]
             I3[Investigator C\n...]
         end
@@ -630,14 +692,20 @@ All results on 1000 questions per dataset, LLM judge = DeepSeek-R1-Distill-Qwen-
 
 | Dataset | Metric | SAGE v3r2 | SAGE-Auto | Delta |
 |---------|--------|:---------:|:---------:|:-----:|
-| HotpotQA | **LLM Accuracy** | 73.45% | **79.30%** | **+5.85pp** |
-| HotpotQA | Contain (bi) | **79.20%** | 77.60% | -1.60pp |
-| 2WikiMultiHop | **LLM Accuracy** | 76.80% | **78.00%** | **+1.20pp** |
-| 2WikiMultiHop | Contain (bi) | **81.70%** | 79.30% | -2.40pp |
-| MuSiQue | **LLM Accuracy** | 50.60% | **51.50%** | **+0.90pp** |
-| MuSiQue | Contain (bi) | **53.80%** | 50.90% | -2.90pp |
+| HotpotQA | **LLM Accuracy** | 73.45% | **73.50%** | **+0.05pp** |
+| HotpotQA | Contain (bi) | **77.60%** | 74.10% | -3.50pp |
+| HotpotQA | Token F1 | **72.54%** | 71.68% | -0.86pp |
+| HotpotQA | Norm EM | **58.20%** | 57.50% | -0.70pp |
+| 2WikiMultiHop | **LLM Accuracy** | 77.11% | **77.68%** | **+0.57pp** |
+| 2WikiMultiHop | Contain (bi) | **81.70%** | 77.10% | -4.60pp |
+| 2WikiMultiHop | Token F1 | **74.65%** | 73.57% | -1.08pp |
+| 2WikiMultiHop | Norm EM | **66.00%** | 64.00% | -2.00pp |
+| MuSiQue | **LLM Accuracy** | **51.74%** | 49.60% | -2.14pp |
+| MuSiQue | Contain (bi) | **53.80%** | 47.90% | -5.90pp |
+| MuSiQue | Token F1 | 47.29% | **47.58%** | +0.29pp |
+| MuSiQue | Norm EM | 34.90% | **36.90%** | +2.00pp |
 
-**Key observation**: SAGE-Autonomous consistently improves LLM accuracy (the primary metric, which captures semantic correctness) while showing lower contain_bi scores. This indicates the autonomous pipeline produces **semantically better answers** that the LLM judge recognizes as correct, but they are sometimes **phrased differently** from the gold answer string. The dynamic planning and verification allow the system to produce more contextually appropriate answers that may not be exact string matches but are factually correct.
+**Key observation**: SAGE-Autonomous shows marginal LLM accuracy improvement on HotpotQA and 2Wiki (+0.05pp and +0.57pp) but slightly lower on MuSiQue (-2.14pp) compared to SAGE v3r2. The contain_bi scores are consistently lower, suggesting the autonomous pipeline produces more contextually appropriate answers that are phrased differently from the gold answer string. The dynamic planning and verification add value on 2-hop questions but do not yet translate to clear gains on the harder 3-4 hop MuSiQue benchmark.
 
 **Improvement sources**:
 - Self-verification catches wrong-hop answers (e.g., answering with an intermediate entity instead of the final hop)
@@ -662,13 +730,15 @@ flowchart LR
         A1 -->|answer| O1[Output]
     end
 
-    subgraph M5 [M5: Orchestrator + Subagents]
+    subgraph M6 [M6: Blackboard Multi-Agent]
         direction TB
-        A2[Orchestrator LLM] -->|task| S2[Subagent LLM]
-        S2 -->|query| T2[Tool]
-        T2 -->|result| S2
-        S2 -->|filtered result| A2
-        A2 -->|answer| O2[Output]
+        P2[Planner] -->|DAG| BB2[Blackboard]
+        BB2 --> W2a[Worker]
+        BB2 --> W2b[Worker]
+        W2a -->|evidence| BB2
+        W2b -->|evidence| BB2
+        BB2 --> SY2[Synthesizer]
+        SY2 --> O2[Output]
     end
 
     subgraph SAGE [SAGE: Multi-Role Pipeline]
@@ -682,8 +752,11 @@ flowchart LR
     end
 
     style A1 fill:#4a90d9,color:#fff
-    style A2 fill:#4a90d9,color:#fff
-    style S2 fill:#e74c3c,color:#fff
+    style P2 fill:#9b59b6,color:#fff
+    style W2a fill:#e67e22,color:#fff
+    style W2b fill:#e67e22,color:#fff
+    style SY2 fill:#27ae60,color:#fff
+    style BB2 fill:#34495e,color:#fff
     style R3 fill:#9b59b6,color:#fff
     style E3 fill:#3498db,color:#fff
     style SU3 fill:#1abc9c,color:#fff
@@ -695,53 +768,53 @@ flowchart LR
 ### Feature Comparison
 
 
-| Feature                     | E2                             | M5                                | SAGE                                                  | SAGE-Autonomous                                           |
-| --------------------------- | ------------------------------ | --------------------------------- | ----------------------------------------------------- | --------------------------------------------------------- |
-| **Architecture**            | Single agent, ReAct loop       | Orchestrator + subagent wrappers  | Iterative multi-role pipeline                         | Blackboard-based multi-agent collaborative search         |
-| **Decomposition**           | Implicit                       | Implicit (prompt-guided)          | Explicit (Reasoner traces hops)                       | Explicit (Strategist plans dynamic hop chain)             |
-| **Tool interface**          | Raw (keywords, query, IDs)     | Natural-language tasks            | Programmatic (SearchAndRead)                          | Programmatic (Investigator per hop)                       |
-| **LLM calls/question**      | 2–15                           | 4–45 (2-3x overhead)              | 4–32+ (4 roles x iterations)                          | 5–28 (strategist + investigators + answer)                |
-| **Search strategy**         | Agent-chosen, ad hoc           | Agent-chosen, subagent-translated | Systematic: all entities x all queries x both methods | Systematic per hop, with cross-agent context              |
-| **Knowledge state**         | Read-chunk ID tracker          | Same + evidence cache             | Knowledge Outline (entity → facts + confidence)       | Blackboard (hop chain + entity KB, read/write by all)     |
-| **Hop propagation**         | Agent must remember in context | Agent must remember in context    | Explicit: Hop N entities used in Hop N+1 queries      | Explicit: resolved hops feed dependent hops via Blackboard|
-| **Query augmentation**      | None (LLM-dependent)           | Subagent formulation              | Automatic attribute-specific variants                 | Automatic + configurable entity-level retry               |
-| **Low-confidence handling** | None                           | None                              | Retry with alternative queries                        | Configurable entity retry + Strategist verification loop  |
-| **Planning**                | None                           | None                              | Static (Reasoner decomposes once)                     | Dynamic (Strategist revises plan based on findings)       |
-| **Self-correction**         | None                           | None                              | None                                                  | Strategist verify mode checks evidence chain              |
-| **Inter-agent comms**       | N/A                            | N/A                               | N/A (single pipeline)                                 | Via Blackboard (investigators see each other's findings)  |
-| **Model**                   | Qwen3-8B (8B dense)            | Qwen3-30B-A3B (3B active)         | Qwen3-8B (8B dense)                                   | Qwen3-8B (8B dense)                                      |
-| **Embedding**               | e5-base-v2                     | e5-base-v2                        | e5-base-v2                                            | e5-base-v2                                                |
+| Feature                     | E2                             | M6                                       | SAGE                                                  | SAGE-Autonomous                                           |
+| --------------------------- | ------------------------------ | ---------------------------------------- | ----------------------------------------------------- | --------------------------------------------------------- |
+| **Architecture**            | Single agent, ReAct loop       | Blackboard + 4 async agents              | Iterative multi-role pipeline                         | Blackboard-based multi-agent collaborative search         |
+| **Decomposition**           | Implicit                       | Explicit (DAG with dependencies)         | Explicit (Reasoner traces hops)                       | Explicit (Strategist plans dynamic hop chain)             |
+| **Tool interface**          | Raw (keywords, query, IDs)     | Raw (workers use ReAct tool calls)       | Programmatic (SearchAndRead)                          | Programmatic (Investigator per hop)                       |
+| **LLM calls/question**      | 2–15                           | ~10–30 (planner + workers + synthesizer) | 4–32+ (4 roles x iterations)                          | 5–28 (strategist + investigators + answer)                |
+| **Search strategy**         | Agent-chosen, ad hoc           | Agent-chosen via ReAct workers           | Systematic: all entities x all queries x both methods | Systematic per hop, with cross-agent context              |
+| **Knowledge state**         | Read-chunk ID tracker          | Blackboard (DAG + evidence + entities)   | Knowledge Outline (entity → facts + confidence)       | Blackboard (hop chain + entity KB, read/write by all)     |
+| **Hop propagation**         | Agent must remember in context | Entity registry with `[answer_N]` placeholders | Explicit: Hop N entities used in Hop N+1 queries | Explicit: resolved hops feed dependent hops via Blackboard|
+| **Query augmentation**      | None (LLM-dependent)           | None (LLM-dependent via ReAct)           | Automatic attribute-specific variants                 | Automatic + configurable entity-level retry               |
+| **Low-confidence handling** | None                           | Per-SQ retry (max 3 attempts)            | Retry with alternative queries                        | Configurable entity retry + Strategist verification loop  |
+| **Planning**                | None                           | Explicit DAG (1 re-decomposition)        | Static (Reasoner decomposes once)                     | Dynamic (Strategist revises plan based on findings)       |
+| **Self-correction**         | None                           | Worker self-verify + re-decomposition    | None                                                  | Strategist verify mode checks evidence chain              |
+| **Inter-agent comms**       | N/A                            | Via Blackboard (cross-agent context)     | N/A (single pipeline)                                 | Via Blackboard (investigators see each other's findings)  |
+| **Model**                   | Qwen3-8B (8B dense)            | Qwen3-8B (8B dense)                      | Qwen3-8B (8B dense)                                   | Qwen3-8B (8B dense)                                      |
+| **Embedding**               | e5-base-v2                     | e5-base-v2                               | e5-base-v2                                            | e5-base-v2                                                |
 
 
 ### Why Structured Pipelines Win
 
 The core insight is that **multi-hop QA requires structured reasoning, not general-purpose tool use**:
 
-1. **Explicit decomposition beats implicit**: E2 and M5 rely on the LLM to internally track which hops are resolved. SAGE explicitly marks hops as `[RESOLVED]`/`[PENDING]`; SAGE-Autonomous goes further with typed Hop objects, dependencies, and dynamic revision.
-2. **Entity propagation is critical**: On MuSiQue (3-4 hops), intermediate entities must flow into subsequent queries. Both SAGE variants force resolved entities into downstream queries. E2/M5 must hope the LLM remembers to do this.
-3. **Systematic retrieval beats ad hoc**: E2/M5 search with whatever query the agent formulates. SAGE/SAGE-Auto fire 6 query variants x 2 methods x top-k per entity, plus automatic attribute-based augmentation. This brute-force approach compensates for BM25's lexical mismatch problem.
-4. **Knowledge accumulation provides robustness**: SAGE's Knowledge Outline and SAGE-Auto's Blackboard persist across iterations. If the first retrieval attempt fails, later iterations can retry. E2/M5's conversation context grows linearly and eventually exceeds the budget.
-5. **Dynamic planning adds another layer**: SAGE-Autonomous's Strategist can revise the hop chain based on what investigators actually find, rather than committing to a static plan. This is especially valuable when initial decomposition misidentifies the question structure.
-6. **Self-verification catches errors**: SAGE-Autonomous's verify mode checks that the answer comes from the correct (final) hop and matches the expected answer type, catching a class of errors that static pipelines miss.
-7. **Smaller model, better results**: Both SAGE variants achieve higher scores with Qwen3-8B (dense) than M5 with Qwen3-30B-A3B (MoE), proving that architecture matters more than model size for structured tasks.
+1. **Explicit decomposition beats implicit**: E2 relies on the LLM to internally track which hops are resolved. M6 introduces explicit DAG decomposition, and SAGE/SAGE-Autonomous go further with typed hop chains and dynamic revision.
+2. **Programmatic retrieval beats ReAct tool calling**: M6's ReAct workers (12-step LLM-guided tool calling) underperform E2's simpler ReAct loop, suggesting that multi-agent overhead hurts when workers still rely on unreliable LLM tool-calling at 8B scale. SAGE's programmatic retrieval (2 LLM calls per entity: entity ID + summarization) eliminates this failure mode entirely.
+3. **Systematic retrieval beats ad hoc**: E2 and M6 search with whatever query the agent formulates (typically 1–2 queries per sub-question). SAGE/SAGE-Auto fire 6 query variants x 2 methods x top-k per entity, plus automatic attribute-based augmentation. This brute-force approach compensates for BM25's lexical mismatch problem.
+4. **Entity propagation is critical**: On MuSiQue (3-4 hops), intermediate entities must flow into subsequent queries. Both SAGE variants and M6 force resolved entities into downstream queries. E2 must hope the LLM remembers to do this.
+5. **Knowledge accumulation provides robustness**: SAGE's Knowledge Outline and SAGE-Auto's Blackboard persist structured state across iterations. If the first retrieval attempt fails, later iterations can retry with targeted feedback. E2's conversation context grows linearly and eventually exceeds the budget.
+6. **Dynamic planning adds another layer**: SAGE-Autonomous's Strategist can revise the hop chain based on what investigators actually find, rather than committing to a static plan. This is especially valuable when initial decomposition misidentifies the question structure.
+7. **Self-verification catches errors**: SAGE-Autonomous's verify mode checks that the answer comes from the correct (final) hop and matches the expected answer type, catching a class of errors that static pipelines miss.
 
 ### Performance Scaling by Hop Complexity
 
 
-| Dataset       | Hops | E2 (8B) | E4 (30B) | M5 (3B active) | SAGE (8B) | SAGE-Auto (8B) | Best vs E4      |
-| ------------- | ---- | ------- | -------- | -------------- | --------- | -------------- | --------------- |
-| HotpotQA      | 2    | 70.0%   | 77.1%    | 69.9%          | 73.5%     | **79.3%**      | **+2.2pp**      |
-| 2WikiMultiHop | 2    | 63.6%   | 70.7%    | 53.0%          | **77.1%** | **78.0%**      | **+7.3pp**      |
-| MuSiQue       | 3–4  | 46.2%   | **53.3%**| 33.5%          | 51.7%     | 51.5%          | -1.8pp          |
+| Dataset       | Hops | E2 (8B) | E4 (30B) | M6 (8B)  | SAGE (8B) | SAGE-Auto (8B) | Best         |
+| ------------- | ---- | ------- | -------- | -------- | --------- | -------------- | ------------ |
+| HotpotQA      | 2    | 59.3%   | **77.1%**| 49.6%    | 73.5%     | 73.5%          | E4           |
+| 2WikiMultiHop | 2    | 47.5%   | 70.7%    | 54.0%    | 77.1%     | **77.7%**      | SAGE-Auto    |
+| MuSiQue       | 3–4  | 30.3%   | **53.3%**| 32.5%    | 51.7%     | 49.6%          | E4           |
 
 
-SAGE with Qwen3-8B is the strongest system on 2WikiMultiHop, surpassing even E4's Qwen3-30B by 6.4pp. On MuSiQue, SAGE nearly matches the 4x larger model (-1.6pp). The structured pipeline's advantage is most pronounced on compositional questions requiring precise entity linking (2Wiki) where systematic retrieval and entity propagation compensate for model size.
+SAGE with Qwen3-8B is the strongest system on 2WikiMultiHop, surpassing even E4's Qwen3-30B by 7.0pp. On MuSiQue, SAGE nearly matches the 4x larger model (-1.6pp). The structured pipeline's advantage is most pronounced on compositional questions requiring precise entity linking (2Wiki) where systematic retrieval and entity propagation compensate for model size. M6's blackboard architecture improves over E2 on 2Wiki (+6.5pp) and MuSiQue (+2.2pp) through explicit decomposition, but still falls far short of SAGE/SAGE-Auto, demonstrating that **how** agents retrieve (programmatic vs ReAct) matters more than **whether** questions are decomposed.
 
 ---
 
 ## Evaluation
 
-All results use **DeepSeek-R1-Distill-Qwen-7B** as an independent LLM judge (not the same model that generated answers). The judge evaluates whether predictions are semantically equivalent to gold answers, with equivalence rules for name variants, abbreviations, and partial matches.
+All results use a **DeepSeek-R1-Distill** LLM judge (not the same model that generated answers). E2/E4 use the 32B variant; M6, SAGE, and SAGE-Auto use the 7B variant. The judge evaluates whether predictions are semantically equivalent to gold answers, with equivalence rules for name variants, abbreviations, and partial matches.
 
 ### Metrics
 
@@ -763,4 +836,4 @@ E2 and E4 store the **full LLM response** (including `<think>` reasoning blocks 
 - **Token F1 = 2-4%** (prediction contains far more tokens than the gold answer)
 - **Contain and LLM Accuracy** remain reliable since they tolerate extra text
 
-SAGE and M5 output **clean short answers**, making all metrics reliable for these systems. For fair cross-system comparison, use **LLM Accuracy** (primary) and **Contain (bidirectional)** (secondary).
+SAGE, M6, and SAGE-Auto output **clean short answers**, making all metrics reliable for these systems. For fair cross-system comparison, use **LLM Accuracy** (primary) and **Contain (bidirectional)** (secondary).

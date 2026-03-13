@@ -102,6 +102,7 @@ class M6PipelineResult:
     pred_answer: str = ""
     question_type: str = "unknown"
     num_sub_questions: int = 0
+    num_workers: int = 0
     total_ticks: int = 0
     total_tokens: int = 0
     wall_clock_seconds: float = 0.0

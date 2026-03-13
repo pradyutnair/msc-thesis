@@ -93,8 +93,18 @@ class M6Pipeline:
         if warm_ctx:
             blackboard.warm_start_context = warm_ctx
 
-        # Create agents
-        agents = self._create_agents()
+        # Phase 1: decompose upfront so we know how many workers to spawn
+        planner = self._create_planner()
+        num_sqs = await planner.decompose_first(blackboard)
+
+        # Phase 2: create workers dynamically — 1 for simple, N for multi-hop
+        num_workers = 1 if num_sqs < 2 else num_sqs
+        logger.info(
+            "Dynamic workers: %d sub-questions → %d workers",
+            num_sqs, num_workers,
+        )
+
+        agents = self._create_agents(planner=planner, num_workers=num_workers)
 
         coordinator = Coordinator(
             agents=agents,
@@ -120,7 +130,8 @@ class M6Pipeline:
 
         # Build result from blackboard snapshot
         snapshot = await blackboard.get_snapshot()
-        result = self._build_result(question, answer, snapshot, elapsed)
+        result = self._build_result(question, answer, snapshot, elapsed,
+                                    num_workers=num_workers)
         return result
 
     async def _warm_start_search(self, question: str) -> str:
@@ -162,21 +173,21 @@ class M6Pipeline:
             logger.warning("Warm-start search failed: %s", exc)
             return ""
 
-    def _create_agents(self) -> list:
-        """Create the agent list: 1 PlannerAgent + N WorkerAgents."""
-        agents = []
-
-        # PlannerAgent (thinking ON — decompose + monitor)
-        agents.append(PlannerAgent(
+    def _create_planner(self) -> PlannerAgent:
+        """Create the PlannerAgent (used before coordinator for upfront decomposition)."""
+        return PlannerAgent(
             llm_client=self.llm,
             decompose_prompt_path=self.decomposer_prompt,
             synthesize_prompt_path=self.synthesizer_prompt,
             consistency_prompt_path=self.synthesizer_consistency_prompt,
             max_redecompositions=self.max_redecompositions,
             enable_consistency_check=self.enable_consistency_check,
-        ))
+        )
 
-        # SynthesizerAgent (thinking ON — combines sub-answers with reasoning)
+    def _create_agents(self, planner: PlannerAgent, num_workers: int) -> list:
+        """Create the agent list: pre-built PlannerAgent + SynthesizerAgent + N WorkerAgents."""
+        agents = [planner]
+
         agents.append(SynthesizerAgent(
             llm_client=self.llm,
             prompt_path=self.synthesizer_prompt,
@@ -184,8 +195,7 @@ class M6Pipeline:
             enable_consistency_check=self.enable_consistency_check,
         ))
 
-        # WorkerAgents (thinking OFF — plan/execute/verify per sub-question)
-        for i in range(self.num_workers):
+        for i in range(num_workers):
             agents.append(WorkerAgent(
                 agent_id=f"worker_{i}",
                 llm_client=self.worker_llm,
@@ -203,6 +213,7 @@ class M6Pipeline:
         answer: str,
         snapshot: dict[str, Any],
         elapsed: float,
+        num_workers: int = 0,
     ) -> M6PipelineResult:
         """Build M6PipelineResult from blackboard snapshot."""
         sqs = snapshot.get("sub_questions", [])
@@ -215,6 +226,7 @@ class M6Pipeline:
             question=question,
             pred_answer=answer,
             num_sub_questions=len(sqs),
+            num_workers=num_workers,
             total_ticks=snapshot.get("current_tick", 0),
             total_tokens=snapshot.get("tokens_used", 0),
             wall_clock_seconds=elapsed,
