@@ -1,0 +1,87 @@
+#!/bin/bash
+#SBATCH --job-name=strict_judge
+#SBATCH --partition=gpu_h100
+#SBATCH --time=02:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/jobs/output/%j_strict_judge_%a.log
+#SBATCH --array=0-5
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export PYTHONPATH="/projects/prjs1800/msc-thesis/04-sage-autonomous/src:${PYTHONPATH:-}"
+
+MODEL_ID="deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+SERVED_NAME="DeepSeek-R1-Distill-Qwen-32B"
+
+# Array 0-2: E2 original (verbose), Array 3-5: M6 v20
+DATASETS=(hotpotqa 2wikimultihop musique)
+TASK_IDX=$SLURM_ARRAY_TASK_ID
+
+if [ $TASK_IDX -lt 3 ]; then
+    # E2 original
+    DATASET="${DATASETS[$TASK_IDX]}"
+    INPUT="/projects/prjs1800/msc-thesis/01-arag-reproduction/results/qwen3-8b-vllm/$DATASET/predictions.jsonl"
+    OUTPUT_DIR="results/e2_strict_judge/$DATASET"
+    LABEL="E2-original"
+else
+    # M6 v20
+    IDX=$((TASK_IDX - 3))
+    DATASET_NAMES=(hotpotqa 2wiki musique)
+    DATASET="${DATASET_NAMES[$IDX]}"
+    INPUT="results/m6v20_1000/$DATASET/predictions.jsonl"
+    OUTPUT_DIR="results/m6v20_strict_judge/$DATASET"
+    LABEL="M6-v20"
+fi
+
+mkdir -p "$OUTPUT_DIR"
+
+PORT=$((8000 + RANDOM % 1000))
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+echo "Starting vLLM server on port $PORT..."
+python -m vllm.entrypoints.openai.api_server \
+  --model "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port "$PORT" \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.92 \
+  --max-num-seqs 64 \
+  --enable-prefix-caching \
+  --trust-remote-code &
+VLLM_PID=$!
+
+for i in $(seq 1 300); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  STATUS="$(python -c "
+import json, urllib.request
+try:
+    d=json.load(urllib.request.urlopen('http://127.0.0.1:${PORT}/v1/models', timeout=2))
+    print('ok' if any('DeepSeek' in m.get('id','') for m in d.get('data',[])) else 'wait')
+except Exception:
+    print('wait')
+")"
+  if [[ "$STATUS" == "ok" ]]; then echo "vLLM ready after ${i} checks"; break; fi
+  sleep 3
+done
+
+echo ""
+echo "=== Strict LLM Judge: $LABEL / $DATASET ==="
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:${PORT}/v1"
+export ARAG_MODEL="$SERVED_NAME"
+
+python -u scripts/eval_strict.py \
+  --predictions "$INPUT" \
+  --workers 40 \
+  --output "$OUTPUT_DIR"
+
+echo "Strict judge eval $LABEL/$DATASET complete"

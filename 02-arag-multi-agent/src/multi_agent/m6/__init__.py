@@ -1,8 +1,9 @@
 """M6: Blackboard-coordinated multi-agent RAG pipeline.
 
-Architecture (AgentFlow-inspired):
-  - PlannerAgent: decompose → monitor → synthesize lifecycle
-  - WorkerAgent: plan → execute → verify loop per sub-question
+Architecture:
+  - PlannerAgent: decompose -> monitor -> signal synthesis
+  - WorkerAgent: plan -> execute loop per sub-question
+  - SynthesizerAgent: aggregate evidence into final answer
   - Coordinator: concurrent async loops + watchdog
   - Blackboard: shared state for emergent coordination
 """

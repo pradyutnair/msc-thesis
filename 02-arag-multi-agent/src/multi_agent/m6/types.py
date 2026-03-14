@@ -10,13 +10,13 @@ from typing import Any
 class SubQuestionStatus(str, Enum):
     """Lifecycle status of a sub-question on the blackboard."""
 
-    BLOCKED = "blocked"            # Dependencies unresolved
-    READY = "ready"                # Dependencies met, unclaimed
-    CLAIMED = "claimed"            # Retriever working on it
-    EVIDENCE_FOUND = "evidence_found"  # Retriever done, awaiting verification
-    VERIFIED = "verified"          # Critic approved
-    FAILED = "failed"              # Max attempts exhausted
-    NEEDS_RETRY = "needs_retry"    # Critic rejected, retry available
+    BLOCKED = "blocked"
+    READY = "ready"
+    CLAIMED = "claimed"
+    EVIDENCE_FOUND = "evidence_found"
+    VERIFIED = "verified"
+    FAILED = "failed"
+    NEEDS_RETRY = "needs_retry"
 
 
 @dataclass
@@ -41,7 +41,7 @@ class M6SubQuestion:
 class EvidenceEntry:
     """A piece of evidence supporting a sub-question answer."""
 
-    id: str                        # "ev_{sq_id}_{counter}"
+    id: str
     sub_question_id: int
     content: str
     source_chunk_id: str
@@ -54,29 +54,11 @@ class EvidenceEntry:
 class EntityEntry:
     """A resolved entity posted to the blackboard's entity registry."""
 
-    name: str                      # e.g. "answer_0"
-    value: str                     # e.g. "Germany"
+    name: str
+    value: str
     source_evidence_id: str
     confidence: float = 1.0
     verified: bool = False
-
-
-@dataclass
-class KnowledgeGap:
-    """A gap identified by the Critic that needs filling."""
-
-    sub_question_id: int
-    description: str
-    suggested_query: str = ""
-
-
-@dataclass
-class Contradiction:
-    """A contradiction detected between evidence or sub-answers."""
-
-    sub_question_ids: list[int] = field(default_factory=list)
-    description: str = ""
-    resolution: str | None = None
 
 
 @dataclass
@@ -113,8 +95,6 @@ class M6PipelineResult:
     evidence_count: int = 0
     verified_count: int = 0
     failed_count: int = 0
-    contradictions: list[dict[str, Any]] = field(default_factory=list)
-    knowledge_gaps: list[dict[str, Any]] = field(default_factory=list)
     execution_log: list[dict[str, Any]] = field(default_factory=list)
     termination_reason: str = ""
     error: str | None = None

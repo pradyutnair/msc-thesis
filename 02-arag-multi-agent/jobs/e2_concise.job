@@ -1,0 +1,143 @@
+#!/bin/bash
+#SBATCH --job-name=e2_concise
+#SBATCH --partition=gpu_h100
+#SBATCH --time=01:30:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/jobs/output/%j_e2_concise.log
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export PYTHONPATH="/projects/prjs1800/msc-thesis/04-sage-autonomous/src:${PYTHONPATH:-}"
+
+# ── Phase 1: Start vLLM with Qwen3-8B (same model E2 used) ──
+
+MODEL_ID="Qwen/Qwen3-8B"
+SERVED_NAME="Qwen3-8B"
+PORT=$((8000 + RANDOM % 1000))
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+echo "Starting vLLM (Qwen3-8B) on port $PORT..."
+python -m vllm.entrypoints.openai.api_server \
+  --model "$MODEL_ID" --served-model-name "$SERVED_NAME" --host 127.0.0.1 --port "$PORT" \
+  --dtype auto --max-model-len 8192 --gpu-memory-utilization 0.90 \
+  --max-num-seqs 128 \
+  --enable-prefix-caching \
+  --trust-remote-code &
+VLLM_PID=$!
+
+for i in $(seq 1 300); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  STATUS="$(python -c "
+import json, urllib.request
+try:
+    d=json.load(urllib.request.urlopen('http://127.0.0.1:${PORT}/v1/models', timeout=2))
+    print('ok' if any('Qwen' in m.get('id','') for m in d.get('data',[])) else 'wait')
+except Exception:
+    print('wait')
+")"
+  if [[ "$STATUS" == "ok" ]]; then echo "vLLM ready after ${i} checks"; break; fi
+  sleep 3
+done
+
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:${PORT}/v1"
+export ARAG_MODEL="$SERVED_NAME"
+
+E2_BASE="/projects/prjs1800/msc-thesis/01-arag-reproduction/results/qwen3-8b-vllm"
+OUT_BASE="results/e2_concise"
+
+# ── Phase 2: Extract concise answers (all 3 datasets, sequential but 50 concurrent workers each) ──
+
+echo ""
+echo "=== Extracting concise answers: hotpotqa ==="
+python -u scripts/extract_concise_answers.py \
+  --input "$E2_BASE/hotpotqa/predictions.jsonl" \
+  --output "$OUT_BASE/hotpotqa" \
+  --workers 50
+
+echo ""
+echo "=== Extracting concise answers: 2wikimultihop ==="
+python -u scripts/extract_concise_answers.py \
+  --input "$E2_BASE/2wikimultihop/predictions.jsonl" \
+  --output "$OUT_BASE/2wikimultihop" \
+  --workers 50
+
+echo ""
+echo "=== Extracting concise answers: musique ==="
+python -u scripts/extract_concise_answers.py \
+  --input "$E2_BASE/musique/predictions.jsonl" \
+  --output "$OUT_BASE/musique" \
+  --workers 50
+
+# ── Phase 3: Offline eval ──
+
+echo ""
+echo "=== Offline eval ==="
+python -u /projects/prjs1800/msc-thesis/04-sage-autonomous/scripts/eval_offline.py \
+  "$OUT_BASE/hotpotqa/predictions.jsonl" \
+  "$OUT_BASE/2wikimultihop/predictions.jsonl" \
+  "$OUT_BASE/musique/predictions.jsonl"
+
+# ── Phase 4: Kill Qwen, start DeepSeek judge, run strict eval ──
+
+echo ""
+echo "Killing Qwen3-8B, starting DeepSeek judge..."
+kill "$VLLM_PID" 2>/dev/null; wait "$VLLM_PID" 2>/dev/null || true
+sleep 5
+
+JUDGE_MODEL="deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+JUDGE_NAME="DeepSeek-R1-Distill-Qwen-32B"
+JUDGE_PORT=$((8000 + RANDOM % 1000))
+
+python -m vllm.entrypoints.openai.api_server \
+  --model "$JUDGE_MODEL" --served-model-name "$JUDGE_NAME" --host 127.0.0.1 --port "$JUDGE_PORT" \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.92 \
+  --max-num-seqs 64 \
+  --enable-prefix-caching \
+  --trust-remote-code &
+VLLM_PID=$!
+
+for i in $(seq 1 300); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  STATUS="$(python -c "
+import json, urllib.request
+try:
+    d=json.load(urllib.request.urlopen('http://127.0.0.1:${JUDGE_PORT}/v1/models', timeout=2))
+    print('ok' if any('DeepSeek' in m.get('id','') for m in d.get('data',[])) else 'wait')
+except Exception:
+    print('wait')
+")"
+  if [[ "$STATUS" == "ok" ]]; then echo "Judge vLLM ready after ${i} checks"; break; fi
+  sleep 3
+done
+
+export ARAG_BASE_URL="http://127.0.0.1:${JUDGE_PORT}/v1"
+export ARAG_MODEL="$JUDGE_NAME"
+
+echo ""
+echo "=== Strict LLM Judge: hotpotqa ==="
+python -u scripts/eval_strict.py -p "$OUT_BASE/hotpotqa/predictions.jsonl" -w 40 -o "$OUT_BASE/hotpotqa"
+
+echo ""
+echo "=== Strict LLM Judge: 2wikimultihop ==="
+python -u scripts/eval_strict.py -p "$OUT_BASE/2wikimultihop/predictions.jsonl" -w 40 -o "$OUT_BASE/2wikimultihop"
+
+echo ""
+echo "=== Strict LLM Judge: musique ==="
+python -u scripts/eval_strict.py -p "$OUT_BASE/musique/predictions.jsonl" -w 40 -o "$OUT_BASE/musique"
+
+echo ""
+echo "=== ALL DONE ==="
+echo "Results in $OUT_BASE/*/predictions_eval_summary.json"

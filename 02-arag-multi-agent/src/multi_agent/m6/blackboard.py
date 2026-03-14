@@ -12,11 +12,9 @@ import time
 from typing import Any
 
 from multi_agent.m6.types import (
-    Contradiction,
     EntityEntry,
     EvidenceEntry,
     ExecutionLogEntry,
-    KnowledgeGap,
     M6SubQuestion,
     SubQuestionStatus,
 )
@@ -49,8 +47,6 @@ class Blackboard:
         self.search_plan: list[M6SubQuestion] = []
         self.evidence: list[EvidenceEntry] = []
         self.entity_registry: list[EntityEntry] = []
-        self.knowledge_gaps: list[KnowledgeGap] = []
-        self.contradictions: list[Contradiction] = []
 
         # Execution tracking
         self.execution_log: list[ExecutionLogEntry] = []
@@ -61,7 +57,7 @@ class Blackboard:
         # Final answer (set by synthesizer or salvage)
         self.final_answer: str | None = None
 
-        # Synthesis gate: set by planner when it decides NOT to re-decompose.
+        # Synthesis gate: set by planner when all SQs are terminal.
         # Prevents race between re-decomposition and synthesis.
         self.allow_synthesis: bool = False
 
@@ -74,8 +70,8 @@ class Blackboard:
 
     # ── Selective Reads ──────────────────────────────────────────────
 
-    async def read_for_decomposer(self) -> dict[str, Any]:
-        """Decomposer needs: question, sub-question statuses (for re-decomposition),
+    async def read_for_planner(self) -> dict[str, Any]:
+        """Planner needs: question, sub-question statuses (for re-decomposition),
         failure context, and verified answers to preserve."""
         async with self._lock:
             result: dict[str, Any] = {"question": self.question}
@@ -83,15 +79,13 @@ class Blackboard:
             if self.search_plan:
                 result["sub_questions"] = [self._sq_to_dict(sq) for sq in self.search_plan]
 
-                # Build failure context for re-decomposition
                 failed_sqs = [sq for sq in self.search_plan if sq.status == SubQuestionStatus.FAILED]
                 if failed_sqs:
                     lines = []
                     for sq in failed_sqs:
-                        lines.append(f"- SQ-{sq.id}: \"{sq.text}\" → FAILED after {sq.attempt_count} attempts")
+                        lines.append(f"- SQ-{sq.id}: \"{sq.text}\" -> FAILED after {sq.attempt_count} attempts")
                     result["failure_context"] = "\n".join(lines)
 
-                # Verified answers to preserve
                 verified_answers = {}
                 for sq in self.search_plan:
                     if sq.status == SubQuestionStatus.VERIFIED and sq.answer:
@@ -101,10 +95,9 @@ class Blackboard:
 
             return result
 
-    async def read_for_retriever(self, retriever_id: str) -> dict[str, Any]:
-        """Retriever needs: ready/needs_retry sub-Qs (with priority info),
-        entity registry, relevant evidence, budget info, cross-agent context,
-        and knowledge gaps for retry guidance."""
+    async def read_for_worker(self, worker_id: str) -> dict[str, Any]:
+        """Worker needs: ready/needs_retry sub-Qs (with priority info),
+        entity registry, relevant evidence, budget info, and cross-agent context."""
         async with self._lock:
             available_sqs = []
             for sq in self.search_plan:
@@ -117,7 +110,7 @@ class Blackboard:
 
             claimed_sq = None
             for sq in self.search_plan:
-                if sq.status == SubQuestionStatus.CLAIMED and sq.claimed_by == retriever_id:
+                if sq.status == SubQuestionStatus.CLAIMED and sq.claimed_by == worker_id:
                     claimed_sq = self._sq_to_dict(sq)
                     break
 
@@ -131,15 +124,7 @@ class Blackboard:
                     if ev.sub_question_id == claimed_sq_id
                 ]
 
-            blackboard_context = self._build_cross_agent_context(retriever_id)
-
-            # Knowledge gaps for the claimed (or soon-to-be-claimed) sub-questions
-            gaps_by_sq: dict[int, list[dict]] = {}
-            for gap in self.knowledge_gaps:
-                gaps_by_sq.setdefault(gap.sub_question_id, []).append({
-                    "description": gap.description,
-                    "suggested_query": gap.suggested_query,
-                })
+            blackboard_context = self._build_cross_agent_context(worker_id)
 
             # Search queries from decomposer for claimed sub-question
             search_queries: list[str] = []
@@ -157,53 +142,8 @@ class Blackboard:
                 "claimed_evidence": claimed_evidence,
                 "tokens_remaining": self.token_budget - self.tokens_used,
                 "blackboard_context": blackboard_context,
-                "knowledge_gaps": gaps_by_sq,
                 "search_queries": search_queries,
                 "warm_start_context": getattr(self, "warm_start_context", ""),
-            }
-
-    async def read_for_worker(self, worker_id: str) -> dict[str, Any]:
-        """Worker view — alias for read_for_retriever (backward compat)."""
-        return await self.read_for_retriever(worker_id)
-
-    async def read_for_critic(self) -> dict[str, Any]:
-        """Critic needs: sub-Qs with EVIDENCE_FOUND, their evidence,
-        entities, existing contradictions, and all verified answers
-        for cross-sub-question consistency checking."""
-        async with self._lock:
-            pending_sqs = [
-                self._sq_to_dict(sq) for sq in self.search_plan
-                if sq.status == SubQuestionStatus.EVIDENCE_FOUND
-            ]
-
-            sq_evidence: dict[int, list[dict]] = {}
-            for sq_dict in pending_sqs:
-                sq_id = sq_dict["id"]
-                sq_evidence[sq_id] = [
-                    self._ev_to_dict(ev) for ev in self.evidence
-                    if ev.sub_question_id == sq_id
-                ]
-
-            entities = {e.name: e.value for e in self.entity_registry}
-
-            # All verified answers for cross-SQ consistency checking
-            verified_answers: dict[int, dict[str, str]] = {}
-            for sq in self.search_plan:
-                if sq.status == SubQuestionStatus.VERIFIED and sq.answer:
-                    verified_answers[sq.id] = {
-                        "text": sq.text,
-                        "answer": sq.answer,
-                    }
-
-            return {
-                "pending_sub_questions": pending_sqs,
-                "sub_question_evidence": sq_evidence,
-                "entity_registry": entities,
-                "contradictions": [
-                    {"sub_question_ids": c.sub_question_ids, "description": c.description}
-                    for c in self.contradictions
-                ],
-                "verified_answers": verified_answers,
             }
 
     async def read_for_synthesizer(self) -> dict[str, Any]:
@@ -251,13 +191,12 @@ class Blackboard:
         """Decomposer writes the DAG. Sets initial READY/BLOCKED statuses."""
         async with self._lock:
             self.search_plan = sub_questions
-            # Set initial statuses based on dependencies
             for sq in self.search_plan:
                 if sq.dependencies:
                     sq.status = SubQuestionStatus.BLOCKED
                 else:
                     sq.status = SubQuestionStatus.READY
-            self._log("decomposer", "set_search_plan",
+            self._log("planner", "set_search_plan",
                        f"{len(sub_questions)} sub-questions")
 
     async def reset_search_plan(
@@ -265,21 +204,10 @@ class Blackboard:
         new_sub_questions: list[M6SubQuestion],
         preserve_verified: bool = True,
     ) -> None:
-        """Re-decomposition: replace the search plan, optionally preserving verified answers.
-
-        Preserves verified entities in the registry so dependent new SQs can resolve them.
-        Clears failed/unfinished sub-questions and their evidence.
-        """
+        """Re-decomposition: replace the search plan, optionally preserving verified answers."""
         async with self._lock:
-            # Reset synthesis gate — new SQs need to be worked first
             self.allow_synthesis = False
             if preserve_verified:
-                # Keep verified entities — new SQs may reference them via [answer_N]
-                # But clear all non-verified evidence and SQs
-                verified_entity_names = {
-                    e.name for e in self.entity_registry if e.verified
-                }
-                # Keep only evidence from verified SQs
                 verified_sq_ids = {
                     sq.id for sq in self.search_plan
                     if sq.status == SubQuestionStatus.VERIFIED
@@ -294,12 +222,11 @@ class Blackboard:
                     sq.status = SubQuestionStatus.BLOCKED
                 else:
                     sq.status = SubQuestionStatus.READY
-            # Re-check unblocks in case some deps are already verified
             self._check_unblocks()
-            self._log("decomposer", "reset_search_plan",
+            self._log("planner", "reset_search_plan",
                        f"{len(new_sub_questions)} sub-questions (preserve_verified={preserve_verified})")
 
-    async def claim_sub_question(self, sq_id: int, retriever_id: str) -> bool:
+    async def claim_sub_question(self, sq_id: int, worker_id: str) -> bool:
         """Atomic check-and-claim. Returns True if successfully claimed."""
         async with self._lock:
             sq = self._get_sq(sq_id)
@@ -308,9 +235,9 @@ class Blackboard:
             if sq.status not in (SubQuestionStatus.READY, SubQuestionStatus.NEEDS_RETRY):
                 return False
             sq.status = SubQuestionStatus.CLAIMED
-            sq.claimed_by = retriever_id
+            sq.claimed_by = worker_id
             sq.attempt_count += 1
-            self._log(retriever_id, "claim",
+            self._log(worker_id, "claim",
                        f"SQ-{sq_id} (attempt {sq.attempt_count})")
             return True
 
@@ -319,14 +246,14 @@ class Blackboard:
         entries: list[EvidenceEntry],
         sq_id: int,
         answer: str,
-        retriever_id: str,
+        worker_id: str,
     ) -> None:
-        """Retriever posts evidence + answer. Status → EVIDENCE_FOUND."""
+        """Worker posts evidence + answer. Status -> EVIDENCE_FOUND."""
         async with self._lock:
             for entry in entries:
                 entry.id = f"ev_{sq_id}_{self._evidence_counter}"
                 entry.sub_question_id = sq_id
-                entry.retriever_id = retriever_id
+                entry.retriever_id = worker_id
                 self._evidence_counter += 1
                 self.evidence.append(entry)
 
@@ -334,14 +261,13 @@ class Blackboard:
             if sq is not None:
                 sq.answer = answer
                 sq.status = SubQuestionStatus.EVIDENCE_FOUND
-                sq.claimed_by = retriever_id
-            self._log(retriever_id, "post_evidence",
+                sq.claimed_by = worker_id
+            self._log(worker_id, "post_evidence",
                        f"SQ-{sq_id}: {len(entries)} entries, answer='{answer[:60]}'")
 
     async def post_entity(self, entity: EntityEntry) -> None:
         """Post a resolved entity. Triggers unblock check."""
         async with self._lock:
-            # Replace existing entity with same name if present
             self.entity_registry = [
                 e for e in self.entity_registry if e.name != entity.name
             ]
@@ -365,11 +291,9 @@ class Blackboard:
 
             if verified:
                 sq.status = SubQuestionStatus.VERIFIED
-                # Mark evidence as verified
                 for ev in self.evidence:
                     if ev.sub_question_id == sq_id:
                         ev.verified = True
-                # Always post entity so dependents can resolve [answer_N]
                 entity_value = sq.answer or "unknown"
                 entity = EntityEntry(
                     name=f"answer_{sq_id}",
@@ -405,18 +329,15 @@ class Blackboard:
             if sq is None:
                 return
 
-            # Remove evidence for this sub-question
             self.evidence = [
                 ev for ev in self.evidence if ev.sub_question_id != sq_id
             ]
 
-            # Remove entity
             entity_name = f"answer_{sq_id}"
             self.entity_registry = [
                 e for e in self.entity_registry if e.name != entity_name
             ]
 
-            # Reset status
             if sq.attempt_count >= sq.max_attempts:
                 sq.status = SubQuestionStatus.FAILED
             else:
@@ -425,26 +346,9 @@ class Blackboard:
             sq.answer = None
 
             self.backtrack_count += 1
-
-            # Recursively re-block dependents
             self._reblock_dependents(sq_id)
-
-            self._log("critic", "backtrack",
+            self._log("system", "backtrack",
                        f"SQ-{sq_id}: {reason}")
-
-    async def post_knowledge_gap(self, gap: KnowledgeGap) -> None:
-        """Critic posts a knowledge gap for a sub-question."""
-        async with self._lock:
-            self.knowledge_gaps.append(gap)
-            self._log("critic", "knowledge_gap",
-                       f"SQ-{gap.sub_question_id}: {gap.description[:80]}")
-
-    async def post_contradiction(self, contradiction: Contradiction) -> None:
-        """Critic posts a detected contradiction."""
-        async with self._lock:
-            self.contradictions.append(contradiction)
-            self._log("critic", "contradiction",
-                       f"SQs {contradiction.sub_question_ids}: {contradiction.description[:80]}")
 
     async def record_action(self, tokens: int = 0) -> None:
         """Record an agent action: update tokens, action count, activity time."""
@@ -468,15 +372,14 @@ class Blackboard:
             self._log("system", "terminate", reason)
 
     async def salvage_answer(self) -> str:
-        """Extract best available answer from current state (unified salvage logic)."""
+        """Extract best available answer from current state."""
         async with self._lock:
             def _is_usable(answer: str | None) -> bool:
                 return bool(answer) and answer.lower() not in (
                     "unknown", "none", "error", "",
                 )
 
-            # Strategy 1: for bridge questions, prefer the leaf SQ (the one
-            # no other SQ depends on — its answer IS the final answer)
+            # Strategy 1: leaf SQ (bridge questions — leaf answer IS the final answer)
             depended_on: set[int] = set()
             for sq in self.search_plan:
                 for dep_id in sq.dependencies:
@@ -486,7 +389,6 @@ class Blackboard:
                 sq for sq in self.search_plan
                 if sq.status == SubQuestionStatus.VERIFIED and sq.answer
             ]
-            # Sort: leaf nodes first, then by highest ID
             for sq in sorted(
                 verified_sqs,
                 key=lambda s: (0 if s.id not in depended_on else 1, -s.id),
@@ -514,12 +416,11 @@ class Blackboard:
 
     # ── Internal Helpers (must be called under lock) ─────────────────
 
-    def _build_cross_agent_context(self, retriever_id: str) -> str:
-        """Build a summary of findings from other completed sub-questions.
+    def _build_cross_agent_context(self, worker_id: str) -> str:
+        """Build a summary of findings from completed sub-questions.
 
-        Includes answers and FULL evidence so retrievers can leverage
+        Includes answers and evidence so workers can leverage
         what other agents have already found (cross-pollination).
-        Must be called under lock.
         """
         lines: list[str] = []
         for sq in self.search_plan:
@@ -528,7 +429,6 @@ class Blackboard:
                 SubQuestionStatus.VERIFIED,
             ):
                 continue
-            # Include findings from all completed SQs (including own previous work)
             answer_str = sq.answer or "unknown"
             lines.append(f"- Sub-question {sq.id}: \"{sq.text}\"")
             lines.append(f"  Answer: {answer_str}")
@@ -551,11 +451,10 @@ class Blackboard:
         return None
 
     def _check_unblocks(self) -> None:
-        """Transition BLOCKED → READY when all dependencies are VERIFIED."""
+        """Transition BLOCKED -> READY when all dependencies are VERIFIED."""
         for sq in self.search_plan:
             if sq.status != SubQuestionStatus.BLOCKED:
                 continue
-            # Check: all dependencies must be VERIFIED
             all_deps_met = True
             for dep_id in sq.dependencies:
                 dep_sq = self._get_sq(dep_id)
@@ -567,21 +466,18 @@ class Blackboard:
                 logger.info("Unblocked SQ-%d (all dependencies verified)", sq.id)
 
     def _propagate_failure(self, failed_sq_id: int) -> None:
-        """When a SQ fails, mark BLOCKED dependents as FAILED if they
-        can never be unblocked (because a required dependency is FAILED)."""
+        """When a SQ fails, mark BLOCKED dependents as FAILED."""
         for sq in self.search_plan:
             if sq.status != SubQuestionStatus.BLOCKED:
                 continue
             if failed_sq_id not in sq.dependencies:
                 continue
-            # This SQ depends on a FAILED SQ — it can never be unblocked
             sq.status = SubQuestionStatus.FAILED
             sq.answer = None
             logger.info("Propagated failure: SQ-%d FAILED (depends on failed SQ-%d)",
                         sq.id, failed_sq_id)
             self._log("system", "propagate_failure",
                        f"SQ-{sq.id} FAILED (dependency SQ-{failed_sq_id} failed)")
-            # Recurse: this SQ's dependents also fail
             self._propagate_failure(sq.id)
 
     def _reblock_dependents(self, sq_id: int) -> None:
@@ -594,7 +490,6 @@ class Blackboard:
                 SubQuestionStatus.VERIFIED,
                 SubQuestionStatus.NEEDS_RETRY,
             ):
-                # Remove evidence and entity for this dependent too
                 self.evidence = [
                     ev for ev in self.evidence if ev.sub_question_id != sq.id
                 ]
@@ -606,7 +501,6 @@ class Blackboard:
                 sq.answer = None
                 sq.claimed_by = None
                 logger.info("Re-blocked SQ-%d (depends on backtracked SQ-%d)", sq.id, sq_id)
-                # Recurse
                 self._reblock_dependents(sq.id)
 
     def _log(self, agent_id: str, action: str, details: str = "") -> None:
@@ -669,14 +563,6 @@ class Blackboard:
                 "evidence_count": len(self.evidence),
                 "verified_evidence_count": sum(1 for ev in self.evidence if ev.verified),
                 "entity_registry": {e.name: e.value for e in self.entity_registry},
-                "knowledge_gaps": [
-                    {"sq_id": g.sub_question_id, "desc": g.description}
-                    for g in self.knowledge_gaps
-                ],
-                "contradictions": [
-                    {"sq_ids": c.sub_question_ids, "desc": c.description}
-                    for c in self.contradictions
-                ],
                 "execution_log": [
                     {"tick": e.tick, "agent": e.agent_id, "action": e.action, "details": e.details}
                     for e in self.execution_log[-50:]
