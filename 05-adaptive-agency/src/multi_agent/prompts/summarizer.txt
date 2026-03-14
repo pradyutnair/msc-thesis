@@ -1,0 +1,27 @@
+Extract facts from these documents for the given task.
+
+Task: {hop_question}
+Original question: {original_question}
+Entity: {entity}
+Goal: {goal}
+
+Documents:
+{documents}
+
+Instructions:
+- Extract ANY fact mentioning the entity, especially facts answering the goal.
+- Preserve exact names, dates, numbers VERBATIM from the documents.
+- Be LENIENT: if a fact might be relevant, include it.
+- If the goal asks for a specific attribute and a document mentions it, that fact MUST be included.
+- The "answer" field MUST directly answer the GOAL, not just name the entity.
+  Example: If goal is "Find which county Hammerfest is in", answer "Finnmark county" NOT "Hammerfest".
+  Example: If goal is "Find when song X was released", answer "16 March 1987" NOT "song X".
+  Example: If goal is "Find batting position of X", answer "middle order batsman" NOT "Marlon Samuels".
+  Example: If goal is "Find when X was prime minister", answer "1945 to 1951" NOT just "1945".
+- The "answer" field MUST be a concise entity/value (1-6 words), NOT a full sentence.
+- Use the FULL CANONICAL NAME as it appears in the documents.
+- Preserve RANGES and COMPLETE phrases (e.g., "1945 to 1951", not just "1945").
+- NEVER say "not mentioned" or "no evidence" — always provide your best guess from the documents.
+
+Output JSON only:
+{{"entity": "entity name", "answer": "concise answer to the goal (1-6 words)", "facts": ["fact1", "fact2"], "confidence": 0.0, "supporting_chunk_ids": ["id1"]}}

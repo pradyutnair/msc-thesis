@@ -1,0 +1,78 @@
+#!/bin/bash
+#SBATCH --job-name=aa_noise
+#SBATCH --partition=gpu_a100
+#SBATCH --time=01:30:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/05-adaptive-agency/jobs/output/%j_noise_experiment.log
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/05-adaptive-agency
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="Qwen3-8B"
+
+mkdir -p results/noise_clean/hotpotqa results/noise_noisy/hotpotqa jobs/output
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+python -m vllm.entrypoints.openai.api_server \
+  --model "Qwen/Qwen3-8B" --served-model-name "Qwen3-8B" --host 127.0.0.1 --port 8000 \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.90 \
+  --max-num-seqs 256 \
+  --enable-auto-tool-choice --tool-call-parser hermes \
+  --trust-remote-code --generation-config vllm &
+VLLM_PID=$!
+
+for i in $(seq 1 300); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  STATUS="$(python - <<'PY'
+import json, urllib.request
+try:
+    d=json.load(urllib.request.urlopen("http://127.0.0.1:8000/v1/models", timeout=2))
+    print("ok" if any("Qwen3-8B" in m.get("id","") for m in d.get("data",[])) else "wait")
+except Exception:
+    print("wait")
+PY
+)"
+  if [[ "$STATUS" == "ok" ]]; then echo "vLLM ready after ${i} checks"; break; fi
+  sleep 3
+done
+
+echo ""
+echo "=== AA on CLEAN corpus (100q) ==="
+rm -f results/noise_clean/hotpotqa/predictions.jsonl
+PYTHONPATH=src python -u scripts/runner.py \
+  --config configs/adaptive_agency.yaml \
+  --questions data/hotpotqa/questions.json \
+  --output results/noise_clean/hotpotqa \
+  --limit 100 \
+  --concurrent 50
+
+PYTHONPATH=src python -u scripts/eval_offline.py results/noise_clean/hotpotqa/predictions.jsonl
+
+echo ""
+echo "=== AA on NOISY corpus (100q) ==="
+rm -f results/noise_noisy/hotpotqa/predictions.jsonl
+PYTHONPATH=src python -u scripts/runner.py \
+  --config configs/adaptive_agency.yaml \
+  --questions data/hotpotqa/questions.json \
+  --output results/noise_noisy/hotpotqa \
+  --chunks-file data/hotpotqa/chunks_noisy.json \
+  --limit 100 \
+  --concurrent 50
+
+PYTHONPATH=src python -u scripts/eval_offline.py results/noise_noisy/hotpotqa/predictions.jsonl
+
+echo ""
+echo "=== DONE ==="

@@ -1,0 +1,1500 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:23:44 [utils.py:325] 
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:23:44 [utils.py:325]        █     █     █▄   ▄█
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:23:44 [utils.py:325]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.15.1
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:23:44 [utils.py:325]   █▄█▀ █     █     █     █  model   Qwen/Qwen3-8B
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:23:44 [utils.py:325]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:23:44 [utils.py:325] 
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:23:44 [utils.py:261] non-default args: {'host': '127.0.0.1', 'enable_auto_tool_choice': True, 'tool_call_parser': 'hermes', 'model': 'Qwen/Qwen3-8B', 'trust_remote_code': True, 'max_model_len': 32768, 'served_model_name': ['Qwen3-8B'], 'generation_config': 'vllm', 'max_num_seqs': 256}
+[0;36m(APIServer pid=3634607)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[0;36m(APIServer pid=3634607)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:23:45 [model.py:541] Resolved architecture: Qwen3ForCausalLM
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:23:45 [model.py:1561] Using max model len 32768
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:23:45 [scheduler.py:226] Chunked prefill is enabled with max_num_batched_tokens=2048.
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:23:45 [vllm.py:624] Asynchronous scheduling is enabled.
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m INFO 03-14 19:23:54 [core.py:96] Initializing a V1 LLM engine (v0.15.1) with config: model='Qwen/Qwen3-8B', speculative_config=None, tokenizer='Qwen/Qwen3-8B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=Qwen3-8B, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'splitting_ops': ['vllm::unified_attention', 'vllm::unified_attention_with_output', 'vllm::unified_mla_attention', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::gdn_attention_core', 'vllm::kda_attention', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::unified_kv_cache_update'], 'compile_mm_encoder': False, 'compile_sizes': [], 'compile_ranges_split_points': [2048], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False}, 'max_cudagraph_capture_size': 512, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': True}, 'local_cache_dir': None, 'static_all_moe_layers': []}
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m INFO 03-14 19:23:57 [parallel_state.py:1212] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://145.136.62.33:34519 backend=nccl
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m INFO 03-14 19:23:57 [parallel_state.py:1423] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m INFO 03-14 19:23:57 [gpu_model_runner.py:4033] Starting to load model Qwen/Qwen3-8B...
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m INFO 03-14 19:23:58 [cuda.py:364] Using FLASH_ATTN attention backend out of potential backends: ('FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION')
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/5 [00:00<?, ?it/s]
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m Loading safetensors checkpoint shards:  20% Completed | 1/5 [00:00<00:02,  1.57it/s]
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m Loading safetensors checkpoint shards:  40% Completed | 2/5 [00:02<00:03,  1.25s/it]
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m Loading safetensors checkpoint shards:  60% Completed | 3/5 [00:04<00:03,  1.64s/it]
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m Loading safetensors checkpoint shards:  80% Completed | 4/5 [00:06<00:01,  1.81s/it]
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:08<00:00,  1.91s/it]
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:08<00:00,  1.72s/it]
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m 
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m INFO 03-14 19:24:08 [default_loader.py:291] Loading weights took 8.64 seconds
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m INFO 03-14 19:24:08 [gpu_model_runner.py:4130] Model loading took 15.27 GiB memory and 10.243885 seconds
+vLLM ready after 13 checks
+
+=== Ablation: force-mode=structured on hotpotqa (1000q) ===
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m INFO 03-14 19:24:18 [backends.py:812] Using cache directory: /home/pnair/.cache/vllm/torch_compile_cache/3dd797eba8/rank_0_0/backbone for vLLM's torch.compile
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m INFO 03-14 19:24:18 [backends.py:872] Dynamo bytecode transform time: 9.26 s
+2026-03-14 19:24:21,054 [INFO] __main__: Using chunks file: /gpfs/work5/0/prjs1800/msc-thesis/05-adaptive-agency/data/hotpotqa/chunks.json
+2026-03-14 19:24:21,054 [INFO] __main__: Using index dir: /gpfs/work5/0/prjs1800/msc-thesis/05-adaptive-agency/data/hotpotqa/index_e5_base_v2
+2026-03-14 19:24:21,115 [INFO] __main__: Total: 1000 | Completed: 0 | Pending: 1000
+2026-03-14 19:24:23,455 [INFO] __main__: Loading embedding model: intfloat/e5-base-v2
+2026-03-14 19:24:23,458 [INFO] sentence_transformers.SentenceTransformer: Load pretrained SentenceTransformer: intfloat/e5-base-v2
+2026-03-14 19:24:25,556 [INFO] __main__: Embedding model loaded
+2026-03-14 19:24:25,563 [INFO] __main__: Processing 5a7cc58f554299452d57ba45: How many times has the national team Joseph Raich Garriga pl
+2026-03-14 19:24:25,577 [INFO] __main__: Processing 5ae5691055429960a22e02f3: Boggle is a word game originally distributed by a toy and ga
+2026-03-14 19:24:25,579 [INFO] __main__: Processing 5a813b6f55429903bc27b951: What tribe was the Megaoryzomys curioi previously in that Ne
+2026-03-14 19:24:25,580 [INFO] __main__: Processing 5adf68ac5542993344016c79: Little Brown Stein is a rivalry trophy that imitates a mug m
+2026-03-14 19:24:25,583 [INFO] __main__: Processing 5a8f5a185542992414482a71: Of these two publication--Báiki and Sick--what type of publi
+2026-03-14 19:24:25,584 [INFO] __main__: Processing 5ae057fd55429945ae959328:  Robert Smith founded the multinational company headquartere
+2026-03-14 19:24:25,586 [INFO] __main__: Processing 5ae74baa5542997b22f6a68f: Davey Brozowski is a percussionist for a band that formed in
+2026-03-14 19:24:25,587 [INFO] __main__: Processing 5adbf44355429944faac23ce: In which county does the  8th Military Police Brigade  of th
+2026-03-14 19:24:25,589 [INFO] __main__: Processing 5a75e814554299109176e5c7: Which Republican Chairman was born June 1, 1956? 
+2026-03-14 19:24:25,591 [INFO] __main__: Processing 5a8a6b625542996c9b8d5ed9: In which town was the amusement park that is operated by Bri
+2026-03-14 19:24:25,592 [INFO] __main__: Processing 5ae608c15542992663a4f246: What magazine was started in 1925 and features the work of B
+2026-03-14 19:24:25,595 [INFO] __main__: Processing 5a7b8f66554299294a54a9f7: What I Saw: Reports from Berlin, 1920-1933 is a book by a wr
+2026-03-14 19:24:25,596 [INFO] __main__: Processing 5ac2070755429964131be2bd: How many episodes were there of the TV series where Julianna
+2026-03-14 19:24:25,597 [INFO] __main__: Processing 5abb23035542992ccd8e7f22: Kenneth Arnold reported the first unidentified object sighti
+2026-03-14 19:24:25,599 [INFO] __main__: Processing 5ae7eaf65542994a481bbe1d: When was the  former Indian cricketer who made his ODI debut
+2026-03-14 19:24:25,601 [INFO] __main__: Processing 5abbdf8055429931dba145bb: In the Cherokee Rose episode of "The Walking Dead," the char
+2026-03-14 19:24:25,603 [INFO] __main__: Processing 5ae20c245542997283cd2367: Hina is derived from a dye prepared in what areas?
+2026-03-14 19:24:25,604 [INFO] __main__: Processing 5abae88c554299660624167e: What is this subfamily within the cat family Felidae named b
+2026-03-14 19:24:25,606 [INFO] __main__: Processing 5a7647b85542992d0ec0608a: What street was the adult entertainment district of the Libe
+2026-03-14 19:24:25,607 [INFO] __main__: Processing 5abbdaef554299642a094b5d: The title track of Carla Bruni discography was used in a  fi
+2026-03-14 19:24:25,609 [INFO] __main__: Processing 5a8e0d04554299068b959e3a: What country does Haringey Heartlands and The Mall Wood Gree
+2026-03-14 19:24:25,610 [INFO] __main__: Processing 5ac1218c55429964131be15c: Kevin Rowland and Lauri Ylönen both share what occupation?
+2026-03-14 19:24:25,611 [INFO] __main__: Processing 5ab5f854554299637185c64e: What country do both Adnan Akmal and Kamran Akmal represent 
+2026-03-14 19:24:25,614 [INFO] __main__: Processing 5ab928c255429934fafe6e6e: Die Nacht was composed by German composer, Richard Strauss. 
+2026-03-14 19:24:25,614 [INFO] __main__: Processing 5a7f62405542992e7d278cf0: What was the name of the publisher who published "Finnegans 
+2026-03-14 19:24:25,617 [INFO] __main__: Processing 5ac31129554299741d48a1a2: Woodland is a census-designated place in a town that had thi
+2026-03-14 19:24:25,619 [INFO] __main__: Processing 5ac00584554299012d1db575: What date was the person born that Samuel Flores Borrego was
+2026-03-14 19:24:25,620 [INFO] __main__: Processing 5a87bada5542994846c1cddc: In which city are the headquarters of the American research 
+2026-03-14 19:24:25,622 [INFO] __main__: Processing 5a8cc8c2554299441c6b9efc: When did the author of the book One More River is based on w
+2026-03-14 19:24:25,623 [INFO] __main__: Processing 5a7c43c65542990527d5547e: Is Mary Pierce or Gustavo Kuerten the older tennis player?
+2026-03-14 19:24:25,624 [INFO] __main__: Processing 5ae22ede554299234fd0441b: Which company used a voice actor who also voiced He-Man?
+2026-03-14 19:24:25,627 [INFO] __main__: Processing 5a8d8e4f5542994ba4e3dca7: The NG postcode area is situated approximately how many mile
+2026-03-14 19:24:25,628 [INFO] __main__: Processing 5adfd22255429906c02daa4f: which actress was a notable practitioner at the white bear t
+2026-03-14 19:24:25,629 [INFO] __main__: Processing 5adc020e55429947ff1738b4: The Death Camp of Tolerance is an episode from an animated t
+2026-03-14 19:24:25,630 [INFO] __main__: Processing 5ae35b035542992e3233c3ae: William Bromley-Davenport held political office under the Pr
+2026-03-14 19:24:25,630 [INFO] __main__: Processing 5a87b2fc5542996e4f3088d0: Who wrote the book that inspired the name of the CD/DVD "Her
+2026-03-14 19:24:25,630 [INFO] __main__: Processing 5a74c3f455429979e2882a0a: What product by FLEXcon represents data by geometric pattern
+2026-03-14 19:24:25,630 [INFO] __main__: Processing 5ab2a308554299340b52553b: What is the nationality of the author of Fifty Shades Freed?
+2026-03-14 19:24:25,630 [INFO] __main__: Processing 5ae573b25542990ba0bbb2b4: Which of the actors starred in "Sollathaan Ninaikkiren" was 
+2026-03-14 19:24:25,630 [INFO] __main__: Processing 5a820f2f554299676cceb1ff: Although Michael Fincke's record was broken by Scott Kelly, 
+2026-03-14 19:24:25,631 [INFO] __main__: Processing 5a8612d45542996432c5719b: Are both Grapico and Izze artificially flavored soft drinks?
+2026-03-14 19:24:25,631 [INFO] __main__: Processing 5ab6f7415542991d322236f4: Sadok Sassi played for a national team that made its first W
+2026-03-14 19:24:25,631 [INFO] __main__: Processing 5ae532e955429908b632656f: Does the genus Cunninghamia or Chilopsis contain only one sp
+2026-03-14 19:24:25,631 [INFO] __main__: Processing 5ab48bab5542991779162cd3: Which Canadian Professional ice hockey player of Albanian or
+2026-03-14 19:24:25,631 [INFO] __main__: Processing 5ae6c0f35542991bbc97616f: What two positions did the man who broke Buzz Arlett's home 
+2026-03-14 19:24:25,631 [INFO] __main__: Processing 5ae54b4f5542990ba0bbb261: What type of veterinary specialist is the star veterinarian 
+2026-03-14 19:24:25,632 [INFO] __main__: Processing 5a7a8d2355429941d65f26a1: Zacarías Ferreira is the uncle of a professional basketball 
+2026-03-14 19:24:25,632 [INFO] __main__: Processing 5a761e855542994ccc9186e0: Where are Catcha Lake and Hedley Mascot Mine located?
+2026-03-14 19:24:25,632 [INFO] __main__: Processing 5a776b82554299373536026f: What is the official currency in the country that hosts the 
+2026-03-14 19:24:25,632 [INFO] __main__: Processing 5ae39fb85542990afbd1e197: Do both Changle District and Longkou face water?
+2026-03-14 19:24:28,614 [INFO] multi_agent.planner_agent: Planner: decomposed 'Die Nacht was composed by German composer, Richard Strauss. ' -> 1 sub-questions (type=single_hop, expected=a list of entity names, modes={'agentic': 1})
+2026-03-14 19:24:28,615 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:28,617 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 1 sub-questions -> modes {'structured': 1}
+2026-03-14 19:24:28,633 [INFO] multi_agent.planner_agent: Planner: decomposed 'Little Brown Stein is a rivalry trophy that imitates a mug m' -> 1 sub-questions (type=single_hop, expected=an item, modes={'agentic': 1})
+2026-03-14 19:24:28,633 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:28,635 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 1 sub-questions -> modes {'structured': 1}
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m INFO 03-14 19:24:28 [backends.py:267] Directly load the compiled graph(s) for compile range (1, 2048) from the cache, took 5.574 s
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m INFO 03-14 19:24:28 [monitor.py:34] torch.compile takes 14.83 s in total
+2026-03-14 19:24:29,541 [INFO] multi_agent.planner_agent: Planner: decomposed 'Which Republican Chairman was born June 1, 1956? ' -> 1 sub-questions (type=single_hop, expected=a person name, modes={'agentic': 1})
+2026-03-14 19:24:29,542 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:29,543 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 1 sub-questions -> modes {'structured': 1}
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m INFO 03-14 19:24:29 [gpu_worker.py:356] Available KV cache memory: 18.83 GiB
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m INFO 03-14 19:24:29 [kv_cache_utils.py:1307] GPU KV cache size: 137,136 tokens
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m INFO 03-14 19:24:29 [kv_cache_utils.py:1312] Maximum concurrency for 32,768 tokens per request: 4.19x
+2026-03-14 19:24:30,009 [INFO] multi_agent.planner_agent: Planner: decomposed 'What was the name of the publisher who published "Finnegans ' -> 1 sub-questions (type=single_hop, expected=a person name, modes={'agentic': 1})
+2026-03-14 19:24:30,009 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:30,010 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 1 sub-questions -> modes {'structured': 1}
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/51 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   4%|▍         | 2/51 [00:00<00:03, 15.47it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   8%|▊         | 4/51 [00:00<00:02, 15.97it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  12%|█▏        | 6/51 [00:00<00:02, 16.02it/s]2026-03-14 19:24:30,460 [INFO] multi_agent.planner_agent: Planner: decomposed 'What is this subfamily within the cat family Felidae named b' -> 1 sub-questions (type=single_hop, expected=an entity name, modes={'agentic': 1})
+2026-03-14 19:24:30,460 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:30,462 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 1 sub-questions -> modes {'structured': 1}
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  16%|█▌        | 8/51 [00:00<00:02, 16.05it/s]2026-03-14 19:24:30,630 [INFO] multi_agent.planner_agent: Planner: decomposed 'Boggle is a word game originally distributed by a toy and ga' -> 2 sub-questions (type=bridge, expected=a number, modes={'agentic': 2})
+2026-03-14 19:24:30,630 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:30,631 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  20%|█▉        | 10/51 [00:00<00:02, 16.75it/s]2026-03-14 19:24:30,758 [INFO] multi_agent.planner_agent: Planner: decomposed 'Which company used a voice actor who also voiced He-Man?' -> 2 sub-questions (type=bridge, expected=a company name, modes={'agentic': 2})
+2026-03-14 19:24:30,758 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:30,760 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+2026-03-14 19:24:30,761 [INFO] multi_agent.planner_agent: Planner: decomposed ' Robert Smith founded the multinational company headquartere' -> 2 sub-questions (type=bridge, expected=a city, modes={'agentic': 2})
+2026-03-14 19:24:30,761 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:30,761 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  24%|██▎       | 12/51 [00:00<00:02, 17.19it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  27%|██▋       | 14/51 [00:00<00:02, 17.54it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  31%|███▏      | 16/51 [00:00<00:01, 17.78it/s]2026-03-14 19:24:31,088 [INFO] multi_agent.planner_agent: Planner: decomposed 'What street was the adult entertainment district of the Libe' -> 2 sub-questions (type=bridge, expected=a place, modes={'agentic': 2})
+2026-03-14 19:24:31,088 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:31,090 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  37%|███▋      | 19/51 [00:01<00:01, 18.78it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  43%|████▎     | 22/51 [00:01<00:01, 19.38it/s]2026-03-14 19:24:31,314 [INFO] multi_agent.planner_agent: Planner: decomposed 'Hina is derived from a dye prepared in what areas?' -> 2 sub-questions (type=bridge, expected=a place, modes={'agentic': 2})
+2026-03-14 19:24:31,315 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:31,316 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+2026-03-14 19:24:31,338 [INFO] multi_agent.planner_agent: Planner: decomposed 'When did the author of the book One More River is based on w' -> 2 sub-questions (type=bridge, expected=a year, modes={'agentic': 2})
+2026-03-14 19:24:31,338 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:31,340 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  49%|████▉     | 25/51 [00:01<00:01, 19.85it/s]2026-03-14 19:24:31,592 [INFO] multi_agent.planner_agent: Planner: decomposed 'The NG postcode area is situated approximately how many mile' -> 2 sub-questions (type=bridge, expected=a number, modes={'agentic': 2})
+2026-03-14 19:24:31,592 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:31,593 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  55%|█████▍    | 28/51 [00:01<00:01, 20.24it/s]2026-03-14 19:24:31,616 [INFO] multi_agent.planner_agent: Planner: decomposed 'Woodland is a census-designated place in a town that had thi' -> 2 sub-questions (type=bridge, expected=a number, modes={'agentic': 2})
+2026-03-14 19:24:31,616 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:31,617 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  61%|██████    | 31/51 [00:01<00:00, 20.10it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  67%|██████▋   | 34/51 [00:01<00:00, 20.38it/s]2026-03-14 19:24:32,018 [INFO] multi_agent.planner_agent: Planner: decomposed 'Kenneth Arnold reported the first unidentified object sighti' -> 2 sub-questions (type=bridge, expected=a place, modes={'agentic': 2})
+2026-03-14 19:24:32,018 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:32,020 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  73%|███████▎  | 37/51 [00:01<00:00, 20.53it/s]2026-03-14 19:24:32,044 [INFO] multi_agent.planner_agent: Planner: decomposed 'In which county does the  8th Military Police Brigade  of th' -> 2 sub-questions (type=bridge, expected=a country name, modes={'agentic': 2})
+2026-03-14 19:24:32,044 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:32,045 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+2026-03-14 19:24:32,178 [INFO] multi_agent.planner_agent: Planner: decomposed 'In which city are the headquarters of the American research ' -> 2 sub-questions (type=bridge, expected=a place, modes={'agentic': 2})
+2026-03-14 19:24:32,178 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:32,179 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  78%|███████▊  | 40/51 [00:02<00:00, 20.48it/s]2026-03-14 19:24:32,242 [INFO] multi_agent.planner_agent: Planner: decomposed 'Davey Brozowski is a percussionist for a band that formed in' -> 2 sub-questions (type=bridge, expected=a city, modes={'agentic': 2})
+2026-03-14 19:24:32,242 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:32,244 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  84%|████████▍ | 43/51 [00:02<00:00, 20.72it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  90%|█████████ | 46/51 [00:02<00:00, 20.88it/s]2026-03-14 19:24:32,546 [INFO] multi_agent.planner_agent: Planner: decomposed 'What date was the person born that Samuel Flores Borrego was' -> 2 sub-questions (type=bridge, expected=a date, modes={'agentic': 2})
+2026-03-14 19:24:32,546 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:32,548 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  96%|█████████▌| 49/51 [00:02<00:00, 21.08it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:02<00:00, 19.39it/s]
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m Capturing CUDA graphs (decode, FULL):   0%|          | 0/35 [00:00<?, ?it/s]2026-03-14 19:24:32,773 [INFO] multi_agent.planner_agent: Planner: decomposed 'How many episodes were there of the TV series where Julianna' -> 2 sub-questions (type=bridge, expected=a number, modes={'agentic': 2})
+2026-03-14 19:24:32,778 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+Capturing CUDA graphs (decode, FULL):   6%|▌         | 2/35 [00:00<00:01, 19.05it/s]2026-03-14 19:24:32,907 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+Capturing CUDA graphs (decode, FULL):  14%|█▍        | 5/35 [00:00<00:01, 21.23it/s]Capturing CUDA graphs (decode, FULL):  23%|██▎       | 8/35 [00:00<00:01, 21.77it/s]Capturing CUDA graphs (decode, FULL):  31%|███▏      | 11/35 [00:00<00:01, 22.19it/s]2026-03-14 19:24:33,273 [INFO] multi_agent.planner_agent: Planner: decomposed 'When was the  former Indian cricketer who made his ODI debut' -> 2 sub-questions (type=bridge, expected=a year, modes={'agentic': 1, 'structured': 1})
+2026-03-14 19:24:33,278 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+Capturing CUDA graphs (decode, FULL):  40%|████      | 14/35 [00:00<00:00, 22.41it/s]2026-03-14 19:24:33,476 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+2026-03-14 19:24:33,477 [INFO] multi_agent.planner_agent: Planner: decomposed 'How many times has the national team Joseph Raich Garriga pl' -> 2 sub-questions (type=bridge, expected=a number, modes={'agentic': 2})
+Capturing CUDA graphs (decode, FULL):  49%|████▊     | 17/35 [00:00<00:00, 22.47it/s]2026-03-14 19:24:33,487 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+Capturing CUDA graphs (decode, FULL):  57%|█████▋    | 20/35 [00:00<00:00, 22.42it/s]2026-03-14 19:24:33,629 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+2026-03-14 19:24:33,630 [INFO] multi_agent.planner_agent: Planner: decomposed 'In the Cherokee Rose episode of "The Walking Dead," the char' -> 2 sub-questions (type=bridge, expected=a company name, modes={'agentic': 2})
+2026-03-14 19:24:33,635 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:33,660 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+Capturing CUDA graphs (decode, FULL):  66%|██████▌   | 23/35 [00:01<00:00, 22.28it/s]Capturing CUDA graphs (decode, FULL):  74%|███████▍  | 26/35 [00:01<00:00, 22.38it/s]Capturing CUDA graphs (decode, FULL):  83%|████████▎ | 29/35 [00:01<00:00, 22.44it/s]Capturing CUDA graphs (decode, FULL):  91%|█████████▏| 32/35 [00:01<00:00, 22.69it/s]Batches:   0%|          | 0/1 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 22.90it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 22.40it/s]
+2026-03-14 19:24:34,607 [INFO] multi_agent.planner_agent: Planner: decomposed 'Is Mary Pierce or Gustavo Kuerten the older tennis player?' -> 3 sub-questions (type=comparison, expected=yes or no, modes={'structured': 2, 'aggregate': 1})
+2026-03-14 19:24:34,612 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m INFO 03-14 19:24:34 [gpu_model_runner.py:5063] Graph capturing finished in 5 secs, took 0.53 GiB
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m INFO 03-14 19:24:34 [core.py:272] init engine (profile, create kv cache, warmup model) took 25.88 seconds
+2026-03-14 19:24:34,824 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 3 sub-questions -> modes {'structured': 3}
+2026-03-14 19:24:34,903 [INFO] multi_agent.planner_agent: Planner: decomposed 'Of these two publication--Báiki and Sick--what type of publi' -> 3 sub-questions (type=comparison, expected=a publication type, modes={'agentic': 2, 'aggregate': 1})
+2026-03-14 19:24:34,913 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:35,062 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 3 sub-questions -> modes {'structured': 3}
+2026-03-14 19:24:35,080 [INFO] multi_agent.planner_agent: Planner: decomposed 'What I Saw: Reports from Berlin, 1920-1933 is a book by a wr' -> 2 sub-questions (type=bridge, expected=a year, modes={'agentic': 2})
+2026-03-14 19:24:35,085 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:35,098 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+2026-03-14 19:24:35,099 [INFO] multi_agent.planner_agent: Planner: decomposed 'What magazine was started in 1925 and features the work of B' -> 3 sub-questions (type=intersection, expected=a magazine name, modes={'agentic': 2, 'aggregate': 1})
+2026-03-14 19:24:35,099 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:35,099 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 3 sub-questions -> modes {'structured': 3}
+2026-03-14 19:24:35,238 [INFO] multi_agent.planner_agent: Planner: decomposed 'Kevin Rowland and Lauri Ylönen both share what occupation?' -> 3 sub-questions (type=intersection, expected=an entity name, modes={'agentic': 2, 'aggregate': 1})
+2026-03-14 19:24:35,259 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:35,450 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 3 sub-questions -> modes {'structured': 3}
+2026-03-14 19:24:35,753 [INFO] multi_agent.planner_agent: Planner: decomposed 'What country does Haringey Heartlands and The Mall Wood Gree' -> 3 sub-questions (type=intersection, expected=a country name, modes={'agentic': 2, 'aggregate': 1})
+2026-03-14 19:24:35,773 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:35,900 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 3 sub-questions -> modes {'structured': 3}
+[0;36m(EngineCore_DP0 pid=3634697)[0;0m INFO 03-14 19:24:36 [vllm.py:624] Asynchronous scheduling is enabled.
+2026-03-14 19:24:36,129 [INFO] multi_agent.planner_agent: Planner: decomposed 'What country do both Adnan Akmal and Kamran Akmal represent ' -> 3 sub-questions (type=intersection, expected=a country name, modes={'agentic': 2, 'aggregate': 1})
+2026-03-14 19:24:36,129 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:36,129 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 3 sub-questions -> modes {'structured': 3}
+2026-03-14 19:24:36,268 [INFO] multi_agent.planner_agent: Planner: decomposed 'In which town was the amusement park that is operated by Bri' -> 3 sub-questions (type=bridge, expected=a place, modes={'agentic': 3})
+2026-03-14 19:24:36,268 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:36,269 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 3 sub-questions -> modes {'structured': 3}
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:36 [api_server.py:665] Supported tasks: ['generate']
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:36 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:36 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:36 [serving.py:177] Warming up chat template processing...
+Batches: 100%|██████████| 1/1 [00:02<00:00,  2.27s/it]Batches: 100%|██████████| 1/1 [00:02<00:00,  2.27s/it]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:36,613 [INFO] multi_agent.planner_agent: Planner: decomposed 'What tribe was the Megaoryzomys curioi previously in that Ne' -> 3 sub-questions (type=intersection, expected=a tribe name, modes={'agentic': 2, 'aggregate': 1})
+2026-03-14 19:24:36,628 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:36,630 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 3 sub-questions -> modes {'structured': 3}
+Batches: 100%|██████████| 1/1 [00:00<00:00, 12.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.24it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.88it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 27.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.25it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.07it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 29.76it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.50it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.67it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.40it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.09it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:37,376 [INFO] multi_agent.planner_agent: Planner: decomposed 'What product by FLEXcon represents data by geometric pattern' -> 1 sub-questions (type=single_hop, expected=a product name, modes={'agentic': 1})
+2026-03-14 19:24:37,381 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:37,386 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 1 sub-questions -> modes {'structured': 1}
+2026-03-14 19:24:37,387 [INFO] multi_agent.planner_agent: Planner: decomposed 'The title track of Carla Bruni discography was used in a  fi' -> 3 sub-questions (type=intersection, expected=a film name, modes={'agentic': 2, 'aggregate': 1})
+2026-03-14 19:24:37,387 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:37,387 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 3 sub-questions -> modes {'structured': 3}
+Batches: 100%|██████████| 1/1 [00:00<00:00,  8.40it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.38it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.51it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 26.28it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.37it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 26.09it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.98it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 27.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 28.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.13it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [hf.py:310] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [serving.py:212] Chat template warmup completed in 1589.7ms
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [api_server.py:946] Starting vLLM API server 0 on http://127.0.0.1:8000
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:38] Available routes are:
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /openapi.json, Methods: GET, HEAD
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /docs, Methods: GET, HEAD
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /docs/oauth2-redirect, Methods: GET, HEAD
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /redoc, Methods: GET, HEAD
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /scale_elastic_ep, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /is_scaling_elastic_ep, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /tokenize, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /detokenize, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /inference/v1/generate, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /pause, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /resume, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /is_paused, Methods: GET
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /metrics, Methods: GET
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /health, Methods: GET
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /v1/chat/completions, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /v1/chat/completions/render, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /v1/responses, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /v1/responses/{response_id}, Methods: GET
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /v1/responses/{response_id}/cancel, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /v1/audio/transcriptions, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /v1/audio/translations, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /v1/completions, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /v1/completions/render, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /v1/messages, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /v1/models, Methods: GET
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /load, Methods: GET
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /version, Methods: GET
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /ping, Methods: GET
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /ping, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /invocations, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /classify, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /v1/embeddings, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /score, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /v1/score, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /rerank, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /v1/rerank, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /v2/rerank, Methods: POST
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:37 [launcher.py:46] Route: /pooling, Methods: POST
+Batches: 100%|██████████| 1/1 [00:00<00:00, 23.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     Started server process [3634607]
+[0;36m(APIServer pid=3634607)[0;0m INFO:     Waiting for application startup.
+Batches: 100%|██████████| 1/1 [00:00<00:00, 22.85it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.21it/s]
+[0;36m(APIServer pid=3634607)[0;0m INFO:     Application startup complete.
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.01it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.66it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.98it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.42it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.40it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 11.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.75it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.73it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:39,068 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=10.5s
+2026-03-14 19:24:39,083 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=10.4s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 10.32it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.97it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.17it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.47it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.45it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:39,620 [INFO] multi_agent.planner_agent: Planner: decomposed 'What type of veterinary specialist is the star veterinarian ' -> 1 sub-questions (type=single_hop, expected=a person name, modes={'agentic': 1})
+2026-03-14 19:24:39,627 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:39,628 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 1 sub-questions -> modes {'structured': 1}
+Batches: 100%|██████████| 1/1 [00:00<00:00,  6.91it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.90it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.06it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58136 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  8.41it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.39it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.92it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.90it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.79it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:40,071 [INFO] multi_agent.coordinator: Watchdog [11s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=10.5s
+2026-03-14 19:24:40,124 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=10.1s
+Batches: 100%|██████████| 1/1 [00:00<00:00,  8.52it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.50it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58182 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 11.66it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.46it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.45it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58214 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  8.82it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.67it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:40,656 [INFO] multi_agent.planner_agent: Planner: decomposed 'What is the nationality of the author of Fifty Shades Freed?' -> 2 sub-questions (type=bridge, expected=a country name, modes={'agentic': 1, 'structured': 1})
+2026-03-14 19:24:40,656 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:40,662 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+Batches: 100%|██████████| 1/1 [00:00<00:00,  8.47it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.45it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58084 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58264 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  9.01it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.00it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.46it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58044 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58076 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58060 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58122 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:40,976 [INFO] multi_agent.planner_agent: Planner: decomposed 'William Bromley-Davenport held political office under the Pr' -> 2 sub-questions (type=bridge, expected=a party name, modes={'agentic': 2})
+2026-03-14 19:24:40,976 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:41,018 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+2026-03-14 19:24:41,073 [INFO] multi_agent.coordinator: Watchdog [11s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=10.6s
+2026-03-14 19:24:41,088 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.5s
+Batches: 100%|██████████| 1/1 [00:00<00:00,  4.71it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.71it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58142 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58156 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58164 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58200 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:41,128 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.4s
+2026-03-14 19:24:41,130 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.4s
+2026-03-14 19:24:41,130 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.0s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58224 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 12.93it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58244 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  6.98it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.58it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.06it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.04it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.26it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58358 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  7.31it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58374 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58388 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58420 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58392 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 19.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.63it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:42,074 [INFO] multi_agent.coordinator: Watchdog [11s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.8s
+2026-03-14 19:24:42,074 [INFO] multi_agent.coordinator: Watchdog [11s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.7s
+2026-03-14 19:24:42,084 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.5s
+2026-03-14 19:24:42,084 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.5s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 23.28it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:42,131 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.1s
+2026-03-14 19:24:42,131 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.1s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 23.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:42,205 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.0s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58456 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58308 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58472 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 11.00it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.36it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.76it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:42,474 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.2s
+Batches: 100%|██████████| 1/1 [00:00<00:00,  8.93it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.05it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.04it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.49it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.10it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.08it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:43,086 [INFO] multi_agent.coordinator: Watchdog [11s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.5s
+Batches: 100%|██████████| 1/1 [00:00<00:00,  8.38it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.37it/s]
+2026-03-14 19:24:43,132 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.2s
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.13it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.92it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:43,514 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.0s
+Batches: 100%|██████████| 1/1 [00:00<00:00,  6.66it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.55it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:43,637 [INFO] multi_agent.planner_agent: Planner: decomposed 'Which of the actors starred in "Sollathaan Ninaikkiren" was ' -> 2 sub-questions (type=intersection, expected=a person name, modes={'agentic': 1, 'aggregate': 1})
+2026-03-14 19:24:43,647 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:43,653 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+2026-03-14 19:24:43,693 [INFO] multi_agent.planner_agent: Planner: decomposed 'Who wrote the book that inspired the name of the CD/DVD "Her' -> 2 sub-questions (type=bridge, expected=a person name, modes={'agentic': 2})
+2026-03-14 19:24:43,693 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:43,693 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58582 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  7.28it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.26it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.07it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:43,972 [INFO] multi_agent.planner_agent: Planner: decomposed 'Are both Grapico and Izze artificially flavored soft drinks?' -> 2 sub-questions (type=comparison, expected=yes or no, modes={'agentic': 2})
+2026-03-14 19:24:43,972 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:43,973 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+2026-03-14 19:24:44,093 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.5s
+2026-03-14 19:24:44,099 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.4s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58518 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  3.43it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.60it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.58it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58614 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:44,290 [INFO] multi_agent.planner_agent: Planner: decomposed 'which actress was a notable practitioner at the white bear t' -> 3 sub-questions (type=intersection, expected=an entity name, modes={'agentic': 2, 'aggregate': 1})
+2026-03-14 19:24:44,290 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:44,291 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 3 sub-questions -> modes {'structured': 3}
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58652 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  2.75it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.75it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:44,773 [INFO] multi_agent.planner_agent: Planner: decomposed 'Sadok Sassi played for a national team that made its first W' -> 2 sub-questions (type=bridge, expected=a year, modes={'agentic': 2})
+2026-03-14 19:24:44,782 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58542 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:45,094 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+2026-03-14 19:24:45,114 [INFO] multi_agent.planner_agent: Planner: decomposed 'Where are Catcha Lake and Hedley Mascot Mine located?' -> 2 sub-questions (type=comparison, expected=a place, modes={'agentic': 2})
+2026-03-14 19:24:45,114 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:45,174 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+2026-03-14 19:24:45,174 [INFO] multi_agent.planner_agent: Planner: decomposed 'The Death Camp of Tolerance is an episode from an animated t' -> 3 sub-questions (type=intersection, expected=two people names, modes={'agentic': 2, 'aggregate': 1})
+2026-03-14 19:24:45,174 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:45,175 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 3 sub-questions -> modes {'structured': 3}
+2026-03-14 19:24:45,175 [INFO] multi_agent.planner_agent: Planner: decomposed 'What two positions did the man who broke Buzz Arlett's home ' -> 2 sub-questions (type=bridge, expected=two positions, modes={'agentic': 2})
+2026-03-14 19:24:45,185 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:45,205 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+2026-03-14 19:24:45,206 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.4s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58532 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:45,384 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.3s
+2026-03-14 19:24:45,409 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.3s
+2026-03-14 19:24:45,419 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.3s
+2026-03-14 19:24:45,483 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.0s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58718 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:01<00:00,  1.06s/it]Batches: 100%|██████████| 1/1 [00:01<00:00,  1.06s/it]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58740 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58780 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  3.05it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.44it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58558 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:46,206 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.3s
+2026-03-14 19:24:46,220 [INFO] multi_agent.planner_agent: Planner: decomposed 'Zacarías Ferreira is the uncle of a professional basketball ' -> 2 sub-questions (type=bridge, expected=a person name, modes={'agentic': 2})
+2026-03-14 19:24:46,220 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:46,221 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+Batches: 100%|██████████| 1/1 [00:00<00:00,  8.42it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.40it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58576 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58692 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  6.81it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:46,425 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.3s
+2026-03-14 19:24:46,427 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.2s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 19.85it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.81it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58596 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58600 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48100 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 12.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:46,714 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.1s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 11.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:46,794 [INFO] multi_agent.planner_agent: Planner: decomposed 'What is the official currency in the country that hosts the ' -> 2 sub-questions (type=bridge, expected=a currency name, modes={'agentic': 2})
+2026-03-14 19:24:46,794 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:46,795 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 2 sub-questions -> modes {'structured': 2}
+Batches: 100%|██████████| 1/1 [00:00<00:00,  8.98it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.92it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.26it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.24it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:47886 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 12.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.35it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48186 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 22.33it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:47,428 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=10.0s
+2026-03-14 19:24:47,428 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 2} | tokens=0/300000 | actions=0 | idle=10.0s
+Batches: 100%|██████████| 1/1 [00:00<00:00,  9.03it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.01it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48010 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 12.83it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.49it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.58it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.23it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48188 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58676 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58706 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:47906 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48246 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48190 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48268 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  8.81it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 11.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:47910 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:47948 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:47972 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 13.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58766 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58804 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48294 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:48 [loggers.py:257] Engine 000: Avg prompt throughput: 12055.6 tokens/s, Avg generation throughput: 137.7 tokens/s, Running: 17 reqs, Waiting: 1 reqs, GPU KV cache usage: 24.2%, Prefix cache hit rate: 25.9%
+Batches: 100%|██████████| 1/1 [00:00<00:00,  8.96it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:24:48 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+Batches: 100%|██████████| 1/1 [00:00<00:00, 12.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.55it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48040 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.12it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.33it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.24it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.39it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.51it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:49,086 [INFO] multi_agent.planner_agent: Planner: decomposed 'Does the genus Cunninghamia or Chilopsis contain only one sp' -> 3 sub-questions (type=comparison, expected=yes or no, modes={'agentic': 2, 'aggregate': 1})
+2026-03-14 19:24:49,086 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:49,087 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 3 sub-questions -> modes {'structured': 3}
+Batches: 100%|██████████| 1/1 [00:00<00:00, 12.84it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48062 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 21.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48314 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 18.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48110 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48146 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 11.23it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48152 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:49,385 [INFO] multi_agent.coordinator: Watchdog [21s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=20.8s
+2026-03-14 19:24:49,385 [INFO] multi_agent.coordinator: Watchdog [21s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=20.8s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 15.67it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 27.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.13it/s]
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48538 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48120 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.35it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:49,698 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=10.1s
+2026-03-14 19:24:49,703 [INFO] multi_agent.planner_agent: Planner: decomposed 'Although Michael Fincke's record was broken by Scott Kelly, ' -> 3 sub-questions (type=bridge, expected=a number, modes={'agentic': 2, 'aggregate': 1})
+2026-03-14 19:24:49,703 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:49,704 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 3 sub-questions -> modes {'structured': 3}
+Batches: 100%|██████████| 1/1 [00:00<00:00, 20.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48344 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48354 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48380 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48432 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 13.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48456 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.76it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.49it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.12it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.51it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.76it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.06it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48194 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:50,386 [INFO] multi_agent.coordinator: Watchdog [21s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=20.8s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 14.12it/s]
+2026-03-14 19:24:50,430 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=20.4s
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48326 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 16.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.45it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48672 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 18.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:50,717 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.1s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 14.51it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58666 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48660 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  5.94it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.93it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.58it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.39it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:51,234 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.2s
+2026-03-14 19:24:51,234 [INFO] multi_agent.coordinator: Watchdog [21s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=20.8s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 26.01it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48692 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:51,391 [INFO] multi_agent.coordinator: Watchdog [21s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.8s
+2026-03-14 19:24:51,435 [INFO] multi_agent.coordinator: Watchdog [21s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.7s
+2026-03-14 19:24:51,441 [INFO] multi_agent.coordinator: Watchdog [21s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.7s
+2026-03-14 19:24:51,441 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.4s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48716 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48758 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  4.30it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.67it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.84it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.87it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.08it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:51,956 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'Gregory Livingston Harper' (conf=0.95, 1 evidence, 6834 tokens, done=True)
+Batches: 100%|██████████| 1/1 [00:00<00:00,  4.96it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.83it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:52,235 [INFO] multi_agent.coordinator: Watchdog [21s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.9s
+2026-03-14 19:24:52,240 [INFO] multi_agent.coordinator: Watchdog [21s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.9s
+Batches: 100%|██████████| 1/1 [00:00<00:00,  9.59it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:52,392 [INFO] multi_agent.coordinator: Watchdog [21s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.8s
+2026-03-14 19:24:52,392 [INFO] multi_agent.coordinator: Watchdog [21s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.8s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 19.44it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:52,442 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.4s
+2026-03-14 19:24:52,442 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.4s
+2026-03-14 19:24:52,447 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.3s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 24.32it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:52,510 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.3s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 22.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48550 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.09it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:52,615 [INFO] multi_agent.planner_agent: Planner: decomposed 'Which Canadian Professional ice hockey player of Albanian or' -> 3 sub-questions (type=intersection, expected=a person name, modes={'agentic': 2, 'aggregate': 1})
+2026-03-14 19:24:52,615 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:52,616 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 3 sub-questions -> modes {'structured': 3}
+[0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:24:52 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+Batches: 100%|██████████| 1/1 [00:00<00:00, 15.85it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48578 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.32it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58564 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:52,831 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:24:52,831 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'Manoel Garcia Junior' (conf=0.95, 1 evidence, 6526 tokens, done=True)
+[0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:24:52 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+Batches: 100%|██████████| 1/1 [00:00<00:00, 16.72it/s]
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48732 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.73it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:47994 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48782 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48964 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48842 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:53,402 [INFO] multi_agent.coordinator: Watchdog [21s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.9s
+Batches: 100%|██████████| 1/1 [00:00<00:00,  2.20it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:53,442 [INFO] multi_agent.coordinator: Watchdog [21s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.5s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:58628 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:53,470 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:24:53,470 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'Parker Brothers' (conf=0.95, 1 evidence, 6735 tokens, done=True)
+Batches: 100%|██████████| 1/1 [00:00<00:00, 18.10it/s]
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48836 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:53,545 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.1s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 21.13it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48826 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 21.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:53,607 [INFO] multi_agent.planner_agent: Planner: signaled allow_synthesis, handing off to SynthesizerAgent
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48922 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48980 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 16.81it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:49000 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:53,687 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.0s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 25.83it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:53,719 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.0s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48596 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 23.66it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:49018 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:53,803 [INFO] multi_agent.synthesizer_agent: Synthesizer: 'Gregory Livingston Harper'
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:49072 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  3.65it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.41it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.07it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48468 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:54,149 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:24:54,149 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'Schofield Barracks, Hawaii' (conf=0.95, 1 evidence, 6468 tokens, done=True)
+Batches: 100%|██████████| 1/1 [00:00<00:00, 19.06it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:54,239 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 2} | tokens=0/300000 | actions=0 | idle=10.3s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 15.93it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.51it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48986 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 20.49it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:54,391 [INFO] multi_agent.coordinator: Watchdog [21s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.8s
+2026-03-14 19:24:54,391 [INFO] multi_agent.coordinator: Watchdog [21s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.7s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 19.88it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:54,438 [INFO] multi_agent.coordinator: Coordinator finished: 'Gregory Livingston Harper' | actions=3 | tokens=7714 | 24.9s
+2026-03-14 19:24:54,439 [INFO] __main__: Done 5a75e814554299109176e5c7: 'Gregory Livingston Harper' (28.8s, 7714 tokens, modes={'structured': 1})
+2026-03-14 19:24:54,439 [INFO] __main__: Processing 5a7a616355429941d65f25f7: The team that would become the Little Giants was located in 
+2026-03-14 19:24:54,448 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.2s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 20.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:24:54 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+Batches: 100%|██████████| 1/1 [00:00<00:00, 18.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.77it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:49104 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 19.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.32it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 26.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.73it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48484 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 16.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48850 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:55,012 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'Harcourt Brace' (conf=0.95, 1 evidence, 6642 tokens, done=True)
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:47962 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 11.38it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:55,110 [INFO] multi_agent.planner_agent: Planner: decomposed 'Do both Changle District and Longkou face water?' -> 3 sub-questions (type=comparison, expected=yes or no, modes={'agentic': 2, 'aggregate': 1})
+2026-03-14 19:24:55,110 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+2026-03-14 19:24:55,111 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 3 sub-questions -> modes {'structured': 3}
+2026-03-14 19:24:55,135 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.0s
+Batches: 100%|██████████| 1/1 [00:00<00:00,  9.08it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.06it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:55,239 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.4s
+2026-03-14 19:24:55,332 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 2} | tokens=0/300000 | actions=0 | idle=10.2s
+2026-03-14 19:24:55,363 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 2} | tokens=0/300000 | actions=0 | idle=10.2s
+2026-03-14 19:24:55,394 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.2s
+2026-03-14 19:24:55,418 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.4s
+2026-03-14 19:24:55,443 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.3s
+2026-03-14 19:24:55,454 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.4s
+2026-03-14 19:24:55,515 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.1s
+Batches: 100%|██████████| 1/1 [00:00<00:00,  2.93it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  2.93it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.76it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.37it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.90it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:55,748 [INFO] multi_agent.planner_agent: Planner: signaled allow_synthesis, handing off to SynthesizerAgent
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.32it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48810 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51278 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:55,899 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:24:55,899 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'Mediterranean region' (conf=0.95, 1 evidence, 6474 tokens, done=True)
+Batches: 100%|██████████| 1/1 [00:00<00:00, 18.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:24:56 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+Batches: 100%|██████████| 1/1 [00:00<00:00, 19.93it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51218 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 15.67it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:56,241 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.3s
+2026-03-14 19:24:56,241 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.0s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 19.51it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.54it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:56,455 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.3s
+2026-03-14 19:24:56,467 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.2s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 12.85it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.19it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.54it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:56,729 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.1s
+2026-03-14 19:24:56,780 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:24:56,780 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'Ron Rash' (conf=0.95, 1 evidence, 6307 tokens, done=True)
+Batches: 100%|██████████| 1/1 [00:00<00:00, 10.41it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:56,805 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.0s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51342 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 12.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51312 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:56,974 [INFO] multi_agent.synthesizer_agent: Synthesizer: 'Harcourt Brace'
+Batches: 100%|██████████| 1/1 [00:00<00:00,  9.02it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.00it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51382 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51440 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51366 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51544 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 14.06it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.09it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.79it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51548 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:57,467 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=20.1s
+2026-03-14 19:24:57,467 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1, 'blocked': 2} | tokens=0/300000 | actions=0 | idle=20.1s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 20.32it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51564 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:57,493 [INFO] multi_agent.coordinator: Coordinator finished: 'Harcourt Brace' | actions=3 | tokens=7589 | 27.5s
+2026-03-14 19:24:57,493 [INFO] __main__: Done 5a7f62405542992e7d278cf0: 'Harcourt Brace' (31.9s, 7589 tokens, modes={'structured': 1})
+2026-03-14 19:24:57,493 [INFO] __main__: Processing 5ae207a65542994d89d5b317: In which genus number of species are more, Lavatera or Oplis
+[2026-03-14T19:24:57.519] error: *** JOB 20741142 ON gcn33 CANCELLED AT 2026-03-14T19:24:57 DUE to SIGNAL Terminated ***
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48084 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 13.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.00it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.75it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:49112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51636 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51290 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 14.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48710 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:24:57,774 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'Felinae' (conf=0.95, 1 evidence, 6954 tokens, done=True)
+Batches: 100%|██████████| 1/1 [00:00<00:00, 12.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51736 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:49122 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  9.49it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.20it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.19it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:58,160 [INFO] multi_agent.planner_agent: Planner: signaled allow_synthesis, handing off to SynthesizerAgent
+Batches: 100%|██████████| 1/1 [00:00<00:00,  7.16it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:24:58 [loggers.py:257] Engine 000: Avg prompt throughput: 13988.6 tokens/s, Avg generation throughput: 310.3 tokens/s, Running: 16 reqs, Waiting: 0 reqs, GPU KV cache usage: 20.2%, Prefix cache hit rate: 28.0%
+Batches: 100%|██████████| 1/1 [00:00<00:00, 11.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.96it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 11.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.52it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.50it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.68it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51826 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51322 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51472 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  6.79it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48026 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:24:58 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+Batches: 100%|██████████| 1/1 [00:00<00:00, 12.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.32it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:59,141 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.1s
+2026-03-14 19:24:59,423 [INFO] multi_agent.coordinator: Watchdog [31s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=30.8s
+2026-03-14 19:24:59,433 [INFO] multi_agent.coordinator: Watchdog [31s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=30.8s
+2026-03-14 19:24:59,496 [INFO] multi_agent.synthesizer_agent: Synthesizer: 'Felinae'
+Batches: 100%|██████████| 1/1 [00:00<00:00,  1.64it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:24:59,714 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=20.1s
+2026-03-14 19:24:59,732 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.0s
+Batches: 100%|██████████| 1/1 [00:00<00:00,  9.48it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.46it/s]
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51570 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51780 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  8.64it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51834 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 13.19it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51966 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  9.05it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:00,165 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'stone' (conf=0.95, 1 evidence, 6750 tokens, done=True)
+Batches: 100%|██████████| 1/1 [00:00<00:00, 18.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:00,287 [INFO] multi_agent.coordinator: Coordinator finished: 'Felinae' | actions=3 | tokens=7894 | 29.8s
+2026-03-14 19:25:00,290 [INFO] __main__: Done 5abae88c554299660624167e: 'Felinae' (34.7s, 7894 tokens, modes={'structured': 1})
+2026-03-14 19:25:00,290 [INFO] __main__: Processing 5ae268f35542994d89d5b416: What job do both Alfred Santell and David Fincher have in co
+Batches: 100%|██████████| 1/1 [00:00<00:00,  8.57it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.55it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:00,350 [INFO] multi_agent.planner_agent: Planner: signaled allow_synthesis, handing off to SynthesizerAgent
+Batches: 100%|██████████| 1/1 [00:00<00:00, 22.24it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.05it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.04it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 10.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:00,737 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.1s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48928 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:25:00 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+Batches: 100%|██████████| 1/1 [00:00<00:00,  8.35it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.33it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.23it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51774 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 11.85it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51864 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51938 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51804 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 22.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.04it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.23it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:01,264 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.2s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51840 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.63it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.79it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52062 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:01,460 [INFO] multi_agent.coordinator: Watchdog [31s]: {'verified': 1, 'claimed': 1} | tokens=6735/300000 | actions=1 | idle=8.0s
+2026-03-14 19:25:01,471 [INFO] multi_agent.coordinator: Watchdog [31s]: {'verified': 1, 'claimed': 1} | tokens=6526/300000 | actions=1 | idle=8.6s
+2026-03-14 19:25:01,471 [INFO] multi_agent.coordinator: Watchdog [31s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.7s
+2026-03-14 19:25:01,471 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.4s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 15.86it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.38it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.44it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:01,678 [INFO] multi_agent.synthesizer_agent: Synthesizer: 'stone'
+Batches: 100%|██████████| 1/1 [00:00<00:00, 25.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51902 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 26.82it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.89it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.12it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52066 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 16.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.90it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.98it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52072 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 23.93it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.75it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.49it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:02,264 [INFO] multi_agent.coordinator: Watchdog [31s]: {'verified': 1, 'claimed': 1} | tokens=6474/300000 | actions=1 | idle=6.4s
+2026-03-14 19:25:02,264 [INFO] multi_agent.coordinator: Watchdog [31s]: {'verified': 1, 'claimed': 1} | tokens=6307/300000 | actions=1 | idle=5.5s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 15.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.44it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.63it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:02,460 [INFO] multi_agent.coordinator: Watchdog [31s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.9s
+2026-03-14 19:25:02,460 [INFO] multi_agent.coordinator: Watchdog [31s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.8s
+2026-03-14 19:25:02,461 [INFO] multi_agent.coordinator: Coordinator finished: 'stone' | actions=3 | tokens=7609 | 33.8s
+2026-03-14 19:25:02,461 [INFO] __main__: Done 5adf68ac5542993344016c79: 'stone' (36.9s, 7609 tokens, modes={'structured': 1})
+2026-03-14 19:25:02,461 [INFO] __main__: Processing 5ae54b6355429908b63265cc: Sporobolus and Zea are in the same what?
+2026-03-14 19:25:02,472 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.5s
+2026-03-14 19:25:02,472 [INFO] multi_agent.coordinator: Watchdog [30s]: {'verified': 1, 'claimed': 1} | tokens=6468/300000 | actions=1 | idle=8.3s
+2026-03-14 19:25:02,476 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.3s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 19.89it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:02,529 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.3s
+2026-03-14 19:25:02,534 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:25:02,534 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'NG2' (conf=0.95, 1 evidence, 5470 tokens, done=True)
+Batches: 100%|██████████| 1/1 [00:00<00:00, 23.32it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.08it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:02,636 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.0s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.71it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.74it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52038 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 23.86it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:03,244 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:25:03,254 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'Baileyville, Washington County, Maine' (conf=0.95, 1 evidence, 6536 tokens, done=True)
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51240 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51984 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52240 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:03,495 [INFO] multi_agent.coordinator: Watchdog [31s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.9s
+2026-03-14 19:25:03,506 [INFO] multi_agent.coordinator: Watchdog [31s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.6s
+2026-03-14 19:25:03,564 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.1s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51256 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52080 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:03,711 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.1s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52092 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51266 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:03,780 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.1s
+2026-03-14 19:25:03,786 [INFO] multi_agent.workers.structured_worker: structured_1: SQ-1 -> 'singer-songwriter' (conf=0.95, 1 evidence, 6769 tokens, done=True)
+[0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:25:03 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52188 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52320 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  1.40it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  1.40it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.24it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.67it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.98it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:04,274 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 2} | tokens=0/300000 | actions=0 | idle=20.3s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 18.63it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.06it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52336 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:25:04 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-14 19:25:04,497 [INFO] multi_agent.coordinator: Watchdog [31s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.9s
+2026-03-14 19:25:04,497 [INFO] multi_agent.coordinator: Watchdog [31s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.8s
+2026-03-14 19:25:04,509 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.2s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 18.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.12it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.24it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.08it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.88it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.89it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:05,132 [INFO] multi_agent.coordinator: Watchdog [10s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=10.0s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52358 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:05,166 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.1s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 19.54it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:05,274 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.4s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 19.36it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52284 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52370 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 16.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:05,362 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 2} | tokens=0/300000 | actions=0 | idle=20.2s
+2026-03-14 19:25:05,387 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1, 'blocked': 2} | tokens=0/300000 | actions=0 | idle=20.2s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 22.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:05,497 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.3s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 18.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:05,508 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.4s
+2026-03-14 19:25:05,508 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.4s
+2026-03-14 19:25:05,510 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.4s
+2026-03-14 19:25:05,531 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 1, 'verified': 1, 'blocked': 1} | tokens=6769/300000 | actions=1 | idle=1.7s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 23.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.82it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.88it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.69it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51304 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51890 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:05,945 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:25:05,945 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> '1915-1983' (conf=0.90, 1 evidence, 6648 tokens, done=True)
+2026-03-14 19:25:05,945 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:25:05,945 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> '6 seasons' (conf=0.95, 2 evidence, 7088 tokens, done=True)
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.38it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.06it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.31it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:06,185 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'Der Rosenkavalier, Elektra, Die Frau ohne Schatten, Salome' (conf=0.95, 1 evidence, 6408 tokens, done=True)
+Batches: 100%|██████████| 1/1 [00:00<00:00, 21.19it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33590 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:06,275 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.4s
+2026-03-14 19:25:06,276 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.1s
+2026-03-14 19:25:06,314 [INFO] multi_agent.planner_agent: Planner: signaled allow_synthesis, handing off to SynthesizerAgent
+Batches: 100%|██████████| 1/1 [00:00<00:00, 15.64it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:25:06 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33610 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 18.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:06,511 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.4s
+2026-03-14 19:25:06,511 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.2s
+[0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:25:06 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+Batches: 100%|██████████| 1/1 [00:00<00:00, 19.88it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33520 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.25it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:06,741 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.1s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 18.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:06,819 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.0s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33624 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 19.89it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.39it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.08it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33626 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33680 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33734 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  3.53it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.86it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52324 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 18.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:07,512 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=30.1s
+2026-03-14 19:25:07,512 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 1, 'blocked': 2} | tokens=0/300000 | actions=0 | idle=30.1s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 15.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.85it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.66it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.40it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.21it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.15it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33808 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:25:08 [loggers.py:257] Engine 000: Avg prompt throughput: 15669.3 tokens/s, Avg generation throughput: 246.3 tokens/s, Running: 30 reqs, Waiting: 0 reqs, GPU KV cache usage: 52.2%, Prefix cache hit rate: 27.9%
+Batches: 100%|██████████| 1/1 [00:00<00:00, 15.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.49it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.66it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.69it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.62it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.13it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.53it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.79it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.57it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33696 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:09,090 [INFO] multi_agent.synthesizer_agent: Synthesizer: 'Der Rosenkavalier, Elektra, Die Frau ohne Schatten, Salome'
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:09,168 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.1s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 23.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:09,240 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:25:09,241 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'General Mills founder' (conf=0.95, 1 evidence, 6722 tokens, done=True)
+Batches: 100%|██████████| 1/1 [00:00<00:00, 20.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.82it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.88it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:09,513 [INFO] multi_agent.coordinator: Watchdog [41s]: {'verified': 1} | tokens=7405/300000 | actions=3 | idle=0.4s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 21.66it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48894 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33536 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33652 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:09,737 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=30.1s
+2026-03-14 19:25:09,747 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.0s
+Batches: 100%|██████████| 1/1 [00:00<00:00,  3.77it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.76it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33508 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 14.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.38it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.38it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:10,067 [INFO] multi_agent.coordinator: Coordinator finished: 'Der Rosenkavalier, Elektra, Die Frau ohne Schatten, Salome' | actions=3 | tokens=7405 | 41.4s
+2026-03-14 19:25:10,067 [INFO] __main__: Done 5ab928c255429934fafe6e6e: 'Der Rosenkavalier, Elektra, Die Frau ohn' (44.5s, 7405 tokens, modes={'structured': 1})
+2026-03-14 19:25:10,067 [INFO] __main__: Processing 5ab34a76554299233954ff3f: Who was the pivotal in the formation of schools catering for
+Batches: 100%|██████████| 1/1 [00:00<00:00, 20.46it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.89it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33902 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  3.73it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.73it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.25it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52132 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52164 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33960 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:10,665 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:25:10,665 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'Arthur Balfour' (conf=0.95, 1 evidence, 6473 tokens, done=True)
+2026-03-14 19:25:10,790 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.1s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33762 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  5.18it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.35it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.63it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.28it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52400 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33770 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  5.42it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  5.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.06it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:11,262 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:25:11,262 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'Jorge Eduardo Costilla Sanchez' (conf=0.95, 1 evidence, 6560 tokens, done=True)
+2026-03-14 19:25:11,279 [INFO] multi_agent.coordinator: Watchdog [30s]: {'verified': 1, 'claimed': 1} | tokens=6473/300000 | actions=1 | idle=0.6s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 19.49it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:34048 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 18.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.50it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.25it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:11,517 [INFO] multi_agent.coordinator: Watchdog [41s]: {'verified': 1, 'claimed': 1} | tokens=6735/300000 | actions=1 | idle=18.0s
+2026-03-14 19:25:11,518 [INFO] multi_agent.coordinator: Watchdog [41s]: {'verified': 1, 'claimed': 1} | tokens=6526/300000 | actions=1 | idle=18.7s
+2026-03-14 19:25:11,518 [INFO] multi_agent.coordinator: Watchdog [41s]: {'verified': 1, 'claimed': 1} | tokens=6722/300000 | actions=1 | idle=2.3s
+2026-03-14 19:25:11,518 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.4s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 22.39it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 27.87it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.86it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52014 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:34036 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:25:11 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+Batches: 100%|██████████| 1/1 [00:00<00:00,  6.38it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.37it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.13it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.58it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.11it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.89it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:12,279 [INFO] multi_agent.coordinator: Watchdog [41s]: {'verified': 1, 'claimed': 1} | tokens=6474/300000 | actions=1 | idle=16.4s
+2026-03-14 19:25:12,279 [INFO] multi_agent.coordinator: Watchdog [41s]: {'verified': 1, 'claimed': 1} | tokens=6307/300000 | actions=1 | idle=15.5s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 20.26it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.84it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.61it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.17it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:12,520 [INFO] multi_agent.coordinator: Watchdog [41s]: {'verified': 1, 'claimed': 1} | tokens=5470/300000 | actions=1 | idle=10.0s
+2026-03-14 19:25:12,520 [INFO] multi_agent.coordinator: Watchdog [41s]: {'verified': 1, 'claimed': 1} | tokens=6536/300000 | actions=1 | idle=9.3s
+2026-03-14 19:25:12,520 [INFO] multi_agent.coordinator: Watchdog [41s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.5s
+2026-03-14 19:25:12,520 [INFO] multi_agent.coordinator: Watchdog [40s]: {'verified': 1, 'claimed': 1} | tokens=6468/300000 | actions=1 | idle=18.4s
+2026-03-14 19:25:12,521 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.3s
+2026-03-14 19:25:12,542 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.3s
+Batches: 100%|██████████| 1/1 [00:00<00:00,  9.08it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.06it/s]
+[0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:25:12 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:12,645 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.0s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.26it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.41it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:12,788 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:25:12,788 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'Tall Birds' (conf=0.95, 1 evidence, 7048 tokens, done=True)
+Batches: 100%|██████████| 1/1 [00:00<00:00, 20.08it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.13it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.63it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.33it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.73it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.44it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.84it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.76it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:13,520 [INFO] multi_agent.coordinator: Watchdog [41s]: {'verified': 1, 'claimed': 1} | tokens=6560/300000 | actions=1 | idle=2.3s
+2026-03-14 19:25:13,521 [INFO] multi_agent.coordinator: Watchdog [41s]: {'verified': 1, 'claimed': 1} | tokens=7088/300000 | actions=1 | idle=7.6s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 24.77it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:13,580 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.1s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 23.48it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.24it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:13,735 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.1s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 25.16it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:13,801 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.1s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 20.39it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.43it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.33it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.78it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.07it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.29it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.45it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:14,281 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 2} | tokens=0/300000 | actions=0 | idle=30.3s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 20.66it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.67it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.30it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:14,506 [INFO] multi_agent.coordinator: Watchdog [41s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.9s
+2026-03-14 19:25:14,506 [INFO] multi_agent.coordinator: Watchdog [41s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.8s
+2026-03-14 19:25:14,522 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.2s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 19.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.38it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.46it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.25it/s]
+2026-03-14 19:25:14,799 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:25:14,799 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'Washington Street' (conf=0.95, 1 evidence, 5001 tokens, done=True)
+2026-03-14 19:25:15,148 [INFO] multi_agent.coordinator: Watchdog [20s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=20.0s
+2026-03-14 19:25:15,186 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.1s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33650 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:34074 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:15,260 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:25:15,265 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'Spain' (conf=0.90, 1 evidence, 12181 tokens, done=True)
+2026-03-14 19:25:15,287 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.5s
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 85.41it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:15,374 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 2} | tokens=0/300000 | actions=0 | idle=30.2s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 22.79it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:15,400 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 1, 'blocked': 2} | tokens=0/300000 | actions=0 | idle=30.2s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33932 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 19.68it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.11it/s]
+2026-03-14 19:25:15,506 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.3s
+2026-03-14 19:25:15,522 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.5s
+2026-03-14 19:25:15,522 [INFO] multi_agent.coordinator: Watchdog [40s]: {'verified': 1, 'claimed': 1} | tokens=6648/300000 | actions=1 | idle=9.6s
+2026-03-14 19:25:15,522 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.4s
+2026-03-14 19:25:15,545 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 1, 'verified': 1, 'blocked': 1} | tokens=6769/300000 | actions=1 | idle=11.8s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:34090 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:16,288 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.4s
+2026-03-14 19:25:16,288 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.1s
+2026-03-14 19:25:16,528 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.4s
+2026-03-14 19:25:16,533 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.3s
+2026-03-14 19:25:16,768 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.1s
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:16,831 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.0s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 79.09it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55352 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 18.19it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.36it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.88it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.07it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.00it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.75it/s]
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:48404 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:17,538 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 1} | tokens=0/300000 | actions=0 | idle=40.2s
+2026-03-14 19:25:17,539 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 1, 'blocked': 2} | tokens=0/300000 | actions=0 | idle=40.2s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55374 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:17,859 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'emergency veterinarian' (conf=0.95, 1 evidence, 6442 tokens, done=True)
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55394 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:25:17 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55368 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO 03-14 19:25:18 [loggers.py:257] Engine 000: Avg prompt throughput: 12434.4 tokens/s, Avg generation throughput: 221.9 tokens/s, Running: 44 reqs, Waiting: 0 reqs, GPU KV cache usage: 94.9%, Prefix cache hit rate: 24.0%
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55436 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:25:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51738 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52412 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:34222 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  7.66it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.65it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.93it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.84it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:34014 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  3.91it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.83it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.07it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:34236 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:19,175 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.1s
+2026-03-14 19:25:19,176 [INFO] multi_agent.workers.structured_worker: structured_1: SQ-1 -> '134 issues' (conf=0.95, 2 evidence, 12392 tokens, done=True)
+Batches: 100%|██████████| 1/1 [00:00<00:00, 19.39it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.09it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.08it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52088 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:19,482 [INFO] multi_agent.planner_agent: Planner: signaled allow_synthesis, handing off to SynthesizerAgent
+Batches: 100%|██████████| 1/1 [00:00<00:00,  4.92it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.92it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.93it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 27.36it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 27.84it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:19,771 [INFO] multi_agent.coordinator: Watchdog [40s]: {'verified': 1} | tokens=6442/300000 | actions=2 | idle=0.3s
+2026-03-14 19:25:19,771 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.1s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 25.06it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.24it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 23.55it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55470 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.15it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55544 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:25:20 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+Batches: 100%|██████████| 1/1 [00:00<00:00,  4.97it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  4.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55520 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:20,346 [INFO] multi_agent.synthesizer_agent: Synthesizer: 'emergency veterinarian'
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55252 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 14.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:34208 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33862 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:34124 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:20,602 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:25:20,602 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'Japan' (conf=0.95, 1 evidence, 6620 tokens, done=True)
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33956 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:20,819 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.2s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:34094 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:20,978 [INFO] multi_agent.workers.structured_worker: structured_1: SQ-1 -> 'Hawaii County' (conf=0.95, 1 evidence, 6680 tokens, done=True)
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51338 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33828 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:21,072 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:25:21,083 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'The Lord of the Rings: The Return of the King' (conf=0.95, 1 evidence, 6788 tokens, done=True)
+[0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:25:21 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55498 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:21,303 [INFO] multi_agent.coordinator: Watchdog [40s]: {'verified': 1, 'claimed': 1} | tokens=6473/300000 | actions=1 | idle=10.6s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55356 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:21,355 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'life magazine' (conf=0.95, 1 evidence, 6787 tokens, done=True)
+2026-03-14 19:25:21,376 [INFO] multi_agent.workers.structured_worker: structured_1: SQ-1 -> '1976' (conf=0.95, 2 evidence, 12045 tokens, done=True)
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:34138 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33890 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55570 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:21,460 [INFO] multi_agent.workers.structured_worker: structured_1: SQ-1 -> 'over 1000 games' (conf=0.95, 1 evidence, 6851 tokens, done=True)
+2026-03-14 19:25:21,463 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> '437 days' (conf=0.95, 1 evidence, 6582 tokens, done=True)
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:34166 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:21,557 [INFO] multi_agent.coordinator: Watchdog [51s]: {'verified': 2} | tokens=13586/300000 | actions=2 | idle=0.1s
+2026-03-14 19:25:21,562 [INFO] multi_agent.coordinator: Watchdog [51s]: {'verified': 1, 'claimed': 1} | tokens=6526/300000 | actions=1 | idle=28.7s
+2026-03-14 19:25:21,577 [INFO] multi_agent.coordinator: Watchdog [51s]: {'verified': 1, 'claimed': 1} | tokens=6722/300000 | actions=1 | idle=12.3s
+2026-03-14 19:25:21,577 [INFO] multi_agent.coordinator: Watchdog [50s]: {'verified': 1, 'claimed': 1} | tokens=5001/300000 | actions=1 | idle=6.8s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51202 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33796 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:21,589 [INFO] multi_agent.planner_agent: Planner: decomposed 'The team that would become the Little Giants was located in ' -> 3 sub-questions (type=bridge, expected=a county name, modes={'agentic': 3})
+2026-03-14 19:25:21,600 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:52290 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:21,620 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 3 sub-questions -> modes {'structured': 3}
+2026-03-14 19:25:21,622 [INFO] multi_agent.blackboard: Unblocked SQ-2 (all dependencies verified)
+2026-03-14 19:25:21,622 [INFO] multi_agent.workers.structured_worker: structured_1: SQ-1 -> '355 days' (conf=0.95, 1 evidence, 6343 tokens, done=True)
+2026-03-14 19:25:21,628 [INFO] multi_agent.coordinator: Coordinator finished: 'emergency veterinarian' | actions=3 | tokens=7342 | 42.0s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:34004 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:21,684 [INFO] __main__: Done 5ae54b4f5542990ba0bbb261: 'emergency veterinarian' (56.0s, 7342 tokens, modes={'structured': 1})
+2026-03-14 19:25:21,685 [INFO] __main__: Processing 5a8887a055429938390d3f72: Which reservation is located in Hill and Chouteau and named 
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:34108 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:21,871 [INFO] multi_agent.planner_agent: Planner: signaled allow_synthesis, handing off to SynthesizerAgent
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:34252 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55410 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:25:21 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-14 19:25:21,954 [INFO] multi_agent.blackboard: Unblocked SQ-2 (all dependencies verified)
+2026-03-14 19:25:21,965 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'solo singer' (conf=0.95, 2 evidence, 12745 tokens, done=True)
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:34152 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:22,323 [INFO] multi_agent.coordinator: Watchdog [51s]: {'verified': 1, 'claimed': 1} | tokens=6474/300000 | actions=1 | idle=26.4s
+2026-03-14 19:25:22,373 [INFO] multi_agent.coordinator: Watchdog [51s]: {'verified': 1, 'claimed': 1} | tokens=6307/300000 | actions=1 | idle=25.6s
+2026-03-14 19:25:22,455 [INFO] multi_agent.planner_agent: Planner: signaled allow_synthesis, handing off to SynthesizerAgent
+2026-03-14 19:25:22,481 [INFO] multi_agent.synthesizer_agent: Synthesizer: 'Hawaii County'
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55682 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:22,627 [INFO] multi_agent.coordinator: Watchdog [51s]: {'verified': 1, 'claimed': 1} | tokens=5470/300000 | actions=1 | idle=20.1s
+2026-03-14 19:25:22,647 [INFO] multi_agent.coordinator: Watchdog [51s]: {'verified': 1, 'claimed': 1} | tokens=6536/300000 | actions=1 | idle=19.4s
+2026-03-14 19:25:22,672 [INFO] multi_agent.coordinator: Watchdog [51s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=50.7s
+2026-03-14 19:25:22,677 [INFO] multi_agent.coordinator: Watchdog [51s]: {'verified': 2} | tokens=14323/300000 | actions=4 | idle=0.2s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55632 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:22,713 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'Pearl Mackie' (conf=0.95, 1 evidence, 6842 tokens, done=True)
+2026-03-14 19:25:22,720 [INFO] multi_agent.coordinator: Watchdog [51s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=50.5s
+2026-03-14 19:25:22,736 [INFO] multi_agent.coordinator: Watchdog [50s]: {'verified': 1, 'claimed': 1} | tokens=7048/300000 | actions=1 | idle=9.9s
+2026-03-14 19:25:22,742 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.1s
+2026-03-14 19:25:22,752 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:25:22,773 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'British' (conf=0.95, 1 evidence, 6412 tokens, done=True)
+2026-03-14 19:25:22,856 [INFO] multi_agent.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-14 19:25:22,876 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'South Park' (conf=0.95, 1 evidence, 6613 tokens, done=True)
+2026-03-14 19:25:22,887 [INFO] multi_agent.workers.structured_worker: structured_1: SQ-1 -> 'Never won the Nobel Prize' (conf=0.90, 1 evidence, 6550 tokens, done=True)
+2026-03-14 19:25:23,027 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'barcode with geometric patterns' (conf=0.95, 1 evidence, 6440 tokens, done=True)
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55734 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55724 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:23,261 [INFO] multi_agent.synthesizer_agent: Synthesizer: '1000'
+2026-03-14 19:25:23,267 [INFO] multi_agent.blackboard: Unblocked SQ-2 (all dependencies verified)
+2026-03-14 19:25:23,278 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> '134 issues' (conf=0.95, 2 evidence, 12268 tokens, done=True)
+2026-03-14 19:25:23,398 [INFO] multi_agent.planner_agent: Planner: signaled allow_synthesis, handing off to SynthesizerAgent
+2026-03-14 19:25:23,398 [INFO] multi_agent.planner_agent: Planner: signaled allow_synthesis, handing off to SynthesizerAgent
+Batches: 100%|██████████| 1/1 [00:03<00:00,  3.03s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.04s/it]
+2026-03-14 19:25:23,656 [INFO] multi_agent.coordinator: Watchdog [51s]: {'verified': 1, 'claimed': 1} | tokens=6560/300000 | actions=1 | idle=12.4s
+2026-03-14 19:25:23,691 [INFO] multi_agent.coordinator: Watchdog [51s]: {'verified': 1, 'claimed': 1} | tokens=7088/300000 | actions=1 | idle=17.7s
+2026-03-14 19:25:23,729 [INFO] multi_agent.coordinator: Coordinator finished: '1000' | actions=4 | tokens=14805 | 53.1s
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:23,752 [INFO] __main__: Done 5ae5691055429960a22e02f3: '1000' (58.2s, 14805 tokens, modes={'structured': 2})
+2026-03-14 19:25:23,753 [INFO] __main__: Processing 5a89d36e554299515336132a: Who directed the film based on the rock opera 5:15 appeared 
+2026-03-14 19:25:23,784 [INFO] multi_agent.coordinator: Watchdog [50s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=50.3s
+2026-03-14 19:25:23,784 [INFO] multi_agent.workers.structured_worker: structured_1: SQ-1 -> 'United Kingdom' (conf=0.95, 2 evidence, 11482 tokens, done=True)
+2026-03-14 19:25:23,873 [INFO] multi_agent.coordinator: Coordinator finished: 'Hawaii County' | actions=4 | tokens=14323 | 51.8s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55716 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:23,964 [INFO] __main__: Done 5adbf44355429944faac23ce: 'Hawaii County' (58.3s, 14323 tokens, modes={'structured': 2})
+2026-03-14 19:25:23,970 [INFO] __main__: Processing 5adc6f6255429947ff173961: Which plant genus is part of a family with a longer name, Mo
+2026-03-14 19:25:23,970 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.3s
+2026-03-14 19:25:23,971 [INFO] multi_agent.coordinator: Watchdog [40s]: {'verified': 1, 'claimed': 1} | tokens=6788/300000 | actions=1 | idle=2.9s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55296 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:24,151 [INFO] multi_agent.workers.structured_worker: structured_0: SQ-0 -> 'Shkelzen Taib Gashi' (conf=0.90, 1 evidence, 6404 tokens, done=True)
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55838 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:24,173 [INFO] multi_agent.synthesizer_agent: Synthesizer: 'barcode with geometric patterns'
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55822 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33810 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:24,224 [INFO] multi_agent.synthesizer_agent: Synthesizer: '2017'
+2026-03-14 19:25:24,260 [INFO] multi_agent.blackboard: Unblocked SQ-2 (all dependencies verified)
+Batches: 100%|██████████| 1/1 [00:00<00:00,  1.97it/s]2026-03-14 19:25:24,260 [INFO] multi_agent.workers.structured_worker: structured_1: SQ-1 -> 'Canobie Lake Park' (conf=0.95, 2 evidence, 12176 tokens, done=True)
+Batches: 100%|██████████| 1/1 [00:00<00:00,  1.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:25:24 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-14 19:25:24,341 [INFO] multi_agent.workers.structured_worker: structured_1: SQ-1 -> 'South Asia and Middle East' (conf=0.95, 1 evidence, 6665 tokens, done=True)
+Batches: 100%|██████████| 1/1 [00:00<00:00,  8.98it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55318 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:24,419 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 2} | tokens=0/300000 | actions=0 | idle=40.4s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55704 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:24,595 [INFO] multi_agent.coordinator: Coordinator finished: '2017' | actions=4 | tokens=14020 | 53.3s
+2026-03-14 19:25:24,631 [INFO] __main__: Done 5a8cc8c2554299441c6b9efc: '2017' (59.0s, 14020 tokens, modes={'structured': 2})
+2026-03-14 19:25:24,631 [INFO] __main__: Processing 5a8e0370554299068b959e2d: In which Florida city is Skyplex being constructed, featurin
+Batches: 100%|██████████| 1/1 [00:00<00:00,  3.95it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  3.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:25:24 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-14 19:25:24,657 [INFO] multi_agent.coordinator: Watchdog [51s]: {'verified': 1, 'claimed': 1} | tokens=12181/300000 | actions=1 | idle=9.4s
+2026-03-14 19:25:24,657 [INFO] multi_agent.coordinator: Watchdog [51s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=51.0s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 17.68it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:24,757 [INFO] multi_agent.coordinator: Watchdog [40s]: {'verified': 1, 'claimed': 1, 'blocked': 1} | tokens=6842/300000 | actions=1 | idle=2.0s
+2026-03-14 19:25:24,757 [INFO] multi_agent.coordinator: Coordinator finished: 'barcode with geometric patterns' | actions=3 | tokens=7291 | 47.4s
+2026-03-14 19:25:24,758 [INFO] __main__: Done 5a74c3f455429979e2882a0a: 'barcode with geometric patterns' (59.1s, 7291 tokens, modes={'structured': 1})
+2026-03-14 19:25:24,758 [INFO] __main__: Processing 5ab3c18b55429969a97a81b0: When did Senator Ted Kennedy helped dedicate a new room at t
+2026-03-14 19:25:24,762 [INFO] __main__: Progress: 10/1000 (608 Q/hr)
+Batches: 100%|██████████| 1/1 [00:00<00:00,  9.07it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.33it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.00it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.23it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 13.15it/s]
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:35834 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:35874 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:25:25 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-14 19:25:25,269 [INFO] multi_agent.coordinator: Watchdog [30s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=30.2s
+2026-03-14 19:25:25,269 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.2s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:35900 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:25:25 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+Batches: 100%|██████████| 1/1 [00:00<00:00, 11.70it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:25:25 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+Batches: 100%|██████████| 1/1 [00:00<00:00, 12.82it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:25,398 [INFO] multi_agent.planner_agent: Planner: signaled allow_synthesis, handing off to SynthesizerAgent
+2026-03-14 19:25:25,431 [INFO] multi_agent.coordinator: Watchdog [51s]: {'claimed': 1, 'verified': 1, 'blocked': 1} | tokens=12045/300000 | actions=1 | idle=4.1s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 12.56it/s]2026-03-14 19:25:25,476 [INFO] multi_agent.planner_agent: Planner: decomposed 'Who was the pivotal in the formation of schools catering for' -> 1 sub-questions (type=single_hop, expected=a person name, modes={'agentic': 1})
+
+2026-03-14 19:25:25,481 [INFO] multi_agent.adaptive_pipeline: Force-mode override: all SQs set to structured
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55810 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:25,490 [INFO] multi_agent.adaptive_pipeline: Adaptive workers: 1 sub-questions -> modes {'structured': 1}
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:25,521 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 2} | tokens=0/300000 | actions=0 | idle=40.3s
+2026-03-14 19:25:25,532 [INFO] multi_agent.coordinator: Watchdog [40s]: {'verified': 1, 'claimed': 1, 'blocked': 1} | tokens=6613/300000 | actions=1 | idle=2.6s
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:34086 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55306 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55818 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 10.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:25,657 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.5s
+2026-03-14 19:25:25,698 [INFO] multi_agent.coordinator: Watchdog [51s]: {'verified': 2, 'claimed': 1} | tokens=24660/300000 | actions=2 | idle=2.4s
+2026-03-14 19:25:25,713 [INFO] multi_agent.coordinator: Watchdog [51s]: {'verified': 1, 'claimed': 1} | tokens=6648/300000 | actions=1 | idle=19.8s
+2026-03-14 19:25:25,757 [INFO] multi_agent.coordinator: Watchdog [51s]: {'verified': 1, 'claimed': 1, 'blocked': 1} | tokens=6787/300000 | actions=1 | idle=4.4s
+2026-03-14 19:25:25,758 [INFO] multi_agent.coordinator: Watchdog [50s]: {'verified': 2, 'claimed': 1} | tokens=19514/300000 | actions=2 | idle=3.8s
+Batches: 100%|██████████| 1/1 [00:00<00:00,  9.36it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.83it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:25,863 [INFO] multi_agent.synthesizer_agent: Synthesizer: 'Mediterranean region'
+Batches: 100%|██████████| 1/1 [00:00<00:00,  8.55it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.92it/s]
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55550 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.36it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.66it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 11.41it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 12.91it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:51974 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00, 10.71it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]2026-03-14 19:25:26,432 [INFO] multi_agent.coordinator: Watchdog [51s]: {'claimed': 1, 'verified': 1, 'blocked': 1} | tokens=11482/300000 | actions=1 | idle=2.6s
+2026-03-14 19:25:26,432 [INFO] multi_agent.coordinator: Watchdog [40s]: {'claimed': 1, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=40.2s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 22.81it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55606 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:55874 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:35956 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=3634607)[0;0m WARNING 03-14 19:25:26 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+Batches: 100%|██████████| 1/1 [00:00<00:00, 12.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 14.27it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.47it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.46it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:35996 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:26,759 [INFO] multi_agent.coordinator: Watchdog [51s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=50.6s
+2026-03-14 19:25:26,759 [INFO] multi_agent.coordinator: Watchdog [50s]: {'claimed': 2, 'verified': 1} | tokens=12176/300000 | actions=1 | idle=2.5s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 15.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.91it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.89it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:35840 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-14 19:25:26,973 [INFO] multi_agent.coordinator: Watchdog [50s]: {'claimed': 2, 'blocked': 1} | tokens=0/300000 | actions=0 | idle=50.3s
+2026-03-14 19:25:26,974 [INFO] multi_agent.coordinator: Watchdog [40s]: {'verified': 1, 'claimed': 1} | tokens=6620/300000 | actions=1 | idle=6.4s
+Batches: 100%|██████████| 1/1 [00:00<00:00, 12.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3634607)[0;0m INFO:     127.0.0.1:33722 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches: 100%|██████████| 1/1 [00:00<00:00,  7.28it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.26it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.40it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]

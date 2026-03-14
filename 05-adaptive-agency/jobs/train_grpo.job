@@ -1,0 +1,38 @@
+#!/bin/bash
+#SBATCH --job-name=aa_grpo
+#SBATCH --partition=gpu_a100
+#SBATCH --time=02:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/05-adaptive-agency/jobs/output/%j_train_grpo.log
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/05-adaptive-agency
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+
+mkdir -p models/orchestrator_lora jobs/output
+
+# Merge all trajectory files for training
+cat trajectories/hotpotqa/trajectories.jsonl \
+    trajectories/2wikimultihop/trajectories.jsonl \
+    trajectories/musique/trajectories.jsonl \
+    > trajectories/all_trajectories.jsonl
+
+echo "Total trajectories: $(wc -l < trajectories/all_trajectories.jsonl)"
+
+python -u scripts/train_grpo.py \
+  --config configs/grpo_training.yaml \
+  --trajectories trajectories/all_trajectories.jsonl \
+  --output models/orchestrator_lora
+
+echo ""
+echo "=== Training complete ==="
+ls -la models/orchestrator_lora/

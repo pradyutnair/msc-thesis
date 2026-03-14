@@ -1,0 +1,16 @@
+Extract search entities and queries for this retrieval task.
+
+Task: {hop_question}
+Original question: {original_question}
+Context from other agents: {blackboard_context}
+
+Generate entities to search for. Each entity should have 3-5 SHORT keyword queries (1-4 words each).
+- Use resolved names from context (e.g., "Steven Spielberg" not "the director")
+- Include name variants, abbreviations, and attribute keywords
+- For "where was X born?" → queries: ["X", "X born", "X birthplace", "X early life"]
+- For "who directed Y?" → queries: ["Y", "Y film", "Y directed", "Y movie director"]
+- For "in which county is X?" → queries: ["X", "X county", "X located", "X municipality"]
+- For "what nationality is X?" → queries: ["X", "X nationality", "X born country", "X biography"]
+
+Output JSON only:
+{{"entities": [{{"entity": "name", "goal": "what to find", "queries": ["q1", "q2", "q3"]}}]}}

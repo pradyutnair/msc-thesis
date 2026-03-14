@@ -300,13 +300,14 @@ def main():
     parser.add_argument("--limit", "-l", type=int, default=None)
     parser.add_argument("--offset", type=int, default=0)
     parser.add_argument("--workers", "-w", type=int, default=5)
+    parser.add_argument("--chunks-file", type=str, default=None)
     args = parser.parse_args()
 
     config = Config.from_yaml(args.config)
 
     dataset = DATASET_ALIASES[args.dataset]
     data_root = PROJECT_ROOT / "data" / dataset
-    config.set("data.chunks_file", str(data_root / "chunks.json"))
+    config.set("data.chunks_file", str(args.chunks_file or data_root / "chunks.json"))
     config.set("data.questions_file", str(data_root / "questions.json"))
     config.set("data.index_dir", str(data_root / "index_e5_base_v2"))
 
