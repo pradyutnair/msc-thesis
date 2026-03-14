@@ -25,17 +25,8 @@ def infer_answer_type(question: str) -> str:
     return "entity"
 
 
-_DIGIT_TO_WORD = {
-    "0": "zero", "1": "one", "2": "two", "3": "three", "4": "four",
-    "5": "five", "6": "six", "7": "seven", "8": "eight", "9": "nine",
-    "10": "ten", "11": "eleven", "12": "twelve", "13": "thirteen",
-    "14": "fourteen", "15": "fifteen", "16": "sixteen", "17": "seventeen",
-    "18": "eighteen", "19": "nineteen", "20": "twenty",
-}
-
-
 def normalize_answer(answer: str, question: str) -> str:
-    """Full normalization pipeline matching gold label granularity."""
+    """Normalize LLM output to a clean answer entity."""
     text = (answer or "").strip()
 
     # Strip LLM artifacts
@@ -52,11 +43,7 @@ def normalize_answer(answer: str, question: str) -> str:
         if lowered.startswith("no"):
             return "no"
 
-    # Convert digit-only answers to words for "how many" questions
-    if expected_type == "number" and text in _DIGIT_TO_WORD:
-        text = _DIGIT_TO_WORD[text]
-
-    # Strip sentence wrappers (conservative — only known patterns)
+    # Strip sentence wrappers where the entity is embedded in a sentence
     for pattern in [
         r"^(.*?)\s+was\s+born\s+first\.?$",
         r"^(.*?)\s+was\s+(?:produced|released|published|created|formed|founded)\s+first\.?$",
@@ -70,22 +57,10 @@ def normalize_answer(answer: str, question: str) -> str:
             text = m.group(1).strip()
             break
 
-    # Strip parenthetical annotations
+    # Strip parenthetical annotations ("Paris (France)" -> "Paris")
     text = re.sub(r"\s*\([^)]*\)\s*", " ", text).strip()
     text = re.sub(r"\s*[\.,;:!?]+$", "", text)
     text = re.sub(r"\s+", " ", text).strip()
-
-    # Strip trailing noise words from comparison answers
-    text = re.sub(
-        r"\s+(?:theme|genre|style|type|form|category)$",
-        "", text, flags=re.IGNORECASE,
-    )
-
-    # Truncate verbose answers
-    if len(text) > 60:
-        m = re.match(r"^(.{3,50}?)[.,;]", text)
-        if m:
-            text = m.group(1).strip()
 
     return text
 
