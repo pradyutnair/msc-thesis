@@ -1,0 +1,159 @@
+#!/bin/bash
+#SBATCH --job-name=train_pipe
+#SBATCH --partition=gpu_a100
+#SBATCH --time=06:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=18
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/05-adaptive-agency/jobs/output/%j_train_pipeline.log
+
+# Full training pipeline (Qwen2.5-7B-Instruct):
+#   Stage 1: SFT on counterfactual SQ answers    -> models/sft_base (merged)
+#   Stage 2: GRPO for planner (on SFT base)      -> models/planner_lora -> merge -> models/sft_planner_base
+#   Stage 3: GRPO for escalation (on merged base) -> models/escalation_lora
+#
+# Final artifacts:
+#   models/sft_planner_base   = base model for all workers + planner (SFT + planner GRPO merged)
+#   models/escalation_lora    = LoRA adapter for escalation decisions only
+#
+# At inference: vLLM serves sft_planner_base + escalation LoRA
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/05-adaptive-agency
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"
+export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+
+mkdir -p models jobs/output
+
+# ── Collect trajectory files ──────────────────────────────────────────
+
+TRAJ_FILES=""
+for d in hotpotqa 2wikimultihop musique; do
+  f="trajectories/escalation_${d}/escalation_trajectories.jsonl"
+  if [ -f "$f" ] && [ -s "$f" ]; then
+    TRAJ_FILES="$TRAJ_FILES $f"
+    echo "  Counterfactual: $f ($(wc -l < "$f") questions)"
+  fi
+done
+
+if [ -z "$TRAJ_FILES" ]; then
+  echo "ERROR: No counterfactual trajectory files found!"
+  exit 1
+fi
+
+GRPO_FILES=""
+for d in hotpotqa 2wikimultihop musique; do
+  f="trajectories/${d}/trajectories.jsonl"
+  if [ -f "$f" ] && [ -s "$f" ]; then
+    GRPO_FILES="$GRPO_FILES $f"
+    echo "  GRPO: $f ($(wc -l < "$f") trajectories)"
+  fi
+done
+
+echo ""
+
+# ══════════════════════════════════════════════════════════════════════
+echo "  STAGE 1: SFT on counterfactual SQ answers"
+echo "  Base: Qwen/Qwen2.5-7B-Instruct -> Output: models/sft_base"
+echo "══════════════════════════════════════════════════════════════════"
+
+python -u scripts/train_worker_sft.py \
+  --config configs/grpo_training.yaml \
+  --trajectories $TRAJ_FILES \
+  --output models/sft_base
+
+echo "Stage 1 complete."
+echo ""
+
+# ══════════════════════════════════════════════════════════════════════
+echo "  STAGE 2: GRPO for planner"
+echo "  Base: models/sft_base -> Output: models/planner_lora"
+echo "══════════════════════════════════════════════════════════════════"
+
+if [ -n "$GRPO_FILES" ]; then
+  cat $GRPO_FILES > /tmp/all_grpo_trajectories.jsonl
+  echo "  Combined $(wc -l < /tmp/all_grpo_trajectories.jsonl) GRPO trajectories"
+
+  # Create a config that points to the SFT model as base
+  python -c "
+import yaml
+with open('configs/grpo_training.yaml') as f:
+    cfg = yaml.safe_load(f)
+cfg['model_name'] = 'models/sft_base'
+with open('/tmp/grpo_on_sft.yaml', 'w') as f:
+    yaml.dump(cfg, f)
+print('Config: model_name =', cfg['model_name'])
+"
+
+  python -u scripts/train_grpo.py \
+    --config /tmp/grpo_on_sft.yaml \
+    --trajectories /tmp/all_grpo_trajectories.jsonl \
+    --output models/planner_lora
+
+  echo ""
+  echo "Merging planner LoRA into SFT base..."
+  python -u scripts/merge_lora.py \
+    --base models/sft_base \
+    --lora models/planner_lora \
+    --output models/sft_planner_base
+
+  echo "Stage 2 complete. Merged model: models/sft_planner_base"
+else
+  echo "WARNING: No GRPO trajectories, copying SFT base as sft_planner_base"
+  cp -r models/sft_base models/sft_planner_base
+fi
+echo ""
+
+# ══════════════════════════════════════════════════════════════════════
+echo "  STAGE 3: GRPO for escalation policy"
+echo "  Base: models/sft_planner_base -> Output: models/escalation_lora"
+echo "══════════════════════════════════════════════════════════════════"
+
+# Create config pointing to the merged sft+planner model
+python -c "
+import yaml
+with open('configs/grpo_training.yaml') as f:
+    cfg = yaml.safe_load(f)
+cfg['model_name'] = 'models/sft_planner_base'
+with open('/tmp/escalation_on_merged.yaml', 'w') as f:
+    yaml.dump(cfg, f)
+print('Config: model_name =', cfg['model_name'])
+"
+
+python -u scripts/train_escalation_grpo.py \
+  --config /tmp/escalation_on_merged.yaml \
+  --trajectories $TRAJ_FILES \
+  --output models/escalation_lora \
+  --cost-penalty 0.2
+
+echo "Stage 3 complete."
+echo ""
+
+# ══════════════════════════════════════════════════════════════════════
+echo "  ALL TRAINING COMPLETE"
+echo "══════════════════════════════════════════════════════════════════"
+echo ""
+echo "Final artifacts:"
+echo "  models/sft_base           = SFT-only model (Stage 1)"
+echo "  models/planner_lora       = Planner LoRA adapter (Stage 2)"
+echo "  models/sft_planner_base   = SFT + Planner merged (for inference)"
+echo "  models/escalation_lora    = Escalation LoRA adapter (Stage 3)"
+echo ""
+echo "For inference:"
+echo "  vLLM base model: models/sft_planner_base"
+echo "  vLLM LoRA:       --lora-modules escalation=models/escalation_lora"
+echo ""
+for d in models/sft_base models/planner_lora models/sft_planner_base models/escalation_lora; do
+  if [ -d "$d" ]; then
+    echo "  $d: $(du -sh "$d" | cut -f1)"
+  else
+    echo "  $d: NOT FOUND"
+  fi
+done

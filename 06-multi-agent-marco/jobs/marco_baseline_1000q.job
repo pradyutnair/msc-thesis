@@ -1,0 +1,65 @@
+#!/bin/bash
+#SBATCH --job-name=marco_bl
+#SBATCH --partition=gpu_a100
+#SBATCH --time=04:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/06-multi-agent-marco/jobs/output/%j_baseline_%a.log
+#SBATCH --array=0-2
+
+# M6 untrained baseline with Qwen2.5-7B-Instruct on ARAG corpus
+# 1000q per dataset
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/06-multi-agent-marco
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"
+export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="Qwen2.5-7B-Instruct"
+
+DATASETS=(hotpotqa 2wiki musique)
+DATASET="${DATASETS[$SLURM_ARRAY_TASK_ID]}"
+
+mkdir -p "results/baseline_qwen25/${DATASET}" jobs/output
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+python -m vllm.entrypoints.openai.api_server \
+  --model "Qwen/Qwen2.5-7B-Instruct" --served-model-name "Qwen2.5-7B-Instruct" \
+  --host 127.0.0.1 --port 8000 \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.90 \
+  --max-num-seqs 256 \
+  --enable-auto-tool-choice --tool-call-parser hermes \
+  --trust-remote-code &
+VLLM_PID=$!
+
+for i in $(seq 1 300); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then echo "vLLM died"; wait "$VLLM_PID" || true; exit 1; fi
+  STATUS="$(python -c "import json,urllib.request; print('ok' if json.load(urllib.request.urlopen('http://127.0.0.1:8000/v1/models',timeout=2)).get('data') else 'wait')" 2>/dev/null || echo wait)"
+  if [[ "$STATUS" == "ok" ]]; then echo "vLLM ready after ${i} checks"; break; fi
+  sleep 3
+done
+
+echo ""
+echo "=== M6 Baseline: $DATASET (1000q, Qwen2.5-7B-Instruct) ==="
+PYTHONPATH=src python -u scripts/m6_runner.py \
+  --config configs/marco_arag.yaml \
+  --dataset "$DATASET" \
+  --output "results/baseline_qwen25/$DATASET" \
+  --limit 1000 \
+  --workers 10
+
+echo ""
+echo "=== Eval ==="
+PYTHONPATH=src python scripts/eval_offline.py "results/baseline_qwen25/$DATASET/predictions.jsonl"
+echo "=== Done: $DATASET ==="

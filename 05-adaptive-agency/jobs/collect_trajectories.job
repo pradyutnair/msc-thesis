@@ -7,6 +7,7 @@
 #SBATCH --gpus=1
 #SBATCH --mem=96G
 #SBATCH --output=/projects/prjs1800/msc-thesis/05-adaptive-agency/jobs/output/%j_collect_trajectories.log
+#SBATCH --array=0-2
 
 set -euo pipefail
 module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
@@ -21,7 +22,10 @@ export ARAG_API_KEY="dummy"
 export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
 export ARAG_MODEL="Qwen3-8B"
 
-mkdir -p trajectories/hotpotqa trajectories/2wikimultihop trajectories/musique jobs/output
+DATASETS=(hotpotqa 2wikimultihop musique)
+DATASET="${DATASETS[$SLURM_ARRAY_TASK_ID]}"
+
+mkdir -p "trajectories/$DATASET" jobs/output
 
 cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
 trap cleanup EXIT TERM INT
@@ -49,20 +53,18 @@ PY
   sleep 3
 done
 
-for DATASET in hotpotqa 2wikimultihop musique; do
-  echo ""
-  echo "=== Collecting trajectories: $DATASET (800q x 4 samples) ==="
-  PYTHONPATH=src python -u scripts/collect_trajectories.py \
-    --config configs/adaptive_agency.yaml \
-    --questions "data/$DATASET/questions.json" \
-    --output "trajectories/$DATASET" \
-    --limit 800 \
-    --group-size 4 \
-    --concurrent 50 \
-    --temperature 0.7 \
-    --lambda-efficiency 0.1
-done
+echo ""
+echo "=== Collecting trajectories: $DATASET (400q x 4 samples) ==="
+PYTHONPATH=src python -u scripts/collect_trajectories.py \
+  --config configs/adaptive_agency.yaml \
+  --questions "data/$DATASET/questions.json" \
+  --output "trajectories/$DATASET" \
+  --limit 400 \
+  --group-size 4 \
+  --concurrent 50 \
+  --temperature 0.7 \
+  --lambda-efficiency 0.1
 
 echo ""
-echo "=== Collection complete ==="
-wc -l trajectories/*/trajectories.jsonl
+echo "=== $DATASET collection complete ==="
+wc -l "trajectories/$DATASET/trajectories.jsonl"

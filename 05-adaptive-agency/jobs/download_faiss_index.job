@@ -1,0 +1,87 @@
+#!/bin/bash
+#SBATCH --job-name=dl_faiss
+#SBATCH --partition=cbuild
+#SBATCH --time=04:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=16G
+#SBATCH --output=/projects/prjs1800/msc-thesis/05-adaptive-agency/jobs/output/%j_download_faiss.log
+
+# Download pre-built E5-base-v2 FAISS index for wiki18_100w from HuggingFace
+# This is ~37GB and goes to scratch-shared
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+
+FLASHRAG_DIR="/scratch-shared/pnair/flashrag"
+INDEX_DIR="$FLASHRAG_DIR/wiki18_100w_e5_index"
+mkdir -p "$FLASHRAG_DIR"
+
+if [ -d "$INDEX_DIR" ] && [ "$(ls -A $INDEX_DIR 2>/dev/null)" ]; then
+  echo "FAISS index already exists at $INDEX_DIR"
+  ls -lh "$INDEX_DIR/"
+  exit 0
+fi
+
+echo "=== Downloading E5-base-v2 FAISS index for wiki18_100w ==="
+echo "Target: $INDEX_DIR"
+
+# Try downloading from HuggingFace FlashRAG datasets
+python -u -c "
+from huggingface_hub import snapshot_download
+import os
+
+# FlashRAG provides pre-built indexes
+# The index is typically in the 'retrieval_corpus' or 'indexes' subfolder
+try:
+    path = snapshot_download(
+        repo_id='ignore/FlashRAG_datasets',
+        repo_type='dataset',
+        allow_patterns=['*e5*index*', '*e5*faiss*', '*wiki18*e5*'],
+        local_dir='$FLASHRAG_DIR/hf_download',
+    )
+    print(f'Downloaded to: {path}')
+except Exception as e:
+    print(f'HuggingFace download failed: {e}')
+    print('Trying alternative: build index from scratch')
+
+    # Alternative: build the FAISS index ourselves
+    import faiss
+    import json
+    import numpy as np
+    from sentence_transformers import SentenceTransformer
+
+    model = SentenceTransformer('intfloat/e5-base-v2')
+
+    print('Loading passages...')
+    passages = []
+    with open('$FLASHRAG_DIR/wiki18_100w.jsonl') as f:
+        for line in f:
+            obj = json.loads(line)
+            # E5 models need 'passage: ' prefix for documents
+            passages.append('passage: ' + obj.get('contents', '')[:512])
+
+    print(f'Encoding {len(passages)} passages...')
+    batch_size = 1024
+    dim = 768  # E5-base-v2 dimension
+    index = faiss.IndexFlatIP(dim)
+
+    for i in range(0, len(passages), batch_size):
+        batch = passages[i:i+batch_size]
+        embeddings = model.encode(batch, normalize_embeddings=True, show_progress_bar=False)
+        index.add(np.array(embeddings, dtype=np.float32))
+        if (i // batch_size) % 100 == 0:
+            print(f'  Encoded {i+len(batch)}/{len(passages)} passages')
+
+    os.makedirs('$INDEX_DIR', exist_ok=True)
+    faiss.write_index(index, '$INDEX_DIR/e5_flat.index')
+    print(f'Index saved: {index.ntotal} vectors')
+"
+
+echo ""
+echo "=== Download complete ==="
+ls -lh "$INDEX_DIR/" 2>/dev/null || echo "Index dir not found - check logs"

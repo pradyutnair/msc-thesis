@@ -1,0 +1,36 @@
+#!/bin/bash
+#SBATCH --job-name=setup_db
+#SBATCH --partition=staging
+#SBATCH --time=04:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=16G
+#SBATCH --output=/projects/prjs1800/msc-thesis/05-adaptive-agency/jobs/output/%j_setup_sqlite.log
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1
+
+cd /projects/prjs1800/msc-thesis/05-adaptive-agency
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+
+echo "=== Building SQLite FTS5 index ==="
+python -u scripts/setup_flashrag.py \
+  --flashrag-dir /projects/prjs1800/datasets/flashrag/retrieval-corpus \
+  --output-dir /projects/prjs1800/datasets/flashrag \
+  --skip-datasets
+
+echo ""
+echo "=== Converting FlashRAG questions ==="
+python -u scripts/convert_flashrag_questions.py \
+  --all \
+  --flashrag-dir /projects/prjs1800/datasets/flashrag \
+  --data-dir data
+
+echo ""
+echo "=== Done ==="
+ls -lh /projects/prjs1800/datasets/flashrag/wiki18_100w.db 2>/dev/null
+for d in hotpotqa 2wikimultihop musique; do
+  echo "  $d: $(python3 -c "import json; print(len(json.load(open('data/$d/questions.json'))))" 2>/dev/null) questions"
+done

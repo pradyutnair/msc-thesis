@@ -1,0 +1,121 @@
+#!/bin/bash
+#SBATCH --job-name=p1_collect
+#SBATCH --partition=gpu_a100
+#SBATCH --time=06:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/05-adaptive-agency/jobs/output/%j_phase1_collect.log
+#SBATCH --array=0-8
+
+# Phase 1: All data collection with Qwen2.5-7B-Instruct + FlashRAG
+#
+# Array layout (9 jobs):
+#   0-2: Counterfactual escalation trajectories (hotpotqa, 2wiki, musique) — 400q each
+#   3-5: GRPO planner trajectories (hotpotqa, 2wiki, musique) — 400q x 4 samples each
+#   6-8: Heuristic baseline evaluation (hotpotqa, 2wiki, musique) — 1000q each
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/05-adaptive-agency
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"
+export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="Qwen2.5-7B-Instruct"
+
+# FlashRAG corpus paths
+export FLASHRAG_SQLITE_DB="/projects/prjs1800/datasets/flashrag/wiki18_100w.db"
+export FLASHRAG_FAISS_INDEX="/projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index"
+
+DATASETS=(hotpotqa 2wikimultihop musique)
+TASK_TYPE=$((SLURM_ARRAY_TASK_ID / 3))
+DATASET_IDX=$((SLURM_ARRAY_TASK_ID % 3))
+DATASET="${DATASETS[$DATASET_IDX]}"
+
+MODEL="Qwen/Qwen2.5-7B-Instruct"
+SERVED_NAME="Qwen2.5-7B-Instruct"
+
+mkdir -p jobs/output
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+# Start vLLM (Qwen2.5 — no --generation-config vllm)
+python -m vllm.entrypoints.openai.api_server \
+  --model "$MODEL" --served-model-name "$SERVED_NAME" \
+  --host 127.0.0.1 --port 8000 \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.90 \
+  --max-num-seqs 256 \
+  --enable-auto-tool-choice --tool-call-parser hermes \
+  --trust-remote-code &
+VLLM_PID=$!
+
+for i in $(seq 1 300); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  STATUS="$(python - <<'PY'
+import json, urllib.request
+try:
+    d=json.load(urllib.request.urlopen(http://127.0.0.1:8000/v1/models, timeout=2))
+    print(ok if d.get(data) else wait)
+except Exception:
+    print(wait)
+PY
+)"
+  if [[ "$STATUS" == "ok" ]]; then echo "vLLM ready after ${i} checks"; break; fi
+  sleep 3
+done
+
+echo ""
+
+case $TASK_TYPE in
+  0)
+    # ── Counterfactual escalation trajectories ──────────────────
+    echo "=== Counterfactual collection: $DATASET (400q) ==="
+    mkdir -p "trajectories/escalation_${DATASET}"
+    PYTHONPATH=src python -u scripts/collect_escalation_trajectories.py \
+      --config configs/adaptive_agency.yaml \
+      --questions "data/$DATASET/questions.json" \
+      --output "trajectories/escalation_$DATASET" \
+      --limit 400 \
+      --concurrent 10
+    echo "=== Done: counterfactual $DATASET ==="
+    cat "trajectories/escalation_$DATASET/escalation_summary.json" 2>/dev/null
+    ;;
+  1)
+    # ── GRPO planner trajectories ───────────────────────────────
+    echo "=== GRPO collection: $DATASET (400q x 4 samples) ==="
+    mkdir -p "trajectories/$DATASET"
+    PYTHONPATH=src python -u scripts/collect_trajectories.py \
+      --config configs/adaptive_agency.yaml \
+      --questions "data/$DATASET/questions.json" \
+      --output "trajectories/$DATASET" \
+      --limit 400 \
+      --group-size 4 \
+      --concurrent 50 \
+      --temperature 0.7 \
+      --lambda-efficiency 0.1
+    echo "=== Done: GRPO $DATASET ==="
+    wc -l "trajectories/$DATASET/trajectories.jsonl" 2>/dev/null
+    ;;
+  2)
+    # ── Heuristic baseline evaluation ───────────────────────────
+    echo "=== Heuristic baseline: $DATASET (1000q) ==="
+    mkdir -p "results/heuristic_baseline/$DATASET"
+    PYTHONPATH=src python -u scripts/run_escalation.py \
+      --config configs/adaptive_agency.yaml \
+      --questions "data/$DATASET/questions.json" \
+      --output "results/heuristic_baseline/$DATASET" \
+      --mode heuristic \
+      --limit 1000 \
+      --concurrent 10
+    echo "=== Done: heuristic $DATASET ==="
+    PYTHONPATH=src python scripts/eval_offline.py "results/heuristic_baseline/$DATASET/predictions.jsonl" 2>/dev/null
+    ;;
+esac

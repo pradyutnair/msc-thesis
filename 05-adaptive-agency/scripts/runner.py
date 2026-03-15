@@ -125,28 +125,8 @@ class AdaptiveBatchRunner:
                 f.write(json.dumps(prediction, ensure_ascii=False, default=str) + "\n")
 
     def _build_tools(self, data_cfg: dict) -> ToolRegistry:
-        chunks_file = data_cfg.get("chunks_file", "data/chunks.json")
-        reg = ToolRegistry()
-        reg.register(KeywordSearchTool(chunks_file=chunks_file))
-        reg.register(ReadChunkTool(chunks_file=chunks_file))
-
-        index_dir = data_cfg.get("index_dir")
-        if index_dir and Path(index_dir).exists():
-            emb_cfg = self.config.get("embedding", {})
-            model_name = emb_cfg.get("model", "intfloat/e5-base-v2")
-            logger.info("Loading embedding model: %s", model_name)
-            reg.register(
-                SemanticSearchTool(
-                    chunks_file=chunks_file,
-                    index_dir=index_dir,
-                    model_name=model_name,
-                    device=emb_cfg.get("device"),
-                )
-            )
-            logger.info("Embedding model loaded")
-        else:
-            logger.warning("Index dir not found at %s, semantic search disabled", index_dir)
-        return reg
+        from arag.tools.build_tools import build_tools
+        return build_tools(self.config)
 
     def _create_pipeline(self) -> AdaptiveAgencyPipeline:
         llm_cfg = self.config.get("llm", {})

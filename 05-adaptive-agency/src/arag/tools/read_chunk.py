@@ -1,6 +1,13 @@
-"""Read chunk tool - retrieve full document content."""
+"""Read chunk tool - retrieve full document content.
+
+Supports two backends:
+  1. SQLite (default): For FlashRAG 21M-passage corpus.
+  2. Legacy in-memory: For small per-dataset chunks.json files.
+"""
 
 import json
+import os
+import sqlite3
 from typing import Any, Dict, List, Tuple, TYPE_CHECKING
 
 from arag.tools.base import BaseTool
@@ -10,14 +17,12 @@ if TYPE_CHECKING:
 
 try:
     import tiktoken
-
     HAS_TIKTOKEN = True
 except ImportError:
     HAS_TIKTOKEN = False
 
 try:
     from multi_agent.types import CachedDocument
-
     HAS_CACHED_DOCUMENT = True
 except Exception:
     HAS_CACHED_DOCUMENT = False
@@ -26,23 +31,45 @@ except Exception:
 class ReadChunkTool(BaseTool):
     """Read full content of document chunks."""
 
-    def __init__(self, chunks_file: str, evidence_cache: Any = None):
-        self.chunks_file = chunks_file
+    def __init__(
+        self,
+        chunks_file: str | None = None,
+        evidence_cache: Any = None,
+        sqlite_db: str | None = None,
+    ):
         self.evidence_cache = evidence_cache
-        self.chunks = self._load_chunks()
-        self.chunks_dict = {c["id"]: c["text"] for c in self.chunks}
 
         if not HAS_TIKTOKEN:
             raise ImportError("tiktoken required. Install: pip install tiktoken")
         self.tokenizer = tiktoken.encoding_for_model("gpt-4o")
 
-    def _load_chunks(self) -> List[Dict[str, Any]]:
-        with open(self.chunks_file, "r", encoding="utf-8") as f:
-            data = json.load(f)
+        # Determine backend
+        self._use_sqlite = False
+        self._db_path = sqlite_db or os.getenv("FLASHRAG_SQLITE_DB")
 
+        if self._db_path and os.path.exists(self._db_path):
+            self._use_sqlite = True
+            import logging
+            logging.getLogger(__name__).info(
+                "ReadChunk: SQLite backend at %s", self._db_path,
+            )
+        elif chunks_file:
+            self.chunks = self._load_chunks(chunks_file)
+            self.chunks_dict = {c["id"]: c["text"] for c in self.chunks}
+            import logging
+            logging.getLogger(__name__).info(
+                "ReadChunk: in-memory backend with %d chunks", len(self.chunks),
+            )
+        else:
+            raise ValueError(
+                "Either chunks_file or sqlite_db (or FLASHRAG_SQLITE_DB env) required"
+            )
+
+    def _load_chunks(self, chunks_file: str) -> List[Dict[str, Any]]:
+        with open(chunks_file, "r", encoding="utf-8") as f:
+            data = json.load(f)
         if data and isinstance(data[0], dict):
             return data
-
         chunks = []
         for item in data:
             if isinstance(item, str):
@@ -69,7 +96,6 @@ IMPORTANT: Search results (keyword_search and semantic_search) only show abbrevi
 STRATEGY:
 - Always read promising chunks identified by your searches
 - Make sure to read the most relevant chunks to gather complete information
-- If information seems incomplete or truncated, read adjacent chunks (± 1)
 - Reading full text is essential for accurate answers
 
 Note: Previously read chunks will be marked as already seen to avoid redundant information.""",
@@ -88,14 +114,13 @@ Note: Previously read chunks will be marked as already seen to avoid redundant i
         }
 
     def _cache_write_chunk(self, context: "AgentContext", cid: str, content: str) -> bool:
-        """Optional write-through to shared evidence cache (no-op if unavailable)."""
+        """Optional write-through to shared evidence cache."""
         cache_obj = getattr(context, "evidence_cache", None) or self.evidence_cache
         if cache_obj is None:
             return False
 
         source_agent = int(getattr(context, "source_agent", -1))
 
-        # Preferred path: multi-agent cache object exposing put_sync(CachedDocument).
         if HAS_CACHED_DOCUMENT:
             put_sync = getattr(cache_obj, "put_sync", None)
             if callable(put_sync):
@@ -109,13 +134,28 @@ Note: Previously read chunks will be marked as already seen to avoid redundant i
                 put_sync(doc)
                 return True
 
-        # Fallback path: callback hook on context for custom integrations.
         callback = getattr(context, "cache_put_document", None)
         if callable(callback):
             callback(str(cid), content, source_agent)
             return True
 
         return False
+
+    def _read_from_sqlite(self, passage_id: str) -> str | None:
+        """Look up passage text from SQLite by passage_id."""
+        conn = sqlite3.connect(self._db_path)
+        row = conn.execute(
+            "SELECT title, contents FROM passages WHERE passage_id = ?",
+            (passage_id,),
+        ).fetchone()
+        conn.close()
+
+        if row:
+            title, contents = row
+            if title:
+                return f"Title: {title}\n\n{contents}"
+            return contents
+        return None
 
     def execute(
         self,
@@ -147,8 +187,14 @@ Note: Previously read chunks will be marked as already seen to avoid redundant i
                 result_parts.append(f"{'=' * 80}")
                 continue
 
-            if cid in self.chunks_dict:
-                content = self.chunks_dict[cid]
+            content = None
+
+            if self._use_sqlite:
+                content = self._read_from_sqlite(cid)
+            else:
+                content = self.chunks_dict.get(cid)
+
+            if content:
                 result_parts.append(f"\n{'=' * 80}")
                 result_parts.append(f"[Chunk {cid}]")
                 result_parts.append(f"{'-' * 80}")
@@ -176,6 +222,7 @@ Note: Previously read chunks will be marked as already seen to avoid redundant i
                 "new_chunks_read": new_chunks_read,
                 "already_read": already_read,
                 "cache_writes": cache_writes,
+                "backend": "sqlite" if self._use_sqlite else "legacy",
             },
         )
 

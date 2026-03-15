@@ -1,0 +1,135 @@
+#!/bin/bash
+#SBATCH --job-name=eval_abl
+#SBATCH --partition=gpu_a100
+#SBATCH --time=06:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/05-adaptive-agency/jobs/output/%j_eval_ablations.log
+#SBATCH --array=0-8
+
+# Core evaluation matrix (3 configs x 3 datasets = 9 runs):
+#
+# idx  model_variant      escalation_mode   description
+# 0-2  base               heuristic         Baseline (no training)         [Config A]
+# 3-5  sft_planner_base   heuristic         +SFT +planner contribution     [Config B]
+# 6-8  sft_planner_base   learned           Full system (ours)             [Config C]
+#
+# Within each group of 3: hotpotqa, 2wikimultihop, musique
+#
+# Config A results come from Phase 1B (heuristic_baseline), so jobs 0-2
+# are technically redundant if Phase 1 ran correctly. They serve as
+# verification and will use resume support to skip already-evaluated questions.
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/05-adaptive-agency
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"
+export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+
+# FlashRAG corpus paths
+export FLASHRAG_SQLITE_DB="/projects/prjs1800/datasets/flashrag/wiki18_100w.db"
+export FLASHRAG_FAISS_INDEX="/projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index"
+
+DATASETS=(hotpotqa 2wikimultihop musique)
+DATASET_IDX=$((SLURM_ARRAY_TASK_ID % 3))
+GROUP_IDX=$((SLURM_ARRAY_TASK_ID / 3))
+DATASET="${DATASETS[$DATASET_IDX]}"
+
+# Determine model variant and escalation mode from group index
+case $GROUP_IDX in
+  0) MODEL_VARIANT="base";             MODE="heuristic" ;;
+  1) MODEL_VARIANT="sft_planner_base"; MODE="heuristic" ;;
+  2) MODEL_VARIANT="sft_planner_base"; MODE="learned" ;;
+  *) echo "Invalid group index: $GROUP_IDX"; exit 1 ;;
+esac
+
+# Resolve model path
+if [ "$MODEL_VARIANT" = "sft_planner_base" ] && [ -d "models/sft_planner_base" ]; then
+  MODEL_PATH="models/sft_planner_base"
+  SERVED_NAME="Qwen2.5-7B-Trained"
+elif [ "$MODEL_VARIANT" = "sft_planner_base" ] && [ -d "models/sft_base" ]; then
+  # Fallback: planner merge not done yet, use SFT-only
+  MODEL_PATH="models/sft_base"
+  SERVED_NAME="Qwen2.5-7B-SFT"
+  echo "WARNING: sft_planner_base not found, falling back to sft_base"
+else
+  MODEL_PATH="Qwen/Qwen2.5-7B-Instruct"
+  SERVED_NAME="Qwen2.5-7B-Instruct"
+fi
+export ARAG_MODEL="$SERVED_NAME"
+
+# For learned mode, set up LoRA
+LORA_ARGS=""
+if [ "$MODE" = "learned" ] && [ -d "models/escalation_lora" ]; then
+  LORA_ARGS="--enable-lora --lora-modules escalation=models/escalation_lora"
+  export ESCALATION_MODEL="escalation"
+fi
+
+OUTDIR="results/escalation_${MODEL_VARIANT}_${MODE}/${DATASET}"
+mkdir -p "$OUTDIR" jobs/output
+
+echo ""
+echo "=============================================="
+echo "  Evaluation: model=$MODEL_VARIANT mode=$MODE dataset=$DATASET"
+echo "  Model path: $MODEL_PATH"
+echo "  Output: $OUTDIR"
+echo "  LoRA: ${LORA_ARGS:-none}"
+echo "=============================================="
+echo ""
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+# Start vLLM (Qwen2.5 — no --generation-config vllm)
+python -m vllm.entrypoints.openai.api_server \
+  --model "$MODEL_PATH" --served-model-name "$SERVED_NAME" \
+  --host 127.0.0.1 --port 8000 \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.90 \
+  --max-num-seqs 256 \
+  --enable-auto-tool-choice --tool-call-parser hermes \
+  --trust-remote-code \
+  $LORA_ARGS &
+VLLM_PID=$!
+
+for i in $(seq 1 300); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  STATUS="$(python - <<'PY'
+import json, urllib.request
+try:
+    d=json.load(urllib.request.urlopen("http://127.0.0.1:8000/v1/models", timeout=2))
+    print("ok" if d.get("data") else "wait")
+except Exception:
+    print("wait")
+PY
+)"
+  if [[ "$STATUS" == "ok" ]]; then echo "vLLM ready after ${i} checks"; break; fi
+  sleep 3
+done
+
+echo ""
+PYTHONPATH=src python -u scripts/run_escalation.py \
+  --config configs/adaptive_agency.yaml \
+  --questions "data/$DATASET/questions.json" \
+  --output "$OUTDIR" \
+  --mode "$MODE" \
+  --limit 1000 \
+  --concurrent 10
+
+echo ""
+echo "=== Results: $MODEL_VARIANT / $MODE / $DATASET ==="
+
+# Run offline eval for standardized EM/F1/ContainBi metrics
+if [ -f "$OUTDIR/predictions.jsonl" ]; then
+  PYTHONPATH=src python scripts/eval_offline.py "$OUTDIR/predictions.jsonl"
+fi
+
+cat "$OUTDIR/offline_eval_summary.json" 2>/dev/null

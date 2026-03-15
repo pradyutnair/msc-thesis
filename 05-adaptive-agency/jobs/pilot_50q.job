@@ -1,0 +1,113 @@
+#!/bin/bash
+#SBATCH --job-name=pilot50q
+#SBATCH --partition=gpu_a100
+#SBATCH --time=02:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/05-adaptive-agency/jobs/output/%j_pilot_50q.log
+
+# Pilot: 50q HotPotQA with Qwen2.5-7B-Instruct + FlashRAG
+# Step 1: Counterfactual collection (50q) — signal quality check
+# Step 2: Heuristic eval (50q) — baseline EM check
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/05-adaptive-agency
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"
+export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="Qwen2.5-7B-Instruct"
+
+# FlashRAG corpus
+export FLASHRAG_SQLITE_DB="/projects/prjs1800/datasets/flashrag/wiki18_100w.db"
+export FLASHRAG_FAISS_INDEX="/projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index"
+
+mkdir -p trajectories/pilot_hotpotqa results/pilot_heuristic/hotpotqa jobs/output
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+echo "=== Starting vLLM with Qwen2.5-7B-Instruct ==="
+python -m vllm.entrypoints.openai.api_server \
+  --model "Qwen/Qwen2.5-7B-Instruct" --served-model-name "Qwen2.5-7B-Instruct" \
+  --host 127.0.0.1 --port 8000 \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.90 \
+  --max-num-seqs 256 \
+  --enable-auto-tool-choice --tool-call-parser hermes \
+  --trust-remote-code &
+VLLM_PID=$!
+
+for i in $(seq 1 300); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then echo "vLLM died"; wait "$VLLM_PID" || true; exit 1; fi
+  STATUS="$(python - <<'PY'
+import json, urllib.request
+try:
+    d=json.load(urllib.request.urlopen("http://127.0.0.1:8000/v1/models", timeout=2))
+    print("ok" if d.get("data") else "wait")
+except Exception:
+    print("wait")
+PY
+)"
+  if [[ "$STATUS" == "ok" ]]; then echo "vLLM ready after ${i} checks"; break; fi
+  sleep 3
+done
+
+echo ""
+echo "=== Step 0: Verify tools load ==="
+PYTHONPATH=src python -u -c "
+from arag.core.config import Config
+from arag.tools.build_tools import build_tools
+config = Config.from_yaml('configs/adaptive_agency.yaml')
+tools = build_tools(config)
+print('Tools registered:', tools.list_tools())
+"
+
+echo ""
+echo "=============================================="
+echo "  STEP 1: Counterfactual collection (50q)"
+echo "=============================================="
+rm -f trajectories/pilot_hotpotqa/escalation_trajectories.jsonl
+PYTHONPATH=src python -u scripts/collect_escalation_trajectories.py \
+  --config configs/adaptive_agency.yaml \
+  --questions data/hotpotqa/questions.json \
+  --output trajectories/pilot_hotpotqa \
+  --limit 50 \
+  --concurrent 5
+
+echo ""
+echo "=== Counterfactual summary ==="
+cat trajectories/pilot_hotpotqa/escalation_summary.json 2>/dev/null
+
+echo ""
+echo "=============================================="
+echo "  STEP 2: Heuristic baseline eval (50q)"
+echo "=============================================="
+rm -f results/pilot_heuristic/hotpotqa/predictions.jsonl
+PYTHONPATH=src python -u scripts/run_escalation.py \
+  --config configs/adaptive_agency.yaml \
+  --questions data/hotpotqa/questions.json \
+  --output results/pilot_heuristic/hotpotqa \
+  --mode heuristic \
+  --limit 50 \
+  --concurrent 5
+
+echo ""
+echo "=== Heuristic baseline results ==="
+PYTHONPATH=src python scripts/eval_offline.py results/pilot_heuristic/hotpotqa/predictions.jsonl 2>/dev/null
+cat results/pilot_heuristic/hotpotqa/offline_eval_summary.json 2>/dev/null
+
+echo ""
+echo "=============================================="
+echo "  PILOT COMPLETE — Key diagnostics"
+echo "=============================================="
+PYTHONPATH=src python3 -u scripts/pilot_diagnostics.py
+echo ""
+echo "=== DONE ==="

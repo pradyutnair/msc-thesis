@@ -31,10 +31,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from arag.core.config import Config
 from arag.core.llm import LLMClient
-from arag.tools.keyword_search import KeywordSearchTool
-from arag.tools.read_chunk import ReadChunkTool
 from arag.tools.registry import ToolRegistry
-from arag.tools.semantic_search import SemanticSearchTool
+from arag.tools.build_tools import build_tools
 from multi_agent.adaptive_pipeline import AdaptiveAgencyPipeline
 
 logging.basicConfig(
@@ -85,26 +83,8 @@ def compute_reward(
     return accuracy - lambda_eff * efficiency_penalty
 
 
-def build_tools(config: Config) -> ToolRegistry:
-    data_cfg = config.get("data", {})
-    chunks_file = data_cfg.get("chunks_file", "data/chunks.json")
-    reg = ToolRegistry()
-    reg.register(KeywordSearchTool(chunks_file=chunks_file))
-    reg.register(ReadChunkTool(chunks_file=chunks_file))
 
-    index_dir = data_cfg.get("index_dir")
-    if index_dir and Path(index_dir).exists():
-        emb_cfg = config.get("embedding", {})
-        reg.register(SemanticSearchTool(
-            chunks_file=chunks_file,
-            index_dir=index_dir,
-            model_name=emb_cfg.get("model", "intfloat/e5-base-v2"),
-            device=emb_cfg.get("device"),
-        ))
-    return reg
-
-
-def create_pipeline(config: Config, temperature: float) -> AdaptiveAgencyPipeline:
+def create_pipeline(config: Config, temperature: float, tools: ToolRegistry = None) -> AdaptiveAgencyPipeline:
     llm_cfg = config.get("llm", {})
     client = LLMClient(
         model=llm_cfg.get("model") or os.getenv("ARAG_MODEL", "Qwen3-8B"),
@@ -115,7 +95,8 @@ def create_pipeline(config: Config, temperature: float) -> AdaptiveAgencyPipelin
     )
 
     data_cfg = config.get("data", {})
-    tools = build_tools(config)
+    if tools is None:
+        tools = build_tools(config)
     adaptive_cfg = config.get("adaptive", {})
     structured_cfg = adaptive_cfg.get("structured", {})
 
@@ -160,13 +141,14 @@ async def collect_one_sample(
     lambda_eff: float,
     semaphore: asyncio.Semaphore,
     sample_idx: int,
+    shared_tools: "ToolRegistry | None" = None,
 ) -> dict[str, Any]:
     async with semaphore:
         qid = item.get("qid") or item.get("id")
         question = item.get("question", "")
         gold = item.get("answer", item.get("gold_answer", ""))
 
-        pipeline = create_pipeline(config, temperature)
+        pipeline = create_pipeline(config, temperature, tools=shared_tools)
         result = await pipeline.run(question)
 
         reward = compute_reward(
@@ -241,12 +223,17 @@ async def run_collection(
     t0 = time.monotonic()
     completed = 0
 
+    # Build tools ONCE and share across all samples
+    shared_tools = build_tools(config)
+    logger.info("Tools loaded: %s", shared_tools.list_tools())
+
     tasks = []
     for item in pending:
         for sample_idx in range(group_size):
             tasks.append(collect_one_sample(
                 item, config, temperature, token_budget,
                 lambda_eff, semaphore, sample_idx,
+                shared_tools=shared_tools,
             ))
 
     with open(trajectories_file, "a") as fout:

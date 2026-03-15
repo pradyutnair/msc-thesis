@@ -1,0 +1,21 @@
+# M7: evidence-gated multi-agent QA for Qwen3-8B.
+
+llm:
+  model: "Qwen3-8B"
+  api_key: "dummy"
+  base_url: "http://127.0.0.1:8000/v1"
+  temperature: 0.0
+  max_tokens: 8192
+
+embedding:
+  model: "intfloat/e5-base-v2"
+  device: "cpu"
+
+m7:
+  num_researchers: 2
+  researcher_max_steps: 10
+  token_budget: 400000
+  wall_clock_timeout: 1200.0
+  idle_timeout: 45.0
+  max_actions: 120
+  max_redecompositions: 1

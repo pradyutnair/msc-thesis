@@ -229,10 +229,30 @@ class StructuredWorker(AutonomousAgent):
                     hit_count[cid] = hit_count.get(cid, 0) + 1
                     best_rank[cid] = min(best_rank.get(cid, 999), rank)
                     if cid not in chunk_texts:
+                        # Try in-memory dict first (legacy), then SQLite read
                         if self.read_tool is not None and hasattr(self.read_tool, "chunks_dict"):
-                            text = str(self.read_tool.chunks_dict.get(cid, ""))
-                            if text:
-                                chunk_texts[cid] = text
+                            txt = str(self.read_tool.chunks_dict.get(cid, ""))
+                            if txt:
+                                chunk_texts[cid] = txt
+                        elif self.read_tool is not None:
+                            # SQLite/FlashRAG backend: read via tool
+                            read_ctx = AgentContext()
+                            read_result, _ = self.read_tool.execute(read_ctx, chunk_ids=[cid])
+                            # Extract text from read result (skip header/separator lines)
+                            txt_lines = []
+                            in_content = False
+                            for line in read_result.split("\n"):
+                                if line.startswith("-" * 10):
+                                    in_content = True
+                                    continue
+                                if line.startswith("=" * 10):
+                                    in_content = False
+                                    continue
+                                if in_content:
+                                    txt_lines.append(line)
+                            txt = "\n".join(txt_lines).strip()
+                            if txt:
+                                chunk_texts[cid] = txt
 
         ranked_ids = sorted(
             chunk_texts.keys(),

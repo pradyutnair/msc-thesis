@@ -1,0 +1,40 @@
+You are a final answer verifier. Check whether the proposed answer correctly answers the original question given the evidence.
+
+## Question
+{question}
+
+## Proposed Answer
+{answer}
+
+## Evidence from Sub-Questions
+{evidence_blocks}
+
+## Verification Steps
+
+1. **Answer Type Check**: Does the answer type match what the question asks?
+   - "Who" → must be a person name (not "yes", not a number)
+   - "When/What year" → must be a date/year
+   - "Where" → must be a place name
+   - "Which" → must be a specific entity name (not a date or number)
+   - "How many" → must be a number as digits (e.g., "12" not "twelve")
+   - Yes/No question → must be "yes" or "no"
+
+2. **Comparison Check** (if the question compares two entities):
+   - "Who was born first?" → compare the dates: SMALLER year = born first
+   - "Who was born later?" → LARGER year = born later
+   - "Who lived longer?" → compute lifespans, LARGER lifespan wins
+   - "Which was released first/earlier?" → SMALLER year = first
+   - "Which has more?" → compare the numbers: LARGER number = more
+   - "Are both X and Y Z?" → check SEMANTIC equivalence of sub-answers:
+     * Same concept in different languages (France = فرنسا) → YES
+     * Geographic containment (Scotland ⊂ Britain, Hawaii ⊂ USA) → YES
+     * Category inclusion (opera composer IS a composer) → YES
+   - The answer must be an ENTITY NAME, not a date or number
+
+3. **Evidence Support**: Is the answer directly supported by the evidence?
+
+4. **Specificity**: Use the most complete form of the entity name.
+
+If the answer is correct, restate it. If wrong, provide the corrected answer.
+
+FINAL ANSWER: <answer>

@@ -87,6 +87,7 @@ msc-thesis/
 ## Results Structure
 
 Each day's results folder contains:
+
 - `hotpotqa/` - HotpotQA dataset results (metrics, configs)
 - `musique/` - MuSiQue dataset results (metrics, configs)
 - `logs/` - SLURM job logs (.log, .err, .out files)
@@ -94,3 +95,15 @@ Each day's results folder contains:
 ## Running Experiments
 
 See `jobs/README.md` for detailed instructions on running experiments on Snellius.
+
+## Related Works:
+
+- DualRAG: [https://arxiv.org/pdf/2504.18243, https://github.com/cbxgss/rag](https://arxiv.org/pdf/2504.18243)
+- PRISMA: [https://arxiv.org/pdf/2601.05465](https://arxiv.org/pdf/2601.05465)
+- OPERA: [https://arxiv.org/pdf/2508.16438](https://arxiv.org/pdf/2508.16438), [https://github.com/Ameame1/OPERA](https://github.com/Ameame1/OPERA)
+- PRISM: [https://arxiv.org/pdf/2510.14278](https://arxiv.org/pdf/2510.14278)
+- Adaptive-RAG: [https://arxiv.org/pdf/2403.14403](https://arxiv.org/pdf/2403.14403)
+- Frugal-RAG: [https://arxiv.org/pdf/2507.07634](https://arxiv.org/pdf/2507.07634)
+- ReAgent: [https://aclanthology.org/2025.emnlp-main.202.pdf](https://aclanthology.org/2025.emnlp-main.202.pdf)
+- ARAG: [https://arxiv.org/pdf/2602.03442](https://arxiv.org/pdf/2602.03442)
+

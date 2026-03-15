@@ -1,0 +1,20 @@
+llm:
+  model: Qwen2.5-7B-Instruct
+  api_key: dummy
+  base_url: http://127.0.0.1:8000/v1
+  temperature: 0.0
+  max_tokens: 8192
+
+embedding:
+  model: intfloat/e5-base-v2
+  device: cpu
+
+m6:
+  num_workers: 2
+  worker_max_steps: 12
+  token_budget: 300000
+  wall_clock_timeout: 600.0
+  idle_timeout: 120.0
+  max_actions: 100
+  enable_consistency_check: false
+  max_redecompositions: 1

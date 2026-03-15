@@ -1,0 +1,26 @@
+# M6 Ablation: No blackboard — direct message passing between agents.
+# Same agents but communication via direct returns, not shared state.
+# Effectively a rigid pipeline: Decompose → Retrieve → Critic → Synthesize.
+# No unblocking, no claim-before-work, no shared entity registry.
+
+llm:
+  model: "Qwen3-8B"
+  api_key: "dummy"
+  base_url: "http://127.0.0.1:8000/v1"
+  temperature: 0.0
+  max_tokens: 8192
+
+embedding:
+  model: "intfloat/e5-base-v2"
+  device: "cpu"
+
+m6:
+  num_retrievers: 2
+  retriever_max_loops: 5
+  retriever_max_budget: 32000
+  max_ticks: 10
+  token_budget: 200000
+  wall_clock_timeout: 300.0
+  enable_critic: true
+  enable_backtracking: false
+  enable_consistency_check: true

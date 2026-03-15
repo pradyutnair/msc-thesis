@@ -1,0 +1,57 @@
+#!/bin/bash
+#SBATCH --job-name=setup_fr
+#SBATCH --partition=cbuild
+#SBATCH --time=04:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=64G
+#SBATCH --output=/projects/prjs1800/msc-thesis/05-adaptive-agency/jobs/output/%j_setup_flashrag.log
+
+# Phase 0A: Setup FlashRAG corpus
+# - Unzip wiki18_100w.zip
+# - Build SQLite DB with FTS5 index
+# - Download and convert FlashRAG datasets
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1
+
+cd /projects/prjs1800/msc-thesis/05-adaptive-agency
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"
+
+mkdir -p jobs/output
+
+echo "=== Phase 0A: FlashRAG Setup ==="
+echo ""
+
+# Step 1: Unzip and build SQLite index
+python -u scripts/setup_flashrag.py \
+  --flashrag-dir /scratch-shared/pnair/flashrag \
+  --output-dir /scratch-shared/pnair/flashrag
+
+echo ""
+echo "=== Step 2: Convert FlashRAG questions to our format ==="
+
+# Convert FlashRAG dev sets to our questions.json format
+python -u scripts/convert_flashrag_questions.py \
+  --all \
+  --flashrag-dir /scratch-shared/pnair/flashrag/datasets \
+  --data-dir data
+
+echo ""
+echo "=== Step 3: Verify data ==="
+for d in hotpotqa 2wikimultihop musique; do
+  if [ -f "data/$d/questions.json" ]; then
+    echo "  $d: $(python3 -c "import json; print(len(json.load(open('data/$d/questions.json'))))" 2>/dev/null) questions"
+  else
+    echo "  $d: MISSING"
+  fi
+done
+
+echo ""
+echo "=== FlashRAG setup complete ==="
+echo "SQLite DB: /scratch-shared/pnair/flashrag/wiki18_100w.db"
+echo "FAISS index: /scratch-shared/pnair/flashrag/wiki18_100w_e5_index"
+ls -lh /scratch-shared/pnair/flashrag/wiki18_100w.db 2>/dev/null

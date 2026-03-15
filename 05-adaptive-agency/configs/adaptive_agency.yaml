@@ -1,16 +1,16 @@
 llm:
-  model: "Qwen3-8B"
-  api_key: "dummy"
-  base_url: "http://127.0.0.1:8000/v1"
+  model: Qwen2.5-7B-Instruct
+  api_key: dummy
+  base_url: http://127.0.0.1:8000/v1
   temperature: 0.0
   max_tokens: 8192
-  chat_template_kwargs:
-    enable_thinking: false
-
 embedding:
-  model: "intfloat/e5-base-v2"
-  device: "cpu"
-
+  model: intfloat/e5-base-v2
+  device: cpu
+data:
+  # FlashRAG 21M Wikipedia corpus (existing download)
+  sqlite_db: /projects/prjs1800/datasets/flashrag/wiki18_100w.db
+  faiss_index: /projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index
 adaptive:
   worker_max_steps: 16
   max_actions: 100
@@ -21,6 +21,6 @@ adaptive:
   max_redecompositions: 1
   structured:
     max_queries_per_entity: 6
-    retrieval_top_k: 10
+    retrieval_top_k: 5
     retry_low_confidence: true
     confidence_threshold: 0.6

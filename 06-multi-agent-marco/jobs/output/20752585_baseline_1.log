@@ -1,0 +1,346 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:09 [utils.py:325] 
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:09 [utils.py:325]        █     █     █▄   ▄█
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:09 [utils.py:325]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.15.1
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:09 [utils.py:325]   █▄█▀ █     █     █     █  model   Qwen/Qwen2.5-7B-Instruct
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:09 [utils.py:325]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:09 [utils.py:325] 
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:09 [utils.py:261] non-default args: {'host': '127.0.0.1', 'enable_auto_tool_choice': True, 'tool_call_parser': 'hermes', 'model': 'Qwen/Qwen2.5-7B-Instruct', 'trust_remote_code': True, 'max_model_len': 32768, 'served_model_name': ['Qwen2.5-7B-Instruct'], 'max_num_seqs': 256}
+[0;36m(APIServer pid=558581)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[0;36m(APIServer pid=558581)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:09 [model.py:541] Resolved architecture: Qwen2ForCausalLM
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:09 [model.py:1561] Using max model len 32768
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:10 [scheduler.py:226] Chunked prefill is enabled with max_num_batched_tokens=2048.
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:10 [vllm.py:624] Asynchronous scheduling is enabled.
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(EngineCore_DP0 pid=558666)[0;0m INFO 03-15 22:38:18 [core.py:96] Initializing a V1 LLM engine (v0.15.1) with config: model='Qwen/Qwen2.5-7B-Instruct', speculative_config=None, tokenizer='Qwen/Qwen2.5-7B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=Qwen2.5-7B-Instruct, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'splitting_ops': ['vllm::unified_attention', 'vllm::unified_attention_with_output', 'vllm::unified_mla_attention', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::gdn_attention_core', 'vllm::kda_attention', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::unified_kv_cache_update'], 'compile_mm_encoder': False, 'compile_sizes': [], 'compile_ranges_split_points': [2048], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False}, 'max_cudagraph_capture_size': 512, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': True}, 'local_cache_dir': None, 'static_all_moe_layers': []}
+[0;36m(EngineCore_DP0 pid=558666)[0;0m INFO 03-15 22:38:21 [parallel_state.py:1212] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://145.136.62.34:60355 backend=nccl
+[0;36m(EngineCore_DP0 pid=558666)[0;0m INFO 03-15 22:38:21 [parallel_state.py:1423] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A
+[0;36m(EngineCore_DP0 pid=558666)[0;0m INFO 03-15 22:38:22 [gpu_model_runner.py:4033] Starting to load model Qwen/Qwen2.5-7B-Instruct...
+[0;36m(EngineCore_DP0 pid=558666)[0;0m INFO 03-15 22:38:23 [cuda.py:364] Using FLASH_ATTN attention backend out of potential backends: ('FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION')
+[0;36m(EngineCore_DP0 pid=558666)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s]
+[0;36m(EngineCore_DP0 pid=558666)[0;0m Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:02<00:06,  2.07s/it]
+[0;36m(EngineCore_DP0 pid=558666)[0;0m Loading safetensors checkpoint shards:  50% Completed | 2/4 [00:04<00:04,  2.10s/it]
+[0;36m(EngineCore_DP0 pid=558666)[0;0m Loading safetensors checkpoint shards:  75% Completed | 3/4 [00:06<00:02,  2.01s/it]
+[0;36m(EngineCore_DP0 pid=558666)[0;0m Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:08<00:00,  2.04s/it]
+[0;36m(EngineCore_DP0 pid=558666)[0;0m Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:08<00:00,  2.04s/it]
+[0;36m(EngineCore_DP0 pid=558666)[0;0m 
+[0;36m(EngineCore_DP0 pid=558666)[0;0m INFO 03-15 22:38:32 [default_loader.py:291] Loading weights took 8.25 seconds
+[0;36m(EngineCore_DP0 pid=558666)[0;0m INFO 03-15 22:38:33 [gpu_model_runner.py:4130] Model loading took 14.25 GiB memory and 9.936714 seconds
+[0;36m(EngineCore_DP0 pid=558666)[0;0m INFO 03-15 22:38:40 [backends.py:812] Using cache directory: /home/pnair/.cache/vllm/torch_compile_cache/4650d9a770/rank_0_0/backbone for vLLM's torch.compile
+[0;36m(EngineCore_DP0 pid=558666)[0;0m INFO 03-15 22:38:40 [backends.py:872] Dynamo bytecode transform time: 6.83 s
+[0;36m(EngineCore_DP0 pid=558666)[0;0m INFO 03-15 22:38:46 [backends.py:267] Directly load the compiled graph(s) for compile range (1, 2048) from the cache, took 3.176 s
+[0;36m(EngineCore_DP0 pid=558666)[0;0m INFO 03-15 22:38:46 [monitor.py:34] torch.compile takes 10.01 s in total
+[0;36m(EngineCore_DP0 pid=558666)[0;0m INFO 03-15 22:38:47 [gpu_worker.py:356] Available KV cache memory: 19.85 GiB
+[0;36m(EngineCore_DP0 pid=558666)[0;0m INFO 03-15 22:38:47 [kv_cache_utils.py:1307] GPU KV cache size: 371,712 tokens
+[0;36m(EngineCore_DP0 pid=558666)[0;0m INFO 03-15 22:38:47 [kv_cache_utils.py:1312] Maximum concurrency for 32,768 tokens per request: 11.34x
+[0;36m(EngineCore_DP0 pid=558666)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/51 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   4%|▍         | 2/51 [00:00<00:02, 17.38it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   8%|▊         | 4/51 [00:00<00:02, 18.02it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  12%|█▏        | 6/51 [00:00<00:02, 18.34it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  16%|█▌        | 8/51 [00:00<00:02, 18.42it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  22%|██▏       | 11/51 [00:00<00:02, 19.29it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  27%|██▋       | 14/51 [00:00<00:01, 19.89it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  33%|███▎      | 17/51 [00:00<00:01, 20.65it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  39%|███▉      | 20/51 [00:00<00:01, 21.81it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  45%|████▌     | 23/51 [00:01<00:01, 22.62it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  51%|█████     | 26/51 [00:01<00:01, 22.79it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  57%|█████▋    | 29/51 [00:01<00:00, 23.50it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  63%|██████▎   | 32/51 [00:01<00:00, 23.82it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  69%|██████▊   | 35/51 [00:01<00:00, 24.48it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  75%|███████▍  | 38/51 [00:01<00:00, 25.02it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  80%|████████  | 41/51 [00:01<00:00, 25.50it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  86%|████████▋ | 44/51 [00:01<00:00, 25.89it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  92%|█████████▏| 47/51 [00:02<00:00, 26.35it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  98%|█████████▊| 50/51 [00:02<00:00, 25.80it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:02<00:00, 23.08it/s]
+[0;36m(EngineCore_DP0 pid=558666)[0;0m Capturing CUDA graphs (decode, FULL):   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL):   9%|▊         | 3/35 [00:00<00:01, 22.31it/s]Capturing CUDA graphs (decode, FULL):  17%|█▋        | 6/35 [00:00<00:01, 24.68it/s]Capturing CUDA graphs (decode, FULL):  26%|██▌       | 9/35 [00:00<00:01, 25.83it/s]Capturing CUDA graphs (decode, FULL):  34%|███▍      | 12/35 [00:00<00:00, 26.62it/s]Capturing CUDA graphs (decode, FULL):  43%|████▎     | 15/35 [00:00<00:00, 27.14it/s]Capturing CUDA graphs (decode, FULL):  51%|█████▏    | 18/35 [00:00<00:00, 27.53it/s]Capturing CUDA graphs (decode, FULL):  60%|██████    | 21/35 [00:00<00:00, 27.91it/s]Capturing CUDA graphs (decode, FULL):  69%|██████▊   | 24/35 [00:00<00:00, 28.23it/s]Capturing CUDA graphs (decode, FULL):  77%|███████▋  | 27/35 [00:00<00:00, 28.34it/s]Capturing CUDA graphs (decode, FULL):  86%|████████▌ | 30/35 [00:01<00:00, 28.64it/s]Capturing CUDA graphs (decode, FULL):  94%|█████████▍| 33/35 [00:01<00:00, 28.77it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 27.74it/s]
+[0;36m(EngineCore_DP0 pid=558666)[0;0m INFO 03-15 22:38:51 [gpu_model_runner.py:5063] Graph capturing finished in 4 secs, took 0.49 GiB
+[0;36m(EngineCore_DP0 pid=558666)[0;0m INFO 03-15 22:38:51 [core.py:272] init engine (profile, create kv cache, warmup model) took 18.12 seconds
+[0;36m(EngineCore_DP0 pid=558666)[0;0m INFO 03-15 22:38:52 [vllm.py:624] Asynchronous scheduling is enabled.
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:53 [api_server.py:665] Supported tasks: ['generate']
+[0;36m(APIServer pid=558581)[0;0m WARNING 03-15 22:38:53 [model.py:1371] Default vLLM sampling parameters have been overridden by the model's `generation_config.json`: `{'repetition_penalty': 1.05, 'temperature': 0.7, 'top_k': 20, 'top_p': 0.8}`. If this is not intended, please relaunch vLLM instance with `--generation-config vllm`.
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:53 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:53 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:53 [serving.py:177] Warming up chat template processing...
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [hf.py:310] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [serving.py:212] Chat template warmup completed in 1378.3ms
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [api_server.py:946] Starting vLLM API server 0 on http://127.0.0.1:8000
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:38] Available routes are:
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /openapi.json, Methods: GET, HEAD
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /docs, Methods: GET, HEAD
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /docs/oauth2-redirect, Methods: GET, HEAD
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /redoc, Methods: GET, HEAD
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /scale_elastic_ep, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /is_scaling_elastic_ep, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /tokenize, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /detokenize, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /inference/v1/generate, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /pause, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /resume, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /is_paused, Methods: GET
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /metrics, Methods: GET
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /health, Methods: GET
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /v1/chat/completions, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /v1/chat/completions/render, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /v1/responses, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /v1/responses/{response_id}, Methods: GET
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /v1/responses/{response_id}/cancel, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /v1/audio/transcriptions, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /v1/audio/translations, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /v1/completions, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /v1/completions/render, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /v1/messages, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /v1/models, Methods: GET
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /load, Methods: GET
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /version, Methods: GET
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /ping, Methods: GET
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /ping, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /invocations, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /classify, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /v1/embeddings, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /score, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /v1/score, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /rerank, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /v1/rerank, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /v2/rerank, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:38:54 [launcher.py:46] Route: /pooling, Methods: POST
+[0;36m(APIServer pid=558581)[0;0m INFO:     Started server process [558581]
+[0;36m(APIServer pid=558581)[0;0m INFO:     Waiting for application startup.
+[0;36m(APIServer pid=558581)[0;0m INFO:     Application startup complete.
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:39456 - "GET /v1/models HTTP/1.1" 200 OK
+vLLM ready after 20 checks
+
+=== M6 Baseline: 2wiki (1000q, Qwen2.5-7B-Instruct) ===
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+2026-03-15 22:39:04,260 [INFO] __main__: Total: 1000 | Completed: 0 | Pending: 1000
+2026-03-15 22:39:06,695 [INFO] arag.tools.keyword_search: KeywordSearch: in-memory backend with 658 chunks
+2026-03-15 22:39:06,709 [INFO] arag.tools.read_chunk: ReadChunk: in-memory backend with 658 chunks
+2026-03-15 22:39:06,710 [INFO] arag.tools.semantic_search: Loading legacy sentence index from /gpfs/work5/0/prjs1800/msc-thesis/06-multi-agent-marco/data/2wikimultihop/index_e5_base_v2
+2026-03-15 22:39:06,712 [INFO] sentence_transformers.SentenceTransformer: Load pretrained SentenceTransformer: intfloat/e5-base-v2
+2026-03-15 22:39:08,763 [INFO] __main__: Processing dev_64: Who is Gaston, Duke Of Orléans's paternal grandmother?
+2026-03-15 22:39:08,769 [INFO] __main__: Processing dev_354: Who is the paternal grandmother of Edward I Of England?
+2026-03-15 22:39:08,784 [INFO] __main__: Processing dev_644: Where was the place of death of Princess Anne Charlotte Of L
+2026-03-15 22:39:08,810 [INFO] __main__: Processing dev_934: Which film has the director born later, Gene Autry And The M
+2026-03-15 22:39:08,842 [INFO] __main__: Processing dev_65: Where was the director of film The Half-Way Girl born?
+2026-03-15 22:39:08,862 [INFO] __main__: Processing dev_355: Who is the paternal grandfather of Guy Le Strange?
+2026-03-15 22:39:08,892 [INFO] __main__: Processing dev_645: Who was born first out of Pierre Gauvreau and Tit Liviu Chin
+2026-03-15 22:39:08,938 [INFO] __main__: Processing dev_935: What is the place of birth of Bea Ballard's father?
+2026-03-15 22:39:09,003 [INFO] __main__: Processing dev_66: Who is the father-in-law of Sophia Of Wittelsbach?
+2026-03-15 22:39:09,034 [INFO] __main__: Processing dev_356: Who is Germaine Of Foix's paternal grandfather?
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48692 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:11,230 [INFO] multi_agent.m6.planner_agent: Planner: decomposed 'Who is the paternal grandfather of Guy Le Strange?' -> 1 sub-questions
+2026-03-15 22:39:11,230 [INFO] multi_agent.m6.m6_pipeline: Dynamic workers: 1 sub-questions -> 1 workers
+2026-03-15 22:39:11,231 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48746 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:11,634 [INFO] multi_agent.m6.planner_agent: Planner: decomposed 'Who is the father-in-law of Sophia Of Wittelsbach?' -> 1 sub-questions
+2026-03-15 22:39:11,634 [INFO] multi_agent.m6.m6_pipeline: Dynamic workers: 1 sub-questions -> 1 workers
+2026-03-15 22:39:11,635 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48764 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48766 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48736 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:12,514 [INFO] multi_agent.m6.planner_agent: Planner: decomposed 'What is the place of birth of Bea Ballard's father?' -> 2 sub-questions
+2026-03-15 22:39:12,514 [INFO] multi_agent.m6.m6_pipeline: Dynamic workers: 2 sub-questions -> 2 workers
+2026-03-15 22:39:12,514 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48702 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:12,813 [INFO] multi_agent.m6.planner_agent: Planner: decomposed 'Where was the director of film The Half-Way Girl born?' -> 2 sub-questions
+2026-03-15 22:39:12,813 [INFO] multi_agent.m6.m6_pipeline: Dynamic workers: 2 sub-questions -> 2 workers
+2026-03-15 22:39:12,813 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48778 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48774 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48682 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:13,045 [INFO] multi_agent.m6.planner_agent: Planner: decomposed 'Where was the place of death of Princess Anne Charlotte Of L' -> 2 sub-questions
+2026-03-15 22:39:13,045 [INFO] multi_agent.m6.m6_pipeline: Dynamic workers: 2 sub-questions -> 2 workers
+2026-03-15 22:39:13,046 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48790 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:13,085 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '' (0 evidence, 6391 tokens)
+2026-03-15 22:39:13,085 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48674 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:13,210 [INFO] multi_agent.m6.planner_agent: Planner: decomposed 'Who is the paternal grandmother of Edward I Of England?' -> 2 sub-questions
+2026-03-15 22:39:13,210 [INFO] multi_agent.m6.m6_pipeline: Dynamic workers: 2 sub-questions -> 2 workers
+2026-03-15 22:39:13,211 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48782 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48754 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:13,356 [INFO] multi_agent.m6.planner_agent: Planner: decomposed 'Who is Germaine Of Foix's paternal grandfather?' -> 2 sub-questions
+2026-03-15 22:39:13,357 [INFO] multi_agent.m6.m6_pipeline: Dynamic workers: 2 sub-questions -> 2 workers
+2026-03-15 22:39:13,357 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48830 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:13,438 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '' (0 evidence, 4431 tokens)
+2026-03-15 22:39:13,438 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48730 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:13,550 [INFO] multi_agent.m6.planner_agent: Planner: decomposed 'Who was born first out of Pierre Gauvreau and Tit Liviu Chin' -> 2 sub-questions
+2026-03-15 22:39:13,550 [INFO] multi_agent.m6.m6_pipeline: Dynamic workers: 2 sub-questions -> 2 workers
+2026-03-15 22:39:13,551 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 2 available SQs
+2026-03-15 22:39:13,551 [INFO] multi_agent.m6.worker_agent: worker_1: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48714 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:13,579 [INFO] multi_agent.m6.planner_agent: Planner: decomposed 'Which film has the director born later, Gene Autry And The M' -> 2 sub-questions
+2026-03-15 22:39:13,579 [INFO] multi_agent.m6.m6_pipeline: Dynamic workers: 2 sub-questions -> 2 workers
+2026-03-15 22:39:13,580 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 2 available SQs
+2026-03-15 22:39:13,580 [INFO] multi_agent.m6.worker_agent: worker_1: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48784 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48876 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48678 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:14,037 [INFO] multi_agent.m6.worker_agent: worker_1: SQ-1 -> '' (0 evidence, 1683 tokens)
+2026-03-15 22:39:14,043 [INFO] multi_agent.m6.worker_agent: worker_1: trying to claim from 1 available SQs
+2026-03-15 22:39:14,043 [INFO] multi_agent.m6.planner_agent: Planner: decomposed 'Who is Gaston, Duke Of Orléans's paternal grandmother?' -> 2 sub-questions
+2026-03-15 22:39:14,044 [INFO] multi_agent.m6.m6_pipeline: Dynamic workers: 2 sub-questions -> 2 workers
+2026-03-15 22:39:14,045 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+Batches: 100%|██████████| 1/1 [00:01<00:00,  1.20s/it]Batches: 100%|██████████| 1/1 [00:01<00:00,  1.20s/it]
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48890 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:14,246 [INFO] multi_agent.m6.worker_agent: worker_1: SQ-1 -> '' (0 evidence, 1683 tokens)
+2026-03-15 22:39:14,246 [INFO] multi_agent.m6.worker_agent: worker_1: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48802 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48818 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48934 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:14,338 [INFO] multi_agent.m6.worker_agent: worker_1: SQ-1 -> '' (0 evidence, 1683 tokens)
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48812 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48850 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48852 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48838 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48946 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48866 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48910 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:14,675 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '' (0 evidence, 4399 tokens)
+2026-03-15 22:39:14,692 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48922 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48854 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48960 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:14,829 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '' (0 evidence, 4337 tokens)
+2026-03-15 22:39:14,835 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO 03-15 22:39:15 [loggers.py:257] Engine 000: Avg prompt throughput: 7599.1 tokens/s, Avg generation throughput: 295.0 tokens/s, Running: 11 reqs, Waiting: 0 reqs, GPU KV cache usage: 7.3%, Prefix cache hit rate: 62.5%
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48896 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48962 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:15,166 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '' (0 evidence, 4465 tokens)
+2026-03-15 22:39:15,172 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49000 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49020 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48990 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:15,220 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '' (0 evidence, 4431 tokens)
+2026-03-15 22:39:15,231 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+2026-03-15 22:39:15,241 [INFO] multi_agent.m6.worker_agent: worker_1: SQ-1 -> '' (0 evidence, 4587 tokens)
+2026-03-15 22:39:15,241 [INFO] multi_agent.m6.worker_agent: worker_1: trying to claim from 1 available SQs
+2026-03-15 22:39:15,247 [INFO] multi_agent.m6.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-15 22:39:15,247 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> 'Perry Bhandal' (1 evidence, 8329 tokens)
+2026-03-15 22:39:15,247 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48968 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48982 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49004 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48940 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49018 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49096 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49110 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:15,885 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '' (0 evidence, 4399 tokens)
+2026-03-15 22:39:15,890 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+2026-03-15 22:39:15,896 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '[Chunk 226]' (1 evidence, 8533 tokens)
+2026-03-15 22:39:16,101 [INFO] multi_agent.m6.planner_agent: Planner: signaled allow_synthesis, handing off to SynthesizerAgent
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49124 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49140 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:16,404 [INFO] multi_agent.m6.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-15 22:39:16,404 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '[Chunk 23]' (5 evidence, 13233 tokens)
+2026-03-15 22:39:16,404 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+2026-03-15 22:39:16,405 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '' (0 evidence, 4337 tokens)
+2026-03-15 22:39:16,405 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49072 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49154 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:16,453 [INFO] multi_agent.m6.synthesizer_agent: Synthesizer: 'Sunday's Illness'
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49164 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:16,731 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-1 -> '' (0 evidence, 2951 tokens)
+2026-03-15 22:39:16,731 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49176 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:16,746 [INFO] multi_agent.m6.blackboard: Unblocked SQ-1 (all dependencies verified)
+2026-03-15 22:39:16,746 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '[Chunk 83]' (1 evidence, 9068 tokens)
+2026-03-15 22:39:16,746 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49030 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49022 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:16,833 [INFO] multi_agent.m6.coordinator: Coordinator finished: 'Sunday's Illness' | actions=6 | tokens=14459 | 3.3s
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49180 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:16,896 [INFO] __main__: Done dev_934: 'Sunday's Illness' (ticks=6, tokens=14459, 8.0s)
+2026-03-15 22:39:16,899 [INFO] __main__: Processing dev_646: When is Princess Joséphine Marie Of Belgium's mother's birth
+2026-03-15 22:39:16,899 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-1 -> '' (0 evidence, 2951 tokens)
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49056 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:16,915 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49086 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49040 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:48956 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49210 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:17,048 [INFO] multi_agent.m6.blackboard: Propagated failure: SQ-1 FAILED (depends on failed SQ-0)
+2026-03-15 22:39:17,058 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '' (0 evidence, 4431 tokens)
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49138 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49214 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:17,132 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-1 -> '' (0 evidence, 2951 tokens)
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49228 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49254 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:17,236 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '' (0 evidence, 6391 tokens)
+2026-03-15 22:39:17,236 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+2026-03-15 22:39:17,237 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '' (0 evidence, 4465 tokens)
+2026-03-15 22:39:17,238 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49196 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49172 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49278 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49280 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:17,380 [INFO] multi_agent.m6.blackboard: Propagated failure: SQ-1 FAILED (depends on failed SQ-0)
+2026-03-15 22:39:17,385 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '' (0 evidence, 4399 tokens)
+2026-03-15 22:39:17,386 [INFO] multi_agent.m6.worker_agent: worker_1: SQ-1 -> '' (0 evidence, 4587 tokens)
+2026-03-15 22:39:17,386 [INFO] multi_agent.m6.worker_agent: worker_1: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49304 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:17,485 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-1 -> '[Chunk 83]' (1 evidence, 5397 tokens)
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49308 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:17,518 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '' (0 evidence, 4337 tokens)
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49220 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49262 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:17,814 [INFO] multi_agent.m6.planner_agent: Planner: signaled allow_synthesis, handing off to SynthesizerAgent
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:54284 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:17,903 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-1 -> '[Chunk 8]' (1 evidence, 9267 tokens)
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:54286 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:18,072 [INFO] multi_agent.m6.synthesizer_agent: Synthesizer: 'Leonor de la Vega Velasco'
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49286 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49300 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:54278 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:18,191 [INFO] multi_agent.m6.planner_agent: Planner: re-decomposition (2/2 failed, 0 verified)
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49306 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:54316 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:18,376 [INFO] multi_agent.m6.blackboard: Propagated failure: SQ-1 FAILED (depends on failed SQ-0)
+2026-03-15 22:39:18,376 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '' (0 evidence, 4465 tokens)
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:54326 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:18,390 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '[Chunk 625]' (5 evidence, 37701 tokens)
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:54354 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:18,421 [INFO] multi_agent.m6.worker_agent: worker_1: SQ-1 -> '' (0 evidence, 4587 tokens)
+2026-03-15 22:39:18,490 [INFO] multi_agent.m6.planner_agent: Planner: signaled allow_synthesis, handing off to SynthesizerAgent
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:54358 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:18,602 [INFO] multi_agent.m6.synthesizer_agent: Synthesizer: 'London'
+2026-03-15 22:39:18,843 [INFO] multi_agent.m6.planner_agent: Planner: signaled allow_synthesis, handing off to SynthesizerAgent
+2026-03-15 22:39:18,923 [INFO] multi_agent.m6.planner_agent: Planner: re-decomposition (2/2 failed, 0 verified)
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:54374 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:19,067 [INFO] multi_agent.m6.synthesizer_agent: Synthesizer: 'Phnom Penh'
+2026-03-15 22:39:19,077 [INFO] multi_agent.m6.planner_agent: Planner: re-decomposition (2/2 failed, 0 verified)
+2026-03-15 22:39:19,237 [INFO] multi_agent.m6.planner_agent: Planner: re-decomposition (2/2 failed, 0 verified)
+2026-03-15 22:39:19,314 [INFO] multi_agent.m6.planner_agent: Planner: signaled allow_synthesis, handing off to SynthesizerAgent
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:54302 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:54414 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:19,525 [INFO] multi_agent.m6.synthesizer_agent: Synthesizer: 'Ernst von Croy'
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:54420 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:19,578 [INFO] multi_agent.m6.worker_agent: worker_0: SQ-0 -> '' (0 evidence, 6391 tokens)
+2026-03-15 22:39:19,737 [INFO] multi_agent.m6.coordinator: Coordinator finished: 'Leonor de la Vega Velasco' | actions=4 | tokens=15672 | 5.7s
+2026-03-15 22:39:19,738 [INFO] __main__: Done dev_64: 'Leonor de la Vega Velasco' (ticks=4, tokens=15672, 11.0s)
+2026-03-15 22:39:19,738 [INFO] __main__: Processing dev_936: Which film has the director who died earlier, Love That Brut
+2026-03-15 22:39:20,004 [INFO] multi_agent.m6.coordinator: Coordinator finished: 'Ernst von Croy' | actions=3 | tokens=39655 | 8.4s
+2026-03-15 22:39:20,006 [INFO] __main__: Done dev_66: 'Ernst von Croy' (ticks=3, tokens=39655, 11.0s)
+2026-03-15 22:39:20,006 [INFO] __main__: Processing dev_67: Where was the place of death of Lambert I, Count Of Louvain'
+2026-03-15 22:39:20,492 [INFO] multi_agent.m6.coordinator: Coordinator finished: 'London' | actions=4 | tokens=18683 | 7.7s
+2026-03-15 22:39:20,492 [INFO] __main__: Done dev_65: 'London' (ticks=4, tokens=18683, 11.6s)
+2026-03-15 22:39:20,492 [INFO] __main__: Processing dev_357: Which film has the director who died earlier, Gold For The C
+2026-03-15 22:39:20,845 [INFO] multi_agent.m6.coordinator: Coordinator finished: 'Phnom Penh' | actions=6 | tokens=23987 | 7.8s
+2026-03-15 22:39:20,845 [INFO] __main__: Done dev_644: 'Phnom Penh' (ticks=6, tokens=23987, 12.1s)
+2026-03-15 22:39:20,845 [INFO] __main__: Processing dev_647: Who is Infante Philip, Duke Of Calabria's paternal grandmoth
+2026-03-15 22:39:20,922 [INFO] multi_agent.m6.planner_agent: Planner: re-decomposition (1/1 failed, 0 verified)
+2026-03-15 22:39:21,255 [INFO] multi_agent.m6.coordinator: Watchdog [10s]: {'failed': 1} | tokens=19173/300000 | actions=3 | idle=1.7s
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:49244 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:21,364 [INFO] multi_agent.m6.planner_agent: Planner: decomposed 'When is Princess Joséphine Marie Of Belgium's mother's birth' -> 2 sub-questions
+2026-03-15 22:39:21,364 [INFO] multi_agent.m6.m6_pipeline: Dynamic workers: 2 sub-questions -> 2 workers
+2026-03-15 22:39:21,365 [INFO] multi_agent.m6.worker_agent: worker_0: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:54342 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:21,740 [INFO] multi_agent.m6.planner_agent: Planner: re-decomposed 'What is the place of birth of Bea Ballard's father?' -> 2 sub-questions
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:54448 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:22,192 [INFO] multi_agent.m6.worker_agent: worker_1: trying to claim from 1 available SQs
+[0;36m(APIServer pid=558581)[0;0m INFO:     127.0.0.1:54458 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-15 22:39:22,528 [INFO] multi_agent.m6.coordinator: Watchdog [10s]: {'claimed': 1, 'blocked': 1} | tokens=15186/300000 | actions=4 | idle=0.8s
