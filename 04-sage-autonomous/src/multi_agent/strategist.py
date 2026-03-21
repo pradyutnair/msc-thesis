@@ -94,7 +94,39 @@ def _normalize_final_answer(answer: str, expected_answer_type: str) -> str:
         if re.match(pat, text, re.IGNORECASE):
             text = ""
             break
+    if re.search(r"\bhop\s+\d+\s*:", text, re.IGNORECASE):
+        text = ""
     return text
+
+
+def _extract_final_answer_text(raw: str) -> str:
+    """Extract only the final answer span, never the hop-trace scaffold."""
+    cleaned = _strip_llm_wrappers(raw or "")
+    if not cleaned:
+        return ""
+
+    match = re.search(r"FINAL ANSWER\s*:?\s*(.*?)(?:\n|$)", cleaned, re.IGNORECASE)
+    if match:
+        return match.group(1).strip()
+
+    lines = [line.strip() for line in cleaned.splitlines() if line.strip()]
+    if not lines:
+        return ""
+
+    non_trace_lines = [
+        line
+        for line in lines
+        if not re.match(r"hop\s+\d+\s*:", line, re.IGNORECASE)
+        and not re.match(r"final answer\s*:?\s*$", line, re.IGNORECASE)
+    ]
+
+    if len(non_trace_lines) == 1:
+        return non_trace_lines[0]
+
+    if len(lines) == 1 and not re.match(r"(hop\s+\d+\s*:|final answer\b)", lines[0], re.IGNORECASE):
+        return lines[0]
+
+    return ""
 
 
 class Strategist:
@@ -230,31 +262,7 @@ class Strategist:
 
 
     def _fallback_comparison_answer(self, blackboard: Blackboard) -> str:
-        """For comparison questions, extract candidate entities from the question and pick one."""
-        q = blackboard.question
-        # Try to extract "X or Y" pattern
-        m = re.search(r',\s*(.+?)\s+or\s+(.+?)\s*\?', q)
-        if m:
-            option_a = m.group(1).strip().strip('"\'')
-            option_b = m.group(2).strip().strip('"\'')
-            # Check if any hop evidence mentions either option
-            for hop in blackboard.hop_chain:
-                if hop.answer:
-                    ans_lower = hop.answer.lower()
-                    if option_a.lower() in ans_lower:
-                        return option_a
-                    if option_b.lower() in ans_lower:
-                        return option_b
-            # Default to first option as best guess
-            return option_a
-        # For yes/no comparisons
-        if blackboard.expected_answer_type == "yes_no":
-            # Check if hop answers suggest same or different
-            answers = [h.answer for h in blackboard.hop_chain if h.answer and h.status == "resolved"]
-            if len(answers) >= 2:
-                if answers[0].lower().strip() == answers[1].lower().strip():
-                    return "yes"
-                return "no"
+        """Comparison fallback intentionally avoids guessing."""
         return ""
 
     async def generate_answer(self, blackboard: Blackboard) -> str:
@@ -300,15 +308,7 @@ class Strategist:
         )
         raw = await self._call_llm(prompt)
 
-        # Extract FINAL ANSWER from the response
-        answer = ""
-        m = re.search(r"FINAL ANSWER:\s*(.+?)(?:\n|$)", raw, re.IGNORECASE)
-        if m:
-            answer = m.group(1).strip()
-
-        # If no FINAL ANSWER line found, try to extract from the full text
-        if not answer:
-            answer = raw.strip()
+        answer = _extract_final_answer_text(raw)
 
         answer = _normalize_final_answer(answer, blackboard.expected_answer_type)
 
@@ -319,17 +319,12 @@ class Strategist:
         if ans_lower in _refusals or ans_lower.startswith("no ") and len(ans_lower) < 30:
             answer = ""
 
-        # Fallback: if answer is still empty, use the last resolved hop's answer
-        if not answer:
-            for hop in reversed(blackboard.hop_chain):
-                if hop.answer and hop.status == "resolved":
-                    candidate = _normalize_final_answer(hop.answer, blackboard.expected_answer_type)
-                    if candidate.lower().strip() not in _refusals:
-                        answer = candidate
-                        break
-
-        # For comparison questions with empty answer, try to pick one of the options from the question
-        if not answer and blackboard.question_type == "comparison":
-            answer = self._fallback_comparison_answer(blackboard)
+        # Fallback: if extraction failed but the final hop is resolved, use that answer directly.
+        if not answer and blackboard.hop_chain:
+            final_hop = blackboard.hop_chain[-1]
+            if final_hop.answer and final_hop.status == "resolved":
+                candidate = _normalize_final_answer(final_hop.answer, blackboard.expected_answer_type)
+                if candidate.lower().strip() not in _refusals:
+                    answer = candidate
 
         return answer

@@ -83,6 +83,11 @@ class AdaptiveAgencyPipeline:
 
         blackboard = Blackboard(question=question, token_budget=self.token_budget)
 
+        # Warm-start: keyword search on full question for initial context
+        warm_ctx = await self._warm_start_search(question)
+        if warm_ctx:
+            blackboard.warm_start_context = warm_ctx
+
         planner = PlannerAgent(
             llm_client=self.llm,
             decompose_prompt_path=self.decomposer_prompt,
@@ -121,6 +126,36 @@ class AdaptiveAgencyPipeline:
             question, answer, snapshot, elapsed,
             decomposition_text=planner.last_decomposition_text,
         )
+
+    async def _warm_start_search(self, question: str) -> str:
+        import asyncio
+        from arag.core.context import AgentContext
+        lines = []
+        try:
+            keyword_tool = self.tools.get("keyword_search")
+            if keyword_tool is not None and hasattr(keyword_tool, "chunks"):
+                keywords = [w for w in question.replace("?", "").split() if len(w) > 2]
+                if keywords:
+                    def _kw_search():
+                        scored = []
+                        for chunk in keyword_tool.chunks:
+                            text_lower = chunk["text"].lower()
+                            score = sum(text_lower.count(kw.lower()) * len(kw) for kw in keywords)
+                            if score > 0:
+                                scored.append((score, chunk))
+                        scored.sort(key=lambda x: -x[0])
+                        return scored[:3]
+                    loop = asyncio.get_running_loop()
+                    top = await loop.run_in_executor(None, _kw_search)
+                    if top:
+                        lines.append("Keyword search on full question:")
+                        for _, chunk in top:
+                            cid = chunk.get("id", "?")
+                            text = chunk.get("text", "")[:400]
+                            lines.append(f"[{cid}] {text}")
+        except Exception as exc:
+            logger.warning("Keyword warm-start failed: %s", exc)
+        return "\n".join(lines) if lines else ""
 
     def _override_modes(self, blackboard: Blackboard) -> None:
         """Override all sub-question modes for ablation studies."""

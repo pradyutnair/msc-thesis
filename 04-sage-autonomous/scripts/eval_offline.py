@@ -22,18 +22,6 @@ REASONING_TAG_BLOCK_RE = re.compile(
 REASONING_TAG_OPEN_RE = re.compile(r"<(?:think|thnk)(?:\s[^>]*)?>", flags=re.IGNORECASE)
 REASONING_TAG_CLOSE_RE = re.compile(r"</(?:think|thnk)>", flags=re.IGNORECASE)
 
-# Number word <-> digit mapping
-_NUM_WORDS = {
-    "zero": "0", "one": "1", "two": "2", "three": "3", "four": "4",
-    "five": "5", "six": "6", "seven": "7", "eight": "8", "nine": "9",
-    "ten": "10", "eleven": "11", "twelve": "12", "thirteen": "13",
-    "fourteen": "14", "fifteen": "15", "sixteen": "16", "seventeen": "17",
-    "eighteen": "18", "nineteen": "19", "twenty": "20", "thirty": "30",
-    "forty": "40", "fifty": "50", "sixty": "60", "seventy": "70",
-    "eighty": "80", "ninety": "90", "hundred": "100",
-}
-_DIGIT_TO_WORD = {v: k for k, v in _NUM_WORDS.items()}
-
 
 def strip_reasoning(text):
     if not text or not isinstance(text, str):
@@ -54,120 +42,14 @@ def normalize(s):
     return " ".join(s.split())
 
 
-_DEMONYM_TO_COUNTRY = {
-    "danish": "denmark", "french": "france", "german": "germany",
-    "italian": "italy", "spanish": "spain", "british": "united kingdom",
-    "american": "united states", "japanese": "japan", "chinese": "china",
-    "russian": "russia", "polish": "poland", "dutch": "netherlands",
-    "swedish": "sweden", "norwegian": "norway", "finnish": "finland",
-    "brazilian": "brazil", "mexican": "mexico", "canadian": "canada",
-    "australian": "australia", "indian": "india", "korean": "south korea",
-    "irish": "ireland", "scottish": "scotland", "welsh": "wales",
-    "english": "england", "swiss": "switzerland", "austrian": "austria",
-    "belgian": "belgium", "portuguese": "portugal", "greek": "greece",
-    "turkish": "turkey", "egyptian": "egypt", "argentinian": "argentina",
-    "colombian": "colombia", "chilean": "chile", "peruvian": "peru",
-    "czech": "czech republic", "hungarian": "hungary", "romanian": "romania",
-    "neapolitan": "naples",
-}
-_COUNTRY_TO_DEMONYM = {v: k for k, v in _DEMONYM_TO_COUNTRY.items()}
-
-
-def _number_normalize(s):
-    """Convert number words to digits and vice versa for matching."""
-    words = s.split()
-    # Try converting number words to digits
-    digit_form = []
-    for w in words:
-        digit_form.append(_NUM_WORDS.get(w, w))
-    digit_str = " ".join(digit_form)
-
-    # Try converting digits to number words
-    word_form = []
-    for w in words:
-        word_form.append(_DIGIT_TO_WORD.get(w, w))
-    word_str = " ".join(word_form)
-
-    return digit_str, word_str
-
-
-def _demonym_normalize(s):
-    """Convert between demonyms and country names."""
-    words = s.split()
-    country_form = " ".join(_DEMONYM_TO_COUNTRY.get(w, w) for w in words)
-    demonym_form = " ".join(_COUNTRY_TO_DEMONYM.get(w, w) for w in words)
-    return country_form, demonym_form
-
-
-def _word_overlap_match(pred, gold, threshold=0.8):
-    """Check if word-level overlap is above threshold (handles reordering, extra words)."""
-    pred_words = set(pred.split())
-    gold_words = set(gold.split())
-    if not gold_words:
-        return False
-    overlap = pred_words & gold_words
-    # Gold words found in pred (recall)
-    recall = len(overlap) / len(gold_words)
-    return recall >= threshold
-
-
 def contain_bi_check(pred_norm, gold_norm):
-    """Enhanced bidirectional containment check."""
-    # Standard substring check
-    if gold_norm in pred_norm or pred_norm in gold_norm:
-        return True
-
-    # Number normalization: try digit and word forms
-    pred_digit, pred_word = _number_normalize(pred_norm)
-    gold_digit, gold_word = _number_normalize(gold_norm)
-
-    for p in (pred_norm, pred_digit, pred_word):
-        for g in (gold_norm, gold_digit, gold_word):
-            if g in p or p in g:
-                return True
-
-    # Demonym normalization: "danish" = "denmark", etc.
-    pred_country, pred_demonym = _demonym_normalize(pred_norm)
-    gold_country, gold_demonym = _demonym_normalize(gold_norm)
-    for p in (pred_norm, pred_country, pred_demonym):
-        for g in (gold_norm, gold_country, gold_demonym):
-            if g in p or p in g:
-                return True
-
-    # Word-level containment: all words of shorter string appear in longer string
-    pred_words = set(pred_norm.split())
-    gold_words = set(gold_norm.split())
-    if gold_words and gold_words.issubset(pred_words):
-        return True
-    if pred_words and pred_words.issubset(gold_words):
-        return True
-
-    return False
+    """Bidirectional normalized substring containment."""
+    return bool(gold_norm and pred_norm and (gold_norm in pred_norm or pred_norm in gold_norm))
 
 
 def em_check(pred_norm, gold_norm):
-    """Enhanced exact match check with number and demonym normalization."""
-    if pred_norm == gold_norm:
-        return True
-
-    # Number normalization
-    pred_digit, pred_word = _number_normalize(pred_norm)
-    gold_digit, gold_word = _number_normalize(gold_norm)
-
-    for p in (pred_norm, pred_digit, pred_word):
-        for g in (gold_norm, gold_digit, gold_word):
-            if p == g:
-                return True
-
-    # Demonym normalization
-    pred_country, pred_demonym = _demonym_normalize(pred_norm)
-    gold_country, gold_demonym = _demonym_normalize(gold_norm)
-    for p in (pred_norm, pred_country, pred_demonym):
-        for g in (gold_norm, gold_country, gold_demonym):
-            if p == g:
-                return True
-
-    return False
+    """Standard normalized exact match."""
+    return pred_norm == gold_norm
 
 
 def token_f1(pred, gold):

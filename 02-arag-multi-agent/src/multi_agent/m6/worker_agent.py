@@ -39,6 +39,9 @@ class WorkerAgent(AutonomousAgent):
         tools: ToolRegistry,
         plan_prompt_path: str | Path | None = None,
         max_steps: int = 8,
+        enable_extraction_pass: bool = False,
+        enable_answer_validation: bool = False,
+        enable_bridge_guard: bool = False,
     ):
         super().__init__(agent_id=agent_id, agent_type="worker")
         self.llm = llm_client
@@ -77,7 +80,7 @@ class WorkerAgent(AutonomousAgent):
         original_question = observation.get("question", resolved_text)
         blackboard_context = observation.get("blackboard_context", "")
         search_queries = observation.get("search_queries", [])
-        warm_start_context = observation.get("warm_start_context", "")
+        dependency_chunk_ids = observation.get("dependency_chunk_ids", [])
 
         resolved_queries = [self._resolve_placeholders(q, entity_registry) for q in search_queries]
 
@@ -92,7 +95,7 @@ class WorkerAgent(AutonomousAgent):
             blackboard_context,
             entity_registry,
             resolved_queries,
-            warm_start_context,
+            dependency_chunk_ids,
         )
 
         async def _heartbeat():
@@ -141,7 +144,7 @@ class WorkerAgent(AutonomousAgent):
         blackboard_context: str,
         entity_registry: dict[str, str],
         search_queries: list[str] | None = None,
-        warm_start_context: str = "",
+        dependency_chunk_ids: list[str] | None = None,
     ) -> tuple[str, list[EvidenceEntry], int]:
         """Plan -> execute loop. Runs in a thread executor."""
         context = AgentContext()
@@ -152,7 +155,7 @@ class WorkerAgent(AutonomousAgent):
             sq_text, original_question, blackboard_context,
             entity_registry,
             search_queries=search_queries or [],
-            warm_start_context=warm_start_context,
+            dependency_chunk_ids=dependency_chunk_ids or [],
         )
         messages: list[dict[str, Any]] = [
             {"role": "system", "content": system_prompt},
@@ -231,7 +234,7 @@ class WorkerAgent(AutonomousAgent):
         blackboard_context: str,
         entity_registry: dict[str, str],
         search_queries: list[str] | None = None,
-        warm_start_context: str = "",
+        dependency_chunk_ids: list[str] | None = None,
     ) -> str:
         context_parts = [blackboard_context] if blackboard_context else []
         if entity_registry:
@@ -248,25 +251,93 @@ class WorkerAgent(AutonomousAgent):
         else:
             queries_str = "(no pre-planned queries -- use your own search strategy)"
 
-        warm_str = warm_start_context if warm_start_context else "No warm-start context available."
+        if dependency_chunk_ids:
+            dep_str = "Sibling agents found these relevant chunks. Call read_chunk on them:\n"
+            dep_str += ", ".join(dependency_chunk_ids[:10])
+        else:
+            dep_str = "No dependency chunks available."
 
-        return self._plan_template.format(
-            sub_question=sq_text,
-            original_question=original_question or sq_text,
-            blackboard_context=full_context,
-            search_queries=queries_str,
-            warm_start_context=warm_str,
-        )
+        # Use .replace() to avoid crashes on content with { or }
+        result = self._plan_template
+        result = result.replace("{sub_question}", sq_text)
+        result = result.replace("{original_question}", original_question or sq_text)
+        result = result.replace("{blackboard_context}", full_context)
+        result = result.replace("{search_queries}", queries_str)
+        result = result.replace("{dependency_chunks}", dep_str)
+        return result
 
     def _clean_answer(self, answer: str) -> str:
+        # Strip think tags
         answer = re.sub(r"<think>.*?</think>\s*", "", answer, flags=re.DOTALL)
         answer = re.sub(r"<think>.*", "", answer, flags=re.DOTALL)
+
+        # Strip markdown
         answer = re.sub(r"\*\*(.+?)\*\*", r"\1", answer)
         answer = re.sub(r"\*(.+?)\*", r"\1", answer)
-        answer = answer.split("\n")[0].strip()
+
+        # Take first non-empty line
+        for line in answer.split("\n"):
+            line = line.strip()
+            if line and not re.fullmatch(r"[=\-]{5,}", line):
+                answer = line
+                break
+        else:
+            answer = answer.split("\n")[0].strip()
+
         answer = answer.strip().strip("\"'`*")
+
+        # Strip chunk ID references that leak from search_and_read output
+        if re.fullmatch(r"\[Chunk\s+\d+\]", answer.strip()):
+            return ""
+        answer = re.sub(r"\[Chunk\s+\d+\]", "", answer).strip()
+
+        # Strip separator lines that leak from tool output
+        if re.fullmatch(r"[=\-]{10,}", answer.strip()):
+            return ""
+
+        # Strip "The answer is X" -> X
+        answer = re.sub(r"^(?:The\s+)?(?:final\s+)?answer\s+is\s+", "", answer, flags=re.IGNORECASE)
+        answer = re.sub(r"^(?:FINAL\s+)?ANSWER\s*:\s*", "", answer, flags=re.IGNORECASE)
+
+        # Strip reasoning prefixes
+        answer = re.sub(
+            r"^(?:Based\s+on|According\s+to)\s+(?:the\s+)?(?:evidence|information|documents|context|provided|retrieved)[^,]*,\s*",
+            "", answer, flags=re.IGNORECASE,
+        )
+
+        # Extract entity from verbose sentence patterns
+        for pattern in [
+            # "The nationality of X is Y" -> Y
+            r"^(?:The\s+)?(?:nationality|country|birthplace|director|city|region|publisher|performer|composer|author|record\s+label)\s+(?:of\s+.+?\s+)?(?:is|was)\s+(.+?)$",
+            # "X's birthplace is Y" -> Y
+            r"^.+?(?:'s|s')\s+(?:nationality|country|birthplace|birth\s*date|birth\s*place)\s+(?:is|was)\s+(.+?)$",
+            # "The city where X is Y" -> Y
+            r"^The\s+(?:name\s+of\s+the\s+)?(?:city|region|country|person|film|body\s+of\s+water)\s+(?:where|that|which|by)\s+.+\s+(?:is|was)\s+(.+?)$",
+            # "X was born in Y" -> Y
+            r"^.+?\s+(?:was|is)\s+born\s+(?:in|on)\s+(.+?)$",
+            # "X is located in Y" -> Y
+            r"^.+?\s+(?:was|is)\s+(?:located|based|situated|headquartered)\s+(?:in|at)\s+(.+?)$",
+            # "X was released in Y" -> Y
+            r"^.+?\s+(?:was|is)\s+(?:released|published|produced|founded|formed|created|established)\s+(?:in|on|by)\s+(.+?)$",
+            # "X was directed by Y" -> Y
+            r"^.+?\s+(?:was|is)\s+(?:directed|composed|written|designed|performed)\s+by\s+(.+?)$",
+            # "X died in Y" -> Y
+            r"^.+?\s+(?:died|passed\s+away)\s+(?:in|on|at)\s+(.+?)$",
+        ]:
+            m = re.match(pattern, answer, re.IGNORECASE)
+            if m:
+                extracted = m.group(m.lastindex).strip().strip("\"'`.,;:!?")
+                if extracted and 2 < len(extracted) < len(answer):
+                    answer = extracted
+                    break
+
+        # Strip trailing punctuation
         answer = re.sub(r"\s*[\.,;:!?]+$", "", answer)
+        # Strip parenthetical annotations
+        answer = re.sub(r"\s*\((?:born|died|circa|c\.|approximately).*?\)", "", answer, flags=re.IGNORECASE).strip()
+
         return answer
+
 
     def _fallback_answer_from_memory(self, sq_text: str, memory: Memory) -> str:
         """Last-resort answer extraction from read_chunk results."""

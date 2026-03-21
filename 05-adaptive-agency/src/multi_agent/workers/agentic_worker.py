@@ -111,6 +111,18 @@ class AgenticWorker(AutonomousAgent):
 
         answer = clean_answer(answer)
 
+        # Clear verbose refusal answers
+        if len(answer) > 60:
+            answer_lower = answer.lower()
+            _verbose_patterns = [
+                "the evidence does not", "does not mention", "not explicitly mentioned",
+                "no evidence confirms", "not specified in", "the provided documents",
+                "there is no ", "cannot be determined", "not found in the",
+            ]
+            if any(p in answer_lower for p in _verbose_patterns):
+                logger.info("%s: SQ-%d verbose/refusal answer cleared", self.agent_id, sq_id)
+                answer = ""
+
         await blackboard.post_evidence(evidence, sq_id, answer, self.agent_id)
 
         is_usable = bool(answer) and answer.lower() not in ("unknown", "error", "")
@@ -211,13 +223,13 @@ class AgenticWorker(AutonomousAgent):
 
         warm_str = warm_start_context if warm_start_context else "No warm-start context available."
 
-        return self._plan_template.format(
-            sub_question=sq_text,
-            original_question=original_question or sq_text,
-            blackboard_context=full_context,
-            search_queries=queries_str,
-            warm_start_context=warm_str,
-        )
+        result = self._plan_template
+        result = result.replace("{sub_question}", sq_text)
+        result = result.replace("{original_question}", original_question or sq_text)
+        result = result.replace("{blackboard_context}", full_context)
+        result = result.replace("{search_queries}", queries_str)
+        result = result.replace("{warm_start_context}", warm_str)
+        return result
 
     def _build_evidence(self, sq_id: int, memory: Memory) -> list[EvidenceEntry]:
         entries: list[EvidenceEntry] = []

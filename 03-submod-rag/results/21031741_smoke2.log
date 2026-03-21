@@ -1,0 +1,344 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:07 [utils.py:325] 
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:07 [utils.py:325]        █     █     █▄   ▄█
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:07 [utils.py:325]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.15.1
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:07 [utils.py:325]   █▄█▀ █     █     █     █  model   Qwen/Qwen3-8B
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:07 [utils.py:325]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:07 [utils.py:325] 
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:07 [utils.py:261] non-default args: {'host': '127.0.0.1', 'port': 8041, 'chat_template': '/projects/prjs1800/scripts/qwen3_no_think_template.jinja', 'model': 'Qwen/Qwen3-8B', 'trust_remote_code': True, 'max_model_len': 32768, 'served_model_name': ['Qwen3-8B'], 'gpu_memory_utilization': 0.92, 'enable_prefix_caching': True, 'max_num_seqs': 512}
+[0;36m(APIServer pid=1643878)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[0;36m(APIServer pid=1643878)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:08 [model.py:541] Resolved architecture: Qwen3ForCausalLM
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:08 [model.py:1561] Using max model len 32768
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:08 [scheduler.py:226] Chunked prefill is enabled with max_num_batched_tokens=8192.
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:08 [vllm.py:624] Asynchronous scheduling is enabled.
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m INFO 03-21 20:15:15 [core.py:96] Initializing a V1 LLM engine (v0.15.1) with config: model='Qwen/Qwen3-8B', speculative_config=None, tokenizer='Qwen/Qwen3-8B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=Qwen3-8B, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'splitting_ops': ['vllm::unified_attention', 'vllm::unified_attention_with_output', 'vllm::unified_mla_attention', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::gdn_attention_core', 'vllm::kda_attention', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::unified_kv_cache_update'], 'compile_mm_encoder': False, 'compile_sizes': [], 'compile_ranges_split_points': [8192], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False}, 'max_cudagraph_capture_size': 512, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': True}, 'local_cache_dir': None, 'static_all_moe_layers': []}
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m INFO 03-21 20:15:18 [parallel_state.py:1212] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://145.136.62.140:47163 backend=nccl
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m INFO 03-21 20:15:18 [parallel_state.py:1423] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m INFO 03-21 20:15:19 [gpu_model_runner.py:4033] Starting to load model Qwen/Qwen3-8B...
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m INFO 03-21 20:15:20 [cuda.py:364] Using FLASH_ATTN attention backend out of potential backends: ('FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION')
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/5 [00:00<?, ?it/s]
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m Loading safetensors checkpoint shards:  20% Completed | 1/5 [00:00<00:01,  2.45it/s]
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m Loading safetensors checkpoint shards:  40% Completed | 2/5 [00:01<00:02,  1.25it/s]
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m Loading safetensors checkpoint shards:  60% Completed | 3/5 [00:02<00:02,  1.09s/it]
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m Loading safetensors checkpoint shards:  80% Completed | 4/5 [00:04<00:01,  1.22s/it]
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:05<00:00,  1.27s/it]
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:05<00:00,  1.14s/it]
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m 
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m INFO 03-21 20:15:26 [default_loader.py:291] Loading weights took 5.75 seconds
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m INFO 03-21 20:15:27 [gpu_model_runner.py:4130] Model loading took 15.27 GiB memory and 7.226618 seconds
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m INFO 03-21 20:15:34 [backends.py:812] Using cache directory: /home/pnair/.cache/vllm/torch_compile_cache/306ce5375a/rank_0_0/backbone for vLLM's torch.compile
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m INFO 03-21 20:15:34 [backends.py:872] Dynamo bytecode transform time: 6.97 s
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m INFO 03-21 20:15:39 [backends.py:267] Directly load the compiled graph(s) for compile range (1, 8192) from the cache, took 1.389 s
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m INFO 03-21 20:15:39 [monitor.py:34] torch.compile takes 8.36 s in total
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m INFO 03-21 20:15:40 [gpu_worker.py:356] Available KV cache memory: 67.38 GiB
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m INFO 03-21 20:15:40 [kv_cache_utils.py:1307] GPU KV cache size: 490,656 tokens
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m INFO 03-21 20:15:40 [kv_cache_utils.py:1312] Maximum concurrency for 32,768 tokens per request: 14.97x
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m 2026-03-21 20:15:40,778 - INFO - autotuner.py:256 - flashinfer.jit: [Autotuner]: Autotuning process starts ...
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m 2026-03-21 20:15:40,812 - INFO - autotuner.py:262 - flashinfer.jit: [Autotuner]: Autotuning process ends
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/51 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   6%|▌         | 3/51 [00:00<00:02, 21.25it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  12%|█▏        | 6/51 [00:00<00:02, 21.33it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  18%|█▊        | 9/51 [00:00<00:01, 21.01it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  24%|██▎       | 12/51 [00:00<00:01, 21.72it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  29%|██▉       | 15/51 [00:00<00:01, 21.50it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  35%|███▌      | 18/51 [00:00<00:01, 21.44it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  41%|████      | 21/51 [00:00<00:01, 21.62it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  47%|████▋     | 24/51 [00:01<00:01, 21.53it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  53%|█████▎    | 27/51 [00:01<00:01, 21.63it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  59%|█████▉    | 30/51 [00:01<00:00, 21.53it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  65%|██████▍   | 33/51 [00:01<00:00, 21.20it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  71%|███████   | 36/51 [00:01<00:00, 20.89it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  76%|███████▋  | 39/51 [00:01<00:00, 20.40it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  82%|████████▏ | 42/51 [00:01<00:00, 20.26it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  88%|████████▊ | 45/51 [00:02<00:00, 20.22it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  94%|█████████▍| 48/51 [00:02<00:00, 20.26it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:02<00:00, 20.82it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:02<00:00, 21.01it/s]
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m Capturing CUDA graphs (decode, FULL):   0%|          | 0/51 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL):   6%|▌         | 3/51 [00:00<00:01, 26.86it/s]Capturing CUDA graphs (decode, FULL):  12%|█▏        | 6/51 [00:00<00:01, 27.27it/s]Capturing CUDA graphs (decode, FULL):  18%|█▊        | 9/51 [00:00<00:01, 27.51it/s]Capturing CUDA graphs (decode, FULL):  24%|██▎       | 12/51 [00:00<00:01, 27.92it/s]Capturing CUDA graphs (decode, FULL):  29%|██▉       | 15/51 [00:00<00:01, 28.18it/s]Capturing CUDA graphs (decode, FULL):  35%|███▌      | 18/51 [00:00<00:01, 28.41it/s]Capturing CUDA graphs (decode, FULL):  41%|████      | 21/51 [00:00<00:01, 28.58it/s]Capturing CUDA graphs (decode, FULL):  47%|████▋     | 24/51 [00:00<00:00, 28.65it/s]Capturing CUDA graphs (decode, FULL):  53%|█████▎    | 27/51 [00:00<00:00, 28.74it/s]Capturing CUDA graphs (decode, FULL):  59%|█████▉    | 30/51 [00:01<00:00, 28.78it/s]Capturing CUDA graphs (decode, FULL):  65%|██████▍   | 33/51 [00:01<00:00, 28.80it/s]Capturing CUDA graphs (decode, FULL):  71%|███████   | 36/51 [00:01<00:00, 28.68it/s]Capturing CUDA graphs (decode, FULL):  76%|███████▋  | 39/51 [00:01<00:00, 28.56it/s]Capturing CUDA graphs (decode, FULL):  82%|████████▏ | 42/51 [00:01<00:00, 28.59it/s]Capturing CUDA graphs (decode, FULL):  88%|████████▊ | 45/51 [00:01<00:00, 28.71it/s]Capturing CUDA graphs (decode, FULL):  94%|█████████▍| 48/51 [00:01<00:00, 28.82it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 51/51 [00:01<00:00, 28.98it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 51/51 [00:01<00:00, 28.54it/s]
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m INFO 03-21 20:15:45 [gpu_model_runner.py:5063] Graph capturing finished in 5 secs, took -0.35 GiB
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m INFO 03-21 20:15:45 [core.py:272] init engine (profile, create kv cache, warmup model) took 18.57 seconds
+[0;36m(EngineCore_DP0 pid=1643970)[0;0m INFO 03-21 20:15:47 [vllm.py:624] Asynchronous scheduling is enabled.
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:47 [api_server.py:665] Supported tasks: ['generate']
+[0;36m(APIServer pid=1643878)[0;0m WARNING 03-21 20:15:47 [model.py:1371] Default vLLM sampling parameters have been overridden by the model's `generation_config.json`: `{'temperature': 0.6, 'top_k': 20, 'top_p': 0.95}`. If this is not intended, please relaunch vLLM instance with `--generation-config vllm`.
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:47 [serving.py:177] Warming up chat template processing...
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:47 [hf.py:310] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:47 [serving.py:212] Chat template warmup completed in 44.5ms
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [api_server.py:946] Starting vLLM API server 0 on http://127.0.0.1:8041
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:38] Available routes are:
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /openapi.json, Methods: HEAD, GET
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /docs, Methods: HEAD, GET
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /docs/oauth2-redirect, Methods: HEAD, GET
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /redoc, Methods: HEAD, GET
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /scale_elastic_ep, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /is_scaling_elastic_ep, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /tokenize, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /detokenize, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /inference/v1/generate, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /pause, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /resume, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /is_paused, Methods: GET
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /metrics, Methods: GET
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /health, Methods: GET
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /v1/chat/completions, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /v1/chat/completions/render, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /v1/responses, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /v1/responses/{response_id}, Methods: GET
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /v1/responses/{response_id}/cancel, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /v1/audio/transcriptions, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /v1/audio/translations, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /v1/completions, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /v1/completions/render, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /v1/messages, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /v1/models, Methods: GET
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /load, Methods: GET
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /version, Methods: GET
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /ping, Methods: GET
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /ping, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /invocations, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /classify, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /v1/embeddings, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /score, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /v1/score, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /rerank, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /v1/rerank, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /v2/rerank, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:15:48 [launcher.py:46] Route: /pooling, Methods: POST
+[0;36m(APIServer pid=1643878)[0;0m INFO:     Started server process [1643878]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     Waiting for application startup.
+[0;36m(APIServer pid=1643878)[0;0m INFO:     Application startup complete.
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:47360 - "GET /v1/models HTTP/1.1" 200 OK
+vLLM ready on port 8041
+2026-03-21 20:15:53,105 [INFO] __main__: Loading pipeline...
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+2026-03-21 20:15:58,077 [INFO] sentence_transformers.SentenceTransformer: Load pretrained SentenceTransformer: intfloat/e5-base-v2
+2026-03-21 20:15:59,785 [INFO] pipeline: SubmodPipeline ready: 1354 chunks, 50767 sentences
+2026-03-21 20:15:59,788 [INFO] __main__: Running 10 questions from musique
+2026-03-21 20:15:59,823 [INFO] __main__: [1/10] musique_2hop__13548_13529: When was the person who Messi's goals in Copa del Rey compar
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:47992 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:02,286 [INFO] pipeline: Decomposed into 2 SQs (bridge): When was the person who Messi's goals in Copa del Rey compar
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 15.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.91it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.89it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.31s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.32s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:34416 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:06,314 [INFO] pipeline:   SQ-0: 'Which player's goals in Copa del Rey were compared' -> 'unknown'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 60.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.14it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.12it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:16:08 [loggers.py:257] Engine 000: Avg prompt throughput: 769.2 tokens/s, Avg generation throughput: 28.0 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 0.0%
+Batches: 100%|██████████| 1/1 [00:03<00:00,  3.29s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.29s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:34418 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:10,139 [INFO] pipeline:   SQ-1: 'When was unknown signed by Barcelona?' -> 'unknown'
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:34430 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:10,168 [INFO] pipeline: Answer: 'unknown' (10.3s)
+2026-03-21 20:16:10,168 [INFO] __main__:   XX PRED='unknown' GOLD='June 1982'
+2026-03-21 20:16:10,168 [INFO] __main__: [2/10] musique_3hop1__9285_5188_23307: What month did the Tripartite discussions begin between Brit
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:34438 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:13,507 [INFO] pipeline: Decomposed into 3 SQs (bridge): What month did the Tripartite discussions begin between Brit
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 54.19it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.01it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.32s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.32s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:42314 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:17,370 [INFO] pipeline:   SQ-0: 'Which country is the headquarters of the nobilitie' -> 'United Kingdom'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 53.52it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.07it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.05it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:16:18 [loggers.py:257] Engine 000: Avg prompt throughput: 1384.6 tokens/s, Avg generation throughput: 39.2 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 7.6%
+Batches: 100%|██████████| 1/1 [00:03<00:00,  3.46s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.46s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:42318 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:21,403 [INFO] pipeline:   SQ-1: 'Which country is the origin of the top-ranking War' -> 'Russia'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 52.07it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.98it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.42s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.42s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:48326 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:25,416 [INFO] pipeline:   SQ-2: 'What month did the Tripartite discussions begin be' -> 'unknown'
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:48334 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:25,446 [INFO] pipeline: Answer: 'unknown' (15.3s)
+2026-03-21 20:16:25,446 [INFO] __main__:   XX PRED='unknown' GOLD='mid-June'
+2026-03-21 20:16:25,446 [INFO] __main__: [3/10] musique_2hop__766973_770570: What county is Erik Hort's birthplace a part of?
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:48344 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:27,278 [INFO] pipeline: Decomposed into 2 SQs (bridge): What county is Erik Hort's birthplace a part of?
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 58.53it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.00it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.98it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:16:28 [loggers.py:257] Engine 000: Avg prompt throughput: 1387.5 tokens/s, Avg generation throughput: 21.7 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 9.3%
+Batches: 100%|██████████| 1/1 [00:03<00:00,  3.37s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.37s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:48354 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:31,213 [INFO] pipeline:   SQ-0: 'In which city was Erik Hort born?' -> 'unknown'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 59.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.20it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.35s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.35s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:47848 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:35,095 [INFO] pipeline:   SQ-1: 'What county is unknown a part of?' -> 'Columbia County'
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:47860 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:35,142 [INFO] pipeline: Answer: 'Columbia County' (9.7s)
+2026-03-21 20:16:35,142 [INFO] __main__:   XX PRED='Columbia County' GOLD='Rockland County'
+2026-03-21 20:16:35,142 [INFO] __main__: [4/10] musique_2hop__170823_120171: What year did the publisher of Labyrinth end?
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:47870 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:37,078 [INFO] pipeline: Decomposed into 2 SQs (bridge): What year did the publisher of Labyrinth end?
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 63.79it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.27it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.25it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:16:38 [loggers.py:257] Engine 000: Avg prompt throughput: 1351.3 tokens/s, Avg generation throughput: 23.3 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 10.1%
+Batches: 100%|██████████| 1/1 [00:03<00:00,  3.42s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.42s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:47882 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:41,027 [INFO] pipeline:   SQ-0: 'Who is the publisher of Labyrinth?' -> 'Acornsoft'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 41.40it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.20it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.18it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.40s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.40s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:37882 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:44,999 [INFO] pipeline:   SQ-1: 'What year did Acornsoft end?' -> '2002'
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:37888 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:45,053 [INFO] pipeline: Answer: '2002' (9.9s)
+2026-03-21 20:16:45,054 [INFO] __main__:   XX PRED='2002' GOLD='1986'
+2026-03-21 20:16:45,054 [INFO] __main__: [5/10] musique_2hop__511454_120259: When was Lady Godiva's birthplace abolished?
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:37904 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:46,912 [INFO] pipeline: Decomposed into 2 SQs (bridge): When was Lady Godiva's birthplace abolished?
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 66.22it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.98it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.95it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:16:48 [loggers.py:257] Engine 000: Avg prompt throughput: 1329.1 tokens/s, Avg generation throughput: 22.8 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 10.6%
+Batches: 100%|██████████| 1/1 [00:03<00:00,  3.53s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.53s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:37916 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:51,445 [INFO] pipeline:   SQ-0: 'Where was Lady Godiva born?' -> 'Lady Godiva is mentioned in the context '
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 35.24it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.61it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  6.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.33s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.33s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:32844 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:56,123 [INFO] pipeline:   SQ-1: 'When was Lady Godiva is mentioned in the context o' -> 'unknown'
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:32860 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:16:56,153 [INFO] pipeline: Answer: 'unknown' (11.1s)
+2026-03-21 20:16:56,153 [INFO] __main__:   XX PRED='unknown' GOLD='918'
+2026-03-21 20:16:56,153 [INFO] __main__: [6/10] musique_4hop2__71753_648517_70784_79935: When was the region immediately north of the region where Is
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:16:58 [loggers.py:257] Engine 000: Avg prompt throughput: 1365.4 tokens/s, Avg generation throughput: 32.5 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.4%, Prefix cache hit rate: 10.8%
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:32874 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:17:00,141 [INFO] pipeline: Decomposed into 4 SQs (bridge): When was the region immediately north of the region where Is
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 46.06it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.27it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.25it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.28s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.28s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:32882 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:17:03,941 [INFO] pipeline:   SQ-0: 'In which region is Israel located?' -> 'Middle East'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 63.10it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.21it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.19it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.44s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.44s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:44046 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:17:07,921 [INFO] pipeline:   SQ-1: 'What is the region immediately north of Middle Eas' -> 'unknown'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 51.42it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.99it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:17:08 [loggers.py:257] Engine 000: Avg prompt throughput: 1168.9 tokens/s, Avg generation throughput: 19.7 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 9.6%
+Batches: 100%|██████████| 1/1 [00:03<00:00,  3.41s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.41s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:44056 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:17:11,973 [INFO] pipeline:   SQ-2: 'When was the region of the Battle of Qurah and Umm' -> '1991'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 53.80it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.92it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.90it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.58s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.59s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:53460 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:17:16,200 [INFO] pipeline:   SQ-3: 'When was the region immediately north of Middle Ea' -> '1947'
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:53466 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:17:16,256 [INFO] pipeline: Answer: '1947' (20.1s)
+2026-03-21 20:17:16,258 [INFO] __main__:   XX PRED='1947' GOLD='1930'
+2026-03-21 20:17:16,258 [INFO] __main__: [7/10] musique_4hop1__94201_642284_131926_89261: Where does the body of water by the city where the Southeast
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:17:18 [loggers.py:257] Engine 000: Avg prompt throughput: 1346.9 tokens/s, Avg generation throughput: 27.1 tokens/s, Running: 1 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.3%, Prefix cache hit rate: 10.0%
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:53468 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:17:21,169 [INFO] pipeline: Decomposed into 5 SQs (bridge): Where does the body of water by the city where the Southeast
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 46.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.22it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.20it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.28s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.28s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:49588 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:17:24,983 [INFO] pipeline:   SQ-0: 'Who designed the Southeast Library?' -> 'unknown'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 59.83it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.26it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.24it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:17:28 [loggers.py:257] Engine 000: Avg prompt throughput: 588.1 tokens/s, Avg generation throughput: 31.3 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 9.5%
+Batches: 100%|██████████| 1/1 [00:03<00:00,  3.31s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.31s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:49594 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:17:28,841 [INFO] pipeline:   SQ-1: 'Where did unknown die?' -> 'Los Angeles'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 61.60it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.16it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  7.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.30s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.30s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:49606 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:17:32,748 [INFO] pipeline:   SQ-2: 'Which city is Los Angeles located in?' -> 'Los Angeles'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 55.68it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.04it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.33s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.34s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:38420 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:17:36,694 [INFO] pipeline:   SQ-3: 'What is the name of the body of water by Los Angel' -> 'Pacific Ocean'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 56.03it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.03it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.01it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:17:38 [loggers.py:257] Engine 000: Avg prompt throughput: 1788.9 tokens/s, Avg generation throughput: 0.9 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 8.4%
+Batches: 100%|██████████| 1/1 [00:03<00:00,  3.29s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.29s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:38432 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:17:40,637 [INFO] pipeline:   SQ-4: 'Where does Pacific Ocean empty into the Gulf of Me' -> 'Gulf of Mexico'
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:38440 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:17:40,694 [INFO] pipeline: Answer: 'Gulf of Mexico' (24.4s)
+2026-03-21 20:17:40,694 [INFO] __main__:   XX PRED='Gulf of Mexico' GOLD='the Mississippi River Delta'
+2026-03-21 20:17:40,694 [INFO] __main__: [8/10] musique_4hop1__152562_5274_458768_33633: When did the explorer reach the city where the headquarters 
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:38456 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:17:44,793 [INFO] pipeline: Decomposed into 4 SQs (bridge): When did the explorer reach the city where the headquarters 
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 55.14it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.04it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.02it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.29s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.29s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:17:48 [loggers.py:257] Engine 000: Avg prompt throughput: 765.6 tokens/s, Avg generation throughput: 48.3 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 9.1%
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:47092 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:17:48,610 [INFO] pipeline:   SQ-0: 'What is the record label of Vilaiyaadu Mankatha?' -> 'Sony Music Entertainment'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 55.97it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.58it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.56it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.30s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.30s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:47104 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:17:52,474 [INFO] pipeline:   SQ-1: 'What is the largest group larger than Sony Music E' -> 'Universal Music Group'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 60.34it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.74it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.72it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.29s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.29s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:38710 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:17:56,284 [INFO] pipeline:   SQ-2: 'Where is the headquarters of Universal Music Group' -> 'unknown'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 63.39it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.87it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.85it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:17:58 [loggers.py:257] Engine 000: Avg prompt throughput: 1787.8 tokens/s, Avg generation throughput: 1.0 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 8.3%
+Batches: 100%|██████████| 1/1 [00:03<00:00,  3.41s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.41s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:38714 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:18:00,204 [INFO] pipeline:   SQ-3: 'When did the explorer reach unknown?' -> 'unknown'
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:38726 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:18:00,234 [INFO] pipeline: Answer: 'unknown' (19.5s)
+2026-03-21 20:18:00,234 [INFO] __main__:   XX PRED='unknown' GOLD='August 3, 1769'
+2026-03-21 20:18:00,234 [INFO] __main__: [9/10] musique_3hop1__305282_282081_73772: When was the start of the battle of the birthplace of the pe
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:38736 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:18:02,852 [INFO] pipeline: Decomposed into 3 SQs (bridge): When was the start of the battle of the birthplace of the pe
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 60.96it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.38it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.36it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.29s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.29s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:55550 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:18:06,693 [INFO] pipeline:   SQ-0: 'Who is the performer of III?' -> 'Freddie Hubbard'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 63.59it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.21it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.19it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:18:08 [loggers.py:257] Engine 000: Avg prompt throughput: 1370.4 tokens/s, Avg generation throughput: 31.0 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 8.6%
+Batches: 100%|██████████| 1/1 [00:03<00:00,  3.26s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.26s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:55556 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:18:10,523 [INFO] pipeline:   SQ-1: 'Where was Freddie Hubbard born?' -> 'St. Louis'
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 60.94it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.86it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.84it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.27s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.27s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:55568 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:18:14,382 [INFO] pipeline:   SQ-2: 'When did the battle of St. Louis start?' -> 'unknown'
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:51660 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:18:14,411 [INFO] pipeline: Answer: 'unknown' (14.2s)
+2026-03-21 20:18:14,412 [INFO] __main__:   XX PRED='unknown' GOLD='December 14, 1814'
+2026-03-21 20:18:14,412 [INFO] __main__: [10/10] musique_2hop__655505_110949: What is the Till dom ensamma performer's birth date?
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:51666 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:18:15,709 [INFO] pipeline: Decomposed into 1 SQs (single_hop): What is the Till dom ensamma performer's birth date?
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 54.47it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.01it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.99it/s]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:18:18 [loggers.py:257] Engine 000: Avg prompt throughput: 1381.8 tokens/s, Avg generation throughput: 15.7 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 8.8%
+Batches: 100%|██████████| 1/1 [00:03<00:00,  3.32s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.32s/it]
+[0;36m(APIServer pid=1643878)[0;0m INFO:     127.0.0.1:51682 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+2026-03-21 20:18:19,658 [INFO] pipeline:   SQ-0: 'What is the birth date of the Till dom ensamma per' -> 'unknown'
+2026-03-21 20:18:19,658 [INFO] pipeline: Answer: 'unknown' (5.2s)
+2026-03-21 20:18:19,658 [INFO] __main__:   XX PRED='unknown' GOLD='11 September 1962'
+
+=== SubmodRAG musique (n=10): EM=0.0% F1=5.0% (139.9s) ===
+  XX PRED: unknown                                       GOLD: June 1982
+  XX PRED: unknown                                       GOLD: mid-June
+  XX PRED: Columbia County                               GOLD: Rockland County
+  XX PRED: 2002                                          GOLD: 1986
+  XX PRED: unknown                                       GOLD: 918
+  XX PRED: 1947                                          GOLD: 1930
+  XX PRED: Gulf of Mexico                                GOLD: the Mississippi River Delta
+  XX PRED: unknown                                       GOLD: August 3, 1769
+  XX PRED: unknown                                       GOLD: December 14, 1814
+  XX PRED: unknown                                       GOLD: 11 September 1962
+=== SubmodRAG v2 smoke test DONE ===
+[0;36m(APIServer pid=1643878)[0;0m INFO 03-21 20:18:20 [launcher.py:110] Shutting down FastAPI HTTP server.

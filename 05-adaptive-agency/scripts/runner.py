@@ -131,9 +131,9 @@ class AdaptiveBatchRunner:
     def _create_pipeline(self) -> AdaptiveAgencyPipeline:
         llm_cfg = self.config.get("llm", {})
         client = LLMClient(
-            model=llm_cfg.get("model") or os.getenv("ARAG_MODEL", "Qwen3-8B"),
-            api_key=llm_cfg.get("api_key") or os.getenv("ARAG_API_KEY", "dummy"),
-            base_url=llm_cfg.get("base_url") or os.getenv("ARAG_BASE_URL", "http://127.0.0.1:8000/v1"),
+            model=os.getenv("ARAG_MODEL") or llm_cfg.get("model", "Qwen3-8B"),
+            api_key=os.getenv("ARAG_API_KEY") or llm_cfg.get("api_key", "dummy"),
+            base_url=os.getenv("ARAG_BASE_URL") or llm_cfg.get("base_url", "http://127.0.0.1:8000/v1"),
             temperature=llm_cfg.get("temperature", 0.0),
             max_tokens=llm_cfg.get("max_tokens", 8192),
             reasoning_effort=llm_cfg.get("reasoning_effort"),

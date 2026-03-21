@@ -1,0 +1,743 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:40:42 [utils.py:325] 
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:40:42 [utils.py:325]        █     █     █▄   ▄█
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:40:42 [utils.py:325]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.15.1
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:40:42 [utils.py:325]   █▄█▀ █     █     █     █  model   Qwen/Qwen3-8B
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:40:42 [utils.py:325]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:40:42 [utils.py:325] 
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:40:42 [utils.py:261] non-default args: {'host': '127.0.0.1', 'port': 8201, 'chat_template': '/projects/prjs1800/scripts/qwen3_no_think_template.jinja', 'enable_auto_tool_choice': True, 'tool_call_parser': 'hermes', 'model': 'Qwen/Qwen3-8B', 'trust_remote_code': True, 'max_model_len': 32768, 'served_model_name': ['Qwen3-8B'], 'gpu_memory_utilization': 0.92, 'enable_prefix_caching': True, 'max_num_seqs': 512}
+[0;36m(APIServer pid=1773275)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[0;36m(APIServer pid=1773275)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:40:43 [model.py:541] Resolved architecture: Qwen3ForCausalLM
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:40:43 [model.py:1561] Using max model len 32768
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:40:43 [scheduler.py:226] Chunked prefill is enabled with max_num_batched_tokens=8192.
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:40:43 [vllm.py:624] Asynchronous scheduling is enabled.
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m INFO 03-20 19:40:51 [core.py:96] Initializing a V1 LLM engine (v0.15.1) with config: model='Qwen/Qwen3-8B', speculative_config=None, tokenizer='Qwen/Qwen3-8B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=Qwen3-8B, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'splitting_ops': ['vllm::unified_attention', 'vllm::unified_attention_with_output', 'vllm::unified_mla_attention', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::gdn_attention_core', 'vllm::kda_attention', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::unified_kv_cache_update'], 'compile_mm_encoder': False, 'compile_sizes': [], 'compile_ranges_split_points': [8192], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False}, 'max_cudagraph_capture_size': 512, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': True}, 'local_cache_dir': None, 'static_all_moe_layers': []}
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m INFO 03-20 19:40:54 [parallel_state.py:1212] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://145.136.62.143:59457 backend=nccl
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m INFO 03-20 19:40:54 [parallel_state.py:1423] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m INFO 03-20 19:40:54 [gpu_model_runner.py:4033] Starting to load model Qwen/Qwen3-8B...
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m INFO 03-20 19:40:56 [cuda.py:364] Using FLASH_ATTN attention backend out of potential backends: ('FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION')
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/5 [00:00<?, ?it/s]
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m Loading safetensors checkpoint shards:  20% Completed | 1/5 [00:00<00:01,  2.33it/s]
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m Loading safetensors checkpoint shards:  40% Completed | 2/5 [00:01<00:02,  1.20it/s]
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m Loading safetensors checkpoint shards:  60% Completed | 3/5 [00:03<00:02,  1.13s/it]
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m Loading safetensors checkpoint shards:  80% Completed | 4/5 [00:04<00:01,  1.28s/it]
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:05<00:00,  1.31s/it]
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:05<00:00,  1.18s/it]
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m 
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m INFO 03-20 19:41:03 [default_loader.py:291] Loading weights took 5.97 seconds
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m INFO 03-20 19:41:03 [gpu_model_runner.py:4130] Model loading took 15.27 GiB memory and 7.987450 seconds
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m INFO 03-20 19:41:11 [backends.py:812] Using cache directory: /home/pnair/.cache/vllm/torch_compile_cache/306ce5375a/rank_0_0/backbone for vLLM's torch.compile
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m INFO 03-20 19:41:11 [backends.py:872] Dynamo bytecode transform time: 7.60 s
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m INFO 03-20 19:41:17 [backends.py:267] Directly load the compiled graph(s) for compile range (1, 8192) from the cache, took 1.469 s
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m INFO 03-20 19:41:17 [monitor.py:34] torch.compile takes 9.07 s in total
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m INFO 03-20 19:41:18 [gpu_worker.py:356] Available KV cache memory: 67.38 GiB
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m INFO 03-20 19:41:18 [kv_cache_utils.py:1307] GPU KV cache size: 490,656 tokens
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m INFO 03-20 19:41:18 [kv_cache_utils.py:1312] Maximum concurrency for 32,768 tokens per request: 14.97x
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m 2026-03-20 19:41:18,064 - INFO - autotuner.py:256 - flashinfer.jit: [Autotuner]: Autotuning process starts ...
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m 2026-03-20 19:41:18,098 - INFO - autotuner.py:262 - flashinfer.jit: [Autotuner]: Autotuning process ends
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/51 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   6%|▌         | 3/51 [00:00<00:02, 21.16it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  12%|█▏        | 6/51 [00:00<00:02, 21.23it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  18%|█▊        | 9/51 [00:00<00:02, 20.89it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  24%|██▎       | 12/51 [00:00<00:01, 21.64it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  29%|██▉       | 15/51 [00:00<00:01, 21.48it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  35%|███▌      | 18/51 [00:00<00:01, 21.43it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  41%|████      | 21/51 [00:00<00:01, 21.58it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  47%|████▋     | 24/51 [00:01<00:01, 17.16it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  51%|█████     | 26/51 [00:01<00:01, 14.79it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  55%|█████▍    | 28/51 [00:01<00:01, 13.34it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  59%|█████▉    | 30/51 [00:01<00:01, 12.34it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  63%|██████▎   | 32/51 [00:02<00:01, 11.73it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  67%|██████▋   | 34/51 [00:02<00:01,  9.41it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  71%|███████   | 36/51 [00:02<00:01,  9.47it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  75%|███████▍  | 38/51 [00:02<00:01,  8.51it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  78%|███████▊  | 40/51 [00:03<00:01,  8.38it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  80%|████████  | 41/51 [00:03<00:01,  7.94it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  86%|████████▋ | 44/51 [00:03<00:00, 10.68it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  90%|█████████ | 46/51 [00:03<00:00, 12.34it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  96%|█████████▌| 49/51 [00:03<00:00, 14.75it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:03<00:00, 13.72it/s]
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m Capturing CUDA graphs (decode, FULL):   0%|          | 0/51 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL):   6%|▌         | 3/51 [00:00<00:01, 26.57it/s]Capturing CUDA graphs (decode, FULL):  12%|█▏        | 6/51 [00:00<00:01, 27.13it/s]Capturing CUDA graphs (decode, FULL):  18%|█▊        | 9/51 [00:00<00:01, 27.53it/s]Capturing CUDA graphs (decode, FULL):  24%|██▎       | 12/51 [00:00<00:01, 27.95it/s]Capturing CUDA graphs (decode, FULL):  29%|██▉       | 15/51 [00:00<00:01, 28.25it/s]Capturing CUDA graphs (decode, FULL):  35%|███▌      | 18/51 [00:00<00:01, 28.50it/s]Capturing CUDA graphs (decode, FULL):  41%|████      | 21/51 [00:00<00:01, 28.66it/s]Capturing CUDA graphs (decode, FULL):  47%|████▋     | 24/51 [00:00<00:00, 28.32it/s]Capturing CUDA graphs (decode, FULL):  53%|█████▎    | 27/51 [00:00<00:00, 28.56it/s]Capturing CUDA graphs (decode, FULL):  59%|█████▉    | 30/51 [00:01<00:00, 28.68it/s]Capturing CUDA graphs (decode, FULL):  65%|██████▍   | 33/51 [00:01<00:00, 28.77it/s]Capturing CUDA graphs (decode, FULL):  71%|███████   | 36/51 [00:01<00:00, 28.70it/s]Capturing CUDA graphs (decode, FULL):  76%|███████▋  | 39/51 [00:01<00:00, 28.61it/s]Capturing CUDA graphs (decode, FULL):  82%|████████▏ | 42/51 [00:01<00:00, 28.67it/s]Capturing CUDA graphs (decode, FULL):  88%|████████▊ | 45/51 [00:01<00:00, 28.78it/s]Capturing CUDA graphs (decode, FULL):  94%|█████████▍| 48/51 [00:01<00:00, 28.89it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 51/51 [00:01<00:00, 29.07it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 51/51 [00:01<00:00, 28.54it/s]
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m INFO 03-20 19:41:24 [gpu_model_runner.py:5063] Graph capturing finished in 6 secs, took -0.35 GiB
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m INFO 03-20 19:41:24 [core.py:272] init engine (profile, create kv cache, warmup model) took 20.59 seconds
+[0;36m(EngineCore_DP0 pid=1774074)[0;0m INFO 03-20 19:41:25 [vllm.py:624] Asynchronous scheduling is enabled.
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [api_server.py:665] Supported tasks: ['generate']
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:41:26 [model.py:1371] Default vLLM sampling parameters have been overridden by the model's `generation_config.json`: `{'temperature': 0.6, 'top_k': 20, 'top_p': 0.95}`. If this is not intended, please relaunch vLLM instance with `--generation-config vllm`.
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [serving.py:177] Warming up chat template processing...
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [hf.py:310] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [serving.py:212] Chat template warmup completed in 44.4ms
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [api_server.py:946] Starting vLLM API server 0 on http://127.0.0.1:8201
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:38] Available routes are:
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /openapi.json, Methods: GET, HEAD
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /docs, Methods: GET, HEAD
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /docs/oauth2-redirect, Methods: GET, HEAD
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /redoc, Methods: GET, HEAD
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /scale_elastic_ep, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /is_scaling_elastic_ep, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /tokenize, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /detokenize, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /inference/v1/generate, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /pause, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /resume, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /is_paused, Methods: GET
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /metrics, Methods: GET
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /health, Methods: GET
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /v1/chat/completions, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /v1/chat/completions/render, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /v1/responses, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /v1/responses/{response_id}, Methods: GET
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /v1/responses/{response_id}/cancel, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /v1/audio/transcriptions, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /v1/audio/translations, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /v1/completions, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /v1/completions/render, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /v1/messages, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /v1/models, Methods: GET
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /load, Methods: GET
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /version, Methods: GET
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /ping, Methods: GET
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /ping, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /invocations, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /classify, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /v1/embeddings, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /score, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /v1/score, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /rerank, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /v1/rerank, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /v2/rerank, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO 03-20 19:41:26 [launcher.py:46] Route: /pooling, Methods: POST
+[0;36m(APIServer pid=1773275)[0;0m INFO:     Started server process [1773275]
+[0;36m(APIServer pid=1773275)[0;0m INFO:     Waiting for application startup.
+[0;36m(APIServer pid=1773275)[0;0m INFO:     Application startup complete.
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:51630 - "GET /v1/models HTTP/1.1" 200 OK
+vLLM ready on port 8201
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+2026-03-20 19:41:33,391 [INFO] __main__: Using chunks file: /gpfs/work5/0/prjs1800/msc-thesis/05-adaptive-agency/data/musique/chunks.json
+2026-03-20 19:41:33,392 [INFO] __main__: Using index dir: /gpfs/work5/0/prjs1800/msc-thesis/05-adaptive-agency/data/musique/index_e5_base_v2
+2026-03-20 19:41:33,428 [INFO] __main__: Total: 100 | Completed: 0 | Pending: 100
+2026-03-20 19:43:03,070 [INFO] arag.tools.keyword_search: KeywordSearch: SQLite FTS5 backend with 21015324 passages
+2026-03-20 19:43:03,082 [INFO] arag.tools.read_chunk: ReadChunk: SQLite backend at /projects/prjs1800/datasets/flashrag/wiki18_100w.db
+2026-03-20 19:43:03,083 [INFO] arag.tools.semantic_search: Loading FAISS index from /projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index ...
+2026-03-20 19:43:16,882 [INFO] arag.tools.semantic_search: FAISS index: 21015324 vectors, dim=768
+2026-03-20 19:43:16,883 [INFO] arag.tools.semantic_search: Loading embedding model: intfloat/e5-base-v2
+2026-03-20 19:43:16,908 [INFO] sentence_transformers.SentenceTransformer: Load pretrained SentenceTransformer: intfloat/e5-base-v2
+2026-03-20 19:43:18,566 [INFO] __main__: Processing musique_4hop2__71753_158985_70784_61381: When was the region immediately north of the region where Is
+2026-03-20 19:43:18,605 [INFO] __main__: Processing musique_2hop__354635_174222: What company succeeded the owner of Empire Sports Network?
+2026-03-20 19:43:18,606 [INFO] __main__: Processing musique_2hop__76314_177869: Who was the spouse of a leading speaker against slavery and 
+2026-03-20 19:43:18,608 [INFO] __main__: Processing musique_2hop__511454_120259: When was Lady Godiva's birthplace abolished?
+2026-03-20 19:43:18,610 [INFO] __main__: Processing musique_2hop__123545_47134: Who is the mascot of the university related to Randy Conrads
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,611 [INFO] __main__: Processing musique_2hop__998_25855: What does dell call the feature letting the interface replac
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,612 [INFO] __main__: Processing musique_2hop__13548_13529: When was the person who Messi's goals in Copa del Rey compar
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59356 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59370 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,614 [INFO] __main__: Processing musique_3hop1__409517_547811_80702: What is the name of the famous bridge in the birth city of t
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59384 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59390 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,616 [INFO] __main__: Processing musique_3hop1__144678_443779_52195: The Commission of Truth and Friendship established governmen
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59398 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59410 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59414 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,617 [INFO] __main__: Processing musique_2hop__85325_88165: Who did the person who married their half sister in the bibl
+2026-03-20 19:43:18,620 [INFO] __main__: Processing musique_4hop1__802394_153080_159767_81096: An Indy car race was held in the capital of the state where 
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+2026-03-20 19:43:18,620 [INFO] __main__: Processing musique_4hop1__842143_153080_33897_81096: Who won the Indy Car Race in the largest populated city of t
+2026-03-20 19:43:18,621 [INFO] __main__: Processing musique_3hop1__106845_5188_86687: When did the country the top-ranking Warsaw Pact operatives 
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59428 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59440 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,623 [INFO] __main__: Processing musique_4hop1__152146_5274_458768_33637: How many ethnic minorities were looked at differently in the
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+2026-03-20 19:43:18,624 [INFO] __main__: Processing musique_3hop2__87184_90327_76291: When did the majority party in the House of Representatives 
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59452 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,635 [INFO] __main__: Processing musique_2hop__179322_83289: Who stars in the video "One Last Time" by the performer of B
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59468 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,636 [INFO] __main__: Processing musique_3hop1__105837_160713_77246: what is meaning of the word that is a majority religion of t
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,638 [INFO] __main__: Processing musique_2hop__95970_152907: What city is the star of Sous les pieds des femmes from?
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59476 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59480 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59492 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,639 [INFO] __main__: Processing musique_2hop__78401_158262: When did the person chosen to be president of the confederac
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59498 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59504 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,643 [INFO] __main__: Processing musique_3hop2__127483_60649_10557: What was the form of the language Auctor is in, used in the 
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59508 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,643 [INFO] __main__: Processing musique_2hop__46862_68042: When did the political party that favored harsh punishment o
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59514 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,645 [INFO] __main__: Processing musique_2hop__645448_77615: When did military instruction start at the place where Larry
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,645 [INFO] __main__: Processing musique_4hop1__726675_508773_85832_745702: Who is the child of the Italian navigator who explored the e
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59526 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59538 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,648 [INFO] __main__: Processing musique_3hop1__9285_5188_23307: What month did the Tripartite discussions begin between Brit
+2026-03-20 19:43:18,650 [INFO] __main__: Processing musique_3hop1__90327_83076_319330: Who is the child of the president who suffered a major defea
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59544 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59540 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,651 [INFO] __main__: Processing musique_2hop__731956_126089: Who was in charge of the place where Castricum is located?
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59548 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,652 [INFO] __main__: Processing musique_2hop__170823_120171: What year did the publisher of Labyrinth end?
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,655 [INFO] __main__: Processing musique_2hop__124412_402641: Who is the child of Chiang Hsiao-wen's father?
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+2026-03-20 19:43:18,655 [INFO] __main__: Processing musique_2hop__511296_577502: Who married the actor from Terminator?
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59560 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59562 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59564 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,657 [INFO] __main__: Processing musique_2hop__84847_148696: What is the position of the 1st governor general of India?
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59566 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,659 [INFO] __main__: Processing musique_3hop1__33845_42197_18397: Where did the arguer that the country Directive 10/2 called 
+2026-03-20 19:43:18,659 [INFO] __main__: Processing musique_2hop__81659_52835: Who wrote Turn Me On by the singer of Come Away with Me?
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59576 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59588 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,662 [INFO] __main__: Processing musique_3hop1__786632_831637_91775: What does seal stand for in the U.S. military branch that op
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59602 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,663 [INFO] __main__: Processing musique_2hop__734582_71302: Who is played by the director of The Good Shepherd in The Go
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59618 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,665 [INFO] __main__: Processing musique_2hop__347686_127399: In what year was the group who performed Attics To Eden form
+2026-03-20 19:43:18,666 [INFO] __main__: Processing musique_2hop__59048_827343: Whose sister played Susie in miracle on 34th street?
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59620 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,668 [INFO] __main__: Processing musique_2hop__77233_33207: How did did the people fare during the reign of the abolishe
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59634 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59640 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,670 [INFO] __main__: Processing musique_4hop3__524186_219173_638950_72134: When did the city where Greenwood Laboratory School is locat
+2026-03-20 19:43:18,671 [INFO] __main__: Processing musique_2hop__81268_85407: What was the 2018 population of the Italian city that's unde
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59656 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59664 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,673 [INFO] __main__: Processing musique_3hop2__90098_76623_10557: What was the language from which the last name Sylvester ori
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,674 [INFO] __main__: Processing musique_2hop__391873_88622: Who is the head of the agency that created MYSTIC?
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59672 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59676 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,677 [INFO] __main__: Processing musique_3hop1__764280_834494_34053: What was the wettest year of the administrative territorial 
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+2026-03-20 19:43:18,677 [INFO] __main__: Processing musique_4hop1__94201_642284_131926_89261: Where does the body of water by the city where the Southeast
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59692 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59706 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,679 [INFO] __main__: Processing musique_4hop1__802394_153080_33897_81096: Who won the Indy Car Race in the largest populated city of t
+2026-03-20 19:43:18,679 [INFO] __main__: Processing musique_2hop__155781_155922: What does the river that Darling Mills Creek turns into flow
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59716 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,681 [INFO] __main__: Processing musique_3hop1__321720_650651_7262: Who was a prominent figure at the radio division of the netw
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59732 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,684 [INFO] __main__: Processing musique_2hop__829358_754719: What administrative territorial entity does Darley Ramon Tor
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59736 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,685 [INFO] __main__: Processing musique_2hop__693444_220151: Who is the spouse of Young Man Luther's author?
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,686 [INFO] __main__: Processing musique_4hop1__131113_59747_211319_557671: Which county shares a border with the county where the most 
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59754 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59748 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,687 [INFO] __main__: Processing musique_2hop__629030_56873: When did the 1979-80 European Cup winner win the FA Cup?
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59762 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+2026-03-20 19:43:18,691 [ERROR] __main__: Pipeline error for musique_4hop2__71753_158985_70784_61381: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59764 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59772 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,694 [INFO] __main__: Done musique_4hop2__71753_158985_70784_61381: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,694 [ERROR] __main__: Pipeline error for musique_2hop__354635_174222: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,694 [INFO] __main__: Done musique_2hop__354635_174222: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,694 [ERROR] __main__: Pipeline error for musique_2hop__76314_177869: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+2026-03-20 19:43:18,694 [INFO] __main__: Done musique_2hop__76314_177869: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,694 [ERROR] __main__: Pipeline error for musique_2hop__511454_120259: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,694 [INFO] __main__: Done musique_2hop__511454_120259: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,695 [ERROR] __main__: Pipeline error for musique_2hop__123545_47134: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,695 [INFO] __main__: Done musique_2hop__123545_47134: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,695 [ERROR] __main__: Pipeline error for musique_2hop__998_25855: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59776 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59780 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,712 [INFO] __main__: Done musique_2hop__998_25855: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,712 [ERROR] __main__: Pipeline error for musique_2hop__13548_13529: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,712 [INFO] __main__: Done musique_2hop__13548_13529: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,712 [ERROR] __main__: Pipeline error for musique_3hop1__409517_547811_80702: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,712 [INFO] __main__: Done musique_3hop1__409517_547811_80702: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,713 [ERROR] __main__: Pipeline error for musique_3hop1__144678_443779_52195: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,713 [INFO] __main__: Done musique_3hop1__144678_443779_52195: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,713 [ERROR] __main__: Pipeline error for musique_2hop__85325_88165: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,713 [INFO] __main__: Done musique_2hop__85325_88165: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,713 [ERROR] __main__: Pipeline error for musique_4hop1__802394_153080_159767_81096: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,713 [INFO] __main__: Done musique_4hop1__802394_153080_159767_81096: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,713 [ERROR] __main__: Pipeline error for musique_4hop1__842143_153080_33897_81096: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,713 [INFO] __main__: Done musique_4hop1__842143_153080_33897_81096: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,713 [ERROR] __main__: Pipeline error for musique_3hop2__87184_90327_76291: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,713 [INFO] __main__: Done musique_3hop2__87184_90327_76291: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,714 [ERROR] __main__: Pipeline error for musique_3hop1__106845_5188_86687: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,714 [INFO] __main__: Done musique_3hop1__106845_5188_86687: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,714 [ERROR] __main__: Pipeline error for musique_4hop1__152146_5274_458768_33637: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,714 [INFO] __main__: Done musique_4hop1__152146_5274_458768_33637: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,714 [ERROR] __main__: Pipeline error for musique_2hop__179322_83289: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,714 [INFO] __main__: Done musique_2hop__179322_83289: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,714 [ERROR] __main__: Pipeline error for musique_3hop1__105837_160713_77246: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,714 [INFO] __main__: Done musique_3hop1__105837_160713_77246: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,715 [ERROR] __main__: Pipeline error for musique_2hop__95970_152907: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,715 [INFO] __main__: Done musique_2hop__95970_152907: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,715 [ERROR] __main__: Pipeline error for musique_2hop__78401_158262: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,715 [INFO] __main__: Done musique_2hop__78401_158262: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,715 [ERROR] __main__: Pipeline error for musique_3hop2__127483_60649_10557: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,715 [INFO] __main__: Done musique_3hop2__127483_60649_10557: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,715 [ERROR] __main__: Pipeline error for musique_2hop__645448_77615: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,715 [INFO] __main__: Done musique_2hop__645448_77615: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,715 [ERROR] __main__: Pipeline error for musique_2hop__46862_68042: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,715 [INFO] __main__: Done musique_2hop__46862_68042: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,715 [ERROR] __main__: Pipeline error for musique_4hop1__726675_508773_85832_745702: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,716 [INFO] __main__: Done musique_4hop1__726675_508773_85832_745702: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,716 [ERROR] __main__: Pipeline error for musique_3hop1__9285_5188_23307: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,716 [INFO] __main__: Done musique_3hop1__9285_5188_23307: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,717 [ERROR] __main__: Pipeline error for musique_3hop1__90327_83076_319330: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,717 [INFO] __main__: Done musique_3hop1__90327_83076_319330: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,717 [ERROR] __main__: Pipeline error for musique_2hop__731956_126089: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,717 [INFO] __main__: Done musique_2hop__731956_126089: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,717 [ERROR] __main__: Pipeline error for musique_2hop__170823_120171: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,719 [INFO] __main__: Done musique_2hop__170823_120171: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,719 [ERROR] __main__: Pipeline error for musique_2hop__124412_402641: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,719 [INFO] __main__: Done musique_2hop__124412_402641: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,719 [ERROR] __main__: Pipeline error for musique_2hop__511296_577502: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,719 [INFO] __main__: Done musique_2hop__511296_577502: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,719 [ERROR] __main__: Pipeline error for musique_2hop__84847_148696: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,719 [INFO] __main__: Done musique_2hop__84847_148696: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,719 [ERROR] __main__: Pipeline error for musique_3hop1__33845_42197_18397: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,720 [INFO] __main__: Done musique_3hop1__33845_42197_18397: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,720 [ERROR] __main__: Pipeline error for musique_2hop__81659_52835: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,720 [INFO] __main__: Done musique_2hop__81659_52835: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,720 [ERROR] __main__: Pipeline error for musique_2hop__734582_71302: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,720 [INFO] __main__: Done musique_2hop__734582_71302: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,720 [ERROR] __main__: Pipeline error for musique_3hop1__786632_831637_91775: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,720 [INFO] __main__: Done musique_3hop1__786632_831637_91775: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,720 [ERROR] __main__: Pipeline error for musique_2hop__347686_127399: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,720 [INFO] __main__: Done musique_2hop__347686_127399: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,720 [ERROR] __main__: Pipeline error for musique_2hop__59048_827343: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,721 [INFO] __main__: Done musique_2hop__59048_827343: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,721 [ERROR] __main__: Pipeline error for musique_2hop__77233_33207: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,721 [INFO] __main__: Done musique_2hop__77233_33207: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,721 [ERROR] __main__: Pipeline error for musique_4hop3__524186_219173_638950_72134: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,721 [INFO] __main__: Done musique_4hop3__524186_219173_638950_72134: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,721 [ERROR] __main__: Pipeline error for musique_3hop2__90098_76623_10557: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,721 [INFO] __main__: Done musique_3hop2__90098_76623_10557: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,721 [ERROR] __main__: Pipeline error for musique_2hop__81268_85407: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,721 [INFO] __main__: Done musique_2hop__81268_85407: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,722 [ERROR] __main__: Pipeline error for musique_2hop__391873_88622: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,722 [INFO] __main__: Done musique_2hop__391873_88622: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,722 [ERROR] __main__: Pipeline error for musique_4hop1__94201_642284_131926_89261: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,722 [INFO] __main__: Done musique_4hop1__94201_642284_131926_89261: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,722 [ERROR] __main__: Pipeline error for musique_3hop1__764280_834494_34053: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,722 [INFO] __main__: Done musique_3hop1__764280_834494_34053: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,722 [ERROR] __main__: Pipeline error for musique_2hop__155781_155922: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,722 [INFO] __main__: Done musique_2hop__155781_155922: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,722 [ERROR] __main__: Pipeline error for musique_4hop1__802394_153080_33897_81096: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,722 [INFO] __main__: Done musique_4hop1__802394_153080_33897_81096: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,723 [INFO] __main__: Processing musique_3hop1__857_846_7702: What is the meaning of the name of the city where the Yongle
+2026-03-20 19:43:18,723 [INFO] __main__: Processing musique_2hop__159215_779396: Where was the person who wrote about the rioting being a div
+2026-03-20 19:43:18,723 [INFO] __main__: Processing musique_3hop1__635099_131926_87157: What is the direction of flow of the body of water by the ci
+2026-03-20 19:43:18,724 [INFO] __main__: Processing musique_3hop2__127483_91678_10557: What was the language Auctor comes from during the era of th
+2026-03-20 19:43:18,726 [INFO] __main__: Processing musique_4hop3__474028_88460_30152_20999: How were people from whom new coins were a proclamation of i
+2026-03-20 19:43:18,727 [INFO] __main__: Processing musique_4hop2__9988_261673_70784_79935: When was the region immediately north of the region that pre
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+2026-03-20 19:43:18,728 [INFO] __main__: Processing musique_2hop__668407_683671: Who is the father of Empress Wang's husband?
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,729 [INFO] __main__: Processing musique_3hop2__851134_613770_7713: How long had Pfrang Association's headquarters location been
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59798 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59794 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59814 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+2026-03-20 19:43:18,731 [INFO] __main__: Processing musique_4hop1__9007_698949_157828_162309: When did the country with a co-official language used in the
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59824 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59836 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,733 [INFO] __main__: Processing musique_3hop1__136129_87694_124169: What year did the Governor of the city where the basilica na
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59840 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59846 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,734 [INFO] __main__: Processing musique_2hop__56851_343058: Who is the spouse of the actress who played the fairy god mo
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59850 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,737 [INFO] __main__: Processing musique_2hop__802991_443552: What is the capital of the county where Fort Deposit is loca
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+2026-03-20 19:43:18,737 [INFO] __main__: Processing musique_3hop2__304722_692815_63959: When was the last time Darren Carter's team beat the 1894-95
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59852 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59862 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,739 [INFO] __main__: Processing musique_3hop1__108833_720914_41132: How many times did the plague occur in the city where the pa
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59874 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,741 [INFO] __main__: Processing musique_3hop1__208108_547811_80702: What is the name of the famous bridge in the city where the 
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+2026-03-20 19:43:18,742 [INFO] __main__: Processing musique_4hop1__391525_49925_13759_736921: Where is the district that the person who wanted to reform a
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59888 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59904 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,744 [INFO] __main__: Processing musique_2hop__68322_510545: Who is the spouse of the actor that plays Jarvis in the Aven
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59912 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,745 [INFO] __main__: Processing musique_3hop1__849312_503371_21711: When was the Palau de la Generalitat constructed in the city
+2026-03-20 19:43:18,746 [INFO] __main__: Processing musique_2hop__215896_460425: What is the location of formation of the film company distri
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59924 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,747 [INFO] __main__: Processing musique_3hop1__820301_720914_41132: How many times did plague occur in the place where Crucifixi
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59932 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,748 [INFO] __main__: Processing musique_4hop1__342858_131850_33952_34099: How long are the city council terms in the second largest ci
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59946 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,751 [INFO] __main__: Processing musique_3hop1__639955_834494_34099: How long are the council terms of the city that shares a cou
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+2026-03-20 19:43:18,751 [INFO] __main__: Processing musique_3hop1__305282_282081_73772: When was the start of the battle of the birthplace of the pe
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59960 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59970 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:59986 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,754 [INFO] __main__: Processing musique_2hop__63214_319330: Who is the child of the president under whom prohibition occ
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,754 [INFO] __main__: Processing musique_4hop2__71753_648517_70784_79935: When was the region immediately north of the region where Is
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60014 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60000 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,756 [INFO] __main__: Processing musique_2hop__865961_159109: Where is the country with ISO code ISO 3166-2:CV located?
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60026 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,758 [INFO] __main__: Processing musique_2hop__304852_758385: What administrative territorial entity contains the place wh
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60032 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,760 [INFO] __main__: Processing musique_4hop1__152562_5274_458768_33633: When did the explorer reach the city where the headquarters 
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,760 [INFO] __main__: Processing musique_2hop__14_59409: Who was Beyonce's husband talking about in the the song Cry?
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60048 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60058 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,762 [INFO] __main__: Processing musique_2hop__71016_75184: Who played the girlfriend of who plays marty mcfly's daughte
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60060 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,764 [INFO] __main__: Processing musique_2hop__655505_110949: What is the Till dom ensamma performer's birth date?
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,765 [INFO] __main__: Processing musique_4hop1__58323_375563_161848_53331: When was the death penalty abolished in the country near the
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60076 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+2026-03-20 19:43:18,766 [INFO] __main__: Processing musique_2hop__131455_11960: What is the tallest building in the state where KZAR is loca
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60082 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60088 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60098 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,769 [INFO] __main__: Processing musique_2hop__998_25839: What is the maximum load drawn by the 1.0 and 2.0 versions o
+2026-03-20 19:43:18,769 [INFO] __main__: Processing musique_3hop1__127821_157828_239539: Where is the headquarters of Radio Television of this countr
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60110 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,771 [INFO] __main__: Processing musique_4hop1__130623_32392_823060_610794: What county has a city that is adjacent to the capital city 
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60126 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,772 [INFO] __main__: Processing musique_3hop2__89854_92991_76291: When did the majority party in the House of Representatives 
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60138 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,775 [INFO] __main__: Processing musique_3hop2__132957_133264_40768: When did Nissan, the Acura Legend maker and the Scion Fuse m
+2026-03-20 19:43:18,775 [INFO] __main__: Processing musique_4hop3__754156_88460_30152_20999: How were the people from whom new coins were a proclamation 
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,776 [INFO] __main__: Processing musique_4hop1__88342_75218_128008_46894: Who had the lowest batting average in the league where the t
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60140 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60154 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,778 [INFO] __main__: Processing musique_2hop__92385_2072: What is the public library system called in the place where 
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60164 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,781 [INFO] __main__: Processing musique_2hop__33288_157788: What is an example of a railroad line in the country first t
+2026-03-20 19:43:18,781 [INFO] __main__: Processing musique_2hop__554167_451128: Who is the child of the Victim of Romance performer?
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60174 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60166 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60184 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,784 [INFO] __main__: Processing musique_2hop__199513_801817: What is the birthplace of the person after whom São José dos
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60196 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+2026-03-20 19:43:18,784 [INFO] __main__: Processing musique_3hop1__28841_547811_41132: How many times did the plague occur in the birth place of Co
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60208 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,787 [ERROR] __main__: Pipeline error for musique_3hop1__321720_650651_7262: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60216 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,788 [INFO] __main__: Done musique_3hop1__321720_650651_7262: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60224 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+2026-03-20 19:43:18,789 [ERROR] __main__: Pipeline error for musique_2hop__693444_220151: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,789 [INFO] __main__: Done musique_2hop__693444_220151: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60234 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,789 [ERROR] __main__: Pipeline error for musique_2hop__829358_754719: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,789 [INFO] __main__: Done musique_2hop__829358_754719: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,790 [INFO] __main__: Progress: 10/100 (160248 Q/hr)
+2026-03-20 19:43:18,790 [INFO] __main__: Progress: 20/100 (320416 Q/hr)
+2026-03-20 19:43:18,790 [INFO] __main__: Progress: 30/100 (480540 Q/hr)
+2026-03-20 19:43:18,790 [INFO] __main__: Progress: 40/100 (640620 Q/hr)
+2026-03-20 19:43:18,790 [ERROR] __main__: Pipeline error for musique_4hop1__131113_59747_211319_557671: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,790 [INFO] __main__: Done musique_4hop1__131113_59747_211319_557671: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,790 [ERROR] __main__: Pipeline error for musique_2hop__629030_56873: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,790 [INFO] __main__: Done musique_2hop__629030_56873: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,791 [INFO] __main__: Processing musique_4hop1__88342_75218_128008_48717: Who was second pick in the 1999 draft of the league that has
+2026-03-20 19:43:18,791 [INFO] __main__: Processing musique_4hop1__638988_17130_70784_61381: When was the region immediately north of the region where th
+2026-03-20 19:43:18,791 [INFO] __main__: Processing musique_2hop__619265_45326: How many episodes are in season 5 of the series with The Bag
+2026-03-20 19:43:18,792 [INFO] __main__: Processing musique_3hop1__622497_160088_85460: What is the average salary of a working person with the same
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60244 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,794 [INFO] __main__: Processing musique_2hop__766973_770570: What county is Erik Hort's birthplace a part of?
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,795 [ERROR] __main__: Pipeline error for musique_2hop__159215_779396: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60256 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60258 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,798 [INFO] __main__: Done musique_2hop__159215_779396: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60264 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,799 [ERROR] __main__: Pipeline error for musique_3hop1__635099_131926_87157: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,799 [INFO] __main__: Done musique_3hop1__635099_131926_87157: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,799 [ERROR] __main__: Pipeline error for musique_3hop1__857_846_7702: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+[0;36m(APIServer pid=1773275)[0;0m WARNING 03-20 19:43:18 [protocol.py:53] The following fields were present in the request but ignored: {'guided_json'}
+2026-03-20 19:43:18,799 [INFO] __main__: Done musique_3hop1__857_846_7702: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+[0;36m(APIServer pid=1773275)[0;0m ERROR 03-20 19:43:18 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen2.5-7B-Instruct` does not exist.', type='NotFoundError', param='model', code=404)
+2026-03-20 19:43:18,799 [ERROR] __main__: Pipeline error for musique_3hop2__127483_91678_10557: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,799 [INFO] __main__: Done musique_3hop2__127483_91678_10557: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+[0;36m(APIServer pid=1773275)[0;0m INFO:     127.0.0.1:60268 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
+2026-03-20 19:43:18,800 [ERROR] __main__: Pipeline error for musique_4hop3__474028_88460_30152_20999: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,800 [INFO] __main__: Done musique_4hop3__474028_88460_30152_20999: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,800 [ERROR] __main__: Pipeline error for musique_4hop2__9988_261673_70784_79935: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,800 [INFO] __main__: Done musique_4hop2__9988_261673_70784_79935: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,800 [ERROR] __main__: Pipeline error for musique_2hop__668407_683671: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,800 [INFO] __main__: Done musique_2hop__668407_683671: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,800 [ERROR] __main__: Pipeline error for musique_3hop2__851134_613770_7713: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,801 [INFO] __main__: Done musique_3hop2__851134_613770_7713: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,801 [ERROR] __main__: Pipeline error for musique_4hop1__9007_698949_157828_162309: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,801 [INFO] __main__: Done musique_4hop1__9007_698949_157828_162309: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,801 [ERROR] __main__: Pipeline error for musique_3hop1__136129_87694_124169: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,801 [INFO] __main__: Done musique_3hop1__136129_87694_124169: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,801 [ERROR] __main__: Pipeline error for musique_2hop__56851_343058: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,801 [INFO] __main__: Done musique_2hop__56851_343058: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,801 [ERROR] __main__: Pipeline error for musique_2hop__802991_443552: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,801 [INFO] __main__: Done musique_2hop__802991_443552: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,801 [ERROR] __main__: Pipeline error for musique_3hop2__304722_692815_63959: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,802 [INFO] __main__: Done musique_3hop2__304722_692815_63959: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,802 [ERROR] __main__: Pipeline error for musique_3hop1__108833_720914_41132: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,802 [INFO] __main__: Done musique_3hop1__108833_720914_41132: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,802 [ERROR] __main__: Pipeline error for musique_3hop1__208108_547811_80702: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,802 [INFO] __main__: Done musique_3hop1__208108_547811_80702: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,802 [ERROR] __main__: Pipeline error for musique_4hop1__391525_49925_13759_736921: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,802 [INFO] __main__: Done musique_4hop1__391525_49925_13759_736921: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,802 [ERROR] __main__: Pipeline error for musique_2hop__68322_510545: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,802 [INFO] __main__: Done musique_2hop__68322_510545: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,802 [ERROR] __main__: Pipeline error for musique_2hop__215896_460425: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,803 [INFO] __main__: Done musique_2hop__215896_460425: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,804 [ERROR] __main__: Pipeline error for musique_3hop1__820301_720914_41132: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,804 [INFO] __main__: Done musique_3hop1__820301_720914_41132: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,804 [ERROR] __main__: Pipeline error for musique_3hop1__849312_503371_21711: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,804 [INFO] __main__: Done musique_3hop1__849312_503371_21711: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,804 [ERROR] __main__: Pipeline error for musique_3hop1__639955_834494_34099: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,804 [INFO] __main__: Done musique_3hop1__639955_834494_34099: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,804 [ERROR] __main__: Pipeline error for musique_4hop1__342858_131850_33952_34099: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,804 [INFO] __main__: Done musique_4hop1__342858_131850_33952_34099: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,804 [ERROR] __main__: Pipeline error for musique_3hop1__305282_282081_73772: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,804 [INFO] __main__: Done musique_3hop1__305282_282081_73772: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,804 [ERROR] __main__: Pipeline error for musique_4hop2__71753_648517_70784_79935: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,805 [INFO] __main__: Done musique_4hop2__71753_648517_70784_79935: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,805 [ERROR] __main__: Pipeline error for musique_2hop__63214_319330: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,805 [INFO] __main__: Done musique_2hop__63214_319330: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,805 [ERROR] __main__: Pipeline error for musique_2hop__865961_159109: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,805 [INFO] __main__: Done musique_2hop__865961_159109: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,805 [ERROR] __main__: Pipeline error for musique_2hop__304852_758385: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,805 [INFO] __main__: Done musique_2hop__304852_758385: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,805 [ERROR] __main__: Pipeline error for musique_2hop__14_59409: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,805 [INFO] __main__: Done musique_2hop__14_59409: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,805 [ERROR] __main__: Pipeline error for musique_4hop1__152562_5274_458768_33633: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,806 [INFO] __main__: Done musique_4hop1__152562_5274_458768_33633: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,806 [ERROR] __main__: Pipeline error for musique_2hop__71016_75184: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,806 [INFO] __main__: Done musique_2hop__71016_75184: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,806 [ERROR] __main__: Pipeline error for musique_2hop__655505_110949: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,806 [INFO] __main__: Done musique_2hop__655505_110949: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,806 [ERROR] __main__: Pipeline error for musique_4hop1__58323_375563_161848_53331: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,806 [INFO] __main__: Done musique_4hop1__58323_375563_161848_53331: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,806 [ERROR] __main__: Pipeline error for musique_2hop__131455_11960: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,806 [INFO] __main__: Done musique_2hop__131455_11960: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,807 [ERROR] __main__: Pipeline error for musique_2hop__998_25839: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,807 [INFO] __main__: Done musique_2hop__998_25839: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,807 [ERROR] __main__: Pipeline error for musique_4hop1__130623_32392_823060_610794: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,807 [INFO] __main__: Done musique_4hop1__130623_32392_823060_610794: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,807 [ERROR] __main__: Pipeline error for musique_3hop1__127821_157828_239539: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,807 [INFO] __main__: Done musique_3hop1__127821_157828_239539: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,807 [ERROR] __main__: Pipeline error for musique_3hop2__89854_92991_76291: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,807 [INFO] __main__: Done musique_3hop2__89854_92991_76291: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,807 [ERROR] __main__: Pipeline error for musique_4hop3__754156_88460_30152_20999: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,807 [INFO] __main__: Done musique_4hop3__754156_88460_30152_20999: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,808 [ERROR] __main__: Pipeline error for musique_3hop2__132957_133264_40768: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,808 [INFO] __main__: Done musique_3hop2__132957_133264_40768: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,808 [ERROR] __main__: Pipeline error for musique_4hop1__88342_75218_128008_46894: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,808 [INFO] __main__: Done musique_4hop1__88342_75218_128008_46894: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,809 [ERROR] __main__: Pipeline error for musique_2hop__92385_2072: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,809 [INFO] __main__: Done musique_2hop__92385_2072: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,809 [ERROR] __main__: Pipeline error for musique_2hop__33288_157788: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,809 [INFO] __main__: Done musique_2hop__33288_157788: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,809 [ERROR] __main__: Pipeline error for musique_2hop__554167_451128: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,809 [INFO] __main__: Done musique_2hop__554167_451128: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,809 [INFO] __main__: Progress: 50/100 (736369 Q/hr)
+2026-03-20 19:43:18,809 [ERROR] __main__: Pipeline error for musique_2hop__199513_801817: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,810 [INFO] __main__: Done musique_2hop__199513_801817: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,810 [ERROR] __main__: Pipeline error for musique_3hop1__28841_547811_41132: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,810 [INFO] __main__: Done musique_3hop1__28841_547811_41132: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,810 [ERROR] __main__: Pipeline error for musique_4hop1__88342_75218_128008_48717: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,810 [INFO] __main__: Done musique_4hop1__88342_75218_128008_48717: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,810 [ERROR] __main__: Pipeline error for musique_2hop__619265_45326: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,810 [INFO] __main__: Done musique_2hop__619265_45326: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,810 [ERROR] __main__: Pipeline error for musique_4hop1__638988_17130_70784_61381: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,810 [INFO] __main__: Done musique_4hop1__638988_17130_70784_61381: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,811 [ERROR] __main__: Pipeline error for musique_3hop1__622497_160088_85460: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,811 [INFO] __main__: Done musique_3hop1__622497_160088_85460: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,811 [INFO] __main__: Progress: 60/100 (878817 Q/hr)
+2026-03-20 19:43:18,811 [INFO] __main__: Progress: 70/100 (1025099 Q/hr)
+2026-03-20 19:43:18,811 [INFO] __main__: Progress: 80/100 (1171375 Q/hr)
+2026-03-20 19:43:18,811 [INFO] __main__: Progress: 90/100 (1317628 Q/hr)
+2026-03-20 19:43:18,811 [ERROR] __main__: Pipeline error for musique_2hop__766973_770570: 404 Client Error: Not Found for url: http://127.0.0.1:8201/v1/chat/completions
+2026-03-20 19:43:18,811 [INFO] __main__: Done musique_2hop__766973_770570: 'Error: 404 Client Error: Not Found for u' (0.0s, 0 tokens, modes={})
+2026-03-20 19:43:18,811 [INFO] __main__: Progress: 100/100 (1462549 Q/hr)
+2026-03-20 19:43:18,811 [INFO] __main__: Batch complete: 100 questions in 0.0 min (1462339.0 Q/hr)
+2026-03-20 19:43:18,811 [INFO] __main__: Total tokens by mode: {}
+File                                                       N  NormEM      F1    Cont
+------------------------------------------------------------------------------------
+aa_v2_pilot100/musique                                   100    0.0%    0.1%    2.0%
+
+Saved: results_qwen3/aa_v2_pilot100/musique/offline_eval_summary.json
+=== AA v2 musique pilot DONE ===

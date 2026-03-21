@@ -1,0 +1,33 @@
+# M6 v24: Evidence-grounded extraction + validation + bridge guard
+# F1: Two-phase worker (search -> extract) via enable_extraction_pass
+# F2: Blackboard answer validation via enable_answer_validation
+# F3: Bridge chain guard via enable_bridge_guard
+# F4: Consistency check enabled
+
+llm:
+  model: "Qwen3-8B"
+  api_key: "dummy"
+  temperature: 0.0
+  max_tokens: 8192
+
+embedding:
+  model: "intfloat/e5-base-v2"
+  device: "cpu"
+
+m6:
+  num_workers: 2
+  worker_max_steps: 16
+  max_actions: 100
+  token_budget: 300000
+  wall_clock_timeout: 900.0
+  idle_timeout: 300.0
+  enable_consistency_check: true
+  max_redecompositions: 1
+  enable_search_and_read: true
+  enable_semantic_warmstart: true
+  worker_plan_prompt: "worker_plan_v23.txt"
+  synthesizer_prompt: "synthesizer_v23.txt"
+  # v24 features
+  enable_extraction_pass: true
+  enable_answer_validation: true
+  enable_bridge_guard: true

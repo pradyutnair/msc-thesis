@@ -4,6 +4,8 @@ This document compares QA pipeline architectures evaluated on HotpotQA, 2WikiMul
 
 ## Results Overview
 
+> **Update (strict rerun):** `SAGE-Autonomous` was re-run after removing forced guessing, dataset-specific decomposition/query templates, and extra offline normalization heuristics. The updated strict offline results are: **HotpotQA 55.1 EM / 68.6 F1 / 70.5 contain / 99.4% answer rate**, **2WikiMultiHop 60.1 EM / 68.9 F1 / 72.5 contain / 99.0% answer rate**, **MuSiQue 30.8 EM / 40.5 F1 / 41.0 contain / 98.9% answer rate**. Historical LLM-judge rows below are left as-is unless otherwise noted.
+
 ### E2 vs M6 — Fair Comparison (same judge, same prompt, concise answers)
 
 **Problem:** E2 produces verbose answers (avg 1009 chars after stripping `<think>` tags), while M6 produces concise entity answers (avg 12 chars). Raw LLM judge scores are not comparable because the judge can find correct information embedded in E2's verbose reasoning even when E2's core answer is wrong. E2 gets **0% EM** despite 56.5% LLM judge — proving the judge evaluates reasoning quality, not answer accuracy.
@@ -51,11 +53,11 @@ This document compares QA pipeline architectures evaluated on HotpotQA, 2WikiMul
 
 | Metric                      | E2     | E4     | M6     | SAGE       | SAGE-Auto      |
 | --------------------------- | ------ | ------ | ------ | ---------- | -------------- |
-| **LLM Accuracy**            | 59.30% | 77.10% | 49.63% | **73.45%** | 73.50%         |
-| **Contain (bidirectional)** | 59.40% | 67.70% | 54.15% | **77.60%** | 74.10%         |
-| **Token F1**                | 3.6%*  | 3.9%*  | 52.36% | **72.54%** | 71.68%         |
-| **Norm EM**                 | 0.0%*  | 0.0%*  | 41.44% | **58.20%** | 57.50%         |
-| Answer Rate                 | 100.0% | 100.0% | 94.0%  | 99.8%      | 100.0%         |
+| **LLM Accuracy**            | 59.30% | 77.10% | 49.63% | **73.45%** | 73.50%*        |
+| **Contain (bidirectional)** | 59.40% | 67.70% | 54.15% | **77.60%** | 70.50%         |
+| **Token F1**                | 3.6%*  | 3.9%*  | 52.36% | **72.54%** | 68.57%         |
+| **Norm EM**                 | 0.0%*  | 0.0%*  | 41.44% | **58.20%** | 55.10%         |
+| Answer Rate                 | 100.0% | 100.0% | 94.0%  | 99.8%      | 99.4%          |
 
 
 #### 2WikiMultiHopQA (2-hop, 1000 questions)
@@ -63,11 +65,11 @@ This document compares QA pipeline architectures evaluated on HotpotQA, 2WikiMul
 
 | Metric                      | E2     | E4     | M6     | SAGE       | SAGE-Auto      |
 | --------------------------- | ------ | ------ | ------ | ---------- | -------------- |
-| **LLM Accuracy**            | 47.50% | 70.70% | 53.97% | 77.11%     | **77.68%**     |
-| **Contain (bidirectional)** | 54.40% | 63.90% | 56.70% | **81.70%** | 77.10%         |
-| **Token F1**                | 3.9%*  | 4.4%*  | 55.77% | **74.65%** | 73.57%         |
-| **Norm EM**                 | 0.0%*  | 0.0%*  | 49.70% | **66.00%** | 64.00%         |
-| Answer Rate                 | 100.0% | 100.0% | 93.2%  | 99.6%      | 99.9%          |
+| **LLM Accuracy**            | 47.50% | 70.70% | 53.97% | 77.11%     | **77.68%***    |
+| **Contain (bidirectional)** | 54.40% | 63.90% | 56.70% | **81.70%** | 72.50%         |
+| **Token F1**                | 3.9%*  | 4.4%*  | 55.77% | **74.65%** | 68.87%         |
+| **Norm EM**                 | 0.0%*  | 0.0%*  | 49.70% | **66.00%** | 60.10%         |
+| Answer Rate                 | 100.0% | 100.0% | 93.2%  | 99.6%      | 99.0%          |
 
 
 #### MuSiQue (3-4 hop, 1000 questions)
@@ -75,14 +77,14 @@ This document compares QA pipeline architectures evaluated on HotpotQA, 2WikiMul
 
 | Metric                      | E2     | E4         | M6     | SAGE       | SAGE-Auto  |
 | --------------------------- | ------ | ---------- | ------ | ---------- | ---------- |
-| **LLM Accuracy**            | 30.30% | **53.30%** | 32.52% | 51.74%     | 49.60%     |
-| **Contain (bidirectional)** | 27.10% | 34.40%     | 34.60% | **53.80%** | 47.90%     |
-| **Token F1**                | 2.4%*  | 2.6%*      | 34.51% | **47.29%** | 47.58%     |
-| **Norm EM**                 | 0.0%*  | 0.0%*      | 25.70% | **34.90%** | 36.90%     |
-| Answer Rate                 | 100.0% | 100.0%     | 94.7%  | 97.8%      | 99.8%      |
+| **LLM Accuracy**            | 30.30% | **53.30%** | 32.52% | 51.74%     | 49.60%*    |
+| **Contain (bidirectional)** | 27.10% | 34.40%     | 34.60% | **53.80%** | 41.00%     |
+| **Token F1**                | 2.4%*  | 2.6%*      | 34.51% | **47.29%** | 40.52%     |
+| **Norm EM**                 | 0.0%*  | 0.0%*      | 25.70% | **34.90%** | 30.80%     |
+| Answer Rate                 | 100.0% | 100.0%     | 94.7%  | 97.8%      | 98.9%      |
 
 
- *E2 and E4 `pred_answer` fields contain verbose reasoning (including `<think>` tags and full sentences), making EM and Token F1 unreliable for these systems. When E2 answers are extracted to concise form (E2-Concise), M6 beats E2 on all metrics — see fair comparison at top. SAGE, M6, and SAGE-Auto output clean short answers.*
+ *E2 and E4 `pred_answer` fields contain verbose reasoning (including `<think>` tags and full sentences), making EM and Token F1 unreliable for these systems. When E2 answers are extracted to concise form (E2-Concise), M6 beats E2 on all metrics — see fair comparison at top. SAGE, M6, and SAGE-Auto output clean short answers. `SAGE-Auto` LLM-accuracy rows marked with `*` are historical judge scores from the pre-strict run; offline metrics and answer rates are from the strict rerun.*
 
 ### Efficiency Metrics
 
@@ -712,34 +714,33 @@ class AutonomousPipeline:
 | Cross-agent context improves downstream investigators | Entity retry helps some datasets, hurts others |
 | Parallel investigation of independent hops | Still relies on same retrieval infrastructure |
 | Per-dataset configuration for optimal tradeoffs | Higher contain_bi variance than SAGE v3r2 |
-| Comparison fallback prevents empty answers | Verification sometimes over-corrects correct answers |
+| Verification can suppress unsupported answers | Verification sometimes over-corrects correct answers |
 
 ### Results: SAGE-Autonomous vs SAGE v3r2
 
-All results on 1000 questions per dataset, LLM judge = DeepSeek-R1-Distill-Qwen-7B.
+Offline metrics on 1000 questions per dataset. `SAGE-Autonomous` numbers below are from the strict rerun after removing benchmark-shaped heuristics; `SAGE v3r2` remains the original baseline.
 
-| Dataset | Metric | SAGE v3r2 | SAGE-Auto | Delta |
-|---------|--------|:---------:|:---------:|:-----:|
-| HotpotQA | **LLM Accuracy** | 73.45% | **73.50%** | **+0.05pp** |
-| HotpotQA | Contain (bi) | **77.60%** | 74.10% | -3.50pp |
-| HotpotQA | Token F1 | **72.54%** | 71.68% | -0.86pp |
-| HotpotQA | Norm EM | **58.20%** | 57.50% | -0.70pp |
-| 2WikiMultiHop | **LLM Accuracy** | 77.11% | **77.68%** | **+0.57pp** |
-| 2WikiMultiHop | Contain (bi) | **81.70%** | 77.10% | -4.60pp |
-| 2WikiMultiHop | Token F1 | **74.65%** | 73.57% | -1.08pp |
-| 2WikiMultiHop | Norm EM | **66.00%** | 64.00% | -2.00pp |
-| MuSiQue | **LLM Accuracy** | **51.74%** | 49.60% | -2.14pp |
-| MuSiQue | Contain (bi) | **53.80%** | 47.90% | -5.90pp |
-| MuSiQue | Token F1 | 47.29% | **47.58%** | +0.29pp |
-| MuSiQue | Norm EM | 34.90% | **36.90%** | +2.00pp |
+| Dataset | Metric | SAGE v3r2 | SAGE-Auto (strict) | Delta |
+|---------|--------|:---------:|:------------------:|:-----:|
+| HotpotQA | Contain (bi) | **77.60%** | 70.50% | -7.10pp |
+| HotpotQA | Token F1 | **72.54%** | 68.57% | -3.97pp |
+| HotpotQA | Norm EM | **58.20%** | 55.10% | -3.10pp |
+| HotpotQA | Answer Rate | **99.80%** | 99.40% | -0.40pp |
+| 2WikiMultiHop | Contain (bi) | **81.70%** | 72.50% | -9.20pp |
+| 2WikiMultiHop | Token F1 | **74.65%** | 68.87% | -5.78pp |
+| 2WikiMultiHop | Norm EM | **66.00%** | 60.10% | -5.90pp |
+| 2WikiMultiHop | Answer Rate | **99.60%** | 99.00% | -0.60pp |
+| MuSiQue | Contain (bi) | **53.80%** | 41.00% | -12.80pp |
+| MuSiQue | Token F1 | **47.29%** | 40.52% | -6.77pp |
+| MuSiQue | Norm EM | **34.90%** | 30.80% | -4.10pp |
+| MuSiQue | Answer Rate | 97.80% | **98.90%** | +1.10pp |
 
-**Key observation**: SAGE-Autonomous shows marginal LLM accuracy improvement on HotpotQA and 2Wiki (+0.05pp and +0.57pp) but slightly lower on MuSiQue (-2.14pp) compared to SAGE v3r2. The contain_bi scores are consistently lower, suggesting the autonomous pipeline produces more contextually appropriate answers that are phrased differently from the gold answer string. The dynamic planning and verification add value on 2-hop questions but do not yet translate to clear gains on the harder 3-4 hop MuSiQue benchmark.
+**Key observation**: After removing the benchmark-shaped heuristics, `SAGE-Autonomous` remains competitive but is consistently worse than `SAGE v3r2` on strict offline metrics across all three datasets. The score drop is modest on HotpotQA (-3.1 EM), larger on 2Wiki (-5.9 EM), and largest on MuSiQue (-4.1 EM, -12.8 contain). This suggests the autonomous blackboard design still has value, but several points of the original gain were tied to heuristic decomposition, forced-answer behavior, and permissive evaluation choices rather than pure retrieval/reasoning quality.
 
 **Improvement sources**:
 - Self-verification catches wrong-hop answers (e.g., answering with an intermediate entity instead of the final hop)
 - Dynamic planning handles bridge questions with implicit dependencies better
 - Cross-agent context via Blackboard helps downstream investigators use earlier findings
-- Comparison fallback prevents empty answers on "X or Y?" questions
 - Entity-level retry (HotpotQA only) recovers low-confidence first attempts
 
 
@@ -829,14 +830,14 @@ The core insight is that **multi-hop QA requires structured reasoning, not gener
 ### Performance Scaling by Hop Complexity
 
 
-| Dataset       | Hops | E2 (8B) | E4 (30B) | M6 (8B)  | SAGE (8B) | SAGE-Auto (8B) | Best         |
-| ------------- | ---- | ------- | -------- | -------- | --------- | -------------- | ------------ |
-| HotpotQA      | 2    | 59.3%   | **77.1%**| 49.6%    | 73.5%     | 73.5%          | E4           |
-| 2WikiMultiHop | 2    | 47.5%   | 70.7%    | 54.0%    | 77.1%     | **77.7%**      | SAGE-Auto    |
-| MuSiQue       | 3–4  | 30.3%   | **53.3%**| 32.5%    | 51.7%     | 49.6%          | E4           |
+| Dataset       | Hops | E2 (8B) | E4 (30B) | M6 (8B)  | SAGE (8B) | SAGE-Auto (8B, historical LLM) | SAGE-Auto (8B, strict EM) | Best         |
+| ------------- | ---- | ------- | -------- | -------- | --------- | ------------------------------- | -------------------------- | ------------ |
+| HotpotQA      | 2    | 59.3%   | **77.1%**| 49.6%    | 73.5%     | 73.5%                           | 55.1%                      | E4           |
+| 2WikiMultiHop | 2    | 47.5%   | 70.7%    | 54.0%    | **77.1%** | 77.7%                           | 60.1%                      | SAGE         |
+| MuSiQue       | 3–4  | 30.3%   | **53.3%**| 32.5%    | 51.7%     | 49.6%                           | 30.8%                      | E4           |
 
 
-SAGE with Qwen3-8B is the strongest system on 2WikiMultiHop, surpassing even E4's Qwen3-30B by 7.0pp. On MuSiQue, SAGE nearly matches the 4x larger model (-1.6pp). The structured pipeline's advantage is most pronounced on compositional questions requiring precise entity linking (2Wiki) where systematic retrieval and entity propagation compensate for model size. M6's blackboard architecture improves over E2 on 2Wiki (+6.5pp) and MuSiQue (+2.2pp) through explicit decomposition, but still falls far short of SAGE/SAGE-Auto, demonstrating that **how** agents retrieve (programmatic vs ReAct) matters more than **whether** questions are decomposed.
+On historical LLM-judge scores, `SAGE-Autonomous` remains strongest on 2WikiMultiHop. On the strict rerun, however, `SAGE v3r2` is the strongest 8B system on all three datasets and `SAGE-Autonomous` drops to 55.1 / 60.1 / 30.8 EM on HotpotQA / 2Wiki / MuSiQue. The structured pipeline advantage is still clear relative to `M6`, but the stricter rerun shows that some of the original `SAGE-Auto` gain came from benchmark-shaped heuristics rather than purely from the autonomous blackboard design.
 
 ---
 

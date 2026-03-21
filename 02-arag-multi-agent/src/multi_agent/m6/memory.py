@@ -56,20 +56,29 @@ class Memory:
         )
 
     def get_read_chunks(self) -> list[tuple[str, str]]:
-        """Return (chunk_id, content) pairs from read_chunk calls."""
+        """Return (chunk_id, content) pairs from read_chunk and search_and_read calls."""
+        import re as _re
         chunks: list[tuple[str, str]] = []
         for a in self.actions:
-            if a.tool_name != "read_chunk":
-                continue
-            if not a.result or "(already read)" in a.result:
-                continue
-            chunk_ids = a.arguments.get(
-                "chunk_ids", a.arguments.get("chunk_id", []),
-            )
-            if isinstance(chunk_ids, (str, int)):
-                chunk_ids = [str(chunk_ids)]
-            for cid in chunk_ids:
-                chunks.append((str(cid), a.result))
+            if a.tool_name == "read_chunk":
+                if not a.result or "(already read)" in a.result:
+                    continue
+                chunk_ids = a.arguments.get(
+                    "chunk_ids", a.arguments.get("chunk_id", []),
+                )
+                if isinstance(chunk_ids, (str, int)):
+                    chunk_ids = [str(chunk_ids)]
+                for cid in chunk_ids:
+                    chunks.append((str(cid), a.result))
+            elif a.tool_name == "search_and_read":
+                if not a.result or "No results" in a.result:
+                    continue
+                # Split result into per-chunk sections
+                parts = _re.split(r"\n={80}\n", a.result)
+                for part in parts:
+                    id_match = _re.search(r"\[Chunk\s+(\S+?)\]", part)
+                    if id_match:
+                        chunks.append((id_match.group(1), part))
         return chunks
 
     def to_dicts(self) -> list[dict[str, Any]]:

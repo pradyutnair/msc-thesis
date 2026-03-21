@@ -101,14 +101,17 @@ The generated answer should be considered correct if it:
 2. Is factually accurate and consistent with the gold answer
 3. Does not contain any contradicting information
 
-IMPORTANT equivalence rules — these are ALL correct:
+IMPORTANT equivalence rules — use these only when they clearly refer to the same answer:
 - Common name = full legal name (e.g., "Jean Cocteau" = "Jean Maurice Eugène Clément Cocteau")
 - Abbreviations = full form (e.g., "IWC" = "International Watch Co.")
 - With/without location qualifier (e.g., "Istanbul" = "Istanbul, Turkey")
 - With/without descriptor (e.g., "Karakoram" = "Karakoram mountain range")
 - Case differences (e.g., "DeskMate" = "Deskmate")
-- A specific example of a general category (e.g., "Captain America" is correct for "superhero roles")
-- Partial title match (e.g., "Geet" = "Geet or The Song")
+
+Do NOT mark as correct if:
+- The prediction is only a broader category instead of the gold answer
+- The prediction is only a partial title or partial name
+- The prediction is a plausible guess not grounded in the gold answer
 
 Respond with ONLY 'correct' or 'incorrect'.
 Response:"""
@@ -234,12 +237,10 @@ Response:"""
         failed_samples = sum(1 for s in statuses if s == "failed")
         answer_rate = answered_samples / total_samples if total_samples > 0 else 0
         
-        if answered_samples > 0:
-            llm_accuracy = sum(llm_scores) / answered_samples
-            contain_accuracy = sum(contain_scores) / answered_samples
-        else:
-            llm_accuracy = 0.0
-            contain_accuracy = 0.0
+        llm_accuracy = sum(llm_scores) / total_samples if total_samples > 0 else 0.0
+        contain_accuracy = sum(contain_scores) / total_samples if total_samples > 0 else 0.0
+        llm_accuracy_answered = sum(llm_scores) / answered_samples if answered_samples > 0 else 0.0
+        contain_accuracy_answered = sum(contain_scores) / answered_samples if answered_samples > 0 else 0.0
         
         # Cost and token statistics
         total_cost = sum(p.get('total_cost', 0) for p in self.prediction_results)
@@ -292,7 +293,9 @@ Response:"""
                 "failed_samples": failed_samples,
                 "answer_rate": round(answer_rate, 4),
                 "llm_accuracy": llm_accuracy,
+                "llm_accuracy_answered": llm_accuracy_answered,
                 "contain_accuracy": contain_accuracy,
+                "contain_accuracy_answered": contain_accuracy_answered,
                 "correct_by_llm": int(sum(llm_scores)),
                 "correct_by_contain": int(sum(contain_scores)),
                 "total_cost": round(total_cost, 6),

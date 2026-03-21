@@ -54,6 +54,9 @@ class M6Pipeline:
         # Feature flags
         enable_consistency_check: bool = True,
         max_redecompositions: int = 1,
+        enable_extraction_pass: bool = False,
+        enable_answer_validation: bool = False,
+        enable_bridge_guard: bool = False,
     ):
         self.llm = llm_client
         self.worker_llm = worker_llm_client
@@ -74,6 +77,10 @@ class M6Pipeline:
 
         self.enable_consistency_check = enable_consistency_check
         self.max_redecompositions = max_redecompositions
+        self.enable_extraction_pass = enable_extraction_pass
+        self.enable_answer_validation = enable_answer_validation
+        self.enable_bridge_guard = enable_bridge_guard
+        self.enable_semantic_warmstart = False
 
     async def run(self, question: str) -> M6PipelineResult:
         """Run the full M6 pipeline on a single question."""
@@ -130,41 +137,59 @@ class M6Pipeline:
         return result
 
     async def _warm_start_search(self, question: str) -> str:
-        """Run keyword_search on the full question for initial context."""
+        """Run keyword + semantic search on the full question for initial context."""
+        lines = []
+
+        # Keyword warm-start
         try:
             keyword_tool = self.tools.get("keyword_search")
-            if keyword_tool is None:
-                return ""
-            keywords = [w for w in question.replace("?", "").split() if len(w) > 2]
-            if not keywords or not hasattr(keyword_tool, "chunks"):
-                return ""
+            if keyword_tool is not None and hasattr(keyword_tool, "chunks"):
+                keywords = [w for w in question.replace("?", "").split() if len(w) > 2]
+                if keywords:
+                    def _kw_search():
+                        scored = []
+                        for chunk in keyword_tool.chunks:
+                            text_lower = chunk["text"].lower()
+                            score = sum(
+                                text_lower.count(kw.lower()) * len(kw)
+                                for kw in keywords
+                            )
+                            if score > 0:
+                                scored.append((score, chunk))
+                        scored.sort(key=lambda x: -x[0])
+                        return scored[:3]
 
-            def _search():
-                scored = []
-                for chunk in keyword_tool.chunks:
-                    text_lower = chunk["text"].lower()
-                    score = sum(
-                        text_lower.count(kw.lower()) * len(kw)
-                        for kw in keywords
-                    )
-                    if score > 0:
-                        scored.append((score, chunk))
-                scored.sort(key=lambda x: -x[0])
-                return scored[:5]
-
-            loop = asyncio.get_running_loop()
-            top = await loop.run_in_executor(None, _search)
-            if not top:
-                return ""
-            lines = ["Top chunks from initial question search:"]
-            for _, chunk in top:
-                cid = chunk.get("id", "?")
-                text = chunk.get("text", "")[:500]
-                lines.append(f"[{cid}] {text}")
-            return "\n".join(lines)
+                    loop = asyncio.get_running_loop()
+                    top = await loop.run_in_executor(None, _kw_search)
+                    if top:
+                        lines.append("Keyword search on full question:")
+                        for _, chunk in top:
+                            cid = chunk.get("id", "?")
+                            text = chunk.get("text", "")[:400]
+                            lines.append(f"[{cid}] {text}")
         except Exception as exc:
-            logger.warning("Warm-start search failed: %s", exc)
-            return ""
+            logger.warning("Keyword warm-start failed: %s", exc)
+
+        # Semantic warm-start (v22)
+        if self.enable_semantic_warmstart:
+            try:
+                semantic_tool = self.tools.get("semantic_search")
+                if semantic_tool is not None:
+                    from arag.core.context import AgentContext
+                    ctx = AgentContext()
+
+                    def _sem_search():
+                        return semantic_tool.execute(ctx, query=question, top_k=3)
+
+                    loop = asyncio.get_running_loop()
+                    result, _ = await loop.run_in_executor(None, _sem_search)
+                    if result and "No results" not in result:
+                        lines.append("\nSemantic search on full question:")
+                        lines.append(result[:1500])
+            except Exception as exc:
+                logger.warning("Semantic warm-start failed: %s", exc)
+
+        return "\n".join(lines) if lines else ""
 
     def _create_agents(self, planner: PlannerAgent, num_workers: int) -> list:
         """Create the agent list: PlannerAgent + SynthesizerAgent + N WorkerAgents."""
@@ -184,6 +209,9 @@ class M6Pipeline:
                 tools=self.tools,
                 plan_prompt_path=self.worker_plan_prompt,
                 max_steps=self.worker_max_steps,
+                enable_extraction_pass=self.enable_extraction_pass,
+                enable_answer_validation=self.enable_answer_validation,
+                enable_bridge_guard=self.enable_bridge_guard,
             ))
 
         return agents

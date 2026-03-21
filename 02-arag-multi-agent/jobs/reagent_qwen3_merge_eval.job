@@ -1,0 +1,30 @@
+#!/bin/bash
+#SBATCH --job-name=reagentmerge
+#SBATCH --partition=cbuild
+#SBATCH --time=00:20:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=8G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/jobs/output/%j_reagent_qwen3_merge_eval.log
+
+set -euo pipefail
+module purge
+module load 2025
+module load Anaconda3/2025.06-1
+
+REAGENT_ROOT="/projects/prjs1800/external/ReAgent"
+REAGENT_VENV="/projects/prjs1800/venvs/ReAgent-venv"
+RESULTS_ROOT="/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/reagent_qwen3_1000"
+
+cd "$REAGENT_ROOT"
+source "$REAGENT_VENV/bin/activate"
+export PYTHONNOUSERSITE=1
+
+for DATASET in hotpotqa 2wiki musique; do
+  DATASET_DIR="$RESULTS_ROOT/$DATASET"
+  python -u merge_predictions.py \
+    --input-dir "$DATASET_DIR" \
+    --output-file "$DATASET_DIR/predictions.jsonl"
+  python -u /projects/prjs1800/msc-thesis/04-sage-autonomous/scripts/eval_offline.py \
+    "$DATASET_DIR/predictions.jsonl"
+done

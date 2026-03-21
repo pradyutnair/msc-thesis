@@ -1,0 +1,57 @@
+#!/bin/bash
+#SBATCH --job-name=sage_nt_hotp
+#SBATCH --partition=gpu_h100
+#SBATCH --time=02:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --array=0-4
+#SBATCH --output=/projects/prjs1800/msc-thesis/04-sage-autonomous/jobs/output/%A_%a_nothink_hotpotqa.log
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/04-sage-autonomous
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY="dummy"
+export ARAG_MODEL="Qwen3-8B"
+
+SHARD_ID=${SLURM_ARRAY_TASK_ID}
+PORT=$((8000 + SLURM_ARRAY_TASK_ID + (SLURM_ARRAY_JOB_ID % 100) * 5))
+export ARAG_BASE_URL="http://127.0.0.1:${PORT}/v1"
+
+RUN_OUT="results/auto_1k_strict_nothink/hotpotqa/shard_${SHARD_ID}"
+rm -rf "$RUN_OUT"
+mkdir -p "$RUN_OUT" jobs/output
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+python -m vllm.entrypoints.openai.api_server \
+  --model Qwen/Qwen3-8B --served-model-name Qwen3-8B --host 127.0.0.1 --port $PORT \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.90 \
+  --max-num-seqs 256 \
+  --enable-auto-tool-choice --tool-call-parser hermes \
+  --chat-template /projects/prjs1800/scripts/qwen3_no_think_template.jinja \
+  --trust-remote-code &
+VLLM_PID=$!
+
+for i in $(seq 1 120); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then exit 1; fi
+  curl -s http://127.0.0.1:$PORT/v1/models >/dev/null 2>&1 && break
+  sleep 3
+done
+echo "vLLM ready"
+
+PYTHONPATH=src python -u scripts/multi_agent_runner.py \
+  --config configs/autonomous_nothink.yaml \
+  --questions data/hotpotqa/shards/questions_shard_${SHARD_ID}.json \
+  --output "$RUN_OUT" \
+  --concurrent 100
+
+echo "Shard $SHARD_ID complete"

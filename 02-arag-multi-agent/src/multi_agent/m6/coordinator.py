@@ -60,11 +60,13 @@ class Coordinator:
                 logger.error("Agent loop error: %s", r)
 
         answer = blackboard.final_answer or ""
-        if not answer:
+        if not answer and not blackboard.terminated:
+            # Only salvage if the synthesizer hasn't already run.
+            # If the synthesizer ran and set answer="" (e.g. type mismatch),
+            # respect that decision — don't override with a wrong-type entity.
             answer = await blackboard.salvage_answer()
-            if not blackboard.terminated:
-                await blackboard.set_final_answer(answer)
-                await blackboard.terminate("SALVAGED")
+            await blackboard.set_final_answer(answer)
+            await blackboard.terminate("SALVAGED")
 
         elapsed = time.monotonic() - t0
         logger.info(

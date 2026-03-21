@@ -46,25 +46,36 @@ def build_tools(config: Config) -> ToolRegistry:
     chunks_file = data_cfg.get("chunks_file", "data/chunks.json")
 
     reg = ToolRegistry()
-    reg.register(KeywordSearchTool(chunks_file=chunks_file))
-    reg.register(ReadChunkTool(chunks_file=chunks_file))
 
+    keyword_tool = KeywordSearchTool(chunks_file=chunks_file)
+    reg.register(keyword_tool)
+
+    read_tool = ReadChunkTool(chunks_file=chunks_file)
+    reg.register(read_tool)
+
+    semantic_tool = None
     index_dir = data_cfg.get("index_dir")
     if index_dir and Path(index_dir).exists():
         emb_cfg = config.get("embedding", {})
         model_name = emb_cfg.get("model", "intfloat/e5-base-v2")
         logger.info("Loading embedding model: %s", model_name)
-        reg.register(
-            SemanticSearchTool(
-                chunks_file=chunks_file,
-                index_dir=index_dir,
-                model_name=model_name,
-                device=emb_cfg.get("device"),
-            )
+        semantic_tool = SemanticSearchTool(
+            chunks_file=chunks_file,
+            index_dir=index_dir,
+            model_name=model_name,
+            device=emb_cfg.get("device"),
         )
+        reg.register(semantic_tool)
         logger.info("Embedding model loaded.")
     else:
         logger.warning("Index dir not found (%s), semantic search disabled", index_dir)
+
+    # v22: Register search_and_read compound tool
+    m6_cfg = config.get("m6", {})
+    if m6_cfg.get("enable_search_and_read", False):
+        from arag.tools.search_and_read import SearchAndReadTool
+        reg.register(SearchAndReadTool(keyword_tool, semantic_tool, read_tool))
+        logger.info("search_and_read tool registered")
 
     return reg
 
@@ -176,14 +187,19 @@ class M6BatchRunner:
         m6_cfg = self.config.get("m6", {})
         prompts_dir = PROJECT_ROOT / "src" / "multi_agent" / "m6" / "prompts"
 
-        return M6Pipeline(
+        worker_prompt_name = m6_cfg.get("worker_plan_prompt", "worker_plan.txt")
+        worker_prompt = prompts_dir / worker_prompt_name
+        synthesizer_prompt_name = m6_cfg.get("synthesizer_prompt", "synthesizer.txt")
+        synthesizer_prompt = prompts_dir / synthesizer_prompt_name
+
+        pipeline = M6Pipeline(
             llm_client=main_client,
             worker_llm_client=worker_client,
             tools=tools,
             decomposer_prompt=str(prompts_dir / "decomposer.txt"),
-            synthesizer_prompt=str(prompts_dir / "synthesizer.txt"),
+            synthesizer_prompt=str(synthesizer_prompt),
             synthesizer_consistency_prompt=str(prompts_dir / "synthesizer_consistency.txt"),
-            worker_plan_prompt=str(prompts_dir / "worker_plan.txt"),
+            worker_plan_prompt=str(worker_prompt),
             num_workers=m6_cfg.get("num_workers", 2),
             worker_max_steps=m6_cfg.get("worker_max_steps", 8),
             token_budget=m6_cfg.get("token_budget", 200000),
@@ -192,7 +208,12 @@ class M6BatchRunner:
             max_actions=m6_cfg.get("max_actions", 100),
             enable_consistency_check=m6_cfg.get("enable_consistency_check", True),
             max_redecompositions=m6_cfg.get("max_redecompositions", 1),
+            enable_extraction_pass=m6_cfg.get("enable_extraction_pass", False),
+            enable_answer_validation=m6_cfg.get("enable_answer_validation", False),
+            enable_bridge_guard=m6_cfg.get("enable_bridge_guard", False),
         )
+        pipeline.enable_semantic_warmstart = m6_cfg.get("enable_semantic_warmstart", False)
+        return pipeline
 
     async def _process_one(
         self,

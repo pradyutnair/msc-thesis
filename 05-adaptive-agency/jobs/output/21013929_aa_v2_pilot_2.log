@@ -1,0 +1,443 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:34:21 [utils.py:325] 
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:34:21 [utils.py:325]        █     █     █▄   ▄█
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:34:21 [utils.py:325]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.15.1
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:34:21 [utils.py:325]   █▄█▀ █     █     █     █  model   Qwen/Qwen3-8B
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:34:21 [utils.py:325]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:34:21 [utils.py:325] 
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:34:21 [utils.py:261] non-default args: {'host': '127.0.0.1', 'port': 8223, 'chat_template': '/projects/prjs1800/scripts/qwen3_no_think_template.jinja', 'enable_auto_tool_choice': True, 'tool_call_parser': 'hermes', 'model': 'Qwen/Qwen3-8B', 'trust_remote_code': True, 'max_model_len': 32768, 'served_model_name': ['Qwen3-8B'], 'gpu_memory_utilization': 0.92, 'enable_prefix_caching': True, 'max_num_seqs': 512}
+[0;36m(APIServer pid=634634)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[0;36m(APIServer pid=634634)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:34:22 [model.py:541] Resolved architecture: Qwen3ForCausalLM
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:34:22 [model.py:1561] Using max model len 32768
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:34:22 [scheduler.py:226] Chunked prefill is enabled with max_num_batched_tokens=8192.
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:34:22 [vllm.py:624] Asynchronous scheduling is enabled.
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[0;36m(EngineCore_DP0 pid=634747)[0;0m INFO 03-20 19:34:30 [core.py:96] Initializing a V1 LLM engine (v0.15.1) with config: model='Qwen/Qwen3-8B', speculative_config=None, tokenizer='Qwen/Qwen3-8B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=Qwen3-8B, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'splitting_ops': ['vllm::unified_attention', 'vllm::unified_attention_with_output', 'vllm::unified_mla_attention', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::gdn_attention_core', 'vllm::kda_attention', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::unified_kv_cache_update'], 'compile_mm_encoder': False, 'compile_sizes': [], 'compile_ranges_split_points': [8192], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False}, 'max_cudagraph_capture_size': 512, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': True}, 'local_cache_dir': None, 'static_all_moe_layers': []}
+[0;36m(EngineCore_DP0 pid=634747)[0;0m INFO 03-20 19:34:34 [parallel_state.py:1212] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://145.136.62.147:42977 backend=nccl
+[0;36m(EngineCore_DP0 pid=634747)[0;0m INFO 03-20 19:34:34 [parallel_state.py:1423] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A
+[0;36m(EngineCore_DP0 pid=634747)[0;0m INFO 03-20 19:34:35 [gpu_model_runner.py:4033] Starting to load model Qwen/Qwen3-8B...
+[0;36m(EngineCore_DP0 pid=634747)[0;0m INFO 03-20 19:34:37 [cuda.py:364] Using FLASH_ATTN attention backend out of potential backends: ('FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION')
+[0;36m(EngineCore_DP0 pid=634747)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/5 [00:00<?, ?it/s]
+[0;36m(EngineCore_DP0 pid=634747)[0;0m Loading safetensors checkpoint shards:  20% Completed | 1/5 [00:00<00:01,  2.41it/s]
+[0;36m(EngineCore_DP0 pid=634747)[0;0m Loading safetensors checkpoint shards:  40% Completed | 2/5 [00:01<00:02,  1.24it/s]
+[0;36m(EngineCore_DP0 pid=634747)[0;0m Loading safetensors checkpoint shards:  60% Completed | 3/5 [00:02<00:02,  1.10s/it]
+[0;36m(EngineCore_DP0 pid=634747)[0;0m Loading safetensors checkpoint shards:  80% Completed | 4/5 [00:04<00:01,  1.24s/it]
+[0;36m(EngineCore_DP0 pid=634747)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:05<00:00,  1.27s/it]
+[0;36m(EngineCore_DP0 pid=634747)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:05<00:00,  1.15s/it]
+[0;36m(EngineCore_DP0 pid=634747)[0;0m 
+[0;36m(EngineCore_DP0 pid=634747)[0;0m INFO 03-20 19:34:44 [default_loader.py:291] Loading weights took 5.78 seconds
+[0;36m(EngineCore_DP0 pid=634747)[0;0m INFO 03-20 19:34:45 [gpu_model_runner.py:4130] Model loading took 15.27 GiB memory and 8.396470 seconds
+[0;36m(EngineCore_DP0 pid=634747)[0;0m INFO 03-20 19:34:53 [backends.py:812] Using cache directory: /home/pnair/.cache/vllm/torch_compile_cache/306ce5375a/rank_0_0/backbone for vLLM's torch.compile
+[0;36m(EngineCore_DP0 pid=634747)[0;0m INFO 03-20 19:34:53 [backends.py:872] Dynamo bytecode transform time: 8.58 s
+[0;36m(EngineCore_DP0 pid=634747)[0;0m INFO 03-20 19:34:59 [backends.py:267] Directly load the compiled graph(s) for compile range (1, 8192) from the cache, took 1.615 s
+[0;36m(EngineCore_DP0 pid=634747)[0;0m INFO 03-20 19:34:59 [monitor.py:34] torch.compile takes 10.19 s in total
+[0;36m(EngineCore_DP0 pid=634747)[0;0m INFO 03-20 19:35:00 [gpu_worker.py:356] Available KV cache memory: 67.38 GiB
+[0;36m(EngineCore_DP0 pid=634747)[0;0m INFO 03-20 19:35:00 [kv_cache_utils.py:1307] GPU KV cache size: 490,656 tokens
+[0;36m(EngineCore_DP0 pid=634747)[0;0m INFO 03-20 19:35:00 [kv_cache_utils.py:1312] Maximum concurrency for 32,768 tokens per request: 14.97x
+[0;36m(EngineCore_DP0 pid=634747)[0;0m 2026-03-20 19:35:00,330 - INFO - autotuner.py:256 - flashinfer.jit: [Autotuner]: Autotuning process starts ...
+[0;36m(EngineCore_DP0 pid=634747)[0;0m 2026-03-20 19:35:00,362 - INFO - autotuner.py:262 - flashinfer.jit: [Autotuner]: Autotuning process ends
+[0;36m(EngineCore_DP0 pid=634747)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/51 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   6%|▌         | 3/51 [00:00<00:02, 21.45it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  12%|█▏        | 6/51 [00:00<00:02, 21.44it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  18%|█▊        | 9/51 [00:00<00:01, 21.09it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  24%|██▎       | 12/51 [00:00<00:01, 21.81it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  29%|██▉       | 15/51 [00:00<00:01, 21.63it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  35%|███▌      | 18/51 [00:00<00:01, 21.58it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  41%|████      | 21/51 [00:00<00:01, 21.78it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  47%|████▋     | 24/51 [00:01<00:01, 21.67it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  53%|█████▎    | 27/51 [00:01<00:01, 21.78it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  59%|█████▉    | 30/51 [00:01<00:00, 21.70it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  65%|██████▍   | 33/51 [00:01<00:00, 21.37it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  71%|███████   | 36/51 [00:01<00:00, 21.06it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  76%|███████▋  | 39/51 [00:01<00:00, 20.57it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  82%|████████▏ | 42/51 [00:01<00:00, 20.43it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  88%|████████▊ | 45/51 [00:02<00:00, 20.41it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  94%|█████████▍| 48/51 [00:02<00:00, 20.49it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:02<00:00, 21.03it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:02<00:00, 21.18it/s]
+[0;36m(EngineCore_DP0 pid=634747)[0;0m Capturing CUDA graphs (decode, FULL):   0%|          | 0/51 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL):   6%|▌         | 3/51 [00:00<00:01, 26.94it/s]Capturing CUDA graphs (decode, FULL):  12%|█▏        | 6/51 [00:00<00:01, 26.75it/s]Capturing CUDA graphs (decode, FULL):  18%|█▊        | 9/51 [00:00<00:01, 27.37it/s]Capturing CUDA graphs (decode, FULL):  24%|██▎       | 12/51 [00:00<00:01, 27.90it/s]Capturing CUDA graphs (decode, FULL):  29%|██▉       | 15/51 [00:00<00:01, 28.24it/s]Capturing CUDA graphs (decode, FULL):  35%|███▌      | 18/51 [00:00<00:01, 28.57it/s]Capturing CUDA graphs (decode, FULL):  41%|████      | 21/51 [00:00<00:01, 28.79it/s]Capturing CUDA graphs (decode, FULL):  47%|████▋     | 24/51 [00:00<00:00, 28.86it/s]Capturing CUDA graphs (decode, FULL):  53%|█████▎    | 27/51 [00:00<00:00, 28.97it/s]Capturing CUDA graphs (decode, FULL):  59%|█████▉    | 30/51 [00:01<00:00, 29.01it/s]Capturing CUDA graphs (decode, FULL):  65%|██████▍   | 33/51 [00:01<00:00, 29.03it/s]Capturing CUDA graphs (decode, FULL):  71%|███████   | 36/51 [00:01<00:00, 28.92it/s]Capturing CUDA graphs (decode, FULL):  76%|███████▋  | 39/51 [00:01<00:00, 28.83it/s]Capturing CUDA graphs (decode, FULL):  82%|████████▏ | 42/51 [00:01<00:00, 28.86it/s]Capturing CUDA graphs (decode, FULL):  88%|████████▊ | 45/51 [00:01<00:00, 28.97it/s]Capturing CUDA graphs (decode, FULL):  94%|█████████▍| 48/51 [00:01<00:00, 29.07it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 51/51 [00:01<00:00, 29.24it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 51/51 [00:01<00:00, 28.72it/s]
+[0;36m(EngineCore_DP0 pid=634747)[0;0m INFO 03-20 19:35:05 [gpu_model_runner.py:5063] Graph capturing finished in 5 secs, took -0.35 GiB
+[0;36m(EngineCore_DP0 pid=634747)[0;0m INFO 03-20 19:35:05 [core.py:272] init engine (profile, create kv cache, warmup model) took 20.41 seconds
+[0;36m(EngineCore_DP0 pid=634747)[0;0m INFO 03-20 19:35:06 [vllm.py:624] Asynchronous scheduling is enabled.
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:07 [api_server.py:665] Supported tasks: ['generate']
+[0;36m(APIServer pid=634634)[0;0m WARNING 03-20 19:35:07 [model.py:1371] Default vLLM sampling parameters have been overridden by the model's `generation_config.json`: `{'temperature': 0.6, 'top_k': 20, 'top_p': 0.95}`. If this is not intended, please relaunch vLLM instance with `--generation-config vllm`.
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:07 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:07 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:07 [serving.py:177] Warming up chat template processing...
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:07 [hf.py:310] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:07 [serving.py:212] Chat template warmup completed in 44.6ms
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:07 [serving.py:273] "auto" tool choice has been enabled.
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [api_server.py:946] Starting vLLM API server 0 on http://127.0.0.1:8223
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:38] Available routes are:
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /openapi.json, Methods: GET, HEAD
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /docs, Methods: GET, HEAD
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /docs/oauth2-redirect, Methods: GET, HEAD
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /redoc, Methods: GET, HEAD
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /scale_elastic_ep, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /is_scaling_elastic_ep, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /tokenize, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /detokenize, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /inference/v1/generate, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /pause, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /resume, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /is_paused, Methods: GET
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /metrics, Methods: GET
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /health, Methods: GET
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /v1/chat/completions, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /v1/chat/completions/render, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /v1/responses, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /v1/responses/{response_id}, Methods: GET
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /v1/responses/{response_id}/cancel, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /v1/audio/transcriptions, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /v1/audio/translations, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /v1/completions, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /v1/completions/render, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /v1/messages, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /v1/models, Methods: GET
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /load, Methods: GET
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /version, Methods: GET
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /ping, Methods: GET
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /ping, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /invocations, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /classify, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /v1/embeddings, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /score, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /v1/score, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /rerank, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /v1/rerank, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /v2/rerank, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO 03-20 19:35:08 [launcher.py:46] Route: /pooling, Methods: POST
+[0;36m(APIServer pid=634634)[0;0m INFO:     Started server process [634634]
+[0;36m(APIServer pid=634634)[0;0m INFO:     Waiting for application startup.
+[0;36m(APIServer pid=634634)[0;0m INFO:     Application startup complete.
+[0;36m(APIServer pid=634634)[0;0m INFO:     127.0.0.1:36306 - "GET /v1/models HTTP/1.1" 200 OK
+vLLM ready on port 8223
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+2026-03-20 19:35:17,550 [INFO] __main__: Using chunks file: /gpfs/work5/0/prjs1800/msc-thesis/05-adaptive-agency/data/musique/chunks.json
+2026-03-20 19:35:17,550 [INFO] __main__: Using index dir: /gpfs/work5/0/prjs1800/msc-thesis/05-adaptive-agency/data/musique/index_e5_base_v2
+2026-03-20 19:35:17,565 [INFO] __main__: Total: 100 | Completed: 0 | Pending: 100
+2026-03-20 19:36:48,920 [INFO] arag.tools.keyword_search: KeywordSearch: SQLite FTS5 backend with 21015324 passages
+2026-03-20 19:36:48,940 [INFO] arag.tools.read_chunk: ReadChunk: SQLite backend at /projects/prjs1800/datasets/flashrag/wiki18_100w.db
+2026-03-20 19:36:48,940 [INFO] arag.tools.semantic_search: Loading FAISS index from /projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index ...
+2026-03-20 19:37:04,567 [INFO] arag.tools.semantic_search: FAISS index: 21015324 vectors, dim=768
+2026-03-20 19:37:04,568 [INFO] arag.tools.semantic_search: Loading embedding model: intfloat/e5-base-v2
+2026-03-20 19:37:04,571 [INFO] sentence_transformers.SentenceTransformer: Load pretrained SentenceTransformer: intfloat/e5-base-v2
+2026-03-20 19:37:06,223 [INFO] __main__: Processing musique_2hop__766973_770570: What county is Erik Hort's birthplace a part of?
+2026-03-20 19:37:06,230 [INFO] __main__: Processing musique_2hop__731956_126089: Who was in charge of the place where Castricum is located?
+2026-03-20 19:37:06,230 [INFO] __main__: Processing musique_4hop2__71753_158985_70784_61381: When was the region immediately north of the region where Is
+2026-03-20 19:37:06,233 [INFO] __main__: Processing musique_2hop__354635_174222: What company succeeded the owner of Empire Sports Network?
+2026-03-20 19:37:06,234 [INFO] __main__: Processing musique_2hop__76314_177869: Who was the spouse of a leading speaker against slavery and 
+2026-03-20 19:37:06,235 [INFO] __main__: Processing musique_2hop__511454_120259: When was Lady Godiva's birthplace abolished?
+2026-03-20 19:37:06,236 [INFO] __main__: Processing musique_2hop__123545_47134: Who is the mascot of the university related to Randy Conrads
+2026-03-20 19:37:06,237 [INFO] __main__: Processing musique_2hop__998_25855: What does dell call the feature letting the interface replac
+2026-03-20 19:37:06,238 [INFO] __main__: Processing musique_2hop__13548_13529: When was the person who Messi's goals in Copa del Rey compar
+2026-03-20 19:37:06,241 [INFO] __main__: Processing musique_3hop1__409517_547811_80702: What is the name of the famous bridge in the birth city of t
+2026-03-20 19:37:06,241 [INFO] __main__: Processing musique_3hop1__144678_443779_52195: The Commission of Truth and Friendship established governmen
+2026-03-20 19:37:06,242 [INFO] __main__: Processing musique_2hop__85325_88165: Who did the person who married their half sister in the bibl
+2026-03-20 19:37:06,244 [INFO] __main__: Processing musique_4hop1__802394_153080_159767_81096: An Indy car race was held in the capital of the state where 
+2026-03-20 19:37:06,245 [INFO] __main__: Processing musique_4hop1__842143_153080_33897_81096: Who won the Indy Car Race in the largest populated city of t
+2026-03-20 19:37:06,246 [INFO] __main__: Processing musique_3hop1__106845_5188_86687: When did the country the top-ranking Warsaw Pact operatives 
+2026-03-20 19:37:06,247 [INFO] __main__: Processing musique_4hop1__152146_5274_458768_33637: How many ethnic minorities were looked at differently in the
+2026-03-20 19:37:06,249 [INFO] __main__: Processing musique_3hop2__87184_90327_76291: When did the majority party in the House of Representatives 
+2026-03-20 19:37:06,251 [INFO] __main__: Processing musique_2hop__179322_83289: Who stars in the video "One Last Time" by the performer of B
+2026-03-20 19:37:06,251 [INFO] __main__: Processing musique_3hop1__105837_160713_77246: what is meaning of the word that is a majority religion of t
+2026-03-20 19:37:06,252 [INFO] __main__: Processing musique_2hop__95970_152907: What city is the star of Sous les pieds des femmes from?
+2026-03-20 19:37:06,253 [INFO] __main__: Processing musique_2hop__78401_158262: When did the person chosen to be president of the confederac
+2026-03-20 19:37:06,255 [INFO] __main__: Processing musique_3hop2__127483_60649_10557: What was the form of the language Auctor is in, used in the 
+2026-03-20 19:37:06,256 [INFO] __main__: Processing musique_2hop__46862_68042: When did the political party that favored harsh punishment o
+2026-03-20 19:37:06,257 [INFO] __main__: Processing musique_2hop__645448_77615: When did military instruction start at the place where Larry
+2026-03-20 19:37:06,258 [INFO] __main__: Processing musique_4hop1__726675_508773_85832_745702: Who is the child of the Italian navigator who explored the e
+2026-03-20 19:37:06,260 [INFO] __main__: Processing musique_3hop1__9285_5188_23307: What month did the Tripartite discussions begin between Brit
+2026-03-20 19:37:06,262 [INFO] __main__: Processing musique_3hop1__90327_83076_319330: Who is the child of the president who suffered a major defea
+2026-03-20 19:37:06,262 [INFO] __main__: Processing musique_2hop__170823_120171: What year did the publisher of Labyrinth end?
+2026-03-20 19:37:06,263 [INFO] __main__: Processing musique_2hop__124412_402641: Who is the child of Chiang Hsiao-wen's father?
+2026-03-20 19:37:06,265 [INFO] __main__: Processing musique_2hop__511296_577502: Who married the actor from Terminator?
+2026-03-20 19:37:06,267 [INFO] __main__: Processing musique_2hop__84847_148696: What is the position of the 1st governor general of India?
+2026-03-20 19:37:06,267 [INFO] __main__: Processing musique_3hop1__33845_42197_18397: Where did the arguer that the country Directive 10/2 called 
+2026-03-20 19:37:06,269 [INFO] __main__: Processing musique_2hop__81659_52835: Who wrote Turn Me On by the singer of Come Away with Me?
+2026-03-20 19:37:06,270 [INFO] __main__: Processing musique_3hop1__786632_831637_91775: What does seal stand for in the U.S. military branch that op
+2026-03-20 19:37:06,271 [INFO] __main__: Processing musique_2hop__734582_71302: Who is played by the director of The Good Shepherd in The Go
+2026-03-20 19:37:06,271 [INFO] __main__: Processing musique_2hop__347686_127399: In what year was the group who performed Attics To Eden form
+2026-03-20 19:37:06,274 [INFO] __main__: Processing musique_2hop__59048_827343: Whose sister played Susie in miracle on 34th street?
+2026-03-20 19:37:06,275 [INFO] __main__: Processing musique_2hop__77233_33207: How did did the people fare during the reign of the abolishe
+2026-03-20 19:37:06,276 [INFO] __main__: Processing musique_4hop3__524186_219173_638950_72134: When did the city where Greenwood Laboratory School is locat
+2026-03-20 19:37:06,278 [INFO] __main__: Processing musique_2hop__81268_85407: What was the 2018 population of the Italian city that's unde
+2026-03-20 19:37:06,280 [INFO] __main__: Processing musique_3hop2__90098_76623_10557: What was the language from which the last name Sylvester ori
+2026-03-20 19:37:06,280 [INFO] __main__: Processing musique_2hop__391873_88622: Who is the head of the agency that created MYSTIC?
+2026-03-20 19:37:06,281 [INFO] __main__: Processing musique_3hop1__764280_834494_34053: What was the wettest year of the administrative territorial 
+2026-03-20 19:37:06,282 [INFO] __main__: Processing musique_4hop1__802394_153080_33897_81096: Who won the Indy Car Race in the largest populated city of t
+2026-03-20 19:37:06,284 [INFO] __main__: Processing musique_2hop__155781_155922: What does the river that Darling Mills Creek turns into flow
+2026-03-20 19:37:06,285 [INFO] __main__: Processing musique_3hop1__321720_650651_7262: Who was a prominent figure at the radio division of the netw
+2026-03-20 19:37:06,286 [INFO] __main__: Processing musique_2hop__829358_754719: What administrative territorial entity does Darley Ramon Tor
+2026-03-20 19:37:06,287 [INFO] __main__: Processing musique_2hop__693444_220151: Who is the spouse of Young Man Luther's author?
+2026-03-20 19:37:06,288 [INFO] __main__: Processing musique_4hop1__94201_642284_131926_89261: Where does the body of water by the city where the Southeast
+2026-03-20 19:37:06,291 [INFO] __main__: Processing musique_2hop__629030_56873: When did the 1979-80 European Cup winner win the FA Cup?
+2026-03-20 19:37:06,292 [ERROR] __main__: Pipeline error for musique_2hop__766973_770570: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,294 [INFO] __main__: Done musique_2hop__766973_770570: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,300 [ERROR] __main__: Pipeline error for musique_2hop__731956_126089: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,300 [INFO] __main__: Done musique_2hop__731956_126089: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,300 [ERROR] __main__: Pipeline error for musique_4hop2__71753_158985_70784_61381: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,300 [INFO] __main__: Done musique_4hop2__71753_158985_70784_61381: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,300 [ERROR] __main__: Pipeline error for musique_2hop__354635_174222: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,335 [INFO] __main__: Done musique_2hop__354635_174222: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,335 [ERROR] __main__: Pipeline error for musique_2hop__76314_177869: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,335 [INFO] __main__: Done musique_2hop__76314_177869: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,335 [ERROR] __main__: Pipeline error for musique_2hop__511454_120259: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,336 [INFO] __main__: Done musique_2hop__511454_120259: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,336 [ERROR] __main__: Pipeline error for musique_2hop__123545_47134: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,336 [INFO] __main__: Done musique_2hop__123545_47134: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,336 [ERROR] __main__: Pipeline error for musique_2hop__998_25855: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,336 [INFO] __main__: Done musique_2hop__998_25855: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,336 [ERROR] __main__: Pipeline error for musique_2hop__13548_13529: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,336 [INFO] __main__: Done musique_2hop__13548_13529: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,336 [ERROR] __main__: Pipeline error for musique_3hop1__144678_443779_52195: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,336 [INFO] __main__: Done musique_3hop1__144678_443779_52195: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,336 [ERROR] __main__: Pipeline error for musique_3hop1__409517_547811_80702: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,336 [INFO] __main__: Done musique_3hop1__409517_547811_80702: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,336 [ERROR] __main__: Pipeline error for musique_2hop__85325_88165: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,336 [INFO] __main__: Done musique_2hop__85325_88165: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,337 [ERROR] __main__: Pipeline error for musique_4hop1__802394_153080_159767_81096: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,337 [INFO] __main__: Done musique_4hop1__802394_153080_159767_81096: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,337 [ERROR] __main__: Pipeline error for musique_4hop1__842143_153080_33897_81096: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,337 [INFO] __main__: Done musique_4hop1__842143_153080_33897_81096: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,337 [ERROR] __main__: Pipeline error for musique_3hop1__106845_5188_86687: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,337 [INFO] __main__: Done musique_3hop1__106845_5188_86687: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,337 [ERROR] __main__: Pipeline error for musique_4hop1__152146_5274_458768_33637: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,338 [INFO] __main__: Done musique_4hop1__152146_5274_458768_33637: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,338 [ERROR] __main__: Pipeline error for musique_3hop2__87184_90327_76291: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,338 [INFO] __main__: Done musique_3hop2__87184_90327_76291: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,338 [ERROR] __main__: Pipeline error for musique_2hop__179322_83289: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,338 [INFO] __main__: Done musique_2hop__179322_83289: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,338 [ERROR] __main__: Pipeline error for musique_3hop1__105837_160713_77246: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,338 [INFO] __main__: Done musique_3hop1__105837_160713_77246: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,338 [ERROR] __main__: Pipeline error for musique_2hop__95970_152907: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,338 [INFO] __main__: Done musique_2hop__95970_152907: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,338 [ERROR] __main__: Pipeline error for musique_2hop__78401_158262: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,338 [INFO] __main__: Done musique_2hop__78401_158262: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,338 [ERROR] __main__: Pipeline error for musique_3hop2__127483_60649_10557: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,338 [INFO] __main__: Done musique_3hop2__127483_60649_10557: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,339 [ERROR] __main__: Pipeline error for musique_2hop__46862_68042: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,339 [INFO] __main__: Done musique_2hop__46862_68042: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,339 [ERROR] __main__: Pipeline error for musique_2hop__645448_77615: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,339 [INFO] __main__: Done musique_2hop__645448_77615: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,339 [ERROR] __main__: Pipeline error for musique_4hop1__726675_508773_85832_745702: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,339 [INFO] __main__: Done musique_4hop1__726675_508773_85832_745702: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,339 [ERROR] __main__: Pipeline error for musique_3hop1__9285_5188_23307: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,339 [INFO] __main__: Done musique_3hop1__9285_5188_23307: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,339 [ERROR] __main__: Pipeline error for musique_3hop1__90327_83076_319330: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,339 [INFO] __main__: Done musique_3hop1__90327_83076_319330: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,339 [ERROR] __main__: Pipeline error for musique_2hop__170823_120171: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,339 [INFO] __main__: Done musique_2hop__170823_120171: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,339 [ERROR] __main__: Pipeline error for musique_2hop__124412_402641: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,341 [INFO] __main__: Done musique_2hop__124412_402641: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,341 [ERROR] __main__: Pipeline error for musique_2hop__511296_577502: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,341 [INFO] __main__: Done musique_2hop__511296_577502: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,341 [ERROR] __main__: Pipeline error for musique_2hop__84847_148696: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,342 [INFO] __main__: Done musique_2hop__84847_148696: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,342 [ERROR] __main__: Pipeline error for musique_3hop1__33845_42197_18397: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,342 [INFO] __main__: Done musique_3hop1__33845_42197_18397: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,342 [ERROR] __main__: Pipeline error for musique_3hop1__786632_831637_91775: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,342 [INFO] __main__: Done musique_3hop1__786632_831637_91775: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,342 [ERROR] __main__: Pipeline error for musique_2hop__81659_52835: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,342 [INFO] __main__: Done musique_2hop__81659_52835: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,342 [ERROR] __main__: Pipeline error for musique_2hop__734582_71302: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,343 [INFO] __main__: Done musique_2hop__734582_71302: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,343 [ERROR] __main__: Pipeline error for musique_2hop__347686_127399: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,343 [INFO] __main__: Done musique_2hop__347686_127399: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,343 [ERROR] __main__: Pipeline error for musique_2hop__59048_827343: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,343 [INFO] __main__: Done musique_2hop__59048_827343: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,343 [ERROR] __main__: Pipeline error for musique_2hop__77233_33207: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,343 [INFO] __main__: Done musique_2hop__77233_33207: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,343 [ERROR] __main__: Pipeline error for musique_4hop3__524186_219173_638950_72134: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,343 [INFO] __main__: Done musique_4hop3__524186_219173_638950_72134: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,343 [ERROR] __main__: Pipeline error for musique_2hop__81268_85407: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,343 [INFO] __main__: Done musique_2hop__81268_85407: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,343 [ERROR] __main__: Pipeline error for musique_3hop2__90098_76623_10557: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,343 [INFO] __main__: Done musique_3hop2__90098_76623_10557: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,343 [ERROR] __main__: Pipeline error for musique_2hop__391873_88622: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,343 [INFO] __main__: Done musique_2hop__391873_88622: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,343 [ERROR] __main__: Pipeline error for musique_3hop1__764280_834494_34053: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,344 [INFO] __main__: Done musique_3hop1__764280_834494_34053: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,344 [ERROR] __main__: Pipeline error for musique_4hop1__802394_153080_33897_81096: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,344 [INFO] __main__: Done musique_4hop1__802394_153080_33897_81096: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,344 [ERROR] __main__: Pipeline error for musique_2hop__155781_155922: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,344 [INFO] __main__: Done musique_2hop__155781_155922: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,344 [ERROR] __main__: Pipeline error for musique_3hop1__321720_650651_7262: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,345 [INFO] __main__: Done musique_3hop1__321720_650651_7262: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,345 [ERROR] __main__: Pipeline error for musique_2hop__829358_754719: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,345 [INFO] __main__: Done musique_2hop__829358_754719: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,345 [ERROR] __main__: Pipeline error for musique_2hop__693444_220151: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,345 [INFO] __main__: Done musique_2hop__693444_220151: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,345 [INFO] __main__: Processing musique_4hop1__131113_59747_211319_557671: Which county shares a border with the county where the most 
+2026-03-20 19:37:06,345 [INFO] __main__: Processing musique_3hop1__857_846_7702: What is the meaning of the name of the city where the Yongle
+2026-03-20 19:37:06,346 [INFO] __main__: Processing musique_2hop__159215_779396: Where was the person who wrote about the rioting being a div
+2026-03-20 19:37:06,347 [INFO] __main__: Processing musique_3hop1__635099_131926_87157: What is the direction of flow of the body of water by the ci
+2026-03-20 19:37:06,349 [INFO] __main__: Processing musique_3hop2__127483_91678_10557: What was the language Auctor comes from during the era of th
+2026-03-20 19:37:06,351 [INFO] __main__: Processing musique_4hop3__474028_88460_30152_20999: How were people from whom new coins were a proclamation of i
+2026-03-20 19:37:06,353 [INFO] __main__: Processing musique_4hop2__9988_261673_70784_79935: When was the region immediately north of the region that pre
+2026-03-20 19:37:06,353 [INFO] __main__: Processing musique_2hop__668407_683671: Who is the father of Empress Wang's husband?
+2026-03-20 19:37:06,354 [INFO] __main__: Processing musique_3hop2__851134_613770_7713: How long had Pfrang Association's headquarters location been
+2026-03-20 19:37:06,356 [INFO] __main__: Processing musique_4hop1__9007_698949_157828_162309: When did the country with a co-official language used in the
+2026-03-20 19:37:06,358 [INFO] __main__: Processing musique_3hop1__136129_87694_124169: What year did the Governor of the city where the basilica na
+2026-03-20 19:37:06,358 [INFO] __main__: Processing musique_2hop__56851_343058: Who is the spouse of the actress who played the fairy god mo
+2026-03-20 19:37:06,359 [INFO] __main__: Processing musique_2hop__802991_443552: What is the capital of the county where Fort Deposit is loca
+2026-03-20 19:37:06,361 [INFO] __main__: Processing musique_3hop2__304722_692815_63959: When was the last time Darren Carter's team beat the 1894-95
+2026-03-20 19:37:06,362 [INFO] __main__: Processing musique_3hop1__108833_720914_41132: How many times did the plague occur in the city where the pa
+2026-03-20 19:37:06,364 [INFO] __main__: Processing musique_3hop1__208108_547811_80702: What is the name of the famous bridge in the city where the 
+2026-03-20 19:37:06,364 [INFO] __main__: Processing musique_4hop1__391525_49925_13759_736921: Where is the district that the person who wanted to reform a
+2026-03-20 19:37:06,366 [INFO] __main__: Processing musique_2hop__68322_510545: Who is the spouse of the actor that plays Jarvis in the Aven
+2026-03-20 19:37:06,367 [INFO] __main__: Processing musique_3hop1__849312_503371_21711: When was the Palau de la Generalitat constructed in the city
+2026-03-20 19:37:06,368 [INFO] __main__: Processing musique_2hop__215896_460425: What is the location of formation of the film company distri
+2026-03-20 19:37:06,372 [INFO] __main__: Processing musique_3hop1__820301_720914_41132: How many times did plague occur in the place where Crucifixi
+2026-03-20 19:37:06,373 [INFO] __main__: Processing musique_4hop1__342858_131850_33952_34099: How long are the city council terms in the second largest ci
+2026-03-20 19:37:06,373 [INFO] __main__: Processing musique_3hop1__639955_834494_34099: How long are the council terms of the city that shares a cou
+2026-03-20 19:37:06,374 [INFO] __main__: Processing musique_3hop1__305282_282081_73772: When was the start of the battle of the birthplace of the pe
+2026-03-20 19:37:06,376 [INFO] __main__: Processing musique_2hop__63214_319330: Who is the child of the president under whom prohibition occ
+2026-03-20 19:37:06,377 [INFO] __main__: Processing musique_4hop2__71753_648517_70784_79935: When was the region immediately north of the region where Is
+2026-03-20 19:37:06,378 [INFO] __main__: Processing musique_2hop__865961_159109: Where is the country with ISO code ISO 3166-2:CV located?
+2026-03-20 19:37:06,379 [INFO] __main__: Processing musique_2hop__304852_758385: What administrative territorial entity contains the place wh
+2026-03-20 19:37:06,380 [INFO] __main__: Processing musique_4hop1__152562_5274_458768_33633: When did the explorer reach the city where the headquarters 
+2026-03-20 19:37:06,382 [INFO] __main__: Processing musique_2hop__14_59409: Who was Beyonce's husband talking about in the the song Cry?
+2026-03-20 19:37:06,383 [INFO] __main__: Processing musique_2hop__71016_75184: Who played the girlfriend of who plays marty mcfly's daughte
+2026-03-20 19:37:06,384 [INFO] __main__: Processing musique_2hop__655505_110949: What is the Till dom ensamma performer's birth date?
+2026-03-20 19:37:06,385 [INFO] __main__: Processing musique_4hop1__58323_375563_161848_53331: When was the death penalty abolished in the country near the
+2026-03-20 19:37:06,387 [INFO] __main__: Processing musique_2hop__131455_11960: What is the tallest building in the state where KZAR is loca
+2026-03-20 19:37:06,388 [INFO] __main__: Processing musique_2hop__998_25839: What is the maximum load drawn by the 1.0 and 2.0 versions o
+2026-03-20 19:37:06,389 [INFO] __main__: Processing musique_3hop1__127821_157828_239539: Where is the headquarters of Radio Television of this countr
+2026-03-20 19:37:06,391 [INFO] __main__: Processing musique_4hop1__130623_32392_823060_610794: What county has a city that is adjacent to the capital city 
+2026-03-20 19:37:06,391 [INFO] __main__: Processing musique_3hop2__89854_92991_76291: When did the majority party in the House of Representatives 
+2026-03-20 19:37:06,393 [INFO] __main__: Processing musique_3hop2__132957_133264_40768: When did Nissan, the Acura Legend maker and the Scion Fuse m
+2026-03-20 19:37:06,394 [INFO] __main__: Processing musique_4hop3__754156_88460_30152_20999: How were the people from whom new coins were a proclamation 
+2026-03-20 19:37:06,395 [INFO] __main__: Processing musique_4hop1__88342_75218_128008_46894: Who had the lowest batting average in the league where the t
+2026-03-20 19:37:06,397 [INFO] __main__: Processing musique_2hop__92385_2072: What is the public library system called in the place where 
+2026-03-20 19:37:06,397 [INFO] __main__: Processing musique_2hop__33288_157788: What is an example of a railroad line in the country first t
+2026-03-20 19:37:06,399 [INFO] __main__: Processing musique_2hop__554167_451128: Who is the child of the Victim of Romance performer?
+2026-03-20 19:37:06,400 [INFO] __main__: Processing musique_2hop__199513_801817: What is the birthplace of the person after whom São José dos
+2026-03-20 19:37:06,402 [INFO] __main__: Processing musique_3hop1__28841_547811_41132: How many times did the plague occur in the birth place of Co
+2026-03-20 19:37:06,402 [INFO] __main__: Processing musique_4hop1__88342_75218_128008_48717: Who was second pick in the 1999 draft of the league that has
+2026-03-20 19:37:06,403 [INFO] __main__: Processing musique_4hop1__638988_17130_70784_61381: When was the region immediately north of the region where th
+2026-03-20 19:37:06,406 [ERROR] __main__: Pipeline error for musique_4hop1__94201_642284_131926_89261: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,407 [INFO] __main__: Done musique_4hop1__94201_642284_131926_89261: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,407 [ERROR] __main__: Pipeline error for musique_2hop__629030_56873: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,407 [INFO] __main__: Done musique_2hop__629030_56873: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,407 [INFO] __main__: Progress: 10/100 (194188 Q/hr)
+2026-03-20 19:37:06,407 [INFO] __main__: Progress: 20/100 (388270 Q/hr)
+2026-03-20 19:37:06,407 [INFO] __main__: Progress: 30/100 (582283 Q/hr)
+2026-03-20 19:37:06,407 [INFO] __main__: Progress: 40/100 (776212 Q/hr)
+2026-03-20 19:37:06,408 [INFO] __main__: Processing musique_2hop__619265_45326: How many episodes are in season 5 of the series with The Bag
+2026-03-20 19:37:06,408 [INFO] __main__: Processing musique_3hop1__622497_160088_85460: What is the average salary of a working person with the same
+2026-03-20 19:37:06,408 [ERROR] __main__: Pipeline error for musique_3hop1__857_846_7702: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,409 [INFO] __main__: Done musique_3hop1__857_846_7702: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,409 [ERROR] __main__: Pipeline error for musique_4hop1__131113_59747_211319_557671: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,410 [INFO] __main__: Done musique_4hop1__131113_59747_211319_557671: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,450 [ERROR] __main__: Pipeline error for musique_2hop__159215_779396: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,450 [INFO] __main__: Done musique_2hop__159215_779396: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,451 [ERROR] __main__: Pipeline error for musique_3hop1__635099_131926_87157: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,451 [INFO] __main__: Done musique_3hop1__635099_131926_87157: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,451 [ERROR] __main__: Pipeline error for musique_3hop2__127483_91678_10557: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,451 [INFO] __main__: Done musique_3hop2__127483_91678_10557: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,451 [ERROR] __main__: Pipeline error for musique_4hop3__474028_88460_30152_20999: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,451 [INFO] __main__: Done musique_4hop3__474028_88460_30152_20999: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,451 [ERROR] __main__: Pipeline error for musique_4hop2__9988_261673_70784_79935: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,451 [INFO] __main__: Done musique_4hop2__9988_261673_70784_79935: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,451 [ERROR] __main__: Pipeline error for musique_2hop__668407_683671: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,451 [INFO] __main__: Done musique_2hop__668407_683671: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,451 [ERROR] __main__: Pipeline error for musique_3hop2__851134_613770_7713: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,451 [INFO] __main__: Done musique_3hop2__851134_613770_7713: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,451 [ERROR] __main__: Pipeline error for musique_4hop1__9007_698949_157828_162309: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,451 [INFO] __main__: Done musique_4hop1__9007_698949_157828_162309: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,451 [ERROR] __main__: Pipeline error for musique_3hop1__136129_87694_124169: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,452 [INFO] __main__: Done musique_3hop1__136129_87694_124169: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,452 [ERROR] __main__: Pipeline error for musique_2hop__56851_343058: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,453 [INFO] __main__: Done musique_2hop__56851_343058: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,453 [ERROR] __main__: Pipeline error for musique_2hop__802991_443552: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,453 [INFO] __main__: Done musique_2hop__802991_443552: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,453 [ERROR] __main__: Pipeline error for musique_3hop2__304722_692815_63959: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,453 [INFO] __main__: Done musique_3hop2__304722_692815_63959: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,453 [ERROR] __main__: Pipeline error for musique_3hop1__108833_720914_41132: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,453 [INFO] __main__: Done musique_3hop1__108833_720914_41132: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,453 [ERROR] __main__: Pipeline error for musique_3hop1__208108_547811_80702: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,453 [INFO] __main__: Done musique_3hop1__208108_547811_80702: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,453 [ERROR] __main__: Pipeline error for musique_4hop1__391525_49925_13759_736921: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,453 [INFO] __main__: Done musique_4hop1__391525_49925_13759_736921: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,453 [ERROR] __main__: Pipeline error for musique_2hop__68322_510545: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,453 [INFO] __main__: Done musique_2hop__68322_510545: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,453 [ERROR] __main__: Pipeline error for musique_3hop1__849312_503371_21711: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,453 [INFO] __main__: Done musique_3hop1__849312_503371_21711: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,454 [ERROR] __main__: Pipeline error for musique_2hop__215896_460425: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,454 [INFO] __main__: Done musique_2hop__215896_460425: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,454 [ERROR] __main__: Pipeline error for musique_3hop1__820301_720914_41132: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,454 [INFO] __main__: Done musique_3hop1__820301_720914_41132: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,454 [ERROR] __main__: Pipeline error for musique_4hop1__342858_131850_33952_34099: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,454 [INFO] __main__: Done musique_4hop1__342858_131850_33952_34099: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,454 [ERROR] __main__: Pipeline error for musique_3hop1__639955_834494_34099: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,454 [INFO] __main__: Done musique_3hop1__639955_834494_34099: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,454 [ERROR] __main__: Pipeline error for musique_3hop1__305282_282081_73772: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,454 [INFO] __main__: Done musique_3hop1__305282_282081_73772: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,454 [ERROR] __main__: Pipeline error for musique_2hop__63214_319330: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,454 [INFO] __main__: Done musique_2hop__63214_319330: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,454 [ERROR] __main__: Pipeline error for musique_4hop2__71753_648517_70784_79935: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,454 [INFO] __main__: Done musique_4hop2__71753_648517_70784_79935: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,454 [ERROR] __main__: Pipeline error for musique_2hop__865961_159109: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,455 [INFO] __main__: Done musique_2hop__865961_159109: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,455 [ERROR] __main__: Pipeline error for musique_2hop__304852_758385: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,455 [INFO] __main__: Done musique_2hop__304852_758385: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,455 [ERROR] __main__: Pipeline error for musique_4hop1__152562_5274_458768_33633: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,455 [INFO] __main__: Done musique_4hop1__152562_5274_458768_33633: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,455 [ERROR] __main__: Pipeline error for musique_2hop__14_59409: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,456 [INFO] __main__: Done musique_2hop__14_59409: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,456 [ERROR] __main__: Pipeline error for musique_2hop__71016_75184: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,456 [INFO] __main__: Done musique_2hop__71016_75184: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,456 [ERROR] __main__: Pipeline error for musique_2hop__655505_110949: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,456 [INFO] __main__: Done musique_2hop__655505_110949: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,456 [ERROR] __main__: Pipeline error for musique_4hop1__58323_375563_161848_53331: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,456 [INFO] __main__: Done musique_4hop1__58323_375563_161848_53331: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,456 [ERROR] __main__: Pipeline error for musique_2hop__131455_11960: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,456 [INFO] __main__: Done musique_2hop__131455_11960: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,456 [ERROR] __main__: Pipeline error for musique_2hop__998_25839: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,456 [INFO] __main__: Done musique_2hop__998_25839: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,456 [ERROR] __main__: Pipeline error for musique_3hop1__127821_157828_239539: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,456 [INFO] __main__: Done musique_3hop1__127821_157828_239539: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,456 [ERROR] __main__: Pipeline error for musique_4hop1__130623_32392_823060_610794: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,457 [INFO] __main__: Done musique_4hop1__130623_32392_823060_610794: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,457 [ERROR] __main__: Pipeline error for musique_3hop2__89854_92991_76291: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,457 [INFO] __main__: Done musique_3hop2__89854_92991_76291: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,457 [ERROR] __main__: Pipeline error for musique_3hop2__132957_133264_40768: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,457 [INFO] __main__: Done musique_3hop2__132957_133264_40768: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,457 [ERROR] __main__: Pipeline error for musique_4hop3__754156_88460_30152_20999: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,457 [INFO] __main__: Done musique_4hop3__754156_88460_30152_20999: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,457 [ERROR] __main__: Pipeline error for musique_4hop1__88342_75218_128008_46894: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,457 [INFO] __main__: Done musique_4hop1__88342_75218_128008_46894: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,457 [ERROR] __main__: Pipeline error for musique_2hop__92385_2072: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,458 [INFO] __main__: Done musique_2hop__92385_2072: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,458 [ERROR] __main__: Pipeline error for musique_2hop__33288_157788: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,458 [INFO] __main__: Done musique_2hop__33288_157788: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,458 [ERROR] __main__: Pipeline error for musique_2hop__554167_451128: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,458 [INFO] __main__: Done musique_2hop__554167_451128: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,458 [ERROR] __main__: Pipeline error for musique_2hop__199513_801817: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,458 [INFO] __main__: Done musique_2hop__199513_801817: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,458 [ERROR] __main__: Pipeline error for musique_3hop1__28841_547811_41132: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,458 [INFO] __main__: Done musique_3hop1__28841_547811_41132: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,458 [ERROR] __main__: Pipeline error for musique_4hop1__88342_75218_128008_48717: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,459 [INFO] __main__: Done musique_4hop1__88342_75218_128008_48717: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,459 [INFO] __main__: Progress: 50/100 (760044 Q/hr)
+2026-03-20 19:37:06,459 [ERROR] __main__: Pipeline error for musique_4hop1__638988_17130_70784_61381: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,459 [INFO] __main__: Done musique_4hop1__638988_17130_70784_61381: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,459 [INFO] __main__: Progress: 60/100 (910995 Q/hr)
+2026-03-20 19:37:06,459 [INFO] __main__: Progress: 70/100 (1062647 Q/hr)
+2026-03-20 19:37:06,459 [INFO] __main__: Progress: 80/100 (1214273 Q/hr)
+2026-03-20 19:37:06,459 [INFO] __main__: Progress: 90/100 (1365869 Q/hr)
+2026-03-20 19:37:06,459 [ERROR] __main__: Pipeline error for musique_2hop__619265_45326: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,459 [INFO] __main__: Done musique_2hop__619265_45326: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,459 [ERROR] __main__: Pipeline error for musique_3hop1__622497_160088_85460: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /v1/chat/completions (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8000): Failed to establish a new connection: [Errno 111] Connection refused"))
+2026-03-20 19:37:06,459 [INFO] __main__: Done musique_3hop1__622497_160088_85460: 'Error: HTTPConnectionPool(host='127.0.0.' (0.0s, 0 tokens, modes={})
+2026-03-20 19:37:06,459 [INFO] __main__: Progress: 100/100 (1515707 Q/hr)
+2026-03-20 19:37:06,459 [INFO] __main__: Batch complete: 100 questions in 0.0 min (1515497.0 Q/hr)
+2026-03-20 19:37:06,459 [INFO] __main__: Total tokens by mode: {}
+File                                                       N  NormEM      F1    Cont
+------------------------------------------------------------------------------------
+aa_v2_pilot100/musique                                   100    0.0%    0.0%    2.0%
+
+Saved: results_qwen3/aa_v2_pilot100/musique/offline_eval_summary.json
+=== AA v2 musique pilot DONE ===

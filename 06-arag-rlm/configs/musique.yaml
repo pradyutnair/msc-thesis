@@ -1,0 +1,32 @@
+llm:
+  model: "Qwen/Qwen3-8B"
+  api_key: "dummy"
+  base_url: "http://127.0.0.1:8000/v1"
+  temperature: 0.6
+  max_tokens: 2048
+  chat_template_kwargs:
+    enable_thinking: true
+
+embedding:
+  model: "intfloat/e5-base-v2"
+  device: "cpu"
+
+agent:
+  max_loops: 10
+  max_token_budget: 50000
+  max_depth: 1
+  delegate:
+    max_children: 4
+    child_budget_fraction: 0.35
+    min_child_budget_tokens: 2000
+
+runner:
+  max_workers: 4
+
+data:
+  chunks_file: "/projects/prjs1800/msc-thesis/02-arag-multi-agent/data/musique/chunks.json"
+  questions_file: "/projects/prjs1800/msc-thesis/02-arag-multi-agent/data/musique/questions.json"
+  index_dir: "/projects/prjs1800/msc-thesis/02-arag-multi-agent/data/musique/index_e5_base_v2"
+
+output:
+  results_dir: "/projects/prjs1800/msc-thesis/06-arag-rlm/results/musique"

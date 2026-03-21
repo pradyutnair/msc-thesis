@@ -1,0 +1,46 @@
+#!/bin/bash
+#SBATCH --job-name=submod2
+#SBATCH --partition=gpu_h100
+#SBATCH --time=00:30:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=results/%j_smoke2.log
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/03-submod-rag
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+
+PORT=$((8000 + RANDOM % 1000))
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:${PORT}/v1"
+export ARAG_MODEL="Qwen3-8B"
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+python -m vllm.entrypoints.openai.api_server \
+  --model "Qwen/Qwen3-8B" --served-model-name "Qwen3-8B" --host 127.0.0.1 --port "$PORT" \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.92 \
+  --max-num-seqs 512 --enable-prefix-caching \
+  --chat-template /projects/prjs1800/scripts/qwen3_no_think_template.jinja \
+  --trust-remote-code &
+VLLM_PID=$!
+
+for i in $(seq 1 120); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  curl -s http://127.0.0.1:${PORT}/v1/models >/dev/null 2>&1 && break
+  sleep 3
+done
+echo "vLLM ready on port $PORT"
+
+python -u run.py --dataset musique --limit 10 --output results/smoke10v2 --budget 30 --select-k 8
+
+echo "=== SubmodRAG v2 smoke test DONE ==="

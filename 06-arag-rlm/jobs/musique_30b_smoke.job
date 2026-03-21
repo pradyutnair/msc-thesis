@@ -1,0 +1,54 @@
+#!/bin/bash
+#SBATCH --job-name=rlm_musique_30b_smoke
+#SBATCH --partition=gpu_h100
+#SBATCH --time=02:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=12
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=jobs/output/rlm_musique_30b_smoke.log
+
+set -euo pipefail
+
+module load 2025
+module load Anaconda3/2025.06-1
+module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/06-arag-rlm
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+
+cleanup() {
+  if [[ -n "${VLLM_PID:-}" ]]; then
+    kill "${VLLM_PID}" || true
+  fi
+}
+trap cleanup EXIT
+
+vllm serve "Qwen/Qwen3-30B-A3B" \
+  --served-model-name "Qwen3-30B-A3B" \
+  --max-model-len 16384 \
+  --gpu-memory-utilization 0.90 \
+  --max-num-seqs 8 \
+  --enable-auto-tool-choice \
+  --tool-call-parser hermes \
+  --trust-remote-code \
+  --generation-config vllm \
+  --port 8000 &
+VLLM_PID=$!
+
+until curl -sf http://127.0.0.1:8000/v1/models >/dev/null; do
+  sleep 2
+done
+echo "vLLM ready!"
+
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:8000/v1"
+export ARAG_MODEL="Qwen3-30B-A3B"
+export PYTHONPATH="/projects/prjs1800/msc-thesis/06-arag-rlm/src"
+
+python scripts/run.py \
+  --config configs/musique_30b.yaml \
+  --output /projects/prjs1800/msc-thesis/06-arag-rlm/results/musique_30b_smoke \
+  --limit 10

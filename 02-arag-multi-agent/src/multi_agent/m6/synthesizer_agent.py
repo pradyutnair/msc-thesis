@@ -19,6 +19,61 @@ from multi_agent.m6.autonomous_agent import AutonomousAgent
 from multi_agent.m6.blackboard import Blackboard
 from multi_agent.m6.types import SubQuestionStatus
 
+
+def _answer_type_matches(answer: str, expected_answer: str, question: str) -> bool:
+    """Check if answer plausibly matches the expected answer type.
+
+    Returns False only for clear mismatches (person name when date expected, etc.).
+    Returns True when unsure — we only reject obvious mismatches.
+    """
+    if not answer or not expected_answer:
+        return True
+
+    ans_lower = answer.lower().strip()
+    exp_lower = expected_answer.lower().strip()
+    q_lower = question.lower().strip()
+
+    # Detect if answer looks like a year/date
+    import re
+    is_date_answer = bool(re.match(r"^\d{3,4}$", ans_lower) or
+                          re.search(r"\b(january|february|march|april|may|june|july|august|september|october|november|december|\d{1,2}\s+\w+\s+\d{4})\b", ans_lower, re.IGNORECASE))
+
+    # Detect if question expects a date/time
+    expects_date = any(w in exp_lower for w in ["year", "date", "when", "month", "time"]) or q_lower.startswith("when ")
+
+    # Detect if question expects a place
+    expects_place = any(w in exp_lower for w in ["place", "location", "city", "country", "county", "region", "where"]) or q_lower.startswith("where ")
+
+    # Detect if question expects a person
+    expects_person = any(w in exp_lower for w in ["person", "who", "name of a person"]) or q_lower.startswith("who ")
+
+    # Reject: expects a date but got a non-date string with no digits and no month names
+    _month_names = {"january", "february", "march", "april", "may", "june",
+                    "july", "august", "september", "october", "november", "december",
+                    "jan", "feb", "mar", "apr", "jun", "jul", "aug", "sep", "oct", "nov", "dec",
+                    "mid-january", "mid-february", "mid-march", "mid-april", "mid-may", "mid-june",
+                    "mid-july", "mid-august", "mid-september", "mid-october", "mid-november", "mid-december"}
+    has_date_content = any(c.isdigit() for c in ans_lower) or any(m in ans_lower for m in _month_names)
+    if expects_date and not has_date_content:
+        return False
+
+    # Reject: expects a place but got what looks like a person name (two capitalized words, no place indicators)
+    if expects_place and not expects_person:
+        # Simple heuristic: if the answer has no place-like words and the question isn't asking for a person
+        place_indicators = ["county", "city", "river", "lake", "ocean", "mountain", "island",
+                           "delta", "valley", "sea", "gulf", "bay", "province", "state",
+                           "district", "region", "peninsula", "strait", "channel"]
+        if not any(w in ans_lower for w in place_indicators) and not any(c.isdigit() for c in ans_lower):
+            # Could still be a place name like "Paris" or "Tokyo" — only reject if very short
+            # and question clearly asks for a geographic feature
+            if any(w in q_lower for w in ["body of water", "river", "lake", "ocean", "sea", "gulf"]):
+                water_words = ["river", "lake", "ocean", "sea", "gulf", "bay", "delta",
+                              "strait", "channel", "creek", "stream", "waterway"]
+                if not any(w in ans_lower for w in water_words):
+                    return False
+
+    return True
+
 logger = logging.getLogger(__name__)
 
 _PROMPT_PATH = Path(__file__).parent / "prompts" / "synthesizer.txt"
@@ -77,14 +132,15 @@ class SynthesizerAgent(AutonomousAgent):
         sub_questions = observation["sub_questions"]
         verified_evidence = observation["verified_evidence"]
         entity_registry = observation["entity_registry"]
+        expected_answer = observation.get("expected_answer", "an entity")
 
         evidence_blocks = self._build_evidence_blocks(sub_questions, verified_evidence, entity_registry)
 
-        prompt = self._prompt_template.format(
-            question=question,
-            evidence_blocks=evidence_blocks,
-            entity_registry=self._format_entities(entity_registry, sub_questions),
-        )
+        prompt = self._prompt_template
+        prompt = prompt.replace("{question}", question)
+        prompt = prompt.replace("{evidence_blocks}", evidence_blocks)
+        prompt = prompt.replace("{entity_registry}", self._format_entities(entity_registry, sub_questions))
+        prompt = prompt.replace("{expected_answer}", expected_answer or "an entity")
         messages = [{"role": "user", "content": prompt}]
 
         total_tokens = 0
@@ -107,6 +163,12 @@ class SynthesizerAgent(AutonomousAgent):
             logger.info("Synthesizer: extraction empty/refusal, salvaged: '%s'", answer[:80])
 
         answer = normalize_answer(answer, question)
+
+        # v25: Reject answers that clearly mismatch expected type
+        if answer and not _answer_type_matches(answer, expected_answer, question):
+            logger.info("Synthesizer: type mismatch, answer '%s' doesn't match expected '%s'",
+                        answer[:40], expected_answer[:40])
+            answer = ""
 
         if self.enable_consistency_check and self._consistency_template and answer:
             answer, cons_tokens = await self._consistency_check(
@@ -202,13 +264,20 @@ class SynthesizerAgent(AutonomousAgent):
             logger.error("Consistency check error: %s", exc)
             return answer, 0
 
-        revised = extract_answer(raw) if "FINAL ANSWER" in raw.upper() else raw.strip()
-        if len(revised) > 100:
-            lines = [line.strip() for line in revised.split("\n") if line.strip()]
-            revised = lines[-1] if lines else revised
-        revised = normalize_answer(revised, question)
+        revised = extract_answer(raw) if "FINAL ANSWER" in raw.upper() else ""
+        revised = normalize_answer(revised, question) if revised else ""
 
-        if revised and revised.lower() != answer.lower() and not is_refusal(revised):
-            logger.info("Consistency check revised: '%s' -> '%s'", answer[:40], revised[:40])
+        # Only accept revision if it looks like a clean entity answer
+        _sentence_starts = ("the proposed", "the answer", "the correct", "based on",
+                            "according to", "the evidence", "neither", "there is no")
+        is_sentence = any(revised.lower().startswith(s) for s in _sentence_starts)
+
+        if (revised
+            and len(revised) < 80
+            and not is_sentence
+            and revised.lower() != answer.lower()
+            and not is_refusal(revised)):
+            logger.info("Consistency check revised: %s -> %s", answer[:40], revised[:40])
             return revised, tokens
+        return answer, tokens
         return answer, tokens

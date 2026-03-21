@@ -162,6 +162,7 @@ class Blackboard:
                 "verified_evidence": verified_evidence,
                 "entity_registry": entities,
                 "allow_synthesis": self.allow_synthesis,
+                "expected_answer": getattr(self, "expected_answer", ""),
             }
 
     async def read_for_coordinator(self) -> dict[str, Any]:

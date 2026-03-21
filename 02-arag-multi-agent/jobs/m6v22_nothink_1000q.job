@@ -1,0 +1,60 @@
+#!/bin/bash
+#SBATCH --job-name=m6_nt
+#SBATCH --partition=gpu_h100
+#SBATCH --time=03:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=jobs/output/%j_m6v22_nothink_%a.log
+#SBATCH --array=0-2
+
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"; export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export PYTHONPATH="/projects/prjs1800/msc-thesis/04-sage-autonomous/src:${PYTHONPATH:-}"
+
+DATASETS=(hotpotqa 2wiki musique)
+DATASET="${DATASETS[$SLURM_ARRAY_TASK_ID]}"
+RUN_OUT="results/m6v22_nothink_1000/$DATASET"
+rm -rf "$RUN_OUT"
+mkdir -p "$RUN_OUT" jobs/output
+
+PORT=$((8000 + SLURM_ARRAY_TASK_ID * 100 + RANDOM % 100))
+export ARAG_API_KEY="dummy"
+export ARAG_BASE_URL="http://127.0.0.1:${PORT}/v1"
+export ARAG_MODEL="Qwen3-8B"
+
+cleanup() { [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true; }
+trap cleanup EXIT TERM INT
+
+python -m vllm.entrypoints.openai.api_server \
+  --model "Qwen/Qwen3-8B" --served-model-name "Qwen3-8B" --host 127.0.0.1 --port "$PORT" \
+  --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.90 \
+  --max-num-seqs 256 --enable-prefix-caching \
+  --enable-auto-tool-choice --tool-call-parser hermes \
+  --chat-template /projects/prjs1800/scripts/qwen3_no_think_template.jinja \
+  --trust-remote-code &
+VLLM_PID=$!
+
+for i in $(seq 1 120); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  curl -s http://127.0.0.1:${PORT}/v1/models >/dev/null 2>&1 && break
+  sleep 3
+done
+echo "vLLM ready"
+
+python -u scripts/m6_runner.py \
+  --config configs/m6v22.yaml \
+  --dataset "$DATASET" \
+  --output "$RUN_OUT" \
+  --limit 1000 \
+  --workers 50
+
+echo "=== M6 $DATASET DONE ==="

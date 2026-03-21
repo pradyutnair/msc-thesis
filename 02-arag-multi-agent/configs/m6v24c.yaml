@@ -1,0 +1,32 @@
+# M6 v24c: Lean — zero-cost fixes only, no extra LLM calls
+# F2: Answer validation (free string check)
+# F3: Bridge guard (free, prevents wasted compute)
+# Improved _clean_answer entity extraction (free regex)
+# NO extraction pass, NO consistency check
+
+llm:
+  model: "Qwen3-8B"
+  api_key: "dummy"
+  temperature: 0.0
+  max_tokens: 8192
+
+embedding:
+  model: "intfloat/e5-base-v2"
+  device: "cpu"
+
+m6:
+  num_workers: 2
+  worker_max_steps: 12
+  max_actions: 80
+  token_budget: 200000
+  wall_clock_timeout: 600.0
+  idle_timeout: 180.0
+  enable_consistency_check: false
+  max_redecompositions: 1
+  enable_search_and_read: true
+  enable_semantic_warmstart: true
+  worker_plan_prompt: "worker_plan_v23.txt"
+  synthesizer_prompt: "synthesizer_v23.txt"
+  enable_extraction_pass: false
+  enable_answer_validation: true
+  enable_bridge_guard: true

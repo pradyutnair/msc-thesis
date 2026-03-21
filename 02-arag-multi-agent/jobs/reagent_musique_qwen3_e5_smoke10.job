@@ -1,0 +1,140 @@
+#!/bin/bash
+#SBATCH --job-name=reag_mq10
+#SBATCH --partition=gpu_h100
+#SBATCH --time=00:40:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --gpus=1
+#SBATCH --mem=64G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/jobs/output/%j_reagent_musique_qwen3_e5_smoke10.log
+
+set -euo pipefail
+module purge
+module load 2025
+module load Anaconda3/2025.06-1
+module load CUDA/12.8.0
+
+REAGENT_ROOT="/projects/prjs1800/external/ReAgent"
+ARAG_VENV="/projects/prjs1800/venvs/arag-venv"
+RESULT_DIR="/projects/prjs1800/msc-thesis/02-arag-multi-agent/results/reagent_musique_qwen3_e5_smoke10"
+VLLM_WORKERS=50
+
+cd "$REAGENT_ROOT"
+source "$ARAG_VENV/bin/activate"
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"
+export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export NO_PROXY="127.0.0.1,localhost"
+export no_proxy="127.0.0.1,localhost"
+
+rm -rf "$RESULT_DIR"
+mkdir -p "$RESULT_DIR" config
+
+PORT=$((8000 + RANDOM % 1000))
+cat > config/env.yaml <<EOF
+services:
+  openai:
+    api_key: "dummy"
+    base_url: "http://127.0.0.1:${PORT}/v1"
+  qwen:
+    api_key: "dummy"
+    base_url: "http://127.0.0.1:${PORT}/v1"
+  deepseek:
+    api_key: "dummy"
+    base_url: "http://127.0.0.1:${PORT}/v1"
+  claude:
+    api_key: "dummy"
+    base_url: "http://127.0.0.1:${PORT}/v1"
+EOF
+
+cleanup() {
+  if [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null; then
+    kill "$VLLM_PID" || true
+  fi
+}
+trap cleanup EXIT TERM INT
+
+echo "Starting Qwen3-8B vLLM for ReAgent MuSiQue smoke on port $PORT"
+python -m vllm.entrypoints.openai.api_server \
+  --model "Qwen/Qwen3-8B" \
+  --served-model-name "qwen3-8b" \
+  --host 127.0.0.1 \
+  --port "$PORT" \
+  --dtype auto \
+  --max-model-len 16384 \
+  --gpu-memory-utilization 0.92 \
+  --max-num-seqs "$VLLM_WORKERS" \
+  --enable-prefix-caching \
+  --trust-remote-code \
+  --generation-config vllm &
+VLLM_PID=$!
+
+for i in $(seq 1 240); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then
+    wait "$VLLM_PID" || true
+    exit 1
+  fi
+  STATUS="$(python -c "
+import json, urllib.request
+try:
+    data = json.load(urllib.request.urlopen('http://127.0.0.1:${PORT}/v1/models', timeout=2))
+    print('ok' if any('qwen3-8b' in m.get('id', '').lower() for m in data.get('data', [])) else 'wait')
+except Exception:
+    print('wait')
+")"
+  if [[ "$STATUS" == "ok" ]]; then
+    echo "vLLM ready after $i checks"
+    break
+  fi
+  sleep 2
+done
+
+python -u batch_eval_arag.py \
+  --dataset musique \
+  --output "$RESULT_DIR" \
+  --limit 10 \
+  --top-k 8 \
+  --max-context-chars 12000 \
+  --max-chunk-chars 1800 \
+  --model qwen3-8b \
+  --temperature 0.0 \
+  --retrieval-mode semantic \
+  --embedding-model intfloat/e5-base-v2
+
+python -u /projects/prjs1800/msc-thesis/04-sage-autonomous/scripts/eval_offline.py "$RESULT_DIR/predictions.jsonl"
+
+echo ""
+echo "Runtime summary"
+python - <<PY
+import json
+from pathlib import Path
+path = Path("$RESULT_DIR/runtime_summary.json")
+print(json.dumps(json.loads(path.read_text()), indent=2))
+PY
+
+echo ""
+echo "Sample predictions"
+python - <<PY
+import json
+from pathlib import Path
+path = Path("$RESULT_DIR/predictions.jsonl")
+with open(path, "r", encoding="utf-8") as f:
+    for idx, line in enumerate(f):
+        if idx >= 3:
+            break
+        row = json.loads(line)
+        print(f"Q{idx+1}: {row['question'][:120]}")
+        print(f"Gold: {row['gold_answer']}")
+        print(f"Pred: {row['pred_answer']}")
+        print(f"Verbose: {row.get('pred_answer_verbose', '')[:160]}")
+        print(
+            f"Chunks: {row.get('num_retrieved_chunks')} | "
+            f"Latency: {row.get('latency_seconds')}s | "
+            f"Tokens: {row.get('total_tokens')} "
+            f"(prompt={row.get('prompt_tokens')}, completion={row.get('completion_tokens')}) | "
+            f"Calls: {row.get('api_calls')}"
+        )
+        print()
+PY

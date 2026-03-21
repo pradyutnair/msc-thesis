@@ -1,0 +1,39 @@
+#!/bin/bash
+#SBATCH --job-name=m6_retry
+#SBATCH --partition=gpu_h100
+#SBATCH --time=01:00:00
+#SBATCH --gpus=1 --cpus-per-task=16 --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/jobs/output/%j_m6_retry_%a.log
+#SBATCH --array=0-2
+set -euo pipefail
+module purge; module load 2025; module load Anaconda3/2025.06-1; module load CUDA/12.8.0
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1 HF_HOME=/projects/prjs1800/.cache/huggingface ARAG_API_KEY=dummy ARAG_MODEL=Qwen3-8B
+export PYTHONPATH="/projects/prjs1800/msc-thesis/04-sage-autonomous/src:${PYTHONPATH:-}"
+
+DATASETS_SHORT=(hotpotqa 2wiki musique)
+DATASETS_FULL=(hotpotqa 2wikimultihop musique)
+DS_SHORT=${DATASETS_SHORT[$SLURM_ARRAY_TASK_ID]}
+DS_FULL=${DATASETS_FULL[$SLURM_ARRAY_TASK_ID]}
+PORT=$((8000 + SLURM_ARRAY_TASK_ID * 100 + RANDOM % 100))
+export ARAG_BASE_URL="http://127.0.0.1:$PORT/v1"
+RUN_OUT="results/m6v22_nothink_1000/${DS_SHORT}/retry"
+mkdir -p "$RUN_OUT"
+
+python -m vllm.entrypoints.openai.api_server --model Qwen/Qwen3-8B --served-model-name Qwen3-8B --host 127.0.0.1 --port $PORT --dtype auto --max-model-len 32768 --gpu-memory-utilization 0.90 --max-num-seqs 256 --enable-prefix-caching --enable-auto-tool-choice --tool-call-parser hermes --chat-template /projects/prjs1800/scripts/qwen3_no_think_template.jinja --trust-remote-code &
+VLLM_PID=$!; trap "kill $VLLM_PID 2>/dev/null||true" EXIT
+for i in $(seq 1 120); do curl -s http://127.0.0.1:$PORT/v1/models >/dev/null 2>&1 && break; sleep 3; done
+
+# Swap questions file temporarily
+ORIG="data/$DS_FULL/questions.json"
+RETRY="data/$DS_FULL/retry_questions_${DS_SHORT}.json"
+BACKUP="data/$DS_FULL/questions_backup.json"
+cp "$ORIG" "$BACKUP"
+cp "$RETRY" "$ORIG"
+
+python -u scripts/m6_runner.py --config configs/m6v22.yaml --dataset "$DS_SHORT" --output "$RUN_OUT" --workers 50
+
+# Restore original
+mv "$BACKUP" "$ORIG"
+echo "=== M6 retry $DS_SHORT DONE ==="

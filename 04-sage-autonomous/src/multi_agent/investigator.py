@@ -23,14 +23,6 @@ logger = logging.getLogger(__name__)
 
 _PROMPTS_DIR = Path(__file__).parent / "prompts"
 
-# Attribute keywords for automatic query augmentation (from sage_v2_pipeline)
-_BIRTH_KEYWORDS = {"birthplace", "born", "birth", "native", "hometown"}
-_DEATH_KEYWORDS = {"death", "died", "death place", "buried", "grave"}
-_FOUNDING_KEYWORDS = {"founded", "established", "created", "formed", "inception", "origin"}
-_BATTLE_KEYWORDS = {"battle", "war", "conflict", "siege", "fought"}
-_ABOLISH_KEYWORDS = {"abolished", "dissolved", "ended", "terminated", "ceased"}
-_LOCATION_KEYWORDS = {"located", "headquarters", "based", "situated", "capital", "city"}
-
 _REFUSAL_PATTERNS = [
     "cannot be determined", "insufficient information", "not mentioned",
     "no evidence", "unable to determine", "not enough information", "unknown",
@@ -42,13 +34,10 @@ Task: {hop_question}
 Original question: {original_question}
 Context from other agents: {blackboard_context}
 
-Generate entities to search for. Each entity should have 3-5 SHORT keyword queries (1-4 words each).
-- Use resolved names from context (e.g., "Steven Spielberg" not "the director")
-- Include name variants, abbreviations, and attribute keywords
-- For "where was X born?" → queries: ["X", "X born", "X birthplace", "X early life"]
-- For "who directed Y?" → queries: ["Y", "Y film", "Y directed", "Y movie director"]
-- For "in which county is X?" → queries: ["X", "X county", "X located", "X municipality"]
-- For "what nationality is X?" → queries: ["X", "X nationality", "X born country", "X biography"]
+Generate entities to search for. Each entity should have 3-5 SHORT search queries.
+- Use resolved names from context rather than pronouns or descriptions when possible.
+- Queries should be evidence-seeking and faithful to the task.
+- Prefer generic reformulations, aliases, and concise property hints over dataset-specific templates.
 
 Output JSON only:
 {{"entities": [{{"entity": "name", "goal": "what to find", "queries": ["q1", "q2", "q3"]}}]}}"""
@@ -64,16 +53,13 @@ Documents:
 {documents}
 
 Instructions:
-- Extract ANY fact mentioning the entity, especially facts answering the goal.
+- Extract only facts supported by the documents.
 - Preserve exact names, dates, numbers VERBATIM from the documents.
-- Be LENIENT: if a fact might be relevant, include it.
-- If the goal asks for a specific attribute and a document mentions it, that fact MUST be included.
+- Include the most relevant facts for the goal.
 - The "answer" field MUST directly answer the GOAL, not just name the entity.
-  Example: If goal is "Find which county Hammerfest is in", answer "Finnmark" NOT "Hammerfest".
-  Example: If goal is "Find when song X was released", answer "16 March 1987" NOT "song X".
 - The "answer" field MUST be a concise entity/value (1-6 words), NOT a full sentence.
 - Use the FULL CANONICAL NAME as it appears in the documents (e.g., "James Thomas Harrison" not "Jim Harrison").
-- NEVER say "not mentioned" or "no evidence" — always provide your best guess from the documents.
+- If the documents do not support a confident answer, set "answer" to "" and "confidence" to 0.0.
 
 
 
@@ -131,24 +117,26 @@ def _dedupe_keep_order(values: list[str]) -> list[str]:
 def _augment_queries_for_goal(entity: str, goal: str, base_queries: list[str]) -> list[str]:
     augmented = list(base_queries)
     name = entity.strip()
-    goal_lower = (goal or "").lower()
-    goal_words = set(goal_lower.split())
+    goal_words = [
+        word for word in re.findall(r"[A-Za-z0-9]+", (goal or "").lower())
+        if len(word) > 2
+    ]
+    stop_words = {
+        "the", "and", "for", "with", "from", "that", "this", "what", "which",
+        "when", "where", "who", "whose", "how", "many", "much", "into", "onto",
+        "about", "after", "before", "during", "between", "under", "over",
+    }
+    content_words = [word for word in goal_words if word not in stop_words]
+    goal_hint = " ".join(content_words[:4]).strip()
 
     if name and name.lower() not in {q.lower() for q in augmented}:
         augmented.append(name)
 
-    if goal_words & _BIRTH_KEYWORDS:
-        augmented.extend([f"{name} born", f"{name} early life biography"])
-    if goal_words & _DEATH_KEYWORDS:
-        augmented.extend([f"{name} died death", f"{name} obituary"])
-    if goal_words & _FOUNDING_KEYWORDS:
-        augmented.extend([f"{name} history founded", f"{name} established origin"])
-    if goal_words & _BATTLE_KEYWORDS:
-        augmented.extend([f"battle of {name}", f"{name} military history war"])
-    if goal_words & _ABOLISH_KEYWORDS:
-        augmented.extend([f"{name} abolished dissolved history", f"{name} ended"])
-    if goal_words & _LOCATION_KEYWORDS:
-        augmented.extend([f"{name} location headquarters", f"{name} based city"])
+    if name and goal_hint:
+        augmented.append(f"{name} {goal_hint}")
+
+    if goal_hint:
+        augmented.append(goal_hint)
 
     return _dedupe_keep_order(augmented)
 
@@ -292,7 +280,7 @@ class Investigator:
         stop_words = {"who", "what", "where", "when", "which", "how", "is", "are",
                        "was", "were", "the", "a", "an", "of", "in", "at", "by",
                        "for", "to", "from", "with", "on", "and", "or", "did", "do",
-                       "does", "has", "have", "had", "born", "directed", "founded"}
+                       "does", "has", "have", "had"}
         for word in words:
             clean = word.strip("?,!.\"'()")
             if clean and clean[0].isupper() and clean.lower() not in stop_words:
@@ -388,15 +376,13 @@ class Investigator:
             if not supporting:
                 supporting = chunk_ids[:5]
 
-            # Force at least 1 fact from chunks if LLM returned empty
+            # Preserve some evidence text if parsing succeeded but fact extraction came back empty.
             if not facts and chunks:
                 fallback = _extract_candidate_fact_from_chunks(
                     chunks, entity_request["entity"], entity_request.get("goal", ""),
                 )
                 if fallback:
                     facts = [fallback]
-                    if confidence < 0.2:
-                        confidence = 0.2
 
             return {
                 "answer": answer,
@@ -405,14 +391,14 @@ class Investigator:
                 "supporting_chunk_ids": supporting,
             }
         except (ValueError, TypeError):
-            # Fallback extraction
+            # Preserve a candidate fact for debugging/retry, but do not invent an answer.
             fallback = _extract_candidate_fact_from_chunks(
                 chunks, entity_request["entity"], entity_request.get("goal", ""),
             )
             return {
-                "answer": fallback[:100] if fallback else "",
+                "answer": "",
                 "facts": [fallback] if fallback else [],
-                "confidence": 0.2 if fallback else 0.0,
+                "confidence": 0.0,
                 "supporting_chunk_ids": chunk_ids[:5],
             }
 
@@ -475,11 +461,6 @@ class Investigator:
                 best_confidence = confidence
                 best_answer = answer
 
-        # If no answer from summaries, try to use facts
-        if not best_answer and all_facts:
-            best_answer = all_facts[0][:200]
-            best_confidence = max(best_confidence, 0.2)
-
         # Retry low-confidence entities with alternative query strategies
         if self.retry_low_confidence and best_confidence < 0.6 and entity_requests:
             for entity_req in entity_requests:
@@ -488,14 +469,12 @@ class Investigator:
                 # Generate alternative queries
                 alt_queries = []
                 if entity:
-                    alt_queries.append(f"{entity} wikipedia")
-                    alt_queries.append(f"{entity} biography")
-                    # Try the hop question directly as a query
-                    alt_queries.append(hop_q[:50])
-                    # Try goal keywords
-                    goal_words = [w for w in goal.split() if len(w) > 3]
-                    if goal_words and entity:
-                        alt_queries.append(f"{entity} {' '.join(goal_words[:2])}")
+                    alt_queries.append(entity)
+                    alt_queries.append(hop_q[:80])
+                    goal_words = [w for w in re.findall(r"[A-Za-z0-9]+", goal) if len(w) > 3]
+                    if goal_words:
+                        alt_queries.append(f"{entity} {' '.join(goal_words[:3])}")
+                        alt_queries.append(" ".join(goal_words[:4]))
 
                 if not alt_queries:
                     continue
@@ -545,9 +524,9 @@ class Investigator:
                     best_confidence = retry_confidence
                     best_answer = retry_answer
 
-        # Retry with alternative queries if nothing found
+        # Retry with alternative queries if nothing was retrieved at all.
         if not best_answer and total_chunks_read == 0:
-            alt_queries = [hop_q, f"what is {hop_q}"]
+            alt_queries = [hop_q]
             for q in alt_queries:
                 context = AgentContext()
                 _, log = await asyncio.to_thread(
@@ -558,18 +537,10 @@ class Investigator:
                     if self.read_tool and hasattr(self.read_tool, "chunks_dict"):
                         text = self.read_tool.chunks_dict.get(str(cid), "")
                     if text:
-                        # Extract best sentence as answer
-                        fact = _extract_candidate_fact_from_chunks(
-                            [{"text": text}], "", hop_q,
-                        )
-                        if fact:
-                            best_answer = fact[:200]
-                            best_confidence = 0.15
-                            all_evidence.append({
-                                "id": cid, "text": text[:500], "source_agent": self.agent_id,
-                            })
-                            break
-                if best_answer:
+                        all_evidence.append({
+                            "id": cid, "text": text[:500], "source_agent": self.agent_id,
+                        })
+                if all_evidence:
                     break
 
         # Write to blackboard
