@@ -1,0 +1,34 @@
+# M7v1: CORAL — Collaborative Evidence-Pooling Multi-Agent RAG
+#
+# Architecture:
+#   - Evidence Pool Search: workers search predecessor docs before new retrieval
+#   - Adaptive Execution: concurrent for independent SQs, sequential for chains
+#   - Unified Worker: one worker type (pool + new retrieval + extraction in 1 LLM call)
+#   - Collaborative Correction: downstream workers can correct upstream answers
+#
+# Agents (3 only):
+#   - Decomposer: M6's decomposer_v29.txt (typed sub-questions with DAG)
+#   - Worker: M7's worker.txt (evidence pool + new docs + extraction)
+#   - Synthesizer: M6's synthesizer_v29.txt (comparison/bridge/yes-no strategies)
+
+llm:
+  model: "Qwen3-8B"
+  api_key: "dummy"
+  temperature: 0.1
+  max_tokens: 1024
+
+retriever:
+  embed_model: "intfloat/e5-base-v2"
+  embed_device: "cpu"
+  top_k: 10
+  neighborhood: 2
+
+pipeline:
+  # Prompt file names (decomposer/synthesizer from m6/prompts/, worker from m7/prompts/)
+  decomposer_prompt: "decomposer_v29.txt"
+  worker_prompt: "worker.txt"
+  synthesizer_prompt: "synthesizer_v29.txt"
+
+  top_k: 10              # chunks per retrieval call
+  max_retries: 1          # retry attempts per sub-question
+  evidence_pool_top_k: 5  # docs to select from evidence pool per sub-question

@@ -1,0 +1,32 @@
+You are a verification agent. Another agent answered a sub-question. Your job is to check if the answer is correct based on the evidence.
+
+## Original Question
+{original_question}
+
+## Sub-Question
+{sub_question}
+
+## Required Answer Type
+{answer_type}
+
+## Proposed Answer
+{proposed_answer}
+
+## Evidence Documents
+{documents}
+
+## Verification Task
+Check THREE things:
+1. Does the answer match the required type? (e.g., if "country name" is required, "Virginia" is WRONG — that's a state, not a country)
+2. Is the answer actually supported by the evidence documents?
+3. Is there a BETTER answer in the evidence that more precisely answers the sub-question?
+
+Respond in JSON:
+{
+  "verdict": "CONFIRM" or "CORRECT",
+  "corrected_answer": "only if verdict is CORRECT, provide the right answer",
+  "reason": "brief explanation"
+}
+
+If the answer is correct, respond: {"verdict": "CONFIRM", "corrected_answer": "", "reason": "..."}
+If wrong, respond: {"verdict": "CORRECT", "corrected_answer": "the right answer", "reason": "..."}
