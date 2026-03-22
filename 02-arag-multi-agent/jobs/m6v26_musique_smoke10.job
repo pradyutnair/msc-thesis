@@ -1,0 +1,51 @@
+#!/bin/bash
+#SBATCH --job-name=m6v26_mus_s10
+#SBATCH --partition=gpu_h100
+#SBATCH --time=01:15:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/02-arag-multi-agent/jobs/output/%j_m6v26_musique_smoke10.log
+
+set -euo pipefail
+module purge
+module load 2025
+module load Anaconda3/2025.06-1
+module load CUDA/12.8.0
+
+cd /projects/prjs1800/msc-thesis/02-arag-multi-agent
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME="/projects/prjs1800/.cache/huggingface"
+export HF_HUB_CACHE="$HF_HOME"
+export TRANSFORMERS_CACHE="$HF_HOME"
+export TOKENIZERS_PARALLELISM=false
+export ARAG_API_KEY="dummy"
+export ARAG_MODEL="Qwen3-8B"
+
+PORT=$((8000 + RANDOM % 200))
+export ARAG_BASE_URL="http://127.0.0.1:${PORT}/v1"
+RUN_OUT="results/m6v26_reflective_relay_smoke10/musique"
+rm -rf "$RUN_OUT"
+mkdir -p "$RUN_OUT" jobs/output
+
+cleanup() {
+  [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null && kill "$VLLM_PID" || true
+}
+trap cleanup EXIT TERM INT
+
+python -m vllm.entrypoints.openai.api_server   --model "Qwen/Qwen3-8B"   --served-model-name "Qwen3-8B"   --host 127.0.0.1   --port "$PORT"   --dtype bfloat16   --max-model-len 32768   --gpu-memory-utilization 0.94   --max-num-seqs 256   --enable-prefix-caching   --enable-auto-tool-choice   --tool-call-parser hermes   --trust-remote-code   --generation-config vllm &
+VLLM_PID=$!
+
+for i in $(seq 1 150); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then wait "$VLLM_PID" || true; exit 1; fi
+  curl -s "http://127.0.0.1:${PORT}/v1/models" >/dev/null 2>&1 && break
+  sleep 3
+done
+echo "vLLM ready on port $PORT"
+
+python -u scripts/m6_runner.py   --config configs/m6v26_reflective_relay.yaml   --dataset musique   --output "$RUN_OUT"   --limit 10   --workers 4
+
+python -u scripts/eval_offline.py "$RUN_OUT/predictions.jsonl"
+python -u scripts/analyze_m6.py --results "$RUN_OUT"

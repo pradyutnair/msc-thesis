@@ -1,0 +1,28 @@
+# M6 v27c: reflective decomposition + cleaned worker prompt, no extraction
+llm:
+  model: "Qwen3-8B"
+  api_key: "dummy"
+  temperature: 0.0
+  max_tokens: 8192
+
+embedding:
+  model: "intfloat/e5-base-v2"
+  device: "cpu"
+
+m6:
+  num_workers: 2
+  worker_max_steps: 16
+  max_actions: 100
+  token_budget: 300000
+  wall_clock_timeout: 900.0
+  idle_timeout: 300.0
+  enable_consistency_check: false
+  max_redecompositions: 1
+  enable_search_and_read: true
+  enable_semantic_warmstart: false
+  worker_plan_prompt: "worker_plan_v27.txt"
+  synthesizer_prompt: "synthesizer_v25.txt"
+  enable_extraction_pass: false
+  enable_answer_validation: true
+  enable_bridge_guard: true
+  enable_reflective_decomposition: true

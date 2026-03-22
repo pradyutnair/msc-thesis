@@ -1,0 +1,29 @@
+# M6 v26: reflective decomposition + evidence relay + grounded extraction
+llm:
+  model: "Qwen3-8B"
+  api_key: "dummy"
+  temperature: 0.0
+  max_tokens: 8192
+
+embedding:
+  model: "intfloat/e5-base-v2"
+  device: "cpu"
+
+m6:
+  num_workers: 2
+  worker_max_steps: 12
+  max_actions: 100
+  token_budget: 300000
+  wall_clock_timeout: 900.0
+  idle_timeout: 300.0
+  enable_consistency_check: false
+  max_redecompositions: 1
+  enable_search_and_read: true
+  enable_semantic_warmstart: false
+  enable_extraction_pass: true
+  enable_answer_validation: true
+  enable_bridge_guard: true
+  enable_query_preretrieval: true
+  enable_reflective_decomposition: true
+  worker_plan_prompt: "worker_plan_v26.txt"
+  synthesizer_prompt: "synthesizer_v26.txt"

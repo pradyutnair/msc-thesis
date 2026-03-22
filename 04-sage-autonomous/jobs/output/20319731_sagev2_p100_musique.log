@@ -1,691 +1,0 @@
-============================================================================================== 
-Warning! Mixing Conda and module environments may lead to corruption of the
-user environment. 
-We do not recommend users mixing those two environments unless absolutely
-necessary. Note that 
-SURF does not provide any support for Conda environment.
-For more information, please refer to our software policy page:
-https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
-
-Remember that many packages have already been installed on the system and can
-be loaded using 
-the 'module load <package__name>' command. If you are uncertain if a package is
-already available 
-on the system, please use 'module avail' or 'module spider' to search for it.
-============================================================================================== 
-wait
-wait
-wait
-/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-wait
-wait
-wait
-wait
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:36:49 [utils.py:325] 
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:36:49 [utils.py:325]        █     █     █▄   ▄█
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:36:49 [utils.py:325]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.15.1
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:36:49 [utils.py:325]   █▄█▀ █     █     █     █  model   Qwen/Qwen3-8B
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:36:49 [utils.py:325]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:36:49 [utils.py:325] 
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:36:49 [utils.py:261] non-default args: {'host': '127.0.0.1', 'model': 'Qwen/Qwen3-8B', 'trust_remote_code': True, 'max_model_len': 32768, 'served_model_name': ['Qwen3-8B'], 'generation_config': 'vllm'}
-[0;36m(APIServer pid=539554)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
-[0;36m(APIServer pid=539554)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:36:50 [model.py:541] Resolved architecture: Qwen3ForCausalLM
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:36:50 [model.py:1561] Using max model len 32768
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:36:51 [scheduler.py:226] Chunked prefill is enabled with max_num_batched_tokens=2048.
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:36:51 [vllm.py:624] Asynchronous scheduling is enabled.
-wait
-wait
-/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-wait
-[0;36m(EngineCore_DP0 pid=539641)[0;0m INFO 03-04 11:36:59 [core.py:96] Initializing a V1 LLM engine (v0.15.1) with config: model='Qwen/Qwen3-8B', speculative_config=None, tokenizer='Qwen/Qwen3-8B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=Qwen3-8B, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'splitting_ops': ['vllm::unified_attention', 'vllm::unified_attention_with_output', 'vllm::unified_mla_attention', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::gdn_attention_core', 'vllm::kda_attention', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::unified_kv_cache_update'], 'compile_mm_encoder': False, 'compile_sizes': [], 'compile_ranges_split_points': [2048], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False}, 'max_cudagraph_capture_size': 512, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': True}, 'local_cache_dir': None, 'static_all_moe_layers': []}
-wait
-wait
-[0;36m(EngineCore_DP0 pid=539641)[0;0m INFO 03-04 11:37:04 [parallel_state.py:1212] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://145.136.62.31:57599 backend=nccl
-[0;36m(EngineCore_DP0 pid=539641)[0;0m INFO 03-04 11:37:04 [parallel_state.py:1423] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A
-[0;36m(EngineCore_DP0 pid=539641)[0;0m INFO 03-04 11:37:05 [gpu_model_runner.py:4033] Starting to load model Qwen/Qwen3-8B...
-wait
-wait
-[0;36m(EngineCore_DP0 pid=539641)[0;0m INFO 03-04 11:37:09 [cuda.py:364] Using FLASH_ATTN attention backend out of potential backends: ('FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION')
-[0;36m(EngineCore_DP0 pid=539641)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/5 [00:00<?, ?it/s]
-[0;36m(EngineCore_DP0 pid=539641)[0;0m Loading safetensors checkpoint shards:  20% Completed | 1/5 [00:01<00:07,  1.87s/it]
-wait
-wait
-[0;36m(EngineCore_DP0 pid=539641)[0;0m Loading safetensors checkpoint shards:  40% Completed | 2/5 [00:06<00:09,  3.22s/it]
-wait
-[0;36m(EngineCore_DP0 pid=539641)[0;0m Loading safetensors checkpoint shards:  60% Completed | 3/5 [00:11<00:08,  4.09s/it]
-wait
-wait
-[0;36m(EngineCore_DP0 pid=539641)[0;0m Loading safetensors checkpoint shards:  80% Completed | 4/5 [00:16<00:04,  4.48s/it]
-wait
-wait
-[0;36m(EngineCore_DP0 pid=539641)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:21<00:00,  4.69s/it]
-[0;36m(EngineCore_DP0 pid=539641)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:21<00:00,  4.26s/it]
-[0;36m(EngineCore_DP0 pid=539641)[0;0m 
-[0;36m(EngineCore_DP0 pid=539641)[0;0m INFO 03-04 11:37:32 [default_loader.py:291] Loading weights took 21.43 seconds
-[0;36m(EngineCore_DP0 pid=539641)[0;0m INFO 03-04 11:37:32 [gpu_model_runner.py:4130] Model loading took 15.27 GiB memory and 25.777694 seconds
-wait
-wait
-wait
-wait
-wait
-[0;36m(EngineCore_DP0 pid=539641)[0;0m INFO 03-04 11:37:48 [backends.py:812] Using cache directory: /home/pnair/.cache/vllm/torch_compile_cache/3dd797eba8/rank_0_0/backbone for vLLM's torch.compile
-[0;36m(EngineCore_DP0 pid=539641)[0;0m INFO 03-04 11:37:48 [backends.py:872] Dynamo bytecode transform time: 15.41 s
-wait
-wait
-wait
-[0;36m(EngineCore_DP0 pid=539641)[0;0m INFO 03-04 11:37:57 [backends.py:267] Directly load the compiled graph(s) for compile range (1, 2048) from the cache, took 4.621 s
-[0;36m(EngineCore_DP0 pid=539641)[0;0m INFO 03-04 11:37:57 [monitor.py:34] torch.compile takes 20.04 s in total
-[0;36m(EngineCore_DP0 pid=539641)[0;0m INFO 03-04 11:37:58 [gpu_worker.py:356] Available KV cache memory: 18.83 GiB
-[0;36m(EngineCore_DP0 pid=539641)[0;0m INFO 03-04 11:37:58 [kv_cache_utils.py:1307] GPU KV cache size: 137,136 tokens
-[0;36m(EngineCore_DP0 pid=539641)[0;0m INFO 03-04 11:37:58 [kv_cache_utils.py:1312] Maximum concurrency for 32,768 tokens per request: 4.19x
-wait
-[0;36m(EngineCore_DP0 pid=539641)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/51 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   4%|▍         | 2/51 [00:00<00:04, 12.11it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   8%|▊         | 4/51 [00:00<00:03, 13.48it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  12%|█▏        | 6/51 [00:00<00:03, 14.46it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  16%|█▌        | 8/51 [00:00<00:02, 15.00it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  20%|█▉        | 10/51 [00:00<00:02, 15.94it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  24%|██▎       | 12/51 [00:00<00:02, 16.56it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  27%|██▋       | 14/51 [00:00<00:02, 17.03it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  31%|███▏      | 16/51 [00:00<00:02, 17.36it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  37%|███▋      | 19/51 [00:01<00:01, 18.43it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  43%|████▎     | 22/51 [00:01<00:01, 19.06it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  49%|████▉     | 25/51 [00:01<00:01, 19.56it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  55%|█████▍    | 28/51 [00:01<00:01, 19.96it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  59%|█████▉    | 30/51 [00:01<00:01, 19.68it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  65%|██████▍   | 33/51 [00:01<00:00, 20.03it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  71%|███████   | 36/51 [00:01<00:00, 20.22it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  76%|███████▋  | 39/51 [00:02<00:00, 20.26it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  82%|████████▏ | 42/51 [00:02<00:00, 20.32it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  88%|████████▊ | 45/51 [00:02<00:00, 20.52it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  94%|█████████▍| 48/51 [00:02<00:00, 20.78it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:02<00:00, 20.20it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:02<00:00, 18.78it/s]
-[0;36m(EngineCore_DP0 pid=539641)[0;0m Capturing CUDA graphs (decode, FULL):   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL):   6%|▌         | 2/35 [00:00<00:02, 16.43it/s]Capturing CUDA graphs (decode, FULL):  14%|█▍        | 5/35 [00:00<00:01, 20.04it/s]wait
-Capturing CUDA graphs (decode, FULL):  23%|██▎       | 8/35 [00:00<00:01, 21.03it/s]Capturing CUDA graphs (decode, FULL):  31%|███▏      | 11/35 [00:00<00:01, 21.64it/s]Capturing CUDA graphs (decode, FULL):  40%|████      | 14/35 [00:00<00:00, 21.98it/s]Capturing CUDA graphs (decode, FULL):  49%|████▊     | 17/35 [00:00<00:00, 22.12it/s]Capturing CUDA graphs (decode, FULL):  57%|█████▋    | 20/35 [00:00<00:00, 22.10it/s]Capturing CUDA graphs (decode, FULL):  66%|██████▌   | 23/35 [00:01<00:00, 22.00it/s]Capturing CUDA graphs (decode, FULL):  74%|███████▍  | 26/35 [00:01<00:00, 22.12it/s]Capturing CUDA graphs (decode, FULL):  83%|████████▎ | 29/35 [00:01<00:00, 22.23it/s]Capturing CUDA graphs (decode, FULL):  91%|█████████▏| 32/35 [00:01<00:00, 22.50it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 22.71it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 21.99it/s]
-[0;36m(EngineCore_DP0 pid=539641)[0;0m INFO 03-04 11:38:03 [gpu_model_runner.py:5063] Graph capturing finished in 5 secs, took 0.53 GiB
-[0;36m(EngineCore_DP0 pid=539641)[0;0m INFO 03-04 11:38:03 [core.py:272] init engine (profile, create kv cache, warmup model) took 30.97 seconds
-wait
-[0;36m(EngineCore_DP0 pid=539641)[0;0m INFO 03-04 11:38:04 [vllm.py:624] Asynchronous scheduling is enabled.
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:05 [api_server.py:665] Supported tasks: ['generate']
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:05 [serving.py:177] Warming up chat template processing...
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [hf.py:310] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [serving.py:212] Chat template warmup completed in 1462.3ms
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [api_server.py:946] Starting vLLM API server 0 on http://127.0.0.1:8000
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:38] Available routes are:
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /openapi.json, Methods: GET, HEAD
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /docs, Methods: GET, HEAD
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /docs/oauth2-redirect, Methods: GET, HEAD
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /redoc, Methods: GET, HEAD
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /scale_elastic_ep, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /is_scaling_elastic_ep, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /tokenize, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /detokenize, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /inference/v1/generate, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /pause, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /resume, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /is_paused, Methods: GET
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /metrics, Methods: GET
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /health, Methods: GET
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /v1/chat/completions, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /v1/chat/completions/render, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /v1/responses, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /v1/responses/{response_id}, Methods: GET
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /v1/responses/{response_id}/cancel, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /v1/audio/transcriptions, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /v1/audio/translations, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /v1/completions, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /v1/completions/render, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /v1/messages, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /v1/models, Methods: GET
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /load, Methods: GET
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /version, Methods: GET
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /ping, Methods: GET
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /ping, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /invocations, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /classify, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /v1/embeddings, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /score, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /v1/score, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /rerank, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /v1/rerank, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /v2/rerank, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:06 [launcher.py:46] Route: /pooling, Methods: POST
-[0;36m(APIServer pid=539554)[0;0m INFO:     Started server process [539554]
-[0;36m(APIServer pid=539554)[0;0m INFO:     Waiting for application startup.
-[0;36m(APIServer pid=539554)[0;0m INFO:     Application startup complete.
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:34860 - "GET /v1/models HTTP/1.1" 200 OK
-ok
-2026-03-04 11:38:08,621 [INFO] __main__: Using chunks file: /gpfs/work5/0/prjs1800/msc-thesis/03-sage-multi-agent/data/musique/chunks.json
-2026-03-04 11:38:08,622 [INFO] __main__: Using index dir: /gpfs/work5/0/prjs1800/msc-thesis/03-sage-multi-agent/data/musique/index_e5_base_v2
-2026-03-04 11:38:08,656 [INFO] __main__: Total: 100 | Completed: 0 | Pending: 100
-/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-2026-03-04 11:38:18,201 [INFO] __main__: Loading embedding model: intfloat/e5-base-v2
-2026-03-04 11:38:18,202 [INFO] sentence_transformers.SentenceTransformer: Load pretrained SentenceTransformer: intfloat/e5-base-v2
-2026-03-04 11:38:20,987 [INFO] __main__: Embedding model loaded successfully!
-2026-03-04 11:38:21,095 [INFO] __main__: Processing musique_2hop__71016_75184: Who played the girlfriend of who plays marty mcfly's daughte
-2026-03-04 11:38:21,096 [INFO] __main__: Processing musique_3hop1__820301_720914_41132: How many times did plague occur in the place where Crucifixi
-2026-03-04 11:38:21,096 [INFO] __main__: Processing musique_4hop1__58323_375563_161848_53331: When was the death penalty abolished in the country near the
-2026-03-04 11:38:21,097 [INFO] __main__: Processing musique_3hop1__136129_87694_124169: What year did the Governor of the city where the basilica na
-2026-03-04 11:38:21,097 [INFO] __main__: Processing musique_2hop__131455_11960: What is the tallest building in the state where KZAR is loca
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54352 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54368 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54372 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54378 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,105 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who played the girlfriend of who plays marty mcfly's daughter in back to the fut': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54384 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,106 [INFO] __main__: Done musique_2hop__71016_75184: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,106 [INFO] __main__: Processing musique_2hop__354635_174222: What company succeeded the owner of Empire Sports Network?
-2026-03-04 11:38:21,107 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How many times did plague occur in the place where Crucifixion's creator died?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,108 [INFO] __main__: Done musique_3hop1__820301_720914_41132: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,108 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What year did the Governor of the city where the basilica named after the same s': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,108 [INFO] __main__: Done musique_3hop1__136129_87694_124169: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,108 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the tallest building in the state where KZAR is located?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,108 [INFO] __main__: Done musique_2hop__131455_11960: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,108 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was the death penalty abolished in the country near the country where the w': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,108 [INFO] __main__: Done musique_4hop1__58323_375563_161848_53331: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,108 [INFO] __main__: Processing musique_2hop__998_25839: What is the maximum load drawn by the 1.0 and 2.0 versions o
-2026-03-04 11:38:21,109 [INFO] __main__: Processing musique_3hop1__849312_503371_21711: When was the Palau de la Generalitat constructed in the city
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54386 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,109 [INFO] __main__: Processing musique_3hop1__127821_157828_239539: Where is the headquarters of Radio Television of this countr
-2026-03-04 11:38:21,110 [INFO] __main__: Processing musique_2hop__511296_577502: Who married the actor from Terminator?
-2026-03-04 11:38:21,111 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What company succeeded the owner of Empire Sports Network?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,111 [INFO] __main__: Done musique_2hop__354635_174222: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,111 [INFO] __main__: Processing musique_4hop1__130623_32392_823060_610794: What county has a city that is adjacent to the capital city 
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54396 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54400 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,114 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the maximum load drawn by the 1.0 and 2.0 versions of the device that re': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54408 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54412 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54418 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,116 [INFO] __main__: Done musique_2hop__998_25839: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,116 [INFO] __main__: Processing musique_2hop__731956_126089: Who was in charge of the place where Castricum is located?
-2026-03-04 11:38:21,117 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who married the actor from Terminator?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,118 [INFO] __main__: Done musique_2hop__511296_577502: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,118 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Where is the headquarters of Radio Television of this country that has a co-offi': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,118 [INFO] __main__: Done musique_3hop1__127821_157828_239539: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,118 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was the Palau de la Generalitat constructed in the city where Martin from t': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,118 [INFO] __main__: Done musique_3hop1__849312_503371_21711: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,118 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What county has a city that is adjacent to the capital city of Erskine College's': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,118 [INFO] __main__: Done musique_4hop1__130623_32392_823060_610794: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,118 [INFO] __main__: Processing musique_3hop2__89854_92991_76291: When did the majority party in the House of Representatives 
-2026-03-04 11:38:21,119 [INFO] __main__: Processing musique_2hop__123545_47134: Who is the mascot of the university related to Randy Conrads
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54426 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,119 [INFO] __main__: Processing musique_3hop2__132957_133264_40768: When did Nissan, the Acura Legend maker and the Scion Fuse m
-2026-03-04 11:38:21,120 [INFO] __main__: Processing musique_3hop1__786632_831637_91775: What does seal stand for in the U.S. military branch that op
-2026-03-04 11:38:21,120 [INFO] __main__: Progress: 10/100 (1383320 Q/hr)
-2026-03-04 11:38:21,121 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who was in charge of the place where Castricum is located?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,121 [INFO] __main__: Done musique_2hop__731956_126089: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,121 [INFO] __main__: Processing musique_4hop1__88342_75218_128008_46894: Who had the lowest batting average in the league where the t
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54430 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54440 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,124 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did the majority party in the House of Representatives gain control of the ': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54452 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54460 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,124 [INFO] __main__: Done musique_3hop2__89854_92991_76291: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,124 [INFO] __main__: Processing musique_2hop__124412_402641: Who is the child of Chiang Hsiao-wen's father?
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54474 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,126 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What does seal stand for in the U.S. military branch that operates destroyers, a': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,126 [INFO] __main__: Done musique_3hop1__786632_831637_91775: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,126 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did Nissan, the Acura Legend maker and the Scion Fuse manufacturer open US ': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,126 [INFO] __main__: Done musique_3hop2__132957_133264_40768: '' (0.0s, 0 tokens)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,126 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the mascot of the university related to Randy Conrads?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54484 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,127 [INFO] __main__: Done musique_2hop__123545_47134: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,127 [INFO] __main__: Processing musique_2hop__92385_2072: What is the public library system called in the place where 
-2026-03-04 11:38:21,127 [INFO] __main__: Processing musique_2hop__159215_779396: Where was the person who wrote about the rioting being a div
-2026-03-04 11:38:21,127 [INFO] __main__: Processing musique_2hop__33288_157788: What is an example of a railroad line in the country first t
-2026-03-04 11:38:21,128 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who had the lowest batting average in the league where the team with the most ga': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,128 [INFO] __main__: Done musique_4hop1__88342_75218_128008_46894: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,128 [INFO] __main__: Processing musique_2hop__59048_827343: Whose sister played Susie in miracle on 34th street?
-2026-03-04 11:38:21,129 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the child of Chiang Hsiao-wen's father?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,130 [INFO] __main__: Done musique_2hop__124412_402641: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,130 [INFO] __main__: Processing musique_2hop__554167_451128: Who is the child of the Victim of Romance performer?
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54488 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54500 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,132 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the public library system called in the place where the Cosbys live in N': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54516 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,133 [INFO] __main__: Done musique_2hop__92385_2072: '' (0.0s, 0 tokens)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,133 [INFO] __main__: Processing musique_4hop1__726675_508773_85832_745702: Who is the child of the Italian navigator who explored the e
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54522 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54530 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,134 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is an example of a railroad line in the country first to invade Manchuria?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,134 [INFO] __main__: Done musique_2hop__33288_157788: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,134 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Where was the person who wrote about the rioting being a dividing factor in Birm': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,135 [INFO] __main__: Done musique_2hop__159215_779396: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,135 [INFO] __main__: Processing musique_3hop1__28841_547811_41132: How many times did the plague occur in the birth place of Co
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54544 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,135 [INFO] __main__: Processing musique_2hop__693444_220151: Who is the spouse of Young Man Luther's author?
-2026-03-04 11:38:21,136 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Whose sister played Susie in miracle on 34th street?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,136 [INFO] __main__: Done musique_2hop__59048_827343: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,136 [INFO] __main__: Progress: 20/100 (1713766 Q/hr)
-2026-03-04 11:38:21,136 [INFO] __main__: Processing musique_4hop1__638988_17130_70784_61381: When was the region immediately north of the region where th
-2026-03-04 11:38:21,136 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the child of the Victim of Romance performer?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,138 [INFO] __main__: Done musique_2hop__554167_451128: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,139 [INFO] __main__: Processing musique_3hop1__108833_720914_41132: How many times did the plague occur in the city where the pa
-2026-03-04 11:38:21,140 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the child of the Italian navigator who explored the eastern coast of the ': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,140 [INFO] __main__: Done musique_4hop1__726675_508773_85832_745702: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,140 [INFO] __main__: Processing musique_2hop__347686_127399: In what year was the group who performed Attics To Eden form
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54556 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54572 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,143 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How many times did the plague occur in the birth place of Concerto in C Major Op': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,143 [INFO] __main__: Done musique_3hop1__28841_547811_41132: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,143 [INFO] __main__: Processing musique_3hop1__33845_42197_18397: Where did the arguer that the country Directive 10/2 called 
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54574 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54580 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54596 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,144 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the spouse of Young Man Luther's author?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,145 [INFO] __main__: Done musique_2hop__693444_220151: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,145 [INFO] __main__: Processing musique_2hop__645448_77615: When did military instruction start at the place where Larry
-2026-03-04 11:38:21,145 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How many times did the plague occur in the city where the painter of The Bacchan': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,145 [INFO] __main__: Done musique_3hop1__108833_720914_41132: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,145 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was the region immediately north of the region where the country in which A': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54600 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,146 [INFO] __main__: Done musique_4hop1__638988_17130_70784_61381: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,146 [INFO] __main__: Processing musique_4hop3__524186_219173_638950_72134: When did the city where Greenwood Laboratory School is locat
-2026-03-04 11:38:21,146 [INFO] __main__: Processing musique_2hop__734582_71302: Who is played by the director of The Good Shepherd in The Go
-2026-03-04 11:38:21,147 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'In what year was the group who performed Attics To Eden formed?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,147 [INFO] __main__: Done musique_2hop__347686_127399: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,147 [INFO] __main__: Processing musique_3hop1__639955_834494_34099: How long are the council terms of the city that shares a cou
-2026-03-04 11:38:21,148 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Where did the arguer that the country Directive 10/2 called for actions against ': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54612 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,150 [INFO] __main__: Done musique_3hop1__33845_42197_18397: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,150 [INFO] __main__: Processing musique_4hop2__9988_261673_70784_79935: When was the region immediately north of the region that pre
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,151 [INFO] __main__: Progress: 30/100 (1902692 Q/hr)
-2026-03-04 11:38:21,151 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did military instruction start at the place where Larry Alcala was educated': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,151 [INFO] __main__: Done musique_2hop__645448_77615: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,152 [INFO] __main__: Processing musique_2hop__77233_33207: How did did the people fare during the reign of the abolishe
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54624 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54636 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54644 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54652 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,154 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did the city where Greenwood Laboratory School is located become capitol of': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,154 [INFO] __main__: Done musique_4hop3__524186_219173_638950_72134: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,154 [INFO] __main__: Processing musique_2hop__84847_148696: What is the position of the 1st governor general of India?
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54658 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,155 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is played by the director of The Good Shepherd in The Godfather?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,155 [INFO] __main__: Done musique_2hop__734582_71302: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,155 [INFO] __main__: Processing musique_3hop1__90327_83076_319330: Who is the child of the president who suffered a major defea
-2026-03-04 11:38:21,156 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How long are the council terms of the city that shares a county with Helvetia?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,156 [INFO] __main__: Done musique_3hop1__639955_834494_34099: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,156 [INFO] __main__: Processing musique_2hop__998_25855: What does dell call the feature letting the interface replac
-2026-03-04 11:38:21,157 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was the region immediately north of the region that prevailed with the disg': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,157 [INFO] __main__: Done musique_4hop2__9988_261673_70784_79935: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,157 [INFO] __main__: Processing musique_2hop__81659_52835: Who wrote Turn Me On by the singer of Come Away with Me?
-2026-03-04 11:38:21,158 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How did did the people fare during the reign of the abolisher of sati partha in ': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,158 [INFO] __main__: Done musique_2hop__77233_33207: '' (0.0s, 0 tokens)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,158 [INFO] __main__: Processing musique_4hop1__88342_75218_128008_48717: Who was second pick in the 1999 draft of the league that has
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54664 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,159 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the position of the 1st governor general of India?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,160 [INFO] __main__: Done musique_2hop__84847_148696: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,160 [INFO] __main__: Processing musique_3hop1__144678_443779_52195: The Commission of Truth and Friendship established governmen
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54680 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,161 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the child of the president who suffered a major defeat when the body whic': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,162 [INFO] __main__: Done musique_3hop1__90327_83076_319330: '' (0.0s, 0 tokens)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54696 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,162 [INFO] __main__: Processing musique_2hop__865961_159109: Where is the country with ISO code ISO 3166-2:CV located?
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54712 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54726 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54734 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,163 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What does dell call the feature letting the interface replacing FireWire in late': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,163 [INFO] __main__: Done musique_2hop__998_25855: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,163 [INFO] __main__: Processing musique_3hop2__127483_60649_10557: What was the form of the language Auctor is in, used in the 
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54744 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,164 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who wrote Turn Me On by the singer of Come Away with Me?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,164 [INFO] __main__: Done musique_2hop__81659_52835: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,164 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who was second pick in the 1999 draft of the league that has a competition where': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,164 [INFO] __main__: Done musique_4hop1__88342_75218_128008_48717: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,164 [INFO] __main__: Processing musique_2hop__46862_68042: When did the political party that favored harsh punishment o
-2026-03-04 11:38:21,165 [INFO] __main__: Processing musique_2hop__78401_158262: When did the person chosen to be president of the confederac
-2026-03-04 11:38:21,165 [INFO] __main__: Progress: 40/100 (2013518 Q/hr)
-2026-03-04 11:38:21,166 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'The Commission of Truth and Friendship established governments for Bustami's bir': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,166 [INFO] __main__: Done musique_3hop1__144678_443779_52195: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,167 [INFO] __main__: Processing musique_2hop__95970_152907: What city is the star of Sous les pieds des femmes from?
-2026-03-04 11:38:21,167 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Where is the country with ISO code ISO 3166-2:CV located?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,167 [INFO] __main__: Done musique_2hop__865961_159109: '' (0.0s, 0 tokens)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54752 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,167 [INFO] __main__: Processing musique_3hop1__105837_160713_77246: what is meaning of the word that is a majority religion of t
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,168 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What was the form of the language Auctor is in, used in the era of the Frankish ': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,169 [INFO] __main__: Done musique_3hop2__127483_60649_10557: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,169 [INFO] __main__: Processing musique_2hop__179322_83289: Who stars in the video "One Last Time" by the performer of B
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54768 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54776 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,171 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did the political party that favored harsh punishment of southern states af': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54788 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,171 [INFO] __main__: Done musique_2hop__46862_68042: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,171 [INFO] __main__: Processing musique_3hop2__87184_90327_76291: When did the majority party in the House of Representatives 
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54798 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,171 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did the person chosen to be president of the confederacy end his fight in t': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54810 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,172 [INFO] __main__: Done musique_2hop__78401_158262: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,172 [INFO] __main__: Processing musique_4hop1__152146_5274_458768_33637: How many ethnic minorities were looked at differently in the
-2026-03-04 11:38:21,173 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What city is the star of Sous les pieds des femmes from?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,173 [INFO] __main__: Done musique_2hop__95970_152907: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,173 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'what is meaning of the word that is a majority religion of the area that became ': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,174 [INFO] __main__: Done musique_3hop1__105837_160713_77246: '' (0.0s, 0 tokens)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54822 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,174 [INFO] __main__: Processing musique_3hop1__106845_5188_86687: When did the country the top-ranking Warsaw Pact operatives 
-2026-03-04 11:38:21,174 [INFO] __main__: Processing musique_4hop1__842143_153080_33897_81096: Who won the Indy Car Race in the largest populated city of t
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,174 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who stars in the video "One Last Time" by the performer of Baby I?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54830 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,175 [INFO] __main__: Done musique_2hop__179322_83289: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,175 [INFO] __main__: Processing musique_2hop__85325_88165: Who did the person who married their half sister in the bibl
-2026-03-04 11:38:21,176 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did the majority party in the House of Representatives gain control of the ': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,176 [INFO] __main__: Done musique_3hop2__87184_90327_76291: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,176 [INFO] __main__: Processing musique_3hop1__622497_160088_85460: What is the average salary of a working person with the same
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,177 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How many ethnic minorities were looked at differently in the city where the head': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,177 [INFO] __main__: Done musique_4hop1__152146_5274_458768_33637: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,177 [INFO] __main__: Progress: 50/100 (2165859 Q/hr)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,177 [INFO] __main__: Processing musique_2hop__14_59409: Who was Beyonce's husband talking about in the the song Cry?
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54840 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54852 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,178 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did the country the top-ranking Warsaw Pact operatives came from, despite i': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54868 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,179 [INFO] __main__: Done musique_3hop1__106845_5188_86687: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,179 [INFO] __main__: Processing musique_4hop2__71753_158985_70784_61381: When was the region immediately north of the region where Is
-2026-03-04 11:38:21,179 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who won the Indy Car Race in the largest populated city of the state where the p': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,180 [INFO] __main__: Done musique_4hop1__842143_153080_33897_81096: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,180 [INFO] __main__: Processing musique_4hop1__802394_153080_159767_81096: An Indy car race was held in the capital of the state where 
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54872 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54886 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,181 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who did the person who married their half sister in the bible marry after the de': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,181 [INFO] __main__: Done musique_2hop__85325_88165: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,181 [INFO] __main__: Processing musique_3hop1__409517_547811_80702: What is the name of the famous bridge in the birth city of t
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54896 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,182 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the average salary of a working person with the same nationality as the ': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,182 [INFO] __main__: Done musique_3hop1__622497_160088_85460: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,182 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who was Beyonce's husband talking about in the the song Cry?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,182 [INFO] __main__: Done musique_2hop__14_59409: '' (0.0s, 0 tokens)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54900 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,182 [INFO] __main__: Processing musique_2hop__76314_177869: Who was the spouse of a leading speaker against slavery and 
-2026-03-04 11:38:21,183 [INFO] __main__: Processing musique_4hop1__391525_49925_13759_736921: Where is the district that the person who wanted to reform a
-2026-03-04 11:38:21,184 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was the region immediately north of the region where Israel is located and ': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54914 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,186 [INFO] __main__: Done musique_4hop2__71753_158985_70784_61381: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,186 [INFO] __main__: Processing musique_2hop__802991_443552: What is the capital of the county where Fort Deposit is loca
-2026-03-04 11:38:21,187 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'An Indy car race was held in the capital of the state where the performer of Min': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,187 [INFO] __main__: Done musique_4hop1__802394_153080_159767_81096: '' (0.0s, 0 tokens)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,187 [INFO] __main__: Processing musique_3hop2__851134_613770_7713: How long had Pfrang Association's headquarters location been
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,188 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the name of the famous bridge in the birth city of the composer of Scand': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54928 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,188 [INFO] __main__: Done musique_3hop1__409517_547811_80702: '' (0.0s, 0 tokens)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54932 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,188 [INFO] __main__: Processing musique_3hop2__127483_91678_10557: What was the language Auctor comes from during the era of th
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,189 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who was the spouse of a leading speaker against slavery and publisher of an anti': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,189 [INFO] __main__: Done musique_2hop__76314_177869: '' (0.0s, 0 tokens)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,190 [INFO] __main__: Processing musique_2hop__629030_56873: When did the 1979-80 European Cup winner win the FA Cup?
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54942 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,190 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Where is the district that the person who wanted to reform and address John Kodw': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,190 [INFO] __main__: Done musique_4hop1__391525_49925_13759_736921: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,190 [INFO] __main__: Progress: 60/100 (2244410 Q/hr)
-2026-03-04 11:38:21,190 [INFO] __main__: Processing musique_3hop1__321720_650651_7262: Who was a prominent figure at the radio division of the netw
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54954 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54968 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,192 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the capital of the county where Fort Deposit is located?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,192 [INFO] __main__: Done musique_2hop__802991_443552: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,192 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How long had Pfrang Association's headquarters location been the capitol city of': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,192 [INFO] __main__: Done musique_3hop2__851134_613770_7713: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,192 [INFO] __main__: Processing musique_2hop__81268_85407: What was the 2018 population of the Italian city that's unde
-2026-03-04 11:38:21,193 [INFO] __main__: Processing musique_3hop2__90098_76623_10557: What was the language from which the last name Sylvester ori
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54972 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,193 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What was the language Auctor comes from during the era of the man crowned first ': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,193 [INFO] __main__: Done musique_3hop2__127483_91678_10557: '' (0.0s, 0 tokens)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54984 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,193 [INFO] __main__: Processing musique_2hop__391873_88622: Who is the head of the agency that created MYSTIC?
-2026-03-04 11:38:21,195 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did the 1979-80 European Cup winner win the FA Cup?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,195 [INFO] __main__: Done musique_2hop__629030_56873: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,195 [INFO] __main__: Processing musique_3hop1__764280_834494_34053: What was the wettest year of the administrative territorial 
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,195 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who was a prominent figure at the radio division of the network that created the': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,196 [INFO] __main__: Done musique_3hop1__321720_650651_7262: '' (0.0s, 0 tokens)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,196 [INFO] __main__: Processing musique_4hop1__802394_153080_33897_81096: Who won the Indy Car Race in the largest populated city of t
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54994 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:54998 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,197 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What was the 2018 population of the Italian city that's underwater?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,197 [INFO] __main__: Done musique_2hop__81268_85407: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,197 [INFO] __main__: Processing musique_2hop__155781_155922: What does the river that Darling Mills Creek turns into flow
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55004 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,198 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What was the language from which the last name Sylvester originated during the e': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,198 [INFO] __main__: Done musique_3hop2__90098_76623_10557: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,198 [INFO] __main__: Processing musique_2hop__829358_754719: What administrative territorial entity does Darley Ramon Tor
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55018 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,199 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the head of the agency that created MYSTIC?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55022 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,199 [INFO] __main__: Done musique_2hop__391873_88622: '' (0.0s, 0 tokens)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,200 [INFO] __main__: Processing musique_2hop__13548_13529: When was the person who Messi's goals in Copa del Rey compar
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55034 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,200 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who won the Indy Car Race in the largest populated city of the state where the p': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,201 [INFO] __main__: Done musique_4hop1__802394_153080_33897_81096: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,201 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What was the wettest year of the administrative territorial entity that contains': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,201 [INFO] __main__: Done musique_3hop1__764280_834494_34053: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,201 [INFO] __main__: Processing musique_4hop1__131113_59747_211319_557671: Which county shares a border with the county where the most 
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55048 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,201 [INFO] __main__: Processing musique_3hop1__9285_5188_23307: What month did the Tripartite discussions begin between Brit
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55050 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,202 [INFO] __main__: Progress: 70/100 (2332297 Q/hr)
-2026-03-04 11:38:21,203 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What does the river that Darling Mills Creek turns into flow into?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,203 [INFO] __main__: Done musique_2hop__155781_155922: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,203 [INFO] __main__: Processing musique_3hop1__857_846_7702: What is the meaning of the name of the city where the Yongle
-2026-03-04 11:38:21,204 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What administrative territorial entity does Darley Ramon Torres's place of birth': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,204 [INFO] __main__: Done musique_2hop__829358_754719: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,204 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was the person who Messi's goals in Copa del Rey compared to get signed by ': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,204 [INFO] __main__: Done musique_2hop__13548_13529: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,204 [INFO] __main__: Processing musique_2hop__766973_770570: What county is Erik Hort's birthplace a part of?
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55062 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,205 [INFO] __main__: Processing musique_3hop1__635099_131926_87157: What is the direction of flow of the body of water by the ci
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55066 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,206 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Which county shares a border with the county where the most populous city in the': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,206 [INFO] __main__: Done musique_4hop1__131113_59747_211319_557671: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,206 [INFO] __main__: Processing musique_2hop__170823_120171: What year did the publisher of Labyrinth end?
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,207 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What month did the Tripartite discussions begin between Britain, France, and the': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,207 [INFO] __main__: Done musique_3hop1__9285_5188_23307: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,207 [INFO] __main__: Processing musique_4hop3__474028_88460_30152_20999: How were people from whom new coins were a proclamation of i
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55070 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55074 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,208 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the meaning of the name of the city where the Yongle emperor greeted the': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55090 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,208 [INFO] __main__: Done musique_3hop1__857_846_7702: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,208 [INFO] __main__: Processing musique_2hop__511454_120259: When was Lady Godiva's birthplace abolished?
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,209 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What county is Erik Hort's birthplace a part of?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,210 [INFO] __main__: Done musique_2hop__766973_770570: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,210 [INFO] __main__: Processing musique_2hop__668407_683671: Who is the father of Empress Wang's husband?
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55098 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,210 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the direction of flow of the body of water by the city where Write This ': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55104 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,210 [INFO] __main__: Done musique_3hop1__635099_131926_87157: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,210 [INFO] __main__: Processing musique_4hop2__71753_648517_70784_79935: When was the region immediately north of the region where Is
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55114 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,212 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What year did the publisher of Labyrinth end?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,212 [INFO] __main__: Done musique_2hop__170823_120171: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,212 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How were people from whom new coins were a proclamation of independence by the S': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,212 [INFO] __main__: Done musique_4hop3__474028_88460_30152_20999: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,212 [INFO] __main__: Processing musique_4hop1__9007_698949_157828_162309: When did the country with a co-official language used in the
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,213 [INFO] __main__: Processing musique_4hop1__94201_642284_131926_89261: Where does the body of water by the city where the Southeast
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55122 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,213 [INFO] __main__: Progress: 80/100 (2419406 Q/hr)
-2026-03-04 11:38:21,213 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was Lady Godiva's birthplace abolished?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55138 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,213 [INFO] __main__: Done musique_2hop__511454_120259: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,213 [INFO] __main__: Processing musique_2hop__56851_343058: Who is the spouse of the actress who played the fairy god mo
-2026-03-04 11:38:21,215 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the father of Empress Wang's husband?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,215 [INFO] __main__: Done musique_2hop__668407_683671: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,215 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was the region immediately north of the region where Israel is located and ': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,215 [INFO] __main__: Done musique_4hop2__71753_648517_70784_79935: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,215 [INFO] __main__: Processing musique_4hop1__152562_5274_458768_33633: When did the explorer reach the city where the headquarters 
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,216 [INFO] __main__: Processing musique_3hop2__304722_692815_63959: When was the last time Darren Carter's team beat the 1894-95
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55154 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55158 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,217 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did the country with a co-official language used in the film titled after t': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55164 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55170 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55176 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,219 [INFO] __main__: Done musique_4hop1__9007_698949_157828_162309: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,219 [INFO] __main__: Processing musique_3hop1__305282_282081_73772: When was the start of the battle of the birthplace of the pe
-2026-03-04 11:38:21,220 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Where does the body of water by the city where the Southeast Library designer di': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,220 [INFO] __main__: Done musique_4hop1__94201_642284_131926_89261: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,221 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the spouse of the actress who played the fairy god mother in Shrek 2?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,221 [INFO] __main__: Done musique_2hop__56851_343058: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,221 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When did the explorer reach the city where the headquarters of the only group la': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,222 [INFO] __main__: Done musique_4hop1__152562_5274_458768_33633: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,222 [INFO] __main__: Processing musique_3hop1__208108_547811_80702: What is the name of the famous bridge in the city where the 
-2026-03-04 11:38:21,223 [INFO] __main__: Processing musique_2hop__655505_110949: What is the Till dom ensamma performer's birth date?
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55182 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,223 [INFO] __main__: Processing musique_2hop__68322_510545: Who is the spouse of the actor that plays Jarvis in the Aven
-2026-03-04 11:38:21,224 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was the last time Darren Carter's team beat the 1894-95 FA Cup winner?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,224 [INFO] __main__: Done musique_3hop2__304722_692815_63959: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,224 [INFO] __main__: Processing musique_2hop__619265_45326: How many episodes are in season 5 of the series with The Bag
-2026-03-04 11:38:21,225 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'When was the start of the battle of the birthplace of the performer of III?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,225 [INFO] __main__: Done musique_3hop1__305282_282081_73772: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,225 [INFO] __main__: Processing musique_2hop__215896_460425: What is the location of formation of the film company distri
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,226 [INFO] __main__: Progress: 90/100 (2457111 Q/hr)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55184 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55186 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,228 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the name of the famous bridge in the city where the composer of La Silvi': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55194 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,229 [INFO] __main__: Done musique_3hop1__208108_547811_80702: '' (0.0s, 0 tokens)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,229 [INFO] __main__: Processing musique_4hop3__754156_88460_30152_20999: How were the people from whom new coins were a proclamation 
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55208 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55210 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,230 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the Till dom ensamma performer's birth date?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,230 [INFO] __main__: Done musique_2hop__655505_110949: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,230 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the spouse of the actor that plays Jarvis in the Avengers Age of Ultron?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,230 [INFO] __main__: Done musique_2hop__68322_510545: '' (0.0s, 0 tokens)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-2026-03-04 11:38:21,230 [INFO] __main__: Processing musique_4hop1__342858_131850_33952_34099: How long are the city council terms in the second largest ci
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55218 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,231 [INFO] __main__: Processing musique_2hop__199513_801817: What is the birthplace of the person after whom São José dos
-2026-03-04 11:38:21,231 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How many episodes are in season 5 of the series with The Bag or the Bat?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,232 [INFO] __main__: Done musique_2hop__619265_45326: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,232 [INFO] __main__: Processing musique_2hop__63214_319330: Who is the child of the president under whom prohibition occ
-2026-03-04 11:38:21,232 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the location of formation of the film company distributing The Boss?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,232 [INFO] __main__: Done musique_2hop__215896_460425: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,233 [INFO] __main__: Processing musique_2hop__304852_758385: What administrative territorial entity contains the place wh
-2026-03-04 11:38:21,234 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How were the people from whom new coins were a proclamation of independence by t': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,234 [INFO] __main__: Done musique_4hop3__754156_88460_30152_20999: '' (0.0s, 0 tokens)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55232 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m ERROR 03-04 11:38:21 [serving.py:231] Error with model error=ErrorInfo(message='The model `Qwen/Qwen3-8B` does not exist.', type='NotFoundError', param='model', code=404)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55248 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,236 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'How long are the city council terms in the second largest city in the state wher': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55260 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,237 [INFO] __main__: Done musique_4hop1__342858_131850_33952_34099: '' (0.0s, 0 tokens)
-[0;36m(APIServer pid=539554)[0;0m INFO:     127.0.0.1:55270 - "POST /v1/chat/completions HTTP/1.1" 404 Not Found
-2026-03-04 11:38:21,237 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What is the birthplace of the person after whom São José dos Campos was named?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,237 [INFO] __main__: Done musique_2hop__199513_801817: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,238 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'What administrative territorial entity contains the place where KPRM is licensed': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,238 [INFO] __main__: Done musique_2hop__304852_758385: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,238 [ERROR] multi_agent.sage_v2_pipeline: SAGE v2 pipeline error for 'Who is the child of the president under whom prohibition occurred?': 404, message='Not Found', url='http://127.0.0.1:8000/v1/chat/completions'
-2026-03-04 11:38:21,238 [INFO] __main__: Done musique_2hop__63214_319330: '' (0.0s, 0 tokens)
-2026-03-04 11:38:21,238 [INFO] __main__: Progress: 100/100 (2499795 Q/hr)
-2026-03-04 11:38:21,238 [INFO] __main__: Batch complete: 100 questions in 0.0 min (2491032.8 Q/hr)
-File                                                       N  NormEM      F1    Cont
-------------------------------------------------------------------------------------
-sage_v2_p100_r1/musique                                  100    0.0%    0.0%  100.0%
-
-Saved: results/sage_v2_p100_r1/musique/offline_eval_summary.json
-
-============================================================
-ARAG Evaluation
-============================================================
-Predictions: results/sage_v2_p100_r1/musique/predictions.jsonl
-Workers: 8
-============================================================
-
-Evaluating:   0%|          | 0/100 [00:00<?, ?sample/s]Evaluating:   0%|          | 0/100 [00:00<?, ?sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:   1%|          | 1/100 [00:00<00:00, 2465.79sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:   2%|▏         | 2/100 [00:00<00:00, 3970.00sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:   3%|▎         | 3/100 [00:00<00:00, 5129.60sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:   4%|▍         | 4/100 [00:00<00:00, 6094.16sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:   5%|▌         | 5/100 [00:00<00:00, 6873.65sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:   6%|▌         | 6/100 [00:00<00:00, 7505.46sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:   7%|▋         | 7/100 [00:00<00:00, 8041.67sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:   8%|▊         | 8/100 [00:00<00:00, 8501.25sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:   9%|▉         | 9/100 [00:00<00:00, 8896.71sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  10%|█         | 10/100 [00:00<00:00, 9248.74sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  11%|█         | 11/100 [00:00<00:00, 9548.29sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  12%|█▏        | 12/100 [00:00<00:00, 9822.73sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  13%|█▎        | 13/100 [00:00<00:00, 10019.47sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  14%|█▍        | 14/100 [00:00<00:00, 10230.01sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  15%|█▌        | 15/100 [00:00<00:00, 10428.40sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  16%|█▌        | 16/100 [00:00<00:00, 10611.77sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  17%|█▋        | 17/100 [00:00<00:00, 10783.90sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  18%|█▊        | 18/100 [00:00<00:00, 10944.84sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  19%|█▉        | 19/100 [00:00<00:00, 11085.24sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  20%|██        | 20/100 [00:00<00:00, 11217.72sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  21%|██        | 21/100 [00:00<00:00, 11333.04sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  22%|██▏       | 22/100 [00:00<00:00, 11448.47sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  23%|██▎       | 23/100 [00:00<00:00, 11542.11sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  24%|██▍       | 24/100 [00:00<00:00, 11640.07sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  25%|██▌       | 25/100 [00:00<00:00, 11731.66sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  26%|██▌       | 26/100 [00:00<00:00, 11814.94sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  27%|██▋       | 27/100 [00:00<00:00, 11859.48sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  28%|██▊       | 28/100 [00:00<00:00, 11922.89sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  29%|██▉       | 29/100 [00:00<00:00, 11992.00sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  30%|███       | 30/100 [00:00<00:00, 12065.31sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  31%|███       | 31/100 [00:00<00:00, 12132.45sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  32%|███▏      | 32/100 [00:00<00:00, 12197.18sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  33%|███▎      | 33/100 [00:00<00:00, 12258.62sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  34%|███▍      | 34/100 [00:00<00:00, 12315.95sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  35%|███▌      | 35/100 [00:00<00:00, 12370.49sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  36%|███▌      | 36/100 [00:00<00:00, 12420.41sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  37%|███▋      | 37/100 [00:00<00:00, 12465.00sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  38%|███▊      | 38/100 [00:00<00:00, 12513.43sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  39%|███▉      | 39/100 [00:00<00:00, 12559.72sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  40%|████      | 40/100 [00:00<00:00, 12599.29sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  41%|████      | 41/100 [00:00<00:00, 12638.09sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  42%|████▏     | 42/100 [00:00<00:00, 12654.32sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  43%|████▎     | 43/100 [00:00<00:00, 12690.34sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  44%|████▍     | 44/100 [00:00<00:00, 12723.16sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  45%|████▌     | 45/100 [00:00<00:00, 12754.67sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  46%|████▌     | 46/100 [00:00<00:00, 12786.66sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  47%|████▋     | 47/100 [00:00<00:00, 12818.28sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  48%|████▊     | 48/100 [00:00<00:00, 12849.54sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  49%|████▉     | 49/100 [00:00<00:00, 12877.25sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  50%|█████     | 50/100 [00:00<00:00, 12904.76sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  51%|█████     | 51/100 [00:00<00:00, 12927.39sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  52%|█████▏    | 52/100 [00:00<00:00, 12955.38sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  53%|█████▎    | 53/100 [00:00<00:00, 12984.70sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  54%|█████▍    | 54/100 [00:00<00:00, 13013.81sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  55%|█████▌    | 55/100 [00:00<00:00, 13039.04sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  56%|█████▌    | 56/100 [00:00<00:00, 13048.22sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  57%|█████▋    | 57/100 [00:00<00:00, 13062.80sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  58%|█████▊    | 58/100 [00:00<00:00, 13083.23sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  59%|█████▉    | 59/100 [00:00<00:00, 13105.81sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  60%|██████    | 60/100 [00:00<00:00, 13129.77sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  61%|██████    | 61/100 [00:00<00:00, 13146.26sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  62%|██████▏   | 62/100 [00:00<00:00, 13164.93sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  63%|██████▎   | 63/100 [00:00<00:00, 13183.71sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  64%|██████▍   | 64/100 [00:00<00:00, 13204.56sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  65%|██████▌   | 65/100 [00:00<00:00, 13224.18sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  66%|██████▌   | 66/100 [00:00<00:00, 13244.54sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  67%|██████▋   | 67/100 [00:00<00:00, 13264.97sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  68%|██████▊   | 68/100 [00:00<00:00, 13281.77sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  69%|██████▉   | 69/100 [00:00<00:00, 13297.51sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  70%|███████   | 70/100 [00:00<00:00, 13312.23sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  71%|███████   | 71/100 [00:00<00:00, 13309.89sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  72%|███████▏  | 72/100 [00:00<00:00, 13324.65sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  73%|███████▎  | 73/100 [00:00<00:00, 13339.03sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  74%|███████▍  | 74/100 [00:00<00:00, 13353.06sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  75%|███████▌  | 75/100 [00:00<00:00, 13366.17sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  76%|███████▌  | 76/100 [00:00<00:00, 13379.52sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  77%|███████▋  | 77/100 [00:00<00:00, 13392.00sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  78%|███████▊  | 78/100 [00:00<00:00, 13403.63sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  79%|███████▉  | 79/100 [00:00<00:00, 13417.70sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  80%|████████  | 80/100 [00:00<00:00, 13430.37sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  81%|████████  | 81/100 [00:00<00:00, 13442.75sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  82%|████████▏ | 82/100 [00:00<00:00, 13454.85sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  83%|████████▎ | 83/100 [00:00<00:00, 13467.20sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  84%|████████▍ | 84/100 [00:00<00:00, 13480.83sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  85%|████████▌ | 85/100 [00:00<00:00, 13481.41sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  86%|████████▌ | 86/100 [00:00<00:00, 13493.07sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  87%|████████▋ | 87/100 [00:00<00:00, 13503.48sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  88%|████████▊ | 88/100 [00:00<00:00, 13515.65sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  89%|████████▉ | 89/100 [00:00<00:00, 13527.07sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  90%|█████████ | 90/100 [00:00<00:00, 13538.26sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  91%|█████████ | 91/100 [00:00<00:00, 13551.63sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  92%|█████████▏| 92/100 [00:00<00:00, 13562.35sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  93%|█████████▎| 93/100 [00:00<00:00, 13570.49sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  94%|█████████▍| 94/100 [00:00<00:00, 13580.34sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  95%|█████████▌| 95/100 [00:00<00:00, 13590.47sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  96%|█████████▌| 96/100 [00:00<00:00, 13600.39sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  97%|█████████▋| 97/100 [00:00<00:00, 13611.04sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  98%|█████████▊| 98/100 [00:00<00:00, 13623.74sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating:  99%|█████████▉| 99/100 [00:00<00:00, 13636.65sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]Evaluating: 100%|██████████| 100/100 [00:00<00:00, 13587.43sample/s, Answered=0.0%, LLM_Acc=0.000, Contain=0.000]
-2026-03-04 11:38:23,344 - INFO - Evaluation Results:
-2026-03-04 11:38:23,344 - INFO -   Total Samples: 100
-2026-03-04 11:38:23,344 - INFO -   Answered: 0 (0.00%)
-2026-03-04 11:38:23,344 - INFO -   Failed: 100
-2026-03-04 11:38:23,344 - INFO -   LLM Accuracy: 0.0000
-2026-03-04 11:38:23,344 - INFO -   Contain Accuracy: 0.0000
-2026-03-04 11:38:23,344 - INFO -   Total Cost: $0.0000
-2026-03-04 11:38:23,344 - INFO -   Avg Loops: 0.00
-2026-03-04 11:38:23,346 - INFO - Summary saved to: results/sage_v2_p100_r1/musique/predictions_eval_summary.json
-
-============================================================
-Results
-============================================================
-LLM Accuracy: 0.0000
-Contain Accuracy: 0.0000
-============================================================
-
-[0;36m(APIServer pid=539554)[0;0m INFO 03-04 11:38:23 [launcher.py:110] Shutting down FastAPI HTTP server.

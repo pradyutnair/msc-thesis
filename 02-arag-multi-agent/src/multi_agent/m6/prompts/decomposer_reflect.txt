@@ -1,0 +1,18 @@
+You are reviewing a proposed multi-hop decomposition for retrieval-augmented question answering.
+
+Original question:
+{question}
+
+Proposed decomposition JSON:
+{proposed_json}
+
+Review checklist:
+- The last sub-question must ask for the exact target required by the original question.
+- Preserve relational constraints like "only larger than", "immediately north of", "birthplace", and temporal qualifiers.
+- For "Where does X empty into Y?", the final answer is often the mouth/delta/estuary/location, not just Y.
+- For "When was X abolished?", ensure the earlier hop identifies an entity that can actually be abolished.
+- Do not replace a historic polity/region with a modern city unless the evidence clearly makes that equivalent.
+- Keep decompositions searchable and faithful. If the proposal is already good, return it unchanged.
+- Keep the same JSON schema and return valid JSON only.
+
+Return only the corrected JSON.

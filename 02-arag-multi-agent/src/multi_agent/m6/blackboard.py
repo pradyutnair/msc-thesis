@@ -134,6 +134,16 @@ class Blackboard:
                         search_queries = list(getattr(sq, "search_queries", []))
                         break
 
+            # Collect evidence chunk IDs from dependency sub-questions
+            dependency_chunk_ids: list[str] = []
+            if claimed_sq is not None:
+                dep_ids = set(claimed_sq.get("dependencies", []))
+                if dep_ids:
+                    for ev in self.evidence:
+                        if ev.sub_question_id in dep_ids and ev.verified:
+                            if ev.source_chunk_id not in dependency_chunk_ids:
+                                dependency_chunk_ids.append(ev.source_chunk_id)
+
             return {
                 "question": self.question,
                 "available_sub_questions": available_sqs,
@@ -144,6 +154,7 @@ class Blackboard:
                 "blackboard_context": blackboard_context,
                 "search_queries": search_queries,
                 "warm_start_context": getattr(self, "warm_start_context", ""),
+                "dependency_chunk_ids": dependency_chunk_ids,
             }
 
     async def read_for_synthesizer(self) -> dict[str, Any]:

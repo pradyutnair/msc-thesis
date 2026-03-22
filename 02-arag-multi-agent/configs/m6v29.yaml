@@ -1,0 +1,33 @@
+# M6 v29: Answer-type aware workers + dependency evidence inheritance
+# 
+# Changes from v23:
+#   - decomposer_v29: specific unknown_entities types, comparison-friendly sub-Qs
+#   - worker_plan_v29: answer type hint from decomposer, reads dependency chunks first
+#   - synthesizer_v29: cleaner comparison/yes-no/bridge instructions
+#   - Blackboard: dependency_chunk_ids computed from predecessor evidence
+#   - Worker: passes unknown_entities as answer-type constraint to prompt
+
+llm:
+  model: "Qwen3-8B"
+  api_key: "dummy"
+  temperature: 0.0
+  max_tokens: 8192
+
+embedding:
+  model: "intfloat/e5-base-v2"
+  device: "cpu"
+
+m6:
+  num_workers: 2
+  worker_max_steps: 16
+  max_actions: 100
+  token_budget: 300000
+  wall_clock_timeout: 900.0
+  idle_timeout: 300.0
+  enable_consistency_check: false
+  max_redecompositions: 1
+  enable_search_and_read: true
+  enable_semantic_warmstart: true
+  decomposer_prompt: "decomposer_v29.txt"
+  worker_plan_prompt: "worker_plan_v29.txt"
+  synthesizer_prompt: "synthesizer_v29.txt"

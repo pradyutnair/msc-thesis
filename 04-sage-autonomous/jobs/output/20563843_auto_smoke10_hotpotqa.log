@@ -1,274 +1,0 @@
-============================================================================================== 
-Warning! Mixing Conda and module environments may lead to corruption of the
-user environment. 
-We do not recommend users mixing those two environments unless absolutely
-necessary. Note that 
-SURF does not provide any support for Conda environment.
-For more information, please refer to our software policy page:
-https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
-
-Remember that many packages have already been installed on the system and can
-be loaded using 
-the 'module load <package__name>' command. If you are uncertain if a package is
-already available 
-on the system, please use 'module avail' or 'module spider' to search for it.
-============================================================================================== 
-wait
-wait
-wait
-wait
-wait
-wait
-wait
-/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-wait
-wait
-wait
-wait
-wait
-wait
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:39:26 [utils.py:325] 
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:39:26 [utils.py:325]        █     █     █▄   ▄█
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:39:26 [utils.py:325]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.15.1
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:39:26 [utils.py:325]   █▄█▀ █     █     █     █  model   Qwen/Qwen3-8B
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:39:26 [utils.py:325]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:39:26 [utils.py:325] 
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:39:26 [utils.py:261] non-default args: {'host': '127.0.0.1', 'model': 'Qwen/Qwen3-8B', 'trust_remote_code': True, 'max_model_len': 32768, 'served_model_name': ['Qwen3-8B'], 'generation_config': 'vllm', 'max_num_seqs': 256}
-[0;36m(APIServer pid=1060065)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
-[0;36m(APIServer pid=1060065)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:39:27 [model.py:541] Resolved architecture: Qwen3ForCausalLM
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:39:27 [model.py:1561] Using max model len 32768
-wait
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:39:29 [scheduler.py:226] Chunked prefill is enabled with max_num_batched_tokens=2048.
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:39:29 [vllm.py:624] Asynchronous scheduling is enabled.
-wait
-/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-wait
-wait
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m INFO 03-07 12:39:38 [core.py:96] Initializing a V1 LLM engine (v0.15.1) with config: model='Qwen/Qwen3-8B', speculative_config=None, tokenizer='Qwen/Qwen3-8B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=Qwen3-8B, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'splitting_ops': ['vllm::unified_attention', 'vllm::unified_attention_with_output', 'vllm::unified_mla_attention', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::gdn_attention_core', 'vllm::kda_attention', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::unified_kv_cache_update'], 'compile_mm_encoder': False, 'compile_sizes': [], 'compile_ranges_split_points': [2048], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False}, 'max_cudagraph_capture_size': 512, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': True}, 'local_cache_dir': None, 'static_all_moe_layers': []}
-wait
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m INFO 03-07 12:39:44 [parallel_state.py:1212] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://145.136.62.8:59143 backend=nccl
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m INFO 03-07 12:39:44 [parallel_state.py:1423] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A
-wait
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m INFO 03-07 12:39:46 [gpu_model_runner.py:4033] Starting to load model Qwen/Qwen3-8B...
-wait
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m INFO 03-07 12:39:49 [cuda.py:364] Using FLASH_ATTN attention backend out of potential backends: ('FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION')
-wait
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/5 [00:00<?, ?it/s]
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m Loading safetensors checkpoint shards:  20% Completed | 1/5 [00:01<00:07,  1.82s/it]
-wait
-wait
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m Loading safetensors checkpoint shards:  40% Completed | 2/5 [00:05<00:09,  3.11s/it]
-wait
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m Loading safetensors checkpoint shards:  60% Completed | 3/5 [00:10<00:07,  3.99s/it]
-wait
-wait
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m Loading safetensors checkpoint shards:  80% Completed | 4/5 [00:15<00:04,  4.41s/it]
-wait
-wait
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:21<00:00,  4.65s/it]
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:21<00:00,  4.20s/it]
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m 
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m INFO 03-07 12:40:12 [default_loader.py:291] Loading weights took 21.09 seconds
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m INFO 03-07 12:40:12 [gpu_model_runner.py:4130] Model loading took 15.27 GiB memory and 25.597236 seconds
-wait
-wait
-wait
-wait
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m INFO 03-07 12:40:27 [backends.py:812] Using cache directory: /home/pnair/.cache/vllm/torch_compile_cache/3dd797eba8/rank_0_0/backbone for vLLM's torch.compile
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m INFO 03-07 12:40:27 [backends.py:872] Dynamo bytecode transform time: 14.23 s
-wait
-wait
-wait
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m INFO 03-07 12:40:34 [backends.py:267] Directly load the compiled graph(s) for compile range (1, 2048) from the cache, took 2.543 s
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m INFO 03-07 12:40:34 [monitor.py:34] torch.compile takes 16.78 s in total
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m INFO 03-07 12:40:35 [gpu_worker.py:356] Available KV cache memory: 18.83 GiB
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m INFO 03-07 12:40:35 [kv_cache_utils.py:1307] GPU KV cache size: 137,136 tokens
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m INFO 03-07 12:40:35 [kv_cache_utils.py:1312] Maximum concurrency for 32,768 tokens per request: 4.19x
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/51 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   2%|▏         | 1/51 [00:00<00:10,  4.69it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   6%|▌         | 3/51 [00:00<00:05,  9.39it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  10%|▉         | 5/51 [00:00<00:03, 11.73it/s]wait
-Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  14%|█▎        | 7/51 [00:00<00:03, 13.11it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  18%|█▊        | 9/51 [00:00<00:02, 14.30it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  22%|██▏       | 11/51 [00:00<00:02, 15.38it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  25%|██▌       | 13/51 [00:00<00:02, 16.15it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  29%|██▉       | 15/51 [00:01<00:02, 16.72it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  33%|███▎      | 17/51 [00:01<00:01, 17.40it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  37%|███▋      | 19/51 [00:01<00:01, 18.11it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  41%|████      | 21/51 [00:01<00:01, 18.64it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  47%|████▋     | 24/51 [00:01<00:01, 19.33it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  53%|█████▎    | 27/51 [00:01<00:01, 19.77it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  57%|█████▋    | 29/51 [00:01<00:01, 19.26it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  63%|██████▎   | 32/51 [00:01<00:00, 19.76it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  69%|██████▊   | 35/51 [00:02<00:00, 19.94it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  75%|███████▍  | 38/51 [00:02<00:00, 20.07it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  78%|███████▊  | 40/51 [00:02<00:00, 19.94it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  84%|████████▍ | 43/51 [00:02<00:00, 20.19it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  90%|█████████ | 46/51 [00:02<00:00, 20.38it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  96%|█████████▌| 49/51 [00:02<00:00, 20.11it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:02<00:00, 17.73it/s]
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m Capturing CUDA graphs (decode, FULL):   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL):   3%|▎         | 1/35 [00:00<00:06,  5.14it/s]Capturing CUDA graphs (decode, FULL):  11%|█▏        | 4/35 [00:00<00:02, 12.93it/s]Capturing CUDA graphs (decode, FULL):  20%|██        | 7/35 [00:00<00:01, 16.20it/s]Capturing CUDA graphs (decode, FULL):  29%|██▊       | 10/35 [00:00<00:01, 18.28it/s]wait
-Capturing CUDA graphs (decode, FULL):  37%|███▋      | 13/35 [00:00<00:01, 19.62it/s]Capturing CUDA graphs (decode, FULL):  46%|████▌     | 16/35 [00:00<00:00, 20.50it/s]Capturing CUDA graphs (decode, FULL):  54%|█████▍    | 19/35 [00:01<00:00, 20.90it/s]Capturing CUDA graphs (decode, FULL):  63%|██████▎   | 22/35 [00:01<00:00, 21.09it/s]Capturing CUDA graphs (decode, FULL):  71%|███████▏  | 25/35 [00:01<00:00, 21.37it/s]Capturing CUDA graphs (decode, FULL):  80%|████████  | 28/35 [00:01<00:00, 21.62it/s]Capturing CUDA graphs (decode, FULL):  89%|████████▊ | 31/35 [00:01<00:00, 21.94it/s]Capturing CUDA graphs (decode, FULL):  97%|█████████▋| 34/35 [00:01<00:00, 22.25it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 19.99it/s]
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m INFO 03-07 12:40:41 [gpu_model_runner.py:5063] Graph capturing finished in 5 secs, took 0.53 GiB
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m INFO 03-07 12:40:41 [core.py:272] init engine (profile, create kv cache, warmup model) took 28.40 seconds
-[0;36m(EngineCore_DP0 pid=1095054)[0;0m INFO 03-07 12:40:42 [vllm.py:624] Asynchronous scheduling is enabled.
-wait
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:43 [api_server.py:665] Supported tasks: ['generate']
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:43 [serving.py:177] Warming up chat template processing...
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:44 [hf.py:310] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [serving.py:212] Chat template warmup completed in 1516.7ms
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [api_server.py:946] Starting vLLM API server 0 on http://127.0.0.1:8000
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:38] Available routes are:
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /openapi.json, Methods: GET, HEAD
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /docs, Methods: GET, HEAD
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /docs/oauth2-redirect, Methods: GET, HEAD
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /redoc, Methods: GET, HEAD
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /scale_elastic_ep, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /is_scaling_elastic_ep, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /tokenize, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /detokenize, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /inference/v1/generate, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /pause, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /resume, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /is_paused, Methods: GET
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /metrics, Methods: GET
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /health, Methods: GET
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /v1/chat/completions, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /v1/chat/completions/render, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /v1/responses, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /v1/responses/{response_id}, Methods: GET
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /v1/responses/{response_id}/cancel, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /v1/audio/transcriptions, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /v1/audio/translations, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /v1/completions, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /v1/completions/render, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /v1/messages, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /v1/models, Methods: GET
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /load, Methods: GET
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /version, Methods: GET
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /ping, Methods: GET
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /ping, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /invocations, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /classify, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /v1/embeddings, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /score, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /v1/score, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /rerank, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /v1/rerank, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /v2/rerank, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:40:45 [launcher.py:46] Route: /pooling, Methods: POST
-[0;36m(APIServer pid=1060065)[0;0m INFO:     Started server process [1060065]
-[0;36m(APIServer pid=1060065)[0;0m INFO:     Waiting for application startup.
-[0;36m(APIServer pid=1060065)[0;0m INFO:     Application startup complete.
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:50834 - "GET /v1/models HTTP/1.1" 200 OK
-ok
-2026-03-07 12:40:46,437 [INFO] __main__: Using chunks file: /gpfs/work5/0/prjs1800/msc-thesis/04-sage-autonomous/data/hotpotqa/chunks.json
-2026-03-07 12:40:46,438 [INFO] __main__: Using index dir: /gpfs/work5/0/prjs1800/msc-thesis/04-sage-autonomous/data/hotpotqa/index_e5_base_v2
-2026-03-07 12:40:46,509 [INFO] __main__: Total: 10 | Completed: 0 | Pending: 10
-/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-2026-03-07 12:40:54,879 [INFO] __main__: Loading embedding model: intfloat/e5-base-v2
-2026-03-07 12:40:54,880 [INFO] sentence_transformers.SentenceTransformer: Load pretrained SentenceTransformer: intfloat/e5-base-v2
-2026-03-07 12:40:58,223 [INFO] __main__: Embedding model loaded successfully!
-2026-03-07 12:40:58,235 [INFO] __main__: Processing 5ae6c2285542995703ce8b9a: Sparking the Marian civil war, who helped the recently abdic
-2026-03-07 12:40:58,236 [INFO] __main__: Processing 5adcd4325542994d58a2f6ed: Are Colocasia and Coronilla both flowering plants?
-2026-03-07 12:40:58,237 [INFO] __main__: Processing 5abe953b5542993f32c2a170: what is one of the stars of  The Newcomers known for
-2026-03-07 12:40:58,237 [INFO] __main__: Processing 5ab57fc4554299488d4d99c0: In which county is the town in which Raymond Robertsen was b
-2026-03-07 12:40:58,237 [INFO] __main__: Processing 5a85c3225542992a431d1b95: The 2000 ICC KnockOut Trophy was the debut of a Jamaican cri
-2026-03-07 12:40:58,238 [INFO] __main__: Processing 5ade9c9c5542997c77adee8c: What screenplay was worked on by both Edward Carfagno and Mi
-2026-03-07 12:40:58,238 [INFO] __main__: Processing 5ab69f9a554299710c8d1ef8: The fictional private detective that appears in "The Adventu
-2026-03-07 12:40:58,239 [INFO] __main__: Processing 5a749af055429979e28829b7: Which Walt Disney film was produced first, The Apple Dumplin
-2026-03-07 12:40:58,240 [INFO] __main__: Processing 5abc030e554299642a094bdc: The Distribution of Industry act was passed by a man who was
-2026-03-07 12:40:58,241 [INFO] __main__: Processing 5ae1389655429901ffe4ae05: Bethpage State Parkway begins with an interchange at which L
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:43804 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51636 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51638 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51636 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51638 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:43762 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51656 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51656 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:41:05 [loggers.py:257] Engine 000: Avg prompt throughput: 707.4 tokens/s, Avg generation throughput: 479.1 tokens/s, Running: 10 reqs, Waiting: 0 reqs, GPU KV cache usage: 7.0%, Prefix cache hit rate: 4.3%
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:43826 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51664 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51664 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:43814 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51670 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51670 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:43788 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51682 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51682 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:43778 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51700 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51700 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:43738 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36292 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36294 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36292 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36294 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:43784 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36318 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36324 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36318 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36324 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:43724 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36342 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36342 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:41:15 [loggers.py:257] Engine 000: Avg prompt throughput: 396.9 tokens/s, Avg generation throughput: 680.4 tokens/s, Running: 10 reqs, Waiting: 0 reqs, GPU KV cache usage: 8.1%, Prefix cache hit rate: 3.8%
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51662 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36362 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36362 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36308 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:43754 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51690 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36390 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36390 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51680 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53288 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53288 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36372 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-2026-03-07 12:41:20,740 [INFO] __main__: Done 5adcd4325542994d58a2f6ed: 'yes' (22.5s, 0 tokens)
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36336 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53302 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53302 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36348 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53312 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53312 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51666 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53334 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53334 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:41:25 [loggers.py:257] Engine 000: Avg prompt throughput: 477.7 tokens/s, Avg generation throughput: 639.5 tokens/s, Running: 9 reqs, Waiting: 0 reqs, GPU KV cache usage: 7.2%, Prefix cache hit rate: 5.7%
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51704 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53360 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53360 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:51646 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53392 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53392 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53306 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36382 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-2026-03-07 12:41:28,507 [INFO] __main__: Done 5ab69f9a554299710c8d1ef8: 'Arthur Conan Doyle' (30.3s, 0 tokens)
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53290 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36370 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53320 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:56864 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:56864 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53400 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-2026-03-07 12:41:31,059 [INFO] __main__: Done 5ade9c9c5542997c77adee8c: 'unresolved' (32.8s, 0 tokens)
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53376 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:41:35 [loggers.py:257] Engine 000: Avg prompt throughput: 461.5 tokens/s, Avg generation throughput: 542.5 tokens/s, Running: 7 reqs, Waiting: 0 reqs, GPU KV cache usage: 5.9%, Prefix cache hit rate: 6.3%
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53348 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:36396 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:56922 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:56922 - "POST /v1/chat/completions HTTP/1.1" 400 Bad Request
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:56878 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:56892 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-2026-03-07 12:41:41,165 [INFO] __main__: Done 5a85c3225542992a431d1b95: 'batsman' (42.9s, 0 tokens)
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53406 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-2026-03-07 12:41:42,623 [INFO] __main__: Done 5abc030e554299642a094bdc: '1947' (44.4s, 0 tokens)
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:56908 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-2026-03-07 12:41:42,746 [INFO] __main__: Done 5ae1389655429901ffe4ae05: 'Long Island Expressway' (44.5s, 0 tokens)
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:41:45 [loggers.py:257] Engine 000: Avg prompt throughput: 197.6 tokens/s, Avg generation throughput: 424.8 tokens/s, Running: 4 reqs, Waiting: 0 reqs, GPU KV cache usage: 4.3%, Prefix cache hit rate: 6.3%
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:56932 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:56856 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-2026-03-07 12:41:54,256 [INFO] __main__: Done 5ab57fc4554299488d4d99c0: 'unresolved' (56.0s, 0 tokens)
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:41:55 [loggers.py:257] Engine 000: Avg prompt throughput: 70.1 tokens/s, Avg generation throughput: 280.0 tokens/s, Running: 3 reqs, Waiting: 0 reqs, GPU KV cache usage: 4.2%, Prefix cache hit rate: 6.2%
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:42:05 [loggers.py:257] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 216.3 tokens/s, Running: 3 reqs, Waiting: 0 reqs, GPU KV cache usage: 5.8%, Prefix cache hit rate: 6.2%
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:42:15 [loggers.py:257] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 212.4 tokens/s, Running: 3 reqs, Waiting: 0 reqs, GPU KV cache usage: 7.4%, Prefix cache hit rate: 6.2%
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:53394 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:42:25 [loggers.py:257] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 207.7 tokens/s, Running: 3 reqs, Waiting: 0 reqs, GPU KV cache usage: 6.0%, Prefix cache hit rate: 6.0%
-[0;36m(APIServer pid=1060065)[0;0m INFO 03-07 12:42:35 [loggers.py:257] Engine 000: Avg prompt throughput: 73.7 tokens/s, Avg generation throughput: 213.6 tokens/s, Running: 3 reqs, Waiting: 0 reqs, GPU KV cache usage: 7.5%, Prefix cache hit rate: 6.0%
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:40578 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-2026-03-07 12:42:37,648 [INFO] __main__: Done 5ae6c2285542995703ce8b9a: '' (99.4s, 0 tokens)
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:60046 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-2026-03-07 12:42:42,068 [INFO] __main__: Done 5a749af055429979e28829b7: 'Something Wicked This Way Comes' (103.8s, 0 tokens)
-[0;36m(APIServer pid=1060065)[0;0m INFO:     127.0.0.1:40592 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-2026-03-07 12:42:43,293 [INFO] __main__: Done 5abe953b5542993f32c2a170: '' (105.1s, 0 tokens)
-2026-03-07 12:42:43,293 [INFO] __main__: Progress: 10/10 (343 Q/hr)
-2026-03-07 12:42:43,294 [INFO] __main__: Batch complete: 10 questions in 1.8 min (342.7 Q/hr)
-File                                                       N  NormEM      F1    Cont
-------------------------------------------------------------------------------------
-auto_smoke10/hotpotqa                                     10   10.0%   23.6%   50.0%
-
-Saved: results/auto_smoke10/hotpotqa/offline_eval_summary.json

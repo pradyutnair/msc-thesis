@@ -83,6 +83,7 @@ class WorkerAgent(AutonomousAgent):
         dependency_chunk_ids = observation.get("dependency_chunk_ids", [])
 
         resolved_queries = [self._resolve_placeholders(q, entity_registry) for q in search_queries]
+        unknown_entities = sq_dict.get('unknown_entities', [])
 
         loop = asyncio.get_running_loop()
 
@@ -96,6 +97,7 @@ class WorkerAgent(AutonomousAgent):
             entity_registry,
             resolved_queries,
             dependency_chunk_ids,
+            unknown_entities,
         )
 
         async def _heartbeat():
@@ -145,6 +147,7 @@ class WorkerAgent(AutonomousAgent):
         entity_registry: dict[str, str],
         search_queries: list[str] | None = None,
         dependency_chunk_ids: list[str] | None = None,
+        unknown_entities: list[str] | None = None,
     ) -> tuple[str, list[EvidenceEntry], int]:
         """Plan -> execute loop. Runs in a thread executor."""
         context = AgentContext()
@@ -156,6 +159,7 @@ class WorkerAgent(AutonomousAgent):
             entity_registry,
             search_queries=search_queries or [],
             dependency_chunk_ids=dependency_chunk_ids or [],
+            unknown_entities=unknown_entities or [],
         )
         messages: list[dict[str, Any]] = [
             {"role": "system", "content": system_prompt},
@@ -235,6 +239,7 @@ class WorkerAgent(AutonomousAgent):
         entity_registry: dict[str, str],
         search_queries: list[str] | None = None,
         dependency_chunk_ids: list[str] | None = None,
+        unknown_entities: list[str] | None = None,
     ) -> str:
         context_parts = [blackboard_context] if blackboard_context else []
         if entity_registry:
@@ -257,6 +262,12 @@ class WorkerAgent(AutonomousAgent):
         else:
             dep_str = "No dependency chunks available."
 
+        # Build answer type hint from unknown_entities
+        if unknown_entities:
+            answer_type_hint = 'Your answer must be: ' + ', '.join(unknown_entities) + '.'
+        else:
+            answer_type_hint = 'Answer with a single entity (name, date, number, or place).'
+
         # Use .replace() to avoid crashes on content with { or }
         result = self._plan_template
         result = result.replace("{sub_question}", sq_text)
@@ -264,6 +275,7 @@ class WorkerAgent(AutonomousAgent):
         result = result.replace("{blackboard_context}", full_context)
         result = result.replace("{search_queries}", queries_str)
         result = result.replace("{dependency_chunks}", dep_str)
+        result = result.replace("{answer_type_hint}", answer_type_hint)
         return result
 
     def _clean_answer(self, answer: str) -> str:

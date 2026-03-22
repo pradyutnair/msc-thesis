@@ -1,348 +1,0 @@
-============================================================================================== 
-Warning! Mixing Conda and module environments may lead to corruption of the
-user environment. 
-We do not recommend users mixing those two environments unless absolutely
-necessary. Note that 
-SURF does not provide any support for Conda environment.
-For more information, please refer to our software policy page:
-https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
-
-Remember that many packages have already been installed on the system and can
-be loaded using 
-the 'module load <package__name>' command. If you are uncertain if a package is
-already available 
-on the system, please use 'module avail' or 'module spider' to search for it.
-============================================================================================== 
-/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:30:12 [utils.py:325] 
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:30:12 [utils.py:325]        █     █     █▄   ▄█
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:30:12 [utils.py:325]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.15.1
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:30:12 [utils.py:325]   █▄█▀ █     █     █     █  model   Qwen/Qwen3-8B
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:30:12 [utils.py:325]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:30:12 [utils.py:325] 
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:30:12 [utils.py:261] non-default args: {'host': '127.0.0.1', 'enable_auto_tool_choice': True, 'tool_call_parser': 'hermes', 'model': 'Qwen/Qwen3-8B', 'trust_remote_code': True, 'max_model_len': 32768, 'served_model_name': ['Qwen3-8B'], 'generation_config': 'vllm', 'max_num_seqs': 256}
-[0;36m(APIServer pid=3142652)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
-[0;36m(APIServer pid=3142652)[0;0m The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:30:12 [model.py:541] Resolved architecture: Qwen3ForCausalLM
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:30:12 [model.py:1561] Using max model len 32768
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:30:13 [scheduler.py:226] Chunked prefill is enabled with max_num_batched_tokens=2048.
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:30:13 [vllm.py:624] Asynchronous scheduling is enabled.
-/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m INFO 03-07 16:30:21 [core.py:96] Initializing a V1 LLM engine (v0.15.1) with config: model='Qwen/Qwen3-8B', speculative_config=None, tokenizer='Qwen/Qwen3-8B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=Qwen3-8B, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'splitting_ops': ['vllm::unified_attention', 'vllm::unified_attention_with_output', 'vllm::unified_mla_attention', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::gdn_attention_core', 'vllm::kda_attention', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::unified_kv_cache_update'], 'compile_mm_encoder': False, 'compile_sizes': [], 'compile_ranges_split_points': [2048], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False}, 'max_cudagraph_capture_size': 512, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': True}, 'local_cache_dir': None, 'static_all_moe_layers': []}
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m INFO 03-07 16:30:24 [parallel_state.py:1212] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://145.136.62.6:36117 backend=nccl
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m INFO 03-07 16:30:24 [parallel_state.py:1423] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m INFO 03-07 16:30:25 [gpu_model_runner.py:4033] Starting to load model Qwen/Qwen3-8B...
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m INFO 03-07 16:30:26 [cuda.py:364] Using FLASH_ATTN attention backend out of potential backends: ('FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION')
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/5 [00:00<?, ?it/s]
-Waiting for vLLM to be ready (PID=3142652)...
-Check 1: wait
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m Loading safetensors checkpoint shards:  20% Completed | 1/5 [00:00<00:02,  1.52it/s]
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m Loading safetensors checkpoint shards:  40% Completed | 2/5 [00:02<00:03,  1.29s/it]
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m Loading safetensors checkpoint shards:  60% Completed | 3/5 [00:04<00:03,  1.70s/it]
-Check 2: wait
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m Loading safetensors checkpoint shards:  80% Completed | 4/5 [00:06<00:01,  1.88s/it]
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:08<00:00,  1.98s/it]
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m Loading safetensors checkpoint shards: 100% Completed | 5/5 [00:08<00:00,  1.78s/it]
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m 
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m INFO 03-07 16:30:36 [default_loader.py:291] Loading weights took 8.97 seconds
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m INFO 03-07 16:30:37 [gpu_model_runner.py:4130] Model loading took 15.27 GiB memory and 10.948789 seconds
-Check 3: wait
-Check 4: wait
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m INFO 03-07 16:30:48 [backends.py:812] Using cache directory: /home/pnair/.cache/vllm/torch_compile_cache/3dd797eba8/rank_0_0/backbone for vLLM's torch.compile
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m INFO 03-07 16:30:48 [backends.py:872] Dynamo bytecode transform time: 10.38 s
-Check 5: wait
-Check 6: wait
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m INFO 03-07 16:30:54 [backends.py:267] Directly load the compiled graph(s) for compile range (1, 2048) from the cache, took 1.876 s
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m INFO 03-07 16:30:54 [monitor.py:34] torch.compile takes 12.26 s in total
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m INFO 03-07 16:30:55 [gpu_worker.py:356] Available KV cache memory: 18.83 GiB
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m INFO 03-07 16:30:55 [kv_cache_utils.py:1307] GPU KV cache size: 137,136 tokens
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m INFO 03-07 16:30:55 [kv_cache_utils.py:1312] Maximum concurrency for 32,768 tokens per request: 4.19x
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/51 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   4%|▍         | 2/51 [00:00<00:03, 13.32it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   8%|▊         | 4/51 [00:00<00:03, 14.14it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  12%|█▏        | 6/51 [00:00<00:03, 14.58it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  16%|█▌        | 8/51 [00:00<00:02, 15.03it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  20%|█▉        | 10/51 [00:00<00:02, 15.92it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  24%|██▎       | 12/51 [00:00<00:02, 16.49it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  27%|██▋       | 14/51 [00:00<00:02, 16.93it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  31%|███▏      | 16/51 [00:00<00:02, 17.24it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  37%|███▋      | 19/51 [00:01<00:01, 18.26it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  41%|████      | 21/51 [00:01<00:01, 18.67it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  47%|████▋     | 24/51 [00:01<00:01, 19.24it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  53%|█████▎    | 27/51 [00:01<00:01, 19.65it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  57%|█████▋    | 29/51 [00:01<00:01, 19.39it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  63%|██████▎   | 32/51 [00:01<00:00, 19.79it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  69%|██████▊   | 35/51 [00:01<00:00, 19.90it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  75%|███████▍  | 38/51 [00:02<00:00, 19.95it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  78%|███████▊  | 40/51 [00:02<00:00, 19.83it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  84%|████████▍ | 43/51 [00:02<00:00, 20.04it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  90%|█████████ | 46/51 [00:02<00:00, 20.18it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  96%|█████████▌| 49/51 [00:02<00:00, 20.34it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:02<00:00, 18.62it/s]
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m Capturing CUDA graphs (decode, FULL):   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL):   6%|▌         | 2/35 [00:00<00:01, 17.88it/s]Capturing CUDA graphs (decode, FULL):  14%|█▍        | 5/35 [00:00<00:01, 19.75it/s]Check 7: wait
-Capturing CUDA graphs (decode, FULL):  23%|██▎       | 8/35 [00:00<00:01, 20.62it/s]Capturing CUDA graphs (decode, FULL):  31%|███▏      | 11/35 [00:00<00:01, 21.18it/s]Capturing CUDA graphs (decode, FULL):  40%|████      | 14/35 [00:00<00:00, 21.48it/s]Capturing CUDA graphs (decode, FULL):  49%|████▊     | 17/35 [00:00<00:00, 21.62it/s]Capturing CUDA graphs (decode, FULL):  57%|█████▋    | 20/35 [00:00<00:00, 21.61it/s]Capturing CUDA graphs (decode, FULL):  66%|██████▌   | 23/35 [00:01<00:00, 21.49it/s]Capturing CUDA graphs (decode, FULL):  74%|███████▍  | 26/35 [00:01<00:00, 21.62it/s]Capturing CUDA graphs (decode, FULL):  83%|████████▎ | 29/35 [00:01<00:00, 21.73it/s]Capturing CUDA graphs (decode, FULL):  91%|█████████▏| 32/35 [00:01<00:00, 21.97it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 22.20it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [00:01<00:00, 21.56it/s]
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m INFO 03-07 16:31:00 [gpu_model_runner.py:5063] Graph capturing finished in 5 secs, took 0.53 GiB
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m INFO 03-07 16:31:00 [core.py:272] init engine (profile, create kv cache, warmup model) took 23.15 seconds
-[0;36m(EngineCore_DP0 pid=3142952)[0;0m INFO 03-07 16:31:01 [vllm.py:624] Asynchronous scheduling is enabled.
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:02 [api_server.py:665] Supported tasks: ['generate']
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:02 [serving.py:273] "auto" tool choice has been enabled.
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:02 [serving.py:273] "auto" tool choice has been enabled.
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:02 [serving.py:177] Warming up chat template processing...
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [hf.py:310] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [serving.py:212] Chat template warmup completed in 1514.9ms
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [serving.py:273] "auto" tool choice has been enabled.
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [api_server.py:946] Starting vLLM API server 0 on http://127.0.0.1:8000
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:38] Available routes are:
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /openapi.json, Methods: HEAD, GET
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /docs, Methods: HEAD, GET
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /docs/oauth2-redirect, Methods: HEAD, GET
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /redoc, Methods: HEAD, GET
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /scale_elastic_ep, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /is_scaling_elastic_ep, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /tokenize, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /detokenize, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /inference/v1/generate, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /pause, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /resume, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /is_paused, Methods: GET
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /metrics, Methods: GET
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /health, Methods: GET
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /v1/chat/completions, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /v1/chat/completions/render, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /v1/responses, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /v1/responses/{response_id}, Methods: GET
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /v1/responses/{response_id}/cancel, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /v1/audio/transcriptions, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /v1/audio/translations, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /v1/completions, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /v1/completions/render, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /v1/messages, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /v1/models, Methods: GET
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /load, Methods: GET
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /version, Methods: GET
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /ping, Methods: GET
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /ping, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /invocations, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /classify, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /v1/embeddings, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /score, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /v1/score, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /rerank, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /v1/rerank, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /v2/rerank, Methods: POST
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:03 [launcher.py:46] Route: /pooling, Methods: POST
-Check 8: wait
-[0;36m(APIServer pid=3142652)[0;0m INFO:     Started server process [3142652]
-[0;36m(APIServer pid=3142652)[0;0m INFO:     Waiting for application startup.
-[0;36m(APIServer pid=3142652)[0;0m INFO:     Application startup complete.
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:35928 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-Check 9: ok
-vLLM ready!
-2026-03-07 16:31:09,739 [INFO] __main__: Using chunks file: /gpfs/work5/0/prjs1800/msc-thesis/04-sage-autonomous/data/musique/chunks.json
-2026-03-07 16:31:09,739 [INFO] __main__: Using index dir: /gpfs/work5/0/prjs1800/msc-thesis/04-sage-autonomous/data/musique/index_e5_base_v2
-2026-03-07 16:31:09,754 [INFO] __main__: Total: 1000 | Completed: 0 | Pending: 1000
-/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:14 [loggers.py:257] Engine 000: Avg prompt throughput: 0.8 tokens/s, Avg generation throughput: 0.7 tokens/s, Running: 0 reqs, Waiting: 0 reqs, GPU KV cache usage: 0.0%, Prefix cache hit rate: 0.0%
-2026-03-07 16:31:18,961 [INFO] __main__: Loading embedding model: intfloat/e5-base-v2
-2026-03-07 16:31:18,961 [INFO] sentence_transformers.SentenceTransformer: Load pretrained SentenceTransformer: intfloat/e5-base-v2
-2026-03-07 16:31:20,815 [INFO] __main__: Embedding model loaded successfully!
-2026-03-07 16:31:20,829 [INFO] __main__: Processing musique_2hop__267938_92763: What is the enrollment at Jack Clay's employer?
-2026-03-07 16:31:20,830 [INFO] __main__: Processing musique_2hop__253612_110882: What is the date of birth of the performer of Stand Up?
-2026-03-07 16:31:20,830 [INFO] __main__: Processing musique_3hop2__127483_84553_10557: What was the language of Auctor of who built a european empi
-2026-03-07 16:31:20,831 [INFO] __main__: Processing musique_2hop__487706_40501: How many refugees emigrated to the participant of Battle of 
-2026-03-07 16:31:20,831 [INFO] __main__: Processing musique_3hop1__131783_131926_13165: What treaty ceded territory to the US extending west to the 
-2026-03-07 16:31:20,831 [INFO] __main__: Processing musique_3hop1__136852_30587_83479: What was the main goal of Germany in the battle of the ocean
-2026-03-07 16:31:20,832 [INFO] __main__: Processing musique_3hop1__140345_2053_52946: When is Celebrity Big Brother coming to the network which, a
-2026-03-07 16:31:20,832 [INFO] __main__: Processing musique_2hop__847433_11402: According to the organization that creates census county div
-2026-03-07 16:31:20,832 [INFO] __main__: Processing musique_3hop1__145411_443779_52195: Who is the president of the newly declared independent count
-2026-03-07 16:31:20,833 [INFO] __main__: Processing musique_3hop1__475351_160713_77246: In the Arabic dictionary, what's the meaning of the word for
-2026-03-07 16:31:20,833 [INFO] __main__: Processing musique_2hop__51881_20590: When was self-government achieved in the location where Lord
-2026-03-07 16:31:20,834 [INFO] __main__: Processing musique_3hop2__230_89048_66294: Who played the singer of is She Really Going Out With Him in
-2026-03-07 16:31:20,834 [INFO] __main__: Processing musique_2hop__152027_141308: What is the parent company of the record label releasing Col
-2026-03-07 16:31:20,834 [INFO] __main__: Processing musique_3hop1__390673_228453_10972: When did the headquarters city of Kentucky Tavern's manufact
-2026-03-07 16:31:20,834 [INFO] __main__: Processing musique_3hop1__79462_91850_685675: What team is the person who hit the first home run at the ne
-2026-03-07 16:31:20,835 [INFO] __main__: Processing musique_4hop1__88342_49853_128008_86588: What's the longest homer in the history of the league where 
-2026-03-07 16:31:20,835 [INFO] __main__: Processing musique_3hop2__20335_8533_9331: What dissolved the privileges of the empire using Pan-Slavis
-2026-03-07 16:31:20,836 [INFO] __main__: Processing musique_4hop1__88342_75218_128008_86588: What is the longest home run in the history of the league of
-2026-03-07 16:31:20,836 [INFO] __main__: Processing musique_2hop__524623_82341: Where is Chris Meffert's birth place in the state of Florida
-2026-03-07 16:31:20,836 [INFO] __main__: Processing musique_4hop3__131775_29339_508306_70744: Which has more national championships, university of the sta
-2026-03-07 16:31:20,836 [INFO] __main__: Processing musique_2hop__83800_747874: Who's the sibling of the player who won the men's wimbledon 
-2026-03-07 16:31:20,837 [INFO] __main__: Processing musique_2hop__814408_155922: Into what does the river for which Toongabbie Creek serves a
-2026-03-07 16:31:20,837 [INFO] __main__: Processing musique_3hop1__401538_132457_51423: What is the name of the castle in the city where the perform
-2026-03-07 16:31:20,837 [INFO] __main__: Processing musique_2hop__145082_35034: What was the population density of Tammy Leitner's city of b
-2026-03-07 16:31:20,838 [INFO] __main__: Processing musique_2hop__398344_85513: When is the next episode of the series that Steven the Sword
-2026-03-07 16:31:20,838 [INFO] __main__: Processing musique_3hop1__161433_33952_34099: How long are the council terms in the second largest city in
-2026-03-07 16:31:20,838 [INFO] __main__: Processing musique_2hop__66843_494136: Who is the spouse of the actor portraying Jerry Lee Lewis in
-2026-03-07 16:31:20,839 [INFO] __main__: Processing musique_3hop1__498954_160713_77246: What is the meaning of the word also known as the majority r
-2026-03-07 16:31:20,839 [INFO] __main__: Processing musique_3hop2__831456_223623_162182: In what region of the country where Sa Thay is located is Jo
-2026-03-07 16:31:20,839 [INFO] __main__: Processing musique_2hop__403060_92763: What is the enrollment at the school that owns the Miami Hur
-2026-03-07 16:31:20,840 [INFO] __main__: Processing musique_3hop2__30152_105395_20999: How were the people that the Somali Muslim Ajuran Empire mad
-2026-03-07 16:31:20,840 [INFO] __main__: Processing musique_2hop__488811_30113: What else happened in the northern part of Erich Zakowski's 
-2026-03-07 16:31:20,840 [INFO] __main__: Processing musique_4hop1__629520_49925_13759_736921: In what region of Germany is the district where a sermon on 
-2026-03-07 16:31:20,841 [INFO] __main__: Processing musique_2hop__29339_40482: Who did the Huguenots in the state primary Edwards won outsi
-2026-03-07 16:31:20,841 [INFO] __main__: Processing musique_2hop__734582_74481: Who was played by the director of The Good Shepherd in The G
-2026-03-07 16:31:20,842 [INFO] __main__: Processing musique_2hop__124933_653666: Who is the mother of the father of Julia Murdock Smith?
-2026-03-07 16:31:20,842 [INFO] __main__: Processing musique_2hop__130867_54221: What time of day can you start purchasing alcohol in the sta
-2026-03-07 16:31:20,843 [INFO] __main__: Processing musique_3hop1__313670_42197_18397: Another world leader said that Vladimir Rapoport's country w
-2026-03-07 16:31:20,843 [INFO] __main__: Processing musique_3hop2__781093_223623_162182: In what region of the country where Lam Thao is located is J
-2026-03-07 16:31:20,843 [INFO] __main__: Processing musique_3hop1__146155_131905_41948: Besides the body of water by the city where Nicolaus Schubac
-2026-03-07 16:31:20,844 [INFO] __main__: Processing musique_2hop__586343_83289: Who is the guy in the video of the performer of One Last Tim
-2026-03-07 16:31:20,844 [INFO] __main__: Processing musique_2hop__525242_52835: Who wrote "Turn Me On" by performer of "Happy Pills"?
-2026-03-07 16:31:20,844 [INFO] __main__: Processing musique_2hop__448615_127908: What league was the team that Jose Cancela was a member of i
-2026-03-07 16:31:20,845 [INFO] __main__: Processing musique_4hop1__525129_315334_131926_13165: What treaty ceded territory to the US extending west to body
-2026-03-07 16:31:20,845 [INFO] __main__: Processing musique_2hop__562154_69048: Who is the Chief Judge in the place where DeltaWomen's headq
-2026-03-07 16:31:20,845 [INFO] __main__: Processing musique_2hop__551235_310309: Who is the child of the creator of A Distinguished Member of
-2026-03-07 16:31:20,846 [INFO] __main__: Processing musique_2hop__268084_78303: What was the name of the star of Forced Vengeance in Walter,
-2026-03-07 16:31:20,846 [INFO] __main__: Processing musique_2hop__161915_78851: which professional sports team would you not see play a home
-2026-03-07 16:31:20,846 [INFO] __main__: Processing musique_2hop__388523_75487: Who is the federal leader of the party that James Rajotte is
-2026-03-07 16:31:20,847 [INFO] __main__: Processing musique_3hop1__796649_720914_27537: Why did Roncalli leave the city where the creator of Flora d
-2026-03-07 16:31:20,847 [INFO] __main__: Processing musique_3hop2__90098_156850_10557: What was the form of the language that the last name Sylvest
-2026-03-07 16:31:20,847 [INFO] __main__: Processing musique_2hop__57638_72467: What team picked the highest point average holder in NBA his
-2026-03-07 16:31:20,848 [INFO] __main__: Processing musique_4hop3__630723_88460_30152_20999: How were people from whom new coins were a proclamation of i
-2026-03-07 16:31:20,848 [INFO] __main__: Processing musique_4hop1__58323_375563_161848_61344: What continent is the country located near the country of ci
-2026-03-07 16:31:20,848 [INFO] __main__: Processing musique_2hop__15650_77173: Where are the Ozark Mountains located within the state where
-2026-03-07 16:31:20,849 [INFO] __main__: Processing musique_2hop__835914_91104: The space agency operating IRS-P2 had a communication satell
-2026-03-07 16:31:20,849 [INFO] __main__: Processing musique_2hop__194469_83289: Who is the guy in the One Last Time video by the participant
-2026-03-07 16:31:20,849 [INFO] __main__: Processing musique_2hop__765180_123956: When did the Battle at Choo Hoey's birthplace end?
-2026-03-07 16:31:20,850 [INFO] __main__: Processing musique_4hop2__797545_14670_8987_8974: A country's military branch, which in the US contains the Ai
-2026-03-07 16:31:20,850 [INFO] __main__: Processing musique_2hop__50936_90973: Who did the original voice of the character that Mila Kunis 
-2026-03-07 16:31:20,850 [INFO] __main__: Processing musique_2hop__108158_83769: Who was played by the creator of Push, Nevada in Dazed and C
-2026-03-07 16:31:20,851 [INFO] __main__: Processing musique_2hop__37656_160040: Who is the guy defending this stuff from the highest authori
-2026-03-07 16:31:20,851 [INFO] __main__: Processing musique_3hop1__147162_131905_41948: Besides the body of water by the city where Erwin Speckler d
-2026-03-07 16:31:20,851 [INFO] __main__: Processing musique_2hop__24441_36630: What countries found their economic growth in the period you
-2026-03-07 16:31:20,852 [INFO] __main__: Processing musique_4hop1__76111_624859_355213_203322: What county shares a border with the county where the singer
-2026-03-07 16:31:20,852 [INFO] __main__: Processing musique_2hop__846844_47134: What is the mascot of the school that owns Goss Stadium at C
-2026-03-07 16:31:20,852 [INFO] __main__: Processing musique_2hop__29191_59955: What country is between Lithuania and Frederic Chopin's home
-2026-03-07 16:31:20,853 [INFO] __main__: Processing musique_4hop2__9988_158985_70784_79935: When was the kingdom lying immediately to the north of the r
-2026-03-07 16:31:20,853 [INFO] __main__: Processing musique_4hop1__567737_141375_458768_33637: How many ethnic minorities were looked at differently in the
-2026-03-07 16:31:20,853 [INFO] __main__: Processing musique_2hop__161872_21567: Who in the14th century introduced musical notation used wher
-2026-03-07 16:31:20,854 [INFO] __main__: Processing musique_3hop2__304722_740784_63959: When was the last time Krystian Pearce's sports team beat th
-2026-03-07 16:31:20,854 [INFO] __main__: Processing musique_4hop1__88342_49853_128008_54974: What is the longest home run hit in the league where the tea
-2026-03-07 16:31:20,854 [INFO] __main__: Processing musique_2hop__820739_250752: Who is the sibling of the screenwriter of War of the Coproph
-2026-03-07 16:31:20,855 [INFO] __main__: Processing musique_2hop__496792_392646: A participant of the Battle of Brechin is an instance of?
-2026-03-07 16:31:20,855 [INFO] __main__: Processing musique_3hop1__604991_339990_15538: When did the state that Frozen Run is located in reinstate t
-2026-03-07 16:31:20,855 [INFO] __main__: Processing musique_2hop__347652_47134: What is the mascot of the institution that owns Memorial Uni
-2026-03-07 16:31:20,856 [INFO] __main__: Processing musique_2hop__238499_431914: What administrative territorial entity includes the arrondis
-2026-03-07 16:31:20,856 [INFO] __main__: Processing musique_2hop__50910_177869: Who married the publisher of abolitionist newspaper The Nort
-2026-03-07 16:31:20,856 [INFO] __main__: Processing musique_3hop1__813285_774554_124169: What year did the post end of Governor of the city where the
-2026-03-07 16:31:20,857 [INFO] __main__: Processing musique_2hop__708145_30351: Who did Hayek work for upon being hired by the author of Bur
-2026-03-07 16:31:20,857 [INFO] __main__: Processing musique_2hop__135822_46621: When was the star to which Solgränd is named after discovere
-2026-03-07 16:31:20,857 [INFO] __main__: Processing musique_3hop2__79978_90098_10557: What was the language from which the last name Sylvester ori
-2026-03-07 16:31:20,858 [INFO] __main__: Processing musique_2hop__756620_127399: What year did the Leone brothers start their band?
-2026-03-07 16:31:20,858 [INFO] __main__: Processing musique_4hop3__524186_219173_862998_72134: When did the city where Hillcrest High School is located bec
-2026-03-07 16:31:20,858 [INFO] __main__: Processing musique_3hop1__161507_160713_77246: What is the meaning of the word that is also a majority reli
-2026-03-07 16:31:20,859 [INFO] __main__: Processing musique_3hop1__71549_486583_84283: Who owns the record label where Neil Young's co-singer on Fo
-2026-03-07 16:31:20,859 [INFO] __main__: Processing musique_3hop1__465684_160545_62931: Where in the country where Bodindecha was born was The Beach
-2026-03-07 16:31:20,859 [INFO] __main__: Processing musique_2hop__364489_861485: Where is the location of the headquarters of the publisher o
-2026-03-07 16:31:20,859 [INFO] __main__: Processing musique_2hop__543050_245420: Which city shares border with the area having Bella Vista Hi
-2026-03-07 16:31:20,860 [INFO] __main__: Processing musique_2hop__141456_6455: What was the resulting browser for the company Mozilla Messa
-2026-03-07 16:31:20,860 [INFO] __main__: Processing musique_4hop1__56635_49925_13759_736921: The German priest, who wanted to reform the religious denomi
-2026-03-07 16:31:20,860 [INFO] __main__: Processing musique_2hop__123148_5385: How many people work in Susan Winchester's alma mater?
-2026-03-07 16:31:20,861 [INFO] __main__: Processing musique_4hop1__93601_46196_497223_15840: What is the abbreviated name of the exclusive platform of th
-2026-03-07 16:31:20,861 [INFO] __main__: Processing musique_3hop1__831162_831637_91775: What does SEAL stand for in the military group that is part 
-2026-03-07 16:31:20,862 [INFO] __main__: Processing musique_2hop__30384_30351: Who did Hay work for after being hired by his other notable 
-2026-03-07 16:31:20,862 [INFO] __main__: Processing musique_2hop__799936_20273: What year did the author of The First Blast of the Trumpet A
-2026-03-07 16:31:20,863 [INFO] __main__: Processing musique_2hop__121145_561444: Who did the creator of Derech Mitzvosecha follow?
-2026-03-07 16:31:20,863 [INFO] __main__: Processing musique_3hop1__389069_132457_51423: What is the name of the castle in the city where the perform
-2026-03-07 16:31:20,863 [INFO] __main__: Processing musique_2hop__47071_162399: When did the person who launched the Bardoli Satyagraha on 4
-2026-03-07 16:31:20,864 [INFO] __main__: Processing musique_2hop__51965_165532: Who is the spouse of the actor who plays Paul in Breakfast a
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:24 [loggers.py:257] Engine 000: Avg prompt throughput: 4775.8 tokens/s, Avg generation throughput: 94.0 tokens/s, Running: 84 reqs, Waiting: 16 reqs, GPU KV cache usage: 35.7%, Prefix cache hit rate: 5.3%
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40194 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39760 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39552 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40332 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:34 [loggers.py:257] Engine 000: Avg prompt throughput: 1276.5 tokens/s, Avg generation throughput: 3933.5 tokens/s, Running: 100 reqs, Waiting: 0 reqs, GPU KV cache usage: 69.0%, Prefix cache hit rate: 5.3%
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40342 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40300 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40248 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39854 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39694 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40154 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39710 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40164 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40356 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40086 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39896 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40312 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39646 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40174 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39460 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40368 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39446 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40188 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39570 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39656 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39832 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40288 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39786 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39674 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40324 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39684 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39822 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39870 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40396 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40014 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40374 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39936 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40054 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40156 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:44 [loggers.py:257] Engine 000: Avg prompt throughput: 724.0 tokens/s, Avg generation throughput: 3482.7 tokens/s, Running: 100 reqs, Waiting: 0 reqs, GPU KV cache usage: 72.7%, Prefix cache hit rate: 5.5%
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40244 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40232 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[2026-03-07T16:31:45.850] error: *** JOB 20565998 ON gcn6 CANCELLED AT 2026-03-07T16:31:45 DUE to SIGNAL Terminated ***
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40386 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39738 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40100 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39630 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39992 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40132 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39698 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39954 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39844 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39878 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39752 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:31:54 [loggers.py:257] Engine 000: Avg prompt throughput: 287.8 tokens/s, Avg generation throughput: 3517.3 tokens/s, Running: 100 reqs, Waiting: 0 reqs, GPU KV cache usage: 86.6%, Prefix cache hit rate: 5.6%
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39938 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39480 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40176 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.69it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.96it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.94it/s]
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39774 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.55it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.53it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.06it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.04it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.55it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.54it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.30it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  9.28it/s]
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:34668 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 71.68it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.75it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.73it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40024 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-Batches: 100%|██████████| 1/1 [00:00<00:00,  8.68it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.67it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.65it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.63it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.46it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.44it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.70it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.68it/s]
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40112 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 73.61it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 10.08it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.51it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.50it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:32:04 [loggers.py:257] Engine 000: Avg prompt throughput: 517.6 tokens/s, Avg generation throughput: 3062.3 tokens/s, Running: 90 reqs, Waiting: 9 reqs, GPU KV cache usage: 99.7%, Prefix cache hit rate: 5.3%
-Batches: 100%|██████████| 1/1 [00:00<00:00,  8.68it/s]Batches: 100%|██████████| 1/1 [00:00<00:00,  8.66it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 22.39it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 27.19it/s]
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39510 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39574 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39924 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:34832 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 61.16it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.08it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 28.49it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 17.85it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.02it/s]
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40040 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:34824 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 64.41it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 16.63it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.63it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 20.64it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 18.69it/s]
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40228 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 65.26it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 19.18it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 34.81it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 25.18it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.16it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 21.93it/s]
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40224 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39470 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40276 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39976 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO 03-07 16:32:14 [loggers.py:257] Engine 000: Avg prompt throughput: 0.0 tokens/s, Avg generation throughput: 2284.5 tokens/s, Running: 76 reqs, Waiting: 25 reqs, GPU KV cache usage: 99.8%, Prefix cache hit rate: 5.3%
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39912 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:34772 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 68.02it/s]
-[0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:40098 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:00<00:00, 64.51it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39806 - "POST /v1/chat/completions HTTP/1.1" 200 OK
-Batches: 100%|██████████| 1/1 [00:00<00:00, 17.99it/s]
-Batches:   0%|          | 0/1 [00:00<?, ?it/s][0;36m(APIServer pid=3142652)[0;0m INFO:     127.0.0.1:39890 - "POST /v1/chat/completions HTTP/1.1" 200 OK

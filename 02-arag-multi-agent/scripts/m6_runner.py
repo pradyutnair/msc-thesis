@@ -196,7 +196,7 @@ class M6BatchRunner:
             llm_client=main_client,
             worker_llm_client=worker_client,
             tools=tools,
-            decomposer_prompt=str(prompts_dir / "decomposer.txt"),
+            decomposer_prompt=str(prompts_dir / m6_cfg.get("decomposer_prompt", "decomposer.txt")),
             synthesizer_prompt=str(synthesizer_prompt),
             synthesizer_consistency_prompt=str(prompts_dir / "synthesizer_consistency.txt"),
             worker_plan_prompt=str(worker_prompt),
