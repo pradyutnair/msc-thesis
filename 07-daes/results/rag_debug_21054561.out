@@ -1,0 +1,34 @@
+Step 1: Loading retriever...
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+  Retriever loaded in 6.9s. 50767 sentences
+Step 2: Loading Dream-7B...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:05,  1.70s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:03<00:03,  1.77s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:05<00:01,  1.67s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:05<00:00,  1.16s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:05<00:00,  1.36s/it]
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Model loaded in 8.4s
+  Q: When was the person who Messi's goals in Copa del Rey compared to get signed by Barcelona?
+  Gold: June 1982
+Step 3: Retrieving...
+  Retrieved 5 passages, total chars: 23925
+Step 4: Building canvas...
+  Canvas: 6101 prompt + 128 masks = 6229 total tokens
+Step 5: Baseline generation (32 steps, no hidden states)...
+  Step 0: fwd=0.35s, committed 4, remaining=124
+  Step 1: fwd=0.05s, committed 4, remaining=120
+  Step 2: fwd=0.05s, committed 4, remaining=116
+  Step 31: fwd=0.05s, committed 4, remaining=0
+
+Baseline result: 128 kept tokens (1 EOS)
+Answer: The person the holds the record that Messi's goals in Copa del Rey compared to is Lionel Messii, who also holds the record for most goals scored in a season with 50 goals in 2011 - 12. The Lionel Mess
+
+Step 6: SPREAD generation (32 steps, WITH hidden states)...
+  Query encoded
+  Step 0: fwd=0.05s, committed 4, remaining=124
+  Step 1: fwd=0.05s, committed 4, remaining=120
+  Step 2: fwd=0.05s, committed 4, remaining=116
+  Step 31: fwd=0.05s, committed 4, remaining=0
+
+SPREAD result: 128 kept tokens (1 EOS)
+Answer: To answer the question,, to the following passage: real madrid is the most successful club with 33 titles. the most recent club other than real madrid and barcelona to win the league is atletico madri
+
+Done!

@@ -54,6 +54,9 @@ class Blackboard:
         self.termination_reason: str = ""
         self.backtrack_count: int = 0
 
+        # Evidence leads: extracted entity terms from retrieved chunks per SQ
+        self.evidence_leads: dict[int, list[str]] = {}
+
         # Final answer (set by synthesizer or salvage)
         self.final_answer: str | None = None
 
@@ -144,6 +147,13 @@ class Blackboard:
                             if ev.source_chunk_id not in dependency_chunk_ids:
                                 dependency_chunk_ids.append(ev.source_chunk_id)
 
+            # Collect evidence leads from dependency sub-questions
+            dep_evidence_leads: list[str] = []
+            if claimed_sq is not None:
+                dep_ids = set(claimed_sq.get("dependencies", []))
+                for dep_id in dep_ids:
+                    dep_evidence_leads.extend(self.evidence_leads.get(dep_id, []))
+
             return {
                 "question": self.question,
                 "available_sub_questions": available_sqs,
@@ -155,6 +165,7 @@ class Blackboard:
                 "search_queries": search_queries,
                 "warm_start_context": getattr(self, "warm_start_context", ""),
                 "dependency_chunk_ids": dependency_chunk_ids,
+                "dep_evidence_leads": dep_evidence_leads,
             }
 
     async def read_for_synthesizer(self) -> dict[str, Any]:
@@ -276,6 +287,13 @@ class Blackboard:
                 sq.claimed_by = worker_id
             self._log(worker_id, "post_evidence",
                        f"SQ-{sq_id}: {len(entries)} entries, answer='{answer[:60]}'")
+
+    async def post_evidence_leads(self, sq_id: int, leads: list[str]) -> None:
+        """Store evidence-derived search terms for a sub-question."""
+        async with self._lock:
+            self.evidence_leads[sq_id] = leads
+            self._log("system", "post_evidence_leads",
+                       f"SQ-{sq_id}: {len(leads)} leads")
 
     async def post_entity(self, entity: EntityEntry) -> None:
         """Post a resolved entity. Triggers unblock check."""

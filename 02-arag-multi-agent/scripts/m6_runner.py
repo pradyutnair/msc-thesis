@@ -30,6 +30,8 @@ from arag.tools.registry import ToolRegistry
 from arag.tools.keyword_search import KeywordSearchTool
 from arag.tools.semantic_search import SemanticSearchTool
 from arag.tools.read_chunk import ReadChunkTool
+from arag.tools.finish import FinishTool
+from arag.tools.neighborhood_search import NeighborhoodSearchTool
 
 from multi_agent.m6.m6_pipeline import M6Pipeline
 from multi_agent.m6.types import M6PipelineResult
@@ -52,6 +54,8 @@ def build_tools(config: Config) -> ToolRegistry:
 
     read_tool = ReadChunkTool(chunks_file=chunks_file)
     reg.register(read_tool)
+    reg.register(FinishTool())
+    reg.register(NeighborhoodSearchTool(chunks_file=chunks_file))
 
     semantic_tool = None
     index_dir = data_cfg.get("index_dir")

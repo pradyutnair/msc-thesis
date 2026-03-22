@@ -1,0 +1,20 @@
+#!/bin/bash
+#SBATCH --job-name=mvp-infill-hotpotqa
+#SBATCH --partition=gpu_h100
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=48G
+#SBATCH --time=01:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/mvp_infill_hotpotqa_%j.out
+
+module load 2024 Python/3.12.3-GCCcore-13.3.0
+source /projects/prjs1800/venvs/daes-venv/bin/activate
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/dllm:$PYTHONPATH
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+
+python /projects/prjs1800/msc-thesis/07-daes/src/daes/mvp_experiment.py \
+    --dataset hotpotqa \
+    --n_questions 50 \
+    --mode infill \
+    --steps 64

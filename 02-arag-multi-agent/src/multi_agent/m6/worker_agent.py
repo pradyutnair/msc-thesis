@@ -181,18 +181,21 @@ class WorkerAgent(AutonomousAgent):
             tool_calls = assistant_msg.get("tool_calls", [])
 
             if tool_calls:
+                finish_called = False
                 for tc in tool_calls:
                     func_name = tc["function"]["name"]
                     func_args = json.loads(tc["function"]["arguments"])
-                    tool_result, _ = self.tools.execute(
-                        func_name, context, **func_args,
-                    )
-                    messages.append({
-                        "role": "tool",
-                        "tool_call_id": tc["id"],
-                        "content": tool_result,
-                    })
+                    if func_name == "finish":
+                        answer = func_args.get("answer", "")
+                        finish_called = True
+                        messages.append({"role": "tool", "tool_call_id": tc["id"], "content": answer})
+                        memory.add_action(step, func_name, func_args, answer)
+                        break
+                    tool_result, _ = self.tools.execute(func_name, context, **func_args)
+                    messages.append({"role": "tool", "tool_call_id": tc["id"], "content": tool_result})
                     memory.add_action(step, func_name, func_args, tool_result)
+                if finish_called:
+                    break
             else:
                 answer = assistant_msg.get("content", "")
                 break
@@ -279,6 +282,11 @@ class WorkerAgent(AutonomousAgent):
         return result
 
     def _clean_answer(self, answer: str) -> str:
+        # Extract from finish(answer="X") written as text
+        import re as _re
+        _fm = _re.search(r'finish\s*\(\s*answer\s*=\s*[\x22\x27](.+?)[\x22\x27]', answer)
+        if _fm:
+            return _fm.group(1).strip()
         # Strip think tags
         answer = re.sub(r"<think>.*?</think>\s*", "", answer, flags=re.DOTALL)
         answer = re.sub(r"<think>.*", "", answer, flags=re.DOTALL)
