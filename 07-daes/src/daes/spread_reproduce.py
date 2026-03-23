@@ -40,8 +40,15 @@ from dllm.pipelines.dream.sampler import sample_tokens
 
 class Retriever:
     def __init__(self, dataset: str, model_name="intfloat/e5-base-v2",
-                 index_name="index_e5_base_v2", max_chunk_chars=2000):
+                 index_name="index_e5_base_v2", max_chunk_chars=2000,
+                 trust_remote_code=False):
         from sentence_transformers import SentenceTransformer
+        # Monkey-patch DynamicCache for GTE-Qwen2 compatibility
+        from transformers import DynamicCache
+        if not hasattr(DynamicCache, "get_usable_length"):
+            def _get_usable_length(self, new_seq_length, layer_idx=0):
+                return self.get_seq_length(layer_idx)
+            DynamicCache.get_usable_length = _get_usable_length
         data_dir = f"/projects/prjs1800/external/arag/data/{dataset}"
         index_path = os.path.join(data_dir, index_name, "sentence_index.pkl")
         print(f"Loading index from {index_path}...", flush=True)
@@ -52,13 +59,35 @@ class Retriever:
         self.sentence_to_chunk = idx["sentence_to_chunk"]
         self.chunks = idx["chunks"]
         self.max_chunk_chars = max_chunk_chars
-        print(f"Loading {model_name}...", flush=True)
-        self.model = SentenceTransformer(model_name, device="cpu")
+        self.precomputed_q_embs = None
+        self.precomputed_q_texts = None
+        if model_name == "precomputed":
+            print("Using pre-computed query embeddings (no retriever model needed)", flush=True)
+        else:
+            print(f"Loading {model_name}...", flush=True)
+            self.model = SentenceTransformer(model_name, device="cpu", trust_remote_code=trust_remote_code)
         print(f"Index: {len(self.sentences)} sentences, {len(self.chunks)} chunks", flush=True)
+
+    def load_precomputed_queries(self, path):
+        """Load pre-computed query embeddings from pkl file."""
+        with open(path, "rb") as f:
+            qdata = pickle.load(f)
+        self.precomputed_q_texts = qdata["questions"]
+        self.precomputed_q_embs = qdata["embeddings"]
+        print(f"Loaded {len(self.precomputed_q_texts)} pre-computed query embeddings", flush=True)
 
     def retrieve(self, query: str, top_k: int = 5) -> list[str]:
         """Return top-k passage texts, each truncated to max_chunk_chars."""
-        q_emb = self.model.encode([query], normalize_embeddings=True)[0]
+        if self.precomputed_q_embs is not None:
+            # Find matching query in precomputed
+            try:
+                idx_match = self.precomputed_q_texts.index(query)
+                q_emb = self.precomputed_q_embs[idx_match]
+            except ValueError:
+                # Query not found in precomputed — fallback to model
+                q_emb = self.model.encode([query], normalize_embeddings=True)[0]
+        else:
+            q_emb = self.model.encode([query], normalize_embeddings=True)[0]
         sims = np.dot(self.embeddings, q_emb)
         top_idx = np.argsort(sims)[::-1][:top_k * 3]
         chunk_best = {}
@@ -235,12 +264,21 @@ def main():
     parser.add_argument("--T", type=int, default=128, help="Denoising steps")
     parser.add_argument("--top_k", type=int, default=5, help="Retrieval top-k")
     parser.add_argument("--max_chunk_chars", type=int, default=2000, help="Max chars per retrieved passage")
+    parser.add_argument("--index_name", type=str, default="index_e5_base_v2")
+    parser.add_argument("--retriever_model", type=str, default="intfloat/e5-base-v2")
+    parser.add_argument("--precomputed_queries", type=str, default=None,
+                        help="Path to pre-computed query embeddings pkl (for NV-Embed-v2)")
     parser.add_argument("--alpha", type=float, default=0.5)
     args = parser.parse_args()
     os.makedirs(args.output_dir, exist_ok=True)
 
     # Load retriever
-    retriever = Retriever(args.dataset, max_chunk_chars=args.max_chunk_chars)
+    trust_rc = "gte" in args.retriever_model.lower() or "qwen" in args.retriever_model.lower()
+    retriever = Retriever(args.dataset, model_name=args.retriever_model,
+                          index_name=args.index_name, max_chunk_chars=args.max_chunk_chars,
+                          trust_remote_code=trust_rc)
+    if args.precomputed_queries:
+        retriever.load_precomputed_queries(args.precomputed_queries)
 
     # Load model
     print(f"Loading {args.model_path}...", flush=True)

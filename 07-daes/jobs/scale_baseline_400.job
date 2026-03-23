@@ -1,0 +1,16 @@
+#!/bin/bash
+#SBATCH --job-name=s-ba-400
+#SBATCH --partition=gpu_h100
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=64G
+#SBATCH --time=04:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/scale_baseline_400_%j.out
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/dllm:$PYTHONPATH
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+
+python -u /projects/prjs1800/msc-thesis/07-daes/src/daes/track2_bv_nvembed.py \
+    --start_idx 400 --end_idx 500 --mode baseline

@@ -1,0 +1,83 @@
+#!/bin/bash
+#SBATCH --job-name=nv-setup-build
+#SBATCH --partition=gpu_h100
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=80G
+#SBATCH --time=02:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/setup_nvembed_%j.out
+
+module load 2024 Python/3.12.3-GCCcore-13.3.0
+
+# Create fresh venv for NV-Embed-v2
+python3 -m venv /projects/prjs1800/venvs/nvembed-venv
+source /projects/prjs1800/venvs/nvembed-venv/bin/activate
+
+# Install with transformers 4.42 (known to work with NV-Embed-v2)
+pip install --no-cache-dir torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124
+pip install --no-cache-dir "transformers==4.42.4" sentence-transformers numpy einops datasets
+
+echo "=== Venv ready, building index ==="
+
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+
+python -u << PYEOF
+import json, pickle, numpy as np, time, os
+
+from sentence_transformers import SentenceTransformer
+
+print("Loading MuSiQue paragraphs...", flush=True)
+data = [json.loads(l) for l in open("/projects/prjs1800/datasets/musique/musique_full_v1.0_dev.jsonl")]
+seen = set()
+paragraphs = []
+for d in data:
+    for p in d["paragraphs"]:
+        key = (p.get("title", ""), p.get("paragraph_text", ""))
+        if key not in seen:
+            seen.add(key)
+            paragraphs.append({"title": p.get("title", ""), "text": p.get("paragraph_text", "")})
+print(f"  {len(paragraphs)} unique paragraphs", flush=True)
+
+sentences, s2c, chunks = [], [], {}
+for i, p in enumerate(paragraphs):
+    cid = str(i)
+    chunks[cid] = {"id": cid, "text": "[" + p["title"] + "] " + p["text"]}
+    text = p["text"].strip()
+    if not text: continue
+    for s in [s.strip() for s in text.replace(". ", ".\n").split("\n") if s.strip()]:
+        sentences.append(s)
+        s2c.append(cid)
+print(f"  {len(sentences)} sentences, {len(chunks)} chunks", flush=True)
+
+print("Loading NV-Embed-v2...", flush=True)
+model = SentenceTransformer("nvidia/NV-Embed-v2", trust_remote_code=True, device="cuda")
+print(f"  Dim: {model.get_sentence_embedding_dimension()}", flush=True)
+
+print("Encoding...", flush=True)
+t0 = time.time()
+bs = 64
+all_emb = []
+for i in range(0, len(sentences), bs):
+    emb = model.encode(sentences[i:i+bs], normalize_embeddings=True, show_progress_bar=False)
+    all_emb.append(emb)
+    if (i // bs) % 50 == 0:
+        print(f"  {i+bs}/{len(sentences)} ({time.time()-t0:.1f}s)", flush=True)
+embeddings = np.vstack(all_emb)
+print(f"  Done: {embeddings.shape} in {time.time()-t0:.1f}s", flush=True)
+
+# Also pre-encode the 1000 ARAG questions
+print("Encoding queries...", flush=True)
+qs = json.load(open("/projects/prjs1800/external/arag/data/musique/questions.json"))
+q_texts = [q["question"] for q in qs]
+q_embs = model.encode(q_texts, normalize_embeddings=True, show_progress_bar=False)
+print(f"  {len(q_texts)} queries encoded: {q_embs.shape}", flush=True)
+
+out_dir = "/projects/prjs1800/external/arag/data/musique/index_nvembed_v2_musique_full"
+os.makedirs(out_dir, exist_ok=True)
+with open(os.path.join(out_dir, "sentence_index.pkl"), "wb") as f:
+    pickle.dump({"sentences": sentences, "embeddings": embeddings,
+                 "sentence_to_chunk": s2c, "chunks": chunks}, f)
+with open(os.path.join(out_dir, "query_embeddings.pkl"), "wb") as f:
+    pickle.dump({"questions": q_texts, "embeddings": q_embs}, f)
+print(f"Saved to {out_dir}", flush=True)
+PYEOF

@@ -1,0 +1,22 @@
+#!/bin/bash
+#SBATCH --job-name=rbv-recursive_branch
+#SBATCH --partition=gpu_h100
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=64G
+#SBATCH --time=06:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/rbv_recursive_branch_musique_%j.out
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/dllm:$PYTHONPATH
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+
+python -u /projects/prjs1800/msc-thesis/07-daes/src/daes/recursive_branch_verify.py \
+    --dataset musique \
+    --n_questions 50 \
+    --mode recursive_branch \
+    --steps 128 \
+    --n_tokens 512 \
+    --n_candidates 3 \
+    --max_hops 3

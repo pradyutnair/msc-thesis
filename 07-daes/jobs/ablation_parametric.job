@@ -1,0 +1,99 @@
+#!/bin/bash
+#SBATCH --job-name=ablation-param
+#SBATCH --partition=gpu_h100
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=64G
+#SBATCH --time=02:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/ablation_parametric_%j.out
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/dllm:$PYTHONPATH
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+
+python -u << 'PYEOF'
+"""Ablation: does the dLLM use retrieved evidence or parametric knowledge?
+Compare candidate proposals WITH vs WITHOUT retrieved context."""
+import json, sys, torch, pickle, numpy as np
+sys.path.insert(0, "/projects/prjs1800/msc-thesis/07-daes/dllm")
+import dllm
+from dllm.pipelines.dream.sampler import sample_tokens
+from sentence_transformers import SentenceTransformer
+from dataclasses import dataclass
+
+# Load retriever
+with open("/projects/prjs1800/external/arag/data/musique/index_e5_musique_full/sentence_index.pkl", "rb") as f:
+    idx = pickle.load(f)
+st = SentenceTransformer("intfloat/e5-base-v2", device="cpu")
+
+def retrieve(query, top_k=5):
+    q_emb = st.encode([query], normalize_embeddings=True)[0]
+    sims = np.dot(idx["embeddings"], q_emb)
+    top = np.argsort(sims)[::-1][:top_k*3]
+    cb = {}
+    for i in top:
+        cid = idx["sentence_to_chunk"][i]
+        if cid not in cb or sims[i] > cb[cid]: cb[cid] = float(sims[i])
+    ranked = sorted(cb.items(), key=lambda x: x[1], reverse=True)[:top_k]
+    return [idx["chunks"][cid]["text"][:2000] for cid, _ in ranked]
+
+# Load model
+@dataclass
+class MA:
+    model_name_or_path: str = "Dream-org/Dream-v0-Instruct-7B"
+model = dllm.utils.get_model(model_args=MA()).eval()
+tokenizer = dllm.utils.get_tokenizer(model_args=MA())
+mask_id = tokenizer.mask_token_id
+
+def get_candidates(context, question, n=5):
+    prompt = context + "\n\nQuestion: " + question + "\n\nThe answer is:" if context else "Question: " + question + "\n\nThe answer is:"
+    messages = [{"role": "user", "content": prompt}]
+    input_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    prefix_ids = tokenizer.encode(input_text, add_special_tokens=False)
+    canvas = prefix_ids + [mask_id] * 20
+    x = torch.tensor([canvas], dtype=torch.long, device=model.device)
+    attn = torch.ones_like(x)
+    with torch.no_grad():
+        out = model(x, attention_mask=attn)
+    logits = torch.cat([out.logits[:, :1], out.logits[:, :-1]], dim=1)
+    probs = torch.softmax(logits[0, len(prefix_ids)] / 0.3, dim=-1)
+    top_p, top_i = torch.topk(probs, n)
+    tokens = [tokenizer.decode([tid]) for tid in top_i]
+    confs = top_p.tolist()
+    return list(zip(tokens, confs))
+
+qs = json.load(open("/projects/prjs1800/external/arag/data/musique/questions.json"))[:20]
+print("Ablation: parametric vs evidence-grounded candidates (20 questions)", flush=True)
+print("=" * 70, flush=True)
+
+same_count = 0
+diff_count = 0
+for i, q in enumerate(qs):
+    passages = retrieve(q["question"])
+    context = "\n\n".join(passages)
+
+    cands_with = get_candidates(context, q["question"])
+    cands_without = get_candidates("", q["question"])
+
+    top1_with = cands_with[0][0].strip()
+    top1_without = cands_without[0][0].strip()
+    same = top1_with == top1_without
+
+    if same:
+        same_count += 1
+    else:
+        diff_count += 1
+
+    print(f"[{i+1}] Q: {q[question][:65]}...", flush=True)
+    print(f"  Gold: {q[answer]}", flush=True)
+    print(f"  WITH context top-3:    {[t for t,c in cands_with[:3]]}", flush=True)
+    print(f"  WITHOUT context top-3: {[t for t,c in cands_without[:3]]}", flush=True)
+    print(f"  Top-1 same? {same}", flush=True)
+    print(flush=True)
+
+print("=" * 70, flush=True)
+print(f"Top-1 candidate SAME with/without context: {same_count}/20 = {same_count*5}%", flush=True)
+print(f"Top-1 candidate DIFFERENT: {diff_count}/20 = {diff_count*5}%", flush=True)
+print(f"If DIFFERENT is high → model uses evidence. If SAME is high → parametric knowledge dominates.", flush=True)
+PYEOF

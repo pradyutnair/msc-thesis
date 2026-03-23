@@ -1,0 +1,22 @@
+#!/bin/bash
+#SBATCH --job-name=dl-nvembed
+#SBATCH --partition=staging
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=32G
+#SBATCH --time=01:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/download_nvembed_%j.out
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+
+python -u -c "
+from sentence_transformers import SentenceTransformer
+print(\"Downloading NV-Embed-v2...\", flush=True)
+m = SentenceTransformer(\"nvidia/NV-Embed-v2\", trust_remote_code=True, device=\"cpu\")
+print(\"Loaded. Dim:\", m.get_sentence_embedding_dimension(), flush=True)
+# Quick test
+emb = m.encode([\"test query\"], normalize_embeddings=True)
+print(\"Embedding shape:\", emb.shape, flush=True)
+print(\"Done!\", flush=True)
+"

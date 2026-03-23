@@ -1,0 +1,16 @@
+#!/bin/bash
+#SBATCH --job-name=2w-ba-0
+#SBATCH --partition=gpu_h100
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=64G
+#SBATCH --time=04:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/scale_2wikimultihop_baseline_0_%j.out
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/dllm:$PYTHONPATH
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+
+python -u /projects/prjs1800/msc-thesis/07-daes/src/daes/track2_bv_nvembed.py \
+    --dataset 2wikimultihop --start_idx 0 --end_idx 100 --mode baseline
