@@ -14,11 +14,13 @@
 
 ## Final Results (1000 questions per dataset, E5-base-v2 everywhere)
 
-| Dataset | Baseline F1 | Branch-Verify F1 | **Δ F1** | Baseline Contain | BV Contain | **Δ Contain** |
-|---------|------------|------------------|----------|-----------------|------------|---------------|
-| HotpotQA | 39.8% | **47.9%** | **+8.1pp** | 51.9% | 56.3% | +4.4pp |
-| MuSiQue | 20.0% | **24.8%** | **+4.8pp** | 17.5% | 23.4% | +5.9pp |
-| 2WikiMH | 23.9% | **25.7%** | **+1.8pp** | 20.4% | 22.2% | +1.8pp |
+
+| Dataset  | Baseline F1 | Branch-Verify F1 | **Δ F1**   | Baseline Contain | BV Contain | **Δ Contain** |
+| -------- | ----------- | ---------------- | ---------- | ---------------- | ---------- | ------------- |
+| HotpotQA | 39.8%       | **47.9%**        | **+8.1pp** | 51.9%            | 56.3%      | +4.4pp        |
+| MuSiQue  | 20.0%       | **24.8%**        | **+4.8pp** | 17.5%            | 23.4%      | +5.9pp        |
+| 2WikiMH  | 23.9%       | **25.7%**        | **+1.8pp** | 20.4%            | 22.2%      | +1.8pp        |
+
 
 - Retriever: E5-base-v2 for ALL queries (initial + branch). One retriever, one index per dataset. No mixing.
 - Baseline: Dream-7B confidence-based denoising, single-shot retrieval top-5
@@ -30,12 +32,14 @@
 
 ### Retriever Impact on Baseline (MuSiQue, 50q pilot)
 
-| Retriever | Index | Recall@5 | Baseline F1 |
-|-----------|-------|----------|-------------|
-| E5-base-v2 | ARAG 1.3K chunks | 36% | 7.3% |
-| E5-base-v2 | MuSiQue 26K paras | 64% | 27.1% |
-| GTE-Qwen2-1.5B | MuSiQue 26K paras | — | 26.3% |
-| NV-Embed-v2 | MuSiQue 26K paras | 54% | 33.3% |
+
+| Retriever      | Index             | Recall@5 | Baseline F1 |
+| -------------- | ----------------- | -------- | ----------- |
+| E5-base-v2     | ARAG 1.3K chunks  | 36%      | 7.3%        |
+| E5-base-v2     | MuSiQue 26K paras | 64%      | 27.1%       |
+| GTE-Qwen2-1.5B | MuSiQue 26K paras | —        | 26.3%       |
+| NV-Embed-v2    | MuSiQue 26K paras | 54%      | 33.3%       |
+
 
 **Key finding**: Corpus coverage matters more than retriever quality. ARAG's 1.3K chunks → 7% F1. MuSiQue native 26K paragraphs → 27% F1 (same retriever). NV-Embed-v2 adds another +6pp over E5.
 
@@ -47,21 +51,23 @@
 
 ### All 13 attempts:
 
-| # | Variant | Retriever | Result | Issue |
-|---|---------|-----------|--------|-------|
-| 1 | Manual loop, replace selection | E5 (1.3K) | 9.2% F1 | Wrong corpus |
-| 2 | Manual loop, replace selection | E5 (26K) | 24.3% F1 (-3pp vs BL) | Relevance flat (std=0.019) |
-| 3 | Manual loop + EOS suppression (L=512) | NV-Embed-v2 | 4.8% F1 | "the the the" degeneration |
-| 4 | Short masks (L=20) + EOS suppression | NV-Embed-v2 | 12.1% F1 | Still worse |
-| 5 | Short masks (L=64) + EOS suppression | NV-Embed-v2 | 5.6% F1 | Tied baseline |
-| 6 | Native Dream infill() + logits hook | NV-Embed-v2 | 32.0% F1 (-1.3pp) | Closest, no improvement |
-| 7 | LLaDA-8B-Instruct, manual loop | NV-Embed-v2 | 12.9% F1 (-6.7pp) | Even flatter (std=0.006) |
-| 8 | h_q from same forward pass | NV-Embed-v2 | std=0.016 | Worse than separate |
-| 9 | Layer 12 hidden states (20q) | NV-Embed-v2 | 19.0% F1 | Better than last layer |
-| 10 | Layer 16 hidden states (20q) | NV-Embed-v2 | 14.1% F1 | Worse |
-| 11 | Layer 20 hidden states (20q) | NV-Embed-v2 | 21.0% F1 | Best layer, still -12pp |
-| 12 | Entropy vs argmax sampling (20q) | E5 | 19% both | Sampling irrelevant |
-| 13 | Without AR-shifted logits | NV-Embed-v2 | 0-4 content tokens | Much worse |
+
+| #   | Variant                               | Retriever   | Result                | Issue                      |
+| --- | ------------------------------------- | ----------- | --------------------- | -------------------------- |
+| 1   | Manual loop, replace selection        | E5 (1.3K)   | 9.2% F1               | Wrong corpus               |
+| 2   | Manual loop, replace selection        | E5 (26K)    | 24.3% F1 (-3pp vs BL) | Relevance flat (std=0.019) |
+| 3   | Manual loop + EOS suppression (L=512) | NV-Embed-v2 | 4.8% F1               | "the the the" degeneration |
+| 4   | Short masks (L=20) + EOS suppression  | NV-Embed-v2 | 12.1% F1              | Still worse                |
+| 5   | Short masks (L=64) + EOS suppression  | NV-Embed-v2 | 5.6% F1               | Tied baseline              |
+| 6   | Native Dream infill() + logits hook   | NV-Embed-v2 | 32.0% F1 (-1.3pp)     | Closest, no improvement    |
+| 7   | LLaDA-8B-Instruct, manual loop        | NV-Embed-v2 | 12.9% F1 (-6.7pp)     | Even flatter (std=0.006)   |
+| 8   | h_q from same forward pass            | NV-Embed-v2 | std=0.016             | Worse than separate        |
+| 9   | Layer 12 hidden states (20q)          | NV-Embed-v2 | 19.0% F1              | Better than last layer     |
+| 10  | Layer 16 hidden states (20q)          | NV-Embed-v2 | 14.1% F1              | Worse                      |
+| 11  | Layer 20 hidden states (20q)          | NV-Embed-v2 | 21.0% F1              | Best layer, still -12pp    |
+| 12  | Entropy vs argmax sampling (20q)      | E5          | 19% both              | Sampling irrelevant        |
+| 13  | Without AR-shifted logits             | NV-Embed-v2 | 0-4 content tokens    | Much worse                 |
+
 
 ### Root cause analysis
 
@@ -94,13 +100,15 @@
 
 ### Pilot results (50q MuSiQue)
 
-| Method | Retriever | F1 | Contain |
-|--------|-----------|-----|---------|
-| Baseline | E5 | 27.1% | 26.0% |
-| Branch 1-hop | E5 | 30.1% | 28.0% |
-| Recursive (3 hops) | E5 | 29.5% | 36.0% |
-| Baseline | NV-Embed-v2 | 33.3% | 34.0% |
-| Branch-verify | NV-Embed-v2* | 38.7% | 32.0% |
+
+| Method             | Retriever    | F1    | Contain |
+| ------------------ | ------------ | ----- | ------- |
+| Baseline           | E5           | 27.1% | 26.0%   |
+| Branch 1-hop       | E5           | 30.1% | 28.0%   |
+| Recursive (3 hops) | E5           | 29.5% | 36.0%   |
+| Baseline           | NV-Embed-v2  | 33.3% | 34.0%   |
+| Branch-verify      | NV-Embed-v2* | 38.7% | 32.0%   |
+
 
 *NV-Embed-v2 for initial, E5 fallback for branch queries (inconsistent — fixed in final run)
 
@@ -123,12 +131,14 @@
 
 ### Prompt format ablation (20q MuSiQue)
 
-| Variant | F1 | CR | Avg words |
-|---------|-----|-----|-----------|
-| sample + chat template | 23.6% | 72.3% | 3 |
-| sample + raw text | 16.7% | 56.7% | 14 |
-| infill + chat template | 23.6% | 72.3% | 3 |
-| infill + raw text | 16.7% | 56.7% | 14 |
+
+| Variant                | F1    | CR    | Avg words |
+| ---------------------- | ----- | ----- | --------- |
+| sample + chat template | 23.6% | 72.3% | 3         |
+| sample + raw text      | 16.7% | 56.7% | 14        |
+| infill + chat template | 23.6% | 72.3% | 3         |
+| infill + raw text      | 16.7% | 56.7% | 14        |
+
 
 sample() vs infill() makes zero difference. Chat template produces shorter but more accurate answers.
 
@@ -136,22 +146,24 @@ sample() vs infill() makes zero difference. Chat template produces shorter but m
 
 ## File Map
 
-| File | Purpose |
-|------|---------|
-| `src/daes/track2_bv_nvembed.py` | **Main experiment script** — baseline + branch-verify, parameterized by dataset/shard |
-| `src/daes/spread_reproduce.py` | SPREAD reproduction with configurable retriever |
-| `src/daes/spread_native.py` | SPREAD via Dream native sample() + logits hook |
-| `src/daes/spread_fixed.py` | SPREAD with EOS suppression variants |
-| `src/daes/branch_verify.py` | Original single-hop branch-verify |
-| `src/daes/recursive_branch_verify.py` | Recursive multi-hop branch-verify |
-| `src/daes/track1_llada_spread.py` | SPREAD on LLaDA-8B |
-| `src/daes/build_musique_index.py` | Build E5 index from MuSiQue paragraphs |
-| `src/daes/build_e5_indices.py` | Build E5 indices for HotpotQA + 2WikiMH |
-| `src/daes/build_nvembed_index_v2.py` | Build NV-Embed-v2 index (nvembed-venv) |
-| `src/daes/build_all_indices.py` | Build NV-Embed-v2 indices for all datasets |
-| `src/daes/ablation_parametric.py` | Context vs no-context candidate comparison |
-| `src/daes/reproduce_spread_baseline.py` | Prompt format ablation |
-| `src/daes/debug_arshift.py` | AR shift vs no shift debug |
+
+| File                                    | Purpose                                                                               |
+| --------------------------------------- | ------------------------------------------------------------------------------------- |
+| `src/daes/track2_bv_nvembed.py`         | **Main experiment script** — baseline + branch-verify, parameterized by dataset/shard |
+| `src/daes/spread_reproduce.py`          | SPREAD reproduction with configurable retriever                                       |
+| `src/daes/spread_native.py`             | SPREAD via Dream native sample() + logits hook                                        |
+| `src/daes/spread_fixed.py`              | SPREAD with EOS suppression variants                                                  |
+| `src/daes/branch_verify.py`             | Original single-hop branch-verify                                                     |
+| `src/daes/recursive_branch_verify.py`   | Recursive multi-hop branch-verify                                                     |
+| `src/daes/track1_llada_spread.py`       | SPREAD on LLaDA-8B                                                                    |
+| `src/daes/build_musique_index.py`       | Build E5 index from MuSiQue paragraphs                                                |
+| `src/daes/build_e5_indices.py`          | Build E5 indices for HotpotQA + 2WikiMH                                               |
+| `src/daes/build_nvembed_index_v2.py`    | Build NV-Embed-v2 index (nvembed-venv)                                                |
+| `src/daes/build_all_indices.py`         | Build NV-Embed-v2 indices for all datasets                                            |
+| `src/daes/ablation_parametric.py`       | Context vs no-context candidate comparison                                            |
+| `src/daes/reproduce_spread_baseline.py` | Prompt format ablation                                                                |
+| `src/daes/debug_arshift.py`             | AR shift vs no shift debug                                                            |
+
 
 ---
 
@@ -174,3 +186,4 @@ sample() vs infill() makes zero difference. Chat template produces shorter but m
 3. **No AR baseline comparison**: Need to compare branch-verify against AR models (Qwen3-8B) to show dLLM-specific value.
 4. **Statistical significance**: Need confidence intervals or significance tests on 1000q results.
 5. **EMNLP writing**: 8 weeks remaining.
+
