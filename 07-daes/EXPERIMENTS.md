@@ -187,3 +187,17 @@ sample() vs infill() makes zero difference. Chat template produces shorter but m
 4. **Statistical significance**: Need confidence intervals or significance tests on 1000q results.
 5. **EMNLP writing**: 8 weeks remaining.
 
+
+---
+
+## Retrieval Budget Ablation (50q MuSiQue, E5-base-v2)
+
+**Critical test**: Is branch-verify just retrieving more passages?
+
+| Method | Total passages | F1 | Contain |
+|--------|---------------|-----|---------|
+| baseline (top-5) | 5 | 27.8% | 26.0% |
+| baseline (top-14) | 14 | 23.7% | 24.0% |
+| **branch-verify** | ~14 | **31.8%** | **30.0%** |
+
+**Result**: More passages HURTS (23.7% < 27.8%). Branch-verify with same budget HELPS (31.8% > 27.8%). The improvement comes from targeted per-candidate retrieval and confidence-change verification, not from seeing more evidence.
