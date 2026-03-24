@@ -206,11 +206,14 @@ def main():
                 "gold_answer": q["answer"], "pred_answer": answer,
                 "mode": run_mode, "f1": round(f, 4), "contain": contain,
             })
+            with open(out, 'a') as _fw:
+                _fw.write(json.dumps(predictions[-1]) + '\n')
             print(f"[{i+1}/50] ({elapsed:.1f}s) F1={f:.2f} contain={contain} {answer[:60]}", flush=True)
 
         n = len(predictions)
         cn = sum(1 for p in predictions if p["contain"])
         out = f"/projects/prjs1800/msc-thesis/07-daes/results/scale_{ds}_{run_mode}_{args.start_idx}_{args.end_idx}.jsonl"
+        open(out, 'w').close()  # init for incremental writes
         with open(out, "w") as f:
             for p in predictions: f.write(json.dumps(p) + "\n")
         print(f"\n{'='*60}", flush=True)

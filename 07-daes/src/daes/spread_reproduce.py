@@ -335,12 +335,15 @@ def main():
             "answer_words": stats.get("answer_len", 0),
             "n_prefix": stats.get("n_prefix", 0),
         })
+        with open(out_path, 'a') as _fw:
+            _fw.write(json.dumps(predictions[-1]) + '\n')
 
         print(f"[{i+1}/{len(qs)}] ({elapsed:.1f}s) F1={f:.2f} P={p:.2f} R={r:.2f} contain={contain} words={stats.get('answer_len',0)}", flush=True)
         print(f"  Gold: {q['answer']}", flush=True)
         print(f"  Pred: {answer[:150]}", flush=True)
 
     out_path = os.path.join(args.output_dir, f"spread_repro_{args.dataset}_{args.mode}.jsonl")
+    open(out_path, 'w').close()  # init for incremental writes
     with open(out_path, "w") as f:
         for p_item in predictions:
             f.write(json.dumps(p_item) + "\n")

@@ -388,6 +388,8 @@ def main():
             "contain": contain,
             "stats": stats,
         })
+        with open(out_path, 'a') as _fw:
+            _fw.write(json.dumps(predictions[-1]) + '\n')
 
         hop_info = ""
         if "n_hops_used" in stats:
@@ -397,6 +399,7 @@ def main():
         print(f"  Pred: {answer[:120]}", flush=True)
 
     out_path = os.path.join(args.output_dir, f"rbv_{args.dataset}_{args.mode}.jsonl")
+    open(out_path, 'w').close()  # init for incremental writes
     with open(out_path, "w") as f:
         for item in predictions:
             f.write(json.dumps(item) + "\n")

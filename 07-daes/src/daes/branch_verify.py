@@ -365,6 +365,8 @@ def main():
             "contain": contain,
             "stats": stats,
         })
+        with open(out_path, 'a') as _fw:
+            _fw.write(json.dumps(predictions[-1]) + '\n')
 
         cand_info = ""
         if "candidates" in stats:
@@ -376,6 +378,7 @@ def main():
         print(f"  Pred: {answer[:120]}", flush=True)
 
     out_path = os.path.join(args.output_dir, f"bv_{args.dataset}_{args.mode}.jsonl")
+    open(out_path, 'w').close()  # init for incremental writes
     with open(out_path, "w") as f:
         for item in predictions:
             f.write(json.dumps(item) + "\n")
