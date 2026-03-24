@@ -270,3 +270,15 @@ dLLM candidates (+5.2pp F1) are the ONLY source that improves over baseline. Que
 - Random words: sample 3 from list of 20 common nouns (city, country, person, year, etc.)
 - All use random.seed(42) for reproducibility
 - All use same retrieve() and generate() functions
+
+---
+
+## Per-Hop Analysis (1000q MuSiQue, E5)
+
+| Hops | N | Baseline F1 | Branch-verify F1 | Delta |
+|------|---|------------|------------------|-------|
+| 2-hop | 518 | 22.7% | 28.9% | +6.2pp |
+| 3-hop | 316 | 19.7% | 22.0% | +2.3pp |
+| 4-hop | 166 | 12.1% | 17.4% | +5.3pp |
+
+Branch-verify improves on ALL hop counts. Largest gains on 2-hop (+6.2pp) and 4-hop (+5.3pp).
