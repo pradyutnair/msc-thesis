@@ -201,3 +201,40 @@ sample() vs infill() makes zero difference. Chat template produces shorter but m
 | **branch-verify** | ~14 | **31.8%** | **30.0%** |
 
 **Result**: More passages HURTS (23.7% < 27.8%). Branch-verify with same budget HELPS (31.8% > 27.8%). The improvement comes from targeted per-candidate retrieval and confidence-change verification, not from seeing more evidence.
+
+---
+
+## Random Selection Ablation (50q MuSiQue, E5)
+
+**Critical test**: Does confidence-based verification add value over random candidate selection?
+
+| Method | F1 | Contain |
+|--------|-----|---------|
+| baseline_5 (top-5, no branching) | 27.8% | 26.0% |
+| branch_verify (3 candidates, scored) | 28.6% | 28.0% |
+| **branch_random** (1 random candidate) | **32.6%** | **32.0%** |
+
+**Result**: Random selection BEATS confidence-scored selection. The scoring function (verified_conf + 0.5 * conf_gain) actively selects the wrong candidate due to scale mismatch between init_conf (temp=0.3 softmax, one token) and verified_conf (no-temp, 10-token average).
+
+**Implication**: The improvement comes from multi-query retrieval (dLLM candidates diversify retrieval), NOT from confidence-based path verification. The "hypothesize-retrieve-verify" story collapses to "hypothesize-retrieve."
+
+## Current Status (March 24)
+
+### What Works
+- dLLM token distribution produces useful bridge entity candidates for multi-hop QA
+- Per-candidate retrieval improves over single-query retrieval (+4.8pp F1 on MuSiQue)
+- Targeted multi-query retrieval > naive top-14 retrieval (budget ablation)
+- Consistent gains across 3 datasets with E5 (HotpotQA +8.1pp, MuSiQue +4.8pp, 2WikiMH +1.8pp)
+- NV-Embed-v2 + Dream-7B working in same venv (transformers 4.44.2)
+- NV-Embed-v2 1000q MuSiQue run in progress
+
+### What Does Not Work
+- SPREAD reproduction (13 attempts, all failed. Author confirmed undocumented weighted scoring)
+- Confidence-based path verification (broken scoring, random > scored)
+- Any "diffusion-native verification" claim
+
+### Open Questions
+- Can we fix the verification scoring? (alternatives: self-consistency, answer length, cross-consistency)
+- Is "dLLM-guided multi-query retrieval" a sufficient contribution for EMNLP without verification?
+- How different is this from standard multi-query retrieval (IRCoT etc.) done for AR models?
+- EMNLP deadline: May 25, 2026 (~8 weeks)
