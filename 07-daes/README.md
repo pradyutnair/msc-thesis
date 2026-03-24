@@ -61,3 +61,20 @@ results/                   # Prediction outputs (.jsonl) and logs (.out)
 5. Multi-dataset: HotpotQA, 2WikiMultihopQA, MuSiQue
 6. SPREAD integration at final synthesis step
 
+
+## How This Differs From SPREAD
+
+SPREAD modifies how the dLLM **generates** (token selection strategy during denoising). We modify what the dLLM **retrieves** (using its token distribution to drive multi-query retrieval for multi-hop QA). Different parts of the pipeline:
+
+- **SPREAD**: retrieval is single-shot, improves generation quality via query-relevance-guided denoising
+- **Ours**: generation is standard, improves retrieval coverage via candidate-driven multi-query retrieval
+
+They are orthogonal — could be combined (SPREAD denoising + our multi-path retrieval).
+
+## Current Status
+
+**Working**: dLLM candidates + per-candidate retrieval = +4.8pp to +8.1pp F1 across 3 datasets. Proven by retrieval budget ablation (targeted 14 passages > naive 14 passages).
+
+**Not working**: Confidence-based path verification. Random candidate selection outperforms scored selection. Scoring function is broken. The "verify" part of "hypothesize-retrieve-verify" is unresolved.
+
+**Open**: Whether multi-query retrieval from dLLM candidates is a sufficient standalone contribution, or if working verification is needed for publication.
