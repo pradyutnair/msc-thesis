@@ -1,0 +1,15 @@
+#!/bin/bash
+#SBATCH --job-name=nv-br-900
+#SBATCH --partition=gpu_h100
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=80G
+#SBATCH --time=04:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/nv1k_branch_verify_900_%j.out
+
+source /projects/prjs1800/venvs/nvembed-venv/bin/activate
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/dllm:$PYTHONPATH
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+
+python -u /projects/prjs1800/msc-thesis/07-daes/src/daes/run_nv_musique.py \
+    --start_idx 900 --end_idx 1000 --mode branch_verify
