@@ -1,6 +1,6 @@
 """Candidate count ablation: how many candidates are optimal? n=1,2,3,5."""
 import argparse, json, os, sys, time, re, string, pickle, random, numpy as np, torch
-sys.path.insert(0, os.environ.get("DLLM_PATH", "dllm"))
+sys.path.insert(0, "/projects/prjs1800/msc-thesis/07-daes/dllm")
 import dllm
 from dllm.pipelines.dream.sampler import DreamSampler, DreamSamplerConfig, sample_tokens
 from sentence_transformers import SentenceTransformer
@@ -14,7 +14,7 @@ parser.add_argument("--n_questions", type=int, default=50)
 parser.add_argument("--n_candidates", type=int, required=True)
 args = parser.parse_args()
 
-with open(os.path.join(args.data_dir, "musique/sentence_index.pkl"), "rb") as f:
+with open(os.path.join(args.data_dir, "musique/index_e5_musique_full/sentence_index.pkl"), "rb") as f:
     idx = pickle.load(f)
 e5 = SentenceTransformer("intfloat/e5-base-v2", device="cpu")
 
