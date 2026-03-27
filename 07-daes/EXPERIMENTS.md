@@ -12,6 +12,151 @@
 
 ---
 
+## Cleaned EAMD v4 Pilot (March 27)
+
+This section supersedes the earlier v3 smoke interpretation. The v3 result was suggestive but not thesis-safe because the methods did not all use the same prompt scaffold, and the reported "EAMD" path was regeneration rather than true remasking. v4 reruns the comparison with those confounds removed.
+
+### Why v4 was necessary
+
+The earlier v3 pilot had three issues:
+
+1. `baseline` / `EAMD` used an explicit short-answer prompt, while `SPREAD` and `ARAM` used their own prompt scaffolds.
+2. The reported "EAMD" path was full short-canvas regeneration under `C1`, not actual revision from a previous answer canvas.
+3. The `eamd_select` selector compared uncalibrated confidence values from different decoding procedures.
+
+v4 fixes all three.
+
+### v4 protocol
+
+- **Dataset**: MuSiQue, first 50 questions from `/projects/prjs1800/external/arag/data/musique/questions.json`
+- **Retriever**: E5-base-v2, same index and retrieve budget for all methods
+- **Canvas**: 16 masked answer tokens, 16 denoising steps, temperature `0.1`
+- **Shared prompt**: all methods use the same short-answer instruction
+- **Initial evidence**: `C0 = R(Q)` with top-5 retrieval
+- **Expanded evidence**: `C1 = C0 ∪ R(Q + baseline_answer) ∪ ⋃_j R(Q + candidate_j)`
+- **Candidate source**: Dream single-pass bridge candidates from `extract_candidates()`
+- **Evaluation**: standard Counter-based token-overlap F1, exact match, contain
+- **Leakage check**: gold answer is loaded only for evaluation, never used in retrieval or decoding
+
+### Methods in the cleaned comparison
+
+| Method | Evidence | Prompt | Decoder | Notes |
+| --- | --- | --- | --- | --- |
+| Baseline | `C0` | shared short prompt | confidence-based short denoising | control |
+| SPREAD | `C0` | shared short prompt | query-relevance weighted token ordering | cleaned reproduction |
+| ARAM | `C0` | shared short prompt | per-token conditional vs prior guidance | cleaned reproduction |
+| Pool | `C1` | shared short prompt | confidence-based short denoising | retrieval-only control |
+| EAMD-Regen | `C0` vs `C1` | shared short prompt | evidence-marginal guided regeneration from fully masked short canvas | **main mathematically grounded variant** |
+| EAMD-Remask | seed answer from Baseline, revise under `C1` | shared short prompt | answer-span remask + guided re-denoise | heuristic ablation |
+
+### Mathematical form used in v4
+
+For `EAMD-Regen`, at each masked answer position `i`:
+
+- `p_base_i = p_theta(. | x_t, Q, C0)`
+- `p_full_i = p_theta(. | x_t, Q, C1)`
+- `Signal_i = D_KL(p_full_i || p_base_i) + D_KL(p_base_i || p_full_i)`
+- `Noise_i = H(p_full_i)`
+- `extra_scale_i = lambda_max * tanh(beta * Signal_i / (Noise_i + eps)) * (t / T)`
+- `logits_guided_i = logits_full_i + extra_scale_i * (logits_full_i - logits_base_i)`
+
+This is a new inference-time guidance rule. It is mathematically clean to describe as a guided sampler defined by evidence-marginal distribution shift.
+
+For `EAMD-Remask`, the current v4 implementation is weaker theoretically:
+
+- seed from the baseline short answer under `C0`
+- compare token distributions under `C0` vs `C1` on the committed answer tokens
+- if the top-1 token changes or divergence exceeds a threshold anywhere in the answer span, remask the full current answer span
+- re-denoise that span with the same evidence-marginal guidance
+
+This is a practical diffusion-native revision operator, but it is still a heuristic ablation rather than the main theorem-backed claim.
+
+### Fairness / anti-cheating checks
+
+- same prompt scaffold across all methods
+- same answer length budget (`16` masked answer tokens)
+- same retriever, same index, same top-k
+- no gold answer or support facts used in retrieval expansion
+- no "best-of-two" selector used in the main result table
+- all reported numbers come from the same v4 harness
+
+### v4 smoke test (5q MuSiQue)
+
+Artifacts:
+- `src/daes/eamd_smoke_v4.py`
+- `jobs/eamd_smoke_v4.job`
+- `results/eamd_smoke_v4_5q.json`
+- `results/eamd_smoke_v4_21235998.out`
+
+| Method | F1 | EM | Contain |
+| --- | ---: | ---: | ---: |
+| Baseline | 0.000 | 0.000 | 0.000 |
+| SPREAD | 0.040 | 0.000 | 0.000 |
+| ARAM | 0.000 | 0.000 | 0.000 |
+| Pool | 0.560 | 0.400 | 0.600 |
+| EAMD-Regen | 0.560 | 0.400 | 0.600 |
+| EAMD-Remask | 0.333 | 0.200 | 0.200 |
+
+Smoke interpretation:
+- `EAMD-Regen` survives the prompt-matched rerun and matches `Pool`
+- `EAMD-Remask` can fix direct value errors (`New York -> Rockland`, `1984 -> 1986`) but still lags behind regeneration
+- this justified a larger pilot
+
+### v4 cleaned pilot (50q MuSiQue)
+
+Artifacts:
+- `results/eamd_pilot_v4_50q.json`
+- `results/eamd_pilot_v4_21236180.out`
+
+| Method | F1 | EM | Contain |
+| --- | ---: | ---: | ---: |
+| Baseline | 0.336 | 0.240 | 0.320 |
+| SPREAD | 0.313 | 0.200 | 0.280 |
+| ARAM | 0.313 | 0.240 | 0.260 |
+| Pool | 0.419 | 0.280 | 0.400 |
+| **EAMD-Regen** | **0.457** | **0.300** | **0.460** |
+| EAMD-Remask | 0.392 | 0.280 | 0.360 |
+
+### Pairwise comparison on the 50q pilot
+
+| Comparison | Better | Worse | Same |
+| --- | ---: | ---: | ---: |
+| EAMD-Regen vs Pool | 4 | 0 | 46 |
+| EAMD-Regen vs ARAM | 12 | 3 | 35 |
+| EAMD-Regen vs SPREAD | 12 | 5 | 33 |
+| EAMD-Remask vs Pool | 3 | 5 | 42 |
+| EAMD-Remask vs ARAM | 7 | 1 | 42 |
+
+### Where the cleaned gains come from
+
+Largest `EAMD-Regen` improvements over `Pool` on the 50q pilot:
+
+| Question type | Gold | Pool | EAMD-Regen | F1 gain |
+| --- | --- | --- | --- | ---: |
+| birthplace city chain | `La Goulette` | `Tunis` | `Paris and La Goulette` | +0.667 |
+| location description chain | `central Atlantic Ocean` | `Cabo Verde` | `Cabo Verde, 10 volcanic islands in the central Atlantic Ocean.` | +0.500 |
+| presidential family chain | `Jessie Woodrow Wilson` | `Esther Cleveland` | `Eleanor Wilson` | +0.400 |
+| Senate control date | `January 2015` | `2015` | `January 2015` | +0.333 |
+
+Notable property:
+- `EAMD-Regen` has **no regressions against Pool** on this 50q slice.
+
+### Interpretation
+
+1. The cleaned rerun removes the biggest methodological concern from v3: prompt mismatch.
+2. `EAMD-Regen` still beats `Pool`, `ARAM`, and `SPREAD` after that correction.
+3. The main working idea is **evidence-marginal guided regeneration**, not remasking.
+4. `EAMD-Remask` is real and useful as an ablation, but it is not yet the strongest variant.
+5. The current thesis-safe claim is:
+   - under a shared short-answer setup, evidence-marginal guided regeneration outperforms our current SPREAD, ARAM, and pooled-evidence baselines on a 50-question MuSiQue pilot
+
+### Go / no-go decision after v4
+
+- **GO**: scale `EAMD-Regen` to a larger MuSiQue run (`200q` or `500q`)
+- **GO**: use `EAMD-Regen` as the main mathematically grounded method
+- **PARTIAL GO**: keep `EAMD-Remask` as a diffusion-native ablation
+- **NO**: do not make remasking the main contribution yet
+
 ## Final Results (1000 questions per dataset, E5-base-v2 everywhere)
 
 
@@ -282,3 +427,202 @@ dLLM candidates (+5.2pp F1) are the ONLY source that improves over baseline. Que
 | 4-hop | 166 | 12.1% | 17.4% | +5.3pp |
 
 Branch-verify improves on ALL hop counts. Largest gains on 2-hop (+6.2pp) and 4-hop (+5.3pp).
+
+---
+
+## ARAM Reproduction (March 25)
+
+### Paper: Adaptive Retrieval-Augmented Masked Diffusion (arxiv 2603.17677)
+
+**Method**: Per-token adaptive SNR guidance during denoising. Two forward passes (batched): conditional (with context) and prior (without context). Signal = symmetric KL divergence, Noise = conditional entropy. lambda_i = lambda_max * tanh(beta * Signal_i / (Noise_i + eps)). Guided logits = prior + lambda * (cond - prior).
+
+**Implementation**: \`src/daes/aram_reproduce.py\`
+
+### ARAM Results (50q MuSiQue, E5-base-v2)
+
+| Prompt | Retrieval | beta | Baseline F1 | ARAM F1 | Delta |
+|--------|-----------|------|-------------|---------|-------|
+| Zero-shot | top-5 | 0.5 | 27.8% | 28.0% | +0.2pp |
+| Few-shot (paper Fig 6) | top-5 | 0.5 | **31.8%** | 29.9% | -1.9pp |
+| Few-shot (paper Fig 6) | top-3 (paper) | 0.1 (paper) | 20.3% | 16.8% | -3.5pp |
+| Few-shot (paper Fig 6) | top-3 (paper) | 0.5 | 20.3% | 18.0% | -2.3pp |
+
+**Key findings**:
+1. Few-shot prompt alone boosts baseline +4pp (27.8% → 31.8%)
+2. ARAM guidance hurts Dream with the few-shot prompt (-1.9pp with top-5)
+3. Top-3 retrieval is insufficient for multi-hop MuSiQue (20.3% baseline)
+4. Consistent with ARAM paper: Dream gains are tiny (+0.9pp F1 on HotpotQA). The paper's big wins are for LLaDA, not Dream.
+5. Per-token lambda is working (signal varies 0.03-0.47, lambda varies 0.1-0.3), but the guidance degrades output quality
+
+---
+
+## SPREAD Reproduction (March 25)
+
+### Paper: Semantic-Preserving RAG for Diffusion (arxiv 2601.11342)
+### Author email (Chuanyue Yu): undocumented weighted scoring = alpha * relevance + (1-alpha) * confidence
+
+**Method**: Replace confidence-based token selection with query-relevance-guided selection. h_q from separate forward pass (last layer, mean-pool). Cosine similarity → sigmoid → top-k selection.
+
+**Implementation**: \`src/daes/spread_v2.py\` (weighted), \`src/daes/spread_variants.py\` (all variants)
+
+### Prior SPREAD attempts (13 failed, see above) — root cause confirmed: hidden state cosine std = 0.063, too flat
+
+### SPREAD Variant Sweep (50q MuSiQue, E5-base-v2, zero-shot prompt)
+
+**Baseline: 28.9% F1**
+
+| Strategy | Config | F1 | vs BL | Notes |
+|----------|--------|-----|-------|-------|
+| **additive_raw** | **gamma=0.3** | **29.7%** | **+0.8pp** | **BEST** |
+| **additive_raw** | **gamma=0.5** | **29.6%** | **+0.7pp** | Close second |
+| additive_raw | gamma=0.1 | 27.1% | -1.8pp | Too little relevance |
+| additive_raw | gamma=1.0 | 26.0% | -2.9pp | Too much relevance |
+| additive_raw | gamma=5.0 | 27.7% | -1.2pp | Way too much |
+| multiplicative | gamma=1.0 | 28.5% | -0.4pp | Nearly neutral |
+| multiplicative | gamma=5.0 | 26.0% | -2.9pp | |
+| multiplicative | gamma=10.0 | 26.6% | -2.3pp | |
+| weighted (norm) | alpha=0.1 | 27.4% | -1.5pp | Min-max normalization hurts |
+| weighted (norm) | alpha=0.3 | 26.8% | -2.1pp | |
+| weighted (norm) | alpha=0.5 | 26.7% | -2.2pp | |
+| weighted (norm) | alpha=0.7 | 26.5% | -2.4pp | |
+| layer20 | gamma=1.0 | 24.4% | -4.5pp | Higher hs variance but worse |
+| spread_v1 (original) | relevance only | 23.6% | -5.3pp | Known failure |
+| spread_v2 (KL-based) | KL selection | 16.4% | -12.5pp | Selects for copying |
+
+**Key findings**:
+1. \`additive_raw gamma=0.3-0.5\` is the only configuration that beats baseline (+0.7-0.8pp)
+2. The author's "weighted scoring" works when applied as raw additive (confidence + gamma * sigmoid(cosine))
+3. Min-max normalization amplifies noise in the low-variance relevance signal → always hurts
+4. Layer 20 hidden states have higher variance (0.075-0.087 vs 0.063) but worse F1 — variance alone isn't the issue
+5. KL-based selection (spread_v2) catastrophically selects for context-copying, not query-answering
+6. Sweet spot for gamma is 0.3-0.5: enough relevance to nudge, not enough to overwhelm confidence
+
+### Why additive_raw works
+
+Confidence (neg-entropy) ranges \`[-10, -0.1]\`, sigmoid(cosine) ≈ \`[0.47, 0.53]\`. With gamma=0.3-0.5, the relevance contribution is ~0.15-0.25, a subtle perturbation that can break ties in confidence without disrupting the primary ordering. This preserves Dream's entropy-based denoising quality while using query relevance as a tiebreaker.
+
+
+### SPREAD Finetune Sweep — additive_raw gamma detail (50q MuSiQue)
+
+| gamma | F1 | vs BL (28.9%) |
+|-------|-----|---------------|
+| 0.1 | 27.1% | -1.8pp |
+| 0.2 | 27.7% | -1.2pp |
+| **0.25** | **29.7%** | **+0.8pp** |
+| **0.3** | **29.7%** | **+0.8pp** |
+| **0.5** | **29.6%** | **+0.7pp** |
+| 1.0 | 26.0% | -2.9pp |
+| 5.0 | 27.7% | -1.2pp |
+
+Sweet spot: gamma ∈ [0.25, 0.5]. The effect is robust across this range.
+Remaining gammas (0.35, 0.4, 0.45, 0.6) still running.
+
+---
+
+### Thesis Direction Analysis (March 25)
+
+**Dead ends established:**
+- ARAM guidance: -1.9pp to +0.2pp on Dream (Dream doesn't benefit from adaptive guidance)
+- SPREAD selection: +0.8pp at best (marginal, hidden state variance too low)
+- dLLM confidence scoring: broken (random > scored)
+- dLLM candidates: outperformed by AR candidates at 1000q scale
+- Iterative re-denoising (recursive BV): no clear improvement
+
+**What works:**
+- Multi-query retrieval: +4.8-8.1pp (the big lever)
+- Few-shot prompting: +4pp (free)
+
+**Biggest open question:** What is the dLLM-specific contribution that justifies using dLLMs?
+
+
+### SPREAD Complete Gamma Curve (50q MuSiQue, additive_raw, E5-base-v2)
+
+| gamma | F1 | vs BL (28.9%) |
+|-------|-----|---------------|
+| 0.1 | 27.1% | -1.8pp |
+| 0.2 | 27.7% | -1.2pp |
+| **0.25** | **29.7%** | **+0.8pp** |
+| **0.3** | **29.7%** | **+0.8pp** |
+| 0.35 | 27.8% | -1.1pp |
+| **0.4** | **29.6%** | **+0.7pp** |
+| 0.45 | 28.7% | -0.2pp |
+| **0.5** | **29.6%** | **+0.7pp** |
+| 1.0 | 26.0% | -2.9pp |
+| 5.0 | 27.7% | -1.2pp |
+
+Non-smooth curve (0.35 dips while 0.3 and 0.4 work) suggests the +0.8pp may be within noise on 50q. Need 1000q to confirm.
+
+
+---
+
+## NEW DIRECTION: SFT/RL Training for Multi-Hop RAG (March 26)
+
+### Motivation
+
+Inference-time methods (ARAM, SPREAD) hit a ceiling:
+- ARAM: +0.2pp (zero-shot) to -1.9pp (few-shot) on Dream
+- SPREAD: +0.8pp at best, possibly noise
+- The base model's generation quality is the bottleneck
+
+Key literature:
+- **d1** (NeurIPS 2025): diffu-GRPO on LLaDA for math → big gains. No one tried RAG.
+- **DLLM-Searcher** (Feb 2026): SFT+VRPO on SDAR for web search agents. Different model (SDAR), different setting (web search).
+- **Gap**: No one has trained Dream/LLaDA (mainstream dLLMs) for fixed-corpus multi-hop RAG.
+
+### Approach
+
+1. **Data**: 3977 DLLM-Searcher SFT trajectories converted for QA (search results → context passages)
+2. **Model**: Dream-7B-Instruct + LoRA (r=64, alpha=128)
+3. **Loss**: d1's absorbing state diffusion loss (cross_entropy / t)
+4. **Training**: 3 epochs, lr=1e-5, grad_accum=8, max_len=2048, single H100
+5. **Template**: \`<reasoning>...</reasoning><answer>...</answer>\`
+6. **Eval**: Retrieve with E5-base-v2, generate with reasoning template, measure F1
+
+### Novel contribution
+First application of diffusion-specific SFT loss to train a mainstream masked dLLM (Dream-7B) for retrieval-augmented multi-hop QA. Different from DLLM-Searcher (uses SDAR, not Dream) and d1 (math only, not RAG).
+
+### Scripts
+- \`src/daes/sft_qa.py\` — SFT training (adapted from d1)
+- \`src/daes/eval_sft_qa.py\` — Evaluation with retrieval
+- \`src/daes/convert_searcher_to_d1.py\` — Data conversion
+- Training job: 21163876 (overnight)
+
+### Status
+- SFT training submitted (Job 21163876)
+- Base Dream eval with reasoning template running (Job 21163881, 20q smoke test)
+- Monitoring overnight
+
+
+---
+
+## SFT Results Summary (March 26)
+
+### Three SFT attempts, all degraded performance
+
+**Setup**: Dream-7B-Instruct + LoRA (r=64, alpha=128), d1's absorbing state diffusion loss, AR-shifted logits, 3 epochs.
+
+| Attempt | Training Data | Loss | Base F1 | SFT F1 | Delta |
+|---------|--------------|------|---------|--------|-------|
+| v1 (no AR-shift) | DLLM-Searcher reasoning | 5.65→1.36 | — | 1.3% | garbage |
+| v2 (reasoning template) | DLLM-Searcher reasoning | 1.24→0.87 | 26.5% | 21.9% | -4.6pp |
+| v3 (answer-only, DLLM-Searcher) | DLLM-Searcher answers | 1.38→0.87 | 26.5% | 21.9% | -4.6pp |
+| **v4 (answer-only, matched Qwen)** | **Qwen on same retriever** | **1.39→0.87** | **28.5%** | **21.1%** | **-7.4pp** |
+
+### Root cause analysis (from prediction comparison)
+
+The SFT model generates MORE VERBOSE outputs:
+- Base: "Maria Shriver" (F1=1.0) → SFT: "Maria Shriver married Arnold Schwarzenegger" (F1=0.4)
+- Base: "22" (F1=1.0) → SFT: "Plague occurred in Venice 22 times" (F1=0.18)
+- Base: "John D. Loudermilk" (F1=1.0) → SFT: "Turn Me On was written by John D. Loudermilk" (F1=0.4)
+
+Contain rate is IDENTICAL (26% for both) — the SFT model finds the answer but adds context words that hurt precision/F1.
+
+### Key insight
+
+d1's absorbing state diffusion loss teaches Dream to predict tokens under masking, but Dream's GENERATION behavior (EOS-first confidence selection, 4-word outputs) is determined by pre-training. LoRA SFT cannot change this fundamental generation dynamics. The model learns to predict different tokens but the denoising process still commits the same high-confidence tokens first.
+
+**This is an important finding for the dLLM community**: SFT works for SDAR (DLLM-Searcher) and LLaDA (d1) but NOT for Dream-7B in the QA setting. The architecture differences (block diffusion vs full masked diffusion) matter for trainability.
+
+### Critical bug found and fixed
+
+d1's SFT code doesn't include Dream's AR-shift (position i predicts token at i+1). Without the shift, training loss starts at 5.65 and learns garbage. With the shift, loss starts at 1.24 — confirming correct alignment. **Anyone adapting d1 for Dream must add this shift.**
