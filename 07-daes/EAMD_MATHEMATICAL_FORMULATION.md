@@ -9,6 +9,7 @@ The main conclusion is:
 - **EAMD-Regen** is the main mathematically grounded method.
 - **EAMD-Remask** is a diffusion-native extension, but its current span-remask operator is still heuristic.
 - The cleaned 50-question MuSiQue pilot supports `EAMD-Regen > Pool > ARAM/SPREAD` under a shared short-answer setup.
+- Under the corpus-matched `wiki18_100w` setup, `EAMD-Regen` still beats the current `SPREAD` and `ARAM` controls on F1, but only narrowly matches `Pool`.
 
 ## 1. What is source-backed vs what is ours
 
@@ -413,6 +414,9 @@ Artifacts:
 - `results/eamd_smoke_v4_21235998.out`
 - `results/eamd_pilot_v4_50q.json`
 - `results/eamd_pilot_v4_21236180.out`
+- `results/eamd_wiki18_smoke_2q.json`
+- `results/eamd_wiki18_v4_50q.json`
+- `results/eamd_wiki18_v4_21246679.out`
 
 ### 8.1 Smoke test: 5 questions
 
@@ -446,6 +450,54 @@ Pairwise counts:
 | EAMD-Remask vs Pool | 3 | 5 | 42 |
 | EAMD-Remask vs ARAM | 7 | 1 | 42 |
 
+### 8.3 Corpus-matched wiki18 pilot: 50 questions
+
+This pilot uses the same open-domain retrieval stack as `01-arag-reproduction`:
+
+- corpus = `wiki18_100w`
+- index = `e5_Flat.index`
+- retriever = `E5-base-v2`
+- questions = `questions_wiki18/musique.json`
+
+To keep the comparison focused and fast, the main run includes:
+
+- Baseline
+- SPREAD
+- ARAM
+- Pool
+- EAMD-Regen
+
+and omits `EAMD-Remask`.
+
+| Method | F1 | EM | Contain |
+| --- | ---: | ---: | ---: |
+| Baseline | 0.212 | 0.080 | 0.100 |
+| SPREAD | 0.194 | 0.100 | 0.100 |
+| ARAM | 0.245 | 0.080 | 0.100 |
+| Pool | 0.289 | 0.120 | 0.220 |
+| **EAMD-Regen** | **0.294** | 0.100 | 0.220 |
+
+Pairwise counts:
+
+| Comparison | Better | Worse | Same |
+| --- | ---: | ---: | ---: |
+| EAMD-Regen vs Pool | 2 | 3 | 45 |
+| EAMD-Regen vs ARAM | 12 | 8 | 30 |
+| EAMD-Regen vs SPREAD | 14 | 4 | 32 |
+| Pool vs ARAM | 10 | 7 | 33 |
+
+Average harness wall time on one H100:
+
+- `8.10s` per question
+
+Interpretation:
+
+1. The open-domain corpus makes the task materially harder than the MuSiQue-native setup.
+2. `EAMD-Regen` still improves over the current `SPREAD` and `ARAM` controls on F1.
+3. The gap over `Pool` is small, and `Pool` remains slightly better on EM.
+4. Therefore the wiki18-safe claim is:
+   - evidence-marginal regeneration remains competitive under the fair corpus-matched setup, but pooled expanded retrieval alone is still the strongest baseline to beat cleanly
+
 ## 9. Final status for the thesis
 
 The thesis-safe position is:
@@ -459,8 +511,11 @@ The thesis-safe position is:
 3. **Main empirical claim currently supported**:  
    Under a shared short-answer setup, evidence-marginal guided regeneration outperforms the current SPREAD, ARAM, and pooled-evidence baselines on a 50-question MuSiQue pilot.
 
-4. **Next experiment**:  
-   scale `EAMD-Regen` to `200q` or `500q` under the same v4 harness before making any broader benchmark claim.
+4. **Corpus-matched benchmark claim currently supported**:  
+   Under the `wiki18_100w` setup matched to `01-arag-reproduction`, evidence-marginal guided regeneration still outperforms the current SPREAD and ARAM controls on F1, but does not yet clearly dominate the pooled-evidence baseline.
+
+5. **Next experiment**:  
+   scale the corpus-matched `wiki18_100w` run to `200q` before making any broader benchmark claim.
 
 ## References
 
