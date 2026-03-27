@@ -232,6 +232,136 @@ Interpretation:
 4. The thesis-safe claim here is narrower:
    - under the corpus-matched wiki18 setup, evidence-marginal regeneration remains competitive and slightly stronger than the current SPREAD / ARAM controls, but it does not yet clearly dominate pooled retrieval alone
 
+### v4 corpus-matched wiki18 benchmark (1000q x 3 datasets)
+
+We then scaled the same wiki18 setup to the first 1000 ARAG dev questions for each dataset:
+
+- datasets: `hotpotqa`, `musique`, `2wikimultihopqa`
+- corpus: `wiki18_100w.jsonl`
+- index: `e5_Flat.index`
+- retriever: `E5-base-v2`
+- generator: `Dream-org/Dream-v0-Instruct-7B`
+- methods: `baseline`, `SPREAD`, `ARAM`, `Pool`, `EAMD-Regen`, `EAMD-Remask`
+- sharding: `10` H100 shards per dataset (`100` questions per shard), CPU merge/collect on `cbuild`
+
+Artifacts:
+- `src/daes/eamd_wiki18_full.py`
+- `src/daes/merge_eamd_wiki18_shards.py`
+- `src/daes/collect_eamd_wiki18_summaries.py`
+- `jobs/eamd_wiki18_suite_array.job`
+- `jobs/eamd_wiki18_suite_merge.job`
+- `jobs/eamd_wiki18_suite_collect.job`
+- `results/eamd_wiki18_full/hotpotqa/eamd_wiki18_hotpotqa_1000q.json`
+- `results/eamd_wiki18_full/musique/eamd_wiki18_musique_1000q.json`
+- `results/eamd_wiki18_full/2wikimultihopqa/eamd_wiki18_2wikimultihopqa_1000q.json`
+- `results/eamd_wiki18_full/eamd_wiki18_all_datasets_summary.json`
+
+| Dataset | Method | F1 | EM | Contain |
+| --- | --- | ---: | ---: | ---: |
+| HotpotQA | Baseline | 0.418 | 0.291 | 0.368 |
+| HotpotQA | SPREAD | 0.405 | 0.270 | 0.373 |
+| HotpotQA | ARAM | 0.447 | 0.328 | 0.369 |
+| HotpotQA | Pool | **0.456** | 0.316 | 0.415 |
+| HotpotQA | EAMD-Regen | 0.454 | 0.307 | **0.421** |
+| HotpotQA | EAMD-Remask | 0.452 | 0.315 | 0.393 |
+| MuSiQue | Baseline | 0.199 | 0.107 | 0.126 |
+| MuSiQue | SPREAD | 0.182 | 0.095 | 0.117 |
+| MuSiQue | ARAM | 0.206 | 0.109 | 0.123 |
+| MuSiQue | Pool | 0.243 | **0.143** | 0.187 |
+| MuSiQue | EAMD-Regen | **0.248** | 0.141 | **0.194** |
+| MuSiQue | EAMD-Remask | 0.232 | 0.135 | 0.156 |
+| 2WikiMH | Baseline | 0.300 | 0.219 | 0.261 |
+| 2WikiMH | SPREAD | 0.290 | 0.201 | 0.264 |
+| 2WikiMH | ARAM | 0.314 | **0.247** | 0.261 |
+| 2WikiMH | Pool | **0.333** | 0.233 | 0.296 |
+| 2WikiMH | EAMD-Regen | 0.329 | 0.227 | **0.297** |
+| 2WikiMH | EAMD-Remask | 0.315 | 0.233 | 0.270 |
+
+Runtime:
+
+- all `30` H100 shards completed successfully
+- shard wall time: about `15` to `16.5` minutes
+- average elapsed time per question from merged metadata:
+  - HotpotQA: `8.02s`
+  - MuSiQue: `8.13s`
+  - 2WikiMH: `8.28s`
+
+Interpretation:
+
+1. `EAMD-Regen` beats `SPREAD` and `ARAM` on F1 on all three datasets.
+2. `EAMD-Regen` is the strongest method on **MuSiQue F1**, which is the main target benchmark here.
+3. `Pool` remains stronger on HotpotQA and 2WikiMH F1, so retrieval expansion alone is still the hardest baseline to beat.
+4. `EAMD-Remask` remains a useful diffusion-native ablation but is not the strongest variant.
+5. The thesis-safe benchmark claim is:
+   - under the wiki18 setup matched to `01-arag-reproduction`, `EAMD-Regen` is consistently stronger than the current SPREAD and ARAM controls on F1, but does not dominate the pooled-evidence baseline across all datasets
+
+### LLaDA wiki18 benchmark (1000q x 3 datasets, tuned no-candidate variant)
+
+We then reran the full wiki18 benchmark with `GSAI-ML/LLaDA-8B-Instruct` using the corrected LLaDA-specific EAMD configuration:
+
+- model: `GSAI-ML/LLaDA-8B-Instruct`
+- corpus: `wiki18_100w.jsonl`
+- retriever: `E5-base-v2`
+- methods: `baseline`, `SPREAD`, `ARAM`, `Pool`, `EAMD-Regen`, `EAMD-Remask`
+- tuned config:
+  - answer tokens = `8`
+  - denoising steps = `8`
+  - temperature = `0.05`
+  - candidate expansion = `0`
+  - round-0 seed = `ARAM`
+- output root: `results/eamd_wiki18_full_llada_nocand_1000q`
+
+Artifacts:
+- `src/daes/eamd_wiki18_full_llada.py`
+- `jobs/eamd_wiki18_llada_array.job`
+- `jobs/eamd_wiki18_llada_merge.job`
+- `jobs/eamd_wiki18_llada_collect.job`
+- `results/eamd_wiki18_full_llada_nocand_1000q/hotpotqa/eamd_wiki18_hotpotqa_1000q.json`
+- `results/eamd_wiki18_full_llada_nocand_1000q/musique/eamd_wiki18_musique_1000q.json`
+- `results/eamd_wiki18_full_llada_nocand_1000q/2wikimultihopqa/eamd_wiki18_2wikimultihopqa_1000q.json`
+- `results/eamd_wiki18_full_llada_nocand_1000q/eamd_wiki18_all_datasets_summary.json`
+
+| Dataset | Method | F1 | EM | Contain |
+| --- | --- | ---: | ---: | ---: |
+| HotpotQA | Baseline | 0.357 | 0.166 | 0.343 |
+| HotpotQA | SPREAD | 0.342 | 0.137 | 0.335 |
+| HotpotQA | ARAM | 0.377 | 0.203 | 0.341 |
+| HotpotQA | Pool | 0.359 | 0.163 | 0.349 |
+| HotpotQA | EAMD-Regen | 0.357 | 0.162 | 0.353 |
+| HotpotQA | EAMD-Remask | **0.383** | **0.207** | **0.353** |
+| MuSiQue | Baseline | 0.172 | 0.048 | 0.125 |
+| MuSiQue | SPREAD | 0.164 | 0.036 | 0.107 |
+| MuSiQue | ARAM | 0.183 | **0.056** | 0.127 |
+| MuSiQue | Pool | 0.178 | 0.043 | 0.140 |
+| MuSiQue | EAMD-Regen | 0.178 | 0.042 | **0.141** |
+| MuSiQue | EAMD-Remask | **0.185** | 0.055 | 0.132 |
+| 2WikiMH | Baseline | 0.242 | 0.135 | 0.211 |
+| 2WikiMH | SPREAD | 0.233 | 0.133 | 0.206 |
+| 2WikiMH | ARAM | 0.257 | 0.153 | 0.222 |
+| 2WikiMH | Pool | 0.250 | 0.133 | 0.216 |
+| 2WikiMH | EAMD-Regen | 0.251 | 0.135 | 0.217 |
+| 2WikiMH | EAMD-Remask | **0.264** | **0.154** | **0.230** |
+
+Runtime:
+
+- all `30` H100 shards completed successfully
+- shard wall time: about `8.5` to `9.9` minutes
+- average elapsed time per question from merged metadata:
+  - HotpotQA: `4.07s`
+  - MuSiQue: `4.27s`
+  - 2WikiMH: `4.05s`
+
+Interpretation:
+
+1. For `LLaDA`, the winning variant is `EAMD-Remask`, not `EAMD-Regen`.
+2. `EAMD-Remask` is the strongest method on all three `1000q` benchmarks.
+3. The gain is largest on HotpotQA, modest but positive on MuSiQue, and consistent on 2WikiMH.
+4. This supports a model-dependent conclusion:
+   - Dream favors regeneration,
+   - LLaDA favors revision.
+5. The main LLaDA thesis-safe claim is:
+   - under the corpus-matched wiki18 setup, ARAM-seeded `EAMD-Remask` outperforms the current Baseline, SPREAD, ARAM, Pool, and EAMD-Regen variants across all three datasets.
+
 ## Final Results (1000 questions per dataset, E5-base-v2 everywhere)
 
 
