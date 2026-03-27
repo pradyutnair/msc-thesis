@@ -80,6 +80,29 @@ This is a practical diffusion-native revision operator, but it is still a heuris
 - no "best-of-two" selector used in the main result table
 - all reported numbers come from the same v4 harness
 
+### Retrieval corpus note
+
+The cleaned v4 pilot uses:
+
+- questions from the ARAG MuSiQue split
+- retrieval over the **MuSiQue native paragraph corpus** (`index_e5_musique_full`)
+- retriever = `E5-base-v2`
+
+This is fair for **internal method comparison** because Baseline, SPREAD, ARAM, Pool, EAMD-Regen, and EAMD-Remask all use the same retriever and the same corpus.
+
+However, it is **not a corpus-faithful reproduction** of the SPREAD or ARAM papers:
+
+- **SPREAD** uses `NV-Embed-v2`, 2,000-character document chunks, top-5 retrieval, but the paper text does not clearly name one single global corpus such as `wiki18_100w`
+- **ARAM** explicitly uses `bge-large` over **MS MARCO 2.1** with top-3 retrieval
+
+Therefore, the v4 claim should currently be read as:
+
+- EAMD-Regen beats our SPREAD / ARAM / Pool controls **under a matched MuSiQue-native retrieval setting**
+
+and **not yet** as:
+
+- EAMD-Regen beats the original papers under their exact retrieval corpora.
+
 ### v4 smoke test (5q MuSiQue)
 
 Artifacts:

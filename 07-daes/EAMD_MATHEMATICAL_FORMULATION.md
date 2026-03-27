@@ -40,6 +40,27 @@ The main conclusion is:
    - retrieval can be updated during an iterative diffusion-style refinement process,
    - that paper operates at the draft/report level, not token-level QA denoising.
 
+### 1.3 Retrieval-corpus caveat for the current experiments
+
+The cleaned v4 pilot in this repository uses:
+
+- questions from the ARAG MuSiQue split,
+- retrieval over the **MuSiQue native paragraph corpus**,
+- retriever = `E5-base-v2`.
+
+This makes the comparison internally fair because all compared methods use the same retriever and the same corpus.
+
+But it is not a corpus-faithful reproduction of the original papers:
+
+- **SPREAD** reports `NV-Embed-v2`, document chunks of 2,000 characters, and top-5 retrieval, but the paper source checked here does not clearly specify one single named backing corpus such as `wiki18_100w`.
+- **ARAM** explicitly uses `bge-large` and retrieves from **MS MARCO 2.1** with top-3 retrieval.
+
+Therefore the current theorem-safe and experiment-safe claim is:
+
+- EAMD-Regen outperforms our SPREAD / ARAM / Pool controls **under a matched MuSiQue-native retrieval setup**.
+
+It is **not yet** a claim of superiority under the original papers' exact retrieval corpora.
+
 ### 1.2 Our construction
 
 What is new here is **not** claimed to be already proved by prior work:
