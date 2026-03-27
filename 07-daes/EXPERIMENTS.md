@@ -180,6 +180,58 @@ Notable property:
 - **PARTIAL GO**: keep `EAMD-Remask` as a diffusion-native ablation
 - **NO**: do not make remasking the main contribution yet
 
+### v4 corpus-matched wiki18 pilot (50q MuSiQue)
+
+To match `01-arag-reproduction`, we reran the cleaned harness on the same open-domain retrieval stack:
+
+- corpus: `wiki18_100w.jsonl`
+- index: `e5_Flat.index`
+- retriever: `E5-base-v2`
+- questions: `data/questions_wiki18/musique.json`
+- methods: `baseline`, `SPREAD`, `ARAM`, `Pool`, `EAMD-Regen`
+- `EAMD-Remask` skipped here to keep the pilot fast and focused on the main theorem-safe method
+
+Artifacts:
+- `src/daes/eamd_wiki18_v4.py`
+- `jobs/eamd_wiki18_v4.job`
+- `results/eamd_wiki18_smoke_2q.json`
+- `results/eamd_wiki18_v4_50q.json`
+- `results/eamd_wiki18_v4_21246679.out`
+
+Fast-path changes:
+- batched FAISS retrieval for expansion queries
+- `TF32` enabled
+- shared short-answer prompt and 16-token canvas
+- no remask branch in the main 50q pilot
+
+Average harness wall time:
+- `8.10s` per question on one H100
+
+| Method | F1 | EM | Contain |
+| --- | ---: | ---: | ---: |
+| Baseline | 0.212 | 0.080 | 0.100 |
+| SPREAD | 0.194 | 0.100 | 0.100 |
+| ARAM | 0.245 | 0.080 | 0.100 |
+| Pool | 0.289 | 0.120 | 0.220 |
+| **EAMD-Regen** | **0.294** | 0.100 | 0.220 |
+
+Pairwise counts:
+
+| Comparison | Better | Worse | Same |
+| --- | ---: | ---: | ---: |
+| EAMD-Regen vs Pool | 2 | 3 | 45 |
+| EAMD-Regen vs ARAM | 12 | 8 | 30 |
+| EAMD-Regen vs SPREAD | 14 | 4 | 32 |
+| Pool vs ARAM | 10 | 7 | 33 |
+
+Interpretation:
+
+1. The fair-corpus result is weaker than the MuSiQue-native result.
+2. `EAMD-Regen` still beats `SPREAD` and `ARAM` on F1 under the matched `wiki18_100w` setup.
+3. `Pool` remains the strongest control challenge; `EAMD-Regen` is only marginally better on F1 and slightly worse on EM.
+4. The thesis-safe claim here is narrower:
+   - under the corpus-matched wiki18 setup, evidence-marginal regeneration remains competitive and slightly stronger than the current SPREAD / ARAM controls, but it does not yet clearly dominate pooled retrieval alone
+
 ## Final Results (1000 questions per dataset, E5-base-v2 everywhere)
 
 
