@@ -20,6 +20,9 @@ from tqdm import tqdm
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
+ARAG_SRC = Path("/projects/prjs1800/external/arag/src")
+if ARAG_SRC.exists() and str(ARAG_SRC) not in sys.path:
+    sys.path.insert(0, str(ARAG_SRC))
 
 from arag import BaseAgent, Config, LLMClient, ToolRegistry
 from arag.tools.keyword_search import KeywordSearchTool

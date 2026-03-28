@@ -10,11 +10,18 @@ import time
 from pathlib import Path
 
 import faiss
-import tiktoken
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
+FLASHRAG_ROOT = Path("/projects/prjs1800/external/FlashRAG")
+if FLASHRAG_ROOT.exists() and str(FLASHRAG_ROOT) not in sys.path:
+    sys.path.insert(0, str(FLASHRAG_ROOT))
+
+try:
+    import tiktoken
+except ImportError:  # pragma: no cover - runtime env fallback
+    tiktoken = None
 
 from benchmarking.qa_benchmark import build_record, write_dataset_artifacts, write_jsonl
 
@@ -80,6 +87,8 @@ def extract_final_answer(raw_pred: str) -> str:
 
 
 def count_retrieved_tokens(passages: list[str]) -> int:
+    if tiktoken is None:
+        return sum(len((passage or "").split()) for passage in passages if passage)
     encoder = tiktoken.encoding_for_model("gpt-4o")
     return sum(len(encoder.encode(passage)) for passage in passages if passage)
 

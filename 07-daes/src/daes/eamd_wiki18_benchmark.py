@@ -12,7 +12,6 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import torch
-import tiktoken
 from transformers import AutoModel, AutoTokenizer
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -24,6 +23,11 @@ import eamd_wiki18_full_llada as base
 
 sys.path.insert(0, "/projects/prjs1800/msc-thesis/07-daes/dllm")
 import dllm
+
+try:
+    import tiktoken
+except ImportError:  # pragma: no cover - runtime env fallback
+    tiktoken = None
 
 
 class TimedRetriever:
@@ -84,6 +88,8 @@ def unique_passages(passages: list[str]) -> list[str]:
 
 
 def passage_token_count(passages: list[str]) -> int:
+    if tiktoken is None:
+        return sum(len((passage or "").split()) for passage in passages if passage)
     encoder = tiktoken.encoding_for_model("gpt-4o")
     return sum(len(encoder.encode(passage)) for passage in passages if passage)
 
