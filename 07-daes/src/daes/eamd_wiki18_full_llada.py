@@ -39,7 +39,7 @@ QUESTION_FILES = {
     "2wikimultihopqa": f"{QUESTIONS_DIR}/2wikimultihopqa.json",
 }
 DEFAULT_OUTPUT_ROOT = "/projects/prjs1800/msc-thesis/07-daes/results/eamd_wiki18_full"
-DEFAULT_METHODS = ["baseline", "spread", "aram", "pool", "eamd_regen", "eamd_remask"]
+DEFAULT_METHODS = ["baseline", "spread", "aram", "pool", "eamd_regen", "eamd_remask", "eamd_micro"]
 
 SHORT_INSTRUCTIONS = """You are a helpful assistant.
 Answer the question using the context when possible.
@@ -230,6 +230,34 @@ def content_positions(answer_tokens: torch.Tensor, eos_id: int) -> list[int]:
     else:
         stop = len(tokens)
     return [i for i in range(stop) if tokens[i] != eos_id]
+
+
+def compute_signal_and_scale(
+    logits_full: torch.Tensor,
+    logits_base: torch.Tensor,
+    lambda_max: float,
+    beta: float,
+    eps: float,
+    schedule: float = 1.0,
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+    log_p_full = F.log_softmax(logits_full, dim=-1)
+    log_p_base = F.log_softmax(logits_base, dim=-1)
+    p_full = log_p_full.exp()
+    p_base = log_p_base.exp()
+
+    signal = (p_full * (log_p_full - log_p_base)).sum(dim=-1) + (p_base * (log_p_base - log_p_full)).sum(dim=-1)
+    noise = -(p_full * log_p_full).sum(dim=-1)
+    extra_scale = lambda_max * torch.tanh(beta * signal / (noise + eps)) * schedule
+    guidance_scale = 1.0 + extra_scale
+    return signal, noise, extra_scale, guidance_scale
+
+
+def topm_mean(values: torch.Tensor, m: int) -> torch.Tensor:
+    if values.numel() == 0:
+        return values.new_tensor(0.0)
+    k = min(max(1, m), values.numel())
+    topk = torch.topk(values, k).values
+    return topk.mean()
 
 
 @torch.inference_mode()
@@ -460,19 +488,242 @@ def unique_passages(passages: list[str]) -> list[str]:
     return deduped
 
 
-def expand_evidence(retriever: Wiki18Retriever, question: str, initial_context: str, initial_passages: list[str],
-                    init_answer: str, n_candidates: int = 3, expand_top_k: int = 3) -> tuple[list[str], list[dict]]:
-    candidates = extract_candidates_generic(MODEL_REF, TOKENIZER_REF, initial_context, question, n_candidates)
+def expand_positions_with_radius(positions: list[int], max_pos: int, radius: int) -> list[int]:
+    if radius <= 0:
+        return sorted(set(positions))
+    expanded = set()
+    for pos in positions:
+        start = max(0, pos - radius)
+        end = min(max_pos, pos + radius)
+        expanded.update(range(start, end + 1))
+    return sorted(expanded)
+
+
+def expand_evidence(
+    retriever: Wiki18Retriever,
+    question: str,
+    initial_context: str,
+    initial_passages: list[str],
+    seed_hypotheses: list[str],
+    n_candidates: int = 3,
+    expand_top_k: int = 3,
+) -> tuple[list[str], list[dict]]:
+    candidates = extract_candidates_generic(MODEL_REF, TOKENIZER_REF, initial_context, question, n_candidates) if n_candidates > 0 else []
     all_passages = list(initial_passages)
     queries = []
-    if init_answer and len(init_answer.strip()) > 2:
-        queries.append(f"{question} {init_answer[:100]}")
+    seen_queries = set()
+    for seed in seed_hypotheses:
+        if not seed:
+            continue
+        seed = seed.strip()
+        if len(seed) <= 2:
+            continue
+        query = f"{question} {seed[:100]}"
+        if query not in seen_queries:
+            seen_queries.add(query)
+            queries.append(query)
     queries.extend(f"{question} {cand['text']}" for cand in candidates)
     if queries:
         for hits in retriever.retrieve_batch(queries, top_k=expand_top_k):
             all_passages.extend(hits)
 
     return unique_passages(all_passages), candidates
+
+
+@torch.inference_mode()
+def eamd_micro_shared(model, tokenizer, retriever: Wiki18Retriever, question: str,
+                      initial_passages: list[str], steps: int = 8, n_tokens: int = 8,
+                      temperature: float = 0.05, lambda_max: float = 1.0,
+                      beta: float = 0.5, eps: float = 1e-6, expand_top_k: int = 3,
+                      pivot_ratio: float = 0.5, top_m: int = 2, budget_min: int = 1,
+                      kappa: float = 8.0, tau_q: float = 0.30, eta: float = 0.5,
+                      neighbor_radius: int = 0, phase1_guidance: str = "baseline"):
+    device = model.device
+    mask_id = get_mask_id(tokenizer)
+    eos_id = tokenizer.eos_token_id
+
+    old_context = "\n\n".join(initial_passages)
+    if phase1_guidance == "aram":
+        cond_ids, prior_ids, n_prefix0 = build_short_cond_and_prior(tokenizer, old_context, question, n_tokens)
+        x0 = torch.tensor([cond_ids], dtype=torch.long, device=device)
+        x0_prior = torch.tensor([prior_ids], dtype=torch.long, device=device)
+        attn0 = torch.ones((1, len(cond_ids)), dtype=torch.long, device=device)
+        attn0_prior = torch.ones((1, len(prior_ids)), dtype=torch.long, device=device)
+    else:
+        prefix_ids, n_prefix0 = build_short_prompt(tokenizer, old_context, question)
+        canvas = prefix_ids + [mask_id] * n_tokens
+        x0 = torch.tensor([canvas], dtype=torch.long, device=device)
+        x0_prior = None
+        attn0 = torch.ones((1, len(canvas)), dtype=torch.long, device=device)
+        attn0_prior = None
+
+    k_per_step = max(1, math.ceil(n_tokens / steps))
+    pivot_steps = min(max(1, int(round(steps * pivot_ratio))), max(1, steps - 1))
+    remaining = n_tokens
+    phase1_conf = []
+
+    for step in range(pivot_steps):
+        if remaining <= 0:
+            break
+        mask_idx = (x0[0] == mask_id)
+        mask_idx[:n_prefix0] = False
+        if not mask_idx.any():
+            break
+
+        mask_pos = mask_idx.nonzero(as_tuple=True)[0]
+        if phase1_guidance == "aram":
+            x0_prior[0, n_prefix0:] = x0[0, n_prefix0:]
+            x_batch = torch.cat([x0, x0_prior], dim=0)
+            attn_batch = torch.cat([attn0, attn0_prior], dim=0)
+            out = model(x_batch, attention_mask=attn_batch)
+            logits_all = prepare_logits(out.logits)
+            logits_full = logits_all[0, mask_pos]
+            logits_base = logits_all[1, mask_pos]
+            signal, _, extra_scale, _ = compute_signal_and_scale(
+                logits_full,
+                logits_base,
+                lambda_max=lambda_max,
+                beta=beta,
+                eps=eps,
+            )
+            guided_logits = logits_base + extra_scale.unsqueeze(-1) * (logits_full - logits_base)
+        else:
+            out = model(x0, attention_mask=attn0)
+            logits = prepare_logits(out.logits)
+            guided_logits = logits[0, mask_pos]
+
+        confidence, x_pred = sample_tokens(guided_logits, temperature=temperature, neg_entropy=True)
+        n_commit = min(k_per_step, remaining)
+        _, topk = torch.topk(confidence, min(n_commit, len(confidence)))
+        x0[0, mask_pos[topk]] = x_pred[topk]
+        phase1_conf.extend(confidence[topk].tolist())
+        remaining -= len(topk)
+
+    out0 = model(x0, attention_mask=attn0)
+    logits0 = prepare_logits(out0.logits)
+    answer_state = x0[0, n_prefix0:n_prefix0 + n_tokens].clone()
+    masked_local0 = (answer_state == mask_id).nonzero(as_tuple=True)[0]
+    provisional_tokens = answer_state.clone()
+    if len(masked_local0) > 0:
+        provisional_tokens[masked_local0] = torch.argmax(logits0[0, masked_local0 + n_prefix0], dim=-1)
+    provisional_answer = decode_answer(tokenizer, provisional_tokens)
+
+    expanded_passages, _ = expand_evidence(
+        retriever,
+        question,
+        old_context,
+        initial_passages,
+        [provisional_answer],
+        n_candidates=0,
+        expand_top_k=expand_top_k,
+    )
+    new_context = "\n\n".join(expanded_passages)
+
+    full_ids, base_ids, n_prefix = build_short_pair(tokenizer, new_context, old_context, question, n_tokens)
+    x_base = torch.tensor([base_ids], dtype=torch.long, device=device)
+    x_full = torch.tensor([full_ids], dtype=torch.long, device=device)
+    x_base[0, n_prefix:n_prefix + n_tokens] = answer_state.to(device)
+    x_full[0, n_prefix:n_prefix + n_tokens] = answer_state.to(device)
+    attn_base = torch.ones((1, len(base_ids)), dtype=torch.long, device=device)
+    attn_full = torch.ones((1, len(full_ids)), dtype=torch.long, device=device)
+
+    answer_positions = list(range(n_tokens))
+    committed_positions = [pos for pos in answer_positions if answer_state[pos].item() != mask_id]
+    remask_positions = []
+    g_q = 0.0
+    ratio_mean = 0.0
+    if committed_positions:
+        pos_tensor = torch.tensor([n_prefix + pos for pos in committed_positions], dtype=torch.long, device=device)
+        out_old = model(x_base, attention_mask=attn_base)
+        out_new = model(x_full, attention_mask=attn_full)
+        logits_old = prepare_logits(out_old.logits)[0, pos_tensor]
+        logits_new = prepare_logits(out_new.logits)[0, pos_tensor]
+        signal, noise, _, _ = compute_signal_and_scale(
+            logits_new,
+            logits_old,
+            lambda_max=lambda_max,
+            beta=beta,
+            eps=eps,
+        )
+        ratio = signal / (noise + eps)
+        ratio_mean = topm_mean(ratio, top_m).item()
+        g_q = torch.sigmoid(torch.tensor(kappa * (ratio_mean - tau_q), device=device)).item()
+        budget_floor = min(max(0, budget_min), len(committed_positions))
+        budget = int(math.ceil(budget_floor + max(0, len(committed_positions) - budget_floor) * g_q))
+        budget = min(max(0, budget), len(committed_positions))
+        if budget > 0:
+            top_idx = torch.topk(ratio, budget).indices.tolist()
+            remask_positions = [committed_positions[i] for i in top_idx]
+            remask_positions = expand_positions_with_radius(remask_positions, n_tokens - 1, neighbor_radius)
+            x_base[0, [n_prefix + pos for pos in remask_positions]] = mask_id
+            x_full[0, [n_prefix + pos for pos in remask_positions]] = mask_id
+
+    remaining = int((x_full[0, n_prefix:n_prefix + n_tokens] == mask_id).sum().item())
+    total_to_commit = max(1, remaining) if remaining > 0 else 0
+    denom_steps = max(1, steps - pivot_steps)
+    k_per_step_2 = max(1, math.ceil(total_to_commit / denom_steps)) if remaining > 0 else 0
+    token_confidences = []
+    signal_means = []
+    scale_means = []
+
+    for step in range(pivot_steps, steps):
+        if remaining <= 0:
+            break
+        masked_local = (x_full[0, n_prefix:n_prefix + n_tokens] == mask_id).nonzero(as_tuple=True)[0]
+        if len(masked_local) == 0:
+            break
+
+        full_pos = masked_local + n_prefix
+        base_pos = masked_local + n_prefix
+        out_full = model(x_full, attention_mask=attn_full)
+        out_base = model(x_base, attention_mask=attn_base)
+        logits_full = prepare_logits(out_full.logits)[0, full_pos]
+        logits_base = prepare_logits(out_base.logits)[0, base_pos]
+
+        schedule = float(step + 1) / float(steps)
+        signal, _, extra_scale, guidance_scale = compute_signal_and_scale(
+            logits_full,
+            logits_base,
+            lambda_max=lambda_max,
+            beta=beta,
+            eps=eps,
+            schedule=schedule,
+        )
+        extra_scale = torch.clamp(extra_scale * (1.0 + eta * g_q), max=lambda_max)
+        guidance_scale = 1.0 + extra_scale
+        guided_logits = logits_full + extra_scale.unsqueeze(-1) * (logits_full - logits_base)
+
+        confidence, x_pred = sample_tokens(guided_logits, temperature=temperature, neg_entropy=True)
+        n_commit = min(k_per_step_2, remaining)
+        if step == steps - 1:
+            n_commit = remaining
+        _, topk = torch.topk(confidence, min(n_commit, len(confidence)))
+        chosen_local = masked_local[topk]
+        chosen_full = chosen_local + n_prefix
+        chosen_base = chosen_local + n_prefix
+        x_full[0, chosen_full] = x_pred[topk]
+        x_base[0, chosen_base] = x_pred[topk]
+        token_confidences.extend(confidence[topk].tolist())
+        signal_means.append(signal.mean().item())
+        scale_means.append(guidance_scale.mean().item())
+        remaining -= len(topk)
+
+    answer_tokens = x_full[0, n_prefix:n_prefix + n_tokens].clone()
+    return decode_answer(tokenizer, answer_tokens), answer_tokens, {
+        "pivot_steps": pivot_steps,
+        "phase1_guidance": phase1_guidance,
+        "provisional_answer": provisional_answer,
+        "n_passages_old": len(initial_passages),
+        "n_passages_new": len(expanded_passages),
+        "remasked_positions": remask_positions,
+        "g_q": g_q,
+        "ratio_mean": ratio_mean,
+        "mean_signal": sum(signal_means) / len(signal_means) if signal_means else 0.0,
+        "mean_guidance_scale": sum(scale_means) / len(scale_means) if scale_means else 1.0,
+        "avg_conf": sum(token_confidences) / len(token_confidences) if token_confidences else 0.0,
+        "phase1_avg_conf": sum(phase1_conf) / len(phase1_conf) if phase1_conf else 0.0,
+        "content_positions": content_positions(answer_tokens, eos_id),
+    }
 
 
 @torch.inference_mode()
