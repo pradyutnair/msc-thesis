@@ -290,15 +290,32 @@ def _percentile(values: list[float], pct: float) -> float:
     return ordered[lower] * (1.0 - weight) + ordered[upper] * weight
 
 
+def _is_answer_miss(record: dict[str, Any]) -> bool:
+    return float(record.get("c0_answer_hit", 0.0)) < 1.0
+
+
+def _is_support_miss(record: dict[str, Any]) -> bool:
+    value = record.get("c0_support_hit")
+    return value is not None and float(value) < 1.0
+
+
+def _is_c0_miss(record: dict[str, Any]) -> bool:
+    return _is_answer_miss(record) or _is_support_miss(record)
+
+
 def summarize_records(records: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
     grouped: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
+    by_dataset: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for record in records:
         grouped[(record["dataset"], record["method"])].append(record)
+        by_dataset[record["dataset"]].append(record)
 
     summary_rows: list[dict[str, Any]] = []
     latency_rows: list[dict[str, Any]] = []
     frontier_rows: list[dict[str, Any]] = []
     hard_subset_rows: list[dict[str, Any]] = []
+    retrieval_rows: list[dict[str, Any]] = []
+    latency_bucket_rows: list[dict[str, Any]] = []
 
     for (dataset, method), items in sorted(grouped.items()):
         elapsed = [float(item["elapsed_sec_total"]) for item in items]
@@ -307,18 +324,24 @@ def summarize_records(records: list[dict[str, Any]]) -> dict[str, list[dict[str,
         contains = [float(item["contain"]) for item in items]
         retrieval_calls = [int(item["retrieval_calls"]) for item in items]
         retrieved_tokens = [int(item["total_retrieved_tokens"]) for item in items]
+        unique_chunks = [int(item["unique_chunks_read"]) for item in items]
+        mean_f1 = mean(f1s)
+        mean_calls = mean(retrieval_calls)
+        mean_tokens = mean(retrieved_tokens)
+        mean_chunks = mean(unique_chunks)
 
         summary_rows.append(
             {
                 "dataset": dataset,
                 "method": method,
                 "n": len(items),
-                "f1": round(mean(f1s), 6),
+                "f1": round(mean_f1, 6),
                 "em": round(mean(ems), 6),
                 "contain": round(mean(contains), 6),
                 "mean_latency_sec": round(mean(elapsed), 6),
-                "mean_retrieval_calls": round(mean(retrieval_calls), 6),
-                "mean_retrieved_tokens": round(mean(retrieved_tokens), 6),
+                "mean_retrieval_calls": round(mean_calls, 6),
+                "mean_retrieved_tokens": round(mean_tokens, 6),
+                "mean_unique_chunks_read": round(mean_chunks, 6),
             }
         )
         latency_rows.append(
@@ -336,23 +359,42 @@ def summarize_records(records: list[dict[str, Any]]) -> dict[str, list[dict[str,
             {
                 "dataset": dataset,
                 "method": method,
-                "f1": round(mean(f1s), 6),
+                "f1": round(mean_f1, 6),
                 "em": round(mean(ems), 6),
                 "contain": round(mean(contains), 6),
                 "median_latency_sec": round(_percentile(elapsed, 0.5), 6),
                 "p90_latency_sec": round(_percentile(elapsed, 0.9), 6),
                 "queries_per_sec": round(len(items) / max(sum(elapsed), 1e-9), 6),
-                "mean_retrieval_calls": round(mean(retrieval_calls), 6),
-                "mean_retrieved_tokens": round(mean(retrieved_tokens), 6),
+                "mean_retrieval_calls": round(mean_calls, 6),
+                "mean_retrieved_tokens": round(mean_tokens, 6),
+            }
+        )
+        retrieval_rows.append(
+            {
+                "dataset": dataset,
+                "method": method,
+                "n": len(items),
+                "f1": round(mean_f1, 6),
+                "mean_retrieval_calls": round(mean_calls, 6),
+                "mean_retrieved_tokens": round(mean_tokens, 6),
+                "mean_unique_chunks_read": round(mean_chunks, 6),
+                "f1_per_retrieval_call": round(mean_f1 / max(mean_calls, 1e-9), 6),
+                "f1_per_1k_retrieved_tokens": round(mean_f1 / max(mean_tokens / 1000.0, 1e-9), 6),
             }
         )
 
         subsets = {
             "all": items,
-            "c0_miss": [item for item in items if float(item.get("c0_answer_hit", 0.0)) < 1.0],
+            "c0_miss": [item for item in items if _is_c0_miss(item)],
             "final_hit_after_c0_miss": [
                 item for item in items
-                if float(item.get("c0_answer_hit", 0.0)) < 1.0 and float(item.get("final_answer_hit", 0.0)) >= 1.0
+                if _is_c0_miss(item) and float(item.get("final_answer_hit", 0.0)) >= 1.0
+            ],
+            "multi_hop_hard": [item for item in items if _is_support_miss(item)],
+            "support_recovered": [
+                item
+                for item in items
+                if _is_support_miss(item) and item.get("final_support_hit") is not None and float(item["final_support_hit"]) >= 1.0
             ],
             "partial_only": [
                 item for item in items if float(item["f1"]) > 0.0 and float(item["em"]) == 0.0
@@ -374,11 +416,49 @@ def summarize_records(records: list[dict[str, Any]]) -> dict[str, list[dict[str,
                 }
             )
 
+    for dataset, dataset_items in sorted(by_dataset.items()):
+        dataset_latencies = [float(item["elapsed_sec_total"]) for item in dataset_items]
+        fast_cutoff = _percentile(dataset_latencies, 1 / 3)
+        slow_cutoff = _percentile(dataset_latencies, 2 / 3)
+        for (group_dataset, method), items in sorted(grouped.items()):
+            if group_dataset != dataset:
+                continue
+            buckets = {
+                "fast": [item for item in items if float(item["elapsed_sec_total"]) <= fast_cutoff],
+                "medium": [
+                    item
+                    for item in items
+                    if fast_cutoff < float(item["elapsed_sec_total"]) <= slow_cutoff
+                ],
+                "slow": [item for item in items if float(item["elapsed_sec_total"]) > slow_cutoff],
+            }
+            for bucket_name, bucket_items in buckets.items():
+                if not bucket_items:
+                    continue
+                latency_bucket_rows.append(
+                    {
+                        "dataset": dataset,
+                        "method": method,
+                        "latency_bucket": bucket_name,
+                        "bucket_max_sec": round(
+                            fast_cutoff if bucket_name == "fast" else slow_cutoff if bucket_name == "medium" else max(dataset_latencies),
+                            6,
+                        ),
+                        "n": len(bucket_items),
+                        "f1": round(mean([float(item["f1"]) for item in bucket_items]), 6),
+                        "em": round(mean([float(item["em"]) for item in bucket_items]), 6),
+                        "contain": round(mean([float(item["contain"]) for item in bucket_items]), 6),
+                        "mean_latency_sec": round(mean([float(item["elapsed_sec_total"]) for item in bucket_items]), 6),
+                    }
+                )
+
     return {
         "summary_metrics": summary_rows,
         "latency_percentiles": latency_rows,
         "frontier_points": frontier_rows,
         "hard_subset_metrics": hard_subset_rows,
+        "retrieval_efficiency": retrieval_rows,
+        "latency_bucket_metrics": latency_bucket_rows,
     }
 
 

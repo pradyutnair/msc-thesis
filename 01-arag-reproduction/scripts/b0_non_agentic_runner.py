@@ -45,8 +45,17 @@ SYSTEM_PROMPT = (
 )
 
 
-def load_questions(path: Path, limit: int | None) -> List[Dict[str, Any]]:
+def load_questions(
+    path: Path,
+    limit: int | None,
+    start_idx: int = 0,
+    end_idx: int | None = None,
+) -> List[Dict[str, Any]]:
     data = json.loads(path.read_text())
+    if end_idx is not None:
+        data = data[start_idx:end_idx]
+    elif start_idx:
+        data = data[start_idx:]
     if limit is not None:
         data = data[:limit]
     return data
@@ -138,7 +147,7 @@ def run(args: argparse.Namespace) -> None:
     emb_cfg = cfg.get("embedding", {})
     llm_cfg = cfg.get("llm", {})
 
-    questions = load_questions(Path(args.questions), args.limit)
+    questions = load_questions(Path(args.questions), args.limit, start_idx=args.start_idx, end_idx=args.end_idx)
     output_dir = Path(args.output)
     output_dir.mkdir(parents=True, exist_ok=True)
     pred_file = output_dir / "predictions.jsonl"
@@ -187,7 +196,7 @@ def run(args: argparse.Namespace) -> None:
         api_key=llm_api_key,
         base_url=llm_base_url,
         temperature=llm_cfg.get("temperature", 0.0),
-        max_tokens=llm_cfg.get("max_tokens", 128),
+        max_tokens=args.max_answer_tokens,
         reasoning_effort=llm_cfg.get("reasoning_effort"),
         chat_template_kwargs=chat_kwargs,
     )
@@ -337,6 +346,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", required=True, help="output directory")
     parser.add_argument("--top-k", type=int, default=5, help="retrieval top-k")
     parser.add_argument("--limit", type=int, default=None, help="optional limit")
+    parser.add_argument("--start-idx", type=int, default=0, help="start index into questions file")
+    parser.add_argument("--end-idx", type=int, default=None, help="exclusive end index into questions file")
     parser.add_argument("--max-answer-tokens", type=int, default=128, help="max generation tokens")
     parser.add_argument("--overwrite", action="store_true", help="remove existing predictions.jsonl before run")
     return parser.parse_args()

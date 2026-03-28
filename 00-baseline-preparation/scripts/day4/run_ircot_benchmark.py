@@ -31,8 +31,11 @@ os.environ["MKL_NUM_THREADS"] = os.environ.get("MKL_NUM_THREADS", "16")
 os.environ["OPENBLAS_NUM_THREADS"] = os.environ.get("OPENBLAS_NUM_THREADS", "16")
 os.environ["NUMEXPR_NUM_THREADS"] = os.environ.get("NUMEXPR_NUM_THREADS", "16")
 
+from flashrag import retriever as flashrag_retriever
 from flashrag.config import Config
 from flashrag.prompt import PromptTemplate
+from flashrag.retriever import encoder as flashrag_encoder
+from flashrag.retriever import utils as flashrag_retriever_utils
 from flashrag.utils import get_dataset, get_generator, get_retriever
 
 
@@ -74,7 +77,7 @@ FINAL_ANSWER_PREFIX = "So the answer is:"
 
 def doc_to_passage(doc: dict) -> str:
     title = str(doc.get("title", "")).strip()
-    text = str(doc.get("text", "")).strip()
+    text = str(doc.get("text") or doc.get("contents") or "").strip()
     if title and text:
         return f'"{title}"\n{text}'
     return text or title
@@ -216,8 +219,12 @@ def main() -> None:
         enable_chat=False,
     )
 
-    retriever = get_retriever(config)
     generator = get_generator(config)
+    # Keep the dense retriever on CPU so Qwen3-8B can occupy the benchmark GPU.
+    flashrag_retriever_utils.get_device = lambda: "cpu"
+    flashrag_encoder.get_device = lambda: "cpu"
+    flashrag_retriever.retriever.get_device = lambda: "cpu"
+    retriever = get_retriever(config)
     faiss.omp_set_num_threads(int(os.environ.get("OMP_NUM_THREADS", "16")))
 
     all_split = get_dataset(config)

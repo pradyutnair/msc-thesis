@@ -1,0 +1,102 @@
+#!/bin/bash
+#SBATCH --job-name=frontier-e2
+#SBATCH --partition=gpu_h100
+#SBATCH --gpus=1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=96G
+#SBATCH --time=04:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/benchmarking/results/logs/%x_%A_%a.out
+
+set -euo pipefail
+
+module purge
+module load 2025
+module load Anaconda3/2025.06-1
+module load CUDA/12.8.0
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export HF_HUB_CACHE=$HF_HOME
+export TRANSFORMERS_CACHE=$HF_HOME
+export HF_DATASETS_CACHE=$HF_HOME
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export TOKENIZERS_PARALLELISM=false
+export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-16}
+export MKL_NUM_THREADS=${SLURM_CPUS_PER_TASK:-16}
+
+REPO=${REPO:-/projects/prjs1800/msc-thesis-benchmark}
+DATASET=${DATASET:?DATASET not set}
+QUESTIONS=${QUESTIONS:?QUESTIONS not set}
+CONFIG=${CONFIG:?CONFIG not set}
+OUTPUT_ROOT=${OUTPUT_ROOT:-/projects/prjs1800/msc-thesis/benchmarking/results/frontier_single}
+SHARD_SIZE=${SHARD_SIZE:-100}
+
+START=$((SLURM_ARRAY_TASK_ID * SHARD_SIZE))
+END=$((START + SHARD_SIZE))
+OUT_DIR=${OUTPUT_ROOT}/${DATASET}/e2_react/shards/${START}_${END}
+mkdir -p "$OUT_DIR"
+
+export ARAG_API_KEY=dummy
+HOST=127.0.0.1
+PORT=${ARAG_PORT:-$((7000 + (SLURM_JOB_ID % 1000)))}
+export ARAG_BASE_URL="http://${HOST}:${PORT}/v1"
+export ARAG_MODEL="Qwen3-8B"
+
+MODEL_ID="/projects/prjs1800/.cache/huggingface/models--Qwen--Qwen3-8B/snapshots/b968826d9c46dd6066d109eabc6255188de91218"
+SERVED_NAME="Qwen3-8B"
+
+cleanup() {
+  if [[ -n "${VLLM_PID:-}" ]] && kill -0 "$VLLM_PID" 2>/dev/null; then
+    kill "$VLLM_PID" || true
+    wait "$VLLM_PID" || true
+  fi
+}
+trap cleanup EXIT TERM INT
+
+vllm serve "$MODEL_ID" \
+  --served-model-name "$SERVED_NAME" \
+  --host "$HOST" \
+  --port "$PORT" \
+  --dtype auto \
+  --max-model-len 8192 \
+  --gpu-memory-utilization 0.70 \
+  --enforce-eager \
+  --generation-config vllm \
+  --trust-remote-code \
+  --enable-auto-tool-choice \
+  --tool-call-parser hermes \
+  --reasoning-parser qwen3 &
+VLLM_PID=$!
+
+READY_URL="http://${HOST}:${PORT}/v1/models"
+for i in $(seq 1 240); do
+  if ! kill -0 "$VLLM_PID" 2>/dev/null; then
+    wait "$VLLM_PID" || true
+    exit 1
+  fi
+  RESP="$(curl -fsS "$READY_URL" 2>/dev/null || true)"
+  if [[ -n "$RESP" ]] && echo "$RESP" | python -c 'import json,sys; d=json.load(sys.stdin); print(any(m.get("id")=="Qwen3-8B" for m in d.get("data",[])))' | grep -q True; then
+    break
+  fi
+  sleep 5
+done
+curl -fsS "$READY_URL" >/dev/null
+
+cd "$REPO"
+python benchmarking/write_qid_manifest.py \
+  --dataset "$DATASET" \
+  --questions "$QUESTIONS" \
+  --start-idx "$START" \
+  --end-idx "$END" \
+  --output "$OUT_DIR/manifest.json"
+
+python 01-arag-reproduction/scripts/e2_benchmark_runner.py \
+  --config "$CONFIG" \
+  --questions "$QUESTIONS" \
+  --output "$OUT_DIR" \
+  --workers 1 \
+  --start_idx "$START" \
+  --end_idx "$END" \
+  --overwrite

@@ -110,6 +110,7 @@ def main() -> None:
     parser.add_argument("--temperature", type=float, default=0.05)
     parser.add_argument("--initial_top_k", type=int, default=5)
     parser.add_argument("--expand_top_k", type=int, default=3)
+    parser.add_argument("--n_candidates", type=int, default=0)
     parser.add_argument("--retriever_encode_batch_size", type=int, default=64)
     parser.add_argument("--lambda_max", type=float, default=1.0)
     parser.add_argument("--beta", type=float, default=0.5)
@@ -132,7 +133,7 @@ def main() -> None:
     torch.set_float32_matmul_precision("high")
 
     retriever = base.Wiki18Retriever(
-        device="cuda:0",
+        device=os.environ.get("EAMD_RETRIEVER_DEVICE", "cpu"),
         encode_batch_size=args.retriever_encode_batch_size,
         num_threads=max(1, int(os.environ.get("OMP_NUM_THREADS", "16"))),
     )
@@ -264,7 +265,7 @@ def main() -> None:
             if should_log:
                 print(f"  spread:      {spread_answer}", flush=True)
 
-        if "aram" in methods or "pool" in methods:
+        if "aram" in methods or "pool" in methods or "eamd_remask" in methods:
             (aram_answer, aram_tokens, aram_stats), aram_llm_elapsed, aram_forwards = timed_call(
                 model,
                 lambda: base.aram_generate_shared(
@@ -306,18 +307,30 @@ def main() -> None:
                 if should_log:
                     print(f"  aram:        {aram_answer}", flush=True)
 
-        if "pool" in methods:
+        expanded_passages = None
+        candidates = []
+        expand_ret = None
+        expand_elapsed = 0.0
+        expand_llm_elapsed = 0.0
+        expand_forwards = 0
+        if any(name in methods for name in ("pool", "eamd_regen", "eamd_remask")):
             pool_seed = aram_answer if args.pool_seed_mode == "aram" and aram_answer else baseline_answer
-            pool_ret = TimedRetriever(retriever)
-            expanded_passages, candidates = base.expand_evidence(
-                pool_ret,
-                question,
-                old_context,
-                initial_passages,
-                [pool_seed] if pool_seed else [],
-                n_candidates=0,
-                expand_top_k=args.expand_top_k,
+            expand_ret = TimedRetriever(retriever)
+            (expanded_passages, candidates), expand_elapsed, expand_forwards = timed_call(
+                model,
+                lambda: base.expand_evidence(
+                    expand_ret,
+                    question,
+                    old_context,
+                    initial_passages,
+                    [pool_seed] if pool_seed else [],
+                    n_candidates=args.n_candidates,
+                    expand_top_k=args.expand_top_k,
+                ),
             )
+            expand_llm_elapsed = max(0.0, expand_elapsed - expand_ret.elapsed_sec)
+
+        if "pool" in methods and expanded_passages is not None and expand_ret is not None:
             (pool_answer, _, pool_conf), pool_llm_elapsed, pool_forwards = timed_call(
                 model,
                 lambda: base.short_generate(
@@ -339,14 +352,14 @@ def main() -> None:
                     question=question,
                     gold_answers=gold_answers,
                     pred_answer=pool_answer,
-                    elapsed_sec_total=initial_ret_elapsed + pool_ret.elapsed_sec + pool_llm_elapsed,
-                    elapsed_sec_llm=pool_llm_elapsed,
-                    elapsed_sec_retrieval=initial_ret_elapsed + pool_ret.elapsed_sec,
-                    retrieval_calls=1 + pool_ret.retrieval_calls,
+                    elapsed_sec_total=initial_ret_elapsed + expand_elapsed + pool_llm_elapsed,
+                    elapsed_sec_llm=expand_llm_elapsed + pool_llm_elapsed,
+                    elapsed_sec_retrieval=initial_ret_elapsed + expand_ret.elapsed_sec,
+                    retrieval_calls=1 + expand_ret.retrieval_calls,
                     unique_chunks_read=len(expanded_passages),
                     total_retrieved_tokens=passage_token_count(expanded_passages),
                     loops_or_rounds=args.steps,
-                    forward_passes=pool_forwards,
+                    forward_passes=expand_forwards + pool_forwards,
                     denoising_steps=args.steps,
                     c0_passages=initial_passages,
                     final_passages=expanded_passages,
@@ -355,6 +368,93 @@ def main() -> None:
             )
             if should_log:
                 print(f"  pool:        {pool_answer}", flush=True)
+
+        if "eamd_regen" in methods and expanded_passages is not None and expand_ret is not None:
+            new_context = "\n\n".join(expanded_passages)
+            (regen_answer, regen_stats), regen_llm_elapsed, regen_forwards = timed_call(
+                model,
+                lambda: base.eamd_regen_shared(
+                    model,
+                    tokenizer,
+                    question,
+                    old_context,
+                    new_context,
+                    steps=args.steps,
+                    n_tokens=args.answer_tokens,
+                    temperature=args.temperature,
+                    lambda_max=args.lambda_max,
+                    beta=args.beta,
+                ),
+            )
+            records.append(
+                build_record(
+                    dataset=args.dataset,
+                    qid=qid,
+                    method="eamd_regen",
+                    model=model_name,
+                    question=question,
+                    gold_answers=gold_answers,
+                    pred_answer=regen_answer,
+                    elapsed_sec_total=initial_ret_elapsed + expand_elapsed + regen_llm_elapsed,
+                    elapsed_sec_llm=expand_llm_elapsed + regen_llm_elapsed,
+                    elapsed_sec_retrieval=initial_ret_elapsed + expand_ret.elapsed_sec,
+                    retrieval_calls=1 + expand_ret.retrieval_calls,
+                    unique_chunks_read=len(expanded_passages),
+                    total_retrieved_tokens=passage_token_count(expanded_passages),
+                    loops_or_rounds=args.steps,
+                    forward_passes=expand_forwards + regen_forwards,
+                    denoising_steps=args.steps,
+                    c0_passages=initial_passages,
+                    final_passages=expanded_passages,
+                    extra={"stats": regen_stats, "candidates": candidates},
+                )
+            )
+            if should_log:
+                print(f"  eamd_regen:  {regen_answer}", flush=True)
+
+        if "eamd_remask" in methods and expanded_passages is not None and expand_ret is not None:
+            new_context = "\n\n".join(expanded_passages)
+            seed_tokens = baseline_tokens if args.model_type == "dream" or aram_tokens is None else aram_tokens
+            (remask_answer, remask_stats), remask_llm_elapsed, remask_forwards = timed_call(
+                model,
+                lambda: base.eamd_remask_shared(
+                    model,
+                    tokenizer,
+                    question,
+                    old_context,
+                    new_context,
+                    seed_tokens,
+                    steps=args.steps,
+                    temperature=args.temperature,
+                    lambda_max=args.lambda_max,
+                    beta=args.beta,
+                ),
+            )
+            records.append(
+                build_record(
+                    dataset=args.dataset,
+                    qid=qid,
+                    method="eamd_remask",
+                    model=model_name,
+                    question=question,
+                    gold_answers=gold_answers,
+                    pred_answer=remask_answer,
+                    elapsed_sec_total=initial_ret_elapsed + expand_elapsed + remask_llm_elapsed,
+                    elapsed_sec_llm=expand_llm_elapsed + remask_llm_elapsed,
+                    elapsed_sec_retrieval=initial_ret_elapsed + expand_ret.elapsed_sec,
+                    retrieval_calls=1 + expand_ret.retrieval_calls,
+                    unique_chunks_read=len(expanded_passages),
+                    total_retrieved_tokens=passage_token_count(expanded_passages),
+                    loops_or_rounds=args.steps,
+                    forward_passes=expand_forwards + remask_forwards,
+                    denoising_steps=args.steps,
+                    c0_passages=initial_passages,
+                    final_passages=expanded_passages,
+                    extra={"stats": remask_stats, "candidates": candidates},
+                )
+            )
+            if should_log:
+                print(f"  eamd_remask: {remask_answer}", flush=True)
 
         if "eamd_micro" in methods:
             micro_ret = TimedRetriever(retriever)

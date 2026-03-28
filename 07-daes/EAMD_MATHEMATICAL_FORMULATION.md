@@ -662,3 +662,235 @@ improve the LLaDA 2Wiki configuration and rerun with Qwen3-8B for direct model-m
 - Adaptive Guidance for Retrieval-Augmented Masked Diffusion Models
 - Dream 7B: Diffusion Large Language Models
 - Deep Researcher with Test-Time Diffusion
+
+## 10. Addendum: SPREAD math, exact wiki18 corpus, and the March 28 frontier benchmark
+
+This addendum supersedes the earlier "final status" wording above wherever the new `3 x 1000` frontier benchmark disagrees with the older 50q and intermediate LLaDA notes.
+
+### 10.1 Exact benchmark corpus
+
+The chart-ready benchmark used:
+
+- corpus file: `/projects/prjs1800/datasets/flashrag/retrieval-corpus/wiki18_100w.jsonl`
+- FAISS index: `/projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index`
+- id-offset map: `/projects/prjs1800/msc-thesis/01-arag-reproduction/data/index/wiki18_id_offset.json`
+- retriever: `E5-base-v2`
+- exact corpus size: `21,015,324` passages / chunks
+
+There is also a copy at `/scratch-shared/pnair/flashrag/wiki18_100w.jsonl`, but the benchmarked runs used the project-mounted paths above.
+
+### 10.2 SPREAD control mathematics used in the benchmark
+
+The benchmarked SPREAD control is the implementation-level formulation used in the shared runner.
+
+At denoising step \(t\), let \(M_t\) be the currently masked answer positions.
+
+For each masked position \(i \in M_t\):
+
+1. sample token confidence from the local model logits,
+\[
+c_i^{(t)} = \text{Conf}\!\left(\ell_i^{(t)}\right)
+\]
+
+2. compute a query representation from the question hidden states,
+\[
+h_Q = \operatorname{Norm}\!\left(\operatorname{MeanPool}(H(Q))\right)
+\]
+
+3. compute a token-position relevance score from the masked-position hidden state,
+\[
+r_i^{(t)} = \sigma\!\left(\left\langle \operatorname{Norm}(h_i^{(t)}), h_Q \right\rangle\right)
+\]
+
+4. normalize confidence and relevance over the currently masked positions,
+\[
+\tilde{c}_i^{(t)} = \operatorname{MinMaxNorm}\!\left(c_i^{(t)}\right), \qquad
+\tilde{r}_i^{(t)} = \operatorname{MinMaxNorm}\!\left(r_i^{(t)}\right)
+\]
+
+5. combine them into a token-selection score,
+\[
+s_i^{(t)} = \alpha \tilde{r}_i^{(t)} + (1-\alpha)\tilde{c}_i^{(t)}
+\]
+
+6. commit the top-\(k_t\) masked positions by \(s_i^{(t)}\).
+
+So SPREAD changes the **token commitment order**, not the token values. It is a selection policy, not a retrieval-update method.
+
+This is exactly why EAMD is a stronger multi-hop construction in principle: EAMD changes the **value distribution under new evidence**, whereas SPREAD only changes the **order of commitment under fixed evidence**.
+
+### 10.3 ARAM vs SPREAD vs EAMD, mathematically
+
+The clean comparison is:
+
+- **SPREAD**
+  - fixed evidence \(C_0\)
+  - guidance acts on **which positions to fill first**
+  - no evidence update
+  - no token revision after commitment
+
+- **ARAM**
+  - fixed evidence \(C_0\)
+  - per-token guidance from context-vs-prior distribution shift
+  - guidance acts on **token logits**
+  - no evidence update
+
+- **EAMD-Regen**
+  - updated evidence \(C_0 \to C_1\)
+  - per-token guidance from **evidence-marginal** distribution shift
+  - guidance acts on **token logits**
+  - supports multi-hop retrieval expansion before regeneration
+
+The EAMD-Regen equations remain:
+
+\[
+p^{(t)}_{\text{base},i} := p_\theta(\cdot \mid x_t, Q, C_0, t), \qquad
+p^{(t)}_{\text{full},i} := p_\theta(\cdot \mid x_t, Q, C_1, t)
+\]
+
+\[
+S_i^{(t)} := D_{\mathrm{KL}}\!\left(p^{(t)}_{\text{full},i}\|p^{(t)}_{\text{base},i}\right)
+           + D_{\mathrm{KL}}\!\left(p^{(t)}_{\text{base},i}\|p^{(t)}_{\text{full},i}\right)
+\]
+
+\[
+N_i^{(t)} := H\!\left(p^{(t)}_{\text{full},i}\right)
+\]
+
+\[
+\gamma_i^{(t)} := \lambda_{\max} \tanh\!\left(\beta \frac{S_i^{(t)}}{N_i^{(t)}+\varepsilon}\right) w_t
+\]
+
+\[
+\tilde{\ell}_i^{(t)} := \ell_{\text{full},i}^{(t)} + \gamma_i^{(t)}\left(\ell_{\text{full},i}^{(t)} - \ell_{\text{base},i}^{(t)}\right)
+\]
+
+This remains mathematically clean and is still the main theorem-safe EAMD method.
+
+### 10.4 March 28 frontier benchmark protocol
+
+The benchmark suite used:
+
+- `1000` questions each from:
+  - `HotpotQA`
+  - `MuSiQue`
+  - `2WikiMultiHopQA`
+- exact ARAG wiki18 slices from:
+  - `01-arag-reproduction/data/questions_wiki18/*.json`
+- one shared evaluator for:
+  - EM
+  - Counter-based token F1
+  - contain
+- single-query timing on one H100 per worker
+- separate throughput sweep on `MuSiQue` 50q
+
+Families:
+
+- **AR / Qwen3-8B**
+  - `b0`
+  - `e2_react`
+  - `ircot`
+
+- **LLaDA**
+  - `baseline`
+  - `spread`
+  - `aram`
+  - `pool`
+  - `eamd_micro`
+
+- **Dream**
+  - `baseline`
+  - `spread`
+  - `aram`
+  - `pool`
+  - `eamd_regen`
+
+### 10.5 Frontier benchmark results that supersede the earlier status
+
+#### 10.5.1 Main full-set comparison
+
+| Dataset | Method | F1 | EM | Median Latency (s) |
+|--------|--------|----:|----:|-------------------:|
+| HotpotQA | `ircot` | **0.4585** | **0.348** | 6.995 |
+| HotpotQA | Dream `aram` | 0.4193 | 0.274 | 2.104 |
+| HotpotQA | Dream `pool` | **0.4411** | 0.263 | 6.006 |
+| HotpotQA | Dream `eamd_regen` | 0.4345 | 0.255 | 6.243 |
+| HotpotQA | LLaDA `eamd_micro` | 0.3521 | 0.194 | 5.580 |
+| MuSiQue | `ircot` | **0.2614** | **0.188** | 7.133 |
+| MuSiQue | Dream `aram` | 0.1993 | 0.112 | 2.105 |
+| MuSiQue | Dream `pool` | **0.2408** | **0.145** | 6.017 |
+| MuSiQue | Dream `eamd_regen` | 0.2404 | 0.137 | 6.284 |
+| MuSiQue | LLaDA `eamd_micro` | 0.2011 | 0.113 | 5.533 |
+| 2WikiMH | `ircot` | **0.3808** | **0.295** | 7.124 |
+| 2WikiMH | Dream `aram` | 0.3563 | 0.268 | 2.122 |
+| 2WikiMH | Dream `pool` | **0.3820** | 0.277 | 6.094 |
+| 2WikiMH | Dream `eamd_regen` | 0.3771 | 0.268 | 6.332 |
+| 2WikiMH | LLaDA `eamd_micro` | 0.2770 | 0.149 | 5.572 |
+
+#### 10.5.2 Hard retrieval-miss subset
+
+On the `C0 miss` subset:
+
+| Dataset | Method | F1 |
+|--------|--------|----:|
+| HotpotQA | `ircot` | **0.3091** |
+| HotpotQA | Dream `eamd_regen` | 0.2844 |
+| HotpotQA | Dream `aram` | 0.2442 |
+| MuSiQue | `ircot` | **0.1880** |
+| MuSiQue | Dream `eamd_regen` | 0.1409 |
+| MuSiQue | Dream `aram` | 0.0928 |
+| 2WikiMH | Dream `pool` | **0.2856** |
+| 2WikiMH | Dream `eamd_regen` | 0.2829 |
+| 2WikiMH | `ircot` | 0.2678 |
+
+This is the strongest current empirical case for EAMD:
+- it materially outperforms ARAM on hard retrieval-miss examples,
+- especially on `MuSiQue`,
+- but it still does not fully overtake `IRCoT` or `Pool` at full benchmark scale.
+
+#### 10.5.3 Throughput under load
+
+On the `MuSiQue` 50q throughput sweep:
+
+| Method | QPS | Mean F1 |
+|--------|----:|--------:|
+| `b0` | **0.6849** | 0.1993 |
+| `ircot` | 0.1101 | 0.3194 |
+| LLaDA `eamd_micro` | 0.2008 | 0.2347 |
+| Dream `baseline` | 0.2618 | 0.1896 |
+| Dream `spread` | 0.2551 | 0.2151 |
+| Dream `aram` | 0.2604 | 0.1813 |
+| Dream `pool` | 0.1171 | 0.3387 |
+| Dream `eamd_regen` | 0.1326 | **0.3773** |
+
+So Dream `eamd_regen` is no longer obviously a latency play in the single-query regime. Its current strength is quality under additional retrieval and evidence-marginal guidance, not raw cheapness.
+
+### 10.6 Corrected thesis-safe conclusions
+
+The older statement
+
+- "EAMD-Regen is the strongest empirical variant"
+
+is no longer universally correct after the full frontier benchmark.
+
+The corrected thesis-safe position is:
+
+1. **Mathematical status**
+   - Dream `EAMD-Regen` remains the main mathematically grounded EAMD method.
+   - Its equations are clean and defensible.
+   - SPREAD remains a fixed-evidence token-ordering control.
+   - ARAM remains a fixed-evidence token-logit guidance control.
+
+2. **Empirical status**
+   - Dream is the best current training-free dLLM backbone.
+   - Dream `EAMD-Regen` beats Dream `SPREAD` and Dream `ARAM` on all three full-set benchmarks.
+   - Dream `EAMD-Regen` is strongest on hard retrieval-miss cases.
+   - But Dream `Pool` still slightly beats Dream `EAMD-Regen` on full-set F1 on all three datasets.
+   - `IRCoT` remains the strongest overall full-set benchmark baseline.
+
+3. **Implication**
+   - The mathematics are sound.
+   - The current implementation is competitive and clearly better than the fixed-evidence dLLM controls.
+   - But the method is **not yet** at the point where the thesis can honestly claim that it beats `IRCoT` or the pooled-evidence Dream control on the full benchmark.
+
+This addendum is the current authoritative status.

@@ -33,6 +33,7 @@ from benchmarking.qa_benchmark import build_record, infer_dataset_name
 logging.basicConfig(level=logging.ERROR)
 
 CHUNK_ID_RE = re.compile(r"Chunk ID:\s*([^\s(]+)")
+ANSWER_RE = re.compile(r"(?:\*\*Answer:\*\*|Final Answer:|Answer:|So the answer is:)\s*(.+)", re.IGNORECASE | re.DOTALL)
 
 
 def parse_chunk_ids(text: str) -> list[str]:
@@ -52,7 +53,11 @@ def extract_chunks_map(tools: ToolRegistry) -> dict[str, str]:
         if not chunks:
             continue
         out: dict[str, str] = {}
-        for raw_id, item in chunks.items():
+        if isinstance(chunks, dict):
+            iterator = chunks.items()
+        else:
+            iterator = enumerate(chunks)
+        for raw_id, item in iterator:
             cid = str(raw_id)
             if isinstance(item, dict):
                 out[cid] = str(item.get("text") or item.get("contents") or "")
@@ -63,6 +68,16 @@ def extract_chunks_map(tools: ToolRegistry) -> dict[str, str]:
     return {}
 
 
+def extract_final_answer(text: str) -> str:
+    text = (text or "").strip()
+    matches = ANSWER_RE.findall(text)
+    if matches:
+        candidate = matches[-1].strip()
+        candidate = candidate.splitlines()[0].strip()
+        return candidate.strip("* ").strip()
+    return text
+
+
 class TimedLLMClient(LLMClient):
     def __init__(self, *args, stats: dict[str, Any], **kwargs):
         super().__init__(*args, **kwargs)
@@ -70,36 +85,37 @@ class TimedLLMClient(LLMClient):
 
     def chat(self, *args, **kwargs) -> dict[str, Any]:
         started = time.time()
-        result = super().chat(*args, **kwargs)
-        self._stats["elapsed_sec_llm"] += time.time() - started
-        self._stats["llm_calls"] += 1
+        try:
+            result = super().chat(*args, **kwargs)
+        except Exception as exc:
+            self._stats["last_llm_error"] = str(exc)
+            raise
+        finally:
+            self._stats["elapsed_sec_llm"] += time.time() - started
+            self._stats["llm_calls"] += 1
         return result
 
 
-class TimedTool:
-    def __init__(self, tool: Any, stats: dict[str, Any]):
-        self._tool = tool
+class TimedToolRegistry:
+    def __init__(self, tools: ToolRegistry, stats: dict[str, Any]):
+        self._tools = tools
         self._stats = stats
 
-    @property
-    def name(self) -> str:
-        return self._tool.name
+    def get_all_schemas(self) -> list[dict[str, Any]]:
+        return self._tools.get_all_schemas()
 
-    def get_schema(self) -> dict[str, Any]:
-        return self._tool.get_schema()
-
-    def execute(self, context, **kwargs):
+    def execute(self, name: str, context, **kwargs):
         started = time.time()
-        result, tool_log = self._tool.execute(context, **kwargs)
+        result, tool_log = self._tools.execute(name, context, **kwargs)
         self._stats["elapsed_sec_retrieval"] += time.time() - started
         self._stats["retrieval_calls"] += 1
 
-        if self.name in {"semantic_search", "keyword_search"}:
+        if name in {"semantic_search", "keyword_search"}:
             chunk_ids = parse_chunk_ids(result)
             if chunk_ids and not self._stats["initial_chunk_ids"]:
                 self._stats["initial_chunk_ids"] = list(chunk_ids)
             self._stats["all_chunk_ids"].update(chunk_ids)
-        elif self.name == "read_chunk":
+        elif name == "read_chunk":
             chunk_id = kwargs.get("chunk_id")
             if chunk_id is not None:
                 self._stats["all_chunk_ids"].add(str(chunk_id))
@@ -114,6 +130,8 @@ class BenchmarkBatchRunner:
         questions_file: str,
         output_dir: str,
         limit: int | None = None,
+        start_idx: int = 0,
+        end_idx: int | None = None,
         num_workers: int = 1,
         verbose: bool = False,
     ):
@@ -122,6 +140,8 @@ class BenchmarkBatchRunner:
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.limit = limit
+        self.start_idx = start_idx
+        self.end_idx = end_idx
         self.num_workers = num_workers
         self.verbose = verbose
         self.dataset_name = infer_dataset_name(str(self.questions_file)) or infer_dataset_name(str(output_dir))
@@ -142,6 +162,10 @@ class BenchmarkBatchRunner:
 
     def _load_questions(self) -> list[dict[str, Any]]:
         questions = json.loads(self.questions_file.read_text(encoding="utf-8"))
+        if self.end_idx is not None:
+            questions = questions[self.start_idx:self.end_idx]
+        elif self.start_idx:
+            questions = questions[self.start_idx:]
         return questions[: self.limit] if self.limit else questions
 
     def _load_completed_qids(self) -> set[str]:
@@ -192,9 +216,9 @@ class BenchmarkBatchRunner:
     def _create_agent(self, stats: dict[str, Any]) -> BaseAgent:
         llm_config = self.config.get("llm", {})
         llm = TimedLLMClient(
-            model=llm_config.get("model") or os.getenv("ARAG_MODEL", "gpt-4o-mini"),
-            api_key=llm_config.get("api_key") or os.getenv("ARAG_API_KEY"),
-            base_url=llm_config.get("base_url") or os.getenv("ARAG_BASE_URL", "https://api.openai.com/v1"),
+            model=os.getenv("ARAG_MODEL") or llm_config.get("model", "gpt-4o-mini"),
+            api_key=os.getenv("ARAG_API_KEY") or llm_config.get("api_key"),
+            base_url=os.getenv("ARAG_BASE_URL") or llm_config.get("base_url", "https://api.openai.com/v1"),
             temperature=llm_config.get("temperature", 0.0),
             max_tokens=llm_config.get("max_tokens", 1024),
             reasoning_effort=llm_config.get("reasoning_effort"),
@@ -202,14 +226,10 @@ class BenchmarkBatchRunner:
             stats=stats,
         )
 
-        wrapped_tools = ToolRegistry()
-        for tool in getattr(self._shared_tools, "_tools", {}).values():
-            wrapped_tools.register(TimedTool(tool, stats))
-
         agent_config = self.config.get("agent", {})
         return BaseAgent(
             llm_client=llm,
-            tools=wrapped_tools,
+            tools=TimedToolRegistry(self._shared_tools, stats),
             system_prompt=self._system_prompt,
             max_loops=agent_config.get("max_loops", 10),
             max_token_budget=agent_config.get("max_token_budget", 128000),
@@ -231,12 +251,13 @@ class BenchmarkBatchRunner:
             "retrieval_calls": 0,
             "initial_chunk_ids": [],
             "all_chunk_ids": set(),
+            "last_llm_error": None,
         }
         agent = self._create_agent(stats)
         started = time.time()
         try:
             result = agent.run(question)
-            pred_answer = result["answer"]
+            pred_answer = extract_final_answer(result["answer"])
             error = None
         except Exception as exc:  # pylint: disable=broad-except
             result = {
@@ -251,6 +272,8 @@ class BenchmarkBatchRunner:
             }
             pred_answer = result["answer"]
             error = str(exc)
+        if stats["last_llm_error"] and not error:
+            error = stats["last_llm_error"]
         elapsed_total = time.time() - started
 
         final_chunk_ids = sorted({*stats["all_chunk_ids"], *[str(cid) for cid in result.get("chunks_read_ids", [])]})
@@ -260,7 +283,7 @@ class BenchmarkBatchRunner:
             dataset=self.dataset_name,
             qid=qid,
             method="e2_react",
-            model=self.config.get("llm", {}).get("model") or os.getenv("ARAG_MODEL", ""),
+            model=os.getenv("ARAG_MODEL") or self.config.get("llm", {}).get("model", ""),
             question=question,
             gold_answers=gold_answers,
             pred_answer=pred_answer,
@@ -280,6 +303,7 @@ class BenchmarkBatchRunner:
                 "total_cost": result.get("total_cost", 0.0),
                 "retrieval_logs": result.get("retrieval_logs", []),
                 "chunks_read_ids": final_chunk_ids,
+                "last_llm_error": stats["last_llm_error"],
             },
         )
         return record
@@ -312,6 +336,8 @@ def main() -> None:
     parser.add_argument("--questions", "-q", required=True)
     parser.add_argument("--output", "-o", required=True)
     parser.add_argument("--limit", "-l", type=int, default=None)
+    parser.add_argument("--start_idx", type=int, default=0)
+    parser.add_argument("--end_idx", type=int, default=None)
     parser.add_argument("--workers", "-w", type=int, default=1)
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument("--verbose", "-v", action="store_true")
@@ -323,6 +349,8 @@ def main() -> None:
         questions_file=args.questions,
         output_dir=args.output,
         limit=args.limit,
+        start_idx=args.start_idx,
+        end_idx=args.end_idx,
         num_workers=args.workers,
         verbose=args.verbose,
     )

@@ -3,7 +3,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from benchmarking.qa_benchmark import write_dataset_artifacts, write_jsonl, write_pairwise_artifacts
 
@@ -29,6 +34,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--inputs", nargs="+", required=True)
     parser.add_argument("--output", required=True)
+    parser.add_argument("--ours-method", default="eamd_micro")
     args = parser.parse_args()
 
     records: list[dict] = []
@@ -43,8 +49,8 @@ def main() -> None:
         records,
         output_dir,
         comparisons=[
-            ("eamd_micro", "aram"),
-            ("eamd_micro", "ircot"),
+            (args.ours_method, "aram"),
+            (args.ours_method, "ircot"),
             ("aram", "spread"),
             ("ircot", "e2_react"),
         ],

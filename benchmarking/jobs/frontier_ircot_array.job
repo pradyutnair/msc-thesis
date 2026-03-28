@@ -1,0 +1,59 @@
+#!/bin/bash
+#SBATCH --job-name=frontier-ircot
+#SBATCH --partition=gpu_h100
+#SBATCH --gpus=1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=192G
+#SBATCH --time=05:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/benchmarking/results/logs/%x_%A_%a.out
+
+set -euo pipefail
+
+module purge
+module load 2025
+module load Anaconda3/2025.06-1
+module load CUDA/12.8.0
+
+source /projects/prjs1800/venvs/FlashRAG-venv/bin/activate
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=$HF_HOME
+export HF_HUB_CACHE=$HF_HOME
+export HF_DATASETS_CACHE=$HF_HOME
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export LD_PRELOAD=/projects/prjs1800/venvs/FlashRAG-venv/lib/libmkl_rt.so.2
+export MKL_THREADING_LAYER=GNU
+export TOKENIZERS_PARALLELISM=false
+export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-16}
+export MKL_NUM_THREADS=${SLURM_CPUS_PER_TASK:-16}
+export OPENBLAS_NUM_THREADS=${SLURM_CPUS_PER_TASK:-16}
+export NUMEXPR_NUM_THREADS=${SLURM_CPUS_PER_TASK:-16}
+export VLLM_WORKER_MULTIPROC_METHOD=spawn
+
+REPO=${REPO:-/projects/prjs1800/msc-thesis-benchmark}
+DATASET=${DATASET:?DATASET not set}
+QUESTIONS=${QUESTIONS:?QUESTIONS not set}
+CONFIG=${CONFIG:?CONFIG not set}
+OUTPUT_ROOT=${OUTPUT_ROOT:-/projects/prjs1800/msc-thesis/benchmarking/results/frontier_single}
+SHARD_SIZE=${SHARD_SIZE:-100}
+MAX_ITER=${MAX_ITER:-5}
+
+START=$((SLURM_ARRAY_TASK_ID * SHARD_SIZE))
+END=$((START + SHARD_SIZE))
+OUT_DIR=${OUTPUT_ROOT}/${DATASET}/ircot/shards/${START}_${END}
+mkdir -p "$OUT_DIR"
+
+cd "$REPO"
+python benchmarking/write_qid_manifest.py \
+  --dataset "$DATASET" \
+  --questions "$QUESTIONS" \
+  --start-idx "$START" \
+  --end-idx "$END" \
+  --output "$OUT_DIR/manifest.json"
+
+python 00-baseline-preparation/scripts/day4/run_ircot_benchmark.py \
+  --config "$CONFIG" \
+  --max_iter "$MAX_ITER" \
+  --start_idx "$START" \
+  --end_idx "$END" \
+  --output_dir "$OUT_DIR"
