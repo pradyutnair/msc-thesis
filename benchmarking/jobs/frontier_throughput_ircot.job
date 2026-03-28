@@ -1,0 +1,43 @@
+#!/bin/bash
+#SBATCH --job-name=frontier-tput-ircot
+#SBATCH --partition=gpu_h100
+#SBATCH --gpus=1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=192G
+#SBATCH --time=02:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/benchmarking/results/logs/%x_%j.out
+
+set -euo pipefail
+
+module purge
+module load 2025
+module load Anaconda3/2025.06-1
+module load CUDA/12.8.0
+
+source /projects/prjs1800/venvs/FlashRAG-venv/bin/activate
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=$HF_HOME
+export HF_HUB_CACHE=$HF_HOME
+export HF_DATASETS_CACHE=$HF_HOME
+export HF_HUB_OFFLINE=1
+export TRANSFORMERS_OFFLINE=1
+export LD_PRELOAD=/projects/prjs1800/venvs/FlashRAG-venv/lib/libmkl_rt.so.2
+export MKL_THREADING_LAYER=GNU
+export TOKENIZERS_PARALLELISM=false
+export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-16}
+export MKL_NUM_THREADS=${SLURM_CPUS_PER_TASK:-16}
+export OPENBLAS_NUM_THREADS=${SLURM_CPUS_PER_TASK:-16}
+export NUMEXPR_NUM_THREADS=${SLURM_CPUS_PER_TASK:-16}
+export VLLM_WORKER_MULTIPROC_METHOD=spawn
+
+REPO=${REPO:-/projects/prjs1800/msc-thesis-benchmark}
+CONFIG=${CONFIG:?CONFIG not set}
+LIMIT=${LIMIT:-50}
+OUTPUT_DIR=${OUTPUT_DIR:?OUTPUT_DIR not set}
+
+mkdir -p "$OUTPUT_DIR"
+cd "$REPO"
+python 00-baseline-preparation/scripts/day4/run_ircot_benchmark.py \
+  --config "$CONFIG" \
+  --limit "$LIMIT" \
+  --output_dir "$OUTPUT_DIR"

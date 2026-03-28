@@ -1,0 +1,23 @@
+#!/bin/bash
+#SBATCH --job-name=eamd-w18-llada-all
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/eamd_wiki18_full_llada/logs/%x_%j.out
+#SBATCH --partition=cbuild
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=4G
+#SBATCH --time=00:10:00
+
+set -euo pipefail
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/src/daes:${PYTHONPATH:-}
+
+OUTPUT_ROOT=${OUTPUT_ROOT:-/projects/prjs1800/msc-thesis/07-daes/results/eamd_wiki18_full_llada_nocand_1000q}
+mkdir -p /projects/prjs1800/msc-thesis/07-daes/results/eamd_wiki18_full_llada/logs
+
+cd /projects/prjs1800/msc-thesis/07-daes
+python -u src/daes/collect_eamd_wiki18_summaries.py \
+  --inputs \
+    ${OUTPUT_ROOT}/hotpotqa/eamd_wiki18_hotpotqa_1000q.json \
+    ${OUTPUT_ROOT}/musique/eamd_wiki18_musique_1000q.json \
+    ${OUTPUT_ROOT}/2wikimultihopqa/eamd_wiki18_2wikimultihopqa_1000q.json \
+  --output ${OUTPUT_ROOT}/eamd_wiki18_all_datasets_summary.json

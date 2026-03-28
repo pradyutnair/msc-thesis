@@ -1,0 +1,42 @@
+#!/bin/bash
+#SBATCH --job-name=frontier-merge
+#SBATCH --partition=cbuild
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=16G
+#SBATCH --time=01:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/benchmarking/results/logs/%x_%j.out
+
+set -euo pipefail
+
+module purge
+module load 2025
+module load Anaconda3/2025.06-1
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+
+REPO=${REPO:-/projects/prjs1800/msc-thesis-benchmark}
+DATASET=${DATASET:?DATASET not set}
+METHOD=${METHOD:?METHOD not set}
+OUTPUT_ROOT=${OUTPUT_ROOT:-/projects/prjs1800/msc-thesis/benchmarking/results/frontier_single}
+
+cd "$REPO"
+
+ROOT="${OUTPUT_ROOT}/${DATASET}/${METHOD}"
+OUT_DIR="${ROOT}/merged"
+mkdir -p "$OUT_DIR"
+
+if [[ "$METHOD" == "b0" || "$METHOD" == "e2_react" ]]; then
+  mapfile -t INPUTS < <(find "${ROOT}/shards" -mindepth 2 -maxdepth 2 -name 'predictions.jsonl' | sort)
+else
+  mapfile -t INPUTS < <(find "${ROOT}/shards" -mindepth 2 -maxdepth 2 -name 'per_example.jsonl' | sort)
+fi
+
+if [[ ${#INPUTS[@]} -eq 0 ]]; then
+  echo "No shard outputs found for ${DATASET}/${METHOD}" >&2
+  exit 1
+fi
+
+python benchmarking/aggregate_frontier_results.py \
+  --inputs "${INPUTS[@]}" \
+  --output "$OUT_DIR"

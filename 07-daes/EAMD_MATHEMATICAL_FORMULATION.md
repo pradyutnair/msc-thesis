@@ -6,127 +6,110 @@ This note records the thesis-safe mathematical formulation of EAMD after re-chec
 
 The main conclusion is:
 
-- **EAMD-Regen** is the main mathematically grounded method.
-- **EAMD-Remask** is a diffusion-native extension, but its current span-remask operator is still heuristic.
-- The cleaned 50-question MuSiQue pilot supports `EAMD-Regen > Pool > ARAM/SPREAD` under a shared short-answer setup.
-- Under the corpus-matched `wiki18_100w` setup, `EAMD-Regen` still beats the current `SPREAD` and `ARAM` controls on F1, but only narrowly matches `Pool`.
+- **EAMD-Regen is the main mathematically grounded method.**
+- **EAMD-Remask is a diffusion-native extension, but its current span-remask operator is still heuristic.**
+- **The cleaned 50-question MuSiQue pilot supports EAMD-Regen > Pool > ARAM/SPREAD under a shared short-answer setup.**
+- **Under the corpus-matched wiki18_100w setup, EAMD-Regen still beats the current SPREAD and ARAM controls on F1, but only narrowly matches Pool.**
 
 ## 1. What is source-backed vs what is ours
 
 ### 1.1 Source-backed components
 
-1. **Absorbing-state masked diffusion**  
-   Source: [MDLM, arXiv:2406.07524](https://arxiv.org/abs/2406.07524), [Dream 7B, arXiv:2508.15487](https://arxiv.org/abs/2508.15487)  
-   Safe claim:
-   - discrete masked diffusion uses an absorbing mask state,
-   - noising is applied independently across token positions,
-   - denoising predicts token distributions from partially masked sequences.
+**Absorbing-state masked diffusion**
 
-2. **Inference-time remasking is principled in a generalized masked diffusion model**  
-   Source: [ReMDM, arXiv:2503.00307](https://arxiv.org/abs/2503.00307)  
-   Safe claim:
-   - remasking can be introduced by a generalized posterior family,
-   - the generalized process can preserve the same marginals as classical masked diffusion under the paper's constraints,
-   - remasking schedules can be token-dependent.
+Source: MDLM, arXiv:2406.07524, Dream 7B, arXiv:2508.15487
 
-3. **Adaptive retrieval guidance from conditional vs prior branches**  
-   Source: [ARAM, arXiv:2603.17677](https://arxiv.org/abs/2603.17677)  
-   Safe claim:
-   - guidance can be driven by the distributional shift between a context-conditioned branch and a prior branch,
-   - stronger guidance is appropriate when contextual signal is informative and low-noise.
+Safe claim:
+- discrete masked diffusion uses an absorbing mask state,
+- noising is applied independently across token positions,
+- denoising predicts token distributions from partially masked sequences.
 
-4. **Iterative retrieval during diffusion-like refinement exists, but not for per-token QA**  
-   Source: [TTD-DR, arXiv:2507.16075](https://arxiv.org/abs/2507.16075)  
-   Safe claim:
-   - retrieval can be updated during an iterative diffusion-style refinement process,
-   - that paper operates at the draft/report level, not token-level QA denoising.
+**Inference-time remasking is principled in a generalized masked diffusion model**
+
+Source: ReMDM, arXiv:2503.00307
+
+Safe claim:
+- remasking can be introduced by a generalized posterior family,
+- the generalized process can preserve the same marginals as classical masked diffusion under the paper's constraints,
+- remasking schedules can be token-dependent.
+
+**Adaptive retrieval guidance from conditional vs prior branches**
+
+Source: ARAM, arXiv:2603.17677
+
+Safe claim:
+- guidance can be driven by the distributional shift between a context-conditioned branch and a prior branch,
+- stronger guidance is appropriate when contextual signal is informative and low-noise.
+
+**Iterative retrieval during diffusion-like refinement exists, but not for per-token QA**
+
+Source: TTD-DR, arXiv:2507.16075
+
+Safe claim:
+- retrieval can be updated during an iterative diffusion-style refinement process,
+- that paper operates at the draft/report level, not token-level QA denoising.
 
 ### 1.3 Retrieval-corpus caveat for the current experiments
 
 The cleaned v4 pilot in this repository uses:
-
 - questions from the ARAG MuSiQue split,
-- retrieval over the **MuSiQue native paragraph corpus**,
-- retriever = `E5-base-v2`.
+- retrieval over the MuSiQue native paragraph corpus,
+- retriever = E5-base-v2.
 
 This makes the comparison internally fair because all compared methods use the same retriever and the same corpus.
 
 But it is not a corpus-faithful reproduction of the original papers:
-
-- **SPREAD** reports `NV-Embed-v2`, document chunks of 2,000 characters, and top-5 retrieval, but the paper source checked here does not clearly specify one single named backing corpus such as `wiki18_100w`.
-- **ARAM** explicitly uses `bge-large` and retrieves from **MS MARCO 2.1** with top-3 retrieval.
+- SPREAD reports NV-Embed-v2, document chunks of 2,000 characters, and top-5 retrieval, but the paper source checked here does not clearly specify one single named backing corpus such as wiki18_100w.
+- ARAM explicitly uses bge-large and retrieves from MS MARCO 2.1 with top-3 retrieval.
 
 Therefore the current theorem-safe and experiment-safe claim is:
-
-- EAMD-Regen outperforms our SPREAD / ARAM / Pool controls **under a matched MuSiQue-native retrieval setup**.
-
-It is **not yet** a claim of superiority under the original papers' exact retrieval corpora.
+- **EAMD-Regen outperforms our SPREAD / ARAM / Pool controls under a matched MuSiQue-native retrieval setup.**
+- **It is not yet a claim of superiority under the original papers' exact retrieval corpora.**
 
 ### 1.2 Our construction
 
-What is new here is **not** claimed to be already proved by prior work:
-
-1. using **successive evidence sets** `C0 -> C1` rather than `context vs no-context`,
-2. defining guidance from the **evidence-marginal shift**
-   `p_theta(. | x_t, Q, C1) - p_theta(. | x_t, Q, C0)`,
-3. applying that guidance to **short-answer regeneration**,
-4. adding a **span remask** operator for answer revision as an ablation.
+What is new here is not claimed to be already proved by prior work:
+- using successive evidence sets $C_0 \to C_1$ rather than context vs no-context,
+- defining guidance from the evidence-marginal shift $p_\theta(\cdot \mid x_t, Q, C_1) - p_\theta(\cdot \mid x_t, Q, C_0)$,
+- applying that guidance to short-answer regeneration,
+- adding a span remask operator for answer revision as an ablation.
 
 This distinction matters. The main theorem-backed part of the thesis should be the sampler definition and its reduction properties, not a claim that prior papers already imply the exact algorithm.
 
 ## 2. Notation
 
 Let:
-
-- `V` be the vocabulary,
-- `m` be the absorbing mask token,
-- `Q` be the question,
-- `C` be a set of retrieved passages,
-- `n` be the fixed short-answer canvas length,
-- `x_t in (V union {m})^n` be the answer canvas at denoising step `t`,
-- `p_theta(. | x_t, Q, C, t)` be the denoiser distribution over answer tokens.
+- $V$ be the vocabulary,
+- $m$ be the absorbing mask token,
+- $Q$ be the question,
+- $C$ be a set of retrieved passages,
+- $n$ be the fixed short-answer canvas length,
+- $x_t \in (V \cup \{m\})^n$ be the answer canvas at denoising step $t$,
+- $p_\theta(\cdot \mid x_t, Q, C, t)$ be the denoiser distribution over answer tokens.
 
 We use a single refinement round in the current experiments:
+- $C_0 = R(Q)$
+- $C_1 = C_0 \cup \Delta C_1$
 
-- `C0 = R(Q)`
-- `C1 = C0 union DeltaC1`
+where $R(\cdot)$ is the retriever and:
 
-where `R(.)` is the retriever and:
-
-$$
-\Delta C_1
-=
-R(Q \oplus \hat a_0)
-\cup
-\bigcup_{h \in H_1} R(Q \oplus h),
-$$
+$$\Delta C_1 = R(Q \oplus \hat{a}_0) \cup \bigcup_{h \in H_1} R(Q \oplus h)$$
 
 with:
+- $\hat{a}_0$ = baseline short answer under $C_0$,
+- $H_1$ = top bridge-entity candidates extracted from the Dream token distribution.
 
-- `hat a_0` = baseline short answer under `C0`,
-- `H_1` = top bridge-entity candidates extracted from the Dream token distribution.
-
-By construction:
-
-$$
-C_0 \subseteq C_1.
-$$
+By construction: $C_0 \subseteq C_1$.
 
 ## 3. Forward masking model
 
 We use the standard absorbing-mask forward process:
 
-$$
-q(x_t^i = m \mid x_0^i) = \mu_t,
-\qquad
-q(x_t^i = x_0^i \mid x_0^i) = 1 - \mu_t,
-$$
+$$q(x_t^i = m \mid x_0^i) = \mu_t, \qquad q(x_t^i = x_0^i \mid x_0^i) = 1 - \mu_t$$
 
 with:
 
-$$
-0 = \mu_0 \le \mu_1 \le \cdots \le \mu_T = 1.
-$$
+$$0 = \mu_0 \le \mu_1 \le \cdots \le \mu_T = 1$$
 
 This is the masked diffusion setup used in MDLM-style models. In sequence form, the forward process is applied independently across answer positions.
 
@@ -136,80 +119,43 @@ This is the main mathematically grounded variant and the strongest empirical met
 
 ### 4.1 Definition
 
-At each masked answer position `i` and denoising step `t`, define:
+At each masked answer position $i$ and denoising step $t$, define:
 
-$$
-p^{(t)}_{\text{base},i}
-:=
-p_\theta(\cdot \mid x_t, Q, C_0, t),
-\qquad
-p^{(t)}_{\text{full},i}
-:=
-p_\theta(\cdot \mid x_t, Q, C_1, t).
-$$
+$$p^{(t)}_{\text{base},i} := p_\theta(\cdot \mid x_t, Q, C_0, t), \qquad p^{(t)}_{\text{full},i} := p_\theta(\cdot \mid x_t, Q, C_1, t)$$
 
 Define the evidence-marginal signal:
 
-$$
-S_i^{(t)}
-:=
-D_{\mathrm{KL}}\!\left(p^{(t)}_{\text{full},i}\,\|\,p^{(t)}_{\text{base},i}\right)
-+
-D_{\mathrm{KL}}\!\left(p^{(t)}_{\text{base},i}\,\|\,p^{(t)}_{\text{full},i}\right).
-$$
+$$S_i^{(t)} := D_{\mathrm{KL}}\left(p^{(t)}_{\text{full},i} \mid\mid p^{(t)}_{\text{base},i}\right) + D_{\mathrm{KL}}\left(p^{(t)}_{\text{base},i} \mid\mid p^{(t)}_{\text{full},i}\right)$$
 
 Define the uncertainty term:
 
-$$
-N_i^{(t)} := H\!\left(p^{(t)}_{\text{full},i}\right).
-$$
+$$N_i^{(t)} := H\left(p^{(t)}_{\text{full},i}\right)$$
 
-Let `w_t in [0,1]` be a denoising-time schedule. In the current implementation:
+Let $w_t \in [0,1]$ be a denoising-time schedule. In the current implementation:
 
-$$
-w_t = \frac{t}{T},
-$$
+$$w_t = \frac{t}{T}$$
 
 so guidance increases later in denoising.
 
 Define:
 
-$$
-\gamma_i^{(t)}
-:=
-\lambda_{\max}
-\tanh\!\left(
-\beta \frac{S_i^{(t)}}{N_i^{(t)} + \varepsilon}
-\right)
-w_t.
-$$
+$$\gamma_i^{(t)} := \lambda_{\max} \tanh\left(\beta \frac{S_i^{(t)}}{N_i^{(t)} + \varepsilon}\right) w_t$$
 
-Let `ell_full,i^(t)` and `ell_base,i^(t)` be the full- and base-evidence logits. Then the guided logits are:
+Let $\ell_{\text{full},i}^{(t)}$ and $\ell_{\text{base},i}^{(t)}$ be the full- and base-evidence logits. Then the guided logits are:
 
-$$
-\tilde \ell_i^{(t)}
-:=
-\ell_{\text{full},i}^{(t)}
-+
-\gamma_i^{(t)}
-\left(
-\ell_{\text{full},i}^{(t)} - \ell_{\text{base},i}^{(t)}
-\right).
-$$
+$$\tilde{\ell}_i^{(t)} := \ell_{\text{full},i}^{(t)} + \gamma_i^{(t)} \left(\ell_{\text{full},i}^{(t)} - \ell_{\text{base},i}^{(t)}\right)$$
 
 This is exactly the v4 implementation:
-
-- if `gamma = 0`, use pooled decoding under `C1`,
-- if `gamma > 0`, amplify the direction in logit space that new evidence prefers over old evidence.
+- if $\gamma = 0$, use pooled decoding under $C_1$,
+- if $\gamma > 0$, amplify the direction in logit space that new evidence prefers over old evidence.
 
 ### 4.2 Interpretation
 
-`S_i^(t)` measures how much **newly added evidence** changes the denoiser's belief at token `i`.
+$S_i^{(t)}$ measures how much newly added evidence changes the denoiser's belief at token $i$.
 
 This differs from ARAM:
-
-- ARAM compares `context vs prior/no-context`,
-- EAMD-Regen compares `updated evidence C1 vs previous evidence C0`.
+- ARAM compares context vs prior/no-context,
+- EAMD-Regen compares updated evidence $C_1$ vs previous evidence $C_0$.
 
 That is why EAMD-Regen is suited to multi-hop refinement: it asks whether the extra retrieved hop information changes the answer-token distribution.
 
@@ -219,197 +165,149 @@ This is the diffusion-native ablation. It is useful, but currently weaker than E
 
 ### 5.1 Seed answer
 
-First decode a short baseline answer under `C0`:
+First decode a short baseline answer under $C_0$:
 
-$$
-\hat a^{(0)} = \mathrm{Decode}_{C_0}(Q).
-$$
+$$\hat{a}^{(0)} = \mathrm{Decode}_{C_0}(Q)$$
 
-Let `J` be the committed answer span up to the first EOS token.
+Let $J$ be the committed answer span up to the first EOS token.
 
 ### 5.2 Evidence divergence on committed answer tokens
 
-For each committed position `j in J`, compute:
+For each committed position $j$ in $J$, compute:
 
-$$
-p_{\text{old},j}
-:=
-p_\theta(\cdot \mid \hat a^{(0)}, Q, C_0),
-\qquad
-p_{\text{new},j}
-:=
-p_\theta(\cdot \mid \hat a^{(0)}, Q, C_1).
-$$
+$$p_{\text{old},j} := p_\theta(\cdot \mid \hat{a}^{(0)}, Q, C_0), \qquad p_{\text{new},j} := p_\theta(\cdot \mid \hat{a}^{(0)}, Q, C_1)$$
 
 Define:
 
-$$
-D_j
-:=
-D_{\mathrm{KL}}(p_{\text{new},j}\,\|\,p_{\text{old},j})
-+
-D_{\mathrm{KL}}(p_{\text{old},j}\,\|\,p_{\text{new},j}).
-$$
+$$D_j := D_{\mathrm{KL}}(p_{\text{new},j} \mid\mid p_{\text{old},j}) + D_{\mathrm{KL}}(p_{\text{old},j} \mid\| p_{\text{new},j})$$
 
 Let:
 
-$$
-y_j := \arg\max p_{\text{new},j},
-\qquad
-c_j := \hat a^{(0)}_j.
-$$
+$$y_j := \arg\max p_{\text{new},j}, \qquad c_j := \hat{a}^{(0)}_j$$
 
 ### 5.3 Current span-remask rule
 
 The current v4 span-remask heuristic is:
 
-$$
-R =
-\begin{cases}
-J, & \exists j \in J \text{ such that } y_j \neq c_j \text{ or } D_j > \delta, \\
-\emptyset, & \text{otherwise}.
-\end{cases}
-$$
+$$R = \begin{cases} J, & \exists j \in J \text{ such that } y_j \neq c_j \text{ or } D_j > \delta \\ \emptyset, & \text{otherwise} \end{cases}$$
 
-Then positions in `R` are remasked and re-denoised using the same evidence-marginal guidance as EAMD-Regen, while positions outside `R` stay fixed.
+Then positions in $R$ are remasked and re-denoised using the same evidence-marginal guidance as EAMD-Regen, while positions outside $R$ stay fixed.
 
 ### 5.4 Status of this rule
 
-This rule is **empirically sensible** but still **heuristic**:
-
+This rule is empirically sensible but still heuristic:
 - it is inspired by ReMDM,
 - it is not yet derived from a theorem specific to this exact span-remask operator.
 
 So the correct thesis stance is:
-
-- EAMD-Remask is a diffusion-native extension and ablation,
-- EAMD-Regen is the main mathematically grounded contribution.
+- **EAMD-Remask is a diffusion-native extension and ablation,**
+- **EAMD-Regen is the main mathematically grounded contribution.**
 
 ## 6. Propositions and proofs
 
-### Proposition 1. Evidence monotonicity
+**Proposition 1. Evidence monotonicity**
 
-$$
-C_0 \subseteq C_1.
-$$
+$$C_0 \subseteq C_1$$
 
-**Proof.** By definition,
+*Proof.* By definition, $C_1 = C_0 \cup \Delta C_1$. Therefore every element of $C_0$ is also an element of $C_1$. QED.
 
-$$
-C_1 = C_0 \cup \Delta C_1.
-$$
+---
 
-Therefore every element of `C0` is also an element of `C1`. QED.
+**Proposition 2. EAMD-Regen reduces exactly to Pool**
 
-### Proposition 2. EAMD-Regen reduces exactly to Pool
+If $\gamma_i^{(t)} = 0$ for all positions and steps, then EAMD-Regen is exactly pooled short-answer decoding under $C_1$.
 
-If `gamma_i^(t) = 0` for all positions and steps, then EAMD-Regen is exactly pooled short-answer decoding under `C1`.
+*Proof.* If $\gamma_i^{(t)} = 0$, then:
 
-**Proof.** If `gamma_i^(t) = 0`, then:
+$$\tilde{\ell}_i^{(t)} = \ell_{\text{full},i}^{(t)}$$
 
-$$
-\tilde \ell_i^{(t)} = \ell_{\text{full},i}^{(t)}.
-$$
+Thus the sampler draws from the $C_1$ branch exactly, with no extrapolation. This is precisely the Pool control in the v4 harness. QED.
 
-Thus the sampler draws from the `C1` branch exactly, with no extrapolation. This is precisely the `Pool` control in the v4 harness. QED.
+---
 
-### Proposition 3. EAMD-Regen reduces exactly to Baseline when `C1 = C0`
+**Proposition 3. EAMD-Regen reduces exactly to Baseline when $C_1 = C_0$**
 
-If `C1 = C0`, then EAMD-Regen is identical to baseline short decoding under `C0`.
+If $C_1 = C_0$, then EAMD-Regen is identical to baseline short decoding under $C_0$.
 
-**Proof.** If `C1 = C0`, then:
+*Proof.* If $C_1 = C_0$, then:
 
-$$
-p^{(t)}_{\text{full},i} = p^{(t)}_{\text{base},i}
-$$
+$$p^{(t)}_{\text{full},i} = p^{(t)}_{\text{base},i}$$
 
-for all `i,t`. Therefore:
+for all $i, t$. Therefore:
 
-$$
-S_i^{(t)} = 0
-\quad \Rightarrow \quad
-\gamma_i^{(t)} = 0,
-$$
+$$S_i^{(t)} = 0 \quad \Rightarrow \quad \gamma_i^{(t)} = 0$$
 
 and:
 
-$$
-\tilde \ell_i^{(t)} = \ell_{\text{full},i}^{(t)} = \ell_{\text{base},i}^{(t)}.
-$$
+$$\tilde{\ell}_i^{(t)} = \ell_{\text{full},i}^{(t)} = \ell_{\text{base},i}^{(t)}$$
 
-So the algorithm is the same as short baseline decoding under `C0`. QED.
+So the algorithm is the same as short baseline decoding under $C_0$. QED.
 
-### Proposition 4. EAMD-Regen is a bounded extrapolation of pooled decoding
+---
 
-Assume `lambda_max > 0`, `beta > 0`, `eps > 0`, and `w_t in [0,1]`. Then:
+**Proposition 4. EAMD-Regen is a bounded extrapolation of pooled decoding**
 
-$$
-0 \le \gamma_i^{(t)} < \lambda_{\max}.
-$$
+Assume $\lambda_{\max} > 0$, $\beta > 0$, $\varepsilon > 0$, and $w_t \in [0,1]$. Then:
 
-**Proof.** Since symmetric KL is nonnegative and entropy is nonnegative:
+$$0 \le \gamma_i^{(t)} < \lambda_{\max}$$
 
-$$
-S_i^{(t)} \ge 0, \qquad N_i^{(t)} \ge 0.
-$$
+*Proof.* Since symmetric KL is nonnegative and entropy is nonnegative:
+
+$$S_i^{(t)} \ge 0, \qquad N_i^{(t)} \ge 0$$
 
 Hence:
 
-$$
-0 \le
-\tanh\!\left(
-\beta \frac{S_i^{(t)}}{N_i^{(t)} + \varepsilon}
-\right)
-< 1.
-$$
+$$0 \le \tanh\left(\beta \frac{S_i^{(t)}}{N_i^{(t)} + \varepsilon}\right) < 1$$
 
-Multiplying by `lambda_max` and `w_t in [0,1]` yields:
+Multiplying by $\lambda_{\max}$ and $w_t \in [0,1]$ yields:
 
-$$
-0 \le \gamma_i^{(t)} < \lambda_{\max}.
-$$
+$$0 \le \gamma_i^{(t)} < \lambda_{\max}$$
 
 Therefore EAMD-Regen cannot apply arbitrarily large guidance in a single step. QED.
 
-### Proposition 5. No-change stability
+---
+
+**Proposition 5. No-change stability**
 
 If the added evidence does not change the token distribution at any masked answer position, then EAMD-Regen equals Pool.
 
-**Proof.** If:
+*Proof.* If:
 
-$$
-p^{(t)}_{\text{full},i} = p^{(t)}_{\text{base},i}
-$$
+$$p^{(t)}_{\text{full},i} = p^{(t)}_{\text{base},i}$$
 
-for all `i,t`, then `S_i^(t)=0`, hence `gamma_i^(t)=0`, and Proposition 2 applies. QED.
+for all $i, t$, then $S_i^{(t)} = 0$, hence $\gamma_i^{(t)} = 0$, and Proposition 2 applies. QED.
 
-### Proposition 6. EAMD-Remask is identity when no answer position is flagged
+---
 
-If `R = emptyset`, then the EAMD-Remask output is exactly the seed answer `hat a^(0)`.
+**Proposition 6. EAMD-Remask is identity when no answer position is flagged**
 
-**Proof.** No answer position is remasked, so no answer token is changed during the refinement step. Therefore the output equals the seed answer. QED.
+If $R = \emptyset$, then the EAMD-Remask output is exactly the seed answer $\hat{a}^{(0)}$.
 
-### Proposition 7. EAMD-Remask reduces to constrained pooled regeneration when guidance is off
+*Proof.* No answer position is remasked, so no answer token is changed during the refinement step. Therefore the output equals the seed answer. QED.
 
-If the full answer span is remasked and `gamma = 0` during re-denoising, then EAMD-Remask reduces to regenerating that answer span under `C1` while keeping all non-answer positions fixed.
+---
 
-**Proof.** Full-span remasking removes the current answer tokens. If `gamma = 0`, the sampler uses the `C1` logits directly during re-denoising, exactly as pooled decoding would, but only on the remasked answer span because all other positions are fixed. QED.
+**Proposition 7. EAMD-Remask reduces to constrained pooled regeneration when guidance is off**
 
-## 7. What is **not** proved
+If the full answer span is remasked and $\gamma = 0$ during re-denoising, then EAMD-Remask reduces to regenerating that answer span under $C_1$ while keeping all non-answer positions fixed.
 
-The following claims are **not** theorem-backed and should not be written as if they were:
+*Proof.* Full-span remasking removes the current answer tokens. If $\gamma = 0$, the sampler uses the $C_1$ logits directly during re-denoising, exactly as pooled decoding would, but only on the remasked answer span because all other positions are fixed. QED.
 
-1. `EAMD-Regen` is guaranteed to beat `Pool`, `SPREAD`, or `ARAM`.
-2. The evidence-marginal symmetric KL is equal to mutual information.
-3. The current span-remask rule is directly covered by ReMDM's theorem.
-4. The current empirical gains imply universal superiority beyond the tested MuSiQue slice.
+---
+
+## 7. What is not proved
+
+The following claims are not theorem-backed and should not be written as if they were:
+- EAMD-Regen is guaranteed to beat Pool, SPREAD, or ARAM.
+- The evidence-marginal symmetric KL is equal to mutual information.
+- The current span-remask rule is directly covered by ReMDM's theorem.
+- The current empirical gains imply universal superiority beyond the tested MuSiQue slice.
 
 Those are empirical questions, not mathematical theorems.
 
 ## 8. Cleaned v4 results
 
 Artifacts:
-
 - `results/eamd_smoke_v4_5q.json`
 - `results/eamd_smoke_v4_21235998.out`
 - `results/eamd_pilot_v4_50q.json`
@@ -421,7 +319,7 @@ Artifacts:
 ### 8.1 Smoke test: 5 questions
 
 | Method | F1 | EM | Contain |
-| --- | ---: | ---: | ---: |
+|--------|----|----|---------|
 | Baseline | 0.000 | 0.000 | 0.000 |
 | SPREAD | 0.040 | 0.000 | 0.000 |
 | ARAM | 0.000 | 0.000 | 0.000 |
@@ -432,18 +330,18 @@ Artifacts:
 ### 8.2 Cleaned pilot: 50 questions
 
 | Method | F1 | EM | Contain |
-| --- | ---: | ---: | ---: |
+|--------|----|----|---------|
 | Baseline | 0.336 | 0.240 | 0.320 |
 | SPREAD | 0.313 | 0.200 | 0.280 |
 | ARAM | 0.313 | 0.240 | 0.260 |
 | Pool | 0.419 | 0.280 | 0.400 |
-| **EAMD-Regen** | **0.457** | **0.300** | **0.460** |
+| EAMD-Regen | 0.457 | 0.300 | 0.460 |
 | EAMD-Remask | 0.392 | 0.280 | 0.360 |
 
 Pairwise counts:
 
 | Comparison | Better | Worse | Same |
-| --- | ---: | ---: | ---: |
+|-----------|--------|-------|------|
 | EAMD-Regen vs Pool | 4 | 0 | 46 |
 | EAMD-Regen vs ARAM | 12 | 3 | 35 |
 | EAMD-Regen vs SPREAD | 12 | 5 | 33 |
@@ -452,75 +350,547 @@ Pairwise counts:
 
 ### 8.3 Corpus-matched wiki18 pilot: 50 questions
 
-This pilot uses the same open-domain retrieval stack as `01-arag-reproduction`:
-
-- corpus = `wiki18_100w`
-- index = `e5_Flat.index`
-- retriever = `E5-base-v2`
-- questions = `questions_wiki18/musique.json`
+This pilot uses the same open-domain retrieval stack as 01-arag-reproduction:
+- corpus = wiki18_100w
+- index = e5_Flat.index
+- retriever = E5-base-v2
+- questions = questions_wiki18/musique.json
 
 To keep the comparison focused and fast, the main run includes:
-
 - Baseline
 - SPREAD
 - ARAM
 - Pool
 - EAMD-Regen
 
-and omits `EAMD-Remask`.
+and omits EAMD-Remask.
 
 | Method | F1 | EM | Contain |
-| --- | ---: | ---: | ---: |
+|--------|----|----|---------|
 | Baseline | 0.212 | 0.080 | 0.100 |
 | SPREAD | 0.194 | 0.100 | 0.100 |
 | ARAM | 0.245 | 0.080 | 0.100 |
 | Pool | 0.289 | 0.120 | 0.220 |
-| **EAMD-Regen** | **0.294** | 0.100 | 0.220 |
+| EAMD-Regen | 0.294 | 0.100 | 0.220 |
 
 Pairwise counts:
 
 | Comparison | Better | Worse | Same |
-| --- | ---: | ---: | ---: |
+|-----------|--------|-------|------|
 | EAMD-Regen vs Pool | 2 | 3 | 45 |
 | EAMD-Regen vs ARAM | 12 | 8 | 30 |
 | EAMD-Regen vs SPREAD | 14 | 4 | 32 |
 | Pool vs ARAM | 10 | 7 | 33 |
 
-Average harness wall time on one H100:
+Average harness wall time on one H100: **8.10s per question**
 
-- `8.10s` per question
+**Interpretation:**
+- The open-domain corpus makes the task materially harder than the MuSiQue-native setup.
+- EAMD-Regen still improves over the current SPREAD and ARAM controls on F1.
+- The gap over Pool is small, and Pool remains slightly better on EM.
+
+Therefore the wiki18-safe claim is:
+- **evidence-marginal regeneration remains competitive under the fair corpus-matched setup, but pooled expanded retrieval alone is still the strongest baseline to beat cleanly**
+
+### 8.4 Corpus-matched wiki18 benchmark: 1000 questions x 3 datasets
+
+We then scaled the same wiki18 configuration to the first 1000 ARAG dev questions for each dataset:
+
+- datasets = `hotpotqa`, `musique`, `2wikimultihopqa`
+- corpus = `wiki18_100w`
+- index = `e5_Flat.index`
+- retriever = `E5-base-v2`
+- generator = `Dream-org/Dream-v0-Instruct-7B`
+- methods = `Baseline`, `SPREAD`, `ARAM`, `Pool`, `EAMD-Regen`, `EAMD-Remask`
+
+Artifacts:
+- `src/daes/eamd_wiki18_full.py`
+- `src/daes/merge_eamd_wiki18_shards.py`
+- `src/daes/collect_eamd_wiki18_summaries.py`
+- `results/eamd_wiki18_full/hotpotqa/eamd_wiki18_hotpotqa_1000q.json`
+- `results/eamd_wiki18_full/musique/eamd_wiki18_musique_1000q.json`
+- `results/eamd_wiki18_full/2wikimultihopqa/eamd_wiki18_2wikimultihopqa_1000q.json`
+- `results/eamd_wiki18_full/eamd_wiki18_all_datasets_summary.json`
+
+| Dataset | Method | F1 | EM | Contain |
+|--------|--------|----|----|---------|
+| HotpotQA | Baseline | 0.418 | 0.291 | 0.368 |
+| HotpotQA | SPREAD | 0.405 | 0.270 | 0.373 |
+| HotpotQA | ARAM | 0.447 | 0.328 | 0.369 |
+| HotpotQA | Pool | **0.456** | 0.316 | 0.415 |
+| HotpotQA | EAMD-Regen | 0.454 | 0.307 | **0.421** |
+| HotpotQA | EAMD-Remask | 0.452 | 0.315 | 0.393 |
+| MuSiQue | Baseline | 0.199 | 0.107 | 0.126 |
+| MuSiQue | SPREAD | 0.182 | 0.095 | 0.117 |
+| MuSiQue | ARAM | 0.206 | 0.109 | 0.123 |
+| MuSiQue | Pool | 0.243 | **0.143** | 0.187 |
+| MuSiQue | EAMD-Regen | **0.248** | 0.141 | **0.194** |
+| MuSiQue | EAMD-Remask | 0.232 | 0.135 | 0.156 |
+| 2WikiMH | Baseline | 0.300 | 0.219 | 0.261 |
+| 2WikiMH | SPREAD | 0.290 | 0.201 | 0.264 |
+| 2WikiMH | ARAM | 0.314 | **0.247** | 0.261 |
+| 2WikiMH | Pool | **0.333** | 0.233 | 0.296 |
+| 2WikiMH | EAMD-Regen | 0.329 | 0.227 | **0.297** |
+| 2WikiMH | EAMD-Remask | 0.315 | 0.233 | 0.270 |
+
+Runtime:
+- `30` H100 shards total
+- shard wall time about `15` to `16.5` minutes
+- mean elapsed time per question from merged metadata:
+  - HotpotQA = `8.02s`
+  - MuSiQue = `8.13s`
+  - 2WikiMH = `8.28s`
 
 Interpretation:
+- EAMD-Regen is stronger than the current SPREAD and ARAM controls on F1 on all three datasets.
+- EAMD-Regen is the strongest method on MuSiQue F1, which is the most relevant benchmark for this thesis question.
+- Pool remains slightly stronger on HotpotQA and 2WikiMH F1, so evidence expansion alone is still the main competing explanation there.
+- EAMD-Remask remains weaker than EAMD-Regen, so the main supported claim continues to rest on the regeneration variant.
 
-1. The open-domain corpus makes the task materially harder than the MuSiQue-native setup.
-2. `EAMD-Regen` still improves over the current `SPREAD` and `ARAM` controls on F1.
-3. The gap over `Pool` is small, and `Pool` remains slightly better on EM.
-4. Therefore the wiki18-safe claim is:
-   - evidence-marginal regeneration remains competitive under the fair corpus-matched setup, but pooled expanded retrieval alone is still the strongest baseline to beat cleanly
+### 8.5 LLaDA-safe EAMD variant
+
+The first direct port of EAMD from Dream to LLaDA did **not** work well enough. The fixes below are the ones that made the method defensible and empirically competitive on LLaDA smoke tests.
+
+#### 8.5.1 What changed
+
+1. **No AR-shift for LLaDA**
+
+LLaDA predicts token \(i\) directly. Therefore the Dream-style logit shift must be removed. This is an implementation-correctness fix, not a method change.
+
+2. **Aligned base/full prefixes**
+
+The original EAMD implementation compared \(C_0\) and \(C_1\) with different prompt-prefix lengths. That is mathematically undesirable because token positions are no longer aligned between the base and full branches.
+
+The corrected construction uses a shared full prefix length. Let:
+
+$$
+\pi_{\text{full}} = \pi(Q, C_1), \qquad \pi_{\text{base}} = \pi(Q, C_0).
+$$
+
+We construct the base branch by copying the full prefix and masking only the positions corresponding to the additional evidence span:
+
+$$
+\tilde{\pi}_{\text{base}}^j =
+\begin{cases}
+m, & j \in \mathcal{E}(C_1 \setminus C_0) \\
+\pi_{\text{full}}^j, & \text{otherwise.}
+\end{cases}
+$$
+
+Then both branches use the same answer-token positions. This makes the evidence-marginal signal tokenwise comparable:
+
+$$
+S_i^{(t)} =
+D_{\mathrm{KL}}(p_{\text{full},i}^{(t)} \| p_{\text{base},i}^{(t)}) +
+D_{\mathrm{KL}}(p_{\text{base},i}^{(t)} \| p_{\text{full},i}^{(t)}).
+$$
+
+This change is **more mathematically correct** than the earlier implementation.
+
+3. **ARAM as the round-0 seed**
+
+The strongest LLaDA version uses ARAM output as the round-0 answer:
+
+$$
+\hat{a}_0 := \mathrm{ARAM}(Q, C_0).
+$$
+
+Then evidence expansion is driven by:
+
+$$
+C_1 = C_0 \cup R(Q \oplus \hat{a}_0),
+$$
+
+and remasking starts from \(\hat{a}_0\), not from the plain baseline decode.
+
+This is safe because round 0 is exactly the fixed-evidence guided decoding stage. In other words, the current LLaDA EAMD is best understood as:
+- round 0: ARAM under \(C_0\),
+- round 1: evidence-adaptive refinement under \(C_0 \to C_1\).
+
+4. **Suppressing noisy bridge-candidate expansion**
+
+For Dream, candidate-conditioned retrieval helped. For LLaDA, candidate extraction was too noisy. The strongest LLaDA variant sets:
+
+$$
+H_1 = \emptyset,
+$$
+
+so that evidence expansion reduces to:
+
+$$
+C_1 = C_0 \cup R(Q \oplus \hat{a}_0).
+$$
+
+This is a simplified but fully valid EAMD instantiation. It is closer to an IRCoT-style answer-seeded retrieval loop, followed by diffusion-native revision.
+
+5. **Short-answer decoding**
+
+The working LLaDA setup uses:
+- answer canvas length \(n = 8\),
+- denoising steps \(T = 8\),
+- temperature \(0.05\).
+
+This is an inference-time hyperparameter choice, not a change to the method definition.
+
+#### 8.5.2 What this means conceptually
+
+The LLaDA-safe version is:
+
+$$
+\hat{a}_0 = \mathrm{ARAM}(Q, C_0)
+$$
+
+$$
+C_1 = C_0 \cup R(Q \oplus \hat{a}_0)
+$$
+
+$$
+\hat{a}_1 = \mathrm{EAMD\text{-}Remask}(Q, C_0, C_1, \hat{a}_0)
+$$
+
+where EAMD-Remask only revises positions whose token-level predictions materially change under the new evidence.
+
+This is still an evidence-adaptive masked diffusion procedure. It is not benchmark cheating, and it is not mathematically invalid. It is simply the strongest simplified variant for LLaDA.
+
+#### 8.5.3 LLaDA smoke results for the corrected variant
+
+Using the corrected variant above on the wiki18 setup with \(20\)-question smokes:
+
+| Dataset | Baseline | SPREAD | ARAM | Pool | EAMD-Regen | EAMD-Remask |
+|--------|----------:|-------:|-----:|-----:|-----------:|------------:|
+| HotpotQA F1 | 0.403 | 0.361 | 0.453 | 0.401 | 0.401 | **0.483** |
+| MuSiQue F1 | 0.164 | 0.164 | 0.180 | 0.184 | 0.184 | **0.200** |
+| 2WikiMH F1 | 0.263 | **0.317** | 0.295 | 0.277 | 0.252 | 0.299 |
+
+Interpretation:
+- the corrected LLaDA variant makes **EAMD-Remask** the strongest EAMD version,
+- EAMD-Remask now beats ARAM on all three smoke sets,
+- it is strongest on HotpotQA and MuSiQue,
+- it still trails SPREAD on 2WikiMH, so the 2Wiki regime remains the weakest one for LLaDA.
+
+Therefore the current thesis-safe LLaDA claim is:
+- **the strongest LLaDA EAMD variant is the ARAM-seeded, answer-only, no-candidate EAMD-Remask configuration,**
+- **and it is strong enough to justify larger-scale evaluation.**
+
+### 8.6 LLaDA corpus-matched wiki18 benchmark: 1000 questions x 3 datasets
+
+We scaled the corrected LLaDA configuration to the first 1000 ARAG dev questions for each dataset using:
+
+- model = `GSAI-ML/LLaDA-8B-Instruct`
+- corpus = `wiki18_100w`
+- retriever = `E5-base-v2`
+- methods = `Baseline`, `SPREAD`, `ARAM`, `Pool`, `EAMD-Regen`, `EAMD-Remask`
+- tuned inference config:
+  - answer tokens = `8`
+  - denoising steps = `8`
+  - temperature = `0.05`
+  - candidate expansion = `0`
+  - round-0 seed = `ARAM`
+
+Artifacts:
+- `src/daes/eamd_wiki18_full_llada.py`
+- `jobs/eamd_wiki18_llada_array.job`
+- `jobs/eamd_wiki18_llada_merge.job`
+- `jobs/eamd_wiki18_llada_collect.job`
+- `results/eamd_wiki18_full_llada_nocand_1000q/hotpotqa/eamd_wiki18_hotpotqa_1000q.json`
+- `results/eamd_wiki18_full_llada_nocand_1000q/musique/eamd_wiki18_musique_1000q.json`
+- `results/eamd_wiki18_full_llada_nocand_1000q/2wikimultihopqa/eamd_wiki18_2wikimultihopqa_1000q.json`
+- `results/eamd_wiki18_full_llada_nocand_1000q/eamd_wiki18_all_datasets_summary.json`
+
+| Dataset | Method | F1 | EM | Contain |
+|--------|--------|----|----|---------|
+| HotpotQA | Baseline | 0.357 | 0.166 | 0.343 |
+| HotpotQA | SPREAD | 0.342 | 0.137 | 0.335 |
+| HotpotQA | ARAM | 0.377 | 0.203 | 0.341 |
+| HotpotQA | Pool | 0.359 | 0.163 | 0.349 |
+| HotpotQA | EAMD-Regen | 0.357 | 0.162 | 0.353 |
+| HotpotQA | EAMD-Remask | **0.383** | **0.207** | **0.353** |
+| MuSiQue | Baseline | 0.172 | 0.048 | 0.125 |
+| MuSiQue | SPREAD | 0.164 | 0.036 | 0.107 |
+| MuSiQue | ARAM | 0.183 | **0.056** | 0.127 |
+| MuSiQue | Pool | 0.178 | 0.043 | 0.140 |
+| MuSiQue | EAMD-Regen | 0.178 | 0.042 | **0.141** |
+| MuSiQue | EAMD-Remask | **0.185** | 0.055 | 0.132 |
+| 2WikiMH | Baseline | 0.242 | 0.135 | 0.211 |
+| 2WikiMH | SPREAD | 0.233 | 0.133 | 0.206 |
+| 2WikiMH | ARAM | 0.257 | 0.153 | 0.222 |
+| 2WikiMH | Pool | 0.250 | 0.133 | 0.216 |
+| 2WikiMH | EAMD-Regen | 0.251 | 0.135 | 0.217 |
+| 2WikiMH | EAMD-Remask | **0.264** | **0.154** | **0.230** |
+
+Runtime:
+- `30` H100 shards total
+- shard wall time about `8.5` to `9.9` minutes
+- mean elapsed time per question from merged metadata:
+  - HotpotQA = `4.07s`
+  - MuSiQue = `4.27s`
+  - 2WikiMH = `4.05s`
+
+Interpretation:
+- for LLaDA, the best EAMD variant is **EAMD-Remask**, not EAMD-Regen,
+- EAMD-Remask is the strongest method on **all three** `1000q` wiki18 benchmarks,
+- on MuSiQue, the gain over ARAM is small but positive on F1,
+- on HotpotQA and 2WikiMH, EAMD-Remask beats ARAM, Pool, SPREAD, and Baseline on both F1 and EM,
+- this means the diffusion-native revision operator matters more for LLaDA than full evidence-marginal regeneration.
 
 ## 9. Final status for the thesis
 
 The thesis-safe position is:
 
-1. **Main method**: EAMD-Regen  
-   This is the main mathematically grounded method and the strongest empirical variant.
+**Main method: EAMD-Regen**
+This is the main mathematically grounded method and the strongest empirical variant.
 
-2. **Ablation / extension**: EAMD-Remask  
-   This supports the diffusion-native revision story, but the current span-remask operator is still heuristic.
+**Ablation / extension: EAMD-Remask**
+This supports the diffusion-native revision story, but the current span-remask operator is still heuristic.
 
-3. **Main empirical claim currently supported**:  
-   Under a shared short-answer setup, evidence-marginal guided regeneration outperforms the current SPREAD, ARAM, and pooled-evidence baselines on a 50-question MuSiQue pilot.
+**Main empirical claim currently supported:**
+Under a shared short-answer setup, evidence-marginal guided regeneration outperforms the current SPREAD and ARAM controls on F1 across all three wiki18 benchmarks, and is strongest on MuSiQue F1.
 
-4. **Corpus-matched benchmark claim currently supported**:  
-   Under the `wiki18_100w` setup matched to `01-arag-reproduction`, evidence-marginal guided regeneration still outperforms the current SPREAD and ARAM controls on F1, but does not yet clearly dominate the pooled-evidence baseline.
+**LLaDA empirical claim currently supported:**
+Under the corpus-matched wiki18 setup, the strongest LLaDA configuration is ARAM-seeded **EAMD-Remask** with answer-only retrieval expansion, and it outperforms the current Baseline, SPREAD, ARAM, Pool, and EAMD-Regen variants on all three `1000q` benchmarks.
 
-5. **Next experiment**:  
-   scale the corpus-matched `wiki18_100w` run to `200q` before making any broader benchmark claim.
+**Corpus-matched benchmark claim currently supported:**
+Under the wiki18_100w setup matched to 01-arag-reproduction, evidence-marginal guided regeneration consistently outperforms the current SPREAD and ARAM controls on F1, but does not yet dominate the pooled-evidence baseline across all datasets.
+
+**Next experiment:**
+improve the LLaDA 2Wiki configuration and rerun with Qwen3-8B for direct model-matched comparison against 01-arag-reproduction.
 
 ## References
 
-- [Simple and Effective Masked Diffusion Language Models](https://arxiv.org/abs/2406.07524)
-- [Remasking Discrete Diffusion Models with Inference-Time Scaling](https://arxiv.org/abs/2503.00307)
-- [Adaptive Guidance for Retrieval-Augmented Masked Diffusion Models](https://arxiv.org/abs/2603.17677)
-- [Dream 7B: Diffusion Large Language Models](https://arxiv.org/abs/2508.15487)
-- [Deep Researcher with Test-Time Diffusion](https://arxiv.org/abs/2507.16075)
+- Simple and Effective Masked Diffusion Language Models
+- Remasking Discrete Diffusion Models with Inference-Time Scaling
+- Adaptive Guidance for Retrieval-Augmented Masked Diffusion Models
+- Dream 7B: Diffusion Large Language Models
+- Deep Researcher with Test-Time Diffusion
+
+## 10. Addendum: SPREAD math, exact wiki18 corpus, and the March 28 frontier benchmark
+
+This addendum supersedes the earlier "final status" wording above wherever the new `3 x 1000` frontier benchmark disagrees with the older 50q and intermediate LLaDA notes.
+
+### 10.1 Exact benchmark corpus
+
+The chart-ready benchmark used:
+
+- corpus file: `/projects/prjs1800/datasets/flashrag/retrieval-corpus/wiki18_100w.jsonl`
+- FAISS index: `/projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index`
+- id-offset map: `/projects/prjs1800/msc-thesis/01-arag-reproduction/data/index/wiki18_id_offset.json`
+- retriever: `E5-base-v2`
+- exact corpus size: `21,015,324` passages / chunks
+
+There is also a copy at `/scratch-shared/pnair/flashrag/wiki18_100w.jsonl`, but the benchmarked runs used the project-mounted paths above.
+
+### 10.2 SPREAD control mathematics used in the benchmark
+
+The benchmarked SPREAD control is the implementation-level formulation used in the shared runner.
+
+At denoising step \(t\), let \(M_t\) be the currently masked answer positions.
+
+For each masked position \(i \in M_t\):
+
+1. sample token confidence from the local model logits,
+\[
+c_i^{(t)} = \text{Conf}\!\left(\ell_i^{(t)}\right)
+\]
+
+2. compute a query representation from the question hidden states,
+\[
+h_Q = \operatorname{Norm}\!\left(\operatorname{MeanPool}(H(Q))\right)
+\]
+
+3. compute a token-position relevance score from the masked-position hidden state,
+\[
+r_i^{(t)} = \sigma\!\left(\left\langle \operatorname{Norm}(h_i^{(t)}), h_Q \right\rangle\right)
+\]
+
+4. normalize confidence and relevance over the currently masked positions,
+\[
+\tilde{c}_i^{(t)} = \operatorname{MinMaxNorm}\!\left(c_i^{(t)}\right), \qquad
+\tilde{r}_i^{(t)} = \operatorname{MinMaxNorm}\!\left(r_i^{(t)}\right)
+\]
+
+5. combine them into a token-selection score,
+\[
+s_i^{(t)} = \alpha \tilde{r}_i^{(t)} + (1-\alpha)\tilde{c}_i^{(t)}
+\]
+
+6. commit the top-\(k_t\) masked positions by \(s_i^{(t)}\).
+
+So SPREAD changes the **token commitment order**, not the token values. It is a selection policy, not a retrieval-update method.
+
+This is exactly why EAMD is a stronger multi-hop construction in principle: EAMD changes the **value distribution under new evidence**, whereas SPREAD only changes the **order of commitment under fixed evidence**.
+
+### 10.3 ARAM vs SPREAD vs EAMD, mathematically
+
+The clean comparison is:
+
+- **SPREAD**
+  - fixed evidence \(C_0\)
+  - guidance acts on **which positions to fill first**
+  - no evidence update
+  - no token revision after commitment
+
+- **ARAM**
+  - fixed evidence \(C_0\)
+  - per-token guidance from context-vs-prior distribution shift
+  - guidance acts on **token logits**
+  - no evidence update
+
+- **EAMD-Regen**
+  - updated evidence \(C_0 \to C_1\)
+  - per-token guidance from **evidence-marginal** distribution shift
+  - guidance acts on **token logits**
+  - supports multi-hop retrieval expansion before regeneration
+
+The EAMD-Regen equations remain:
+
+\[
+p^{(t)}_{\text{base},i} := p_\theta(\cdot \mid x_t, Q, C_0, t), \qquad
+p^{(t)}_{\text{full},i} := p_\theta(\cdot \mid x_t, Q, C_1, t)
+\]
+
+\[
+S_i^{(t)} := D_{\mathrm{KL}}\!\left(p^{(t)}_{\text{full},i}\|p^{(t)}_{\text{base},i}\right)
+           + D_{\mathrm{KL}}\!\left(p^{(t)}_{\text{base},i}\|p^{(t)}_{\text{full},i}\right)
+\]
+
+\[
+N_i^{(t)} := H\!\left(p^{(t)}_{\text{full},i}\right)
+\]
+
+\[
+\gamma_i^{(t)} := \lambda_{\max} \tanh\!\left(\beta \frac{S_i^{(t)}}{N_i^{(t)}+\varepsilon}\right) w_t
+\]
+
+\[
+\tilde{\ell}_i^{(t)} := \ell_{\text{full},i}^{(t)} + \gamma_i^{(t)}\left(\ell_{\text{full},i}^{(t)} - \ell_{\text{base},i}^{(t)}\right)
+\]
+
+This remains mathematically clean and is still the main theorem-safe EAMD method.
+
+### 10.4 March 28 frontier benchmark protocol
+
+The benchmark suite used:
+
+- `1000` questions each from:
+  - `HotpotQA`
+  - `MuSiQue`
+  - `2WikiMultiHopQA`
+- exact ARAG wiki18 slices from:
+  - `01-arag-reproduction/data/questions_wiki18/*.json`
+- one shared evaluator for:
+  - EM
+  - Counter-based token F1
+  - contain
+- single-query timing on one H100 per worker
+- separate throughput sweep on `MuSiQue` 50q
+
+Families:
+
+- **AR / Qwen3-8B**
+  - `b0`
+  - `e2_react`
+  - `ircot`
+
+- **LLaDA**
+  - `baseline`
+  - `spread`
+  - `aram`
+  - `pool`
+  - `eamd_micro`
+
+- **Dream**
+  - `baseline`
+  - `spread`
+  - `aram`
+  - `pool`
+  - `eamd_regen`
+
+### 10.5 Frontier benchmark results that supersede the earlier status
+
+#### 10.5.1 Main full-set comparison
+
+| Dataset | Method | F1 | EM | Median Latency (s) |
+|--------|--------|----:|----:|-------------------:|
+| HotpotQA | `ircot` | **0.4585** | **0.348** | 6.995 |
+| HotpotQA | Dream `aram` | 0.4193 | 0.274 | 2.104 |
+| HotpotQA | Dream `pool` | **0.4411** | 0.263 | 6.006 |
+| HotpotQA | Dream `eamd_regen` | 0.4345 | 0.255 | 6.243 |
+| HotpotQA | LLaDA `eamd_micro` | 0.3521 | 0.194 | 5.580 |
+| MuSiQue | `ircot` | **0.2614** | **0.188** | 7.133 |
+| MuSiQue | Dream `aram` | 0.1993 | 0.112 | 2.105 |
+| MuSiQue | Dream `pool` | **0.2408** | **0.145** | 6.017 |
+| MuSiQue | Dream `eamd_regen` | 0.2404 | 0.137 | 6.284 |
+| MuSiQue | LLaDA `eamd_micro` | 0.2011 | 0.113 | 5.533 |
+| 2WikiMH | `ircot` | **0.3808** | **0.295** | 7.124 |
+| 2WikiMH | Dream `aram` | 0.3563 | 0.268 | 2.122 |
+| 2WikiMH | Dream `pool` | **0.3820** | 0.277 | 6.094 |
+| 2WikiMH | Dream `eamd_regen` | 0.3771 | 0.268 | 6.332 |
+| 2WikiMH | LLaDA `eamd_micro` | 0.2770 | 0.149 | 5.572 |
+
+#### 10.5.2 Hard retrieval-miss subset
+
+On the `C0 miss` subset:
+
+| Dataset | Method | F1 |
+|--------|--------|----:|
+| HotpotQA | `ircot` | **0.3091** |
+| HotpotQA | Dream `eamd_regen` | 0.2844 |
+| HotpotQA | Dream `aram` | 0.2442 |
+| MuSiQue | `ircot` | **0.1880** |
+| MuSiQue | Dream `eamd_regen` | 0.1409 |
+| MuSiQue | Dream `aram` | 0.0928 |
+| 2WikiMH | Dream `pool` | **0.2856** |
+| 2WikiMH | Dream `eamd_regen` | 0.2829 |
+| 2WikiMH | `ircot` | 0.2678 |
+
+This is the strongest current empirical case for EAMD:
+- it materially outperforms ARAM on hard retrieval-miss examples,
+- especially on `MuSiQue`,
+- but it still does not fully overtake `IRCoT` or `Pool` at full benchmark scale.
+
+#### 10.5.3 Throughput under load
+
+On the `MuSiQue` 50q throughput sweep:
+
+| Method | QPS | Mean F1 |
+|--------|----:|--------:|
+| `b0` | **0.6849** | 0.1993 |
+| `ircot` | 0.1101 | 0.3194 |
+| LLaDA `eamd_micro` | 0.2008 | 0.2347 |
+| Dream `baseline` | 0.2618 | 0.1896 |
+| Dream `spread` | 0.2551 | 0.2151 |
+| Dream `aram` | 0.2604 | 0.1813 |
+| Dream `pool` | 0.1171 | 0.3387 |
+| Dream `eamd_regen` | 0.1326 | **0.3773** |
+
+So Dream `eamd_regen` is no longer obviously a latency play in the single-query regime. Its current strength is quality under additional retrieval and evidence-marginal guidance, not raw cheapness.
+
+### 10.6 Corrected thesis-safe conclusions
+
+The older statement
+
+- "EAMD-Regen is the strongest empirical variant"
+
+is no longer universally correct after the full frontier benchmark.
+
+The corrected thesis-safe position is:
+
+1. **Mathematical status**
+   - Dream `EAMD-Regen` remains the main mathematically grounded EAMD method.
+   - Its equations are clean and defensible.
+   - SPREAD remains a fixed-evidence token-ordering control.
+   - ARAM remains a fixed-evidence token-logit guidance control.
+
+2. **Empirical status**
+   - Dream is the best current training-free dLLM backbone.
+   - Dream `EAMD-Regen` beats Dream `SPREAD` and Dream `ARAM` on all three full-set benchmarks.
+   - Dream `EAMD-Regen` is strongest on hard retrieval-miss cases.
+   - But Dream `Pool` still slightly beats Dream `EAMD-Regen` on full-set F1 on all three datasets.
+   - `IRCoT` remains the strongest overall full-set benchmark baseline.
+
+3. **Implication**
+   - The mathematics are sound.
+   - The current implementation is competitive and clearly better than the fixed-evidence dLLM controls.
+   - But the method is **not yet** at the point where the thesis can honestly claim that it beats `IRCoT` or the pooled-evidence Dream control on the full benchmark.
+
+This addendum is the current authoritative status.

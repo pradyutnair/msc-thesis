@@ -1,0 +1,32 @@
+#!/bin/bash
+#SBATCH --job-name=frontier-all
+#SBATCH --partition=cbuild
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=16G
+#SBATCH --time=01:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/benchmarking/results/logs/%x_%j.out
+
+set -euo pipefail
+
+module purge
+module load 2025
+module load Anaconda3/2025.06-1
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+
+REPO=${REPO:-/projects/prjs1800/msc-thesis-benchmark}
+OUTPUT_ROOT=${OUTPUT_ROOT:-/projects/prjs1800/msc-thesis/benchmarking/results/frontier_single}
+
+cd "$REPO"
+
+mapfile -t INPUTS < <(find "$OUTPUT_ROOT" -mindepth 4 -maxdepth 4 -path '*/merged/merged_per_example.jsonl' | sort)
+if [[ ${#INPUTS[@]} -eq 0 ]]; then
+  echo "No merged benchmark outputs found." >&2
+  exit 1
+fi
+
+mkdir -p "$OUTPUT_ROOT/all_methods"
+python benchmarking/aggregate_frontier_results.py \
+  --inputs "${INPUTS[@]}" \
+  --output "$OUTPUT_ROOT/all_methods"

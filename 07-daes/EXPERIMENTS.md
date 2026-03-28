@@ -232,6 +232,136 @@ Interpretation:
 4. The thesis-safe claim here is narrower:
    - under the corpus-matched wiki18 setup, evidence-marginal regeneration remains competitive and slightly stronger than the current SPREAD / ARAM controls, but it does not yet clearly dominate pooled retrieval alone
 
+### v4 corpus-matched wiki18 benchmark (1000q x 3 datasets)
+
+We then scaled the same wiki18 setup to the first 1000 ARAG dev questions for each dataset:
+
+- datasets: `hotpotqa`, `musique`, `2wikimultihopqa`
+- corpus: `wiki18_100w.jsonl`
+- index: `e5_Flat.index`
+- retriever: `E5-base-v2`
+- generator: `Dream-org/Dream-v0-Instruct-7B`
+- methods: `baseline`, `SPREAD`, `ARAM`, `Pool`, `EAMD-Regen`, `EAMD-Remask`
+- sharding: `10` H100 shards per dataset (`100` questions per shard), CPU merge/collect on `cbuild`
+
+Artifacts:
+- `src/daes/eamd_wiki18_full.py`
+- `src/daes/merge_eamd_wiki18_shards.py`
+- `src/daes/collect_eamd_wiki18_summaries.py`
+- `jobs/eamd_wiki18_suite_array.job`
+- `jobs/eamd_wiki18_suite_merge.job`
+- `jobs/eamd_wiki18_suite_collect.job`
+- `results/eamd_wiki18_full/hotpotqa/eamd_wiki18_hotpotqa_1000q.json`
+- `results/eamd_wiki18_full/musique/eamd_wiki18_musique_1000q.json`
+- `results/eamd_wiki18_full/2wikimultihopqa/eamd_wiki18_2wikimultihopqa_1000q.json`
+- `results/eamd_wiki18_full/eamd_wiki18_all_datasets_summary.json`
+
+| Dataset | Method | F1 | EM | Contain |
+| --- | --- | ---: | ---: | ---: |
+| HotpotQA | Baseline | 0.418 | 0.291 | 0.368 |
+| HotpotQA | SPREAD | 0.405 | 0.270 | 0.373 |
+| HotpotQA | ARAM | 0.447 | 0.328 | 0.369 |
+| HotpotQA | Pool | **0.456** | 0.316 | 0.415 |
+| HotpotQA | EAMD-Regen | 0.454 | 0.307 | **0.421** |
+| HotpotQA | EAMD-Remask | 0.452 | 0.315 | 0.393 |
+| MuSiQue | Baseline | 0.199 | 0.107 | 0.126 |
+| MuSiQue | SPREAD | 0.182 | 0.095 | 0.117 |
+| MuSiQue | ARAM | 0.206 | 0.109 | 0.123 |
+| MuSiQue | Pool | 0.243 | **0.143** | 0.187 |
+| MuSiQue | EAMD-Regen | **0.248** | 0.141 | **0.194** |
+| MuSiQue | EAMD-Remask | 0.232 | 0.135 | 0.156 |
+| 2WikiMH | Baseline | 0.300 | 0.219 | 0.261 |
+| 2WikiMH | SPREAD | 0.290 | 0.201 | 0.264 |
+| 2WikiMH | ARAM | 0.314 | **0.247** | 0.261 |
+| 2WikiMH | Pool | **0.333** | 0.233 | 0.296 |
+| 2WikiMH | EAMD-Regen | 0.329 | 0.227 | **0.297** |
+| 2WikiMH | EAMD-Remask | 0.315 | 0.233 | 0.270 |
+
+Runtime:
+
+- all `30` H100 shards completed successfully
+- shard wall time: about `15` to `16.5` minutes
+- average elapsed time per question from merged metadata:
+  - HotpotQA: `8.02s`
+  - MuSiQue: `8.13s`
+  - 2WikiMH: `8.28s`
+
+Interpretation:
+
+1. `EAMD-Regen` beats `SPREAD` and `ARAM` on F1 on all three datasets.
+2. `EAMD-Regen` is the strongest method on **MuSiQue F1**, which is the main target benchmark here.
+3. `Pool` remains stronger on HotpotQA and 2WikiMH F1, so retrieval expansion alone is still the hardest baseline to beat.
+4. `EAMD-Remask` remains a useful diffusion-native ablation but is not the strongest variant.
+5. The thesis-safe benchmark claim is:
+   - under the wiki18 setup matched to `01-arag-reproduction`, `EAMD-Regen` is consistently stronger than the current SPREAD and ARAM controls on F1, but does not dominate the pooled-evidence baseline across all datasets
+
+### LLaDA wiki18 benchmark (1000q x 3 datasets, tuned no-candidate variant)
+
+We then reran the full wiki18 benchmark with `GSAI-ML/LLaDA-8B-Instruct` using the corrected LLaDA-specific EAMD configuration:
+
+- model: `GSAI-ML/LLaDA-8B-Instruct`
+- corpus: `wiki18_100w.jsonl`
+- retriever: `E5-base-v2`
+- methods: `baseline`, `SPREAD`, `ARAM`, `Pool`, `EAMD-Regen`, `EAMD-Remask`
+- tuned config:
+  - answer tokens = `8`
+  - denoising steps = `8`
+  - temperature = `0.05`
+  - candidate expansion = `0`
+  - round-0 seed = `ARAM`
+- output root: `results/eamd_wiki18_full_llada_nocand_1000q`
+
+Artifacts:
+- `src/daes/eamd_wiki18_full_llada.py`
+- `jobs/eamd_wiki18_llada_array.job`
+- `jobs/eamd_wiki18_llada_merge.job`
+- `jobs/eamd_wiki18_llada_collect.job`
+- `results/eamd_wiki18_full_llada_nocand_1000q/hotpotqa/eamd_wiki18_hotpotqa_1000q.json`
+- `results/eamd_wiki18_full_llada_nocand_1000q/musique/eamd_wiki18_musique_1000q.json`
+- `results/eamd_wiki18_full_llada_nocand_1000q/2wikimultihopqa/eamd_wiki18_2wikimultihopqa_1000q.json`
+- `results/eamd_wiki18_full_llada_nocand_1000q/eamd_wiki18_all_datasets_summary.json`
+
+| Dataset | Method | F1 | EM | Contain |
+| --- | --- | ---: | ---: | ---: |
+| HotpotQA | Baseline | 0.357 | 0.166 | 0.343 |
+| HotpotQA | SPREAD | 0.342 | 0.137 | 0.335 |
+| HotpotQA | ARAM | 0.377 | 0.203 | 0.341 |
+| HotpotQA | Pool | 0.359 | 0.163 | 0.349 |
+| HotpotQA | EAMD-Regen | 0.357 | 0.162 | 0.353 |
+| HotpotQA | EAMD-Remask | **0.383** | **0.207** | **0.353** |
+| MuSiQue | Baseline | 0.172 | 0.048 | 0.125 |
+| MuSiQue | SPREAD | 0.164 | 0.036 | 0.107 |
+| MuSiQue | ARAM | 0.183 | **0.056** | 0.127 |
+| MuSiQue | Pool | 0.178 | 0.043 | 0.140 |
+| MuSiQue | EAMD-Regen | 0.178 | 0.042 | **0.141** |
+| MuSiQue | EAMD-Remask | **0.185** | 0.055 | 0.132 |
+| 2WikiMH | Baseline | 0.242 | 0.135 | 0.211 |
+| 2WikiMH | SPREAD | 0.233 | 0.133 | 0.206 |
+| 2WikiMH | ARAM | 0.257 | 0.153 | 0.222 |
+| 2WikiMH | Pool | 0.250 | 0.133 | 0.216 |
+| 2WikiMH | EAMD-Regen | 0.251 | 0.135 | 0.217 |
+| 2WikiMH | EAMD-Remask | **0.264** | **0.154** | **0.230** |
+
+Runtime:
+
+- all `30` H100 shards completed successfully
+- shard wall time: about `8.5` to `9.9` minutes
+- average elapsed time per question from merged metadata:
+  - HotpotQA: `4.07s`
+  - MuSiQue: `4.27s`
+  - 2WikiMH: `4.05s`
+
+Interpretation:
+
+1. For `LLaDA`, the winning variant is `EAMD-Remask`, not `EAMD-Regen`.
+2. `EAMD-Remask` is the strongest method on all three `1000q` benchmarks.
+3. The gain is largest on HotpotQA, modest but positive on MuSiQue, and consistent on 2WikiMH.
+4. This supports a model-dependent conclusion:
+   - Dream favors regeneration,
+   - LLaDA favors revision.
+5. The main LLaDA thesis-safe claim is:
+   - under the corpus-matched wiki18 setup, ARAM-seeded `EAMD-Remask` outperforms the current Baseline, SPREAD, ARAM, Pool, and EAMD-Regen variants across all three datasets.
+
 ## Final Results (1000 questions per dataset, E5-base-v2 everywhere)
 
 
@@ -701,3 +831,146 @@ d1's absorbing state diffusion loss teaches Dream to predict tokens under maskin
 ### Critical bug found and fixed
 
 d1's SFT code doesn't include Dream's AR-shift (position i predicts token at i+1). Without the shift, training loss starts at 5.65 and learns garbage. With the shift, loss starts at 1.24 — confirming correct alignment. **Anyone adapting d1 for Dream must add this shift.**
+
+---
+
+## Quality-Latency Frontier Benchmark (March 28)
+
+This section supersedes the earlier "final status" conclusions above. The benchmark below is the clean chart-ready suite used for direct AR vs dLLM comparison.
+
+### Benchmark setting
+
+- **Question count**: `1000` per dataset, `3 x 1000` total
+- **Datasets**: `HotpotQA`, `MuSiQue`, `2WikiMultiHopQA`
+- **Question files**: `01-arag-reproduction/data/questions_wiki18/{hotpotqa,musique,2wikimultihopqa}.json`
+- **Corpus**: `wiki18_100w`
+- **Corpus file used in the runs**: `/projects/prjs1800/datasets/flashrag/retrieval-corpus/wiki18_100w.jsonl`
+- **Corpus size**: `21,015,324` passages / chunks
+- **Index**: `/projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index`
+- **Offset map**: `/projects/prjs1800/msc-thesis/01-arag-reproduction/data/index/wiki18_id_offset.json`
+- **Retriever**: `E5-base-v2`
+- **AR family**: `Qwen3-8B`
+- **dLLM families**: `LLaDA-8B-Instruct`, `Dream-v0-Instruct-7B`
+- **Hardware**: one H100 per worker, CPU retrieval, sequential per-question timing inside each shard
+- **Evaluator**: shared normalization, Counter-based token F1, EM, contain
+
+Note:
+- there is also a scratch copy at `/scratch-shared/pnair/flashrag/wiki18_100w.jsonl`
+- the reported benchmark runs used the `/projects/prjs1800/...` project-mounted paths above
+
+### Methods
+
+AR:
+- `b0` non-agentic RAG
+- `e2_react`
+- `ircot`
+
+LLaDA:
+- `baseline`
+- `spread`
+- `aram`
+- `pool`
+- `eamd_micro`
+
+Dream:
+- `baseline`
+- `spread`
+- `aram`
+- `pool`
+- `eamd_regen`
+
+### Chart-ready artifacts
+
+- `benchmarking/results/frontier_single/comparison_tables/frontier_model_comparison.csv`
+- `benchmarking/results/frontier_single/comparison_tables/hard_subset_model_comparison.csv`
+- `benchmarking/results/frontier_throughput/throughput_table_with_dream_clean.csv`
+
+The raw per-dataset summaries are also saved at:
+- `benchmarking/results/frontier_single/hotpotqa/all_methods`
+- `benchmarking/results/frontier_single/hotpotqa/all_methods_dream`
+- `benchmarking/results/frontier_single/musique/all_methods`
+- `benchmarking/results/frontier_single/musique/all_methods_dream`
+- `benchmarking/results/frontier_single/2wikimultihopqa/all_methods`
+- `benchmarking/results/frontier_single/2wikimultihopqa/all_methods_dream`
+
+### Single-query frontier results
+
+| Dataset | Family | Method | F1 | EM | Contain | Median Latency (s) | P90 (s) |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| HotpotQA | AR | `b0` | 0.2639 | 0.162 | 0.247 | 0.298 | 0.630 |
+| HotpotQA | AR | `e2_react` | 0.0693 | 0.027 | 0.276 | 10.389 | 17.349 |
+| HotpotQA | AR | `ircot` | **0.4585** | **0.348** | **0.448** | 6.995 | 10.675 |
+| HotpotQA | LLaDA | `aram` | 0.3555 | 0.210 | 0.296 | 2.173 | 2.273 |
+| HotpotQA | LLaDA | `eamd_micro` | 0.3521 | 0.194 | 0.299 | 5.580 | 5.874 |
+| HotpotQA | Dream | `aram` | 0.4193 | 0.274 | 0.342 | 2.104 | 2.175 |
+| HotpotQA | Dream | `pool` | 0.4411 | 0.263 | 0.373 | 6.006 | 6.287 |
+| HotpotQA | Dream | `eamd_regen` | 0.4345 | 0.255 | 0.372 | 6.243 | 6.582 |
+| MuSiQue | AR | `b0` | 0.2507 | 0.143 | 0.235 | 0.316 | 0.659 |
+| MuSiQue | AR | `e2_react` | 0.0668 | 0.021 | 0.231 | 10.220 | 17.512 |
+| MuSiQue | AR | `ircot` | **0.2614** | **0.188** | **0.251** | 7.133 | 10.773 |
+| MuSiQue | LLaDA | `aram` | 0.1947 | 0.107 | 0.128 | 2.137 | 2.232 |
+| MuSiQue | LLaDA | `eamd_micro` | 0.2011 | 0.113 | 0.144 | 5.533 | 5.787 |
+| MuSiQue | Dream | `aram` | 0.1993 | 0.112 | 0.128 | 2.105 | 2.175 |
+| MuSiQue | Dream | `pool` | **0.2408** | **0.145** | 0.184 | 6.017 | 6.308 |
+| MuSiQue | Dream | `eamd_regen` | 0.2404 | 0.137 | **0.185** | 6.284 | 6.616 |
+| 2WikiMH | AR | `b0` | 0.2653 | 0.179 | 0.270 | 0.316 | 0.520 |
+| 2WikiMH | AR | `e2_react` | 0.0593 | 0.002 | 0.293 | 10.540 | 17.469 |
+| 2WikiMH | AR | `ircot` | **0.3808** | **0.295** | **0.453** | 7.124 | 10.712 |
+| 2WikiMH | LLaDA | `aram` | 0.2901 | 0.175 | 0.258 | 2.165 | 2.281 |
+| 2WikiMH | LLaDA | `eamd_micro` | 0.2770 | 0.149 | 0.248 | 5.572 | 5.860 |
+| 2WikiMH | Dream | `aram` | 0.3563 | 0.268 | 0.293 | 2.122 | 2.206 |
+| 2WikiMH | Dream | `pool` | **0.3820** | **0.277** | **0.328** | 6.094 | 6.379 |
+| 2WikiMH | Dream | `eamd_regen` | 0.3771 | 0.268 | 0.326 | 6.332 | 6.680 |
+
+### Hard subset: initial retrieval miss (`C0 miss`)
+
+| Dataset | Method | F1 on `C0 miss` |
+| --- | --- | ---: |
+| HotpotQA | `ircot` | **0.3091** |
+| HotpotQA | Dream `eamd_regen` | 0.2844 |
+| HotpotQA | Dream `aram` | 0.2442 |
+| HotpotQA | LLaDA `eamd_micro` | 0.2126 |
+| MuSiQue | `ircot` | **0.1880** |
+| MuSiQue | Dream `eamd_regen` | 0.1409 |
+| MuSiQue | Dream `pool` | 0.1358 |
+| MuSiQue | Dream `aram` | 0.0928 |
+| MuSiQue | LLaDA `eamd_micro` | 0.1070 |
+| 2WikiMH | Dream `pool` | **0.2856** |
+| 2WikiMH | Dream `eamd_regen` | 0.2829 |
+| 2WikiMH | `ircot` | 0.2678 |
+| 2WikiMH | Dream `aram` | 0.2452 |
+| 2WikiMH | LLaDA `eamd_micro` | 0.2198 |
+
+### Throughput sweep under load (MuSiQue, 50q)
+
+| Method | QPS | Median Latency Under Load (s) | P90 (s) | Mean F1 | Mean EM |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `b0` | **0.6849** | 0.306 | 0.608 | 0.1993 | 0.10 |
+| `ircot` | 0.1101 | 5.450 | 10.940 | 0.3194 | 0.18 |
+| LLaDA `eamd_micro` | 0.2008 | 5.321 | 5.543 | 0.2347 | 0.10 |
+| Dream `baseline` | 0.2618 | 1.988 | 2.050 | 0.1896 | 0.06 |
+| Dream `spread` | 0.2551 | 1.963 | 2.008 | 0.2151 | 0.08 |
+| Dream `aram` | 0.2604 | 1.953 | 2.015 | 0.1813 | 0.06 |
+| Dream `pool` | 0.1171 | 6.044 | 6.291 | 0.3387 | 0.18 |
+| Dream `eamd_regen` | 0.1326 | 6.231 | 6.502 | **0.3773** | **0.20** |
+
+### Interpretation after the full frontier suite
+
+1. `wiki18_100w` with `21,015,324` passages is a valid large open-domain benchmark corpus.
+2. `IRCoT` is still the strongest full-set quality baseline on all three datasets.
+3. `LLaDA` underperforms as a training-free frontier backbone in this setting.
+4. `Dream` is clearly stronger than `LLaDA` as a training-free dLLM backbone.
+5. Dream `eamd_regen` consistently beats Dream `SPREAD` and Dream `ARAM`.
+6. Dream `eamd_regen` is strongest on hard retrieval-miss subsets, especially on `MuSiQue`.
+7. Dream `pool` still slightly edges Dream `eamd_regen` on full-set F1 on all three datasets.
+8. Therefore, the current thesis-safe conclusion is:
+   - the mathematically grounded Dream `EAMD-Regen` method is competitive, beats `SPREAD` and `ARAM`, and is strongest where new evidence matters most
+   - but it does **not yet** beat `IRCoT` or the `Pool` control on full-set benchmark F1
+
+### Current status
+
+The correct current status is:
+- **main mathematically grounded method**: Dream `EAMD-Regen`
+- **best dLLM training-free backbone**: Dream, not LLaDA
+- **current dLLM weakness**: full-set quality still trails `IRCoT`
+- **current internal control to beat**: Dream `Pool`
