@@ -78,3 +78,10 @@ They are orthogonal — could be combined (SPREAD denoising + our multi-path ret
 **Not working**: Confidence-based path verification. Random candidate selection outperforms scored selection. Scoring function is broken. The "verify" part of "hypothesize-retrieve-verify" is unresolved.
 
 **Open**: Whether multi-query retrieval from dLLM candidates is a sufficient standalone contribution, or if working verification is needed for publication.
+
+## Related Papers
+1. ARAM: https://arxiv.org/pdf/2603.17677
+2. SPREAD: https://arxiv.org/pdf/2601.11342v1
+3. DLLM-SEARCH: https://arxiv.org/pdf/2602.07035, https://github.com/bubble65/DLLM-Searcher
+4. DiffuGR: https://arxiv.org/pdf/2511.08150
+5. d1: https://arxiv.org/abs/2504.12216, https://github.com/dllm-reasoning/d1

@@ -39,7 +39,7 @@ QUESTION_FILES = {
     "2wikimultihopqa": f"{QUESTIONS_DIR}/2wikimultihopqa.json",
 }
 DEFAULT_OUTPUT_ROOT = "/projects/prjs1800/msc-thesis/07-daes/results/eamd_wiki18_full"
-DEFAULT_METHODS = ["baseline", "spread", "aram", "pool", "eamd_regen", "eamd_remask"]
+DEFAULT_METHODS = ["baseline", "spread", "aram", "pool", "eamd_regen", "eamd_remask", "eamd_micro", "eamd_hybrid"]
 
 SHORT_INSTRUCTIONS = """You are a helpful assistant.
 Answer the question using the context when possible.
@@ -230,6 +230,34 @@ def content_positions(answer_tokens: torch.Tensor, eos_id: int) -> list[int]:
     else:
         stop = len(tokens)
     return [i for i in range(stop) if tokens[i] != eos_id]
+
+
+def compute_signal_and_scale(
+    logits_full: torch.Tensor,
+    logits_base: torch.Tensor,
+    lambda_max: float,
+    beta: float,
+    eps: float,
+    schedule: float = 1.0,
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+    log_p_full = F.log_softmax(logits_full, dim=-1)
+    log_p_base = F.log_softmax(logits_base, dim=-1)
+    p_full = log_p_full.exp()
+    p_base = log_p_base.exp()
+
+    signal = (p_full * (log_p_full - log_p_base)).sum(dim=-1) + (p_base * (log_p_base - log_p_full)).sum(dim=-1)
+    noise = -(p_full * log_p_full).sum(dim=-1)
+    extra_scale = lambda_max * torch.tanh(beta * signal / (noise + eps)) * schedule
+    guidance_scale = 1.0 + extra_scale
+    return signal, noise, extra_scale, guidance_scale
+
+
+def topm_mean(values: torch.Tensor, m: int) -> torch.Tensor:
+    if values.numel() == 0:
+        return values.new_tensor(0.0)
+    k = min(max(1, m), values.numel())
+    topk = torch.topk(values, k).values
+    return topk.mean()
 
 
 @torch.inference_mode()
@@ -423,14 +451,13 @@ def aram_generate_shared(model, tokenizer, context: str, question: str, steps: i
         logits_cond = logits_all[0, mask_pos]
         logits_prior = logits_all[1, mask_pos]
 
-        log_p_cond = F.log_softmax(logits_cond, dim=-1)
-        log_p_prior = F.log_softmax(logits_prior, dim=-1)
-        p_cond = log_p_cond.exp()
-        p_prior = log_p_prior.exp()
-
-        signal = (p_cond * (log_p_cond - log_p_prior)).sum(dim=-1) + (p_prior * (log_p_prior - log_p_cond)).sum(dim=-1)
-        noise = -(p_cond * log_p_cond).sum(dim=-1)
-        lam = lambda_max * torch.tanh(beta * signal / (noise + eps))
+        signal, _, lam, _ = compute_signal_and_scale(
+            logits_cond,
+            logits_prior,
+            lambda_max=lambda_max,
+            beta=beta,
+            eps=eps,
+        )
         guided_logits = logits_prior + lam.unsqueeze(-1) * (logits_cond - logits_prior)
 
         confidence, x0 = sample_tokens(guided_logits, temperature=temperature, neg_entropy=True)
@@ -460,19 +487,246 @@ def unique_passages(passages: list[str]) -> list[str]:
     return deduped
 
 
-def expand_evidence(retriever: Wiki18Retriever, question: str, initial_context: str, initial_passages: list[str],
-                    init_answer: str, n_candidates: int = 3, expand_top_k: int = 3) -> tuple[list[str], list[dict]]:
-    candidates = extract_candidates_generic(MODEL_REF, TOKENIZER_REF, initial_context, question, n_candidates)
+def expand_positions_with_radius(positions: list[int], max_pos: int, radius: int) -> list[int]:
+    if radius <= 0:
+        return sorted(set(positions))
+    expanded = set()
+    for pos in positions:
+        start = max(0, pos - radius)
+        end = min(max_pos, pos + radius)
+        expanded.update(range(start, end + 1))
+    return sorted(expanded)
+
+
+def expand_evidence(
+    retriever: Wiki18Retriever,
+    question: str,
+    initial_context: str,
+    initial_passages: list[str],
+    seed_hypotheses: list[str],
+    n_candidates: int = 3,
+    expand_top_k: int = 3,
+) -> tuple[list[str], list[dict]]:
+    candidates = extract_candidates_generic(MODEL_REF, TOKENIZER_REF, initial_context, question, n_candidates) if n_candidates > 0 else []
     all_passages = list(initial_passages)
     queries = []
-    if init_answer and len(init_answer.strip()) > 2:
-        queries.append(f"{question} {init_answer[:100]}")
+    seen_queries = set()
+    for seed in seed_hypotheses:
+        if not seed:
+            continue
+        seed = seed.strip()
+        if len(seed) <= 2:
+            continue
+        query = f"{question} {seed[:100]}"
+        if query not in seen_queries:
+            seen_queries.add(query)
+            queries.append(query)
     queries.extend(f"{question} {cand['text']}" for cand in candidates)
     if queries:
         for hits in retriever.retrieve_batch(queries, top_k=expand_top_k):
             all_passages.extend(hits)
 
     return unique_passages(all_passages), candidates
+
+
+@torch.inference_mode()
+def eamd_micro_shared(model, tokenizer, retriever: Wiki18Retriever, question: str,
+                      initial_passages: list[str], steps: int = 8, n_tokens: int = 8,
+                      temperature: float = 0.05, lambda_max: float = 1.0,
+                      beta: float = 0.5, eps: float = 1e-6, expand_top_k: int = 3,
+                      pivot_ratio: float = 0.5, top_m: int = 2, budget_min: int = 1,
+                      kappa: float = 8.0, tau_q: float = 0.30, eta: float = 0.5,
+                      neighbor_radius: int = 0, phase1_guidance: str = "baseline"):
+    device = model.device
+    mask_id = get_mask_id(tokenizer)
+    eos_id = tokenizer.eos_token_id
+
+    old_context = "\n\n".join(initial_passages)
+    if phase1_guidance == "aram":
+        cond_ids, prior_ids, n_prefix0 = build_short_cond_and_prior(tokenizer, old_context, question, n_tokens)
+        x0 = torch.tensor([cond_ids], dtype=torch.long, device=device)
+        x0_prior = torch.tensor([prior_ids], dtype=torch.long, device=device)
+        attn0 = torch.ones((1, len(cond_ids)), dtype=torch.long, device=device)
+        attn0_prior = torch.ones((1, len(prior_ids)), dtype=torch.long, device=device)
+    else:
+        prefix_ids, n_prefix0 = build_short_prompt(tokenizer, old_context, question)
+        canvas = prefix_ids + [mask_id] * n_tokens
+        x0 = torch.tensor([canvas], dtype=torch.long, device=device)
+        x0_prior = None
+        attn0 = torch.ones((1, len(canvas)), dtype=torch.long, device=device)
+        attn0_prior = None
+
+    k_per_step = max(1, math.ceil(n_tokens / steps))
+    pivot_steps = min(max(1, int(round(steps * pivot_ratio))), max(1, steps - 1))
+    remaining = n_tokens
+    phase1_conf = []
+
+    for step in range(pivot_steps):
+        if remaining <= 0:
+            break
+        mask_idx = (x0[0] == mask_id)
+        mask_idx[:n_prefix0] = False
+        if not mask_idx.any():
+            break
+
+        mask_pos = mask_idx.nonzero(as_tuple=True)[0]
+        if phase1_guidance == "aram":
+            x0_prior[0, n_prefix0:] = x0[0, n_prefix0:]
+            x_batch = torch.cat([x0, x0_prior], dim=0)
+            attn_batch = torch.cat([attn0, attn0_prior], dim=0)
+            out = model(x_batch, attention_mask=attn_batch)
+            logits_all = prepare_logits(out.logits)
+            logits_full = logits_all[0, mask_pos]
+            logits_base = logits_all[1, mask_pos]
+            signal, _, extra_scale, _ = compute_signal_and_scale(
+                logits_full,
+                logits_base,
+                lambda_max=lambda_max,
+                beta=beta,
+                eps=eps,
+            )
+            guided_logits = logits_base + extra_scale.unsqueeze(-1) * (logits_full - logits_base)
+        else:
+            out = model(x0, attention_mask=attn0)
+            logits = prepare_logits(out.logits)
+            guided_logits = logits[0, mask_pos]
+
+        confidence, x_pred = sample_tokens(guided_logits, temperature=temperature, neg_entropy=True)
+        n_commit = min(k_per_step, remaining)
+        if step == pivot_steps - 1 and steps == pivot_steps:
+            n_commit = remaining
+        _, topk = torch.topk(confidence, min(n_commit, len(confidence)))
+        x0[0, mask_pos[topk]] = x_pred[topk]
+        phase1_conf.extend(confidence[topk].tolist())
+        remaining -= len(topk)
+
+    mask_idx = (x0[0] == mask_id)
+    mask_idx[:n_prefix0] = False
+    out0 = model(x0, attention_mask=attn0)
+    logits0 = prepare_logits(out0.logits)
+    answer_state = x0[0, n_prefix0:n_prefix0 + n_tokens].clone()
+    masked_local0 = (answer_state == mask_id).nonzero(as_tuple=True)[0]
+    provisional_tokens = answer_state.clone()
+    if len(masked_local0) > 0:
+        provisional_tokens[masked_local0] = torch.argmax(logits0[0, masked_local0 + n_prefix0], dim=-1)
+    provisional_answer = decode_answer(tokenizer, provisional_tokens)
+
+    expanded_passages, _ = expand_evidence(
+        retriever,
+        question,
+        old_context,
+        initial_passages,
+        [provisional_answer],
+        n_candidates=0,
+        expand_top_k=expand_top_k,
+    )
+    new_context = "\n\n".join(expanded_passages)
+
+    full_ids, base_ids, n_prefix = build_short_pair(tokenizer, new_context, old_context, question, n_tokens)
+    x_base = torch.tensor([base_ids], dtype=torch.long, device=device)
+    x_full = torch.tensor([full_ids], dtype=torch.long, device=device)
+    x_base[0, n_prefix:n_prefix + n_tokens] = answer_state.to(device)
+    x_full[0, n_prefix:n_prefix + n_tokens] = answer_state.to(device)
+    attn_base = torch.ones((1, len(base_ids)), dtype=torch.long, device=device)
+    attn_full = torch.ones((1, len(full_ids)), dtype=torch.long, device=device)
+
+    answer_positions = list(range(n_tokens))
+    committed_positions = [pos for pos in answer_positions if answer_state[pos].item() != mask_id]
+    remask_positions = []
+    g_q = 0.0
+    ratio_mean = 0.0
+    if committed_positions:
+        pos_tensor = torch.tensor([n_prefix + pos for pos in committed_positions], dtype=torch.long, device=device)
+        out_old = model(x_base, attention_mask=attn_base)
+        out_new = model(x_full, attention_mask=attn_full)
+        logits_old = prepare_logits(out_old.logits)[0, pos_tensor]
+        logits_new = prepare_logits(out_new.logits)[0, pos_tensor]
+        signal, noise, _, _ = compute_signal_and_scale(
+            logits_new,
+            logits_old,
+            lambda_max=lambda_max,
+            beta=beta,
+            eps=eps,
+        )
+        ratio = signal / (noise + eps)
+        ratio_mean = topm_mean(ratio, top_m).item()
+        g_q = torch.sigmoid(torch.tensor(kappa * (ratio_mean - tau_q), device=device)).item()
+        budget_floor = min(max(0, budget_min), len(committed_positions))
+        budget = int(math.ceil(budget_floor + max(0, len(committed_positions) - budget_floor) * g_q))
+        budget = min(max(0, budget), len(committed_positions))
+        if budget > 0:
+            top_idx = torch.topk(ratio, budget).indices.tolist()
+            remask_positions = [committed_positions[i] for i in top_idx]
+            remask_positions = expand_positions_with_radius(remask_positions, n_tokens - 1, neighbor_radius)
+            x_base[0, [n_prefix + pos for pos in remask_positions]] = mask_id
+            x_full[0, [n_prefix + pos for pos in remask_positions]] = mask_id
+
+    remaining = int((x_full[0, n_prefix:n_prefix + n_tokens] == mask_id).sum().item())
+    total_to_commit = max(1, remaining) if remaining > 0 else 0
+    denom_steps = max(1, steps - pivot_steps)
+    k_per_step_2 = max(1, math.ceil(total_to_commit / denom_steps)) if remaining > 0 else 0
+    token_confidences = []
+    signal_means = []
+    scale_means = []
+
+    for step in range(pivot_steps, steps):
+        if remaining <= 0:
+            break
+        masked_local = (x_full[0, n_prefix:n_prefix + n_tokens] == mask_id).nonzero(as_tuple=True)[0]
+        if len(masked_local) == 0:
+            break
+
+        full_pos = masked_local + n_prefix
+        base_pos = masked_local + n_prefix
+        out_full = model(x_full, attention_mask=attn_full)
+        out_base = model(x_base, attention_mask=attn_base)
+        logits_full = prepare_logits(out_full.logits)[0, full_pos]
+        logits_base = prepare_logits(out_base.logits)[0, base_pos]
+
+        schedule = float(step + 1) / float(steps)
+        signal, _, extra_scale, guidance_scale = compute_signal_and_scale(
+            logits_full,
+            logits_base,
+            lambda_max=lambda_max,
+            beta=beta,
+            eps=eps,
+            schedule=schedule,
+        )
+        extra_scale = torch.clamp(extra_scale * (1.0 + eta * g_q), max=lambda_max)
+        guidance_scale = 1.0 + extra_scale
+        guided_logits = logits_full + extra_scale.unsqueeze(-1) * (logits_full - logits_base)
+
+        confidence, x_pred = sample_tokens(guided_logits, temperature=temperature, neg_entropy=True)
+        n_commit = min(k_per_step_2, remaining)
+        if step == steps - 1:
+            n_commit = remaining
+        _, topk = torch.topk(confidence, min(n_commit, len(confidence)))
+        chosen_local = masked_local[topk]
+        chosen_full = chosen_local + n_prefix
+        chosen_base = chosen_local + n_prefix
+        x_full[0, chosen_full] = x_pred[topk]
+        x_base[0, chosen_base] = x_pred[topk]
+        token_confidences.extend(confidence[topk].tolist())
+        signal_means.append(signal.mean().item())
+        scale_means.append(guidance_scale.mean().item())
+        remaining -= len(topk)
+
+    answer_tokens = x_full[0, n_prefix:n_prefix + n_tokens].clone()
+    return decode_answer(tokenizer, answer_tokens), answer_tokens, {
+        "pivot_steps": pivot_steps,
+        "phase1_guidance": phase1_guidance,
+        "provisional_answer": provisional_answer,
+        "n_passages_old": len(initial_passages),
+        "n_passages_new": len(expanded_passages),
+        "remasked_positions": remask_positions,
+        "g_q": g_q,
+        "ratio_mean": ratio_mean,
+        "mean_signal": sum(signal_means) / len(signal_means) if signal_means else 0.0,
+        "mean_guidance_scale": sum(scale_means) / len(scale_means) if scale_means else 1.0,
+        "avg_conf": sum(token_confidences) / len(token_confidences) if token_confidences else 0.0,
+        "phase1_avg_conf": sum(phase1_conf) / len(phase1_conf) if phase1_conf else 0.0,
+        "content_positions": content_positions(answer_tokens, eos_id),
+    }
 
 
 @torch.inference_mode()
@@ -511,16 +765,15 @@ def eamd_regen_shared(model, tokenizer, question: str, old_context: str, new_con
         logits_full = prepare_logits(out_full.logits)[0, full_pos]
         logits_base = prepare_logits(out_base.logits)[0, base_pos]
 
-        log_p_full = F.log_softmax(logits_full, dim=-1)
-        log_p_base = F.log_softmax(logits_base, dim=-1)
-        p_full = log_p_full.exp()
-        p_base = log_p_base.exp()
-
-        signal = (p_full * (log_p_full - log_p_base)).sum(dim=-1) + (p_base * (log_p_base - log_p_full)).sum(dim=-1)
-        noise = -(p_full * log_p_full).sum(dim=-1)
         schedule = float(step + 1) / float(steps)
-        extra_scale = lambda_max * torch.tanh(beta * signal / (noise + eps)) * schedule
-        guidance_scale = 1.0 + extra_scale
+        signal, _, extra_scale, guidance_scale = compute_signal_and_scale(
+            logits_full,
+            logits_base,
+            lambda_max=lambda_max,
+            beta=beta,
+            eps=eps,
+            schedule=schedule,
+        )
         guided_logits = logits_full + extra_scale.unsqueeze(-1) * (logits_full - logits_base)
 
         confidence, x0 = sample_tokens(guided_logits, temperature=temperature, neg_entropy=True)
@@ -547,25 +800,70 @@ def eamd_regen_shared(model, tokenizer, question: str, old_context: str, new_con
     }
 
 
-def remask_span_positions(divergence: torch.Tensor, positions: list[int], committed_tokens: list[int],
-                         predicted_tokens: list[int], delta: float) -> list[int]:
+def select_remask_positions(
+    positions: list[int],
+    divergence: torch.Tensor,
+    lam: torch.Tensor,
+    committed_tokens: list[int],
+    predicted_tokens: list[int],
+    delta: float,
+    tau: float,
+    mode: str,
+    neighbor_radius: int,
+) -> list[int]:
     if not positions:
         return []
-    flagged = [
-        positions[i]
-        for i in range(len(positions))
-        if predicted_tokens[i] != committed_tokens[i] or divergence[i].item() > delta
-    ]
-    if not flagged:
+
+    flagged_idx = []
+    for i, pos in enumerate(positions):
+        changed = predicted_tokens[i] != committed_tokens[i]
+        div_high = divergence[i].item() > delta
+        lam_high = lam[i].item() > tau
+        if mode == "span":
+            if changed or div_high:
+                flagged_idx.append(i)
+        elif mode == "exact_divergence":
+            if div_high:
+                flagged_idx.append(i)
+        elif mode == "exact_divergence_or_top1":
+            if changed or div_high:
+                flagged_idx.append(i)
+        elif mode == "exact_lambda":
+            if lam_high:
+                flagged_idx.append(i)
+        elif mode == "exact_lambda_or_top1":
+            if changed or lam_high:
+                flagged_idx.append(i)
+        elif mode == "top1_only":
+            if changed:
+                flagged_idx.append(i)
+        else:
+            raise ValueError(f"Unknown remask_mode: {mode}")
+
+    if not flagged_idx:
         return []
-    return list(range(min(positions), max(positions) + 1))
+
+    if mode == "span":
+        flagged_positions = [positions[i] for i in flagged_idx]
+        return list(range(min(flagged_positions), max(flagged_positions) + 1))
+
+    expanded = set()
+    max_pos = max(positions)
+    for i in flagged_idx:
+        pos = positions[i]
+        start = max(0, pos - neighbor_radius)
+        end = min(max_pos, pos + neighbor_radius)
+        expanded.update(range(start, end + 1))
+    return sorted(expanded)
 
 
 @torch.inference_mode()
 def eamd_remask_shared(model, tokenizer, question: str, old_context: str, new_context: str,
                        seed_tokens: torch.Tensor, steps: int = 16, temperature: float = 0.1,
                        lambda_max: float = 1.0, beta: float = 0.5, eps: float = 1e-6,
-                       delta: float = 0.05):
+                       delta: float = 0.05, tau: float = 0.10,
+                       remask_mode: str = "span", neighbor_radius: int = 0,
+                       question_delta: float = 0.0):
     device = model.device
     mask_id = get_mask_id(tokenizer)
     eos_id = tokenizer.eos_token_id
@@ -581,7 +879,7 @@ def eamd_remask_shared(model, tokenizer, question: str, old_context: str, new_co
 
     positions = content_positions(seed_tokens, eos_id)
     if not positions:
-        return decode_answer(tokenizer, seed_tokens), {
+        return decode_answer(tokenizer, seed_tokens), seed_tokens.clone(), {
             "remasked_positions": [],
             "mean_signal": 0.0,
             "mean_guidance_scale": 1.0,
@@ -596,20 +894,48 @@ def eamd_remask_shared(model, tokenizer, question: str, old_context: str, new_co
 
     logits_old = prepare_logits(out_old.logits)[0, old_pos]
     logits_new = prepare_logits(out_new.logits)[0, new_pos]
-    log_p_old = F.log_softmax(logits_old, dim=-1)
-    log_p_new = F.log_softmax(logits_new, dim=-1)
-    p_old = log_p_old.exp()
-    p_new = log_p_new.exp()
-    divergence = (p_new * (log_p_new - log_p_old)).sum(dim=-1) + (p_old * (log_p_old - log_p_new)).sum(dim=-1)
+    signal, _, init_lam, _ = compute_signal_and_scale(
+        logits_new,
+        logits_old,
+        lambda_max=lambda_max,
+        beta=beta,
+        eps=eps,
+    )
+    divergence = signal
+    max_divergence = divergence.max().item()
     committed = [seed_tokens[pos].item() for pos in positions]
     predicted = torch.argmax(logits_new, dim=-1).tolist()
 
-    remask_positions = remask_span_positions(divergence, positions, committed, predicted, delta)
-    if not remask_positions:
-        return decode_answer(tokenizer, seed_tokens), {
+    if question_delta > 0.0 and max_divergence < question_delta:
+        return decode_answer(tokenizer, seed_tokens), seed_tokens.clone(), {
             "remasked_positions": [],
             "mean_signal": divergence.mean().item(),
+            "max_signal": max_divergence,
             "mean_guidance_scale": 1.0,
+            "mean_initial_lambda": init_lam.mean().item(),
+            "avg_conf": 0.0,
+            "top1_changes": sum(int(p != c) for p, c in zip(predicted, committed)),
+            "question_gate_blocked": True,
+        }
+
+    remask_positions = select_remask_positions(
+        positions,
+        divergence,
+        init_lam,
+        committed,
+        predicted,
+        delta=delta,
+        tau=tau,
+        mode=remask_mode,
+        neighbor_radius=neighbor_radius,
+    )
+    if not remask_positions:
+        return decode_answer(tokenizer, seed_tokens), seed_tokens.clone(), {
+            "remasked_positions": [],
+            "mean_signal": divergence.mean().item(),
+            "max_signal": max_divergence,
+            "mean_guidance_scale": 1.0,
+            "mean_initial_lambda": init_lam.mean().item(),
             "avg_conf": 0.0,
             "top1_changes": sum(int(p != c) for p, c in zip(predicted, committed)),
         }
@@ -639,16 +965,15 @@ def eamd_remask_shared(model, tokenizer, question: str, old_context: str, new_co
         logits_full = prepare_logits(out_full.logits)[0, full_pos]
         logits_base = prepare_logits(out_base.logits)[0, base_pos]
 
-        log_p_full = F.log_softmax(logits_full, dim=-1)
-        log_p_base = F.log_softmax(logits_base, dim=-1)
-        p_full = log_p_full.exp()
-        p_base = log_p_base.exp()
-
-        signal = (p_full * (log_p_full - log_p_base)).sum(dim=-1) + (p_base * (log_p_base - log_p_full)).sum(dim=-1)
-        noise = -(p_full * log_p_full).sum(dim=-1)
         schedule = float(step + 1) / float(steps)
-        extra_scale = lambda_max * torch.tanh(beta * signal / (noise + eps)) * schedule
-        guidance_scale = 1.0 + extra_scale
+        signal, _, extra_scale, guidance_scale = compute_signal_and_scale(
+            logits_full,
+            logits_base,
+            lambda_max=lambda_max,
+            beta=beta,
+            eps=eps,
+            schedule=schedule,
+        )
         guided_logits = logits_full + extra_scale.unsqueeze(-1) * (logits_full - logits_base)
 
         confidence, x0 = sample_tokens(guided_logits, temperature=temperature, neg_entropy=True)
@@ -668,10 +993,12 @@ def eamd_remask_shared(model, tokenizer, question: str, old_context: str, new_co
         remaining -= len(topk)
 
     answer_tokens = x_full[0, n_prefix:n_prefix + n_tokens].clone()
-    return decode_answer(tokenizer, answer_tokens), {
+    return decode_answer(tokenizer, answer_tokens), answer_tokens, {
         "remasked_positions": remask_positions,
         "mean_signal": sum(signal_means) / len(signal_means) if signal_means else divergence.mean().item(),
+        "max_signal": max_divergence,
         "mean_guidance_scale": sum(scale_means) / len(scale_means) if scale_means else 1.0,
+        "mean_initial_lambda": init_lam.mean().item(),
         "avg_conf": sum(token_confidences) / len(token_confidences) if token_confidences else 0.0,
         "initial_divergence": divergence.mean().item(),
         "top1_changes": sum(int(p != c) for p, c in zip(predicted, committed)),
@@ -729,6 +1056,28 @@ def main():
     parser.add_argument("--n_candidates", type=int, default=3)
     parser.add_argument("--initial_top_k", type=int, default=5)
     parser.add_argument("--expand_top_k", type=int, default=3)
+    parser.add_argument("--seed_query_mode", default="aram", choices=["aram", "baseline", "dual"])
+    parser.add_argument(
+        "--remask_mode",
+        default="span",
+        choices=["span", "exact_divergence", "exact_divergence_or_top1", "exact_lambda", "exact_lambda_or_top1", "top1_only"],
+    )
+    parser.add_argument("--delta", type=float, default=0.05)
+    parser.add_argument("--tau", type=float, default=0.10)
+    parser.add_argument("--lambda_max", type=float, default=1.0)
+    parser.add_argument("--beta", type=float, default=0.5)
+    parser.add_argument("--neighbor_radius", type=int, default=0)
+    parser.add_argument("--question_delta", type=float, default=0.0)
+    parser.add_argument("--refinement_rounds", type=int, default=1)
+    parser.add_argument("--micro_pivot_ratio", type=float, default=0.5)
+    parser.add_argument("--micro_top_m", type=int, default=2)
+    parser.add_argument("--micro_budget_min", type=int, default=1)
+    parser.add_argument("--micro_kappa", type=float, default=8.0)
+    parser.add_argument("--micro_tau_q", type=float, default=0.30)
+    parser.add_argument("--micro_eta", type=float, default=0.5)
+    parser.add_argument("--micro_phase1_guidance", default="baseline", choices=["baseline", "aram"])
+    parser.add_argument("--hybrid_gamma", type=float, default=0.10)
+    parser.add_argument("--hybrid_regen_gamma", type=float, default=1.0)
     parser.add_argument("--retrieval_batch_size", type=int, default=128)
     parser.add_argument("--retriever_encode_batch_size", type=int, default=64)
     parser.add_argument("--log_every", type=int, default=10)
@@ -823,14 +1172,30 @@ def main():
                 steps=args.steps,
                 n_tokens=args.answer_tokens,
                 temperature=args.temperature,
+                lambda_max=args.lambda_max,
+                beta=args.beta,
             )
 
         need_new_context = any(name in methods for name in ("pool", "eamd_regen", "eamd_remask"))
         expanded_passages, candidates = (initial_passages, [])
         if need_new_context:
-            seed_answer = aram_answer if aram_answer is not None else baseline_answer
+            seed_hypotheses = []
+            if args.seed_query_mode in ("aram", "dual") and aram_answer is not None:
+                seed_hypotheses.append(aram_answer)
+            if args.seed_query_mode in ("baseline", "dual"):
+                seed_hypotheses.append(baseline_answer)
+            if not seed_hypotheses and aram_answer is not None:
+                seed_hypotheses.append(aram_answer)
+            if not seed_hypotheses:
+                seed_hypotheses.append(baseline_answer)
             expanded_passages, candidates = expand_evidence(
-                retriever, question, old_context, initial_passages, seed_answer, args.n_candidates, args.expand_top_k
+                retriever,
+                question,
+                old_context,
+                initial_passages,
+                seed_hypotheses,
+                args.n_candidates,
+                args.expand_top_k,
             )
         new_context = "\n\n".join(expanded_passages)
         candidate_texts = [cand["text"] for cand in candidates]
@@ -885,7 +1250,10 @@ def main():
             if log_this:
                 print(f"  pool_short:   {pool_answer} | F1={pool['f1']:.3f}", flush=True)
 
-        if "eamd_regen" in methods:
+        need_regen = any(name in methods for name in ("eamd_regen", "eamd_hybrid"))
+        eamd_regen_answer = None
+        eamd_regen_stats = None
+        if need_regen:
             eamd_regen_answer, eamd_regen_stats = eamd_regen_shared(
                 model,
                 tokenizer,
@@ -895,30 +1263,119 @@ def main():
                 steps=args.steps,
                 n_tokens=args.answer_tokens,
                 temperature=args.temperature,
+                lambda_max=args.lambda_max,
+                beta=args.beta,
             )
+        if "eamd_regen" in methods:
             eamd_regen = evaluate(eamd_regen_answer, gold)
             eamd_regen["stats"] = eamd_regen_stats
             row["eamd_regen"] = eamd_regen
             if log_this:
                 print(f"  eamd_regen:   {eamd_regen_answer} | F1={eamd_regen['f1']:.3f}", flush=True)
 
-        if "eamd_remask" in methods:
-            seed_tokens = aram_tokens if aram_tokens is not None else baseline_tokens
-            eamd_answer, eamd_stats = eamd_remask_shared(
+        if "eamd_micro" in methods:
+            eamd_micro_answer, _, eamd_micro_stats = eamd_micro_shared(
                 model,
                 tokenizer,
+                retriever,
                 question,
-                old_context,
-                new_context,
-                seed_tokens,
+                initial_passages,
                 steps=args.steps,
+                n_tokens=args.answer_tokens,
                 temperature=args.temperature,
+                lambda_max=args.lambda_max,
+                beta=args.beta,
+                expand_top_k=args.expand_top_k,
+                pivot_ratio=args.micro_pivot_ratio,
+                top_m=args.micro_top_m,
+                budget_min=args.micro_budget_min,
+                kappa=args.micro_kappa,
+                tau_q=args.micro_tau_q,
+                eta=args.micro_eta,
+                neighbor_radius=args.neighbor_radius,
+                phase1_guidance=args.micro_phase1_guidance,
             )
+            eamd_micro = evaluate(eamd_micro_answer, gold)
+            eamd_micro["stats"] = eamd_micro_stats
+            row["eamd_micro"] = eamd_micro
+            if log_this:
+                print(f"  eamd_micro:   {eamd_micro_answer} | F1={eamd_micro['f1']:.3f}", flush=True)
+
+        need_remask = any(name in methods for name in ("eamd_remask", "eamd_hybrid"))
+        eamd_answer = None
+        round_stats = None
+        if need_remask:
+            seed_tokens = aram_tokens if aram_tokens is not None else baseline_tokens
+            round_old_context = old_context
+            round_new_context = new_context
+            round_passages = list(expanded_passages)
+            round_stats = []
+            for round_idx in range(args.refinement_rounds):
+                eamd_answer, seed_tokens, eamd_stats = eamd_remask_shared(
+                    model,
+                    tokenizer,
+                    question,
+                    round_old_context,
+                    round_new_context,
+                    seed_tokens,
+                    steps=args.steps,
+                    temperature=args.temperature,
+                    lambda_max=args.lambda_max,
+                    beta=args.beta,
+                    delta=args.delta,
+                    tau=args.tau,
+                    remask_mode=args.remask_mode,
+                    neighbor_radius=args.neighbor_radius,
+                    question_delta=args.question_delta,
+                )
+                eamd_stats["round"] = round_idx + 1
+                round_stats.append(eamd_stats)
+                if round_idx + 1 >= args.refinement_rounds:
+                    break
+                next_passages, _ = expand_evidence(
+                    retriever,
+                    question,
+                    round_new_context,
+                    round_passages,
+                    [eamd_answer],
+                    args.n_candidates,
+                    args.expand_top_k,
+                )
+                if len(next_passages) == len(round_passages):
+                    break
+                round_old_context = round_new_context
+                round_new_context = "\n\n".join(next_passages)
+                round_passages = next_passages
+        if "eamd_remask" in methods:
             eamd = evaluate(eamd_answer, gold)
-            eamd["stats"] = eamd_stats
+            eamd["stats"] = round_stats[-1]
+            eamd["round_stats"] = round_stats
             row["eamd_remask"] = eamd
             if log_this:
                 print(f"  eamd_remask:  {eamd_answer} | F1={eamd['f1']:.3f}", flush=True)
+        if "eamd_hybrid" in methods:
+            max_signal = round_stats[-1].get("max_signal", 0.0) if round_stats else 0.0
+            if max_signal < args.hybrid_gamma:
+                hybrid_answer = aram_answer
+                selected = "aram"
+                hybrid_stats = aram_stats
+            elif max_signal < args.hybrid_regen_gamma:
+                hybrid_answer = eamd_answer
+                selected = "eamd_remask"
+                hybrid_stats = round_stats[-1]
+            else:
+                hybrid_answer = eamd_regen_answer
+                selected = "eamd_regen"
+                hybrid_stats = eamd_regen_stats
+            hybrid = evaluate(hybrid_answer, gold)
+            hybrid["selected"] = selected
+            hybrid["selection_signal"] = max_signal
+            hybrid["selection_gamma"] = args.hybrid_gamma
+            hybrid["selection_regen_gamma"] = args.hybrid_regen_gamma
+            hybrid["stats"] = hybrid_stats
+            row["eamd_hybrid"] = hybrid
+            if log_this:
+                print(f"  eamd_hybrid:  {hybrid_answer} | F1={hybrid['f1']:.3f} | pick={hybrid['selected']}", flush=True)
         elapsed = round(time.time() - t0, 2)
         row["elapsed_sec"] = elapsed
         total_elapsed += elapsed
@@ -960,6 +1417,24 @@ def main():
             "n_candidates": args.n_candidates,
             "initial_top_k": args.initial_top_k,
             "expand_top_k": args.expand_top_k,
+            "seed_query_mode": args.seed_query_mode,
+            "remask_mode": args.remask_mode,
+            "delta": args.delta,
+            "tau": args.tau,
+            "lambda_max": args.lambda_max,
+            "beta": args.beta,
+            "neighbor_radius": args.neighbor_radius,
+            "question_delta": args.question_delta,
+            "refinement_rounds": args.refinement_rounds,
+            "micro_pivot_ratio": args.micro_pivot_ratio,
+            "micro_top_m": args.micro_top_m,
+            "micro_budget_min": args.micro_budget_min,
+            "micro_kappa": args.micro_kappa,
+            "micro_tau_q": args.micro_tau_q,
+            "micro_eta": args.micro_eta,
+            "micro_phase1_guidance": args.micro_phase1_guidance,
+            "hybrid_gamma": args.hybrid_gamma,
+            "hybrid_regen_gamma": args.hybrid_regen_gamma,
             "total_elapsed_sec": round(total_elapsed, 2),
             "avg_elapsed_sec": round(total_elapsed / len(results), 4),
         },

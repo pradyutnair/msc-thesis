@@ -99,14 +99,52 @@ def build_cond_and_prior(tokenizer, context, question, n_tokens):
     """
     mask_id = tokenizer.mask_token_id
 
+    # ARAM paper Figure 6: few-shot prompt for Dream
+    ARAM_TEMPLATE = """You are a helpful assistant that answers questions.
+INSTRUCTIONS:
+1. First, check if the answer is in the provided context passages
+2. If the answer is in the context, use it
+3. If the context doesn't contain the answer, use your general knowledge
+4. Always provide a direct, concise answer (typically 1-10 words)
+5. Do NOT include explanations, reasoning, or phrases like "based on" or "according to"
+6. Never say "no answer found" - always attempt to answer using available information
+
+Context:
+{context}
+
+Here are examples showing the expected answer format:
+
+Example 1:
+Context:
+Passage 1: The Eiffel Tower is located in Paris, France. It was completed in 1889.
+Question: Where is the Eiffel Tower located?
+Answer: Paris, France
+
+Example 2:
+Context:
+Passage 1: Albert Einstein was born on March 14, 1879 in Ulm, Germany.
+Question: When was Albert Einstein born?
+Answer: March 14, 1879
+
+Example 3:
+Context:
+Passage 1: The Great Wall of China stretches over 13,000 miles.
+Question: What is the capital of Japan?
+Answer: Tokyo
+(Note: This answer uses general knowledge since the context doesn't contain it)
+
+Now answer the following question in the same concise format:
+Question: {query}
+Answer:"""
+
     # Build prompt WITH context
-    prompt_cond = f"{context}\n\nQuestion: {question}\n\nAnswer:"
+    prompt_cond = ARAM_TEMPLATE.format(context=context, query=question)
     msg_cond = [{"role": "user", "content": prompt_cond}]
     text_cond = tokenizer.apply_chat_template(msg_cond, tokenize=False, add_generation_prompt=True)
     prefix_cond = tokenizer.encode(text_cond, add_special_tokens=False)
 
-    # Build prompt WITHOUT context (to find context token span)
-    prompt_prior = f"\n\nQuestion: {question}\n\nAnswer:"
+    # Build prompt WITHOUT context (prior sees query + instructions but no passages)
+    prompt_prior = ARAM_TEMPLATE.format(context="No relevant context available.", query=question)
     msg_prior = [{"role": "user", "content": prompt_prior}]
     text_prior = tokenizer.apply_chat_template(msg_prior, tokenize=False, add_generation_prompt=True)
     prefix_prior = tokenizer.encode(text_prior, add_special_tokens=False)
