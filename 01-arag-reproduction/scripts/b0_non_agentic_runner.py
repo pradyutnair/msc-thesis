@@ -14,6 +14,8 @@ import argparse
 import json
 import os
 import re
+import sys
+import time
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -21,9 +23,17 @@ from typing import Any, Dict, List
 
 from tqdm import tqdm
 
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+ARAG_SRC = Path("/projects/prjs1800/external/arag/src")
+if ARAG_SRC.exists() and str(ARAG_SRC) not in sys.path:
+    sys.path.insert(0, str(ARAG_SRC))
+
 from arag import Config, LLMClient
 from arag.core.context import AgentContext
 from arag.tools.semantic_search import SemanticSearchTool
+from benchmarking.qa_benchmark import build_record, infer_dataset_name
 
 CHUNK_ID_RE = re.compile(r"Chunk ID:\s*([^\s(]+)")
 REASONING_TAG_RE = re.compile(r"<(think|thnk)>.*?</(think|thnk)>", re.IGNORECASE | re.DOTALL)
@@ -35,8 +45,17 @@ SYSTEM_PROMPT = (
 )
 
 
-def load_questions(path: Path, limit: int | None) -> List[Dict[str, Any]]:
+def load_questions(
+    path: Path,
+    limit: int | None,
+    start_idx: int = 0,
+    end_idx: int | None = None,
+) -> List[Dict[str, Any]]:
     data = json.loads(path.read_text())
+    if end_idx is not None:
+        data = data[start_idx:end_idx]
+    elif start_idx:
+        data = data[start_idx:]
     if limit is not None:
         data = data[:limit]
     return data
@@ -128,7 +147,7 @@ def run(args: argparse.Namespace) -> None:
     emb_cfg = cfg.get("embedding", {})
     llm_cfg = cfg.get("llm", {})
 
-    questions = load_questions(Path(args.questions), args.limit)
+    questions = load_questions(Path(args.questions), args.limit, start_idx=args.start_idx, end_idx=args.end_idx)
     output_dir = Path(args.output)
     output_dir.mkdir(parents=True, exist_ok=True)
     pred_file = output_dir / "predictions.jsonl"
@@ -177,22 +196,28 @@ def run(args: argparse.Namespace) -> None:
         api_key=llm_api_key,
         base_url=llm_base_url,
         temperature=llm_cfg.get("temperature", 0.0),
-        max_tokens=llm_cfg.get("max_tokens", 128),
+        max_tokens=args.max_answer_tokens,
         reasoning_effort=llm_cfg.get("reasoning_effort"),
         chat_template_kwargs=chat_kwargs,
     )
 
     top_k = int(args.top_k)
+    dataset_name = infer_dataset_name(args.questions) or infer_dataset_name(args.config)
     with pred_file.open("a", encoding="utf-8") as fout:
         for item in tqdm(pending, desc="B0 generation"):
             qid = str(item.get("qid") or item.get("id"))
             question = item.get("question", "")
             gold = item.get("answer", item.get("gold_answer", ""))
+            gold_answers = item.get("golden_answers") or ([gold] if gold else [""])
 
             ctx = AgentContext()
             try:
+                total_start = time.time()
+                retrieval_start = time.time()
                 tool_result, _ = search_tool.execute(ctx, query=question, top_k=top_k)
+                retrieval_elapsed = time.time() - retrieval_start
                 chunk_ids = parse_chunk_ids(tool_result)
+                passages = [chunks_map.get(cid, "") for cid in chunk_ids if chunks_map.get(cid, "")]
                 context_text = build_context_text(chunk_ids, chunks_map)
 
                 user_prompt = (
@@ -200,13 +225,16 @@ def run(args: argparse.Namespace) -> None:
                     f"Retrieved Context (top-{top_k}):\n{context_text}\n\n"
                     "Final answer:"
                 )
+                llm_start = time.time()
                 pred, cost = llm.generate(
                     messages=[{"role": "user", "content": user_prompt}],
                     system=SYSTEM_PROMPT,
                     temperature=0.0,
                     max_tokens=args.max_answer_tokens,
                 )
+                llm_elapsed = time.time() - llm_start
                 pred = strip_reasoning_tags(str(pred))
+                total_elapsed = time.time() - total_start
 
                 row = {
                     "qid": qid,
@@ -222,6 +250,7 @@ def run(args: argparse.Namespace) -> None:
                         }
                     ],
                     "gold_answer": gold,
+                    "gold_answers": gold_answers,
                     "pred_answer": pred,
                     "total_cost": float(cost),
                     "loops": 1,
@@ -237,13 +266,35 @@ def run(args: argparse.Namespace) -> None:
                     ],
                     "chunks_read_count": len(chunk_ids),
                     "chunks_read_ids": chunk_ids,
+                    **build_record(
+                        dataset=dataset_name,
+                        qid=qid,
+                        method="b0",
+                        model=llm_model,
+                        question=question,
+                        gold_answers=gold_answers,
+                        pred_answer=pred,
+                        elapsed_sec_total=total_elapsed,
+                        elapsed_sec_llm=llm_elapsed,
+                        elapsed_sec_retrieval=retrieval_elapsed,
+                        retrieval_calls=1,
+                        unique_chunks_read=len(chunk_ids),
+                        total_retrieved_tokens=int(ctx.total_retrieved_tokens),
+                        loops_or_rounds=1,
+                        llm_calls=1,
+                        c0_passages=passages,
+                        final_passages=passages,
+                    ),
                 }
             except Exception as e:  # pylint: disable=broad-except
+                total_elapsed = time.time() - total_start if "total_start" in locals() else 0.0
+                retrieval_elapsed = time.time() - retrieval_start if "retrieval_start" in locals() else 0.0
                 row = {
                     "qid": qid,
                     "question": question,
                     "trajectory": [],
                     "gold_answer": gold,
+                    "gold_answers": gold_answers,
                     "pred_answer": f"Error: {e}",
                     "total_cost": 0.0,
                     "loops": 1,
@@ -260,6 +311,26 @@ def run(args: argparse.Namespace) -> None:
                     "chunks_read_count": 0,
                     "chunks_read_ids": [],
                     "error": str(e),
+                    **build_record(
+                        dataset=dataset_name,
+                        qid=qid,
+                        method="b0",
+                        model=llm_model,
+                        question=question,
+                        gold_answers=gold_answers,
+                        pred_answer=f"Error: {e}",
+                        elapsed_sec_total=total_elapsed,
+                        elapsed_sec_llm=0.0,
+                        elapsed_sec_retrieval=retrieval_elapsed,
+                        retrieval_calls=max(1, len(ctx.retrieval_logs)),
+                        unique_chunks_read=0,
+                        total_retrieved_tokens=int(ctx.total_retrieved_tokens),
+                        loops_or_rounds=1,
+                        llm_calls=0,
+                        c0_passages=[],
+                        final_passages=[],
+                        error=str(e),
+                    ),
                 }
 
             fout.write(json.dumps(row, ensure_ascii=False) + "\n")
@@ -275,6 +346,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", required=True, help="output directory")
     parser.add_argument("--top-k", type=int, default=5, help="retrieval top-k")
     parser.add_argument("--limit", type=int, default=None, help="optional limit")
+    parser.add_argument("--start-idx", type=int, default=0, help="start index into questions file")
+    parser.add_argument("--end-idx", type=int, default=None, help="exclusive end index into questions file")
     parser.add_argument("--max-answer-tokens", type=int, default=128, help="max generation tokens")
     parser.add_argument("--overwrite", action="store_true", help="remove existing predictions.jsonl before run")
     return parser.parse_args()

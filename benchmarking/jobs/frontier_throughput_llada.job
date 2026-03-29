@@ -1,0 +1,77 @@
+#!/bin/bash
+#SBATCH --job-name=frontier-tput-llada
+#SBATCH --partition=gpu_h100
+#SBATCH --gpus=1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=96G
+#SBATCH --time=02:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/benchmarking/results/logs/%x_%j.out
+
+set -euo pipefail
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONPATH=/projects/prjs1800/msc-thesis-benchmark/07-daes/dllm:/projects/prjs1800/msc-thesis-benchmark/07-daes/src/daes:${PYTHONPATH:-}
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=$HF_HOME
+export HF_HUB_CACHE=$HF_HOME
+export HF_DATASETS_CACHE=$HF_HOME
+export HF_HUB_OFFLINE=${HF_HUB_OFFLINE:-1}
+export TRANSFORMERS_OFFLINE=${TRANSFORMERS_OFFLINE:-1}
+export EAMD_RETRIEVER_DEVICE=${EAMD_RETRIEVER_DEVICE:-cpu}
+export TOKENIZERS_PARALLELISM=false
+export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-16}
+export MKL_NUM_THREADS=${SLURM_CPUS_PER_TASK:-16}
+
+REPO=${REPO:-/projects/prjs1800/msc-thesis-benchmark}
+DATASET=${DATASET:-musique}
+LIMIT=${LIMIT:-50}
+MODEL_TYPE=${MODEL_TYPE:-llada}
+OUTPUT_SUBDIR=${OUTPUT_SUBDIR:-$MODEL_TYPE}
+if [[ -z "${MODEL_NAME:-}" ]]; then
+  if [[ "$MODEL_TYPE" == "dream" ]]; then
+    MODEL_NAME="Dream-org/Dream-v0-Instruct-7B"
+  else
+    MODEL_NAME="GSAI-ML/LLaDA-8B-Instruct"
+  fi
+fi
+if [[ -z "${METHODS:-}" ]]; then
+  if [[ "$MODEL_TYPE" == "dream" ]]; then
+    METHODS="baseline,spread,aram,pool,eamd_regen"
+  else
+    METHODS="baseline,spread,aram,pool,eamd_micro"
+  fi
+fi
+if [[ -z "${N_CANDIDATES:-}" ]]; then
+  if [[ "$MODEL_TYPE" == "dream" ]]; then
+    N_CANDIDATES=3
+  else
+    N_CANDIDATES=0
+  fi
+fi
+OUTPUT_DIR=${OUTPUT_DIR:-/projects/prjs1800/msc-thesis/benchmarking/results/frontier_throughput/${DATASET}/${OUTPUT_SUBDIR}}
+
+mkdir -p "$OUTPUT_DIR"
+cd "$REPO"
+python 07-daes/src/daes/eamd_wiki18_benchmark.py \
+  --model_type "$MODEL_TYPE" \
+  --model_name "$MODEL_NAME" \
+  --dataset "$DATASET" \
+  --n_questions "$LIMIT" \
+  --output_dir "$OUTPUT_DIR" \
+  --methods "$METHODS" \
+  --steps 6 \
+  --answer_tokens 6 \
+  --temperature 0.05 \
+  --initial_top_k 5 \
+  --expand_top_k 3 \
+  --n_candidates "$N_CANDIDATES" \
+  --micro_pivot_ratio 0.333 \
+  --micro_top_m 2 \
+  --micro_budget_min 1 \
+  --micro_kappa 8.0 \
+  --micro_tau_q 0.30 \
+  --micro_eta 0.5 \
+  --micro_phase1_guidance baseline \
+  --neighbor_radius 0 \
+  --pool_seed_mode baseline \
+  --log_every 10
