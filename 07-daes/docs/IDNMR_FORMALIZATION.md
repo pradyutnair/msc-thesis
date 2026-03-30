@@ -92,6 +92,17 @@ $$
 
 This is the fundamental object used by iDNMR.
 
+### Remark 2.1A. Implementation approximation: first-token branching
+
+The exact object in Definition 2.1 is a posterior over full bridge strings. The implementation does not enumerate that posterior exactly. Instead, it:
+
+1. keeps only high-probability first tokens at the first masked bridge position,
+2. branches on those first-token choices,
+3. completes each branch with a short denoising rollout,
+4. normalizes and deduplicates the resulting strings.
+
+So the implemented extractor should be read as a truncated approximation to `TopK(\pi_r,k)`, not as exact full-sequence posterior ranking. The practical implication is that high-mass bridge strings whose first token is not retained can be missed. The theory below therefore applies exactly to the ideal posterior object and approximately to the implementation.
+
 ### 2.2 TopK bridge extraction
 
 Fix a round `r` and a candidate budget `k ≥ 1`. Let
@@ -333,6 +344,110 @@ $$
 $$
 so the no-hit probability strictly decreases and the hit probability strictly increases. QED.
 
+### 4.3 Posterior-weighted finite-budget evidence selection
+
+The coverage results above specify which bridge queries to issue. The filtered iDNMR variant additionally asks which retrieved passages to keep under a fixed per-round evidence budget.
+
+Let
+$$
+\mathcal Q_r = \{q_0,q_1,\dots,q_m\}
+$$
+be the round-`r` retrieval query family, where
+`q_0 := q \oplus \hat a_r` is the answer-anchoring query and
+`q_j := q \oplus b_j` for bridge hypotheses `b_j \in S_r^{(k)}`.
+
+Assign nonnegative query weights
+$$
+w_0 = \lambda_{\mathrm{ans}},
+\qquad
+w_j = (1-\lambda_{\mathrm{ans}})\,\frac{\pi_r(b_j)}{\sum_{\ell=1}^{m}\pi_r(b_\ell)},
+\qquad j=1,\dots,m,
+$$
+so the answer query receives anchor weight `\lambda_{\mathrm{ans}} \in [0,1]` and the remaining mass is distributed proportionally to bridge posterior mass. In the implementation, `\pi_r(b_j)` is approximated by the extractor confidence attached to candidate `b_j`.
+
+For each query `q_i`, let `R(q_i)` be the ranked list returned by the retriever, and define the candidate passage set
+$$
+D_r^{\mathrm{cand}} := \bigcup_{i=0}^{m} R(q_i).
+$$
+
+For a passage `d \in D_r^{\mathrm{cand}}`, define
+$$
+\operatorname{rank}_i(d) :=
+\begin{cases}
+1,2,\dots & \text{if } d \in R(q_i),\\
+\infty & \text{if } d \notin R(q_i).
+\end{cases}
+$$
+Let `\kappa(q_i,d) \ge 0` be a retriever-aligned similarity kernel between query and passage. In the implementation, `\kappa` is cosine similarity in the same normalized E5 embedding space used by the retriever.
+
+### Definition 4.6. Surrogate passage utility
+
+For each candidate passage `d \in D_r^{\mathrm{cand}}`, define the posterior-weighted surrogate utility
+$$
+u_r(d)
+:=
+\sum_{i=0}^{m}
+w_i\,
+\frac{\kappa(q_i,d)}{\operatorname{rank}_i(d)+1},
+$$
+with the convention that the `i`th summand is `0` whenever `d \notin R(q_i)`.
+
+### Definition 4.7. Filtered evidence update
+
+Fix a per-round budget `B \ge 1`. Define the filtered new-evidence operator
+$$
+\Delta C_{r+1}^{(B)}
+:=
+\operatorname{TopB}\big(u_r,\ D_r^{\mathrm{cand}} \setminus C_r\big),
+$$
+that is, the set of at most `B` previously unseen passages with highest surrogate utility. The filtered evidence update is then
+$$
+C_{r+1}^{(B)} := C_r \cup \Delta C_{r+1}^{(B)}.
+$$
+
+### Proposition 4.8. Top-B optimality for the additive surrogate
+
+Among all subsets `S \subseteq D_r^{\mathrm{cand}} \setminus C_r` of size at most `B`, the filtered evidence set `\Delta C_{r+1}^{(B)}` maximizes total surrogate utility:
+$$
+\sum_{d \in \Delta C_{r+1}^{(B)}} u_r(d)
+=
+\max_{S \subseteq D_r^{\mathrm{cand}} \setminus C_r,\ |S|\le B}
+\sum_{d \in S} u_r(d).
+$$
+
+#### Proof
+
+Order the unseen candidate passages so that
+$$
+u_r(d_{(1)}) \ge u_r(d_{(2)}) \ge \cdots.
+$$
+By definition,
+$$
+\Delta C_{r+1}^{(B)} = \{d_{(1)},\dots,d_{(B')}\},
+\qquad
+B' := \min(B,\ |D_r^{\mathrm{cand}} \setminus C_r|).
+$$
+Let `S` be any other subset of unseen candidate passages with `|S| \le B`. After padding with zero-utility dummy elements if needed, assume `|S| = B'`. Writing its elements in decreasing utility order as `s_1,\dots,s_{B'}`, we have
+$$
+u_r(s_i) \le u_r(d_{(i)})
+\qquad \text{for all } i=1,\dots,B'.
+$$
+Summing over `i` gives
+$$
+\sum_{d \in S} u_r(d)
+=
+\sum_{i=1}^{B'} u_r(s_i)
+\le
+\sum_{i=1}^{B'} u_r(d_{(i)})
+=
+\sum_{d \in \Delta C_{r+1}^{(B)}} u_r(d).
+$$
+Hence `\Delta C_{r+1}^{(B)}` is optimal for the additive surrogate objective. QED.
+
+### Remark 4.9. Scope of Proposition 4.8
+
+Proposition 4.8 is exact for the surrogate objective `u_r`. It does not claim that `u_r` is the true downstream QA utility of a passage. The mathematically clean statement is narrower: filtered iDNMR is optimal among budget-`B` selections for a retriever-aligned, posterior-weighted surrogate that combines bridge mass, similarity, and rank. The additional claim that this improves EM/F1 is empirical.
+
 ## 5. The iDNMR Algorithm
 
 At round `r`, iDNMR keeps two objects:
@@ -389,11 +504,23 @@ The answer estimate is used as one retrieval query, but the distinctive bridge m
 - final answer `\hat a_R`
 - evidence trajectory `(C_0,\dots,C_R)`
 
+### Remark 5.1A. Filtered iDNMR
+
+The unfiltered algorithm above uses the full deduplicated union of retrieved passages. The filtered implementation replaces Steps 4-5 by:
+
+1. retrieve the candidate passage multiset `D_r^{\mathrm{cand}}`,
+2. score each unseen passage by the surrogate utility `u_r(d)` from Definition 4.6,
+3. keep only `\Delta C_{r+1}^{(B)}` from Definition 4.7,
+4. update `C_{r+1}^{(B)} = C_r \cup \Delta C_{r+1}^{(B)}`.
+
+This is the variant used by `idnmr_filtered.py`.
+
 ### Remark 5.2. Pool, iPool, and iDNMR in one language
 
 - `Pool`: execute only round `0`, using one distribution-based expansion.
 - `iPool`: execute multiple rounds, but replace Step 1 by an answer-conditioned bridge extractor.
 - `iDNMR`: execute multiple rounds with posterior-support extraction at every round.
+- `iDNMR-filtered`: execute multiple rounds with posterior-support extraction and posterior-weighted top-`B` evidence selection at every round.
 
 This separation is important: iDNMR is not "iterative Pool" in the generic sense. Its claim is that iterative retrieval only works when the bridge extractor remains posterior-based rather than collapsing to committed answer tokens.
 
