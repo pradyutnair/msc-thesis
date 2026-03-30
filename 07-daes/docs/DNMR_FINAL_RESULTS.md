@@ -93,6 +93,37 @@ From the frontier benchmark (separate run, same corpus/retriever):
 
 **Caveat**: IRCoT uses Qwen3-8B (stronger AR reader). The comparison is not fully apples-to-apples on model quality, but is fair on the retrieval stack.
 
+## Matched AR Baseline: AR-MQR
+
+To control for the possibility that the gain comes merely from issuing multiple retrieval queries, we implemented a matched autoregressive multi-query retrieval baseline (AR-MQR) using Qwen3-8B on the same wiki18_100w + E5-base-v2 stack.
+
+AR-MQR pipeline:
+1. Retrieve initial evidence C0 from Q
+2. Generate a short seed answer autoregressively under C0
+3. Sample k=3 bridge candidates autoregressively
+4. Retrieve with \{Q⊕answer, Q⊕bridge_1, Q⊕bridge_2, Q⊕bridge_3\}
+5. Decode the final answer autoregressively under expanded evidence C1
+
+### Matched 50q MuSiQue smoke (same exact questions: dev_0..dev_49)
+
+| Method | Model | F1 | EM | Contain |
+|--------|-------|:--:|:--:|:-------:|
+| baseline\_ar | Qwen3-8B | 0.133 | 0.040 | 0.060 |
+| ar\_mqr | Qwen3-8B | 0.242 | 0.120 | 0.160 |
+| Baseline | Dream-7B | 0.209 | 0.080 | 0.120 |
+| DNMR | Dream-7B | 0.294 | 0.160 | 0.240 |
+| iDNMR | Dream-7B | 0.334 | 0.180 | 0.300 |
+
+### 1000q x 3 matched-stack comparison (F1)
+
+| Method | Model | MuSiQue | HotpotQA | 2WikiMH | Mean |
+|--------|-------|:-------:|:--------:|:-------:|:----:|
+| baseline\_ar | Qwen3-8B | 0.174 | 0.442 | 0.287 | 0.301 |
+| ar\_mqr | Qwen3-8B | 0.207 | 0.455 | 0.295 | 0.319 |
+| **DNMR** | Dream-7B | **0.281** | **0.516** | **0.366** | **0.388** |
+
+DNMR remains well above the matched AR multi-query baseline on all three datasets despite using a smaller 7B diffusion model.
+
 ## Mechanism Ablation: Why Distribution-Based Extraction Matters
 
 The cleanest ablation is iDNMR vs iPool — same iterative framework, same retriever, same decode. Only difference: bridge extraction method.
@@ -150,6 +181,7 @@ Explanation: single-round DNMR already extracts 3 diverse bridge candidates from
 ### What we claim
 - DNMR is a training-free diffusion-native retrieval method that uses posterior-support bridge extraction to issue multiple retrieval queries from a single dLLM forward pass
 - DNMR significantly outperforms all published dLLM inference-time methods (SPREAD, ARAM) on all three multi-hop QA benchmarks (p<0.01)
+- DNMR substantially outperforms a matched autoregressive multi-query retrieval baseline (AR-MQR) on the same retrieval stack across all three datasets
 - DNMR is competitive with or better than AR IRCoT on 2/3 datasets while being 15% faster with a smaller model
 - The mechanism proof (iDNMR vs iPool, p<0.001) shows posterior-support extraction strictly dominates answer-conditioned extraction under matched conditions
 
