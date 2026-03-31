@@ -4,7 +4,7 @@
 
 ### Theorem-backed in this document
 
-1. The diffusion bridge-proposal distribution induces a well-defined posterior over bridge hypotheses by pushforward.
+1. A family of position-conditioned diffusion bridge-proposal channels, together with a position selector, induces a well-defined mixed posterior over bridge hypotheses by pushforward.
 2. Under a fixed candidate budget `k`, posterior `TopK` bridge extraction maximizes retained bridge mass among all size-`k` candidate sets.
 3. Distribution-based bridge extraction therefore weakly dominates answer-conditioned extraction at the bridge-coverage level, and strictly dominates whenever the answer-conditioned set differs from the posterior `TopK` set under a non-degenerate posterior.
 4. Under a standard bridge-hit assumption on the retriever, the posterior mass of the candidate set yields a lower bound on next-hop retrieval success.
@@ -21,7 +21,7 @@
 
 ### Assumption-backed in this document
 
-1. The theoretical bridge posterior is the exact pushforward posterior over bridge strings. The implementation approximates `TopK` by truncated branching over high-probability initial tokens and short denoising completions.
+1. The theoretical bridge posterior is the exact pushforward posterior, or mixed pushforward posterior, over bridge strings. The implementation approximates `TopK` by truncated branching over high-probability tokens at a selected set of positions followed by short denoising completions.
 2. The bridge-hit assumption says that if the correct bridge is queried, the retriever returns the required next-hop evidence with probability at least `η > 0`.
 3. The product-form multi-query coverage theorem assumes conditional independence of per-query retrieval-hit events given the current round state.
 4. The latent bridge variable is a task-level abstraction: multi-hop QA may admit multiple equivalent bridge strings; the theory works over equivalence classes after canonicalization.
@@ -51,6 +51,13 @@ p_r(a) := p_\theta(a \mid q, C_r)
 $$
 denote the answer distribution under evidence `C_r`.
 
+
+Let the proposal canvas length be `L`, and let
+$$
+J_r \subseteq \{1,\dots,L\}
+$$
+denote the admissible set of bridge-proposal positions at round `r`. In practice, `J_r` is usually the answer region of the masked canvas. We write `j_0 \in J_r` for the first proposal position, corresponding to the original Dream-specific position-0 branching extractor.
+
 For each round `r`, define a bridge hypothesis space `ℬ_r`. Elements `b ∈ ℬ_r` are short normalized text strings intended to retrieve the next-hop evidence needed to answer `q` from `C_r`. They may be named entities, relation-bearing fragments, or short bridge statements. In the exact theory, `ℬ_r` is the support of the normalized diffusion proposal variable defined below. In the implementation, `ℬ_r` is approximated by the finite set of unique candidate strings returned by the bridge extractor after string normalization and deduplication.
 
 The key distinction between methods is:
@@ -62,56 +69,90 @@ This document formalizes the latter.
 
 ## 2. Diffusion Bridge Posterior
 
-### 2.1 Proposal canvas and pushforward distribution
+### 2.1 Position-conditioned proposal family and pushforward distributions
 
 At round `r`, define a short masked proposal canvas `Z_{r,T}` of length `L`, initialized as all-mask tokens. The diffusion model denoises this canvas conditional on `(q, C_r)`:
 $$
 Z_{r,0} \sim p_\theta(\cdot \mid Z_{r,T}, q, C_r).
 $$
 
-Let `U_r` be the final decoded proposal string obtained from `Z_{r,0}`. Let
+For each proposal position `j \in J_r`, define a local branched proposal channel that seeds position `j` and then performs a short denoising rollout to a completed proposal string `U_{r,j}`. Let
 $$
 \psi : \Sigma^{\le L} \to \mathcal B_r
 $$
 be a normalization map that lowercases, trims punctuation or whitespace artifacts, and merges duplicate surface forms that the implementation treats as the same retrieval query string. Thus `ℬ_r` should be read concretely as a finite set of normalized candidate strings, not as an abstract semantic ontology. Define the latent bridge variable
 $$
-B_r^\star := \psi(U_r).
+B_{r,j}^\star := \psi(U_{r,j}).
 $$
 
-### Definition 2.1. Bridge posterior
+### Definition 2.1. Position-conditioned bridge posterior
 
-The diffusion-induced bridge posterior at round `r` is the pushforward distribution
+For each `j \in J_r`, the position-conditioned diffusion bridge posterior is the pushforward distribution
 $$
-\pi_r(b)
+\pi_r(b \mid j)
 :=
-\mathbb P_\theta(B_r^\star = b \mid q, C_r)
+\mathbb P_\theta(B_{r,j}^\star = b \mid q, C_r, j)
 =
-\sum_{u:\psi(u)=b}\mathbb P_\theta(U_r=u \mid q, C_r),
+\sum_{u:\psi(u)=b}\mathbb P_\theta(U_{r,j}=u \mid q, C_r, j),
 \qquad b \in \mathcal B_r.
 $$
 
-This is the fundamental object used by iDNMR.
+Each admissible proposal position therefore induces its own posterior over normalized bridge strings.
 
-### Remark 2.1A. Implementation approximation: first-token branching
+### Definition 2.2. Position selector and mixed bridge posterior
 
-The exact object in Definition 2.1 is a posterior over full bridge strings. The implementation does not enumerate that posterior exactly. Instead, it:
+Let
+$$
+\sigma_r(j \mid q, C_r), \qquad j \in J_r,
+$$
+be any probability distribution over admissible proposal positions. The selector may be fixed, architecture-specific, heuristic, or learned; the theory below is conditional on the chosen `\sigma_r`.
 
-1. keeps only high-probability first tokens at the first masked bridge position,
-2. branches on those first-token choices,
+The mixed bridge posterior is
+$$
+\tilde \pi_r(b)
+:=
+\sum_{j \in J_r} \sigma_r(j \mid q, C_r)\,\pi_r(b \mid j),
+\qquad b \in \mathcal B_r.
+$$
+
+This is the bridge posterior object used by the mixed-position DNMR extractor.
+
+Equivalently, if one first samples a proposal position `J_r^\star \sim \sigma_r(\cdot \mid q,C_r)` and then samples `B_r^\star := B_{r,J_r^\star}^\star`, the resulting marginal law is exactly `\tilde \pi_r`.
+
+### Remark 2.2A. Special cases
+
+1. **Dream position-0 extractor**: if `\sigma_r = \delta_{j_0}`, then
+   $$
+   \tilde \pi_r(b) = \pi_r(b \mid j_0),
+   $$
+   recovering the original fixed-position DNMR extractor.
+2. **Agnostic multi-position extractor**: if `\sigma_r` has support on a finite subset of informative answer-region positions, then `\tilde \pi_r` becomes a mixture over those local proposal channels.
+3. **Mixed universal extractor**: a robust implementation can place positive mass on `j_0` and on additional informative positions simultaneously. This is mathematically legitimate because it is still a selector-induced mixed posterior.
+
+### Remark 2.2B. Implementation approximation: truncated branching
+
+The exact objects in Definitions 2.1-2.2 are posteriors over full bridge strings. The implementation does not enumerate them exactly. Instead, for each selected proposal position, it:
+
+1. keeps only high-probability branching tokens at that position,
+2. branches on those token choices,
 3. completes each branch with a short denoising rollout,
 4. normalizes and deduplicates the resulting strings.
 
-So the implemented extractor should be read as a truncated approximation to `TopK(\pi_r,k)`, not as exact full-sequence posterior ranking. The practical implication is that high-mass bridge strings whose first token is not retained can be missed. The theory below therefore applies exactly to the ideal posterior object and approximately to the implementation.
+So the implemented extractor should be read as a truncated approximation to `TopK(\tilde \pi_r,k)`, not as exact full-sequence posterior ranking. High-mass bridge strings can be missed either because the relevant proposal position was not selected by `\sigma_r` or because the correct branching token at a selected position was not retained. The theory below therefore applies exactly to the ideal mixed posterior object and approximately to the implementation.
+
+### Remark 2.2C. Selector optimality is not claimed by default
+
+Theorems below treat `\sigma_r` as part of the method specification. They do **not** claim that an arbitrary heuristic selector is globally optimal for retrieval or QA utility. The mathematical claims are conditional: once a proposal family and selector are fixed, `TopK` extraction from the resulting mixed posterior is optimal under the corresponding retained-mass objective. This distinction is important for paper integrity: the selector may be an implementation design choice even when the downstream `TopK` operator is theorem-backed.
 
 ### 2.2 TopK bridge extraction
 
-Fix a round `r` and a candidate budget `k ≥ 1`. Let
+Fix a round `r` and a candidate budget `k \ge 1`. Let
 $$
-S_r^{(k)} := \operatorname{TopK}(\pi_r, k)
+S_r^{(k)} := \operatorname{TopK}(\tilde \pi_r, k)
 $$
 be any size-`k` set of bridge hypotheses with maximal posterior masses. More explicitly, if
 $$
-\pi_r(b_{(1)}) \ge \pi_r(b_{(2)}) \ge \cdots,
+\tilde \pi_r(b_{(1)}) \ge \tilde \pi_r(b_{(2)}) \ge \cdots,
 $$
 then
 $$
@@ -119,9 +160,9 @@ S_r^{(k)} = \{b_{(1)},\dots,b_{(k)}\}
 $$
 up to tie-breaking.
 
-Define the retained bridge mass of a candidate set `S ⊆ ℬ_r` by
+Define the retained bridge mass of a candidate set `S \subseteq ℬ_r` by
 $$
-\Pi_r(S) := \sum_{b \in S}\pi_r(b) = \mathbb P_\theta(B_r^\star \in S \mid q, C_r).
+\Pi_r(S) := \sum_{b \in S}\tilde \pi_r(b).
 $$
 
 ### Proposition 2.2. TopK posterior optimality
@@ -135,30 +176,45 @@ $$
 
 Order the bridge hypotheses so that
 $$
-\pi_r(b_{(1)}) \ge \pi_r(b_{(2)}) \ge \cdots.
+\tilde \pi_r(b_{(1)}) \ge \tilde \pi_r(b_{(2)}) \ge \cdots.
 $$
 Let `T` be any size-`k` subset of `ℬ_r`. Write its elements in decreasing posterior order as
 $$
-\pi_r(t_1) \ge \cdots \ge \pi_r(t_k).
+\tilde \pi_r(t_1) \ge \cdots \ge \tilde \pi_r(t_k).
 $$
 Then for every `i = 1,\dots,k`,
 $$
-\pi_r(t_i) \le \pi_r(b_{(i)}),
+\tilde \pi_r(t_i) \le \tilde \pi_r(b_{(i)}),
 $$
-because otherwise there would be more than `i-1` hypotheses with posterior mass at least `\pi_r(t_i)` outside the ordered top-`i` list, contradicting the ordering of `b_{(i)}`.
+because otherwise there would be more than `i-1` hypotheses with posterior mass at least `\tilde \pi_r(t_i)` outside the ordered top-`i` list, contradicting the ordering of `b_{(i)}`.
 
 Summing over `i` gives
 $$
 \Pi_r(T)
 =
-\sum_{i=1}^k \pi_r(t_i)
+\sum_{i=1}^k \tilde \pi_r(t_i)
 \le
-\sum_{i=1}^k \pi_r(b_{(i)})
-
+\sum_{i=1}^k \tilde \pi_r(b_{(i)})
 =
 \Pi_r(S_r^{(k)}).
 $$
 Hence `S_r^{(k)}` maximizes retained bridge mass. QED.
+
+### Proposition 2.3. Fixed-position DNMR is a special case of mixed-position DNMR
+
+If `\sigma_r = \delta_{j_0}`, then all results stated for `\tilde \pi_r` reduce to the original fixed-position DNMR results with posterior `\pi_r(\cdot \mid j_0)`.
+
+#### Proof
+
+Immediate from Definition 2.2 because
+$$
+\tilde \pi_r(b)
+=
+\sum_{j \in J_r} \delta_{j_0}(j)\,\pi_r(b \mid j)
+=
+\pi_r(b \mid j_0).
+$$
+QED.
 
 ## 3. Why Distribution-Based Extraction Dominates Answer-Conditioned Extraction
 
@@ -179,7 +235,7 @@ Let `T_r ⊆ ℬ_r` be any size-`k` candidate set produced by an answer-conditio
 $$
 \Pi_r(S_r^{(k)}) \ge \Pi_r(T_r).
 $$
-Moreover, the inequality is strict whenever `T_r` omits some bridge in the posterior top-`k` set and the omitted bridge has strictly larger posterior mass than some bridge included in `T_r`.
+Moreover, the inequality is strict whenever `T_r` omits some bridge in the posterior top-`k` set and the omitted bridge has strictly larger mixed posterior mass than some bridge included in `T_r`.
 
 #### Proof
 
@@ -187,14 +243,14 @@ The weak inequality is immediate from Proposition 2.2 because `T_r` is a size-`k
 
 For strictness, suppose `T_r \neq S_r^{(k)}` and there exists `b^+ \in S_r^{(k)} \setminus T_r` and `b^- \in T_r \setminus S_r^{(k)}` such that
 $$
-\pi_r(b^+) > \pi_r(b^-).
+\tilde \pi_r(b^+) > \tilde \pi_r(b^-).
 $$
 Then replacing `b^-` by `b^+` strictly increases retained mass:
 $$
 \Pi_r\big((T_r \setminus \{b^-\}) \cup \{b^+\}\big)
 
 =
-\Pi_r(T_r) - \pi_r(b^-) + \pi_r(b^+)
+\Pi_r(T_r) - \tilde \pi_r(b^-) + \tilde \pi_r(b^+)
 >
 \Pi_r(T_r).
 $$
@@ -208,9 +264,9 @@ QED.
 
 If answer-conditioned extraction collapses to a single bridge estimate `\hat b_r` and we compare against a size-`k` posterior set `S_r^{(k)}` with `k > 1`, then
 $$
-\Pi_r(S_r^{(k)}) \ge \pi_r(\hat b_r),
+\Pi_r(S_r^{(k)}) \ge \tilde \pi_r(\hat b_r),
 $$
-with strict inequality whenever posterior mass outside `\hat b_r` is positive on at least one other top-`k` bridge.
+with strict inequality whenever mixed posterior mass outside `\hat b_r` is positive on at least one other top-`k` bridge.
 
 #### Proof
 
@@ -252,15 +308,15 @@ $$
 \mathbb P(E_{r+1}(S)\mid q,C_r)
 =
 \sum_{b \in \mathcal B_r}
-\mathbb P(E_{r+1}(S)\mid B_r^\star=b,q,C_r)\,\pi_r(b).
+\mathbb P(E_{r+1}(S)\mid B_r^\star=b,q,C_r)\,\tilde \pi_r(b).
 $$
 Applying the bridge-hit assumption yields
 $$
 \mathbb P(E_{r+1}(S)\mid q,C_r)
 \ge
-\sum_{b\in \mathcal B_r} \eta_r \mathbf 1\{b\in S\}\pi_r(b)
+\sum_{b\in \mathcal B_r} \eta_r \mathbf 1\{b\in S\}\tilde \pi_r(b)
 =
-\eta_r \sum_{b\in S}\pi_r(b)
+\eta_r \sum_{b\in S}\tilde \pi_r(b)
 =
 \eta_r \Pi_r(S).
 $$
@@ -360,10 +416,10 @@ Assign nonnegative query weights
 $$
 w_0 = \lambda_{\mathrm{ans}},
 \qquad
-w_j = (1-\lambda_{\mathrm{ans}})\,\frac{\pi_r(b_j)}{\sum_{\ell=1}^{m}\pi_r(b_\ell)},
+w_j = (1-\lambda_{\mathrm{ans}})\,\frac{\tilde \pi_r(b_j)}{\sum_{\ell=1}^{m}\tilde \pi_r(b_\ell)},
 \qquad j=1,\dots,m,
 $$
-so the answer query receives anchor weight `\lambda_{\mathrm{ans}} \in [0,1]` and the remaining mass is distributed proportionally to bridge posterior mass. In the implementation, `\pi_r(b_j)` is approximated by the extractor confidence attached to candidate `b_j`.
+so the answer query receives anchor weight `\lambda_{\mathrm{ans}} \in [0,1]` and the remaining mass is distributed proportionally to bridge posterior mass. In the implementation, `\tilde \pi_r(b_j)` is approximated by the extractor confidence attached to candidate `b_j`.
 
 For each query `q_i`, let `R(q_i)` be the ranked list returned by the retriever, and define the candidate passage set
 $$
@@ -455,7 +511,7 @@ At round `r`, iDNMR keeps two objects:
 - the current evidence set `C_r`,
 - the current answer estimate `\hat a_r`.
 
-The answer estimate is used as one retrieval query, but the distinctive bridge mechanism is the posterior-support candidate set `S_r^{(k)}`.
+The answer estimate is used as one retrieval query, but the distinctive bridge mechanism is the posterior-support candidate set `S_r^{(k)}` extracted from a mixed bridge posterior.
 
 ### Algorithm 5.1. iDNMR
 
@@ -466,6 +522,8 @@ The answer estimate is used as one retrieval query, but the distinctive bridge m
 - retriever `R`
 - diffusion model `p_\theta`
 - initial evidence `C_0`
+- admissible proposal positions `J_r`
+- position selector `\sigma_r`
 - bridge budget `k`
 - maximum rounds `R_max`
 - stopping rule `Stop`
@@ -476,18 +534,21 @@ The answer estimate is used as one retrieval query, but the distinctive bridge m
 
 **For** `r = 0,1,\dots,R_max-1`:
 
-1. Compute or approximate the bridge posterior `\pi_r(b) = P_\theta(B_r^\star=b \mid q,C_r)`.
-   Exact theory: `\pi_r` is the pushforward distribution from Definition 2.1.
-   Implementation: `\pi_r` is approximated by truncated branching over high-probability initial tokens followed by short denoising completions and string deduplication.
+1. Choose a position selector `\sigma_r(\cdot \mid q,C_r)` over admissible proposal positions and compute or approximate the mixed bridge posterior
+   $$
+   \tilde \pi_r(b) = \sum_{j \in J_r} \sigma_r(j \mid q,C_r)\,\pi_r(b\mid j).
+   $$
+   Exact theory: `\tilde \pi_r` is the mixed pushforward distribution from Definitions 2.1-2.2.
+   Implementation: `\tilde \pi_r` is approximated by truncated branching at the selected positions followed by short denoising completions and string deduplication.
 2. Select the posterior-support candidate set
    $$
-   S_r^{(k)} = \operatorname{TopK}(\pi_r, k).
+   S_r^{(k)} = \operatorname{TopK}(\tilde \pi_r, k).
    $$
 3. Form the retrieval query family
    $$
    \mathcal Q_r = \{q \oplus \hat a_r\} \cup \{q \oplus b : b \in S_r^{(k)}\}.
    $$
-4. Retrieve from `D` with all queries in `𝒬_r`, obtaining new evidence `ΔC_{r+1}`.
+4. Retrieve from `D` with all queries in `\mathcal Q_r`, obtaining new evidence `\Delta C_{r+1}`.
 5. Update evidence by deduplicated union:
    $$
    C_{r+1} = C_r \cup \Delta C_{r+1}.
@@ -523,6 +584,16 @@ This is the variant used by `idnmr_filtered.py`.
 - `iDNMR-filtered`: execute multiple rounds with posterior-support extraction and posterior-weighted top-`B` evidence selection at every round.
 
 This separation is important: iDNMR is not "iterative Pool" in the generic sense. Its claim is that iterative retrieval only works when the bridge extractor remains posterior-based rather than collapsing to committed answer tokens.
+
+### Remark 5.2A. Fixed-position and mixed-position DNMR
+
+The DNMR family now has a clean mathematical hierarchy:
+
+- fixed-position DNMR: `\sigma_r = \delta_{j_0}`;
+- mixed-position DNMR: `\sigma_r` has finite support on several proposal positions;
+- answer-conditioned iterative baselines: replace posterior-support extraction entirely by a point-estimate extractor.
+
+So a mixed-position universal extractor is not a different kind of method. It is a richer selector within the same DNMR formalism.
 
 ## 6. Telescoping Answer Support and Finite-Horizon Convergence
 
@@ -622,7 +693,7 @@ ARAM is a single-evidence-set guidance method. Its central object is a guidance 
 
 iDNMR differs in two ways:
 
-1. Its primary object is not a guidance scale but a bridge posterior `\pi_r`.
+1. Its primary object is not a guidance scale but a bridge posterior `\tilde \pi_r`.
 2. It acts on retrieval coverage by selecting multiple bridge hypotheses and expanding evidence across rounds.
 
 So ARAM is a **decoding-on-fixed-evidence** method; iDNMR is a **retrieval-expansion** method.
@@ -672,8 +743,8 @@ That is exactly the distinction between iPool-like point-estimate extraction and
 
 What it buys:
 
-- a principled bridge posterior object;
-- a proof that `TopK` posterior extraction is optimal under a fixed bridge budget;
+- a principled bridge posterior object, including fixed-position and mixed-position variants;
+- a proof that `TopK` posterior extraction is optimal under a fixed bridge budget once the proposal family and selector are fixed;
 - a formal dominance statement over answer-conditioned point-estimate extraction;
 - explicit retrieval-coverage bounds;
 - a finite-horizon iterative retrieval framework with telescoping answer support.
@@ -683,6 +754,7 @@ What it does not buy automatically:
 - statistical significance of a small empirical gap over single-round `Pool`;
 - an explanation of why iDNMR should significantly beat `Pool` in every setting; the clean theorem-to-experiment link is iDNMR versus iPool, where the only changed ingredient is posterior-support extraction versus answer-conditioned extraction;
 - guaranteed superiority on every dataset;
+- a claim that the chosen selector `\sigma_r` is globally optimal unless that selector itself is separately justified;
 - a claim that diffusion guidance, rather than retrieval, is the main mechanism.
 
-Those require empirical validation. The formal result is narrower and cleaner: **if the bridge posterior is the right object, then posterior-support retrieval is the optimal finite-budget way to preserve bridge mass, and iterative retrieval can help exactly when that preservation is maintained across rounds.**
+Those require empirical validation. The formal result is narrower and cleaner: **if the bridge posterior, or mixed bridge posterior, is the right object, then posterior-support retrieval is the optimal finite-budget way to preserve bridge mass given the chosen proposal family, and iterative retrieval can help exactly when that preservation is maintained across rounds.**

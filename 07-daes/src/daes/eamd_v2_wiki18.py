@@ -48,19 +48,24 @@ Do not explain.
 Do not write a sentence if a short phrase is enough.
 """
 
-LLADA_SHORT_INSTRUCTIONS = """You are a helpful assistant.
-Answer using only the final short answer.
-Use 1 to 6 words.
-Do not write a sentence.
-Do not explain.
+LLADA_SHORT_INSTRUCTIONS = """Use the following passages as context and provide a SHORT and DIRECT answer.
+RULES:
+- Use ONLY the context passages to answer
+- Answer must be 1-6 words maximum
+- Do NOT include any explanations or extra text
+- Do NOT repeat or summarize the passages
 
 Example:
 Question: Where is the Eiffel Tower?
-Answer: Paris, France
+Short Answer: Paris, France
 
 Example:
 Question: Who wrote Hamlet?
-Answer: William Shakespeare
+Short Answer: William Shakespeare
+
+Example:
+Question: What year did World War 2 end?
+Short Answer: 1945
 """
 
 
@@ -147,11 +152,12 @@ def compute_em(pred: str, gold: str) -> float:
 
 def short_user_prompt(context: str, question: str) -> str:
     instructions = LLADA_SHORT_INSTRUCTIONS if MODEL_TYPE_REF == "llada" else SHORT_INSTRUCTIONS
+    suffix = "Short Answer:" if MODEL_TYPE_REF == "llada" else "Answer:"
     return (
         f"{instructions}\n"
         f"Context:\n{context}\n\n"
         f"Question: {question}\n"
-        f"Answer:"
+        f"{suffix}"
     )
 
 
@@ -350,8 +356,8 @@ def short_generate(model, tokenizer, context: str, question: str, steps: int = 1
 
 @torch.inference_mode()
 def extract_candidates_generic(model, tokenizer, context: str, question: str, n_candidates: int = 3):
-    if MODEL_TYPE_REF == "dream":
-        return extract_candidates_dream(model, tokenizer, context, question, n_candidates)
+    # Use model-agnostic multi-position extractor for all models
+    return extract_candidates_agnostic(model, tokenizer, context, question, n_candidates)
 
     device = model.device
     mask_id = get_mask_id(tokenizer)
@@ -396,12 +402,123 @@ def extract_candidates_generic(model, tokenizer, context: str, question: str, n_
 
         cand_text = tokenizer.decode(x_c[0, n_prefix:].tolist(), skip_special_tokens=True).strip()
         cand_text = cand_text.split("\n")[0].split(". ")[0].strip()
+        # For LLaDA: aggressively extract entity from verbose candidates
+        if MODEL_TYPE_REF == "llada":
+            import re
+            # Strip common preambles
+            cand_text = re.sub(r"^(?:The answer is:?|The)\s+", "", cand_text).strip()
+            # Strip "X is/was/of/that Y" -> keep Y (the actual entity)
+            m = re.match(r"^.*?(?:is|was|are|were)\s+(.+)", cand_text)
+            if m and len(m.group(1).split()) <= 6:
+                cand_text = m.group(1).strip().rstrip(",.")
+            # Also try: strip everything before last proper noun sequence
+            # Truncate to max 4 words for cleaner retrieval queries
+            words = cand_text.split()
+            if len(words) > 4:
+                cand_text = " ".join(words[:4])
+            cand_text = cand_text.strip().rstrip(",.")
+
         if cand_text and cand_text.lower() not in seen:
             seen.add(cand_text.lower())
             candidates.append({"text": cand_text, "init_conf": prob.item()})
             if len(candidates) >= n_candidates:
                 break
     return candidates
+
+
+@torch.inference_mode()
+def extract_candidates_agnostic(model, tokenizer, context: str, question: str,
+                                n_candidates: int = 3, n_positions: int = 3,
+                                n_branch: int = 2, n_mask: int = 12):
+    """Model-agnostic bridge candidate extraction via multi-position posterior sampling.
+
+    Instead of branching from position 0 (which gives entities on Dream but
+    function words on LLaDA), this extractor:
+    1. Runs one forward pass on a fully masked canvas
+    2. Finds the top-m highest-entropy positions (most uncertain = most informative)
+    3. Branches on top-k tokens at each selected position
+    4. Denoises each branch to completion
+    5. Deduplicates and returns top-K candidates
+    """
+    device = model.device
+    mask_id = get_mask_id(tokenizer)
+
+    prompt = f"{context}\n\nQuestion: {question}\n\nThe answer is:"
+    messages = [{"role": "user", "content": prompt}]
+    input_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    prefix_ids = tokenizer.encode(input_text, add_special_tokens=False)
+    n_prefix = len(prefix_ids)
+
+    canvas = prefix_ids + [mask_id] * n_mask
+    x = torch.tensor([canvas], dtype=torch.long, device=device)
+    attn = torch.ones((1, len(canvas)), dtype=torch.long, device=device)
+
+    # Step 1: Forward pass on fully masked canvas
+    out = model(x, attention_mask=attn)
+    logits = prepare_logits(out.logits)
+
+    # Step 2: Select positions — ALWAYS include position 0 + top entropy positions
+    answer_logits = logits[0, n_prefix:n_prefix + n_mask]
+    probs = torch.softmax(answer_logits / 0.3, dim=-1)
+    entropy = -(probs * torch.log(probs + 1e-10)).sum(dim=-1)
+
+    # Always include pos 0 (works well for Dream), plus top entropy positions (helps LLaDA)
+    entropy_positions = torch.topk(entropy, min(n_positions, n_mask)).indices.tolist()
+    top_positions = [0]  # always start with pos 0
+    for p in entropy_positions:
+        if p not in top_positions:
+            top_positions.append(p)
+        if len(top_positions) >= n_positions + 1:  # pos0 + n_positions entropy
+            break
+
+    # Step 3: Branch on top-k tokens at each selected position
+    candidates = []
+    seen = set()
+
+    for pos_local in top_positions:
+        pos_global = n_prefix + pos_local
+        pos_probs = torch.softmax(answer_logits[pos_local] / 0.3, dim=-1)
+        top_probs, top_ids = torch.topk(pos_probs, n_branch)
+
+        for prob, tid in zip(top_probs, top_ids):
+            x_c = torch.tensor([canvas], dtype=torch.long, device=device)
+            x_c[0, pos_global] = tid
+
+            # Step 4: Denoise the rest
+            rem = n_mask - 1
+            for step in range(12):
+                if rem <= 0:
+                    break
+                mi = x_c == mask_id
+                if not mi.any():
+                    break
+                o2 = model(x_c, attention_mask=attn)
+                l2 = prepare_logits(o2.logits)
+                mp = mi[0].nonzero(as_tuple=True)[0]
+                c2, x02 = sample_tokens(l2[0, mp], temperature=0.1, neg_entropy=True)
+                k = min(max(1, rem // 12), rem)
+                if step == 11:
+                    k = rem
+                _, tk = torch.topk(c2, min(k, len(c2)))
+                x_c[0, mp[tk]] = x02[tk]
+                rem -= len(tk)
+
+            cand_text = tokenizer.decode(x_c[0, n_prefix:n_prefix + n_mask].tolist(),
+                                         skip_special_tokens=True).strip()
+            cand_text = cand_text.split("\n")[0].split(". ")[0].strip()
+
+            if cand_text and len(cand_text) > 1 and cand_text.lower() not in seen:
+                seen.add(cand_text.lower())
+                candidates.append({"text": cand_text, "init_conf": prob.item(),
+                                   "position": pos_local})
+                if len(candidates) >= n_candidates:
+                    break
+
+        if len(candidates) >= n_candidates:
+            break
+
+    return candidates
+
 
 
 @torch.inference_mode()

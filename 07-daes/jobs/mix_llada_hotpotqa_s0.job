@@ -1,0 +1,22 @@
+#!/bin/bash
+#SBATCH --job-name=mix-lla-hot-s0
+#SBATCH --partition=gpu_a100
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=80G
+#SBATCH --time=14:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/mixed/mix_llada_hotpotqa_s0_%j.out
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/dllm:/projects/prjs1800/msc-thesis/07-daes/src/daes
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+cd /projects/prjs1800/msc-thesis/07-daes
+mkdir -p results/mixed
+
+python -u src/daes/idnmr_pilot.py \
+  --model llada --dataset hotpotqa \
+  --start_idx 0 --n_questions 200 \
+  --max_rounds 3 --steps 16 --answer_tokens 8 \
+  --n_candidates 3 --initial_top_k 5 --expand_top_k 3 \
+  --output results/mixed/llada_hotpotqa_mix_s0.json
