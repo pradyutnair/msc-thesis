@@ -8,6 +8,7 @@ Single-round AR-MQR using the same retrieval stack as DNMR:
 import argparse
 import json
 import os
+import re
 import time
 
 import torch
@@ -24,7 +25,40 @@ Do not write a sentence if a short phrase is enough.
 """
 
 
+def extract_visible_answer(text: str) -> str:
+    # If </think> present, take everything after it
+    if "</think>" in text:
+        text = text.split("</think>")[-1]
+    elif "</thinking>" in text:
+        text = text.split("</thinking>")[-1]
+    elif "<think>" in text and "</think>" not in text:
+        # Thinking started but never finished (token limit hit)
+        # Try to find any answer-like content in the thinking
+        # Fall back to empty — better than returning thinking content
+        return ""
+    # Strip any remaining think tags
+    text = re.sub(r"<think>.*?</think>", " ", text, flags=re.DOTALL | re.IGNORECASE)
+    text = re.sub(r"<thinking>.*?</thinking>", " ", text, flags=re.DOTALL | re.IGNORECASE)
+    text = text.strip()
+    if not text:
+        return ""
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+    # Look for explicit answer markers
+    for line in reversed(lines):
+        lower = line.lower()
+        if lower.startswith("final answer:") or lower.startswith("answer:"):
+            return line.split(":", 1)[1].strip()
+    # Fallback: last non-empty line
+    return lines[-1] if lines else text.strip()
+
+
 def normalize_candidate(text: str) -> str:
+    text = re.sub(r"<think>.*?</think>", " ", text, flags=re.DOTALL | re.IGNORECASE)
+    text = re.sub(r"<thinking>.*?</thinking>", " ", text, flags=re.DOTALL | re.IGNORECASE)
+    if "</think>" in text:
+        text = text.split("</think>")[-1]
+    if "</thinking>" in text:
+        text = text.split("</thinking>")[-1]
     text = text.strip()
     text = text.split("\n")[0].split(". ")[0].strip()
     words = text.split()
@@ -33,23 +67,34 @@ def normalize_candidate(text: str) -> str:
     return text.strip()
 
 
-def build_prompt(context: str, question: str, answer_prefix: str = "Answer:") -> str:
+def build_prompt(
+    context: str,
+    question: str,
+    answer_prefix: str = "Answer:",
+    thinking: bool = False,
+) -> str:
+    format_hint = (
+        "You may think first, but end with exactly one line formatted as 'Final answer: <short phrase>'."
+        if thinking
+        else ""
+    )
     return (
         f"{AR_SHORT_INSTRUCTIONS}\n"
+        f"{format_hint}\n"
         f"Context:\n{context}\n\n"
         f"Question: {question}\n"
         f"{answer_prefix}"
     )
 
 
-def apply_qwen_template(tokenizer, prompt: str) -> str:
+def apply_qwen_template(tokenizer, prompt: str, thinking: bool = False) -> str:
     messages = [{"role": "user", "content": prompt}]
     try:
         return tokenizer.apply_chat_template(
             messages,
             tokenize=False,
             add_generation_prompt=True,
-            enable_thinking=False,
+            enable_thinking=thinking,
         )
     except TypeError:
         return tokenizer.apply_chat_template(
@@ -60,18 +105,27 @@ def apply_qwen_template(tokenizer, prompt: str) -> str:
 
 
 @torch.inference_mode()
-def ar_generate_answer(model, tokenizer, context: str, question: str, max_new_tokens: int = 32) -> str:
-    text = apply_qwen_template(tokenizer, build_prompt(context, question))
+def ar_generate_answer(
+    model,
+    tokenizer,
+    context: str,
+    question: str,
+    max_new_tokens: int = 32,
+    thinking: bool = False,
+) -> str:
+    effective_tokens = max_new_tokens if not thinking else max(max_new_tokens, 8192)
+    text = apply_qwen_template(tokenizer, build_prompt(context, question, thinking=thinking), thinking=thinking)
     input_ids = tokenizer.encode(text, return_tensors="pt").to(model.device)
     attention_mask = torch.ones_like(input_ids)
     output = model.generate(
         input_ids,
         attention_mask=attention_mask,
-        max_new_tokens=max_new_tokens,
+        max_new_tokens=effective_tokens,
         do_sample=False,
         pad_token_id=tokenizer.eos_token_id,
     )
-    answer = tokenizer.decode(output[0][input_ids.shape[1]:], skip_special_tokens=True).strip()
+    raw = tokenizer.decode(output[0][input_ids.shape[1]:], skip_special_tokens=True).strip()
+    answer = extract_visible_answer(raw)
     return normalize_candidate(answer)
 
 
@@ -83,14 +137,20 @@ def ar_generate_candidates(
     question: str,
     n_candidates: int = 3,
     max_new_tokens: int = 16,
+    thinking: bool = False,
 ) -> list[dict]:
-    text = apply_qwen_template(tokenizer, build_prompt(context, question, answer_prefix="The answer is:"))
+    effective_tokens = max_new_tokens if not thinking else max(max_new_tokens, 4096)
+    text = apply_qwen_template(
+        tokenizer,
+        build_prompt(context, question, answer_prefix="The answer is:", thinking=thinking),
+        thinking=thinking,
+    )
     input_ids = tokenizer.encode(text, return_tensors="pt").to(model.device)
     attention_mask = torch.ones_like(input_ids)
     outputs = model.generate(
         input_ids,
         attention_mask=attention_mask,
-        max_new_tokens=max_new_tokens,
+        max_new_tokens=effective_tokens,
         do_sample=True,
         temperature=0.7,
         top_p=0.9,
@@ -102,7 +162,7 @@ def ar_generate_candidates(
     seen = set()
     for seq in outputs:
         text_out = tokenizer.decode(seq[input_ids.shape[1]:], skip_special_tokens=True)
-        cand = normalize_candidate(text_out)
+        cand = normalize_candidate(extract_visible_answer(text_out))
         if not cand:
             continue
         key = cand.lower()
@@ -142,6 +202,7 @@ def main():
     parser.add_argument("--expand_top_k", type=int, default=3)
     parser.add_argument("--seed_tokens", type=int, default=16)
     parser.add_argument("--answer_tokens", type=int, default=32)
+    parser.add_argument("--thinking", action="store_true")
     parser.add_argument("--output", required=True)
     parser.add_argument("--log_every", type=int, default=5)
     parser.add_argument("--save_every", type=int, default=5)
@@ -149,7 +210,7 @@ def main():
 
     t_start = time.time()
     print("=== AR-MQR Pilot ===", flush=True)
-    print(f"Dataset: {args.dataset}, n_questions: {args.n_questions}", flush=True)
+    print(f"Dataset: {args.dataset}, n_questions: {args.n_questions}, thinking: {args.thinking}", flush=True)
 
     model_name = "Qwen/Qwen3-8B"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -182,9 +243,23 @@ def main():
         initial = all_initial[qi]
         old_ctx = "\n\n".join(initial)
 
-        baseline_ans = ar_generate_answer(model, tokenizer, old_ctx, qtext, max_new_tokens=args.answer_tokens)
+        baseline_ans = ar_generate_answer(
+            model,
+            tokenizer,
+            old_ctx,
+            qtext,
+            max_new_tokens=args.answer_tokens,
+            thinking=args.thinking,
+        )
 
-        seed_ans = ar_generate_answer(model, tokenizer, old_ctx, qtext, max_new_tokens=args.seed_tokens)
+        seed_ans = ar_generate_answer(
+            model,
+            tokenizer,
+            old_ctx,
+            qtext,
+            max_new_tokens=args.seed_tokens,
+            thinking=args.thinking,
+        )
         bridge_cands = ar_generate_candidates(
             model,
             tokenizer,
@@ -192,10 +267,18 @@ def main():
             qtext,
             n_candidates=args.n_candidates,
             max_new_tokens=args.seed_tokens,
+            thinking=args.thinking,
         )
         ar_passages, new_p = expand_evidence(retriever, qtext, seed_ans, bridge_cands, initial, args.expand_top_k)
         ar_ctx = "\n\n".join(ar_passages)
-        ar_mqr_ans = ar_generate_answer(model, tokenizer, ar_ctx, qtext, max_new_tokens=args.answer_tokens)
+        ar_mqr_ans = ar_generate_answer(
+            model,
+            tokenizer,
+            ar_ctx,
+            qtext,
+            max_new_tokens=args.answer_tokens,
+            thinking=args.thinking,
+        )
 
         elapsed = time.time() - tq
         row = {
