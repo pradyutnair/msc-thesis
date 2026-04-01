@@ -29,6 +29,10 @@ MODEL_REF = None
 TOKENIZER_REF = None
 MODEL_TYPE_REF = "dream"
 
+def _neg_entropy():
+    """Return neg_entropy flag based on model type. Dream=True (entropy-based), LLaDA=False (low-confidence)."""
+    return MODEL_TYPE_REF != "llada"
+
 CORPUS_JSONL = "/projects/prjs1800/datasets/flashrag/retrieval-corpus/wiki18_100w.jsonl"
 ID_OFFSET_JSON = "/projects/prjs1800/msc-thesis/01-arag-reproduction/data/index/wiki18_id_offset.json"
 FAISS_INDEX = "/projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index"
@@ -338,7 +342,7 @@ def short_generate(model, tokenizer, context: str, question: str, steps: int = 1
         out = model(x, attention_mask=attn)
         logits = prepare_logits(out.logits)
         mask_pos = mask_idx[0].nonzero(as_tuple=True)[0]
-        conf, x0 = sample_tokens(logits[0, mask_pos], temperature=temperature, neg_entropy=True)
+        conf, x0 = sample_tokens(logits[0, mask_pos], temperature=temperature, neg_entropy=_neg_entropy())
         n_commit = min(k_per_step, remaining)
         if step == steps - 1:
             n_commit = remaining
@@ -355,9 +359,9 @@ def short_generate(model, tokenizer, context: str, question: str, steps: int = 1
 
 
 @torch.inference_mode()
-def extract_candidates_generic(model, tokenizer, context: str, question: str, n_candidates: int = 3):
+def extract_candidates_generic(model, tokenizer, context: str, question: str, n_candidates: int = 3, extraction_steps: int = 12):
     # Use model-agnostic multi-position extractor for all models
-    return extract_candidates_agnostic(model, tokenizer, context, question, n_candidates)
+    return extract_candidates_agnostic(model, tokenizer, context, question, n_candidates, extraction_steps=extraction_steps)
 
     device = model.device
     mask_id = get_mask_id(tokenizer)
@@ -392,7 +396,7 @@ def extract_candidates_generic(model, tokenizer, context: str, question: str, n_
             o2 = model(x_c, attention_mask=attn)
             l2 = prepare_logits(o2.logits)
             mp = mi[0].nonzero(as_tuple=True)[0]
-            c2, x02 = sample_tokens(l2[0, mp], temperature=0.1, neg_entropy=True)
+            c2, x02 = sample_tokens(l2[0, mp], temperature=0.1, neg_entropy=_neg_entropy())
             k = min(max(1, rem // 16), rem)
             if step == 15:
                 k = rem
@@ -429,25 +433,20 @@ def extract_candidates_generic(model, tokenizer, context: str, question: str, n_
 @torch.inference_mode()
 def extract_candidates_agnostic(model, tokenizer, context: str, question: str,
                                 n_candidates: int = 3, n_positions: int = 3,
-                                n_branch: int = 2, n_mask: int = 12):
+                                n_branch: int = 2, n_mask: int = 12,
+                                extraction_steps: int = 12):
     """Model-agnostic bridge candidate extraction via multi-position posterior sampling.
 
-    Instead of branching from position 0 (which gives entities on Dream but
-    function words on LLaDA), this extractor:
-    1. Runs one forward pass on a fully masked canvas
-    2. Finds the top-m highest-entropy positions (most uncertain = most informative)
-    3. Branches on top-k tokens at each selected position
-    4. Denoises each branch to completion
-    5. Deduplicates and returns top-K candidates
+    Batched implementation: all branch canvases are denoised in parallel.
+
+    Args:
+        extraction_steps: Number of denoising steps per branch rollout (default 12).
+            Can be reduced (e.g. 4) for speed at slight quality cost.
     """
     device = model.device
     mask_id = get_mask_id(tokenizer)
 
-    prompt = f"{context}\n\nQuestion: {question}\n\nThe answer is:"
-    messages = [{"role": "user", "content": prompt}]
-    input_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-    prefix_ids = tokenizer.encode(input_text, add_special_tokens=False)
-    n_prefix = len(prefix_ids)
+    prefix_ids, n_prefix = build_short_prompt(tokenizer, context, question)
 
     canvas = prefix_ids + [mask_id] * n_mask
     x = torch.tensor([canvas], dtype=torch.long, device=device)
@@ -462,60 +461,70 @@ def extract_candidates_agnostic(model, tokenizer, context: str, question: str,
     probs = torch.softmax(answer_logits / 0.3, dim=-1)
     entropy = -(probs * torch.log(probs + 1e-10)).sum(dim=-1)
 
-    # Always include pos 0 (works well for Dream), plus top entropy positions (helps LLaDA)
     entropy_positions = torch.topk(entropy, min(n_positions, n_mask)).indices.tolist()
-    top_positions = [0]  # always start with pos 0
+    top_positions = [0]
     for p in entropy_positions:
         if p not in top_positions:
             top_positions.append(p)
-        if len(top_positions) >= n_positions + 1:  # pos0 + n_positions entropy
+        if len(top_positions) >= n_positions + 1:
             break
 
-    # Step 3: Branch on top-k tokens at each selected position
-    candidates = []
-    seen = set()
-
+    # Step 3: Build ALL branch canvases at once
+    branch_canvases = []
+    branch_meta = []  # (pos_local, prob, tid)
     for pos_local in top_positions:
         pos_global = n_prefix + pos_local
         pos_probs = torch.softmax(answer_logits[pos_local] / 0.3, dim=-1)
         top_probs, top_ids = torch.topk(pos_probs, n_branch)
+        for i in range(len(top_probs)):
+            c = list(canvas)
+            c[pos_global] = top_ids[i].item()
+            branch_canvases.append(c)
+            branch_meta.append((pos_local, top_probs[i].item(), top_ids[i].item()))
 
-        for prob, tid in zip(top_probs, top_ids):
-            x_c = torch.tensor([canvas], dtype=torch.long, device=device)
-            x_c[0, pos_global] = tid
+    if not branch_canvases:
+        return []
 
-            # Step 4: Denoise the rest
-            rem = n_mask - 1
-            for step in range(12):
-                if rem <= 0:
-                    break
-                mi = x_c == mask_id
-                if not mi.any():
-                    break
-                o2 = model(x_c, attention_mask=attn)
-                l2 = prepare_logits(o2.logits)
-                mp = mi[0].nonzero(as_tuple=True)[0]
-                c2, x02 = sample_tokens(l2[0, mp], temperature=0.1, neg_entropy=True)
-                k = min(max(1, rem // 12), rem)
-                if step == 11:
-                    k = rem
-                _, tk = torch.topk(c2, min(k, len(c2)))
-                x_c[0, mp[tk]] = x02[tk]
-                rem -= len(tk)
+    # Step 4: Sequential denoising of each branch
+    B = len(branch_canvases)
+    x_all = torch.tensor(branch_canvases, dtype=torch.long, device=device)  # [B, seq_len]
+    neg_ent = _neg_entropy()
 
-            cand_text = tokenizer.decode(x_c[0, n_prefix:n_prefix + n_mask].tolist(),
-                                         skip_special_tokens=True).strip()
-            cand_text = cand_text.split("\n")[0].split(". ")[0].strip()
+    for bi in range(B):
+        x_c = x_all[bi:bi+1]  # [1, seq_len]
+        remaining = n_mask - 1
+        for step in range(extraction_steps):
+            if remaining <= 0:
+                break
+            mi = (x_c[0] == mask_id)
+            if not mi.any():
+                break
+            out = model(x_c, attention_mask=attn)
+            l2 = prepare_logits(out.logits)
+            mp = mi.nonzero(as_tuple=True)[0]
+            c2, x02 = sample_tokens(l2[0, mp], temperature=0.1, neg_entropy=neg_ent)
+            k = min(max(1, remaining // extraction_steps), remaining)
+            if step == extraction_steps - 1:
+                k = remaining
+            _, tk = torch.topk(c2, min(k, len(c2)))
+            x_c[0, mp[tk]] = x02[tk]
+            remaining -= len(tk)
 
-            if cand_text and len(cand_text) > 1 and cand_text.lower() not in seen:
-                seen.add(cand_text.lower())
-                candidates.append({"text": cand_text, "init_conf": prob.item(),
-                                   "position": pos_local})
-                if len(candidates) >= n_candidates:
-                    break
+    # Step 5: Decode and deduplicate
+    candidates = []
+    seen = set()
+    for bi in range(len(branch_meta)):
+        pos_local, prob, tid = branch_meta[bi]
+        cand_text = tokenizer.decode(x_all[bi, n_prefix:n_prefix + n_mask].tolist(),
+                                     skip_special_tokens=True).strip()
+        cand_text = cand_text.split("\n")[0].split(". ")[0].strip()
 
-        if len(candidates) >= n_candidates:
-            break
+        if cand_text and len(cand_text) > 1 and cand_text.lower() not in seen:
+            seen.add(cand_text.lower())
+            candidates.append({"text": cand_text, "init_conf": prob,
+                               "position": pos_local})
+            if len(candidates) >= n_candidates:
+                break
 
     return candidates
 
@@ -553,7 +562,7 @@ def spread_generate_shared(model, tokenizer, context: str, question: str, steps:
         hs = out.hidden_states[-1]
 
         mask_logits = logits[0, mask_pos]
-        confidence, x0 = sample_tokens(mask_logits, temperature=temperature, neg_entropy=True)
+        confidence, x0 = sample_tokens(mask_logits, temperature=temperature, neg_entropy=_neg_entropy())
 
         h_masked = F.normalize(hs[0, mask_pos], dim=-1)
         rel = torch.sigmoid(h_masked @ h_q.squeeze(0))
@@ -626,7 +635,7 @@ def aram_generate_shared(model, tokenizer, context: str, question: str, steps: i
         )
         guided_logits = logits_prior + lam.unsqueeze(-1) * (logits_cond - logits_prior)
 
-        confidence, x0 = sample_tokens(guided_logits, temperature=temperature, neg_entropy=True)
+        confidence, x0 = sample_tokens(guided_logits, temperature=temperature, neg_entropy=_neg_entropy())
         n_commit = min(k_per_step, remaining)
         if step == steps - 1:
             n_commit = remaining
@@ -757,7 +766,7 @@ def eamd_micro_shared(model, tokenizer, retriever: Wiki18Retriever, question: st
             logits = prepare_logits(out.logits)
             guided_logits = logits[0, mask_pos]
 
-        confidence, x_pred = sample_tokens(guided_logits, temperature=temperature, neg_entropy=True)
+        confidence, x_pred = sample_tokens(guided_logits, temperature=temperature, neg_entropy=_neg_entropy())
         n_commit = min(k_per_step, remaining)
         if step == pivot_steps - 1 and steps == pivot_steps:
             n_commit = remaining
@@ -862,7 +871,7 @@ def eamd_micro_shared(model, tokenizer, retriever: Wiki18Retriever, question: st
         guidance_scale = 1.0 + extra_scale
         guided_logits = logits_full + extra_scale.unsqueeze(-1) * (logits_full - logits_base)
 
-        confidence, x_pred = sample_tokens(guided_logits, temperature=temperature, neg_entropy=True)
+        confidence, x_pred = sample_tokens(guided_logits, temperature=temperature, neg_entropy=_neg_entropy())
         n_commit = min(k_per_step_2, remaining)
         if step == steps - 1:
             n_commit = remaining
@@ -944,7 +953,7 @@ def eamd_regen_shared(model, tokenizer, question: str, old_context: str, new_con
         )
         guided_logits = logits_full + gamma.unsqueeze(-1) * (logits_full - logits_base)
 
-        confidence, x0 = sample_tokens(guided_logits, temperature=temperature, neg_entropy=True)
+        confidence, x0 = sample_tokens(guided_logits, temperature=temperature, neg_entropy=_neg_entropy())
         n_commit = min(k_per_step, remaining)
         if step == steps - 1:
             n_commit = remaining
@@ -1089,7 +1098,7 @@ def eamd_remask_shared(model, tokenizer, question: str, old_context: str, new_co
         )
         guided_logits = logits_full + gamma.unsqueeze(-1) * (logits_full - logits_base)
 
-        confidence, x0 = sample_tokens(guided_logits, temperature=temperature, neg_entropy=True)
+        confidence, x0 = sample_tokens(guided_logits, temperature=temperature, neg_entropy=_neg_entropy())
         n_commit = min(k_per_step, remaining)
         if step == steps - 1:
             n_commit = remaining

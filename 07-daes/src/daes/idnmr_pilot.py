@@ -19,6 +19,7 @@ sys.path.insert(0, "/projects/prjs1800/msc-thesis/07-daes/dllm")
 sys.path.insert(0, "/projects/prjs1800/msc-thesis/07-daes/src/daes")
 
 from eamd_v2_wiki18 import (
+    _neg_entropy,
     Wiki18Retriever, build_short_prompt, prepare_logits,
     get_mask_id, decode_answer, compute_f1, short_generate,
     short_user_prompt, extract_candidates_generic, QUESTION_FILES,
@@ -53,7 +54,7 @@ def simple_decode(model, tokenizer, context, question, steps=32, n_tokens=32):
         out = model(x, attention_mask=attn)
         logits = prepare_logits(out.logits)
         token_logits = logits[0, masked_local + n_prefix]
-        confidence, x0 = sample_tokens(token_logits, temperature=0.0, neg_entropy=True)
+        confidence, x0 = sample_tokens(token_logits, temperature=0.0, neg_entropy=_neg_entropy())
         n_commit = min(k_per_step, remaining)
         if step == steps - 1:
             n_commit = remaining
@@ -100,6 +101,7 @@ def main():
     parser.add_argument("--n_candidates", type=int, default=3)
     parser.add_argument("--initial_top_k", type=int, default=5)
     parser.add_argument("--expand_top_k", type=int, default=3)
+    parser.add_argument("--extraction_steps", type=int, default=12, help="Denoising steps per branch rollout (12=original, 4=fast)")
     parser.add_argument("--output", required=True)
     parser.add_argument("--log_every", type=int, default=5)
     parser.add_argument("--save_every", type=int, default=5)
@@ -157,7 +159,7 @@ def main():
         # === pool: single-round, distribution-based extraction ===
         seed_ans, _, _ = short_generate(model, tokenizer, old_ctx, qtext,
                                         steps=16, n_tokens=16, temperature=0.0)
-        pool_cands = extract_candidates_generic(model, tokenizer, old_ctx, qtext, args.n_candidates)
+        pool_cands = extract_candidates_generic(model, tokenizer, old_ctx, qtext, args.n_candidates, extraction_steps=args.extraction_steps)
         pool_passages, _ = expand_evidence(retriever, qtext, seed_ans, pool_cands,
                                            initial, args.expand_top_k)
         pool_ctx = "\n\n".join(pool_passages)
@@ -189,7 +191,7 @@ def main():
         for r in range(args.max_rounds):
             # KEY DIFFERENCE: use extract_candidates_generic (token distribution)
             # not extract_bridges_from_answer (committed tokens)
-            bc = extract_candidates_generic(model, tokenizer, idnmr_ctx, qtext, args.n_candidates)
+            bc = extract_candidates_generic(model, tokenizer, idnmr_ctx, qtext, args.n_candidates, extraction_steps=args.extraction_steps)
             idnmr_passages, new_p = expand_evidence(retriever, qtext, prev_idnmr_ans, bc,
                                                     idnmr_passages, args.expand_top_k)
             idnmr_ctx = "\n\n".join(idnmr_passages)
@@ -209,7 +211,7 @@ def main():
         idnmr2_ctx = old_ctx
         prev_idnmr2_ans = seed_ans
         for r in range(min(2, args.max_rounds)):
-            bc = extract_candidates_generic(model, tokenizer, idnmr2_ctx, qtext, args.n_candidates)
+            bc = extract_candidates_generic(model, tokenizer, idnmr2_ctx, qtext, args.n_candidates, extraction_steps=args.extraction_steps)
             idnmr2_passages, new_p = expand_evidence(retriever, qtext, prev_idnmr2_ans, bc,
                                                      idnmr2_passages, args.expand_top_k)
             idnmr2_ctx = "\n\n".join(idnmr2_passages)

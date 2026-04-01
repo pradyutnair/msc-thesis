@@ -28,6 +28,9 @@ from dgmqr import extract_candidates as extract_candidates_dream
 MODEL_REF = None
 TOKENIZER_REF = None
 MODEL_TYPE_REF = "dream"
+def _neg_entropy():
+    return MODEL_TYPE_REF != "llada"
+
 
 CORPUS_JSONL = "/projects/prjs1800/datasets/flashrag/retrieval-corpus/wiki18_100w.jsonl"
 ID_OFFSET_JSON = "/projects/prjs1800/msc-thesis/01-arag-reproduction/data/index/wiki18_id_offset.json"
@@ -283,7 +286,7 @@ def short_generate(model, tokenizer, context: str, question: str, steps: int = 1
         out = model(x, attention_mask=attn)
         logits = prepare_logits(out.logits)
         mask_pos = mask_idx[0].nonzero(as_tuple=True)[0]
-        conf, x0 = sample_tokens(logits[0, mask_pos], temperature=temperature, neg_entropy=True)
+        conf, x0 = sample_tokens(logits[0, mask_pos], temperature=temperature, neg_entropy=_neg_entropy())
         n_commit = min(k_per_step, remaining)
         if step == steps - 1:
             n_commit = remaining
@@ -337,7 +340,7 @@ def extract_candidates_generic(model, tokenizer, context: str, question: str, n_
             o2 = model(x_c, attention_mask=attn)
             l2 = prepare_logits(o2.logits)
             mp = mi[0].nonzero(as_tuple=True)[0]
-            c2, x02 = sample_tokens(l2[0, mp], temperature=0.1, neg_entropy=True)
+            c2, x02 = sample_tokens(l2[0, mp], temperature=0.1, neg_entropy=_neg_entropy())
             k = min(max(1, rem // 16), rem)
             if step == 15:
                 k = rem
@@ -387,7 +390,7 @@ def spread_generate_shared(model, tokenizer, context: str, question: str, steps:
         hs = out.hidden_states[-1]
 
         mask_logits = logits[0, mask_pos]
-        confidence, x0 = sample_tokens(mask_logits, temperature=temperature, neg_entropy=True)
+        confidence, x0 = sample_tokens(mask_logits, temperature=temperature, neg_entropy=_neg_entropy())
 
         h_masked = F.normalize(hs[0, mask_pos], dim=-1)
         rel = torch.sigmoid(h_masked @ h_q.squeeze(0))
@@ -461,7 +464,7 @@ def aram_generate_shared(model, tokenizer, context: str, question: str, steps: i
         lam = lambda_max * torch.tanh(beta * signal / (noise + eps))
         guided_logits = logits_prior + lam.unsqueeze(-1) * (logits_cond - logits_prior)
 
-        confidence, x0 = sample_tokens(guided_logits, temperature=temperature, neg_entropy=True)
+        confidence, x0 = sample_tokens(guided_logits, temperature=temperature, neg_entropy=_neg_entropy())
         n_commit = min(k_per_step, remaining)
         if step == steps - 1:
             n_commit = remaining
@@ -592,7 +595,7 @@ def eamd_micro_shared(model, tokenizer, retriever: Wiki18Retriever, question: st
             logits = prepare_logits(out.logits)
             guided_logits = logits[0, mask_pos]
 
-        confidence, x_pred = sample_tokens(guided_logits, temperature=temperature, neg_entropy=True)
+        confidence, x_pred = sample_tokens(guided_logits, temperature=temperature, neg_entropy=_neg_entropy())
         n_commit = min(k_per_step, remaining)
         _, topk = torch.topk(confidence, min(n_commit, len(confidence)))
         x0[0, mask_pos[topk]] = x_pred[topk]
@@ -693,7 +696,7 @@ def eamd_micro_shared(model, tokenizer, retriever: Wiki18Retriever, question: st
         guidance_scale = 1.0 + extra_scale
         guided_logits = logits_full + extra_scale.unsqueeze(-1) * (logits_full - logits_base)
 
-        confidence, x_pred = sample_tokens(guided_logits, temperature=temperature, neg_entropy=True)
+        confidence, x_pred = sample_tokens(guided_logits, temperature=temperature, neg_entropy=_neg_entropy())
         n_commit = min(k_per_step_2, remaining)
         if step == steps - 1:
             n_commit = remaining
@@ -774,7 +777,7 @@ def eamd_regen_shared(model, tokenizer, question: str, old_context: str, new_con
         guidance_scale = 1.0 + extra_scale
         guided_logits = logits_full + extra_scale.unsqueeze(-1) * (logits_full - logits_base)
 
-        confidence, x0 = sample_tokens(guided_logits, temperature=temperature, neg_entropy=True)
+        confidence, x0 = sample_tokens(guided_logits, temperature=temperature, neg_entropy=_neg_entropy())
         n_commit = min(k_per_step, remaining)
         if step == steps - 1:
             n_commit = remaining
@@ -902,7 +905,7 @@ def eamd_remask_shared(model, tokenizer, question: str, old_context: str, new_co
         guidance_scale = 1.0 + extra_scale
         guided_logits = logits_full + extra_scale.unsqueeze(-1) * (logits_full - logits_base)
 
-        confidence, x0 = sample_tokens(guided_logits, temperature=temperature, neg_entropy=True)
+        confidence, x0 = sample_tokens(guided_logits, temperature=temperature, neg_entropy=_neg_entropy())
         n_commit = min(k_per_step, remaining)
         if step == steps - 1:
             n_commit = remaining
