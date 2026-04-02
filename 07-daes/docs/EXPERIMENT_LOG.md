@@ -1,7 +1,7 @@
 # DNMR Experiment Log
 
 **Single source of truth. Updated continuously.**
-**Last updated**: April 2, 2026 17:00 CEST
+**Last updated**: April 2, 2026 23:30 CEST
 
 ---
 
@@ -24,7 +24,8 @@
 - [x] Bridge candidate analysis: LLaDA 30% "The answer is..." vs Dream 1%
 
 ### In Progress
-- [ ] Dream verbosity fix confirmation (pool_8 on Dream 50q)
+- [ ] LLaDA MuSiQue 1000q pool8 run on IVI (200q done, 800q running multi-GPU spawn)
+- [ ] Need RunPod/Snellius for HotpotQA + 2WikiMH (IVI too slow at 42s/q on A6000)
 
 ### TODO: Experiments (Paper-Critical)
 - [ ] LLaDA 1000q x 3 datasets with n_tokens=8 final decode
@@ -116,6 +117,25 @@ Key insight: the retrieval works (pool finds more gold answers). The fix is not 
 
 ---
 
+
+## 2b. HotpotQA Pool8 Analysis (30q, IVI)
+
+Pool8 on HotpotQA has a yes/no verbosity problem:
+- Baseline "Yes" (F1=1.0) -> Pool8 "Yes, both are opera composers" (F1=0.33)
+- Correct answer but extra words kill F1
+- Answer flipping on some questions (baseline correct "No" -> pool8 wrong "Yes")
+- Bridge questions DO benefit (same pattern as MuSiQue)
+- Fix needed: post-process yes/no answers, or use n_tokens=2 for comparison questions
+
+## 2c. 2WikiMH Early Signal (10q, IVI)
+
+| Method | F1 |
+|--------|:--:|
+| Baseline | 0.300 |
+| Pool8 | 0.447 (+14.7pp) |
+
+Strongly positive on 2WikiMH. Needs more data.
+
 ## 3. Retrieval Analysis (LLaDA MuSiQue 740q)
 
 Pool retrieval genuinely helps. ARAM wins F1 only because of concise answers.
@@ -176,7 +196,17 @@ Not apples-to-apples. fast-dLLM benchmark pending.
 
 ---
 
-## 7. Key Files
+
+## 8. Infrastructure Notes
+
+- **IVI node410**: 3xA6000 (48GB each), 125GB RAM. Single process uses 63GB RSS.
+  Multi-GPU fails (3x63=189GB > 125GB). Single GPU: ~42s/q for full pool pipeline.
+- **Snellius H100/A100**: ~7s/q. 11.8k SBUs remaining. ~4000 SBUs per 1000q dataset.
+- **RunPod option**: Need 64GB+ system RAM for the retriever. A100/5090 ~$1-1.5/hr.
+- **Per-question breakdown on A6000**: 32 baseline passes (10s) + 37 extraction passes (11s) +
+  retrieval (5s) + 8 pool passes (2.5s) + overhead = ~42s/q
+
+## 9. Key Files
 
 | File | Purpose |
 |------|---------|
