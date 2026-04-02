@@ -1,0 +1,422 @@
+{
+  "summary": {
+    "baseline": {
+      "f1": 0.1598,
+      "em": 0.0,
+      "contain": 0.1
+    },
+    "pool": {
+      "f1": 0.0991,
+      "em": 0.0,
+      "contain": 0.1
+    },
+    "oracle_bridge": {
+      "f1": 0.2341,
+      "em": 0.1,
+      "contain": 0.3
+    }
+  },
+  "results": [
+    {
+      "id": "2hop__153573_109006",
+      "question": "Who developed the eponymous character from the series that contains Mickey's Safari in Letterland?",
+      "gold": "Walt Disney",
+      "gold_bridges": [
+        "Mickey Mouse"
+      ],
+      "predicted_candidates": [
+        "Mickey Mouse, developed by Walt Disney Productions.",
+        "Walt Disney",
+        "Disney"
+      ],
+      "baseline": {
+        "answer": "The eponymous character from the series that contains Mickey's Safari in Letterland is Mickey Mouse, and Mickey Mouse was developed by Walt Disney.",
+        "avg_conf": 0.9166,
+        "f1": 0.1739,
+        "em": 0.0,
+        "contain": 1.0
+      },
+      "pool": {
+        "answer": "Walt Disney and Floyd Gottfredson created the first Mortimer character, but Lillian Disney, Walt's wife, suggested the name Mickey instead.",
+        "n_passages": 7,
+        "f1": 0.2,
+        "em": 0.0,
+        "contain": 1.0
+      },
+      "oracle_bridge": {
+        "answer": "Walt Disney and Floyd Gottfredson created the first Mortimer, but Lillian Disney suggested the name Mickey for the eponymous character.",
+        "n_passages": 6,
+        "queries": [
+          "Who developed the eponymous character from the series that contains Mickey's Safari in Letterland? Mickey Mouse"
+        ],
+        "f1": 0.2105,
+        "em": 0.0,
+        "contain": 1.0
+      }
+    },
+    {
+      "id": "4hop1__129721_32392_823060_610794",
+      "question": "What county is the city that shares a border with the state capital of the state where Zubly Cemetery is located in?",
+      "gold": "Richland County",
+      "gold_bridges": [
+        "South Carolina",
+        "Columbia",
+        "Forest Acres"
+      ],
+      "predicted_candidates": [
+        "Pulaski County, Arkansas",
+        "Wayne County",
+        "Pulaski County, Plymouth, Michigan."
+      ],
+      "baseline": {
+        "answer": "The county of the city that shares a border with the state capital of the state where Zubly Cemetery is located in is Pulaski County.",
+        "avg_conf": 0.9753,
+        "f1": 0.0909,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "pool": {
+        "answer": "The city that shares a border with the state capital of the state where Zubly Cemetery is located is Little Rock, in Pulaski County.",
+        "n_passages": 12,
+        "f1": 0.0909,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "oracle_bridge": {
+        "answer": "The city that shares a border with the state capital of the state where Zubly Cemetery is located is Columbia, which is in Richland County.",
+        "n_passages": 11,
+        "queries": [
+          "What county is the city that shares a border with the state capital of the state where Zubly Cemetery is located in? South Carolina",
+          "What county is the city that shares a border with the state capital of the state where Zubly Cemetery is located in? Columbia",
+          "What county is the city that shares a border with the state capital of the state where Zubly Cemetery is located in? Forest Acres"
+        ],
+        "f1": 0.1739,
+        "em": 0.0,
+        "contain": 1.0
+      }
+    },
+    {
+      "id": "3hop2__655849_223623_162182",
+      "question": "In what region of the country containing A L\u01b0\u1edbi is the birthplace of John Phan located?",
+      "gold": "South Central Coast",
+      "gold_bridges": [
+        "Vietnam",
+        "Da Nang"
+      ],
+      "predicted_candidates": [
+        "Th\u1eeba Thi\u00ean-Hu\u1ebf",
+        "B\u1eafc Ninh province, Vietnam.",
+        "Th\u1eeba Thien-Hu\u1ebf Province"
+      ],
+      "baseline": {
+        "answer": "North Central Coast",
+        "avg_conf": 0.9838,
+        "f1": 0.6667,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "pool": {
+        "answer": "The birthplace of John Phan is located in the North Central Coast region of Vietnam, in Th\u1eeba Thi\u00ean-Hu\u1ebf Province.",
+        "n_passages": 6,
+        "f1": 0.2,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "oracle_bridge": {
+        "answer": "North Central Coast",
+        "n_passages": 5,
+        "queries": [
+          "In what region of the country containing A L\u01b0\u1edbi is the birthplace of John Phan located? Vietnam",
+          "In what region of the country containing A L\u01b0\u1edbi is the birthplace of John Phan located? Da Nang"
+        ],
+        "f1": 0.6667,
+        "em": 0.0,
+        "contain": 0.0
+      }
+    },
+    {
+      "id": "3hop1__241001_568433_47686",
+      "question": "Where do Greyhound buses leave from in the city where Arna Selznick's employer is headquartered?",
+      "gold": "Toronto Coach Terminal",
+      "gold_bridges": [
+        "Nelvana",
+        "Toronto"
+      ],
+      "predicted_candidates": [
+        "Laidlaw Education Services and First Student Inc.",
+        "Detroit Greyhound Terminal and Detroit Greyhound Bus Depot",
+        "Buhl Building in Downtown Detroit"
+      ],
+      "baseline": {
+        "answer": "Philadelphia Greyhound Terminal in Philadelphia and the intersection of 8th Avenue and 39th Street in the Midtown Manhattan section of New York City",
+        "avg_conf": 0.985,
+        "f1": 0.0833,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "pool": {
+        "answer": "Greyhound buses leave from the Detroit Greyhound Lines station in Detroit, which is located directly west of Downtown along the John C. Lodge Freeway.",
+        "n_passages": 12,
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "oracle_bridge": {
+        "answer": "Greyhound buses leave from the city where Arna Selznick's employer is headquartered at the Chicago Greyhound Terminal in Naperville, Illinois.",
+        "n_passages": 8,
+        "queries": [
+          "Where do Greyhound buses leave from in the city where Arna Selznick's employer is headquartered? Nelvana",
+          "Where do Greyhound buses leave from in the city where Arna Selznick's employer is headquartered? Toronto"
+        ],
+        "f1": 0.0952,
+        "em": 0.0,
+        "contain": 0.0
+      }
+    },
+    {
+      "id": "2hop__231890_595414",
+      "question": "Which county does Lloyd Dane's birthplace belong to?",
+      "gold": "Miller County",
+      "gold_bridges": [
+        "Eldon"
+      ],
+      "predicted_candidates": [
+        "Dane County",
+        "Lloyd Dane's birthplace belongs to Dane County."
+      ],
+      "baseline": {
+        "answer": "Dane County",
+        "avg_conf": 0.9879,
+        "f1": 0.5,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "pool": {
+        "answer": "Dane County",
+        "n_passages": 5,
+        "f1": 0.5,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "oracle_bridge": {
+        "answer": "Lloyd Dane's birthplace, Eldon, Missouri, is located in Cass County, Missouri.\n\nSo, the answer is: Cass County.",
+        "n_passages": 8,
+        "queries": [
+          "Which county does Lloyd Dane's birthplace belong to? Eldon"
+        ],
+        "f1": 0.1111,
+        "em": 0.0,
+        "contain": 0.0
+      }
+    },
+    {
+      "id": "2hop__525242_52835",
+      "question": "Who wrote \"Turn Me On\" by performer of \"Happy Pills\"?",
+      "gold": "John D. Loudermilk",
+      "gold_bridges": [
+        "Norah Jones"
+      ],
+      "predicted_candidates": [
+        "Lil Wayne, Hilson, and Wallace.",
+        "Keri Hilson, Zachary Anson Wallace",
+        "Keri Hilson and Zachary Anson Wallace"
+      ],
+      "baseline": {
+        "answer": "\"Turn Me On\" by performer of \"Happy Pills\" was written by Lil Wayne, Keri Hilson, and Zachary Anson Wallace.",
+        "avg_conf": 0.9521,
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "pool": {
+        "answer": "Keri Hilson, Zachary Anson Wallace, Lil Wayne, Danja, Polow da Don, and other members of The Clutch.",
+        "n_passages": 11,
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "oracle_bridge": {
+        "answer": "John D. Loudermilk",
+        "n_passages": 6,
+        "queries": [
+          "Who wrote \"Turn Me On\" by performer of \"Happy Pills\"? Norah Jones"
+        ],
+        "f1": 1.0,
+        "em": 1.0,
+        "contain": 1.0
+      }
+    },
+    {
+      "id": "2hop__169443_83769",
+      "question": "Who did the screenwriter for Good Will Hunting play in Dazed and Confused?",
+      "gold": "Fred O'Bannion",
+      "gold_bridges": [
+        "Ben Affleck"
+      ],
+      "predicted_candidates": [
+        "Matt Damon played in Dazed and Confused.",
+        "Ben Affleck played himself in Good Will Hunting.",
+        "Matt Damon"
+      ],
+      "baseline": {
+        "answer": "Ben Affleck",
+        "avg_conf": 0.9805,
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "pool": {
+        "answer": "Ben Affleck, who was also the screenwriter for Good Will Hunting, played the role of a high-school senior in Dazed and Confused.",
+        "n_passages": 7,
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "oracle_bridge": {
+        "answer": "The screenwriter for Good Will Hunting, Ben Affleck, played the role of a high-school senior in the cult film Dazed and Confused.",
+        "n_passages": 6,
+        "queries": [
+          "Who did the screenwriter for Good Will Hunting play in Dazed and Confused? Ben Affleck"
+        ],
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      }
+    },
+    {
+      "id": "4hop1__436202_765799_282674_759393",
+      "question": "What is the seat of the county sharing a border with the county in which J. P. Hayes was born?",
+      "gold": "Green Bay",
+      "gold_bridges": [
+        "Appleton",
+        "Outagamie County",
+        "Brown County"
+      ],
+      "predicted_candidates": [
+        "Hayes Center",
+        "Charlton County, Georgia, Folkston.",
+        "Hayes Center, Nebraska"
+      ],
+      "baseline": {
+        "answer": "Hayes Center",
+        "avg_conf": 0.9709,
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "pool": {
+        "answer": "Hayes Center, Nebraska is the seat of Hayes County, which shares a border with Charlton County, where J. P. Hayes was born.",
+        "n_passages": 9,
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "oracle_bridge": {
+        "answer": "The seat of the county sharing a border with the county in which J. P. Hayes was born is Hayes Center, in Hayes County, Nebraska.",
+        "n_passages": 13,
+        "queries": [
+          "What is the seat of the county sharing a border with the county in which J. P. Hayes was born? Appleton",
+          "What is the seat of the county sharing a border with the county in which J. P. Hayes was born? Outagamie County",
+          "What is the seat of the county sharing a border with the county in which J. P. Hayes was born? Brown County"
+        ],
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      }
+    },
+    {
+      "id": "3hop1__539312_744503_34754",
+      "question": "What does the U.S. believe caused the country where the birthplace of Yaovabha Bongsanid is located, to help Japan?",
+      "gold": "blackmail",
+      "gold_bridges": [
+        "Grand Palace",
+        "Thailand"
+      ],
+      "predicted_candidates": [
+        "Counter China's influence in the region.",
+        "To counter China's influence in the region",
+        "To counter China's growing influence in the region."
+      ],
+      "baseline": {
+        "answer": "The U.S. believes the country of the birthplace of Yaovabha Bongsanid helped Japan to counter China's influence in the region.",
+        "avg_conf": 0.9382,
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "pool": {
+        "answer": "The U.S. believes that the country where the birthplace of Yaovabha Bongsanid is located, Thailand (Thailand), helped Japan.",
+        "n_passages": 11,
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "oracle_bridge": {
+        "answer": "The U.S. believes that the country where the birthplace of Yaovabha Bongsanid is located, Thailand, may have helped Japan.",
+        "n_passages": 9,
+        "queries": [
+          "What does the U.S. believe caused the country where the birthplace of Yaovabha Bongsanid is located, to help Japan? Grand Palace",
+          "What does the U.S. believe caused the country where the birthplace of Yaovabha Bongsanid is located, to help Japan? Thailand"
+        ],
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      }
+    },
+    {
+      "id": "3hop2__90098_60649_10557",
+      "question": "What was the language from which the last name Sylvester originates during the era of the Frankish king who formed the Holy Roman Empire later known as?",
+      "gold": "Medieval Latin",
+      "gold_bridges": [
+        "from the Latin",
+        "Charlemagne"
+      ],
+      "predicted_candidates": [
+        "Frankish/Franconian/Old Frankish",
+        "Old Franconian/Old Frankish",
+        "Frankish, Old Dutch, Old Franconian"
+      ],
+      "baseline": {
+        "answer": "The language from which the last name Sylvester originates during the era of the Frankish king who formed the Holy Roman Empire was later known as Latin.",
+        "avg_conf": 0.9653,
+        "f1": 0.0833,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "pool": {
+        "answer": "The language from which the last name Sylvester originates during the era of the Frankish king who formed the Holy Roman Empire was known as Frankish.",
+        "n_passages": 9,
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "oracle_bridge": {
+        "answer": "The language from which the last name Sylvester originates during the era of the Frankish king who formed the Holy Roman Empire was later known as Latin.",
+        "n_passages": 7,
+        "queries": [
+          "What was the language from which the last name Sylvester originates during the era of the Frankish king who formed the Holy Roman Empire later known as? from the Latin",
+          "What was the language from which the last name Sylvester originates during the era of the Frankish king who formed the Holy Roman Empire later known as? Charlemagne"
+        ],
+        "f1": 0.0833,
+        "em": 0.0,
+        "contain": 0.0
+      }
+    }
+  ],
+  "config": {
+    "model": "llada",
+    "start_idx": 0,
+    "n_questions": 10,
+    "steps": 32,
+    "answer_tokens": 32,
+    "temperature": 0.0,
+    "initial_top_k": 5,
+    "expand_top_k": 3,
+    "n_candidates": 3,
+    "output": "results/oracle/llada_musique_oracle_10q.json",
+    "log_every": 5
+  },
+  "timing": {
+    "total_sec": 189.2
+  }
+}

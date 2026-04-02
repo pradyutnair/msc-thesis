@@ -157,8 +157,8 @@ def main():
                                      steps=args.steps, n_tokens=args.answer_tokens)
 
         # === pool: single-round, distribution-based extraction ===
-        seed_ans, _, _ = short_generate(model, tokenizer, old_ctx, qtext,
-                                        steps=16, n_tokens=16, temperature=0.0)
+        seed_ans = simple_decode(model, tokenizer, old_ctx, qtext,
+                                     steps=args.steps, n_tokens=args.answer_tokens)
         pool_cands = extract_candidates_generic(model, tokenizer, old_ctx, qtext, args.n_candidates, extraction_steps=args.extraction_steps)
         pool_passages, _ = expand_evidence(retriever, qtext, seed_ans, pool_cands,
                                            initial, args.expand_top_k)
