@@ -9,18 +9,18 @@
 
 ### Done
 
-- Dream 1000q x 3 datasets: DNMR beats all baselines (p<0.001)
-- LLaDA 1000q x 3 datasets: DNMR pool F1 below baseline (verbosity issue identified)
-- LLaDA baselines 1000q: ARAM=0.293, SPREAD=0.269
-- Oracle bridge (10q LLaDA): +7.4pp, proves model CAN use good evidence
-- Retrieval analysis (740q MuSiQue): pool finds gold in 81 extra Qs
-- Contain analysis: pool contain=22.3% vs ARAM=11.4% on LLaDA
-- Root cause identified: verbosity (110 chars vs 29 chars), not retrieval failure
-- Pipeline ablation 2x2 (10q): query prefix essential for Dream
-- Diagnostics: remasking, logit lens, PAQCD, ABRD — all dead ends
-- **Verbosity fix pilot (50q LLaDA): pool_8 F1=0.194, matches ARAM, +5.6pp over baseline**
-- IVI node410 setup: 3xA6000, working env, ~10s/q for LLaDA
-- Bridge candidate analysis: LLaDA 30% "The answer is..." vs Dream 1%
+- [x] Dream 1000q x 3 datasets: DNMR beats all baselines (p<0.001)
+- [x] LLaDA 1000q x 3 datasets: DNMR pool F1 below baseline (verbosity issue identified)
+- [x] LLaDA baselines 1000q: ARAM=0.293, SPREAD=0.269
+- [x]Oracle bridge (10q LLaDA): +7.4pp, proves model CAN use good evidence
+- [x] Retrieval analysis (740q MuSiQue): pool finds gold in 81 extra Qs
+- [x] Contain analysis: pool contain=22.3% vs ARAM=11.4% on LLaDA
+- [x] Root cause identified: verbosity (110 chars vs 29 chars), not retrieval failure
+- [x] Pipeline ablation 2x2 (10q): query prefix essential for Dream
+- [x] Diagnostics: remasking, logit lens, PAQCD, ABRD — all dead ends
+- [x] **Verbosity fix pilot (50q LLaDA): pool_8 F1=0.194, matches ARAM, +5.6pp over baseline**
+- [x] IVI node410 setup: 3xA6000, working env, ~10s/q for LLaDA
+- [x] Bridge candidate analysis: LLaDA 30% "The answer is..." vs Dream 1%
 
 ### In Progress
 
