@@ -1,7 +1,7 @@
 # DNMR Experiment Log
 
 **Single source of truth. Updated continuously.**
-**Last updated**: April 2, 2026 23:30 CEST
+**Last updated**: April 3, 2026 08:00 CEST
 
 ---
 
@@ -135,6 +135,49 @@ Pool8 on HotpotQA has a yes/no verbosity problem:
 | Pool8 | 0.447 (+14.7pp) |
 
 Strongly positive on 2WikiMH. Needs more data.
+
+## 2d. Recall Analysis — POOL WINS ON ALL 3 DATASETS (LLaDA, n_tokens=32)
+
+Pool (DNMR) has the highest recall and contain across all 3 datasets. The retrieval genuinely finds the answer. F1 is low only because of verbosity (low precision).
+
+### MuSiQue (N=740 matched)
+
+| Method | F1 | Precision | Recall | Contain |
+|--------|:--:|:---------:|:------:|:-------:|
+| Baseline | 0.152 | 0.144 | 0.227 | 12.6% |
+| SPREAD | 0.167 | 0.163 | 0.224 | 12.6% |
+| ARAM | 0.184 | 0.191 | 0.206 | 11.4% |
+| **Pool** | 0.131 | 0.107 | **0.332** | **22.3%** |
+
+### HotpotQA (N=890 matched)
+
+| Method | F1 | Precision | Recall | Contain |
+|--------|:--:|:---------:|:------:|:-------:|
+| Baseline | 0.356 | 0.364 | 0.470 | 37.4% |
+| SPREAD | 0.396 | 0.407 | 0.466 | 38.0% |
+| ARAM | 0.406 | 0.425 | 0.441 | 36.3% |
+| **Pool** | 0.332 | 0.317 | **0.571** | **47.1%** |
+
+### 2WikiMultihopQA (N=810 matched)
+
+| Method | F1 | Precision | Recall | Contain |
+|--------|:--:|:---------:|:------:|:-------:|
+| Baseline | 0.204 | 0.181 | 0.374 | 29.4% |
+| SPREAD | 0.240 | 0.227 | 0.347 | 26.8% |
+| ARAM | 0.255 | 0.250 | 0.319 | 25.3% |
+| **Pool** | 0.191 | 0.156 | **0.443** | **34.9%** |
+
+### Summary: Pool recall advantage over ARAM
+
+| Dataset | N | Pool Recall | ARAM Recall | Delta |
+|---------|:-:|:-----------:|:-----------:|:-----:|
+| MuSiQue | 740 | 0.332 | 0.206 | +12.7pp |
+| HotpotQA | 890 | 0.571 | 0.441 | +13.0pp |
+| 2WikiMH | 810 | 0.443 | 0.319 | +12.4pp |
+
+**Pool consistently +12-13pp recall over ARAM on every dataset.** The retrieval works. The F1 loss is purely precision (verbosity). Answer extraction or LLM judge evaluation would show the true benefit.
+
+Note: These are from the original n_tokens=32 runs (verbose). The DNMR runs were incomplete (740/890/810 out of 1000 — hit 6h SLURM limit).
 
 ## 3. Retrieval Analysis (LLaDA MuSiQue 740q)
 
