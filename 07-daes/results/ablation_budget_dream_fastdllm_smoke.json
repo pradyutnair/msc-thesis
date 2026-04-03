@@ -1,0 +1,161 @@
+nohup: failed to run command 'python': No such file or directory
+{
+  "summary": {
+    "baseline_10": {
+      "f1": 0.0,
+      "em": 0.0,
+      "contain": 0.0
+    },
+    "dnmr_pool": {
+      "f1": 0.0,
+      "em": 0.0,
+      "contain": 0.0
+    }
+  },
+  "results": [
+    {
+      "id": "dev_0",
+      "question": "Who is the spouse of the Green performer?",
+      "gold": "Miquette Giraudy",
+      "passage_counts": {
+        "baseline_5": 5,
+        "baseline_10": 10
+      },
+      "dnmr_pool_stats": {
+        "n_candidates": 3,
+        "candidate_texts": [
+          "The spouse of the Green performer is Sir Philip Green.",
+          "Sir Philip Green",
+          "Tina Green is currently married to Sir Philip Green."
+        ],
+        "retrieval_queries": [
+          "query: Who is the spouse of the Green performer? Miranda Brooke",
+          "query: Who is the spouse of the Green performer? The spouse of the Green performer is Sir Philip Green.",
+          "query: Who is the spouse of the Green performer? Sir Philip Green",
+          "query: Who is the spouse of the Green performer? Tina Green is currently married to Sir Philip Green."
+        ],
+        "n_new_passages": 3,
+        "n_total_passages": 8
+      },
+      "elapsed": 20.28,
+      "baseline_10": {
+        "answer": "Sarah Urist Green",
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "dnmr_pool": {
+        "answer": "Sir Philip Green",
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      }
+    },
+    {
+      "id": "dev_1",
+      "question": "Who founded the company that distributed the film UHF?",
+      "gold": "Mike Medavoy",
+      "passage_counts": {
+        "baseline_5": 5,
+        "baseline_10": 10
+      },
+      "dnmr_pool_stats": {
+        "n_candidates": 3,
+        "candidate_texts": [
+          "Orion Pictures",
+          "Cinecorp",
+          "Jerome Hyams"
+        ],
+        "retrieval_queries": [
+          "query: Who founded the company that distributed the film UHF? Orion Pictures",
+          "query: Who founded the company that distributed the film UHF? Orion Pictures",
+          "query: Who founded the company that distributed the film UHF? Cinecorp",
+          "query: Who founded the company that distributed the film UHF? Jerome Hyams"
+        ],
+        "n_new_passages": 2,
+        "n_total_passages": 7
+      },
+      "elapsed": 22.71,
+      "baseline_10": {
+        "answer": "Harry M. Rubin",
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "dnmr_pool": {
+        "answer": "Orion Pictures",
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      }
+    },
+    {
+      "id": "dev_2",
+      "question": "What administrative territorial entity is the owner of Ciudad Deportiva located?",
+      "gold": "Tamaulipas",
+      "passage_counts": {
+        "baseline_5": 5,
+        "baseline_10": 10
+      },
+      "dnmr_pool_stats": {
+        "n_candidates": 3,
+        "candidate_texts": [
+          "Madrid",
+          "Valdebebas",
+          "The owner of Ciudad Deportiva is in Madrid."
+        ],
+        "retrieval_queries": [
+          "query: What administrative territorial entity is the owner of Ciudad Deportiva located? Madrid",
+          "query: What administrative territorial entity is the owner of Ciudad Deportiva located? Madrid",
+          "query: What administrative territorial entity is the owner of Ciudad Deportiva located? Valdebebas",
+          "query: What administrative territorial entity is the owner of Ciudad Deportiva located? The owner of Ciudad Deportiva is in Madrid."
+        ],
+        "n_new_passages": 4,
+        "n_total_passages": 9
+      },
+      "elapsed": 19.08,
+      "baseline_10": {
+        "answer": "Spain",
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      },
+      "dnmr_pool": {
+        "answer": "Madrid, Spain",
+        "f1": 0.0,
+        "em": 0.0,
+        "contain": 0.0
+      }
+    }
+  ],
+  "config": {
+    "model": "dream",
+    "decode_backend": "fast-dllm",
+    "dataset": "musique",
+    "start_idx": 0,
+    "n_questions": 3,
+    "steps": 32,
+    "answer_tokens": 32,
+    "initial_top_k": 5,
+    "ablation_top_k": 10,
+    "expand_top_k": 3,
+    "n_candidates": 3,
+    "extraction_steps": 12,
+    "methods": [
+      "baseline_10",
+      "dnmr_pool"
+    ],
+    "fast_dllm_use_cache": false,
+    "fast_dllm_dual_cache": false,
+    "fast_dllm_block_size": 32,
+    "fast_dllm_threshold": null,
+    "enforce_short_answer": false,
+    "max_answer_words": 6,
+    "output": "07-daes/results/ablation_budget_dream_fastdllm_smoke.json",
+    "log_every": 1,
+    "save_every": 1
+  },
+  "timing": {
+    "elapsed_sec": 167.8
+  }
+}
