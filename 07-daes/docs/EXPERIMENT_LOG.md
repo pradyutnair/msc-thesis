@@ -8,74 +8,59 @@
 ## Status Checklist
 
 ### Done
-
-- [x] Dream 1000q x 3 datasets: DNMR beats all baselines (p<0.001)
-- [x] LLaDA 1000q x 3 datasets: DNMR pool F1 below baseline (verbosity issue identified)
+- [x] Dream 1000q x 3 datasets: DNMR/iDNMR beats all baselines (p<0.001)
+- [x] **LLaDA 1000q x 3 datasets: COMPLETE (995/1000/1000) — all 9 methods**
 - [x] LLaDA baselines 1000q: ARAM=0.293, SPREAD=0.269
-- [x]Oracle bridge (10q LLaDA): +7.4pp, proves model CAN use good evidence
-- [x] Retrieval analysis (740q MuSiQue): pool finds gold in 81 extra Qs
-- [x] Contain analysis: pool contain=22.3% vs ARAM=11.4% on LLaDA
+- [x] Oracle bridge (10q LLaDA): +7.4pp, proves model CAN use good evidence
+- [x] Retrieval analysis (740q -> now 1000q): pool finds gold 2x more than ARAM
+- [x] **Recall analysis: iDNMR +13-15pp recall over ARAM on all 3 datasets**
+- [x] **Full metrics tables: F1/precision/recall/contain for all 9 methods x 3 datasets x 2 models**
 - [x] Root cause identified: verbosity (110 chars vs 29 chars), not retrieval failure
 - [x] Pipeline ablation 2x2 (10q): query prefix essential for Dream
 - [x] Diagnostics: remasking, logit lens, PAQCD, ABRD — all dead ends
-- [x] **Verbosity fix pilot (50q LLaDA): pool_8 F1=0.194, matches ARAM, +5.6pp over baseline**
-- [x] IVI node410 setup: 3xA6000, working env, ~10s/q for LLaDA
+- [x] Verbosity fix pilot (50q LLaDA): pool_8 F1=0.194, matches ARAM
+- [x] IVI node410 setup: 3xA6000, working env, ~42s/q for LLaDA
 - [x] Bridge candidate analysis: LLaDA 30% "The answer is..." vs Dream 1%
+- [x] HotpotQA pool8 analysis: yes/no verbosity kills F1
+- [x] Budget ablation exists (50q Dream): baseline_14 worse than baseline_5, DNMR wins
 
 ### In Progress
-
-- LLaDA MuSiQue 1000q pool8 run on IVI (200q done, 800q running multi-GPU spawn)
-- Need RunPod/Snellius for HotpotQA + 2WikiMH (IVI too slow at 42s/q on A6000)
+- [ ] Budget ablation on vast.ai (Dream MuSiQue — running)
+- [ ] MuSiQue pool8 1000q on IVI (200q done, rest TBD)
 
 ### TODO: Experiments (Paper-Critical)
-
-- LLaDA 1000q x 3 datasets with n_tokens=8 final decode
-- Dream 1000q x 3 datasets with n_tokens=8 final decode (confirm no regression)
-- Oracle bridge on all 3 datasets x both models (currently only 10q MuSiQue)
-- Statistical significance tests (paired bootstrap) on new n_tokens=8 results
-- LLM judge eval on pool predictions (semantic accuracy beyond F1)
+- [ ] LLaDA answer extraction: fix verbosity without truncation tradeoff
+- [ ] LLM judge eval on existing LLaDA pool predictions (semantic accuracy beyond F1)
+- [ ] Budget ablation at 1000q scale (baseline_5 vs baseline_10 vs dnmr_pool) on both models
+- [ ] Statistical significance tests (paired bootstrap) on full 1000q results
+- [ ] Dream completion runs if needed (currently have full 1000q)
 
 ### TODO: Ablations (Paper-Critical)
-
-- n_tokens sweep at 200q scale: {6, 8, 10, 12, 16, 32} on LLaDA MuSiQue
-- Bridge extraction ablation: pool with bridges vs pool with seed-only (isolate bridge contribution)
-- Number of bridge candidates: k={1, 3, 5} on both models
-- Extraction steps ablation: {4, 8, 12} steps on both models
-- Pool vs baseline vs ARAM head-to-head contain/F1/judge on matched questions
+- [ ] Bridge extraction ablation: pool with bridges vs pool with seed-only
+- [ ] Number of bridge candidates: k={1, 3, 5} on both models
+- [ ] n_tokens sweep at scale for LLaDA: {8, 12, 16, 32}
 
 ### TODO: Efficiency (Paper-Critical)
-
-- fast-dLLM prefix caching benchmark on Dream + LLaDA
-- FLOPs computation: actual FLOPs per method (not forward pass count)
-- Wall-clock comparison under matched optimization (fast-dLLM vs vLLM)
-- Latency breakdown: retrieval time vs extraction time vs decode time
+- [ ] fast-dLLM prefix caching benchmark on Dream + LLaDA
+- [ ] Fair wall-clock comparison under matched optimization
+- [ ] Latency breakdown: retrieval time vs extraction time vs decode time
 
 ### TODO: Analysis (Paper-Critical)
-
-- Contain + F1 + judge correlation analysis (do they agree?)
-- Per-hop-count analysis: 2-hop vs 3-hop vs 4-hop performance breakdown
-- Retrieval gain analysis on HotpotQA and 2WikiMH (not just MuSiQue)
-- Error categorization: where does DNMR fail? (bridge wrong, passage wrong, decode wrong)
-- Answer length distribution plots for all methods
+- [ ] Contain + F1 + judge correlation analysis
+- [ ] Per-hop-count analysis: 2-hop vs 3-hop vs 4-hop performance
+- [ ] Error categorization: where does DNMR fail?
+- [ ] Answer length distribution plots for all methods
 
 ### TODO: Paper Writing
-
-- Paper draft: intro, method, experiments, analysis, related work, conclusion
-- Main results table (both models x 3 datasets x all methods)
-- Figures: retrieval gain bar chart, contain vs F1 scatter, answer length distribution
-- Formalization review: update IDNMR_FORMALIZATION.md for n_tokens finding
-- Related work: position vs SPREAD, ARAM, IRCoT, DoT, RFG, d1
-- Limitations section: model-dependent posterior diversity, verbosity sensitivity
+- [ ] Paper draft: intro, method, experiments, analysis, related work, conclusion
+- [ ] Main results table (both models x 3 datasets x all methods)
+- [ ] Figures: retrieval gain bar chart, contain vs F1 scatter, answer length distribution
+- [ ] Formalization review: update IDNMR_FORMALIZATION.md
+- [ ] Related work: position vs SPREAD, ARAM, IRCoT, DoT, RFG, d1
 
 ### TODO: Nice-to-Have
-
-- HotpotQA + 2WikiMH 50q pilots on IVI before full 1000q
-- Dream on IVI node410 for free comparison runs
-- Sweep n_tokens on Dream (verify 32 is still optimal)
-- Cross-dataset transfer: does optimal n_tokens vary by dataset?
-- Combine DNMR + ARAM: pool retrieval + ARAM guidance during decode
-
----
+- [ ] Dream on IVI for free comparison runs
+- [ ] Cross-dataset transfer: does optimal n_tokens vary by dataset?
 
 ## 1. Main Results (1000q x 3 datasets, F1)
 
