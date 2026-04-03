@@ -7,17 +7,13 @@ set -euo pipefail
 # Usage: bash setup_workspace.sh [--workspace /path] [--skip-models] [--skip-data]
 #
 # Works on: IVI, RunPod, Vast.ai, or any Linux box with NVIDIA GPUs + conda
-#
-# Clones GIT_REPO into WORKSPACE/msc-thesis (repo root: uv.lock, pyproject.toml).
-# Experiment code lives under msc-thesis/07-daes/, setup scripts under msc-thesis/setup/.
 # =============================================================================
 
 # === CONFIGURABLE PARAMETERS ===
 WORKSPACE="${WORKSPACE:-/tmp/pnair}"
 GIT_REPO="${GIT_REPO:-https://github.com/pradyutnair/msc-thesis.git}"
 GIT_BRANCH="${GIT_BRANCH:-main}"
-# Provide HF_TOKEN via the environment
-HF_TOKEN="${HF_TOKEN:-}"
+HF_TOKEN="${HF_TOKEN:-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}"
 PYTHON_VERSION="${PYTHON_VERSION:-3.11}"
 CUDA_INDEX="${CUDA_INDEX:-https://download.pytorch.org/whl/cu124}"
 
@@ -35,8 +31,7 @@ SKIP_ENV=false
 SKIP_CODE=false
 
 # === DERIVED PATHS (change these if your layout differs) ===
-# Repo root: clone target for https://github.com/.../msc-thesis (code under 07-daes/, setup/, etc.)
-REPO_ROOT="${WORKSPACE}/msc-thesis"
+CODE_DIR="${WORKSPACE}/code"
 DATA_DIR="${WORKSPACE}/data"
 INDEX_DIR="${WORKSPACE}/indexes"
 HF_CACHE="${WORKSPACE}/hf_cache"
@@ -65,7 +60,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Re-derive paths after potential workspace override
-REPO_ROOT="${WORKSPACE}/msc-thesis"
+CODE_DIR="${WORKSPACE}/code"
 DATA_DIR="${WORKSPACE}/data"
 INDEX_DIR="${WORKSPACE}/indexes"
 HF_CACHE="${WORKSPACE}/hf_cache"
@@ -81,23 +76,22 @@ echo "============================================"
 echo "  Workspace Setup"
 echo "============================================"
 echo "  WORKSPACE:  ${WORKSPACE}"
-echo "  REPO_ROOT:  ${REPO_ROOT}"
 echo "  GIT_REPO:   ${GIT_REPO}"
 echo "============================================"
 
 # === 1. CREATE DIRECTORY STRUCTURE ===
 echo -e "\n[1/7] Creating directories..."
-mkdir -p "${DATA_DIR}/questions" "${DATA_DIR}/retrieval-corpus" \
+mkdir -p "${CODE_DIR}" "${DATA_DIR}/questions" "${DATA_DIR}/retrieval-corpus" \
          "${INDEX_DIR}" "${HF_CACHE}" "${ENV_DIR}" "${RESULTS_DIR}" "${TRITON_CACHE}"
 
 # === 2. CLONE CODE (moved before env so uv sync can use uv.lock) ===
 if [ "$SKIP_CODE" = false ]; then
     echo -e "\n[2/7] Cloning code..."
-    if [ -d "${REPO_ROOT}/.git" ]; then
-        echo "  Repo already cloned, pulling latest..."
-        git -C "${REPO_ROOT}" pull --ff-only 2>/dev/null || true
+    if [ -d "${CODE_DIR}/repo/.git" ]; then
+        echo "  Code already cloned, pulling latest..."
+        git -C "${CODE_DIR}/repo" pull --ff-only 2>/dev/null || true
     else
-        git clone --branch "${GIT_BRANCH}" "${GIT_REPO}" "${REPO_ROOT}"
+        git clone --branch "${GIT_BRANCH}" "${GIT_REPO}" "${CODE_DIR}/repo"
     fi
 else
     echo -e "\n[2/7] Skipping code clone"
@@ -115,12 +109,12 @@ if [ "$SKIP_ENV" = false ]; then
     fi
 
     # Sync from uv.lock in the repo
-    if [ -f "${REPO_ROOT}/uv.lock" ]; then
+    if [ -f "${CODE_DIR}/repo/uv.lock" ]; then
         echo "  Running uv sync..."
-        cd "${REPO_ROOT}"
+        cd "${CODE_DIR}/repo"
         uv sync --no-install-package vllm --no-install-project
         cd -
-        ENV_DIR="${REPO_ROOT}/.venv"
+        ENV_DIR="${CODE_DIR}/repo/.venv"
     else
         echo "  WARNING: No uv.lock found in repo, falling back to pip"
         if [ ! -f "${ENV_DIR}/bin/python" ]; then
@@ -139,8 +133,8 @@ if [ "$SKIP_ENV" = false ]; then
 else
     echo -e "\n[3/7] Skipping environment setup"
     # Try to activate existing env
-    if [ -f "${REPO_ROOT}/.venv/bin/activate" ]; then
-        ENV_DIR="${REPO_ROOT}/.venv"
+    if [ -f "${CODE_DIR}/repo/.venv/bin/activate" ]; then
+        ENV_DIR="${CODE_DIR}/repo/.venv"
         source "${ENV_DIR}/bin/activate"
     elif [ -f "${ENV_DIR}/bin/activate" ]; then
         source "${ENV_DIR}/bin/activate"
@@ -307,9 +301,9 @@ if command -v module &>/dev/null; then
     module load cuda12.6/toolkit/12.6 2>/dev/null
 fi
 
-# Activate Python env (uv creates .venv in repo root)
-if [ -f "${REPO_ROOT}/.venv/bin/activate" ]; then
-    source "${REPO_ROOT}/.venv/bin/activate"
+# Activate Python env (uv creates .venv in repo dir)
+if [ -f "${CODE_DIR}/repo/.venv/bin/activate" ]; then
+    source "${CODE_DIR}/repo/.venv/bin/activate"
 elif [ -f "${ENV_DIR}/bin/activate" ]; then
     source "${ENV_DIR}/bin/activate"
 fi
@@ -317,8 +311,7 @@ fi
 # Environment variables
 export HF_HOME="${HF_CACHE}"
 export HF_TOKEN="${HF_TOKEN}"
-# daes package: 07-daes/src; repo root for other imports
-export PYTHONPATH="${REPO_ROOT}/07-daes/src:${REPO_ROOT}:\${PYTHONPATH:-}"
+export PYTHONPATH="${CODE_DIR}/dllm:${CODE_DIR}/daes:${CODE_DIR}/repo:\${PYTHONPATH:-}"
 export TRITON_CACHE_DIR="${TRITON_CACHE}"
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
