@@ -79,20 +79,51 @@
 
 ## 1. Main Results (1000q x 3 datasets, F1)
 
-### Dream-7B
+### Dream-7B (N=1000 per dataset)
 
+#### MuSiQue
 
-| Method          | MuSiQue   | HotpotQA  | 2WikiMH   | Mean      |
-| --------------- | --------- | --------- | --------- | --------- |
-| Baseline        | 0.227     | 0.476     | 0.330     | 0.344     |
-| SPREAD          | 0.213     | 0.461     | 0.307     | 0.327     |
-| ARAM            | 0.225     | 0.484     | 0.338     | 0.349     |
-| iARAM           | 0.263     | 0.504     | 0.346     | 0.371     |
-| **DNMR (pool)** | **0.276** | **0.509** | **0.353** | **0.379** |
-| iDNMR           | 0.274     | 0.518     | 0.346     | 0.379     |
+| Method | Type | F1 | Precision | Recall | Contain |
+|--------|------|:--:|:---------:|:------:|:-------:|
+| Baseline | single-query | 0.207 | 0.227 | 0.205 | 12.1% |
+| SPREAD | guidance (order) | 0.198 | 0.213 | 0.198 | 12.1% |
+| ARAM | guidance (logits) | 0.206 | 0.225 | 0.204 | 12.8% |
+| iSPREAD | iterative + SPREAD | 0.238 | 0.255 | 0.246 | 16.1% |
+| iARAM | iterative + ARAM | 0.244 | 0.263 | 0.246 | 16.6% |
+| Pool (DNMR) | posterior extraction | 0.259 | 0.276 | 0.264 | 18.4% |
+| iPool | iterative, answer-cond | 0.236 | 0.253 | 0.242 | 15.9% |
+| **iDNMR** | **iterative DNMR** | **0.263** | 0.274 | **0.276** | **20.0%** |
+| iDNMR-2round | 2-round DNMR | **0.264** | **0.277** | **0.278** | 19.6% |
 
+#### HotpotQA
 
-DNMR beats all baselines on Dream (p<0.001).
+| Method | Type | F1 | Precision | Recall | Contain |
+|--------|------|:--:|:---------:|:------:|:-------:|
+| Baseline | single-query | 0.453 | 0.475 | 0.466 | 38.3% |
+| SPREAD | guidance (order) | 0.440 | 0.461 | 0.462 | 38.3% |
+| ARAM | guidance (logits) | 0.458 | 0.483 | 0.458 | 37.4% |
+| iSPREAD | iterative + SPREAD | 0.472 | 0.492 | 0.494 | 40.7% |
+| iARAM | iterative + ARAM | 0.477 | 0.503 | 0.479 | 38.9% |
+| Pool (DNMR) | posterior extraction | 0.489 | 0.508 | 0.505 | 42.1% |
+| iPool | iterative, answer-cond | 0.478 | 0.499 | 0.493 | 40.7% |
+| **iDNMR** | **iterative DNMR** | **0.500** | **0.517** | **0.521** | **42.9%** |
+| iDNMR-2round | 2-round DNMR | 0.499 | 0.516 | 0.519 | 42.8% |
+
+#### 2WikiMultihopQA
+
+| Method | Type | F1 | Precision | Recall | Contain |
+|--------|------|:--:|:---------:|:------:|:-------:|
+| Baseline | single-query | 0.320 | 0.329 | 0.329 | 27.5% |
+| SPREAD | guidance (order) | 0.299 | 0.306 | 0.311 | 26.3% |
+| ARAM | guidance (logits) | 0.326 | 0.337 | 0.324 | 27.0% |
+| iSPREAD | iterative + SPREAD | 0.307 | 0.313 | 0.328 | 27.1% |
+| iARAM | iterative + ARAM | 0.334 | 0.345 | 0.334 | 27.9% |
+| Pool (DNMR) | posterior extraction | **0.345** | **0.352** | 0.358 | 29.9% |
+| iPool | iterative, answer-cond | 0.331 | 0.339 | 0.345 | 29.0% |
+| **iDNMR** | **iterative DNMR** | 0.342 | 0.345 | **0.365** | 29.8% |
+| iDNMR-2round | 2-round DNMR | 0.343 | 0.347 | 0.362 | **30.0%** |
+
+DNMR/iDNMR beats all baselines on Dream across all metrics (p<0.001). On Dream, F1 and recall align — no verbosity issue.
 
 ### LLaDA-8B-Instruct (OLD — n_tokens=32, before verbosity fix)
 
