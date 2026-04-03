@@ -13,6 +13,7 @@ import argparse
 import json
 import math
 import os
+import re
 import sys
 import time
 from types import SimpleNamespace
@@ -22,6 +23,7 @@ from transformers import AutoModel, AutoTokenizer
 
 sys.path.insert(0, "/projects/prjs1800/msc-thesis/07-daes/dllm")
 sys.path.insert(0, "/projects/prjs1800/msc-thesis/07-daes/src/daes")
+sys.path.insert(0, "/projects/prjs1800/msc-thesis/07-daes/Fast-dLLM/llada")
 
 import dllm
 import eamd_v2_wiki18
@@ -37,13 +39,72 @@ from eamd_v2_wiki18 import (
     prepare_logits,
     sample_tokens,
 )
+from generate import (  # type: ignore[reportMissingImports]
+    generate as fast_dllm_generate,
+    generate_with_dual_cache as fast_dllm_generate_with_dual_cache,
+    generate_with_prefix_cache as fast_dllm_generate_with_prefix_cache,
+)
+from model.modeling_llada import LLaDAModelLM  # type: ignore[reportMissingImports]
 
 
 @torch.inference_mode()
-def simple_decode(model, tokenizer, context, question, steps=32, n_tokens=32):
+def simple_decode(
+    model,
+    tokenizer,
+    context,
+    question,
+    steps=32,
+    n_tokens=32,
+    decode_backend="vanilla",
+    fast_dllm_use_cache=False,
+    fast_dllm_dual_cache=False,
+    fast_dllm_block_size=32,
+    fast_dllm_threshold=None,
+):
     device = model.device
     mask_id = get_mask_id(tokenizer)
     prefix_ids, n_prefix = build_short_prompt(tokenizer, context, question)
+
+    if decode_backend == "fast-dllm":
+        if eamd_v2_wiki18.MODEL_TYPE_REF != "llada":
+            raise ValueError("Fast-dLLM decoding is currently supported only for llada in this script.")
+        if fast_dllm_dual_cache and not fast_dllm_use_cache:
+            raise ValueError("--fast_dllm_dual_cache requires --fast_dllm_use_cache.")
+        if fast_dllm_block_size <= 0:
+            raise ValueError("--fast_dllm_block_size must be positive.")
+        if n_tokens % fast_dllm_block_size != 0:
+            raise ValueError(
+                f"Fast-dLLM requires answer_tokens ({n_tokens}) to be divisible by "
+                f"fast_dllm_block_size ({fast_dllm_block_size})."
+            )
+        n_blocks = n_tokens // fast_dllm_block_size
+        if steps % n_blocks != 0:
+            raise ValueError(
+                f"Fast-dLLM requires steps ({steps}) to be divisible by the number "
+                f"of decode blocks ({n_blocks})."
+            )
+
+        prompt = torch.tensor([prefix_ids], dtype=torch.long, device=device)
+        generate_fn = fast_dllm_generate
+        if fast_dllm_use_cache:
+            generate_fn = (
+                fast_dllm_generate_with_dual_cache
+                if fast_dllm_dual_cache
+                else fast_dllm_generate_with_prefix_cache
+            )
+        output, _ = generate_fn(
+            model,
+            prompt,
+            steps=steps,
+            gen_length=n_tokens,
+            block_length=fast_dllm_block_size,
+            temperature=0.0,
+            remasking="low_confidence",
+            mask_id=mask_id,
+            threshold=fast_dllm_threshold,
+        )
+        return decode_answer(tokenizer, output[0, n_prefix:n_prefix + n_tokens])
+
     canvas = prefix_ids + [mask_id] * n_tokens
     x = torch.tensor([canvas], dtype=torch.long, device=device)
     attn = torch.ones((1, len(canvas)), dtype=torch.long, device=device)
@@ -90,18 +151,25 @@ def expand_evidence(retriever, question, seed_answer, bridge_cands, current_pass
     return list(current_passages) + new_passages, queries, new_passages
 
 
-def load_model_and_tokenizer(model_name):
+def load_model_and_tokenizer(model_name, decode_backend):
     if model_name == "dream":
         model_args = SimpleNamespace(model_name_or_path="Dream-org/Dream-v0-Instruct-7B")
         model = dllm.utils.get_model(model_args=model_args).eval()
         tokenizer = dllm.utils.get_tokenizer(model_args=model_args)
     else:
         tokenizer = AutoTokenizer.from_pretrained("GSAI-ML/LLaDA-8B-Instruct", trust_remote_code=True)
-        model = AutoModel.from_pretrained(
-            "GSAI-ML/LLaDA-8B-Instruct",
-            trust_remote_code=True,
-            torch_dtype=torch.bfloat16,
-        ).cuda().eval()
+        if decode_backend == "fast-dllm":
+            model = LLaDAModelLM.from_pretrained(
+                "GSAI-ML/LLaDA-8B-Instruct",
+                trust_remote_code=True,
+                torch_dtype=torch.bfloat16,
+            ).cuda().eval()
+        else:
+            model = AutoModel.from_pretrained(
+                "GSAI-ML/LLaDA-8B-Instruct",
+                trust_remote_code=True,
+                torch_dtype=torch.bfloat16,
+            ).cuda().eval()
     return model, tokenizer
 
 
@@ -109,9 +177,31 @@ def contain_metric(answer, gold):
     return float(gold.strip().lower() in answer.strip().lower())
 
 
+def shorten_answer(answer, max_words=6):
+    text = answer.strip()
+    if not text:
+        return text
+
+    text = text.replace("\r", " ").strip()
+    text = text.split("\n", 1)[0].strip()
+    text = re.sub(r"^(?:short answer|answer)\s*:\s*", "", text, flags=re.IGNORECASE)
+    text = re.sub(r"^(?:the answer is|it is|it's)\s+", "", text, flags=re.IGNORECASE)
+
+    for sep in [". ", "; ", " - ", " -- ", " because ", " which ", " who ", " that "]:
+        if sep in text:
+            text = text.split(sep, 1)[0].strip()
+
+    text = text.strip(" \t\n\r.,;:!?\"'()[]{}")
+    words = text.split()
+    if max_words > 0 and len(words) > max_words:
+        text = " ".join(words[:max_words]).strip(" \t\n\r.,;:!?\"'()[]{}")
+    return text
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="dream", choices=["dream", "llada"])
+    parser.add_argument("--decode_backend", default="vanilla", choices=["vanilla", "fast-dllm"])
     parser.add_argument("--dataset", default="musique", choices=sorted(QUESTION_FILES))
     parser.add_argument("--start_idx", type=int, default=0)
     parser.add_argument("--n_questions", type=int, default=1000)
@@ -128,10 +218,21 @@ def main():
         default=["baseline_5", "baseline_10", "dnmr_pool"],
         choices=["baseline_5", "baseline_10", "dnmr_pool"],
     )
+    parser.add_argument("--fast_dllm_use_cache", action="store_true")
+    parser.add_argument("--fast_dllm_dual_cache", action="store_true")
+    parser.add_argument("--fast_dllm_block_size", type=int, default=32)
+    parser.add_argument("--fast_dllm_threshold", type=float, default=None)
+    parser.add_argument("--enforce_short_answer", action="store_true")
+    parser.add_argument("--max_answer_words", type=int, default=6)
     parser.add_argument("--output", required=True)
     parser.add_argument("--log_every", type=int, default=10)
     parser.add_argument("--save_every", type=int, default=10)
     args = parser.parse_args()
+
+    if args.decode_backend == "fast-dllm" and args.model != "llada":
+        raise ValueError("The Fast-dLLM decode backend is currently supported only for --model llada.")
+    if args.fast_dllm_dual_cache and not args.fast_dllm_use_cache:
+        raise ValueError("--fast_dllm_dual_cache requires --fast_dllm_use_cache.")
 
     t_start = time.time()
     torch.backends.cuda.matmul.allow_tf32 = True
@@ -139,17 +240,25 @@ def main():
 
     print("=== Budget Ablation ===", flush=True)
     print(
-        f"Model: {args.model} | Dataset: {args.dataset} | "
+        f"Model: {args.model} | Decode backend: {args.decode_backend} | Dataset: {args.dataset} | "
         f"C0={args.initial_top_k} | Retrieval ablation={args.ablation_top_k} | "
         f"Expand={args.expand_top_k}",
         flush=True,
     )
 
-    model, tokenizer = load_model_and_tokenizer(args.model)
+    model, tokenizer = load_model_and_tokenizer(args.model, args.decode_backend)
     eamd_v2_wiki18.MODEL_REF = model
     eamd_v2_wiki18.TOKENIZER_REF = tokenizer
     eamd_v2_wiki18.MODEL_TYPE_REF = args.model
     print(f"Model loaded in {time.time() - t_start:.1f}s", flush=True)
+
+    decode_kwargs = {
+        "decode_backend": args.decode_backend,
+        "fast_dllm_use_cache": args.fast_dllm_use_cache,
+        "fast_dllm_dual_cache": args.fast_dllm_dual_cache,
+        "fast_dllm_block_size": args.fast_dllm_block_size,
+        "fast_dllm_threshold": args.fast_dllm_threshold,
+    }
 
     retriever = Wiki18Retriever()
     all_questions = json.load(open(QUESTION_FILES[args.dataset]))
@@ -197,6 +306,7 @@ def main():
                 qtext,
                 steps=args.steps,
                 n_tokens=args.answer_tokens,
+                **decode_kwargs,
             )
             if "baseline_5" in methods:
                 method_answers["baseline_5"] = baseline_5_answer
@@ -212,6 +322,7 @@ def main():
                 qtext,
                 steps=args.steps,
                 n_tokens=args.answer_tokens,
+                **decode_kwargs,
             )
 
         if "dnmr_pool" in methods:
@@ -239,6 +350,7 @@ def main():
                 qtext,
                 steps=args.steps,
                 n_tokens=args.answer_tokens,
+                **decode_kwargs,
             )
             row["dnmr_pool_stats"] = {
                 "n_candidates": len(bridge_cands),
@@ -252,6 +364,8 @@ def main():
         row["elapsed"] = round(elapsed, 2)
 
         for method, answer in method_answers.items():
+            if args.enforce_short_answer:
+                answer = shorten_answer(answer, max_words=args.max_answer_words)
             f1_result = compute_f1(answer, gold)
             f1_value = f1_result if isinstance(f1_result, (int, float)) else f1_result[2]
             em = float(answer.strip().lower() == gold.strip().lower())
