@@ -1,73 +1,79 @@
 # DNMR Experiment Log
 
 **Single source of truth. Updated continuously.**
-**Last updated**: April 3, 2026 08:00 CEST
-
----
+**Last updated**: April 3, 2026 11:00 CEST
 
 ---
 
 ## Status Checklist
 
 ### Done
-- [x] Dream 1000q x 3 datasets: DNMR beats all baselines (p<0.001)
-- [x] LLaDA 1000q x 3 datasets: DNMR pool F1 below baseline (verbosity issue identified)
-- [x] LLaDA baselines 1000q: ARAM=0.293, SPREAD=0.269
-- [x] Oracle bridge (10q LLaDA): +7.4pp, proves model CAN use good evidence
-- [x] Retrieval analysis (740q MuSiQue): pool finds gold in 81 extra Qs
-- [x] Contain analysis: pool contain=22.3% vs ARAM=11.4% on LLaDA
-- [x] Root cause identified: verbosity (110 chars vs 29 chars), not retrieval failure
-- [x] Pipeline ablation 2x2 (10q): query prefix essential for Dream
-- [x] Diagnostics: remasking, logit lens, PAQCD, ABRD — all dead ends
-- [x] **Verbosity fix pilot (50q LLaDA): pool_8 F1=0.194, matches ARAM, +5.6pp over baseline**
-- [x] IVI node410 setup: 3xA6000, working env, ~10s/q for LLaDA
-- [x] Bridge candidate analysis: LLaDA 30% "The answer is..." vs Dream 1%
+
+- Dream 1000q x 3 datasets: DNMR beats all baselines (p<0.001)
+- LLaDA 1000q x 3 datasets: DNMR pool F1 below baseline (verbosity issue identified)
+- LLaDA baselines 1000q: ARAM=0.293, SPREAD=0.269
+- Oracle bridge (10q LLaDA): +7.4pp, proves model CAN use good evidence
+- Retrieval analysis (740q MuSiQue): pool finds gold in 81 extra Qs
+- Contain analysis: pool contain=22.3% vs ARAM=11.4% on LLaDA
+- Root cause identified: verbosity (110 chars vs 29 chars), not retrieval failure
+- Pipeline ablation 2x2 (10q): query prefix essential for Dream
+- Diagnostics: remasking, logit lens, PAQCD, ABRD — all dead ends
+- **Verbosity fix pilot (50q LLaDA): pool_8 F1=0.194, matches ARAM, +5.6pp over baseline**
+- IVI node410 setup: 3xA6000, working env, ~10s/q for LLaDA
+- Bridge candidate analysis: LLaDA 30% "The answer is..." vs Dream 1%
 
 ### In Progress
-- [ ] LLaDA MuSiQue 1000q pool8 run on IVI (200q done, 800q running multi-GPU spawn)
-- [ ] Need RunPod/Snellius for HotpotQA + 2WikiMH (IVI too slow at 42s/q on A6000)
+
+- LLaDA MuSiQue 1000q pool8 run on IVI (200q done, 800q running multi-GPU spawn)
+- Need RunPod/Snellius for HotpotQA + 2WikiMH (IVI too slow at 42s/q on A6000)
 
 ### TODO: Experiments (Paper-Critical)
-- [ ] LLaDA 1000q x 3 datasets with n_tokens=8 final decode
-- [ ] Dream 1000q x 3 datasets with n_tokens=8 final decode (confirm no regression)
-- [ ] Oracle bridge on all 3 datasets x both models (currently only 10q MuSiQue)
-- [ ] Statistical significance tests (paired bootstrap) on new n_tokens=8 results
-- [ ] LLM judge eval on pool predictions (semantic accuracy beyond F1)
+
+- LLaDA 1000q x 3 datasets with n_tokens=8 final decode
+- Dream 1000q x 3 datasets with n_tokens=8 final decode (confirm no regression)
+- Oracle bridge on all 3 datasets x both models (currently only 10q MuSiQue)
+- Statistical significance tests (paired bootstrap) on new n_tokens=8 results
+- LLM judge eval on pool predictions (semantic accuracy beyond F1)
 
 ### TODO: Ablations (Paper-Critical)
-- [ ] n_tokens sweep at 200q scale: {6, 8, 10, 12, 16, 32} on LLaDA MuSiQue
-- [ ] Bridge extraction ablation: pool with bridges vs pool with seed-only (isolate bridge contribution)
-- [ ] Number of bridge candidates: k={1, 3, 5} on both models
-- [ ] Extraction steps ablation: {4, 8, 12} steps on both models
-- [ ] Pool vs baseline vs ARAM head-to-head contain/F1/judge on matched questions
+
+- n_tokens sweep at 200q scale: {6, 8, 10, 12, 16, 32} on LLaDA MuSiQue
+- Bridge extraction ablation: pool with bridges vs pool with seed-only (isolate bridge contribution)
+- Number of bridge candidates: k={1, 3, 5} on both models
+- Extraction steps ablation: {4, 8, 12} steps on both models
+- Pool vs baseline vs ARAM head-to-head contain/F1/judge on matched questions
 
 ### TODO: Efficiency (Paper-Critical)
-- [ ] fast-dLLM prefix caching benchmark on Dream + LLaDA
-- [ ] FLOPs computation: actual FLOPs per method (not forward pass count)
-- [ ] Wall-clock comparison under matched optimization (fast-dLLM vs vLLM)
-- [ ] Latency breakdown: retrieval time vs extraction time vs decode time
+
+- fast-dLLM prefix caching benchmark on Dream + LLaDA
+- FLOPs computation: actual FLOPs per method (not forward pass count)
+- Wall-clock comparison under matched optimization (fast-dLLM vs vLLM)
+- Latency breakdown: retrieval time vs extraction time vs decode time
 
 ### TODO: Analysis (Paper-Critical)
-- [ ] Contain + F1 + judge correlation analysis (do they agree?)
-- [ ] Per-hop-count analysis: 2-hop vs 3-hop vs 4-hop performance breakdown
-- [ ] Retrieval gain analysis on HotpotQA and 2WikiMH (not just MuSiQue)
-- [ ] Error categorization: where does DNMR fail? (bridge wrong, passage wrong, decode wrong)
-- [ ] Answer length distribution plots for all methods
+
+- Contain + F1 + judge correlation analysis (do they agree?)
+- Per-hop-count analysis: 2-hop vs 3-hop vs 4-hop performance breakdown
+- Retrieval gain analysis on HotpotQA and 2WikiMH (not just MuSiQue)
+- Error categorization: where does DNMR fail? (bridge wrong, passage wrong, decode wrong)
+- Answer length distribution plots for all methods
 
 ### TODO: Paper Writing
-- [ ] Paper draft: intro, method, experiments, analysis, related work, conclusion
-- [ ] Main results table (both models x 3 datasets x all methods)
-- [ ] Figures: retrieval gain bar chart, contain vs F1 scatter, answer length distribution
-- [ ] Formalization review: update IDNMR_FORMALIZATION.md for n_tokens finding
-- [ ] Related work: position vs SPREAD, ARAM, IRCoT, DoT, RFG, d1
-- [ ] Limitations section: model-dependent posterior diversity, verbosity sensitivity
+
+- Paper draft: intro, method, experiments, analysis, related work, conclusion
+- Main results table (both models x 3 datasets x all methods)
+- Figures: retrieval gain bar chart, contain vs F1 scatter, answer length distribution
+- Formalization review: update IDNMR_FORMALIZATION.md for n_tokens finding
+- Related work: position vs SPREAD, ARAM, IRCoT, DoT, RFG, d1
+- Limitations section: model-dependent posterior diversity, verbosity sensitivity
 
 ### TODO: Nice-to-Have
-- [ ] HotpotQA + 2WikiMH 50q pilots on IVI before full 1000q
-- [ ] Dream on IVI node410 for free comparison runs
-- [ ] Sweep n_tokens on Dream (verify 32 is still optimal)
-- [ ] Cross-dataset transfer: does optimal n_tokens vary by dataset?
-- [ ] Combine DNMR + ARAM: pool retrieval + ARAM guidance during decode
+
+- HotpotQA + 2WikiMH 50q pilots on IVI before full 1000q
+- Dream on IVI node410 for free comparison runs
+- Sweep n_tokens on Dream (verify 32 is still optimal)
+- Cross-dataset transfer: does optimal n_tokens vary by dataset?
+- Combine DNMR + ARAM: pool retrieval + ARAM guidance during decode
 
 ---
 
@@ -75,41 +81,105 @@
 
 ### Dream-7B
 
-| Method | MuSiQue | HotpotQA | 2WikiMH | Mean |
-|--------|:-------:|:--------:|:-------:|:----:|
-| Baseline | 0.227 | 0.476 | 0.330 | 0.344 |
-| SPREAD | 0.213 | 0.461 | 0.307 | 0.327 |
-| ARAM | 0.225 | 0.484 | 0.338 | 0.349 |
-| iARAM | 0.263 | 0.504 | 0.346 | 0.371 |
+
+| Method          | MuSiQue   | HotpotQA  | 2WikiMH   | Mean      |
+| --------------- | --------- | --------- | --------- | --------- |
+| Baseline        | 0.227     | 0.476     | 0.330     | 0.344     |
+| SPREAD          | 0.213     | 0.461     | 0.307     | 0.327     |
+| ARAM            | 0.225     | 0.484     | 0.338     | 0.349     |
+| iARAM           | 0.263     | 0.504     | 0.346     | 0.371     |
 | **DNMR (pool)** | **0.276** | **0.509** | **0.353** | **0.379** |
-| iDNMR | 0.274 | 0.518 | 0.346 | 0.379 |
+| iDNMR           | 0.274     | 0.518     | 0.346     | 0.379     |
+
 
 DNMR beats all baselines on Dream (p<0.001).
 
 ### LLaDA-8B-Instruct (OLD — n_tokens=32, before verbosity fix)
 
-| Method | MuSiQue | HotpotQA | 2WikiMH | Mean |
-|--------|:-------:|:--------:|:-------:|:----:|
-| Baseline | 0.144 | 0.365 | 0.181 | 0.230 |
-| SPREAD | 0.170 | 0.407 | 0.231 | 0.269 |
-| ARAM | 0.200 | 0.425 | 0.255 | 0.293 |
-| DNMR pool (n=32) | 0.107 | 0.318 | 0.157 | 0.194 |
+
+| Method           | MuSiQue | HotpotQA | 2WikiMH | Mean  |
+| ---------------- | ------- | -------- | ------- | ----- |
+| Baseline         | 0.144   | 0.365    | 0.181   | 0.230 |
+| SPREAD           | 0.170   | 0.407    | 0.231   | 0.269 |
+| ARAM             | 0.200   | 0.425    | 0.255   | 0.293 |
+| DNMR pool (n=32) | 0.107   | 0.318    | 0.157   | 0.194 |
+
 
 These LLaDA DNMR numbers are with n_tokens=32 (verbose answers). Needs rerun with n_tokens=8.
 
 ---
 
+## 1b. Full LLaDA 1000q Results — ALL Methods, ALL Metrics
+
+Complete results on LLaDA-8B-Instruct with n_tokens=32 (original pipeline). All methods use the same retriever (E5-base-v2) and corpus (wiki18_100w).
+
+### MuSiQue (N=1000)
+
+| Method | Type | F1 | Precision | Recall | Contain |
+|--------|------|:--:|:---------:|:------:|:-------:|
+| Baseline | single-query | 0.156 | 0.150 | 0.233 | 13.7% |
+| SPREAD | guidance (order) | 0.171 | 0.170 | 0.228 | 13.4% |
+| ARAM | guidance (logits) | **0.188** | **0.200** | 0.207 | 12.1% |
+| iSPREAD | iterative + SPREAD | 0.151 | 0.128 | 0.360 | 24.1% |
+| iARAM | iterative + ARAM | 0.159 | 0.142 | 0.331 | 21.7% |
+| Pool (DNMR) | posterior extraction | 0.133 | 0.109 | 0.331 | 22.6% |
+| iPool | iterative, answer-cond | 0.128 | 0.103 | 0.340 | 23.1% |
+| **iDNMR** | **iterative DNMR** | 0.133 | 0.106 | **0.360** | **25.2%** |
+| iDNMR-2round | 2-round DNMR | 0.132 | 0.105 | 0.350 | 24.5% |
+
+### HotpotQA (N=1000)
+
+| Method | Type | F1 | Precision | Recall | Contain |
+|--------|------|:--:|:---------:|:------:|:-------:|
+| Baseline | single-query | 0.353 | 0.362 | 0.465 | 37.1% |
+| SPREAD | guidance (order) | 0.394 | 0.406 | 0.461 | 37.6% |
+| ARAM | guidance (logits) | **0.404** | **0.424** | 0.439 | 36.0% |
+| iSPREAD | iterative + SPREAD | 0.347 | 0.337 | 0.530 | 44.0% |
+| iARAM | iterative + ARAM | 0.373 | 0.375 | 0.510 | 42.0% |
+| Pool (DNMR) | posterior extraction | 0.326 | 0.311 | 0.563 | 46.3% |
+| iPool | iterative, answer-cond | 0.317 | 0.300 | 0.550 | 46.0% |
+| **iDNMR** | **iterative DNMR** | 0.315 | 0.295 | **0.579** | **48.6%** |
+| iDNMR-2round | 2-round DNMR | 0.314 | 0.295 | 0.573 | 48.4% |
+
+### 2WikiMultihopQA (N=1000)
+
+| Method | Type | F1 | Precision | Recall | Contain |
+|--------|------|:--:|:---------:|:------:|:-------:|
+| Baseline | single-query | 0.206 | 0.184 | 0.374 | 29.6% |
+| SPREAD | guidance (order) | 0.243 | 0.230 | 0.351 | 27.4% |
+| ARAM | guidance (logits) | **0.258** | **0.254** | 0.320 | 25.5% |
+| iSPREAD | iterative + SPREAD | 0.222 | 0.193 | 0.430 | 34.4% |
+| iARAM | iterative + ARAM | 0.234 | 0.211 | 0.412 | 33.3% |
+| Pool (DNMR) | posterior extraction | 0.194 | 0.159 | 0.444 | 35.5% |
+| iPool | iterative, answer-cond | 0.196 | 0.160 | 0.446 | 36.1% |
+| **iDNMR** | **iterative DNMR** | 0.198 | 0.161 | **0.469** | **38.0%** |
+| iDNMR-2round | 2-round DNMR | 0.198 | 0.161 | 0.466 | 37.9% |
+
+### Summary: Recall advantage of retrieval methods over guidance methods
+
+| Dataset | iDNMR Recall | ARAM Recall | Delta | iDNMR Contain | ARAM Contain | Delta |
+|---------|:------------:|:-----------:|:-----:|:-------------:|:------------:|:-----:|
+| MuSiQue | 0.360 | 0.207 | +15.3pp | 25.2% | 12.1% | +13.1pp |
+| HotpotQA | 0.579 | 0.439 | +14.0pp | 48.6% | 36.0% | +12.6pp |
+| 2WikiMH | 0.469 | 0.320 | +14.9pp | 38.0% | 25.5% | +12.5pp |
+
+**iDNMR consistently finds the gold answer +13-15pp more often than ARAM across all datasets.**
+**ARAM wins F1 due to concise answers (high precision). iDNMR wins recall and contain due to better retrieval.**
+**The F1 gap is a verbosity issue, not a retrieval quality issue.**
+
 ## 2. Verbosity Fix (April 2, 2026) — GO SIGNAL
 
 ### LLaDA 50q MuSiQue on IVI A6000
 
-| Method | F1 | Contain | Avg Len | Delta |
-|--------|:--:|:-------:|:-------:|:-----:|
-| baseline (32 tok, C0) | 0.138 | 4.0% | 15.7 | — |
+
+| Method                 | F1        | Contain  | Avg Len  | Delta      |
+| ---------------------- | --------- | -------- | -------- | ---------- |
+| baseline (32 tok, C0)  | 0.138     | 4.0%     | 15.7     | —          |
 | **pool_8 (8 tok, C1)** | **0.194** | **6.0%** | **22.6** | **+5.6pp** |
-| pool_12 (12 tok, C1) | 0.157 | 8.0% | 24.0 | +1.9pp |
-| pool_16 (16 tok, C1) | 0.146 | 6.0% | 29.5 | +0.8pp |
-| pool_32 (32 tok, C1) | 0.173 | 10.0% | 27.1 | +3.5pp |
+| pool_12 (12 tok, C1)   | 0.157     | 8.0%     | 24.0     | +1.9pp     |
+| pool_16 (16 tok, C1)   | 0.146     | 6.0%     | 29.5     | +0.8pp     |
+| pool_32 (32 tok, C1)   | 0.173     | 10.0%    | 27.1     | +3.5pp     |
+
 
 **pool_8 matches ARAM (0.194 vs 0.191 at 1000q).** Shorter canvas forces concise answers. dLLMs condition content on canvas length — this is diffusion-native.
 
@@ -117,10 +187,10 @@ Key insight: the retrieval works (pool finds more gold answers). The fix is not 
 
 ---
 
-
 ## 2b. HotpotQA Pool8 Analysis (30q, IVI)
 
 Pool8 on HotpotQA has a yes/no verbosity problem:
+
 - Baseline "Yes" (F1=1.0) -> Pool8 "Yes, both are opera composers" (F1=0.33)
 - Correct answer but extra words kill F1
 - Answer flipping on some questions (baseline correct "No" -> pool8 wrong "Yes")
@@ -129,10 +199,12 @@ Pool8 on HotpotQA has a yes/no verbosity problem:
 
 ## 2c. 2WikiMH Early Signal (10q, IVI)
 
-| Method | F1 |
-|--------|:--:|
-| Baseline | 0.300 |
-| Pool8 | 0.447 (+14.7pp) |
+
+| Method   | F1              |
+| -------- | --------------- |
+| Baseline | 0.300           |
+| Pool8    | 0.447 (+14.7pp) |
+
 
 Strongly positive on 2WikiMH. Needs more data.
 
@@ -142,38 +214,46 @@ Pool (DNMR) has the highest recall and contain across all 3 datasets. The retrie
 
 ### MuSiQue (N=740 matched)
 
-| Method | F1 | Precision | Recall | Contain |
-|--------|:--:|:---------:|:------:|:-------:|
-| Baseline | 0.152 | 0.144 | 0.227 | 12.6% |
-| SPREAD | 0.167 | 0.163 | 0.224 | 12.6% |
-| ARAM | 0.184 | 0.191 | 0.206 | 11.4% |
-| **Pool** | 0.131 | 0.107 | **0.332** | **22.3%** |
+
+| Method   | F1    | Precision | Recall    | Contain   |
+| -------- | ----- | --------- | --------- | --------- |
+| Baseline | 0.152 | 0.144     | 0.227     | 12.6%     |
+| SPREAD   | 0.167 | 0.163     | 0.224     | 12.6%     |
+| ARAM     | 0.184 | 0.191     | 0.206     | 11.4%     |
+| **Pool** | 0.131 | 0.107     | **0.332** | **22.3%** |
+
 
 ### HotpotQA (N=890 matched)
 
-| Method | F1 | Precision | Recall | Contain |
-|--------|:--:|:---------:|:------:|:-------:|
-| Baseline | 0.356 | 0.364 | 0.470 | 37.4% |
-| SPREAD | 0.396 | 0.407 | 0.466 | 38.0% |
-| ARAM | 0.406 | 0.425 | 0.441 | 36.3% |
-| **Pool** | 0.332 | 0.317 | **0.571** | **47.1%** |
+
+| Method   | F1    | Precision | Recall    | Contain   |
+| -------- | ----- | --------- | --------- | --------- |
+| Baseline | 0.356 | 0.364     | 0.470     | 37.4%     |
+| SPREAD   | 0.396 | 0.407     | 0.466     | 38.0%     |
+| ARAM     | 0.406 | 0.425     | 0.441     | 36.3%     |
+| **Pool** | 0.332 | 0.317     | **0.571** | **47.1%** |
+
 
 ### 2WikiMultihopQA (N=810 matched)
 
-| Method | F1 | Precision | Recall | Contain |
-|--------|:--:|:---------:|:------:|:-------:|
-| Baseline | 0.204 | 0.181 | 0.374 | 29.4% |
-| SPREAD | 0.240 | 0.227 | 0.347 | 26.8% |
-| ARAM | 0.255 | 0.250 | 0.319 | 25.3% |
-| **Pool** | 0.191 | 0.156 | **0.443** | **34.9%** |
+
+| Method   | F1    | Precision | Recall    | Contain   |
+| -------- | ----- | --------- | --------- | --------- |
+| Baseline | 0.204 | 0.181     | 0.374     | 29.4%     |
+| SPREAD   | 0.240 | 0.227     | 0.347     | 26.8%     |
+| ARAM     | 0.255 | 0.250     | 0.319     | 25.3%     |
+| **Pool** | 0.191 | 0.156     | **0.443** | **34.9%** |
+
 
 ### Summary: Pool recall advantage over ARAM
 
-| Dataset | N | Pool Recall | ARAM Recall | Delta |
-|---------|:-:|:-----------:|:-----------:|:-----:|
-| MuSiQue | 740 | 0.332 | 0.206 | +12.7pp |
-| HotpotQA | 890 | 0.571 | 0.441 | +13.0pp |
-| 2WikiMH | 810 | 0.443 | 0.319 | +12.4pp |
+
+| Dataset  | N   | Pool Recall | ARAM Recall | Delta   |
+| -------- | --- | ----------- | ----------- | ------- |
+| MuSiQue  | 740 | 0.332       | 0.206       | +12.7pp |
+| HotpotQA | 890 | 0.571       | 0.441       | +13.0pp |
+| 2WikiMH  | 810 | 0.443       | 0.319       | +12.4pp |
+
 
 **Pool consistently +12-13pp recall over ARAM on every dataset.** The retrieval works. The F1 loss is purely precision (verbosity). Answer extraction or LLM judge evaluation would show the true benefit.
 
@@ -183,32 +263,38 @@ Note: These are from the original n_tokens=32 runs (verbose). The DNMR runs were
 
 Pool retrieval genuinely helps. ARAM wins F1 only because of concise answers.
 
-| Metric | Pool (DNMR) | ARAM |
-|--------|:-----------:|:----:|
-| F1 | 0.107 | 0.191 |
-| Contain | 22.3% | 11.4% |
-| Avg length | 110 chars | 29 chars |
-| Per-Q F1 wins | 145 | 139 |
-| Finds gold extra | 90 | 9 |
+
+| Metric           | Pool (DNMR) | ARAM     |
+| ---------------- | ----------- | -------- |
+| F1               | 0.107       | 0.191    |
+| Contain          | 22.3%       | 11.4%    |
+| Avg length       | 110 chars   | 29 chars |
+| Per-Q F1 wins    | 145         | 139      |
+| Finds gold extra | 90          | 9        |
+
 
 ### Does retrieval add new information?
 
-| Category | Count | Pct |
-|----------|:-----:|:---:|
-| ONLY pool finds gold | 81 | 10.9% |
-| ONLY baseline finds gold | 9 | 1.2% |
-| Both | 84 | 11.4% |
-| Neither | 566 | 76.5% |
+
+| Category                 | Count | Pct   |
+| ------------------------ | ----- | ----- |
+| ONLY pool finds gold     | 81    | 10.9% |
+| ONLY baseline finds gold | 9     | 1.2%  |
+| Both                     | 84    | 11.4% |
+| Neither                  | 566   | 76.5% |
+
 
 ---
 
 ## 4. Oracle Bridge (10q MuSiQue)
 
-| Method | Dream F1 | LLaDA F1 |
-|--------|:--------:|:--------:|
-| Baseline | 0.081 | 0.160 |
-| Pool | 0.124 | 0.099 |
-| Oracle bridge | 0.267 | 0.234 |
+
+| Method        | Dream F1 | LLaDA F1 |
+| ------------- | -------- | -------- |
+| Baseline      | 0.081    | 0.160    |
+| Pool          | 0.124    | 0.099    |
+| Oracle bridge | 0.267    | 0.234    |
+
 
 Both models benefit from perfect bridges.
 
@@ -216,48 +302,54 @@ Both models benefit from perfect bridges.
 
 ## 5. Diagnostics (all dead ends)
 
-| Diagnostic | Result |
-|-----------|--------|
-| Conditional remasking | 0/169 more diverse |
-| Logit lens | 0 bridge hits |
-| PAQCD query gen | Dream +3.8pp, LLaDA -1.1pp |
-| ABRD TAPS+P2 | No effect |
-| EAMD-Remask 50q | Did not hold from 20q |
+
+| Diagnostic            | Result                                            |
+| --------------------- | ------------------------------------------------- |
+| Conditional remasking | 0/169 more diverse                                |
+| Logit lens            | 0 bridge hits                                     |
+| PAQCD query gen       | Dream +3.8pp, LLaDA -1.1pp                        |
+| ABRD TAPS+P2          | No effect                                         |
+| EAMD-Remask 50q       | Did not hold from 20q                             |
 | Pipeline 2x2 ablation | Prefix helps Dream, verbosity confirmed for LLaDA |
+
 
 ---
 
 ## 6. Efficiency (needs fair benchmark)
 
-| Method | Model | Optimization | Latency/q |
-|--------|-------|:------------:|:---------:|
+
+| Method    | Model    | Optimization    | Latency/q             |
+| --------- | -------- | --------------- | --------------------- |
 | DNMR pool | Dream-7B | Vanilla PyTorch | ~5.4s (Snellius H100) |
-| DNMR pool | LLaDA-8B | Vanilla PyTorch | ~10.5s (IVI A6000) |
-| IRCoT | Qwen3-8B | vLLM + KV cache | ~7.0s |
+| DNMR pool | LLaDA-8B | Vanilla PyTorch | ~10.5s (IVI A6000)    |
+| IRCoT     | Qwen3-8B | vLLM + KV cache | ~7.0s                 |
+
 
 Not apples-to-apples. fast-dLLM benchmark pending.
 
 ---
 
-
 ## 8. Infrastructure Notes
 
 - **IVI node410**: 3xA6000 (48GB each), 125GB RAM. Single process uses 63GB RSS.
-  Multi-GPU fails (3x63=189GB > 125GB). Single GPU: ~42s/q for full pool pipeline.
+Multi-GPU fails (3x63=189GB > 125GB). Single GPU: ~42s/q for full pool pipeline.
 - **Snellius H100/A100**: ~7s/q. 11.8k SBUs remaining. ~4000 SBUs per 1000q dataset.
 - **RunPod option**: Need 64GB+ system RAM for the retriever. A100/5090 ~$1-1.5/hr.
 - **Per-question breakdown on A6000**: 32 baseline passes (10s) + 37 extraction passes (11s) +
-  retrieval (5s) + 8 pool passes (2.5s) + overhead = ~42s/q
+retrieval (5s) + 8 pool passes (2.5s) + overhead = ~42s/q
 
 ## 9. Key Files
 
-| File | Purpose |
-|------|---------|
-| src/daes/idnmr_pilot.py | Main DNMR runner |
-| src/daes/baselines_1k.py | SPREAD/ARAM baselines |
-| src/daes/eamd_v2_wiki18.py | Shared utils, extraction, prompts |
-| src/daes/verbosity_fix_pilot.py | n_tokens ablation pilot |
-| src/daes/oracle_bridge.py | Oracle bridge experiment |
-| src/daes/seed_ablation.py | 2x2 pipeline ablation |
-| scripts/ivi/run.sh | IVI node410 experiment runner |
-| docs/IDNMR_FORMALIZATION.md | 760-line math formalization |
+
+| File                            | Purpose                           |
+| ------------------------------- | --------------------------------- |
+| src/daes/idnmr_pilot.py         | Main DNMR runner                  |
+| src/daes/baselines_1k.py        | SPREAD/ARAM baselines             |
+| src/daes/eamd_v2_wiki18.py      | Shared utils, extraction, prompts |
+| src/daes/verbosity_fix_pilot.py | n_tokens ablation pilot           |
+| src/daes/oracle_bridge.py       | Oracle bridge experiment          |
+| src/daes/seed_ablation.py       | 2x2 pipeline ablation             |
+| scripts/ivi/run.sh              | IVI node410 experiment runner     |
+| docs/IDNMR_FORMALIZATION.md     | 760-line math formalization       |
+
+
