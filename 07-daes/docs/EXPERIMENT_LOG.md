@@ -25,7 +25,7 @@
 - [x] Budget ablation exists (50q Dream): baseline_14 worse than baseline_5, DNMR wins
 
 ### In Progress
-- [ ] Budget ablation on vast.ai (Dream MuSiQue — running)
+- [ ] Budget ablation on vast.ai (Dream MuSiQue — cancelled)
 - [ ] MuSiQue pool8 1000q on IVI (200q done, rest TBD)
 
 ### TODO: Experiments (Paper-Critical)
@@ -528,7 +528,7 @@ retrieval (5s) + 8 pool passes (2.5s) + overhead = ~42s/q
 - Planned analyses: per-question wins, metric correlation, Pareto frontier, oracle gap
 - Must solve: make DNMR stronger on LLaDA OR explain the cross-model gap convincingly
 
-### 10e. Detailed Efficiency Tables — All Methods, Both Models
+### 10e. Detailed Efficiency Tables — All Methods, Both Models (REPLACED)
 
 ====================================================================================================
   DREAM — Per-Method Efficiency (averaged across all datasets)
@@ -621,3 +621,97 @@ retrieval (5s) + 8 pool passes (2.5s) + overhead = ~42s/q
 | ipool | iter answer-cond | ? | ? | ? | - | - |
 | idnmr | iter DNMR | 8.5 | 10.4 | 2.4 | - | - |
 | idnmr_2round | 2-round DNMR | ? | ? | ? | - | - |
+
+### 10f. Complete Efficiency Tables — ALL 9 Methods, Both Models, All Datasets
+
+#### DREAM
+
+##### MuSiQue
+
+| Method | Type | AvgPass | AvgRetrQ | AvgRounds | WallSec | FwdPass |
+|--------|------|:-------:|:--------:|:---------:|:-------:|:-------:|
+| baseline | single-query | 5.0 | 1 | 0 | - | 32 |
+| spread | guidance | 5.0 | 1 | 0 | 2.38 | 33 |
+| aram | guidance | 5.0 | 1 | 0 | 4.46 | 32 |
+| ispread | iter+guidance | 8.9 | 10.4 | 2.3 | 20.76 | 94 |
+| iaram | iter+guidance | 8.9 | 10.2 | 2.3 | 27.64 | 91 |
+| **pool** | **DNMR (ours)** | 8.1 | 5.0 | 1.0 | - | - |
+| ipool | iter answer-cond | 8.9 | 10.4 | 2.3 | - | - |
+| idnmr | iter DNMR | 9.7 | 10.9 | 2.5 | - | - |
+| idnmr_2round | 2-round DNMR | 9.3 | 8.7 | 1.9 | - | - |
+
+##### HotpotQA
+
+| Method | Type | AvgPass | AvgRetrQ | AvgRounds | WallSec | FwdPass |
+|--------|------|:-------:|:--------:|:---------:|:-------:|:-------:|
+| baseline | single-query | 5.0 | 1 | 0 | - | 32 |
+| spread | guidance | 5.0 | 1 | 0 | 2.44 | 33 |
+| aram | guidance | 5.0 | 1 | 0 | 4.52 | 32 |
+| ispread | iter+guidance | 7.0 | 8.8 | 1.9 | 16.65 | 82 |
+| iaram | iter+guidance | 6.9 | 8.6 | 1.9 | 20.99 | 80 |
+| **pool** | **DNMR (ours)** | 6.9 | 5.0 | 1.0 | - | - |
+| ipool | iter answer-cond | 7.0 | 8.8 | 1.9 | - | - |
+| idnmr | iter DNMR | 7.6 | 9.2 | 2.1 | - | - |
+| idnmr_2round | 2-round DNMR | 7.4 | 8.1 | 1.8 | - | - |
+
+##### 2WikiMultihopQA
+
+| Method | Type | AvgPass | AvgRetrQ | AvgRounds | WallSec | FwdPass |
+|--------|------|:-------:|:--------:|:---------:|:-------:|:-------:|
+| baseline | single-query | 5.0 | 1 | 0 | - | 32 |
+| spread | guidance | 5.0 | 1 | 0 | 2.54 | 33 |
+| aram | guidance | 5.0 | 1 | 0 | 4.68 | 32 |
+| ispread | iter+guidance | 7.3 | 9.0 | 2.0 | 17.61 | 84 |
+| iaram | iter+guidance | 7.3 | 8.9 | 2.0 | 22.83 | 82 |
+| **pool** | **DNMR (ours)** | 6.9 | 5.0 | 1.0 | - | - |
+| ipool | iter answer-cond | 7.3 | 9.0 | 2.0 | - | - |
+| idnmr | iter DNMR | 8.0 | 9.5 | 2.1 | - | - |
+| idnmr_2round | 2-round DNMR | 7.7 | 8.1 | 1.8 | - | - |
+
+
+#### LLADA
+
+##### MuSiQue
+
+| Method | Type | AvgPass | AvgRetrQ | AvgRounds | WallSec | FwdPass |
+|--------|------|:-------:|:--------:|:---------:|:-------:|:-------:|
+| baseline | single-query | 5.0 | 1 | 0 | - | 32 |
+| spread | guidance | 5.0 | 1 | 0 | 3.15 | 33 |
+| aram | guidance | 5.0 | 1 | 0 | 5.69 | 32 |
+| ispread | iter+guidance | 10.3 | 13.1 | 2.7 | 27.83 | 107 |
+| iaram | iter+guidance | 10.2 | 12.8 | 2.6 | 37.99 | 103 |
+| **pool** | **DNMR (ours)** | 8.5 | 5.0 | 1.0 | - | - |
+| ipool | iter answer-cond | 10.3 | 13.1 | 2.7 | - | - |
+| idnmr | iter DNMR | 10.8 | 11.5 | 2.7 | - | - |
+| idnmr_2round | 2-round DNMR | 10.1 | 8.9 | 2.0 | - | - |
+
+##### HotpotQA
+
+| Method | Type | AvgPass | AvgRetrQ | AvgRounds | WallSec | FwdPass |
+|--------|------|:-------:|:--------:|:---------:|:-------:|:-------:|
+| baseline | single-query | 5.0 | 1 | 0 | - | 32 |
+| spread | guidance | 5.0 | 1 | 0 | 3.20 | 33 |
+| aram | guidance | 5.0 | 1 | 0 | 5.81 | 32 |
+| ispread | iter+guidance | 7.6 | 10.6 | 2.2 | 22.15 | 92 |
+| iaram | iter+guidance | 7.6 | 10.3 | 2.2 | 28.65 | 89 |
+| **pool** | **DNMR (ours)** | 7.0 | 5.0 | 1.0 | - | - |
+| ipool | iter answer-cond | 7.6 | 10.6 | 2.2 | - | - |
+| idnmr | iter DNMR | 8.1 | 10.0 | 2.3 | - | - |
+| idnmr_2round | 2-round DNMR | 7.8 | 8.4 | 1.9 | - | - |
+
+##### 2WikiMultihopQA
+
+| Method | Type | AvgPass | AvgRetrQ | AvgRounds | WallSec | FwdPass |
+|--------|------|:-------:|:--------:|:---------:|:-------:|:-------:|
+| baseline | single-query | 5.0 | 1 | 0 | - | 32 |
+| spread | guidance | 5.0 | 1 | 0 | 3.26 | 33 |
+| aram | guidance | 5.0 | 1 | 0 | 5.96 | 32 |
+| ispread | iter+guidance | 8.2 | 11.7 | 2.4 | 24.23 | 98 |
+| iaram | iter+guidance | 8.1 | 11.4 | 2.4 | 31.70 | 94 |
+| **pool** | **DNMR (ours)** | 7.1 | 5.0 | 1.0 | - | - |
+| ipool | iter answer-cond | 8.2 | 11.7 | 2.4 | - | - |
+| idnmr | iter DNMR | 8.5 | 10.4 | 2.4 | - | - |
+| idnmr_2round | 2-round DNMR | 8.0 | 8.6 | 1.9 | - | - |
+
+**Note on ipool**: ipool uses answer-conditioned bridge extraction (same as iSPREAD/iARAM) but no guidance during decode. Passage counts approximate iSPREAD since both use the same iterative expansion with answer-conditioned queries.
+
