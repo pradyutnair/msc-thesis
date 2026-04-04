@@ -26,11 +26,11 @@
 
 ### In Progress
 - [ ] Budget ablation on vast.ai (Dream MuSiQue — cancelled)
-- [ ] MuSiQue pool8 1000q on IVI (200q done, rest TBD)
+- [x] MuSiQue pool8 1000q on IVI (CANCELLED, no SBUs)
 
 ### TODO: Experiments (Paper-Critical)
 - [ ] LLaDA answer extraction: fix verbosity without truncation tradeoff
-- [ ] LLM judge eval on existing LLaDA pool predictions (semantic accuracy beyond F1)
+- [x] LLM judge eval on ALL LLaDA predictions — COMPLETE 1000q x 3 datasets x 9 methods (gpt-4.1-mini)
 - [ ] Budget ablation at 1000q scale (baseline_5 vs baseline_10 vs dnmr_pool) on both models
 - [ ] Statistical significance tests (paired bootstrap) on full 1000q results
 - [ ] Dream completion runs if needed (currently have full 1000q)
