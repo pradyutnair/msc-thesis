@@ -11,6 +11,7 @@ Quick-start guide for running DNMR experiments on rented GPUs. Learned the hard 
 ## Step 1: SSH Access
 
 RunPod provides two SSH endpoints:
+
 - **Proxy SSH** (always works): `ssh <pod-id>@ssh.runpod.io -i ~/.ssh/id_ed25519_runpod`
   - Does NOT support non-PTY connections (breaks scp, Cursor Remote, piped commands)
 - **Direct SSH** (use this): `ssh root@<IP> -p <PORT> -i ~/.ssh/id_ed25519_runpod`
@@ -27,6 +28,7 @@ bash setup_workspace.sh --workspace /workspace
 ```
 
 This creates:
+
 - `/data/` — corpus (wiki18_100w.jsonl), questions, id_offset
 - `/indexes/` — e5_Flat.index (61GB)
 - `/hf_cache/` — cached HF models (LLaDA, Dream, E5)
@@ -34,6 +36,15 @@ This creates:
 - `/msc-thesis/` — symlink or copy of repo
 - `/init.sh` — environment activation script
 - `/code/repo/.venv/` — Python venv (uv managed)
+
+Also, we need to clone and install `dllm`
+
+```bash
+cd msc-thesis/07-daes/
+git clone https://github.com/ZHZisZZ/dllm.git
+cd msc-thesis/07-daes/dllm
+uv pip install -e .
+```
 
 ## Step 3: Critical Optimizations
 
@@ -136,11 +147,13 @@ ps aux | grep dnmr_pool  # process alive?
 
 ## Performance Reference
 
-| Setup | Batch Retrieval (1000q) | Per-Question | Total 1000q | Cost (A100 $1.5/h) |
-|-------|------------------------|-------------|-------------|---------------------|
-| Container disk, CPU FAISS | ~13 min | ~66s/q | ~18h | $27 |
-| /dev/shm, CPU FAISS | ~13 min | ~50s/q | ~14h | $21 |
-| /dev/shm, GPU FAISS | ~2 min | ~9s/q | ~2.7h | **$4** |
+
+| Setup                     | Batch Retrieval (1000q) | Per-Question | Total 1000q | Cost (A100 $1.5/h) |
+| ------------------------- | ----------------------- | ------------ | ----------- | ------------------ |
+| Container disk, CPU FAISS | ~13 min                 | ~66s/q       | ~18h        | $27                |
+| /dev/shm, CPU FAISS       | ~13 min                 | ~50s/q       | ~14h        | $21                |
+| /dev/shm, GPU FAISS       | ~2 min                  | ~9s/q        | ~2.7h       | **$4**             |
+
 
 **Always use GPU FAISS.**
 
@@ -152,3 +165,4 @@ ps aux | grep dnmr_pool  # process alive?
 - **Results save every 10 questions**: incremental JSON, won't lose progress on crash
 - **PYTHONPATH required**: dllm and daes are not pip-installed, need explicit path
 - **77GB VRAM usage**: model (16GB) + index (61GB). Only 3GB headroom on 80GB A100. Don't load anything else.
+
