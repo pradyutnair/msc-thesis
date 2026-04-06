@@ -85,3 +85,4 @@ They are orthogonal — could be combined (SPREAD denoising + our multi-path ret
 3. DLLM-SEARCH: https://arxiv.org/pdf/2602.07035, https://github.com/bubble65/DLLM-Searcher
 4. DiffuGR: https://arxiv.org/pdf/2511.08150
 5. d1: https://arxiv.org/abs/2504.12216, https://github.com/dllm-reasoning/d1
+6. LongLlada: https://arxiv.org/pdf/2506.14429

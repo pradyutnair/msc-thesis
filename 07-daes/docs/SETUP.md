@@ -18,135 +18,91 @@ RunPod provides two SSH endpoints:
   - Get IP/port from RunPod dashboard under "TCP Port Mapping"
   - Supports everything: scp, non-interactive commands, background jobs
 
-## Step 2: Workspace Setup
+## Step 2: Workspace setup (one script)
 
-Run `setup_workspace.sh` from the thesis repo root:
+From the thesis repo root, run `msc-thesis/setup/setup_workspace.sh`. It creates the workspace layout (data, indexes, HF cache, venv, results), syncs the Python env from `uv.lock` (including **lm-eval**), clones **dLLM** into `07-daes/dllm` if missing and installs it editable, downloads models/data, and writes `init.sh` + `workspace_paths.py`.
 
 ```bash
-# On the pod (first time only)
-bash setup_workspace.sh --workspace /workspace
+# Standard (CPU FAISS from workspace disk)
+bash msc-thesis/setup/setup_workspace.sh --workspace /workspace
+
+# A100 + GPU FAISS: swaps faiss-cpu → faiss-gpu-cu12, copies the index to /dev/shm when possible
+bash msc-thesis/setup/setup_workspace.sh --workspace /workspace --with-gpu-faiss
 ```
 
-This creates:
+Useful flags: `--skip-env`, `--skip-models`, `--skip-data`, `--skip-dllm`, `--show-disk-usage`.
 
-- `/data/` — corpus (wiki18_100w.jsonl), questions, id_offset
-- `/indexes/` — e5_Flat.index (61GB)
-- `/hf_cache/` — cached HF models (LLaDA, Dream, E5)
-- `/code/repo/` — git clone of msc-thesis
-- `/msc-thesis/` — symlink or copy of repo
-- `/init.sh` — environment activation script
-- `/code/repo/.venv/` — Python venv (uv managed)
-
-Also, we need to clone and install `dllm`
+After it finishes:
 
 ```bash
-cd msc-thesis/07-daes/
-git clone https://github.com/ZHZisZZ/dllm.git
-cd msc-thesis/07-daes/dllm
-uv pip install -e .
+source /workspace/init.sh
 ```
 
-## Step 3: Critical Optimizations
+`init.sh` exports paths (`CORPUS_JSONL`, `QUESTIONS_DIR`, `FAISS_INDEX`, …) and `PYTHONPATH` (`07-daes/dllm`, `07-daes/src`). `07-daes/src/daes/eamd_v2_wiki18.py` reads those env vars (defaults remain Snellius paths), so you do **not** need manual `sed` on that file when using this workspace.
 
-### 3a. Copy FAISS index to RAM disk (eliminates disk I/O bottleneck)
+## Step 3: What the script used to do manually
+
+The following are now covered by Step 2 (or by sourcing `init.sh`):
+
+- Clone + editable install of **dLLM** (`--skip-dllm` to opt out).
+- **GPU FAISS** + optional **RAM-disk index** copy: use `--with-gpu-faiss` (requires `nvidia-smi` and a venv). Without it, the workflow uses faiss-cpu and the index path under `${WORKSPACE}/indexes/`.
+- **lm-eval** is a project dependency in `pyproject.toml` / `uv.lock`; it is installed with `uv sync`.
+
+If you must do the GPU FAISS swap by hand (same as the script):
 
 ```bash
-cp /indexes/e5_Flat.index /dev/shm/e5_Flat.index
+# Uninstall CPU build, install GPU build (conflicts if both present)
+/path/to/venv/bin/pip uninstall -y faiss-cpu
+/path/to/venv/bin/pip install faiss-gpu-cu12
+
+# Optional: copy index to shared memory (large, fast I/O)
+cp "${FAISS_INDEX}" /dev/shm/e5_Flat.index
+export DAES_FAISS_GPU=1
+export DAES_FAISS_INDEX=/dev/shm/e5_Flat.index
 ```
 
-### 3b. Install faiss-gpu and move index to GPU (eliminates CPU search bottleneck)
-
-Without this: ~66s/q (CPU brute-force on 21M vectors). With this: ~9s/q.
+## Step 4: Run experiments
 
 ```bash
-# Uninstall faiss-cpu (conflicts with faiss-gpu)
-/code/repo/.venv/bin/pip uninstall -y faiss-cpu
+cd "${REPO_ROOT}/07-daes/src/daes"
+# After: source "${WORKSPACE}/init.sh"
 
-# Install faiss-gpu
-/code/repo/.venv/bin/pip install faiss-gpu-cu12
+python -u dnmr_pool_v2_lean.py \
+  --model llada \
+  --dataset musique \
+  --n_questions 1000 \
+  --output "${RESULTS_DIR}/pool_v2_llada_musique_1000q.json" \
+  2>&1 | tee "${RESULTS_DIR}/pool_v2_musique.log"
 ```
 
-### 3c. Fix hardcoded paths
-
-Update `eamd_v2_wiki18.py` — replace Snellius paths with RunPod paths:
+Background:
 
 ```bash
-cd /msc-thesis/07-daes/src/daes
-
-# Data paths
-sed -i 's|/projects/prjs1800/datasets/flashrag/retrieval-corpus/wiki18_100w.jsonl|/data/retrieval-corpus/wiki18_100w.jsonl|' eamd_v2_wiki18.py
-sed -i 's|/projects/prjs1800/msc-thesis/01-arag-reproduction/data/index/wiki18_id_offset.json|/data/wiki18_id_offset.json|' eamd_v2_wiki18.py
-sed -i 's|/projects/prjs1800/msc-thesis/01-arag-reproduction/data/questions_wiki18|/data/questions|' eamd_v2_wiki18.py
-
-# FAISS index -> /dev/shm (RAM disk)
-sed -i 's|/projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index|/dev/shm/e5_Flat.index|' eamd_v2_wiki18.py
-
-# FAISS CPU -> GPU transfer
-sed -i 's|self.index = faiss.read_index(FAISS_INDEX)|cpu_index = faiss.read_index(FAISS_INDEX); res = faiss.StandardGpuResources(); self.index = faiss.index_cpu_to_gpu(res, 0, cpu_index); self._gpu_res = res; del cpu_index|' eamd_v2_wiki18.py
-```
-
-### One-liner setup script (run all 3 steps at once)
-
-```bash
-# Copy index to RAM
-cp /indexes/e5_Flat.index /dev/shm/e5_Flat.index
-
-# Install faiss-gpu
-/code/repo/.venv/bin/pip uninstall -y faiss-cpu && /code/repo/.venv/bin/pip install faiss-gpu-cu12
-
-# Fix all paths + GPU FAISS in one go
-cd /msc-thesis/07-daes/src/daes
-sed -i \
-  -e 's|/projects/prjs1800/datasets/flashrag/retrieval-corpus/wiki18_100w.jsonl|/data/retrieval-corpus/wiki18_100w.jsonl|' \
-  -e 's|/projects/prjs1800/msc-thesis/01-arag-reproduction/data/index/wiki18_id_offset.json|/data/wiki18_id_offset.json|' \
-  -e 's|/projects/prjs1800/msc-thesis/01-arag-reproduction/data/questions_wiki18|/data/questions|' \
-  -e 's|/projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index|/dev/shm/e5_Flat.index|' \
-  -e 's|self.index = faiss.read_index(FAISS_INDEX)|cpu_index = faiss.read_index(FAISS_INDEX); res = faiss.StandardGpuResources(); self.index = faiss.index_cpu_to_gpu(res, 0, cpu_index); self._gpu_res = res; del cpu_index|' \
-  eamd_v2_wiki18.py
-```
-
-## Step 4: Run Experiments
-
-```bash
-cd /msc-thesis/07-daes/src/daes
-
-# Foreground (see output live)
-PYTHONPATH=/msc-thesis/07-daes/dllm:/msc-thesis/07-daes/src/daes \
-  /code/repo/.venv/bin/python -u dnmr_pool_v2_lean.py \
-    --model llada \
-    --dataset musique \
-    --n_questions 1000 \
-    --output /results/pool_v2_llada_musique_1000q.json \
-    2>&1 | tee /results/pool_v2_musique.log
-
-# Background (survives SSH disconnect)
-PYTHONPATH=/msc-thesis/07-daes/dllm:/msc-thesis/07-daes/src/daes \
-  nohup /code/repo/.venv/bin/python -u dnmr_pool_v2_lean.py \
-    --model llada \
-    --dataset musique \
-    --n_questions 1000 \
-    --output /results/pool_v2_llada_musique_1000q.json \
-    > /results/pool_v2_musique.log 2>&1 &
+nohup python -u dnmr_pool_v2_lean.py \
+  --model llada \
+  --dataset musique \
+  --n_questions 1000 \
+  --output "${RESULTS_DIR}/pool_v2_llada_musique_1000q.json" \
+  > "${RESULTS_DIR}/pool_v2_musique.log" 2>&1 &
 ```
 
 Monitor:
 
 ```bash
-grep '^\[' /results/pool_v2_musique.log | tail -5   # progress
-nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader  # VRAM
-ps aux | grep dnmr_pool  # process alive?
+grep '^\[' "${RESULTS_DIR}/pool_v2_musique.log" | tail -5
+nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader
+ps aux | grep dnmr_pool
 ```
 
 ## Datasets
 
 ```bash
---dataset musique         --output /results/pool_v2_llada_musique_1000q.json
---dataset hotpotqa        --output /results/pool_v2_llada_hotpotqa_1000q.json
---dataset 2wikimultihopqa --output /results/pool_v2_llada_2wikimultihopqa_1000q.json
+--dataset musique         --output "${RESULTS_DIR}/pool_v2_llada_musique_1000q.json"
+--dataset hotpotqa        --output "${RESULTS_DIR}/pool_v2_llada_hotpotqa_1000q.json"
+--dataset 2wikimultihopqa --output "${RESULTS_DIR}/pool_v2_llada_2wikimultihopqa_1000q.json"
 ```
 
 ## Performance Reference
-
 
 | Setup                     | Batch Retrieval (1000q) | Per-Question | Total 1000q | Cost (A100 $1.5/h) |
 | ------------------------- | ----------------------- | ------------ | ----------- | ------------------ |
@@ -154,15 +110,13 @@ ps aux | grep dnmr_pool  # process alive?
 | /dev/shm, CPU FAISS       | ~13 min                 | ~50s/q       | ~14h        | $21                |
 | /dev/shm, GPU FAISS       | ~2 min                  | ~9s/q        | ~2.7h       | **$4**             |
 
-
-**Always use GPU FAISS.**
+**Always use GPU FAISS** on A100 for production runs (`--with-gpu-faiss` once the index exists).
 
 ## Gotchas
 
-- **faiss-cpu and faiss-gpu conflict**: uninstall faiss-cpu BEFORE installing faiss-gpu, or `index_cpu_to_gpu` won't exist
-- **RunPod proxy SSH rejects non-PTY**: use direct IP:port for scp, Cursor Remote, programmatic access
+- **faiss-cpu and faiss-gpu conflict**: uninstall faiss-cpu before faiss-gpu, or `index_cpu_to_gpu` may be missing.
+- **RunPod proxy SSH rejects non-PTY**: use direct IP:port for scp, Cursor Remote, programmatic access.
 - **FAISS read_index takes ~2 min**: parsing 61GB from /dev/shm into memory structures. One-time cost.
-- **Results save every 10 questions**: incremental JSON, won't lose progress on crash
-- **PYTHONPATH required**: dllm and daes are not pip-installed, need explicit path
+- **Results save every 10 questions**: incremental JSON, won't lose progress on crash.
+- **PYTHONPATH**: `init.sh` sets `dllm` + `daes`; run experiments after `source init.sh`.
 - **77GB VRAM usage**: model (16GB) + index (61GB). Only 3GB headroom on 80GB A100. Don't load anything else.
-

@@ -2,354 +2,682 @@
 set -euo pipefail
 
 # =============================================================================
-# Portable Workspace Setup for Diffusion-Native Multi-Hop QA Experiments
+# Workspace Setup for Diffusion-Native Multi-Hop QA Experiments
 # =============================================================================
-# Usage: bash setup_workspace.sh [--workspace /path] [--skip-models] [--skip-data]
+# Usage:
+#   bash setup_workspace.sh [--workspace /path] [--repo-root /path] \
+#       [--skip-env] [--skip-models] [--skip-data] [--skip-dllm] [--with-gpu-faiss]
 #
-# Works on: IVI, RunPod, Vast.ai, or any Linux box with NVIDIA GPUs + conda
+# Assumptions:
+# - This script lives inside your already-cloned repo.
+# - The repo contains uv.lock / pyproject.toml at the repo root.
+# - Experiment code lives under 07-daes/
+# - Workspace stores runtime assets only: data, indexes, hf cache, venv, results
 # =============================================================================
 
-# === CONFIGURABLE PARAMETERS ===
+# -----------------------------
+# Defaults
+# -----------------------------
 WORKSPACE="${WORKSPACE:-/tmp/pnair}"
-GIT_REPO="${GIT_REPO:-https://github.com/pradyutnair/msc-thesis.git}"
-GIT_BRANCH="${GIT_BRANCH:-main}"
-HF_TOKEN="${HF_TOKEN:-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}"
-PYTHON_VERSION="${PYTHON_VERSION:-3.11}"
-CUDA_INDEX="${CUDA_INDEX:-https://download.pytorch.org/whl/cu124}"
+PYTHON_VERSION="${PYTHON_VERSION:-3.10}"
+HF_TOKEN="${HF_TOKEN:-}"
 
-# Models to download (HuggingFace model IDs)
-MODELS=(
-    "Dream-org/Dream-v0-Instruct-7B"
-    "GSAI-ML/LLaDA-8B-Instruct"
-    "intfloat/e5-base-v2"
-)
-
-# Skip flags
+SKIP_ENV=false
 SKIP_MODELS=false
 SKIP_DATA=false
-SKIP_ENV=false
-SKIP_CODE=false
+SKIP_DLLM=false
+WITH_GPU_FAISS=true
+SHOW_DISK_USAGE=false
 
-# === DERIVED PATHS (change these if your layout differs) ===
-CODE_DIR="${WORKSPACE}/code"
-DATA_DIR="${WORKSPACE}/data"
-INDEX_DIR="${WORKSPACE}/indexes"
-HF_CACHE="${WORKSPACE}/hf_cache"
-ENV_DIR="${WORKSPACE}/env"
-RESULTS_DIR="${WORKSPACE}/results"
-TRITON_CACHE="${WORKSPACE}/triton_cache"
+DLLM_GIT_URL="${DLLM_GIT_URL:-https://github.com/ZHZisZZ/dllm.git}"
+SHM_FAISS_INDEX="/dev/shm/e5_Flat.index"
 
-# Data paths (used by experiment scripts)
-CORPUS_JSONL="${DATA_DIR}/retrieval-corpus/wiki18_100w.jsonl"
-ID_OFFSET_JSON="${DATA_DIR}/wiki18_id_offset.json"
-FAISS_INDEX="${INDEX_DIR}/e5_Flat.index"
-QUESTIONS_DIR="${DATA_DIR}/questions"
+# Models to cache
+MODELS=(
+  "Dream-org/Dream-v0-Instruct-7B"
+  "GSAI-ML/LLaDA-8B-Instruct"
+  "intfloat/e5-base-v2"
+)
 
-# === PARSE ARGS ===
+# -----------------------------
+# Infer repo root from script path
+# -----------------------------
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+
+if git -C "${SCRIPT_DIR}" rev-parse --show-toplevel >/dev/null 2>&1; then
+  REPO_ROOT="$(git -C "${SCRIPT_DIR}" rev-parse --show-toplevel)"
+else
+  # Fallback: assume script is somewhere inside repo and repo root is one level up
+  REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+fi
+
+# -----------------------------
+# Parse args
+# -----------------------------
 while [[ $# -gt 0 ]]; do
-    case $1 in
-        --workspace) WORKSPACE="$2"; shift 2 ;;
-        --git-repo)  GIT_REPO="$2"; shift 2 ;;
-        --skip-models) SKIP_MODELS=true; shift ;;
-        --skip-data)   SKIP_DATA=true; shift ;;
-        --skip-env)    SKIP_ENV=true; shift ;;
-        --skip-code)   SKIP_CODE=true; shift ;;
-        --help) echo "Usage: $0 [--workspace DIR] [--git-repo URL] [--skip-models] [--skip-data] [--skip-env] [--skip-code]"; exit 0 ;;
-        *) echo "Unknown option: $1"; exit 1 ;;
-    esac
+  case "$1" in
+    --workspace)
+      if [[ $# -lt 2 || "$2" == --* ]]; then
+        echo "ERROR: --workspace requires a value"
+        exit 1
+      fi
+      WORKSPACE="$2"
+      shift 2
+      ;;
+    --repo-root)
+      if [[ $# -lt 2 || "$2" == --* ]]; then
+        echo "ERROR: --repo-root requires a value"
+        exit 1
+      fi
+      REPO_ROOT="$2"
+      shift 2
+      ;;
+    --skip-env)
+      SKIP_ENV=true
+      shift
+      ;;
+    --skip-models)
+      SKIP_MODELS=true
+      shift
+      ;;
+    --skip-data)
+      SKIP_DATA=true
+      shift
+      ;;
+    --skip-dllm)
+      SKIP_DLLM=true
+      shift
+      ;;
+    --with-gpu-faiss)
+      WITH_GPU_FAISS=true
+      shift
+      ;;
+    --show-disk-usage)
+      SHOW_DISK_USAGE=true
+      shift
+      ;;
+    --help)
+      cat <<EOF
+Usage: $0 [--workspace DIR] [--repo-root DIR] [--skip-env] [--skip-models] [--skip-data]
+           [--skip-dllm] [--with-gpu-faiss] [--show-disk-usage]
+
+Examples:
+  bash $0 --workspace /workspace/pnair
+  bash $0 --workspace /workspace --with-gpu-faiss
+  WORKSPACE=/workspace/pnair HF_TOKEN=... bash $0
+EOF
+      exit 0
+      ;;
+    *)
+      echo "Unknown option: $1"
+      exit 1
+      ;;
+  esac
 done
 
-# Re-derive paths after potential workspace override
-CODE_DIR="${WORKSPACE}/code"
+# -----------------------------
+# Derived paths
+# -----------------------------
+DLLM_DIR="${REPO_ROOT}/07-daes/dllm"
+
 DATA_DIR="${WORKSPACE}/data"
+QUESTIONS_DIR="${DATA_DIR}/questions"
+CORPUS_DIR="${DATA_DIR}/retrieval-corpus"
 INDEX_DIR="${WORKSPACE}/indexes"
 HF_CACHE="${WORKSPACE}/hf_cache"
-ENV_DIR="${WORKSPACE}/env"
+VENV_DIR="${WORKSPACE}/venv"
 RESULTS_DIR="${WORKSPACE}/results"
 TRITON_CACHE="${WORKSPACE}/triton_cache"
-CORPUS_JSONL="${DATA_DIR}/retrieval-corpus/wiki18_100w.jsonl"
+MANIFEST_DIR="${WORKSPACE}/manifests"
+TMP_DIR="${WORKSPACE}/tmp"
+
+CORPUS_JSONL="${CORPUS_DIR}/wiki18_100w.jsonl"
 ID_OFFSET_JSON="${DATA_DIR}/wiki18_id_offset.json"
 FAISS_INDEX="${INDEX_DIR}/e5_Flat.index"
-QUESTIONS_DIR="${DATA_DIR}/questions"
+MODEL_MANIFEST_JSON="${MANIFEST_DIR}/model_paths.json"
 
-echo "============================================"
-echo "  Workspace Setup"
-echo "============================================"
-echo "  WORKSPACE:  ${WORKSPACE}"
-echo "  GIT_REPO:   ${GIT_REPO}"
-echo "============================================"
+# -----------------------------
+# Helpers
+# -----------------------------
+section() {
+  echo ""
+  echo "============================================================"
+  echo "$1"
+  echo "============================================================"
+}
 
-# === 1. CREATE DIRECTORY STRUCTURE ===
-echo -e "\n[1/7] Creating directories..."
-mkdir -p "${CODE_DIR}" "${DATA_DIR}/questions" "${DATA_DIR}/retrieval-corpus" \
-         "${INDEX_DIR}" "${HF_CACHE}" "${ENV_DIR}" "${RESULTS_DIR}" "${TRITON_CACHE}"
+require_cmd() {
+  if ! command -v "$1" >/dev/null 2>&1; then
+    echo "ERROR: required command not found: $1"
+    exit 1
+  fi
+}
 
-# === 2. CLONE CODE (moved before env so uv sync can use uv.lock) ===
-if [ "$SKIP_CODE" = false ]; then
-    echo -e "\n[2/7] Cloning code..."
-    if [ -d "${CODE_DIR}/repo/.git" ]; then
-        echo "  Code already cloned, pulling latest..."
-        git -C "${CODE_DIR}/repo" pull --ff-only 2>/dev/null || true
-    else
-        git clone --branch "${GIT_BRANCH}" "${GIT_REPO}" "${CODE_DIR}/repo"
-    fi
-else
-    echo -e "\n[2/7] Skipping code clone"
+# -----------------------------
+# Validate repo
+# -----------------------------
+section "Workspace setup"
+
+echo "Repo root   : ${REPO_ROOT}"
+echo "Workspace   : ${WORKSPACE}"
+
+if [[ ! -d "${REPO_ROOT}" ]]; then
+  echo "ERROR: repo root does not exist: ${REPO_ROOT}"
+  exit 1
 fi
 
-# === 3. ENVIRONMENT (uv sync from repo's uv.lock) ===
-if [ "$SKIP_ENV" = false ]; then
-    echo -e "\n[3/7] Setting up Python environment with uv..."
-
-    # Install uv if not available
-    if ! command -v uv &>/dev/null; then
-        echo "  Installing uv..."
-        curl -LsSf https://astral.sh/uv/install.sh | sh
-        export PATH="$HOME/.local/bin:$PATH"
-    fi
-
-    # Sync from uv.lock in the repo
-    if [ -f "${CODE_DIR}/repo/uv.lock" ]; then
-        echo "  Running uv sync..."
-        cd "${CODE_DIR}/repo"
-        uv sync --no-install-package vllm --no-install-project
-        cd -
-        ENV_DIR="${CODE_DIR}/repo/.venv"
-    else
-        echo "  WARNING: No uv.lock found in repo, falling back to pip"
-        if [ ! -f "${ENV_DIR}/bin/python" ]; then
-            python3 -m venv "${ENV_DIR}"
-        fi
-        source "${ENV_DIR}/bin/activate"
-        pip install -q torch torchvision --index-url "${CUDA_INDEX}"
-        pip install -q transformers sentence-transformers faiss-cpu accelerate huggingface-hub
-    fi
-
-    # Activate
-    if [ -f "${ENV_DIR}/bin/activate" ]; then
-        source "${ENV_DIR}/bin/activate"
-    fi
-    echo "  Environment ready"
-else
-    echo -e "\n[3/7] Skipping environment setup"
-    # Try to activate existing env
-    if [ -f "${CODE_DIR}/repo/.venv/bin/activate" ]; then
-        ENV_DIR="${CODE_DIR}/repo/.venv"
-        source "${ENV_DIR}/bin/activate"
-    elif [ -f "${ENV_DIR}/bin/activate" ]; then
-        source "${ENV_DIR}/bin/activate"
-    fi
+if [[ ! -f "${REPO_ROOT}/pyproject.toml" && ! -f "${REPO_ROOT}/uv.lock" ]]; then
+  echo "ERROR: ${REPO_ROOT} does not look like your repo root (missing pyproject.toml / uv.lock)"
+  exit 1
 fi
 
-# (Code clone moved to step 2, before env setup)
+# -----------------------------
+# Create directories
+# -----------------------------
+section "Creating workspace directories"
 
-# === 4. DOWNLOAD MODELS ===
+mkdir -p \
+  "${DATA_DIR}" \
+  "${QUESTIONS_DIR}" \
+  "${CORPUS_DIR}" \
+  "${INDEX_DIR}" \
+  "${HF_CACHE}" \
+  "${RESULTS_DIR}" \
+  "${TRITON_CACHE}" \
+  "${MANIFEST_DIR}" \
+  "${TMP_DIR}"
+
+# -----------------------------
+# Environment setup
+# -----------------------------
+if [[ "${SKIP_ENV}" == false ]]; then
+  section "Setting up Python environment"
+
+  require_cmd python3
+  require_cmd curl
+
+  if ! command -v uv >/dev/null 2>&1; then
+    echo "Installing uv..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    export PATH="$HOME/.local/bin:$PATH"
+  fi
+
+  export HF_HOME="${HF_CACHE}"
+  export HF_HUB_CACHE="${HF_CACHE}"
+  export UV_CACHE_DIR="${WORKSPACE}/uv_cache"
+  mkdir -p "${UV_CACHE_DIR}"
+
+  if [[ -f "${REPO_ROOT}/uv.lock" ]]; then
+    echo "Using uv.lock from repo"
+    export UV_PROJECT_ENVIRONMENT="${VENV_DIR}"
+    cd "${REPO_ROOT}"
+
+    # Keep your previous behavior of avoiding vllm if needed.
+    # Remove these flags if you do want full project sync including vllm / local package.
+    uv sync --python "${PYTHON_VERSION}" --no-install-package vllm --no-install-project
+  else
+    echo "uv.lock not found; falling back to venv + pip"
+    python3 -m venv "${VENV_DIR}"
+    source "${VENV_DIR}/bin/activate"
+    pip install --upgrade pip
+    pip install torch torchvision transformers sentence-transformers faiss-cpu accelerate huggingface-hub "lm-eval>=0.4.8"
+  fi
+
+  if [[ -f "${VENV_DIR}/bin/activate" ]]; then
+    # shellcheck disable=SC1091
+    source "${VENV_DIR}/bin/activate"
+  else
+    echo "ERROR: venv activation script missing: ${VENV_DIR}/bin/activate"
+    exit 1
+  fi
+
+  echo "Python: $(python --version)"
+else
+  section "Skipping environment setup"
+
+  if [[ -f "${VENV_DIR}/bin/activate" ]]; then
+    # shellcheck disable=SC1091
+    source "${VENV_DIR}/bin/activate"
+  else
+    echo "WARNING: --skip-env passed but no venv found at ${VENV_DIR}"
+  fi
+fi
+
+require_cmd python
+
+# -----------------------------
+# dLLM (editable install; clone if missing)
+# -----------------------------
+if [[ "${SKIP_DLLM}" == false ]]; then
+  section "dLLM package"
+
+  if [[ ! -f "${VENV_DIR}/bin/python" ]]; then
+    echo "WARNING: no venv python at ${VENV_DIR}; skipping dLLM (create env first or omit --skip-env)"
+  elif ! command -v git >/dev/null 2>&1; then
+    echo "WARNING: git not found; cannot clone dLLM"
+  else
+    if [[ ! -d "${DLLM_DIR}/.git" ]]; then
+      echo "Cloning dLLM into ${DLLM_DIR}..."
+      mkdir -p "$(dirname "${DLLM_DIR}")"
+      git clone --depth 1 "${DLLM_GIT_URL}" "${DLLM_DIR}"
+    else
+      echo "dLLM repo already present: ${DLLM_DIR}"
+    fi
+
+    if [[ -f "${DLLM_DIR}/pyproject.toml" ]]; then
+      if command -v uv >/dev/null 2>&1; then
+        uv pip install --python "${VENV_DIR}/bin/python" -e "${DLLM_DIR}"
+      else
+        "${VENV_DIR}/bin/pip" install -e "${DLLM_DIR}"
+      fi
+    else
+      echo "ERROR: ${DLLM_DIR} missing pyproject.toml after clone"
+      exit 1
+    fi
+  fi
+else
+  section "Skipping dLLM install (--skip-dllm)"
+fi
+
+# -----------------------------
+# HuggingFace env
+# -----------------------------
 export HF_HOME="${HF_CACHE}"
+export HF_HUB_CACHE="${HF_CACHE}"
 export HF_TOKEN="${HF_TOKEN}"
 
-if [ "$SKIP_MODELS" = false ]; then
-    echo -e "\n[4/6] Downloading models..."
-    for model_id in "${MODELS[@]}"; do
-        model_dir="${HF_CACHE}/hub/models--${model_id//\//__}"
-        if [ -d "${model_dir}" ]; then
-            echo "  ${model_id} already cached, skipping"
-        else
-            echo "  Downloading ${model_id}..."
-            python -c "from huggingface_hub import snapshot_download; snapshot_download('${model_id}')" &
-        fi
-    done
-    wait
-    echo "  All models downloaded"
+# -----------------------------
+# Download models
+# -----------------------------
+if [[ "${SKIP_MODELS}" == false ]]; then
+  section "Downloading / resolving model cache paths"
+
+  python - "${MODEL_MANIFEST_JSON}" "${MODELS[@]}" <<'PY'
+import json
+import os
+import sys
+from huggingface_hub import snapshot_download
+
+manifest_path = sys.argv[1]
+model_ids = sys.argv[2:]
+
+manifest = {}
+for model_id in model_ids:
+    print(f"[model] {model_id}")
+    path = snapshot_download(
+        repo_id=model_id,
+        resume_download=True,
+    )
+    manifest[model_id] = path
+
+with open(manifest_path, "w") as f:
+    json.dump(manifest, f, indent=2)
+
+print(f"\nWrote model manifest to: {manifest_path}")
+PY
 else
-    echo -e "\n[4/6] Skipping model downloads"
+  section "Skipping model downloads"
+
+  if [[ ! -f "${MODEL_MANIFEST_JSON}" ]]; then
+    echo "WARNING: model manifest does not exist yet: ${MODEL_MANIFEST_JSON}"
+  fi
 fi
 
-# === 5. DOWNLOAD CORPUS ===
-if [ "$SKIP_DATA" = false ]; then
-    echo -e "\n[5/6] Downloading corpus + data..."
-    if [ -f "${CORPUS_JSONL}" ]; then
-        echo "  Corpus already exists, skipping"
-    else
-        echo "  Downloading wiki18_100w from HuggingFace..."
-        python -c "
+# -----------------------------
+# Download data
+# -----------------------------
+if [[ "${SKIP_DATA}" == false ]]; then
+  section "Downloading corpus / index / questions"
+
+  # Ensure Python env is active if available
+  if [[ -f "${VENV_DIR}/bin/activate" ]]; then
+    # shellcheck disable=SC1091
+    source "${VENV_DIR}/bin/activate"
+  fi
+
+  # 1) wiki18 corpus
+  if [[ -f "${CORPUS_JSONL}" ]]; then
+    echo "[corpus] Exists: ${CORPUS_JSONL}"
+  else
+    echo "[corpus] Downloading wiki18_100w.zip and extracting..."
+    python - <<PY
 from huggingface_hub import hf_hub_download
-import zipfile, os
-path = hf_hub_download(repo_id='RUC-NLPIR/FlashRAG_datasets',
-                       filename='retrieval-corpus/wiki18_100w.zip',
-                       repo_type='dataset',
-                       local_dir='${DATA_DIR}')
-print('  Extracting...')
-with zipfile.ZipFile(path) as z:
-    z.extractall('${DATA_DIR}/retrieval-corpus/')
-os.remove(path)
-# Clean up HF cache copy
+import zipfile
+import os
 import shutil
-cache_dir = '${DATA_DIR}/.cache'
+
+data_dir = r"${DATA_DIR}"
+corpus_dir = r"${CORPUS_DIR}"
+
+zip_path = hf_hub_download(
+    repo_id="RUC-NLPIR/FlashRAG_datasets",
+    filename="retrieval-corpus/wiki18_100w.zip",
+    repo_type="dataset",
+    local_dir=data_dir,
+)
+
+print(f"Downloaded zip to: {zip_path}")
+
+with zipfile.ZipFile(zip_path) as z:
+    z.extractall(corpus_dir)
+
+if os.path.exists(zip_path):
+    os.remove(zip_path)
+
+cache_dir = os.path.join(data_dir, ".cache")
 if os.path.exists(cache_dir):
     shutil.rmtree(cache_dir)
-print('  Corpus ready')
-"
-    fi
 
-    # === DOWNLOAD FAISS INDEX ===
-    echo "  Downloading FAISS index..."
-    if [ -f "${FAISS_INDEX}" ]; then
-        echo "  Index already exists, skipping"
-    else
-        echo "  Downloading e5_Flat index from HuggingFace (~61GB, may take a while)..."
-        python -c "
+print(f"Extracted corpus into: {corpus_dir}")
+PY
+  fi
+
+  # 2) FAISS index
+  if [[ -f "${FAISS_INDEX}" ]]; then
+    echo "[index] Exists: ${FAISS_INDEX}"
+  else
+    echo "[index] Downloading e5_Flat index and concatenating parts..."
+    python - <<PY
 from huggingface_hub import snapshot_download
-import os, shutil
-dl_dir = '${INDEX_DIR}/download'
-snapshot_download(repo_id='PeterJinGo/wiki-18-e5-index',
-                  repo_type='dataset',
-                  local_dir=dl_dir)
-print('  Concatenating parts...')
-# Remove cache to free space before concatenation
-cache_dir = os.path.join(dl_dir, '.cache')
-if os.path.exists(cache_dir):
-    shutil.rmtree(cache_dir)
-# Concatenate: mv part_aa, append part_ab, delete parts
-os.rename(os.path.join(dl_dir, 'part_aa'), '${FAISS_INDEX}')
-with open('${FAISS_INDEX}', 'ab') as out:
-    with open(os.path.join(dl_dir, 'part_ab'), 'rb') as inp:
-        while True:
-            chunk = inp.read(100 * 1024 * 1024)  # 100MB chunks
-            if not chunk:
-                break
-            out.write(chunk)
-os.remove(os.path.join(dl_dir, 'part_ab'))
-# Clean up download dir
-for f in os.listdir(dl_dir):
-    os.remove(os.path.join(dl_dir, f))
-os.rmdir(dl_dir)
-print('  Index ready')
-"
-    fi
+import os
+import shutil
 
-    # === BUILD ID OFFSET MAP ===
-    echo "  Building id_offset map..."
-    if [ -f "${ID_OFFSET_JSON}" ]; then
-        echo "  id_offset already exists, skipping"
-    else
-        python -c "
+index_dir = r"${INDEX_DIR}"
+download_dir = os.path.join(index_dir, "download")
+final_index = r"${FAISS_INDEX}"
+
+if os.path.exists(download_dir):
+    shutil.rmtree(download_dir)
+
+snapshot_download(
+    repo_id="PeterJinGo/wiki-18-e5-index",
+    repo_type="dataset",
+    local_dir=download_dir,
+    resume_download=True,
+)
+
+part_aa = os.path.join(download_dir, "part_aa")
+part_ab = os.path.join(download_dir, "part_ab")
+
+if not os.path.exists(part_aa) or not os.path.exists(part_ab):
+    raise FileNotFoundError(
+        f"Expected part_aa and part_ab in {download_dir}, but did not find them."
+    )
+
+print("Concatenating part_aa + part_ab -> e5_Flat.index")
+os.replace(part_aa, final_index)
+
+with open(final_index, "ab") as out_f, open(part_ab, "rb") as in_f:
+    while True:
+        chunk = in_f.read(100 * 1024 * 1024)
+        if not chunk:
+            break
+        out_f.write(chunk)
+
+os.remove(part_ab)
+
+for name in os.listdir(download_dir):
+    path = os.path.join(download_dir, name)
+    if os.path.isdir(path):
+        shutil.rmtree(path)
+    else:
+        os.remove(path)
+
+os.rmdir(download_dir)
+
+print(f"Index ready: {final_index}")
+PY
+  fi
+
+  # 3) id -> file offset map
+  if [[ -f "${ID_OFFSET_JSON}" ]]; then
+    echo "[offsets] Exists: ${ID_OFFSET_JSON}"
+  else
+    echo "[offsets] Building id_offset map..."
+    python - <<PY
 import json
+
+corpus_jsonl = r"${CORPUS_JSONL}"
+offset_json = r"${ID_OFFSET_JSON}"
+
 offsets = {}
-with open('${CORPUS_JSONL}', 'rb') as f:
+with open(corpus_jsonl, "rb") as f:
     while True:
         pos = f.tell()
         line = f.readline()
         if not line:
             break
         row = json.loads(line)
-        offsets[row['id']] = pos
-with open('${ID_OFFSET_JSON}', 'w') as f:
-    json.dump(offsets, f)
-print(f'  Built offset map for {len(offsets)} passages')
-"
-    fi
+        offsets[row["id"]] = pos
 
-    # === DOWNLOAD QUESTION FILES ===
-    echo "  Downloading question files..."
-    if [ -f "${QUESTIONS_DIR}/hotpotqa.json" ]; then
-        echo "  Questions already exist, skipping"
-    else
-        python -c "
+with open(offset_json, "w") as f:
+    json.dump(offsets, f)
+
+print(f"Built offset map for {len(offsets)} passages -> {offset_json}")
+PY
+  fi
+
+  # 4) question files
+  if [[ -f "${QUESTIONS_DIR}/hotpotqa.json" && -f "${QUESTIONS_DIR}/musique.json" && -f "${QUESTIONS_DIR}/2wikimultihopqa.json" ]]; then
+    echo "[questions] Already exist in ${QUESTIONS_DIR}"
+  else
+    echo "[questions] Downloading and converting JSONL -> JSON array..."
+    python - <<PY
 from huggingface_hub import hf_hub_download
 import json
+import os
+
+questions_dir = r"${QUESTIONS_DIR}"
+
 datasets = {
-    'hotpotqa': 'hotpotqa/dev.jsonl',
-    'musique': 'musique/dev.jsonl',
-    '2wikimultihopqa': '2wikimultihopqa/dev.jsonl',
+    "hotpotqa": "hotpotqa/dev.jsonl",
+    "musique": "musique/dev.jsonl",
+    "2wikimultihopqa": "2wikimultihopqa/dev.jsonl",
 }
+
+os.makedirs(questions_dir, exist_ok=True)
+
 for name, path in datasets.items():
-    print(f'  Downloading {name}...')
-    local = hf_hub_download(repo_id='RUC-NLPIR/FlashRAG_datasets',
-                            filename=path, repo_type='dataset')
-    # Convert JSONL to JSON array (match Snellius format)
+    print(f"Downloading {name}...")
+    local = hf_hub_download(
+        repo_id="RUC-NLPIR/FlashRAG_datasets",
+        filename=path,
+        repo_type="dataset",
+    )
+
     records = []
     with open(local) as f:
         for line in f:
             obj = json.loads(line)
             records.append({
-                'id': obj.get('id', ''),
-                'qid': obj.get('id', ''),
-                'question': obj.get('question', ''),
-                'answer': obj.get('golden_answers', [''])[0] if isinstance(obj.get('golden_answers'), list) else obj.get('answer', ''),
-                'golden_answers': obj.get('golden_answers', [obj.get('answer', '')]),
+                "id": obj.get("id", ""),
+                "qid": obj.get("id", ""),
+                "question": obj.get("question", ""),
+                "answer": (
+                    obj.get("golden_answers", [""])[0]
+                    if isinstance(obj.get("golden_answers"), list)
+                    else obj.get("answer", "")
+                ),
+                "golden_answers": obj.get("golden_answers", [obj.get("answer", "")]),
             })
-    with open('${QUESTIONS_DIR}/' + name + '.json', 'w') as f:
+
+    out_path = os.path.join(questions_dir, f"{name}.json")
+    with open(out_path, "w") as f:
         json.dump(records, f)
-    print(f'    {len(records)} questions')
-print('  Questions ready')
-"
-    fi
+
+    print(f"  wrote {len(records)} questions -> {out_path}")
+
+print("Questions ready")
+PY
+  fi
 else
-    echo -e "\n[5/6] Skipping data downloads"
+  section "Skipping data downloads"
 fi
 
-# === 7. GENERATE INIT SCRIPT ===
-echo -e "\n[6/6] Generating init script..."
-cat > "${WORKSPACE}/init.sh" << INITEOF
+DAES_FAISS_GPU_VAL="0"
+DAES_FAISS_INDEX_VAL="${FAISS_INDEX}"
+
+if [[ "${WITH_GPU_FAISS}" == true ]]; then
+  if [[ ! -f "${VENV_DIR}/bin/python" ]]; then
+    echo "WARNING: --with-gpu-faiss set but no venv; skipping GPU FAISS swap"
+  elif ! command -v nvidia-smi >/dev/null 2>&1; then
+    echo "WARNING: --with-gpu-faiss set but nvidia-smi not found; skipping GPU FAISS swap"
+  else
+    section "GPU FAISS (faiss-gpu-cu12)"
+
+    PYEXE="${VENV_DIR}/bin/python"
+    if command -v uv >/dev/null 2>&1; then
+      uv pip uninstall --python "${PYEXE}" -y faiss-cpu 2>/dev/null || true
+      uv pip install --python "${PYEXE}" faiss-gpu-cu12
+    else
+      "${PYEXE}" -m pip uninstall -y faiss-cpu 2>/dev/null || true
+      "${PYEXE}" -m pip install faiss-gpu-cu12
+    fi
+    DAES_FAISS_GPU_VAL="1"
+    if [[ -f "${FAISS_INDEX}" && -d /dev/shm ]]; then
+      echo "Copying ${FAISS_INDEX} -> ${SHM_FAISS_INDEX} (large; may take minutes)..."
+      if cp -f "${FAISS_INDEX}" "${SHM_FAISS_INDEX}"; then
+        DAES_FAISS_INDEX_VAL="${SHM_FAISS_INDEX}"
+      else
+        echo "WARNING: copy to /dev/shm failed; using index on disk"
+      fi
+    fi
+  fi
+fi
+
+# -----------------------------
+# Generate init.sh
+# -----------------------------
+section "Generating init.sh and workspace_paths.py"
+
+cat > "${WORKSPACE}/init.sh" <<EOF
 #!/bin/bash
-# Source this file to set up the environment:
-#   source ${WORKSPACE}/init.sh
+# Source this file:
+#   source "${WORKSPACE}/init.sh"
 
-# Load CUDA (IVI/HPC only — comment out on RunPod/Vast.ai)
-if command -v module &>/dev/null; then
-    source /etc/profile.d/modules.sh 2>/dev/null
-    module load cuda12.6/toolkit/12.6 2>/dev/null
+# Optional HPC modules
+if command -v module >/dev/null 2>&1; then
+  source /etc/profile.d/modules.sh 2>/dev/null || true
+  module load CUDA/12.8.0 2>/dev/null || true
 fi
 
-# Activate Python env (uv creates .venv in repo dir)
-if [ -f "${CODE_DIR}/repo/.venv/bin/activate" ]; then
-    source "${CODE_DIR}/repo/.venv/bin/activate"
-elif [ -f "${ENV_DIR}/bin/activate" ]; then
-    source "${ENV_DIR}/bin/activate"
+# Activate env
+if [[ -f "${VENV_DIR}/bin/activate" ]]; then
+  source "${VENV_DIR}/bin/activate"
 fi
 
-# Environment variables
-export HF_HOME="${HF_CACHE}"
-export HF_TOKEN="${HF_TOKEN}"
-export PYTHONPATH="${CODE_DIR}/dllm:${CODE_DIR}/daes:${CODE_DIR}/repo:\${PYTHONPATH:-}"
-export TRITON_CACHE_DIR="${TRITON_CACHE}"
-export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
-
-# Data paths (importable via: from workspace_paths import *)
 export WORKSPACE="${WORKSPACE}"
+export REPO_ROOT="${REPO_ROOT}"
+export HF_HOME="${HF_CACHE}"
+export HF_HUB_CACHE="${HF_CACHE}"
+export HF_TOKEN="${HF_TOKEN}"
+export TRITON_CACHE_DIR="${TRITON_CACHE}"
+export PYTORCH_CUDA_ALLOC_CONF="expandable_segments:True"
+
+# Imports (dllm + daes; matches SETUP.md)
+export PYTHONPATH="${REPO_ROOT}/07-daes/dllm:${REPO_ROOT}/07-daes/src:${REPO_ROOT}:\${PYTHONPATH:-}"
+
+# Data / artifacts
+export DATA_DIR="${DATA_DIR}"
+export QUESTIONS_DIR="${QUESTIONS_DIR}"
 export CORPUS_JSONL="${CORPUS_JSONL}"
 export ID_OFFSET_JSON="${ID_OFFSET_JSON}"
 export FAISS_INDEX="${FAISS_INDEX}"
-export QUESTIONS_DIR="${QUESTIONS_DIR}"
 export RESULTS_DIR="${RESULTS_DIR}"
+export MODEL_MANIFEST_JSON="${MODEL_MANIFEST_JSON}"
 
-echo "Environment ready: \$(python --version), CUDA: \$(python -c 'import torch; print(torch.cuda.is_available(), torch.cuda.device_count(), \"GPUs\")' 2>/dev/null || echo 'not checked')"
-INITEOF
+export DAES_FAISS_GPU="${DAES_FAISS_GPU_VAL}"
+export DAES_FAISS_INDEX="${DAES_FAISS_INDEX_VAL}"
+
+echo "Repo root        : \$REPO_ROOT"
+echo "Workspace        : \$WORKSPACE"
+echo "Python           : \$(python --version 2>/dev/null || echo 'missing')"
+echo "CUDA check       : \$(python - <<'PY'
+try:
+    import torch
+    print(torch.cuda.is_available(), torch.cuda.device_count(), "GPUs")
+except Exception as e:
+    print("torch check failed:", e)
+PY
+)"
+EOF
+
 chmod +x "${WORKSPACE}/init.sh"
 
-# Also generate a Python paths module
-cat > "${WORKSPACE}/workspace_paths.py" << PYEOF
-"""Auto-generated workspace paths. Import in experiment scripts."""
+cat > "${WORKSPACE}/workspace_paths.py" <<EOF
+"""Auto-generated workspace paths."""
 import os
+from pathlib import Path
 
-WORKSPACE = "${WORKSPACE}"
-CORPUS_JSONL = "${CORPUS_JSONL}"
-ID_OFFSET_JSON = "${ID_OFFSET_JSON}"
-FAISS_INDEX = "${FAISS_INDEX}"
-QUESTIONS_DIR = "${QUESTIONS_DIR}"
-RESULTS_DIR = "${RESULTS_DIR}"
+WORKSPACE = Path(r"${WORKSPACE}")
+REPO_ROOT = Path(r"${REPO_ROOT}")
+
+DATA_DIR = Path(r"${DATA_DIR}")
+QUESTIONS_DIR = Path(r"${QUESTIONS_DIR}")
+CORPUS_JSONL = Path(r"${CORPUS_JSONL}")
+ID_OFFSET_JSON = Path(r"${ID_OFFSET_JSON}")
+FAISS_INDEX = Path(r"${FAISS_INDEX}")
+
+HF_CACHE = Path(r"${HF_CACHE}")
+VENV_DIR = Path(r"${VENV_DIR}")
+RESULTS_DIR = Path(r"${RESULTS_DIR}")
+TRITON_CACHE = Path(r"${TRITON_CACHE}")
+MODEL_MANIFEST_JSON = Path(r"${MODEL_MANIFEST_JSON}")
+
 QUESTION_FILES = {
-    "hotpotqa": os.path.join(QUESTIONS_DIR, "hotpotqa.json"),
-    "musique": os.path.join(QUESTIONS_DIR, "musique.json"),
-    "2wikimultihopqa": os.path.join(QUESTIONS_DIR, "2wikimultihopqa.json"),
+    "hotpotqa": QUESTIONS_DIR / "hotpotqa.json",
+    "musique": QUESTIONS_DIR / "musique.json",
+    "2wikimultihopqa": QUESTIONS_DIR / "2wikimultihopqa.json",
 }
-PYEOF
+EOF
+
+# -----------------------------
+# Final summary
+# -----------------------------
+section "Setup complete"
+
+echo "Source env with:"
+echo "  source ${WORKSPACE}/init.sh"
+echo ""
+
+echo "Important paths:"
+echo "  REPO_ROOT        = ${REPO_ROOT}"
+echo "  WORKSPACE        = ${WORKSPACE}"
+echo "  VENV_DIR         = ${VENV_DIR}"
+echo "  HF_CACHE         = ${HF_CACHE}"
+echo "  DATA_DIR         = ${DATA_DIR}"
+echo "  QUESTIONS_DIR    = ${QUESTIONS_DIR}"
+echo "  CORPUS_JSONL     = ${CORPUS_JSONL}"
+echo "  ID_OFFSET_JSON   = ${ID_OFFSET_JSON}"
+echo "  INDEX_DIR        = ${INDEX_DIR}"
+echo "  FAISS_INDEX      = ${FAISS_INDEX}"
+echo "  RESULTS_DIR      = ${RESULTS_DIR}"
+echo "  TRITON_CACHE     = ${TRITON_CACHE}"
+echo "  INIT_SCRIPT      = ${WORKSPACE}/init.sh"
+echo "  PY_PATHS_MODULE  = ${WORKSPACE}/workspace_paths.py"
+echo "  MODEL_MANIFEST   = ${MODEL_MANIFEST_JSON}"
+echo ""
+
+if [[ -f "${MODEL_MANIFEST_JSON}" ]]; then
+  echo "Resolved model cache paths:"
+  python - <<PY
+import json
+manifest_path = r"${MODEL_MANIFEST_JSON}"
+with open(manifest_path) as f:
+    manifest = json.load(f)
+for model_id, path in manifest.items():
+    print(f"  {model_id} -> {path}")
+PY
+  echo ""
+fi
+
+if [[ "${SHOW_DISK_USAGE}" == true ]]; then
+  echo "Disk usage:"
+  du -sh "${WORKSPACE}" 2>/dev/null || true
+else
+  echo "Disk usage: skipped full scan (re-run with --show-disk-usage)"
+fi
 
 echo ""
-echo "============================================"
-echo "  Setup complete!"
-echo "============================================"
-echo "  Activate with:  source ${WORKSPACE}/init.sh"
-echo "  Workspace size:  $(du -sh ${WORKSPACE} 2>/dev/null | cut -f1)"
-echo "  Disk free:       $(df -h ${WORKSPACE} 2>/dev/null | tail -1 | awk '{print $4}')"
-echo "============================================"
+echo "Free space:"
+df -hP "${WORKSPACE}" 2>/dev/null | awk 'NR==2 { print; exit }' || true
