@@ -33,10 +33,30 @@ def _neg_entropy():
     """Return neg_entropy flag based on model type. Dream=True (entropy-based), LLaDA=False (low-confidence)."""
     return MODEL_TYPE_REF != "llada"
 
-CORPUS_JSONL = "/projects/prjs1800/datasets/flashrag/retrieval-corpus/wiki18_100w.jsonl"
-ID_OFFSET_JSON = "/projects/prjs1800/msc-thesis/01-arag-reproduction/data/index/wiki18_id_offset.json"
-FAISS_INDEX = "/projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index"
-QUESTIONS_DIR = "/projects/prjs1800/msc-thesis/01-arag-reproduction/data/questions_wiki18"
+def _env_path(key: str, default: str) -> str:
+    return os.environ.get(key, default)
+
+
+CORPUS_JSONL = _env_path(
+    "CORPUS_JSONL",
+    "/projects/prjs1800/datasets/flashrag/retrieval-corpus/wiki18_100w.jsonl",
+)
+ID_OFFSET_JSON = _env_path(
+    "ID_OFFSET_JSON",
+    "/projects/prjs1800/msc-thesis/01-arag-reproduction/data/index/wiki18_id_offset.json",
+)
+# Prefer RAM-disk copy when setup_workspace copied the index (see init.sh DAES_FAISS_*).
+FAISS_INDEX = _env_path(
+    "DAES_FAISS_INDEX",
+    _env_path(
+        "FAISS_INDEX",
+        "/projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index",
+    ),
+)
+QUESTIONS_DIR = _env_path(
+    "QUESTIONS_DIR",
+    "/projects/prjs1800/msc-thesis/01-arag-reproduction/data/questions_wiki18",
+)
 QUESTION_FILES = {
     "hotpotqa": f"{QUESTIONS_DIR}/hotpotqa.json",
     "musique": f"{QUESTIONS_DIR}/musique.json",
@@ -73,26 +93,218 @@ Short Answer: 1945
 """
 
 
+def _faiss_use_gpu() -> bool:
+    v = os.environ.get("DAES_FAISS_GPU", "0").strip().lower()
+    return v in ("1", "true", "yes")
+
+
+def _faiss_gpu_backend() -> str:
+    backend = os.environ.get("DAES_FAISS_GPU_BACKEND", "auto").strip().lower()
+    if backend in {"faiss", "torch", "cpu"}:
+        return backend
+    return "auto"
+
+
+def _parse_cuda_device_id(device: str) -> int:
+    if device.startswith("cuda:"):
+        try:
+            return int(device.split(":", 1)[1])
+        except ValueError:
+            return 0
+    return 0
+
+
+def _torch_device_for_index(device: str) -> torch.device:
+    if not torch.cuda.is_available():
+        return torch.device("cpu")
+    return torch.device(device if device.startswith("cuda") else "cuda:0")
+
+
+def _default_gpu_backend(device: str) -> str:
+    if not _faiss_use_gpu():
+        return "cpu"
+    if not torch.cuda.is_available():
+        return "cpu"
+    backend = _faiss_gpu_backend()
+    if backend != "auto":
+        return backend
+    torch_device = _torch_device_for_index(device)
+    major, _minor = torch.cuda.get_device_capability(torch_device)
+    # The current faiss-gpu wheel aborts on Blackwell (sm_120), so prefer
+    # the PyTorch CUDA fallback there instead of the crashing FAISS path.
+    if major >= 12:
+        return "torch"
+    return "faiss"
+
+
+class TorchGpuFlatIPIndex:
+    def __init__(
+        self,
+        index_path: str,
+        *,
+        device: str,
+        storage_dtype: str | None = None,
+        load_batch_size: int | None = None,
+        search_chunk_size: int | None = None,
+    ):
+        self.device = _torch_device_for_index(device)
+        self.load_batch_size = int(os.environ.get("DAES_TORCH_INDEX_LOAD_BATCH", str(load_batch_size or 131072)))
+        self.search_chunk_size = int(os.environ.get("DAES_TORCH_INDEX_SEARCH_CHUNK", str(search_chunk_size or 65536)))
+        storage_dtype_name = (storage_dtype or os.environ.get("DAES_TORCH_INDEX_DTYPE", "float16")).strip().lower()
+        self.storage_dtype = {
+            "float16": torch.float16,
+            "fp16": torch.float16,
+            "bfloat16": torch.bfloat16,
+            "bf16": torch.bfloat16,
+            "float32": torch.float32,
+            "fp32": torch.float32,
+        }.get(storage_dtype_name, torch.float16)
+
+        flags = faiss.IO_FLAG_MMAP | faiss.IO_FLAG_READ_ONLY
+        t0 = time.time()
+        self.cpu_index = faiss.read_index(index_path, flags)
+        max_vecs = int(os.environ.get("DAES_TORCH_INDEX_MAX_VECS", "0"))
+        self.ntotal = self.cpu_index.ntotal if max_vecs <= 0 else min(self.cpu_index.ntotal, max_vecs)
+        self.d = self.cpu_index.d
+        print(
+            f"TorchGpuFlatIPIndex: mmap-opened {index_path} in {time.time() - t0:.1f}s "
+            f"(ntotal={self.ntotal}, dim={self.d})",
+            flush=True,
+        )
+
+        free_bytes, total_bytes = torch.cuda.mem_get_info(self.device)
+        bytes_per_vector = self.d * torch.tensor([], dtype=self.storage_dtype).element_size()
+        needed_bytes = self.ntotal * bytes_per_vector
+        if needed_bytes > free_bytes:
+            gib = 1024 ** 3
+            raise RuntimeError(
+                f"Need ~{needed_bytes / gib:.1f} GiB free for Torch GPU index "
+                f"but only {free_bytes / gib:.1f} GiB is currently free on {self.device}."
+            )
+
+        self.embeddings = torch.empty((self.ntotal, self.d), dtype=self.storage_dtype, device=self.device)
+        t_load = time.time()
+        report_every = max(self.load_batch_size, 1) * 8
+        next_report = report_every
+        for start in range(0, self.ntotal, self.load_batch_size):
+            end = min(start + self.load_batch_size, self.ntotal)
+            block = self.cpu_index.reconstruct_n(start, end - start)
+            block_t = torch.from_numpy(block).to(device=self.device, dtype=self.storage_dtype)
+            self.embeddings[start:end].copy_(block_t)
+            if end >= next_report or end == self.ntotal:
+                pct = 100.0 * end / max(1, self.ntotal)
+                print(
+                    f"TorchGpuFlatIPIndex: loaded {end:,}/{self.ntotal:,} vectors "
+                    f"({pct:.1f}%) in {time.time() - t_load:.1f}s",
+                    flush=True,
+                )
+                next_report += report_every
+        del self.cpu_index
+        self.cpu_index = None
+        torch.cuda.empty_cache()
+        gib = 1024 ** 3
+        used = needed_bytes / gib
+        print(
+            f"TorchGpuFlatIPIndex: ready on {self.device} using {self.storage_dtype} "
+            f"(~{used:.1f} GiB for vectors)",
+            flush=True,
+        )
+
+    def search(self, vecs: np.ndarray, top_k: int):
+        if vecs.dtype != np.float32:
+            vecs = vecs.astype(np.float32, copy=False)
+        q = torch.from_numpy(vecs).to(device=self.device, dtype=self.storage_dtype)
+        n_queries = q.shape[0]
+        k = min(top_k, self.ntotal)
+        best_scores = torch.full((n_queries, k), float("-inf"), device=self.device, dtype=torch.float32)
+        best_indices = torch.full((n_queries, k), -1, device=self.device, dtype=torch.int64)
+
+        for start in range(0, self.ntotal, self.search_chunk_size):
+            end = min(start + self.search_chunk_size, self.ntotal)
+            scores = (q @ self.embeddings[start:end].T).float()
+            block_scores, block_local_idx = torch.topk(scores, k=min(k, end - start), dim=1)
+            block_indices = block_local_idx + start
+            merged_scores = torch.cat((best_scores, block_scores), dim=1)
+            merged_indices = torch.cat((best_indices, block_indices), dim=1)
+            merged_top_scores, merged_top_pos = torch.topk(merged_scores, k=k, dim=1)
+            best_scores = merged_top_scores
+            best_indices = torch.gather(merged_indices, 1, merged_top_pos)
+
+        return best_scores.cpu().numpy(), best_indices.cpu().numpy()
+
+
+def load_faiss_index_for_retrieval(
+    index_path: str, *, use_gpu: bool, gpu_id: int
+):
+    """Load Flat index; optionally move to GPU via index_cpu_to_gpu (frees CPU copy)."""
+    cpu_index = faiss.read_index(index_path)
+    if not use_gpu or not hasattr(faiss, "StandardGpuResources"):
+        return cpu_index, None
+    res = faiss.StandardGpuResources()
+    try:
+        gpu_index = faiss.index_cpu_to_gpu(res, gpu_id, cpu_index)
+    except Exception as e:
+        print(
+            f"FAISS GPU transfer failed ({e}); using CPU index. "
+            "Check VRAM (full index ~61GB on GPU).",
+            flush=True,
+        )
+        return cpu_index, None
+    del cpu_index
+    return gpu_index, res
+
+
 class WikiCorpusStore:
     def __init__(self, corpus_jsonl: str, id_offset_json: str):
         self.corpus_jsonl = Path(corpus_jsonl)
         self.id_offset_json = Path(id_offset_json)
         self.id2offset = json.loads(self.id_offset_json.read_text(encoding="utf-8"))
+        self._cache: dict[str, str] = {}
+        self._fh = self.corpus_jsonl.open("rb")
 
     def get_chunk(self, chunk_id: str) -> str:
         cid = str(chunk_id)
-        with self.corpus_jsonl.open("rb") as f:
-            f.seek(int(self.id2offset[cid]))
-            line = f.readline().decode("utf-8")
-        row = json.loads(line)
-        return row["contents"]
+        cached = self._cache.get(cid)
+        if cached is not None:
+            return cached
+        self._fh.seek(int(self.id2offset[cid]))
+        line = self._fh.readline().decode("utf-8")
+        text = json.loads(line)["contents"]
+        self._cache[cid] = text
+        return text
 
 
 class Wiki18Retriever:
     def __init__(self, embedding_model: str = "intfloat/e5-base-v2", device: str = "cuda:0",
                  encode_batch_size: int = 64, num_threads: int = 16):
         faiss.omp_set_num_threads(num_threads)
-        self.index = faiss.read_index(FAISS_INDEX)
+        want_gpu = _faiss_use_gpu()
+        gpu_id = int(os.environ.get("DAES_FAISS_GPU_DEVICE", str(_parse_cuda_device_id(device))))
+        backend = _default_gpu_backend(device)
+        self._faiss_gpu_resources = None
+        if backend == "torch":
+            self.index = TorchGpuFlatIPIndex(FAISS_INDEX, device=device)
+        else:
+            self.index, self._faiss_gpu_resources = load_faiss_index_for_retrieval(
+                FAISS_INDEX, use_gpu=(want_gpu and backend == "faiss"), gpu_id=gpu_id
+            )
+        if backend == "torch":
+            print(
+                f"Wiki18Retriever: Torch CUDA flat-IP backend on {device} "
+                "(FAISS GPU kernels unavailable on this GPU)",
+                flush=True,
+            )
+        elif self._faiss_gpu_resources is not None:
+            print(
+                f"Wiki18Retriever: FAISS on GPU cuda:{gpu_id} (DAES_FAISS_GPU=1)",
+                flush=True,
+            )
+        elif want_gpu and backend == "faiss" and not hasattr(faiss, "StandardGpuResources"):
+            print(
+                "Wiki18Retriever: DAES_FAISS_GPU=1 but this faiss build has no GPU API; "
+                "install faiss-gpu-cu12. Using CPU index.",
+                flush=True,
+            )
         self.store = WikiCorpusStore(CORPUS_JSONL, ID_OFFSET_JSON)
         self.model = SentenceTransformer(embedding_model, device=device)
         self.encode_batch_size = encode_batch_size
@@ -122,6 +334,36 @@ class Wiki18Retriever:
 
     def retrieve(self, query: str, top_k: int = 5) -> list[str]:
         return self.retrieve_batch([query], top_k=top_k)[0]
+
+    def retrieve_batch_with_scores(self, queries: list[str], top_k: int) -> list[dict]:
+        vecs = self.model.encode(
+            queries,
+            normalize_embeddings=True,
+            convert_to_numpy=True,
+            batch_size=min(self.encode_batch_size, max(1, len(queries))),
+        ).astype(np.float32)
+        scores, idxs = self.index.search(vecs, top_k)
+        all_results = []
+        for row_scores, row_idxs in zip(scores, idxs):
+            hits = []
+            seen = set()
+            for rank, (score, idx) in enumerate(zip(row_scores.tolist(), row_idxs.tolist())):
+                if idx < 0:
+                    continue
+                cid = str(int(idx))
+                if cid in seen:
+                    continue
+                seen.add(cid)
+                hits.append(
+                    {
+                        "passage": self.store.get_chunk(cid),
+                        "score": float(score),
+                        "rank": rank,
+                        "chunk_id": cid,
+                    }
+                )
+            all_results.append({"hits": hits})
+        return all_results
 
 
 def chunked(items: list[str], size: int):
@@ -485,30 +727,35 @@ def extract_candidates_agnostic(model, tokenizer, context: str, question: str,
     if not branch_canvases:
         return []
 
-    # Step 4: Sequential denoising of each branch
+    # Step 4: Batched denoising of all branches in parallel
     B = len(branch_canvases)
     x_all = torch.tensor(branch_canvases, dtype=torch.long, device=device)  # [B, seq_len]
+    attn_batch = torch.ones((B, x_all.shape[1]), dtype=torch.long, device=device)
     neg_ent = _neg_entropy()
+    remaining = torch.full((B,), n_mask - 1, dtype=torch.long, device=device)
 
-    for bi in range(B):
-        x_c = x_all[bi:bi+1]  # [1, seq_len]
-        remaining = n_mask - 1
-        for step in range(extraction_steps):
-            if remaining <= 0:
-                break
-            mi = (x_c[0] == mask_id)
+    for step in range(extraction_steps):
+        active = remaining > 0
+        if not active.any():
+            break
+        active_idx = active.nonzero(as_tuple=True)[0]
+        x_active = x_all[active_idx]
+        out = model(x_active, attention_mask=attn_batch[:len(active_idx)])
+        logits_active = prepare_logits(out.logits)
+        for j, bi in enumerate(active_idx.tolist()):
+            mi = (x_all[bi] == mask_id)
             if not mi.any():
-                break
-            out = model(x_c, attention_mask=attn)
-            l2 = prepare_logits(out.logits)
+                remaining[bi] = 0
+                continue
             mp = mi.nonzero(as_tuple=True)[0]
-            c2, x02 = sample_tokens(l2[0, mp], temperature=0.1, neg_entropy=neg_ent)
-            k = min(max(1, remaining // extraction_steps), remaining)
+            c2, x02 = sample_tokens(logits_active[j, mp], temperature=0.1, neg_entropy=neg_ent)
+            rem = remaining[bi].item()
+            k = min(max(1, rem // extraction_steps), rem)
             if step == extraction_steps - 1:
-                k = remaining
+                k = rem
             _, tk = torch.topk(c2, min(k, len(c2)))
-            x_c[0, mp[tk]] = x02[tk]
-            remaining -= len(tk)
+            x_all[bi, mp[tk]] = x02[tk]
+            remaining[bi] -= len(tk)
 
     # Step 5: Decode and deduplicate
     candidates = []
@@ -527,6 +774,145 @@ def extract_candidates_agnostic(model, tokenizer, context: str, question: str,
                 break
 
     return candidates
+
+
+def _clean_bridge_candidate(text: str, max_words: int = 6) -> str:
+    text = text.split("\n")[0].split(". ")[0].strip()
+    text = re.sub(r"^(?:the answer is:?|answer:?|short answer:?|related entities:)\s*", "", text, flags=re.IGNORECASE)
+    text = re.sub(r"^(?:it is|it was|they are|they were|he is|he was|she is|she was)\s+", "", text, flags=re.IGNORECASE)
+    text = text.strip().rstrip(",.;:")
+    words = text.split()
+    if len(words) > max_words:
+        text = " ".join(words[:max_words])
+    return text.strip()
+
+
+@torch.inference_mode()
+def extract_candidates_mixed_posterior(
+    model,
+    tokenizer,
+    context: str,
+    question: str,
+    n_candidates: int = 4,
+    n_branch: int = 3,
+    n_mask: int = 10,
+    extraction_steps: int = 16,
+    min_position_mass: float = 0.02,
+):
+    """Bridge extraction with a mixed posterior over answer positions.
+
+    Position mass is proportional to entropy_j * IG_j, where IG_j is the
+    KL gain from empty-context to full-context logits at answer position j.
+    Candidate mass sums over all branch paths that decode to the same bridge.
+    """
+    device = model.device
+    mask_id = get_mask_id(tokenizer)
+    full_ids, base_ids, n_prefix = build_short_pair(tokenizer, context, "", question, n_mask)
+
+    x_base = torch.tensor([base_ids], dtype=torch.long, device=device)
+    x_full = torch.tensor([full_ids], dtype=torch.long, device=device)
+    attn_base = torch.ones((1, len(base_ids)), dtype=torch.long, device=device)
+    attn_full = torch.ones((1, len(full_ids)), dtype=torch.long, device=device)
+
+    x_pair = torch.cat([x_base, x_full], dim=0)
+    attn_pair = torch.cat([attn_base, attn_full], dim=0)
+    out_pair = model(x_pair, attention_mask=attn_pair)
+    logits_pair = prepare_logits(out_pair.logits)
+    answer_logits_base = logits_pair[0, n_prefix:n_prefix + n_mask]
+    answer_logits_full = logits_pair[1, n_prefix:n_prefix + n_mask]
+
+    log_p_full = F.log_softmax(answer_logits_full, dim=-1)
+    log_p_base = F.log_softmax(answer_logits_base, dim=-1)
+    p_full = log_p_full.exp()
+    entropy = -(p_full * log_p_full).sum(dim=-1)
+    info_gain = (p_full * (log_p_full - log_p_base)).sum(dim=-1).clamp_min(0.0)
+    position_signal = entropy * info_gain
+    if position_signal.sum().item() <= 0:
+        position_signal = entropy.clamp_min(1e-8)
+    if position_signal.sum().item() <= 0:
+        position_signal = torch.ones_like(position_signal)
+    position_mass = position_signal / position_signal.sum()
+
+    selected_positions = [
+        pos for pos, mass in enumerate(position_mass.tolist())
+        if mass >= min_position_mass
+    ]
+    if not selected_positions:
+        selected_positions = [int(torch.argmax(position_mass).item())]
+
+    branch_canvases = []
+    branch_meta = []
+    for pos_local in selected_positions:
+        pos_global = n_prefix + pos_local
+        pos_probs = torch.softmax(answer_logits_full[pos_local] / 0.3, dim=-1)
+        top_probs, top_ids = torch.topk(pos_probs, min(n_branch, pos_probs.shape[-1]))
+        for token_prob, token_id in zip(top_probs.tolist(), top_ids.tolist()):
+            canvas = list(full_ids)
+            canvas[pos_global] = token_id
+            branch_canvases.append(canvas)
+            branch_meta.append(
+                {
+                    "position": pos_local,
+                    "position_mass": float(position_mass[pos_local].item()),
+                    "token_prob": float(token_prob),
+                    "init_mass": float(position_mass[pos_local].item() * token_prob),
+                }
+            )
+
+    if not branch_canvases:
+        return []
+
+    x_all = torch.tensor(branch_canvases, dtype=torch.long, device=device)
+    attn_batch = torch.ones((len(branch_canvases), x_all.shape[1]), dtype=torch.long, device=device)
+    neg_ent = _neg_entropy()
+    remaining = torch.full((len(branch_canvases),), n_mask - 1, dtype=torch.long, device=device)
+
+    for step in range(extraction_steps):
+        active = remaining > 0
+        if not active.any():
+            break
+        active_idx = active.nonzero(as_tuple=True)[0]
+        out = model(x_all[active_idx], attention_mask=attn_batch[:len(active_idx)])
+        logits_active = prepare_logits(out.logits)
+        for j, bi in enumerate(active_idx.tolist()):
+            masked_positions = (x_all[bi] == mask_id).nonzero(as_tuple=True)[0]
+            if len(masked_positions) == 0:
+                remaining[bi] = 0
+                continue
+            conf, sampled = sample_tokens(logits_active[j, masked_positions], temperature=0.1, neg_entropy=neg_ent)
+            rem = remaining[bi].item()
+            n_commit = min(max(1, rem // extraction_steps), rem)
+            if step == extraction_steps - 1:
+                n_commit = rem
+            _, topk = torch.topk(conf, min(n_commit, len(conf)))
+            x_all[bi, masked_positions[topk]] = sampled[topk]
+            remaining[bi] -= len(topk)
+
+    candidate_masses = {}
+    for bi, meta in enumerate(branch_meta):
+        cand_text = tokenizer.decode(
+            x_all[bi, n_prefix:n_prefix + n_mask].tolist(),
+            skip_special_tokens=True,
+        ).strip()
+        cand_text = _clean_bridge_candidate(cand_text, max_words=6)
+        if not cand_text or len(cand_text) <= 1:
+            continue
+        key = cand_text.lower()
+        if key not in candidate_masses:
+            candidate_masses[key] = {
+                "text": cand_text,
+                "init_conf": 0.0,
+                "position_mass": 0.0,
+                "positions": set(),
+            }
+        candidate_masses[key]["init_conf"] += meta["init_mass"]
+        candidate_masses[key]["position_mass"] += meta["position_mass"]
+        candidate_masses[key]["positions"].add(meta["position"])
+
+    ranked = sorted(candidate_masses.values(), key=lambda item: item["init_conf"], reverse=True)
+    for item in ranked:
+        item["positions"] = sorted(item["positions"])
+    return ranked[:n_candidates]
 
 
 
