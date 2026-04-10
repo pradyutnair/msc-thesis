@@ -8,19 +8,26 @@ set -euo pipefail
 #   bash setup_workspace.sh [--workspace /path] [--repo-root /path] \
 #       [--skip-env] [--skip-models] [--skip-data] [--skip-dllm] [--with-gpu-faiss]
 #
-# Assumptions:
-# - This script lives inside your already-cloned repo.
-# - The repo contains uv.lock / pyproject.toml at the repo root.
-# - Experiment code lives under 07-daes/
-# - Workspace stores runtime assets only: data, indexes, hf cache, venv, results
+# Notes:
+# - This script is intended for HPC / shared filesystems.
+# - All writable runtime state lives under WORKSPACE.
+# - Hugging Face caches are explicitly separated:
+#     HF_HOME/
+#       hub/
+#       xet/
+#       assets/
+# - Xet is disabled by default for stability on cluster filesystems.
 # =============================================================================
 
 # -----------------------------
 # Defaults
 # -----------------------------
 WORKSPACE="${WORKSPACE:-/tmp/pnair}"
-PYTHON_VERSION="${PYTHON_VERSION:-3.10}"
-HF_TOKEN="${HF_TOKEN:-}"
+PYTHON_VERSION="${WORKSPACE_PYTHON_VERSION:-3.10.18}"
+if [[ "${PYTHON_VERSION}" == "3.10" ]]; then
+  PYTHON_VERSION="3.10.18"
+fi
+HF_TOKEN="${HF_TOKEN:-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}"
 
 SKIP_ENV=false
 SKIP_MODELS=false
@@ -32,7 +39,6 @@ SHOW_DISK_USAGE=false
 DLLM_GIT_URL="${DLLM_GIT_URL:-https://github.com/ZHZisZZ/dllm.git}"
 SHM_FAISS_INDEX="/dev/shm/e5_Flat.index"
 
-# Models to cache
 MODELS=(
   "Dream-org/Dream-v0-Instruct-7B"
   "GSAI-ML/LLaDA-8B-Instruct"
@@ -47,7 +53,6 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 if git -C "${SCRIPT_DIR}" rev-parse --show-toplevel >/dev/null 2>&1; then
   REPO_ROOT="$(git -C "${SCRIPT_DIR}" rev-parse --show-toplevel)"
 else
-  # Fallback: assume script is somewhere inside repo and repo root is one level up
   REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 fi
 
@@ -124,12 +129,17 @@ DATA_DIR="${WORKSPACE}/data"
 QUESTIONS_DIR="${DATA_DIR}/questions"
 CORPUS_DIR="${DATA_DIR}/retrieval-corpus"
 INDEX_DIR="${WORKSPACE}/indexes"
-HF_CACHE="${WORKSPACE}/hf_cache"
-VENV_DIR="${WORKSPACE}/venv"
 RESULTS_DIR="${WORKSPACE}/results"
 TRITON_CACHE="${WORKSPACE}/triton_cache"
 MANIFEST_DIR="${WORKSPACE}/manifests"
 TMP_DIR="${WORKSPACE}/tmp"
+VENV_DIR="${WORKSPACE}/venv"
+UV_CACHE_DIR="${WORKSPACE}/uv_cache"
+
+HF_HOME_DIR="${WORKSPACE}/hf_home"
+HF_HUB_CACHE_DIR="${HF_HOME_DIR}/hub"
+HF_XET_CACHE_DIR="${HF_HOME_DIR}/xet"
+HF_ASSETS_CACHE_DIR="${HF_HOME_DIR}/assets"
 
 CORPUS_JSONL="${CORPUS_DIR}/wiki18_100w.jsonl"
 ID_OFFSET_JSON="${DATA_DIR}/wiki18_id_offset.json"
@@ -151,6 +161,22 @@ require_cmd() {
     echo "ERROR: required command not found: $1"
     exit 1
   fi
+}
+
+setup_hf_env() {
+  export HF_HOME="${HF_HOME_DIR}"
+  export HF_HUB_CACHE="${HF_HUB_CACHE_DIR}"
+  export HF_XET_CACHE="${HF_XET_CACHE_DIR}"
+  export HF_ASSETS_CACHE="${HF_ASSETS_CACHE_DIR}"
+  export TRANSFORMERS_CACHE="${HF_HUB_CACHE_DIR}"
+  export HF_HUB_DISABLE_XET=1
+  export HF_TOKEN="${HF_TOKEN}"
+
+  mkdir -p \
+    "${HF_HOME_DIR}" \
+    "${HF_HUB_CACHE_DIR}" \
+    "${HF_XET_CACHE_DIR}" \
+    "${HF_ASSETS_CACHE_DIR}"
 }
 
 # -----------------------------
@@ -181,11 +207,14 @@ mkdir -p \
   "${QUESTIONS_DIR}" \
   "${CORPUS_DIR}" \
   "${INDEX_DIR}" \
-  "${HF_CACHE}" \
   "${RESULTS_DIR}" \
   "${TRITON_CACHE}" \
   "${MANIFEST_DIR}" \
-  "${TMP_DIR}"
+  "${TMP_DIR}" \
+  "${VENV_DIR}" \
+  "${UV_CACHE_DIR}"
+
+setup_hf_env
 
 # -----------------------------
 # Environment setup
@@ -199,28 +228,43 @@ if [[ "${SKIP_ENV}" == false ]]; then
   if ! command -v uv >/dev/null 2>&1; then
     echo "Installing uv..."
     curl -LsSf https://astral.sh/uv/install.sh | sh
-    export PATH="$HOME/.local/bin:$PATH"
-  fi
+  export UV_CACHE_DIR="${UV_CACHE_DIR}"
+  export UV_PROJECT_ENVIRONMENT="${VENV_DIR}"
+  export UV_PYTHON_INSTALL_DIR="${WORKSPACE}/uv_python"
+  export UV_PYTHON_PREFERENCE="managed"
 
-  export HF_HOME="${HF_CACHE}"
-  export HF_HUB_CACHE="${HF_CACHE}"
-  export UV_CACHE_DIR="${WORKSPACE}/uv_cache"
-  mkdir -p "${UV_CACHE_DIR}"
+  mkdir -p "${UV_CACHE_DIR}" "${UV_PYTHON_INSTALL_DIR}"
+
+  unset VIRTUAL_ENV CONDA_PREFIX CONDA_DEFAULT_ENV PYTHON_VERSION UV_PROJECT_ENVIRONMENT UV_PYTHON_INSTALL_DIR UV_PYTHON_PREFERENCE
+  hash -r
 
   if [[ -f "${REPO_ROOT}/uv.lock" ]]; then
     echo "Using uv.lock from repo"
-    export UV_PROJECT_ENVIRONMENT="${VENV_DIR}"
     cd "${REPO_ROOT}"
-
-    # Keep your previous behavior of avoiding vllm if needed.
-    # Remove these flags if you do want full project sync including vllm / local package.
-    uv sync --python "${PYTHON_VERSION}" --no-install-package vllm --no-install-project
+    uv python install "${PYTHON_VERSION}"
+    rm -rf "${VENV_DIR}"
+    uv venv --python "${PYTHON_VERSION}" "${VENV_DIR}"
+    uv sync --python "${VENV_DIR}/bin/python" --no-install-package vllm --no-install-project
   else
     echo "uv.lock not found; falling back to venv + pip"
-    python3 -m venv "${VENV_DIR}"
+    uv python install "${PYTHON_VERSION}"
+    rm -rf "${VENV_DIR}"
+    uv venv --python "${PYTHON_VERSION}" "${VENV_DIR}"
+    # shellcheck disable=SC1091
     source "${VENV_DIR}/bin/activate"
     pip install --upgrade pip
-    pip install torch torchvision transformers sentence-transformers faiss-cpu accelerate huggingface-hub "lm-eval>=0.4.8"
+    pip install \
+      torch \
+      torchvision \
+      transformers \
+      sentence-transformers \
+      faiss-cpu \
+      accelerate \
+      huggingface-hub \
+      "lm-eval>=0.4.8"
+  fi
+      huggingface-hub \
+      "lm-eval>=0.4.8"
   fi
 
   if [[ -f "${VENV_DIR}/bin/activate" ]]; then
@@ -244,6 +288,7 @@ else
 fi
 
 require_cmd python
+setup_hf_env
 
 # -----------------------------
 # dLLM (editable install; clone if missing)
@@ -252,7 +297,7 @@ if [[ "${SKIP_DLLM}" == false ]]; then
   section "dLLM package"
 
   if [[ ! -f "${VENV_DIR}/bin/python" ]]; then
-    echo "WARNING: no venv python at ${VENV_DIR}; skipping dLLM (create env first or omit --skip-env)"
+    echo "WARNING: no venv python at ${VENV_DIR}; skipping dLLM"
   elif ! command -v git >/dev/null 2>&1; then
     echo "WARNING: git not found; cannot clone dLLM"
   else
@@ -280,13 +325,6 @@ else
 fi
 
 # -----------------------------
-# HuggingFace env
-# -----------------------------
-export HF_HOME="${HF_CACHE}"
-export HF_HUB_CACHE="${HF_CACHE}"
-export HF_TOKEN="${HF_TOKEN}"
-
-# -----------------------------
 # Download models
 # -----------------------------
 if [[ "${SKIP_MODELS}" == false ]]; then
@@ -301,12 +339,16 @@ from huggingface_hub import snapshot_download
 manifest_path = sys.argv[1]
 model_ids = sys.argv[2:]
 
+cache_dir = os.environ["HF_HUB_CACHE"]
 manifest = {}
+
 for model_id in model_ids:
     print(f"[model] {model_id}")
     path = snapshot_download(
         repo_id=model_id,
-        resume_download=True,
+        cache_dir=cache_dir,
+        max_workers=2,
+        token=os.environ.get("HF_TOKEN") or None,
     )
     manifest[model_id] = path
 
@@ -329,11 +371,11 @@ fi
 if [[ "${SKIP_DATA}" == false ]]; then
   section "Downloading corpus / index / questions"
 
-  # Ensure Python env is active if available
   if [[ -f "${VENV_DIR}/bin/activate" ]]; then
     # shellcheck disable=SC1091
     source "${VENV_DIR}/bin/activate"
   fi
+  setup_hf_env
 
   # 1) wiki18 corpus
   if [[ -f "${CORPUS_JSONL}" ]]; then
@@ -348,12 +390,15 @@ import shutil
 
 data_dir = r"${DATA_DIR}"
 corpus_dir = r"${CORPUS_DIR}"
+cache_dir = os.environ["HF_HUB_CACHE"]
 
 zip_path = hf_hub_download(
     repo_id="RUC-NLPIR/FlashRAG_datasets",
     filename="retrieval-corpus/wiki18_100w.zip",
     repo_type="dataset",
     local_dir=data_dir,
+    cache_dir=cache_dir,
+    token=os.environ.get("HF_TOKEN") or None,
 )
 
 print(f"Downloaded zip to: {zip_path}")
@@ -364,9 +409,9 @@ with zipfile.ZipFile(zip_path) as z:
 if os.path.exists(zip_path):
     os.remove(zip_path)
 
-cache_dir = os.path.join(data_dir, ".cache")
-if os.path.exists(cache_dir):
-    shutil.rmtree(cache_dir)
+cache_meta_dir = os.path.join(data_dir, ".cache")
+if os.path.exists(cache_meta_dir):
+    shutil.rmtree(cache_meta_dir)
 
 print(f"Extracted corpus into: {corpus_dir}")
 PY
@@ -385,6 +430,7 @@ import shutil
 index_dir = r"${INDEX_DIR}"
 download_dir = os.path.join(index_dir, "download")
 final_index = r"${FAISS_INDEX}"
+cache_dir = os.environ["HF_HUB_CACHE"]
 
 if os.path.exists(download_dir):
     shutil.rmtree(download_dir)
@@ -393,7 +439,9 @@ snapshot_download(
     repo_id="PeterJinGo/wiki-18-e5-index",
     repo_type="dataset",
     local_dir=download_dir,
-    resume_download=True,
+    cache_dir=cache_dir,
+    max_workers=2,
+    token=os.environ.get("HF_TOKEN") or None,
 )
 
 part_aa = os.path.join(download_dir, "part_aa")
@@ -468,6 +516,7 @@ import json
 import os
 
 questions_dir = r"${QUESTIONS_DIR}"
+cache_dir = os.environ["HF_HUB_CACHE"]
 
 datasets = {
     "hotpotqa": "hotpotqa/dev.jsonl",
@@ -483,6 +532,8 @@ for name, path in datasets.items():
         repo_id="RUC-NLPIR/FlashRAG_datasets",
         filename=path,
         repo_type="dataset",
+        cache_dir=cache_dir,
+        token=os.environ.get("HF_TOKEN") or None,
     )
 
     records = []
@@ -514,6 +565,9 @@ else
   section "Skipping data downloads"
 fi
 
+# -----------------------------
+# Optional GPU FAISS
+# -----------------------------
 DAES_FAISS_GPU_VAL="0"
 DAES_FAISS_INDEX_VAL="${FAISS_INDEX}"
 
@@ -533,9 +587,11 @@ if [[ "${WITH_GPU_FAISS}" == true ]]; then
       "${PYEXE}" -m pip uninstall -y faiss-cpu 2>/dev/null || true
       "${PYEXE}" -m pip install faiss-gpu-cu12
     fi
+
     DAES_FAISS_GPU_VAL="1"
+
     if [[ -f "${FAISS_INDEX}" && -d /dev/shm ]]; then
-      echo "Copying ${FAISS_INDEX} -> ${SHM_FAISS_INDEX} (large; may take minutes)..."
+      echo "Copying ${FAISS_INDEX} -> ${SHM_FAISS_INDEX}..."
       if cp -f "${FAISS_INDEX}" "${SHM_FAISS_INDEX}"; then
         DAES_FAISS_INDEX_VAL="${SHM_FAISS_INDEX}"
       else
@@ -552,32 +608,31 @@ section "Generating init.sh and workspace_paths.py"
 
 cat > "${WORKSPACE}/init.sh" <<EOF
 #!/bin/bash
-# Source this file:
-#   source "${WORKSPACE}/init.sh"
 
-# Optional HPC modules
 if command -v module >/dev/null 2>&1; then
   source /etc/profile.d/modules.sh 2>/dev/null || true
   module load CUDA/12.8.0 2>/dev/null || true
 fi
 
-# Activate env
 if [[ -f "${VENV_DIR}/bin/activate" ]]; then
   source "${VENV_DIR}/bin/activate"
 fi
 
 export WORKSPACE="${WORKSPACE}"
 export REPO_ROOT="${REPO_ROOT}"
-export HF_HOME="${HF_CACHE}"
-export HF_HUB_CACHE="${HF_CACHE}"
+
+export HF_HOME="${HF_HOME_DIR}"
+export HF_HUB_CACHE="${HF_HUB_CACHE_DIR}"
+export HF_XET_CACHE="${HF_XET_CACHE_DIR}"
+export HF_ASSETS_CACHE="${HF_ASSETS_CACHE_DIR}"
+export TRANSFORMERS_CACHE="${HF_HUB_CACHE_DIR}"
+export HF_HUB_DISABLE_XET=1
 export HF_TOKEN="${HF_TOKEN}"
+
 export TRITON_CACHE_DIR="${TRITON_CACHE}"
 export PYTORCH_CUDA_ALLOC_CONF="expandable_segments:True"
-
-# Imports (dllm + daes; matches SETUP.md)
 export PYTHONPATH="${REPO_ROOT}/07-daes/dllm:${REPO_ROOT}/07-daes/src:${REPO_ROOT}:\${PYTHONPATH:-}"
 
-# Data / artifacts
 export DATA_DIR="${DATA_DIR}"
 export QUESTIONS_DIR="${QUESTIONS_DIR}"
 export CORPUS_JSONL="${CORPUS_JSONL}"
@@ -606,7 +661,6 @@ chmod +x "${WORKSPACE}/init.sh"
 
 cat > "${WORKSPACE}/workspace_paths.py" <<EOF
 """Auto-generated workspace paths."""
-import os
 from pathlib import Path
 
 WORKSPACE = Path(r"${WORKSPACE}")
@@ -618,7 +672,11 @@ CORPUS_JSONL = Path(r"${CORPUS_JSONL}")
 ID_OFFSET_JSON = Path(r"${ID_OFFSET_JSON}")
 FAISS_INDEX = Path(r"${FAISS_INDEX}")
 
-HF_CACHE = Path(r"${HF_CACHE}")
+HF_HOME = Path(r"${HF_HOME_DIR}")
+HF_HUB_CACHE = Path(r"${HF_HUB_CACHE_DIR}")
+HF_XET_CACHE = Path(r"${HF_XET_CACHE_DIR}")
+HF_ASSETS_CACHE = Path(r"${HF_ASSETS_CACHE_DIR}")
+
 VENV_DIR = Path(r"${VENV_DIR}")
 RESULTS_DIR = Path(r"${RESULTS_DIR}")
 TRITON_CACHE = Path(r"${TRITON_CACHE}")
@@ -644,7 +702,10 @@ echo "Important paths:"
 echo "  REPO_ROOT        = ${REPO_ROOT}"
 echo "  WORKSPACE        = ${WORKSPACE}"
 echo "  VENV_DIR         = ${VENV_DIR}"
-echo "  HF_CACHE         = ${HF_CACHE}"
+echo "  HF_HOME          = ${HF_HOME_DIR}"
+echo "  HF_HUB_CACHE     = ${HF_HUB_CACHE_DIR}"
+echo "  HF_XET_CACHE     = ${HF_XET_CACHE_DIR}"
+echo "  HF_ASSETS_CACHE  = ${HF_ASSETS_CACHE_DIR}"
 echo "  DATA_DIR         = ${DATA_DIR}"
 echo "  QUESTIONS_DIR    = ${QUESTIONS_DIR}"
 echo "  CORPUS_JSONL     = ${CORPUS_JSONL}"
