@@ -99,12 +99,13 @@ def expand_evidence(retriever, question, seed_answer, bridge_cands, current_pass
 # AR candidate extraction (Qwen3-8B diverse sampling)
 # ---------------------------------------------------------------------------
 @torch.inference_mode()
-def extract_candidates_ar(ar_model, ar_tokenizer, context, question, n_candidates=3):
+def extract_candidates_ar(ar_model, ar_tokenizer, context, question, n_candidates=3, disable_thinking=True):
     """Generate n diverse candidate answers using AR model (Qwen3-8B)."""
     prompt = f"{context}\n\nQuestion: {question}\n\nAnswer briefly:"
     messages = [{"role": "user", "content": prompt}]
     input_text = ar_tokenizer.apply_chat_template(
-        messages, tokenize=False, add_generation_prompt=True
+        messages, tokenize=False, add_generation_prompt=True,
+            **({"enable_thinking": False} if disable_thinking else {})
     )
     input_ids = ar_tokenizer.encode(input_text, return_tensors="pt").to(ar_model.device)
 
