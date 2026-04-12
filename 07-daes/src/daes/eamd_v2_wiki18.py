@@ -11,15 +11,16 @@ from dataclasses import dataclass
 from pathlib import Path
 from types import SimpleNamespace
 
+_DAES_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(_DAES_ROOT / "dllm"))
+sys.path.insert(0, str(_DAES_ROOT / "src" / "daes"))
+
 import faiss
 import numpy as np
 import torch
 import torch.nn.functional as F
 from sentence_transformers import SentenceTransformer
 from transformers import AutoModel, AutoTokenizer
-
-sys.path.insert(0, "/projects/prjs1800/msc-thesis/07-daes/dllm")
-sys.path.insert(0, "/projects/prjs1800/msc-thesis/07-daes/src/daes")
 
 import dllm
 from dllm.pipelines.dream.sampler import sample_tokens
@@ -37,32 +38,45 @@ def _env_path(key: str, default: str) -> str:
     return os.environ.get(key, default)
 
 
+def _default_workspace() -> str:
+    w = os.environ.get("WORKSPACE", "").strip()
+    if w:
+        return w
+    if os.path.isdir("/pnair/indexes"):
+        return "/pnair"
+    return "/tmp/pnair"
+
+
+_WS = _default_workspace()
+_CORPUS_DIR = os.path.join(_WS, "data", "retrieval-corpus")
+_DATA_DIR = os.path.join(_WS, "data")
+
 CORPUS_JSONL = _env_path(
     "CORPUS_JSONL",
-    "/projects/prjs1800/datasets/flashrag/retrieval-corpus/wiki18_100w.jsonl",
+    os.path.join(_CORPUS_DIR, "wiki18_100w.jsonl"),
 )
 ID_OFFSET_JSON = _env_path(
     "ID_OFFSET_JSON",
-    "/projects/prjs1800/msc-thesis/01-arag-reproduction/data/index/wiki18_id_offset.json",
+    os.path.join(_DATA_DIR, "wiki18_id_offset.json"),
 )
 # Prefer RAM-disk copy when setup_workspace copied the index (see init.sh DAES_FAISS_*).
 FAISS_INDEX = _env_path(
     "DAES_FAISS_INDEX",
     _env_path(
         "FAISS_INDEX",
-        "/projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index",
+        os.path.join(_WS, "indexes", "e5_Flat.index"),
     ),
 )
 QUESTIONS_DIR = _env_path(
     "QUESTIONS_DIR",
-    "/projects/prjs1800/msc-thesis/01-arag-reproduction/data/questions_wiki18",
+    os.path.join(_DATA_DIR, "questions"),
 )
 QUESTION_FILES = {
     "hotpotqa": f"{QUESTIONS_DIR}/hotpotqa.json",
     "musique": f"{QUESTIONS_DIR}/musique.json",
     "2wikimultihopqa": f"{QUESTIONS_DIR}/2wikimultihopqa.json",
 }
-DEFAULT_OUTPUT_ROOT = "/projects/prjs1800/msc-thesis/07-daes/results/eamd_v2_wiki18"
+DEFAULT_OUTPUT_ROOT = os.path.join(str(_DAES_ROOT), "results", "eamd_v2_wiki18")
 DEFAULT_METHODS = ["baseline", "spread", "aram", "pool", "eamd_v2_regen", "eamd_v2_remask"]
 
 SHORT_INSTRUCTIONS = """You are a helpful assistant.
@@ -118,6 +132,19 @@ def _torch_device_for_index(device: str) -> torch.device:
     if not torch.cuda.is_available():
         return torch.device("cpu")
     return torch.device(device if device.startswith("cuda") else "cuda:0")
+
+
+def _cuda_device_or_cpu(requested: str) -> str:
+    """Use ``cuda`` only if the driver can execute kernels (version mismatches may still report available)."""
+    if not str(requested).startswith("cuda"):
+        return requested
+    if not torch.cuda.is_available():
+        return "cpu"
+    try:
+        torch.empty(1, device=requested)
+    except RuntimeError:
+        return "cpu"
+    return requested
 
 
 def _default_gpu_backend(device: str) -> str:
@@ -277,6 +304,7 @@ class WikiCorpusStore:
 class Wiki18Retriever:
     def __init__(self, embedding_model: str = "intfloat/e5-base-v2", device: str = "cuda:0",
                  encode_batch_size: int = 64, num_threads: int = 16):
+        device = _cuda_device_or_cpu(device)
         faiss.omp_set_num_threads(num_threads)
         want_gpu = _faiss_use_gpu()
         gpu_id = int(os.environ.get("DAES_FAISS_GPU_DEVICE", str(_parse_cuda_device_id(device))))

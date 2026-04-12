@@ -228,6 +228,9 @@ if [[ "${SKIP_ENV}" == false ]]; then
   if ! command -v uv >/dev/null 2>&1; then
     echo "Installing uv..."
     curl -LsSf https://astral.sh/uv/install.sh | sh
+    export PATH="$HOME/.local/bin:$PATH"
+  fi
+
   export UV_CACHE_DIR="${UV_CACHE_DIR}"
   export UV_PROJECT_ENVIRONMENT="${VENV_DIR}"
   export UV_PYTHON_INSTALL_DIR="${WORKSPACE}/uv_python"
@@ -235,7 +238,7 @@ if [[ "${SKIP_ENV}" == false ]]; then
 
   mkdir -p "${UV_CACHE_DIR}" "${UV_PYTHON_INSTALL_DIR}"
 
-  unset VIRTUAL_ENV CONDA_PREFIX CONDA_DEFAULT_ENV PYTHON_VERSION UV_PROJECT_ENVIRONMENT UV_PYTHON_INSTALL_DIR UV_PYTHON_PREFERENCE
+  unset VIRTUAL_ENV CONDA_PREFIX CONDA_DEFAULT_ENV UV_PROJECT_ENVIRONMENT UV_PYTHON_INSTALL_DIR UV_PYTHON_PREFERENCE
   hash -r
 
   if [[ -f "${REPO_ROOT}/uv.lock" ]]; then
@@ -260,9 +263,6 @@ if [[ "${SKIP_ENV}" == false ]]; then
       sentence-transformers \
       faiss-cpu \
       accelerate \
-      huggingface-hub \
-      "lm-eval>=0.4.8"
-  fi
       huggingface-hub \
       "lm-eval>=0.4.8"
   fi

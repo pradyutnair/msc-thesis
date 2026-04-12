@@ -21,9 +21,13 @@ from types import SimpleNamespace
 import torch
 from transformers import AutoModel, AutoTokenizer
 
-sys.path.insert(0, "/projects/prjs1800/msc-thesis/07-daes/dllm")
-sys.path.insert(0, "/projects/prjs1800/msc-thesis/07-daes/src/daes")
-sys.path.insert(0, "/projects/prjs1800/msc-thesis/07-daes/Fast-dLLM/llada")
+_DAES_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+for _p in (
+    os.path.join(_DAES_ROOT, "dllm"),
+    os.path.join(_DAES_ROOT, "src", "daes"),
+    os.path.join(_DAES_ROOT, "Fast-dLLM", "llada"),
+):
+    sys.path.insert(0, _p)
 
 import dllm
 import eamd_v2_wiki18
