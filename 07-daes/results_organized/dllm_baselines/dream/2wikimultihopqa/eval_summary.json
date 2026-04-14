@@ -1,0 +1,53 @@
+{
+  "n_questions": 1000,
+  "n_shards": 5,
+  "methods": {
+    "spread": {
+      "f1": 0.3074,
+      "em": 0.227,
+      "contain": 0.263
+    },
+    "aram": {
+      "f1": 0.338,
+      "em": 0.25,
+      "contain": 0.27
+    },
+    "ispread": {
+      "f1": 0.3137,
+      "em": 0.225,
+      "contain": 0.271
+    },
+    "iaram": {
+      "f1": 0.346,
+      "em": 0.255,
+      "contain": 0.279
+    }
+  },
+  "config": {
+    "model": "dream",
+    "dataset": "2wikimultihopqa",
+    "start_idx": 0,
+    "n_questions": 200,
+    "max_rounds": 3,
+    "steps": 32,
+    "answer_tokens": 32,
+    "n_candidates": 3,
+    "initial_top_k": 5,
+    "expand_top_k": 3,
+    "output": "/projects/prjs1800/msc-thesis/07-daes/results/baselines/dream_2wikimultihopqa_baselines_s0.json",
+    "log_every": 10,
+    "save_every": 10
+  },
+  "dataset": "2wikimultihopqa",
+  "model": "dream",
+  "experiment": "dllm_baselines",
+  "valid": true,
+  "notes": "Published dLLM baselines. Methods: spread,aram,ispread,iaram. Config: steps=32, tokens=32",
+  "source_files": [
+    "results/baselines/dream_2wikimultihopqa_baselines_s0.json",
+    "results/baselines/dream_2wikimultihopqa_baselines_s1.json",
+    "results/baselines/dream_2wikimultihopqa_baselines_s2.json",
+    "results/baselines/dream_2wikimultihopqa_baselines_s3.json",
+    "results/baselines/dream_2wikimultihopqa_baselines_s4.json"
+  ]
+}

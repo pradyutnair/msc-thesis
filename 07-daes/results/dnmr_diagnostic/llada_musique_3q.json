@@ -1,0 +1,2282 @@
+{
+  "config": {
+    "model": "llada",
+    "dataset": "musique",
+    "question_ids": [
+      "dev_26",
+      "dev_471",
+      "dev_642"
+    ],
+    "arms": [
+      "standard_pool",
+      "pool_8",
+      "pool_8_clean",
+      "pool_kl",
+      "pool_kl_hint",
+      "pool_temp_high",
+      "pool_nmask6",
+      "pool_subset",
+      "oracle_bridge"
+    ],
+    "steps": 32,
+    "answer_tokens": 32,
+    "initial_top_k": 5,
+    "expand_top_k": 3,
+    "n_candidates": 3,
+    "output": "/projects/prjs1800/msc-thesis/07-daes/results/dnmr_diagnostic/llada_musique_3q.json"
+  },
+  "summary": {
+    "standard_pool": {
+      "successes": 2,
+      "contain_hits": 2,
+      "em_hits": 2
+    },
+    "pool_8": {
+      "successes": 1,
+      "contain_hits": 1,
+      "em_hits": 1
+    },
+    "pool_8_clean": {
+      "successes": 1,
+      "contain_hits": 1,
+      "em_hits": 1
+    },
+    "pool_kl": {
+      "successes": 1,
+      "contain_hits": 1,
+      "em_hits": 1
+    },
+    "pool_kl_hint": {
+      "successes": 1,
+      "contain_hits": 1,
+      "em_hits": 1
+    },
+    "pool_temp_high": {
+      "successes": 0,
+      "contain_hits": 0,
+      "em_hits": 0
+    },
+    "pool_nmask6": {
+      "successes": 2,
+      "contain_hits": 2,
+      "em_hits": 2
+    },
+    "pool_subset": {
+      "successes": 1,
+      "contain_hits": 1,
+      "em_hits": 1
+    },
+    "oracle_bridge": {
+      "successes": 2,
+      "contain_hits": 2,
+      "em_hits": 2
+    }
+  },
+  "results": [
+    {
+      "id": "dev_26",
+      "question": "What is another notable work made by the author of Miss Sara Sampson?",
+      "gold": "Emilia Galotti",
+      "seed_answer": "Another notable work made by the",
+      "gold_bridges": [
+        "Gotthold Ephraim Lessing"
+      ],
+      "initial_passage_previews": [
+        "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+        "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+        "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+        "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+        "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt"
+      ],
+      "arms": [
+        {
+          "arm": "standard_pool",
+          "bridge_candidates": [
+            {
+              "text": "\"Epaminondas and His Auntie\"",
+              "init_conf": 0.7734375,
+              "position": 0
+            },
+            {
+              "text": "Epaminondas and His Auntie",
+              "init_conf": 0.2216796875,
+              "position": 0
+            },
+            {
+              "text": "Fiona Sampson's In Search of Mary Shelley",
+              "init_conf": 0.63671875,
+              "position": 7
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: What is another notable work made by the author of Miss Sara Sampson? Another notable work made by the",
+            "query: What is another notable work made by the author of Miss Sara Sampson? \"Epaminondas and His Auntie\"",
+            "query: What is another notable work made by the author of Miss Sara Sampson? Epaminondas and His Auntie",
+            "query: What is another notable work made by the author of Miss Sara Sampson? Fiona Sampson's In Search of Mary Shelley"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Another notable work made by the",
+              "added_passage_previews": [
+                "\"Patricia Clapp\" a good little living girl comes to stay in her old house.\"\" Mos"
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? \"Epaminondas and His Auntie\"",
+              "added_passage_previews": [
+                "\"Epaminondas and His Auntie\" The stories' texts focus on and derive their humor ",
+                "\"Constance Egan\" Constance Egan Constance Egan (1890-31 December 1975) was an En"
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Epaminondas and His Auntie",
+              "added_passage_previews": []
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Fiona Sampson's In Search of Mary Shelley",
+              "added_passage_previews": [
+                "\"Fiona Sampson\" more than thirty-five languages and received a number of interna"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+            "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+            "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+            "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+            "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt"
+          ],
+          "expanded_passage_previews": [
+            "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+            "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+            "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+            "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+            "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt",
+            "\"Patricia Clapp\" a good little living girl comes to stay in her old house.\"\" Mos",
+            "\"Epaminondas and His Auntie\" The stories' texts focus on and derive their humor ",
+            "\"Constance Egan\" Constance Egan Constance Egan (1890-31 December 1975) was an En",
+            "\"Fiona Sampson\" more than thirty-five languages and received a number of interna"
+          ],
+          "final_answer": "Bourgeois tragedies",
+          "metrics": {
+            "f1": 0.0,
+            "em": 0.0,
+            "contain": 0.0
+          },
+          "success": false,
+          "elapsed_sec": 15.65
+        },
+        {
+          "arm": "pool_8",
+          "bridge_candidates": [
+            {
+              "text": "\"Fiona Sampson\"",
+              "init_conf": 0.953125,
+              "position": 0
+            },
+            {
+              "text": "Fiona Sampson's work",
+              "init_conf": 0.0223388671875,
+              "position": 0
+            },
+            {
+              "text": "The German National Theatre in Hamburg",
+              "init_conf": 0.396484375,
+              "position": 4
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: What is another notable work made by the author of Miss Sara Sampson? Another notable work made by the",
+            "query: What is another notable work made by the author of Miss Sara Sampson? \"Fiona Sampson\"",
+            "query: What is another notable work made by the author of Miss Sara Sampson? Fiona Sampson's work",
+            "query: What is another notable work made by the author of Miss Sara Sampson? The German National Theatre in Hamburg"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Another notable work made by the",
+              "added_passage_previews": [
+                "\"Patricia Clapp\" a good little living girl comes to stay in her old house.\"\" Mos"
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? \"Fiona Sampson\"",
+              "added_passage_previews": [
+                "\"Fiona Sampson\" the \"\"Irish Times\"\" IMPAC Awards (now International Dublin Liter",
+                "\"Fiona Sampson\" Fiona Sampson Fiona Ruth Sampson, is a British poet and writer. "
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Fiona Sampson's work",
+              "added_passage_previews": []
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? The German National Theatre in Hamburg",
+              "added_passage_previews": [
+                "Dramaturgy Dramaturgy may also be broadly defined as \"\"adapting a story to actab"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+            "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+            "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+            "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+            "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt"
+          ],
+          "expanded_passage_previews": [
+            "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+            "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+            "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+            "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+            "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt",
+            "\"Patricia Clapp\" a good little living girl comes to stay in her old house.\"\" Mos",
+            "\"Fiona Sampson\" the \"\"Irish Times\"\" IMPAC Awards (now International Dublin Liter",
+            "\"Fiona Sampson\" Fiona Sampson Fiona Ruth Sampson, is a British poet and writer. ",
+            "Dramaturgy Dramaturgy may also be broadly defined as \"\"adapting a story to actab"
+          ],
+          "final_answer": "Emilia Galotti",
+          "metrics": {
+            "f1": 1.0,
+            "em": 1.0,
+            "contain": 1.0
+          },
+          "success": true,
+          "elapsed_sec": 12.74
+        },
+        {
+          "arm": "pool_8_clean",
+          "bridge_candidates": [
+            {
+              "text": "\"Fiona Sampson\"",
+              "init_conf": 0.953125,
+              "position": 0
+            },
+            {
+              "text": "Fiona Sampson's work",
+              "init_conf": 0.0223388671875,
+              "position": 0
+            },
+            {
+              "text": "The German National Theatre in Hamburg",
+              "init_conf": 0.396484375,
+              "position": 4
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: What is another notable work made by the author of Miss Sara Sampson? Another notable work made by the",
+            "query: What is another notable work made by the author of Miss Sara Sampson? \"Fiona Sampson\"",
+            "query: What is another notable work made by the author of Miss Sara Sampson? Fiona Sampson's work",
+            "query: What is another notable work made by the author of Miss Sara Sampson? The German National Theatre in Hamburg"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Another notable work made by the",
+              "added_passage_previews": [
+                "\"Patricia Clapp\" a good little living girl comes to stay in her old house.\"\" Mos"
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? \"Fiona Sampson\"",
+              "added_passage_previews": [
+                "\"Fiona Sampson\" the \"\"Irish Times\"\" IMPAC Awards (now International Dublin Liter",
+                "\"Fiona Sampson\" Fiona Sampson Fiona Ruth Sampson, is a British poet and writer. "
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Fiona Sampson's work",
+              "added_passage_previews": []
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? The German National Theatre in Hamburg",
+              "added_passage_previews": [
+                "Dramaturgy Dramaturgy may also be broadly defined as \"\"adapting a story to actab"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+            "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+            "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+            "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+            "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt"
+          ],
+          "expanded_passage_previews": [
+            "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+            "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+            "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+            "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+            "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt",
+            "\"Patricia Clapp\" a good little living girl comes to stay in her old house.\"\" Mos",
+            "\"Fiona Sampson\" the \"\"Irish Times\"\" IMPAC Awards (now International Dublin Liter",
+            "\"Fiona Sampson\" Fiona Sampson Fiona Ruth Sampson, is a British poet and writer. ",
+            "Dramaturgy Dramaturgy may also be broadly defined as \"\"adapting a story to actab"
+          ],
+          "final_answer": "Emilia Galotti",
+          "metrics": {
+            "f1": 1.0,
+            "em": 1.0,
+            "contain": 1.0
+          },
+          "success": true,
+          "elapsed_sec": 12.59
+        },
+        {
+          "arm": "pool_kl",
+          "bridge_candidates": [
+            {
+              "text": "One of the first bourgeois tragedies",
+              "init_conf": 0.35302734375,
+              "position_mass": 0.36328125,
+              "positions": [
+                1,
+                2
+              ]
+            },
+            {
+              "text": "\"Fiona Sampson\"",
+              "init_conf": 0.2406139373779297,
+              "position_mass": 0.24560546875,
+              "positions": [
+                0,
+                5
+              ]
+            },
+            {
+              "text": "The German National Theatre in Hamburg",
+              "init_conf": 0.12787914276123047,
+              "position_mass": 0.31201171875,
+              "positions": [
+                0,
+                4
+              ]
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: What is another notable work made by the author of Miss Sara Sampson? Another notable work made by the",
+            "query: What is another notable work made by the author of Miss Sara Sampson? One of the first bourgeois tragedies",
+            "query: What is another notable work made by the author of Miss Sara Sampson? \"Fiona Sampson\"",
+            "query: What is another notable work made by the author of Miss Sara Sampson? The German National Theatre in Hamburg"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Another notable work made by the",
+              "added_passage_previews": [
+                "\"Patricia Clapp\" a good little living girl comes to stay in her old house.\"\" Mos"
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? One of the first bourgeois tragedies",
+              "added_passage_previews": [
+                "Tragedy the 17th century. Bourgeois tragedy (German: B\u00fcrgerliches Trauerspiel) i"
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? \"Fiona Sampson\"",
+              "added_passage_previews": [
+                "\"Fiona Sampson\" the \"\"Irish Times\"\" IMPAC Awards (now International Dublin Liter",
+                "\"Fiona Sampson\" Fiona Sampson Fiona Ruth Sampson, is a British poet and writer. "
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? The German National Theatre in Hamburg",
+              "added_passage_previews": [
+                "Dramaturgy Dramaturgy may also be broadly defined as \"\"adapting a story to actab"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+            "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+            "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+            "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+            "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt"
+          ],
+          "expanded_passage_previews": [
+            "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+            "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+            "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+            "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+            "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt",
+            "\"Patricia Clapp\" a good little living girl comes to stay in her old house.\"\" Mos",
+            "Tragedy the 17th century. Bourgeois tragedy (German: B\u00fcrgerliches Trauerspiel) i",
+            "\"Fiona Sampson\" the \"\"Irish Times\"\" IMPAC Awards (now International Dublin Liter",
+            "\"Fiona Sampson\" Fiona Sampson Fiona Ruth Sampson, is a British poet and writer. ",
+            "Dramaturgy Dramaturgy may also be broadly defined as \"\"adapting a story to actab"
+          ],
+          "final_answer": "Emilia Galotti",
+          "metrics": {
+            "f1": 1.0,
+            "em": 1.0,
+            "contain": 1.0
+          },
+          "success": true,
+          "elapsed_sec": 17.96
+        },
+        {
+          "arm": "pool_kl_hint",
+          "bridge_candidates": [
+            {
+              "text": "One of the first bourgeois tragedies",
+              "init_conf": 0.35302734375,
+              "position_mass": 0.36328125,
+              "positions": [
+                1,
+                2
+              ]
+            },
+            {
+              "text": "\"Fiona Sampson\"",
+              "init_conf": 0.2406139373779297,
+              "position_mass": 0.24560546875,
+              "positions": [
+                0,
+                5
+              ]
+            },
+            {
+              "text": "The German National Theatre in Hamburg",
+              "init_conf": 0.12787914276123047,
+              "position_mass": 0.31201171875,
+              "positions": [
+                0,
+                4
+              ]
+            }
+          ],
+          "hint": "Related entities: One of the first bourgeois, \"Fiona Sampson\", German National Theatre in Hamburg.",
+          "retrieval_queries": [
+            "query: What is another notable work made by the author of Miss Sara Sampson? Another notable work made by the",
+            "query: What is another notable work made by the author of Miss Sara Sampson? One of the first bourgeois tragedies",
+            "query: What is another notable work made by the author of Miss Sara Sampson? \"Fiona Sampson\"",
+            "query: What is another notable work made by the author of Miss Sara Sampson? The German National Theatre in Hamburg"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Another notable work made by the",
+              "added_passage_previews": [
+                "\"Patricia Clapp\" a good little living girl comes to stay in her old house.\"\" Mos"
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? One of the first bourgeois tragedies",
+              "added_passage_previews": [
+                "Tragedy the 17th century. Bourgeois tragedy (German: B\u00fcrgerliches Trauerspiel) i"
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? \"Fiona Sampson\"",
+              "added_passage_previews": [
+                "\"Fiona Sampson\" the \"\"Irish Times\"\" IMPAC Awards (now International Dublin Liter",
+                "\"Fiona Sampson\" Fiona Sampson Fiona Ruth Sampson, is a British poet and writer. "
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? The German National Theatre in Hamburg",
+              "added_passage_previews": [
+                "Dramaturgy Dramaturgy may also be broadly defined as \"\"adapting a story to actab"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+            "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+            "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+            "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+            "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt"
+          ],
+          "expanded_passage_previews": [
+            "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+            "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+            "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+            "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+            "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt",
+            "\"Patricia Clapp\" a good little living girl comes to stay in her old house.\"\" Mos",
+            "Tragedy the 17th century. Bourgeois tragedy (German: B\u00fcrgerliches Trauerspiel) i",
+            "\"Fiona Sampson\" the \"\"Irish Times\"\" IMPAC Awards (now International Dublin Liter",
+            "\"Fiona Sampson\" Fiona Sampson Fiona Ruth Sampson, is a British poet and writer. ",
+            "Dramaturgy Dramaturgy may also be broadly defined as \"\"adapting a story to actab"
+          ],
+          "final_answer": "Emilia Galotti",
+          "metrics": {
+            "f1": 1.0,
+            "em": 1.0,
+            "contain": 1.0
+          },
+          "success": true,
+          "elapsed_sec": 17.91
+        },
+        {
+          "arm": "pool_temp_high",
+          "bridge_candidates": [
+            {
+              "text": "\"Jacob in Oldenburg\"",
+              "init_conf": 0.044803619384765625,
+              "position_mass": 0.158203125,
+              "positions": [
+                5
+              ]
+            },
+            {
+              "text": "Matches of thebourgeois tragedy",
+              "init_conf": 0.042938232421875,
+              "position_mass": 0.1640625,
+              "positions": [
+                2
+              ]
+            },
+            {
+              "text": "Sara Jane Lippincott",
+              "init_conf": 0.03768014907836914,
+              "position_mass": 0.552734375,
+              "positions": [
+                2,
+                3,
+                4
+              ]
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: What is another notable work made by the author of Miss Sara Sampson? Another notable work made by the",
+            "query: What is another notable work made by the author of Miss Sara Sampson? \"Jacob in Oldenburg\"",
+            "query: What is another notable work made by the author of Miss Sara Sampson? Matches of thebourgeois tragedy",
+            "query: What is another notable work made by the author of Miss Sara Sampson? Sara Jane Lippincott"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Another notable work made by the",
+              "added_passage_previews": [
+                "\"Patricia Clapp\" a good little living girl comes to stay in her old house.\"\" Mos"
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? \"Jacob in Oldenburg\"",
+              "added_passage_previews": [
+                "Heidi Heidi Heidi (; ) is a work of children's fiction published in 1881 by Swis"
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Matches of thebourgeois tragedy",
+              "added_passage_previews": [
+                "Tragedy the 17th century. Bourgeois tragedy (German: B\u00fcrgerliches Trauerspiel) i"
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Sara Jane Lippincott",
+              "added_passage_previews": [
+                "\"Sara Jane Lippincott\" of poetry and children's stories, which she published in "
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+            "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+            "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+            "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+            "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt"
+          ],
+          "expanded_passage_previews": [
+            "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+            "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+            "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+            "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+            "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt",
+            "\"Patricia Clapp\" a good little living girl comes to stay in her old house.\"\" Mos",
+            "Heidi Heidi Heidi (; ) is a work of children's fiction published in 1881 by Swis",
+            "Tragedy the 17th century. Bourgeois tragedy (German: B\u00fcrgerliches Trauerspiel) i",
+            "\"Sara Jane Lippincott\" of poetry and children's stories, which she published in "
+          ],
+          "final_answer": "German Tragedy",
+          "metrics": {
+            "f1": 0.0,
+            "em": 0.0,
+            "contain": 0.0
+          },
+          "success": false,
+          "elapsed_sec": 17.82
+        },
+        {
+          "arm": "pool_nmask6",
+          "bridge_candidates": [
+            {
+              "text": "Fiona Sampson",
+              "init_conf": 0.5361289978027344,
+              "position_mass": 0.5380859375,
+              "positions": [
+                0,
+                1
+              ]
+            },
+            {
+              "text": "\"Mary Shelley\"",
+              "init_conf": 0.17808199673891068,
+              "position_mass": 0.4462890625,
+              "positions": [
+                0,
+                3
+              ]
+            },
+            {
+              "text": "Lessing's plays",
+              "init_conf": 0.07566070556640625,
+              "position_mass": 0.18359375,
+              "positions": [
+                2
+              ]
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: What is another notable work made by the author of Miss Sara Sampson? Another notable work made by the",
+            "query: What is another notable work made by the author of Miss Sara Sampson? Fiona Sampson",
+            "query: What is another notable work made by the author of Miss Sara Sampson? \"Mary Shelley\"",
+            "query: What is another notable work made by the author of Miss Sara Sampson? Lessing's plays"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Another notable work made by the",
+              "added_passage_previews": [
+                "\"Patricia Clapp\" a good little living girl comes to stay in her old house.\"\" Mos"
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Fiona Sampson",
+              "added_passage_previews": []
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? \"Mary Shelley\"",
+              "added_passage_previews": []
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Lessing's plays",
+              "added_passage_previews": [
+                "Dramaturgy Dramaturgy may also be broadly defined as \"\"adapting a story to actab"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+            "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+            "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+            "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+            "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt"
+          ],
+          "expanded_passage_previews": [
+            "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+            "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+            "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+            "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+            "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt",
+            "\"Patricia Clapp\" a good little living girl comes to stay in her old house.\"\" Mos",
+            "Dramaturgy Dramaturgy may also be broadly defined as \"\"adapting a story to actab"
+          ],
+          "final_answer": "Emilia Galotti",
+          "metrics": {
+            "f1": 1.0,
+            "em": 1.0,
+            "contain": 1.0
+          },
+          "success": true,
+          "elapsed_sec": 12.77
+        },
+        {
+          "arm": "pool_subset",
+          "bridge_candidates": [
+            {
+              "text": "Sara Jane Lippincott",
+              "init_conf": 9.4296875,
+              "positions": [
+                1,
+                2,
+                3
+              ],
+              "drop_previews": [
+                "\"Miss Sara Sampson\" be the dramaturg at the German National ",
+                "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporar",
+                "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporar"
+              ]
+            },
+            {
+              "text": "The German National Theatre in Hamburg",
+              "init_conf": 5.2109375,
+              "positions": [
+                4
+              ],
+              "drop_previews": [
+                "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (ori",
+                "\"Miss Sara Sampson\" be the dramaturg at the German National ",
+                "\"Sara Jane Lippincott\" go on to become a correspondent for t"
+              ]
+            },
+            {
+              "text": "Sorrows of Werther",
+              "init_conf": 5.2109375,
+              "positions": [
+                4
+              ],
+              "drop_previews": [
+                "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (ori",
+                "\"Miss Sara Sampson\" be the dramaturg at the German National ",
+                "\"Sara Jane Lippincott\" go on to become a correspondent for t"
+              ]
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: What is another notable work made by the author of Miss Sara Sampson? Another notable work made by the",
+            "query: What is another notable work made by the author of Miss Sara Sampson? Sara Jane Lippincott",
+            "query: What is another notable work made by the author of Miss Sara Sampson? The German National Theatre in Hamburg",
+            "query: What is another notable work made by the author of Miss Sara Sampson? Sorrows of Werther"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Another notable work made by the",
+              "added_passage_previews": [
+                "\"Patricia Clapp\" a good little living girl comes to stay in her old house.\"\" Mos"
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Sara Jane Lippincott",
+              "added_passage_previews": [
+                "\"Sara Jane Lippincott\" of poetry and children's stories, which she published in "
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? The German National Theatre in Hamburg",
+              "added_passage_previews": [
+                "Dramaturgy Dramaturgy may also be broadly defined as \"\"adapting a story to actab"
+              ]
+            },
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Sorrows of Werther",
+              "added_passage_previews": [
+                "\"Sentimental novel\" bondage and slavery in general in his famous \"\"Narrative\"\" b"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+            "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+            "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+            "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+            "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt"
+          ],
+          "expanded_passage_previews": [
+            "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+            "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+            "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+            "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+            "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt",
+            "\"Patricia Clapp\" a good little living girl comes to stay in her old house.\"\" Mos",
+            "\"Sara Jane Lippincott\" of poetry and children's stories, which she published in ",
+            "Dramaturgy Dramaturgy may also be broadly defined as \"\"adapting a story to actab",
+            "\"Sentimental novel\" bondage and slavery in general in his famous \"\"Narrative\"\" b"
+          ],
+          "final_answer": "Emilia Galotti",
+          "metrics": {
+            "f1": 1.0,
+            "em": 1.0,
+            "contain": 1.0
+          },
+          "success": true,
+          "elapsed_sec": 15.07
+        },
+        {
+          "arm": "oracle_bridge",
+          "bridge_candidates": [],
+          "hint": "",
+          "retrieval_queries": [
+            "query: What is another notable work made by the author of Miss Sara Sampson? Gotthold Ephraim Lessing"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: What is another notable work made by the author of Miss Sara Sampson? Gotthold Ephraim Lessing",
+              "added_passage_previews": [
+                "Dramaturgy Dramaturgy may also be broadly defined as \"\"adapting a story to actab"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+            "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+            "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+            "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+            "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt"
+          ],
+          "expanded_passage_previews": [
+            "\"Miss Sara Sampson\" Miss Sara Sampson Miss Sara Sampson (original spelling \"\"Mi\u00df",
+            "\"Miss Sara Sampson\" be the dramaturg at the German National Theatre in Hamburg. ",
+            "\"Fiona Sampson\" \"\"Orient Express\"\", a journal of contemporary writing from Europ",
+            "\"Sara Jane Lippincott\" go on to become a correspondent for the \"\"Saturday Evenin",
+            "\"Epaminondas and His Auntie\" Epaminondas and His Auntie Epaminondas and His Aunt",
+            "Dramaturgy Dramaturgy may also be broadly defined as \"\"adapting a story to actab"
+          ],
+          "final_answer": "Emilia Galotti",
+          "metrics": {
+            "f1": 1.0,
+            "em": 1.0,
+            "contain": 1.0
+          },
+          "success": true,
+          "elapsed_sec": 7.75
+        }
+      ]
+    },
+    {
+      "id": "dev_471",
+      "question": "What league was the team that Jose Cancela was a member of in?",
+      "gold": "Major League Soccer",
+      "seed_answer": "Liga Dominicana de F\u00fatbol",
+      "gold_bridges": [
+        "Colorado Rapids"
+      ],
+      "initial_passage_previews": [
+        "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+        "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+        "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+        "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+        "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra"
+      ],
+      "arms": [
+        {
+          "arm": "standard_pool",
+          "bridge_candidates": [
+            {
+              "text": "Liga Dominicana de F\u00fatbol.",
+              "init_conf": 0.921875,
+              "position": 0
+            },
+            {
+              "text": "Uruguayan Primera Divisi\u00f3n and MLS.",
+              "init_conf": 0.07568359375,
+              "position": 0
+            },
+            {
+              "text": "Liga domicana de f\u00fatbol",
+              "init_conf": 0.06005859375,
+              "position": 8
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: What league was the team that Jose Cancela was a member of in? Liga Dominicana de F\u00fatbol",
+            "query: What league was the team that Jose Cancela was a member of in? Liga Dominicana de F\u00fatbol.",
+            "query: What league was the team that Jose Cancela was a member of in? Uruguayan Primera Divisi\u00f3n and MLS.",
+            "query: What league was the team that Jose Cancela was a member of in? Liga domicana de f\u00fatbol"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Liga Dominicana de F\u00fatbol",
+              "added_passage_previews": [
+                "\"Liga Dominicana de Fu\u0301tbol\" Liga Dominicana de F\u00fatbol The Liga Dominicana de F\u00fa",
+                "\"Dominican Summer League Brewers\" Dominican Summer League Brewers The Dominican "
+              ]
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Liga Dominicana de F\u00fatbol.",
+              "added_passage_previews": []
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Uruguayan Primera Divisi\u00f3n and MLS.",
+              "added_passage_previews": [
+                "\"Major League Soccer\" Major League Soccer Major League Soccer (MLS) is a men's p"
+              ]
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Liga domicana de f\u00fatbol",
+              "added_passage_previews": [
+                "\"LNFA 2015\" LNFA 2015 The LNFA 2015 season was the 21st season of American footb"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+            "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+            "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+            "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+            "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra"
+          ],
+          "expanded_passage_previews": [
+            "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+            "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+            "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+            "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+            "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra",
+            "\"Liga Dominicana de Fu\u0301tbol\" Liga Dominicana de F\u00fatbol The Liga Dominicana de F\u00fa",
+            "\"Dominican Summer League Brewers\" Dominican Summer League Brewers The Dominican ",
+            "\"Major League Soccer\" Major League Soccer Major League Soccer (MLS) is a men's p",
+            "\"LNFA 2015\" LNFA 2015 The LNFA 2015 season was the 21st season of American footb"
+          ],
+          "final_answer": "Major League Soccer",
+          "metrics": {
+            "f1": 1.0,
+            "em": 1.0,
+            "contain": 1.0
+          },
+          "success": true,
+          "elapsed_sec": 14.4
+        },
+        {
+          "arm": "pool_8",
+          "bridge_candidates": [
+            {
+              "text": "Uruguayan Primera Division",
+              "init_conf": 0.57421875,
+              "position": 0
+            },
+            {
+              "text": "MLS (Major League Soccer)",
+              "init_conf": 0.271484375,
+              "position": 0
+            },
+            {
+              "text": "Major League Soccer (MLS)",
+              "init_conf": 0.73046875,
+              "position": 1
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: What league was the team that Jose Cancela was a member of in? Liga Dominicana de F\u00fatbol",
+            "query: What league was the team that Jose Cancela was a member of in? Uruguayan Primera Division",
+            "query: What league was the team that Jose Cancela was a member of in? MLS (Major League Soccer)",
+            "query: What league was the team that Jose Cancela was a member of in? Major League Soccer (MLS)"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Liga Dominicana de F\u00fatbol",
+              "added_passage_previews": [
+                "\"Liga Dominicana de Fu\u0301tbol\" Liga Dominicana de F\u00fatbol The Liga Dominicana de F\u00fa",
+                "\"Dominican Summer League Brewers\" Dominican Summer League Brewers The Dominican "
+              ]
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Uruguayan Primera Division",
+              "added_passage_previews": [
+                "\"1906 Uruguayan Primera Divisio\u0301n\" 1906 Uruguayan Primera Divisi\u00f3n The 1905 Prim"
+              ]
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? MLS (Major League Soccer)",
+              "added_passage_previews": [
+                "\"Major League Soccer\" Major League Soccer Major League Soccer (MLS) is a men's p"
+              ]
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Major League Soccer (MLS)",
+              "added_passage_previews": []
+            }
+          ],
+          "initial_passage_previews": [
+            "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+            "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+            "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+            "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+            "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra"
+          ],
+          "expanded_passage_previews": [
+            "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+            "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+            "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+            "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+            "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra",
+            "\"Liga Dominicana de Fu\u0301tbol\" Liga Dominicana de F\u00fatbol The Liga Dominicana de F\u00fa",
+            "\"Dominican Summer League Brewers\" Dominican Summer League Brewers The Dominican ",
+            "\"1906 Uruguayan Primera Divisio\u0301n\" 1906 Uruguayan Primera Divisi\u00f3n The 1905 Prim",
+            "\"Major League Soccer\" Major League Soccer Major League Soccer (MLS) is a men's p"
+          ],
+          "final_answer": "Primera Divisi\u00f3n",
+          "metrics": {
+            "f1": 0.0,
+            "em": 0.0,
+            "contain": 0.0
+          },
+          "success": false,
+          "elapsed_sec": 11.93
+        },
+        {
+          "arm": "pool_8_clean",
+          "bridge_candidates": [
+            {
+              "text": "Uruguayan Primera Division",
+              "init_conf": 0.57421875,
+              "position": 0
+            },
+            {
+              "text": "MLS (Major League Soccer)",
+              "init_conf": 0.271484375,
+              "position": 0
+            },
+            {
+              "text": "Major League Soccer (MLS)",
+              "init_conf": 0.73046875,
+              "position": 1
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: What league was the team that Jose Cancela was a member of in? Liga Dominicana de F\u00fatbol",
+            "query: What league was the team that Jose Cancela was a member of in? Uruguayan Primera Division",
+            "query: What league was the team that Jose Cancela was a member of in? MLS (Major League Soccer)",
+            "query: What league was the team that Jose Cancela was a member of in? Major League Soccer (MLS)"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Liga Dominicana de F\u00fatbol",
+              "added_passage_previews": [
+                "\"Liga Dominicana de Fu\u0301tbol\" Liga Dominicana de F\u00fatbol The Liga Dominicana de F\u00fa",
+                "\"Dominican Summer League Brewers\" Dominican Summer League Brewers The Dominican "
+              ]
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Uruguayan Primera Division",
+              "added_passage_previews": [
+                "\"1906 Uruguayan Primera Divisio\u0301n\" 1906 Uruguayan Primera Divisi\u00f3n The 1905 Prim"
+              ]
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? MLS (Major League Soccer)",
+              "added_passage_previews": [
+                "\"Major League Soccer\" Major League Soccer Major League Soccer (MLS) is a men's p"
+              ]
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Major League Soccer (MLS)",
+              "added_passage_previews": []
+            }
+          ],
+          "initial_passage_previews": [
+            "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+            "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+            "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+            "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+            "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra"
+          ],
+          "expanded_passage_previews": [
+            "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+            "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+            "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+            "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+            "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra",
+            "\"Liga Dominicana de Fu\u0301tbol\" Liga Dominicana de F\u00fatbol The Liga Dominicana de F\u00fa",
+            "\"Dominican Summer League Brewers\" Dominican Summer League Brewers The Dominican ",
+            "\"1906 Uruguayan Primera Divisio\u0301n\" 1906 Uruguayan Primera Divisi\u00f3n The 1905 Prim",
+            "\"Major League Soccer\" Major League Soccer Major League Soccer (MLS) is a men's p"
+          ],
+          "final_answer": "Primera Divisi\u00f3n",
+          "metrics": {
+            "f1": 0.0,
+            "em": 0.0,
+            "contain": 0.0
+          },
+          "success": false,
+          "elapsed_sec": 11.83
+        },
+        {
+          "arm": "pool_kl",
+          "bridge_candidates": [
+            {
+              "text": "Major League Soccer (MLS)",
+              "init_conf": 0.5779571533203125,
+              "position_mass": 0.9375,
+              "positions": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ]
+            },
+            {
+              "text": "Uruguayan Primera Division",
+              "init_conf": 0.1891021728515625,
+              "position_mass": 0.31640625,
+              "positions": [
+                0
+              ]
+            },
+            {
+              "text": "MLS (Major League Soccer)",
+              "init_conf": 0.1534424150668201,
+              "position_mass": 0.4111328125,
+              "positions": [
+                0,
+                4,
+                5
+              ]
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: What league was the team that Jose Cancela was a member of in? Liga Dominicana de F\u00fatbol",
+            "query: What league was the team that Jose Cancela was a member of in? Major League Soccer (MLS)",
+            "query: What league was the team that Jose Cancela was a member of in? Uruguayan Primera Division",
+            "query: What league was the team that Jose Cancela was a member of in? MLS (Major League Soccer)"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Liga Dominicana de F\u00fatbol",
+              "added_passage_previews": [
+                "\"Liga Dominicana de Fu\u0301tbol\" Liga Dominicana de F\u00fatbol The Liga Dominicana de F\u00fa",
+                "\"Dominican Summer League Brewers\" Dominican Summer League Brewers The Dominican "
+              ]
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Major League Soccer (MLS)",
+              "added_passage_previews": []
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Uruguayan Primera Division",
+              "added_passage_previews": [
+                "\"1906 Uruguayan Primera Divisio\u0301n\" 1906 Uruguayan Primera Divisi\u00f3n The 1905 Prim"
+              ]
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? MLS (Major League Soccer)",
+              "added_passage_previews": [
+                "\"Major League Soccer\" Major League Soccer Major League Soccer (MLS) is a men's p"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+            "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+            "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+            "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+            "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra"
+          ],
+          "expanded_passage_previews": [
+            "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+            "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+            "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+            "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+            "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra",
+            "\"Liga Dominicana de Fu\u0301tbol\" Liga Dominicana de F\u00fatbol The Liga Dominicana de F\u00fa",
+            "\"Dominican Summer League Brewers\" Dominican Summer League Brewers The Dominican ",
+            "\"1906 Uruguayan Primera Divisio\u0301n\" 1906 Uruguayan Primera Divisi\u00f3n The 1905 Prim",
+            "\"Major League Soccer\" Major League Soccer Major League Soccer (MLS) is a men's p"
+          ],
+          "final_answer": "Primera Divisi\u00f3n",
+          "metrics": {
+            "f1": 0.0,
+            "em": 0.0,
+            "contain": 0.0
+          },
+          "success": false,
+          "elapsed_sec": 18.29
+        },
+        {
+          "arm": "pool_kl_hint",
+          "bridge_candidates": [
+            {
+              "text": "Major League Soccer (MLS)",
+              "init_conf": 0.5779571533203125,
+              "position_mass": 0.9375,
+              "positions": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ]
+            },
+            {
+              "text": "Uruguayan Primera Division",
+              "init_conf": 0.1891021728515625,
+              "position_mass": 0.31640625,
+              "positions": [
+                0
+              ]
+            },
+            {
+              "text": "MLS (Major League Soccer)",
+              "init_conf": 0.1534424150668201,
+              "position_mass": 0.4111328125,
+              "positions": [
+                0,
+                4,
+                5
+              ]
+            }
+          ],
+          "hint": "Related entities: Major League Soccer (MLS), Uruguayan Primera Division, MLS (Major League Soccer).",
+          "retrieval_queries": [
+            "query: What league was the team that Jose Cancela was a member of in? Liga Dominicana de F\u00fatbol",
+            "query: What league was the team that Jose Cancela was a member of in? Major League Soccer (MLS)",
+            "query: What league was the team that Jose Cancela was a member of in? Uruguayan Primera Division",
+            "query: What league was the team that Jose Cancela was a member of in? MLS (Major League Soccer)"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Liga Dominicana de F\u00fatbol",
+              "added_passage_previews": [
+                "\"Liga Dominicana de Fu\u0301tbol\" Liga Dominicana de F\u00fatbol The Liga Dominicana de F\u00fa",
+                "\"Dominican Summer League Brewers\" Dominican Summer League Brewers The Dominican "
+              ]
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Major League Soccer (MLS)",
+              "added_passage_previews": []
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Uruguayan Primera Division",
+              "added_passage_previews": [
+                "\"1906 Uruguayan Primera Divisio\u0301n\" 1906 Uruguayan Primera Divisi\u00f3n The 1905 Prim"
+              ]
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? MLS (Major League Soccer)",
+              "added_passage_previews": [
+                "\"Major League Soccer\" Major League Soccer Major League Soccer (MLS) is a men's p"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+            "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+            "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+            "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+            "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra"
+          ],
+          "expanded_passage_previews": [
+            "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+            "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+            "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+            "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+            "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra",
+            "\"Liga Dominicana de Fu\u0301tbol\" Liga Dominicana de F\u00fatbol The Liga Dominicana de F\u00fa",
+            "\"Dominican Summer League Brewers\" Dominican Summer League Brewers The Dominican ",
+            "\"1906 Uruguayan Primera Divisio\u0301n\" 1906 Uruguayan Primera Divisi\u00f3n The 1905 Prim",
+            "\"Major League Soccer\" Major League Soccer Major League Soccer (MLS) is a men's p"
+          ],
+          "final_answer": "Uruguayan League",
+          "metrics": {
+            "f1": 0.4,
+            "em": 0.0,
+            "contain": 0.0
+          },
+          "success": false,
+          "elapsed_sec": 18.3
+        },
+        {
+          "arm": "pool_temp_high",
+          "bridge_candidates": [
+            {
+              "text": "Major League Soccer (MLS)",
+              "init_conf": 0.3563270568847656,
+              "position_mass": 1.001953125,
+              "positions": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
+            },
+            {
+              "text": "Uruguayan Primera Division",
+              "init_conf": 0.09578704833984375,
+              "position_mass": 0.31640625,
+              "positions": [
+                0
+              ]
+            },
+            {
+              "text": "MLS (Major League Soccer)",
+              "init_conf": 0.07492125034332275,
+              "position_mass": 0.3466796875,
+              "positions": [
+                0,
+                4
+              ]
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: What league was the team that Jose Cancela was a member of in? Liga Dominicana de F\u00fatbol",
+            "query: What league was the team that Jose Cancela was a member of in? Major League Soccer (MLS)",
+            "query: What league was the team that Jose Cancela was a member of in? Uruguayan Primera Division",
+            "query: What league was the team that Jose Cancela was a member of in? MLS (Major League Soccer)"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Liga Dominicana de F\u00fatbol",
+              "added_passage_previews": [
+                "\"Liga Dominicana de Fu\u0301tbol\" Liga Dominicana de F\u00fatbol The Liga Dominicana de F\u00fa",
+                "\"Dominican Summer League Brewers\" Dominican Summer League Brewers The Dominican "
+              ]
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Major League Soccer (MLS)",
+              "added_passage_previews": []
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Uruguayan Primera Division",
+              "added_passage_previews": [
+                "\"1906 Uruguayan Primera Divisio\u0301n\" 1906 Uruguayan Primera Divisi\u00f3n The 1905 Prim"
+              ]
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? MLS (Major League Soccer)",
+              "added_passage_previews": [
+                "\"Major League Soccer\" Major League Soccer Major League Soccer (MLS) is a men's p"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+            "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+            "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+            "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+            "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra"
+          ],
+          "expanded_passage_previews": [
+            "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+            "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+            "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+            "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+            "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra",
+            "\"Liga Dominicana de Fu\u0301tbol\" Liga Dominicana de F\u00fatbol The Liga Dominicana de F\u00fa",
+            "\"Dominican Summer League Brewers\" Dominican Summer League Brewers The Dominican ",
+            "\"1906 Uruguayan Primera Divisio\u0301n\" 1906 Uruguayan Primera Divisi\u00f3n The 1905 Prim",
+            "\"Major League Soccer\" Major League Soccer Major League Soccer (MLS) is a men's p"
+          ],
+          "final_answer": "Primera Divisi\u00f3n",
+          "metrics": {
+            "f1": 0.0,
+            "em": 0.0,
+            "contain": 0.0
+          },
+          "success": false,
+          "elapsed_sec": 18.3
+        },
+        {
+          "arm": "pool_nmask6",
+          "bridge_candidates": [
+            {
+              "text": "Major League Soccer",
+              "init_conf": 0.3504030145704746,
+              "position_mass": 0.650390625,
+              "positions": [
+                0,
+                1,
+                2
+              ]
+            },
+            {
+              "text": "Uruguayan League",
+              "init_conf": 0.28949928283691406,
+              "position_mass": 0.4921875,
+              "positions": [
+                0,
+                1
+              ]
+            },
+            {
+              "text": "The New England Revolution",
+              "init_conf": 0.23352813720703125,
+              "position_mass": 0.349609375,
+              "positions": [
+                3
+              ]
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: What league was the team that Jose Cancela was a member of in? Liga Dominicana de F\u00fatbol",
+            "query: What league was the team that Jose Cancela was a member of in? Major League Soccer",
+            "query: What league was the team that Jose Cancela was a member of in? Uruguayan League",
+            "query: What league was the team that Jose Cancela was a member of in? The New England Revolution"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Liga Dominicana de F\u00fatbol",
+              "added_passage_previews": [
+                "\"Liga Dominicana de Fu\u0301tbol\" Liga Dominicana de F\u00fatbol The Liga Dominicana de F\u00fa",
+                "\"Dominican Summer League Brewers\" Dominican Summer League Brewers The Dominican "
+              ]
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Major League Soccer",
+              "added_passage_previews": []
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Uruguayan League",
+              "added_passage_previews": [
+                "\"Huraca\u0301n F.C.\" Hurac\u00e1n F.C. Sportivo Hurac\u00e1n F\u00fatbol Club, usually known simply "
+              ]
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? The New England Revolution",
+              "added_passage_previews": [
+                "\"2012 New England Revolution season\" 2012 New England Revolution season The 2012",
+                "\"New England Revolution\" New England Revolution The New England Revolution is an"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+            "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+            "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+            "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+            "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra"
+          ],
+          "expanded_passage_previews": [
+            "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+            "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+            "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+            "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+            "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra",
+            "\"Liga Dominicana de Fu\u0301tbol\" Liga Dominicana de F\u00fatbol The Liga Dominicana de F\u00fa",
+            "\"Dominican Summer League Brewers\" Dominican Summer League Brewers The Dominican ",
+            "\"Huraca\u0301n F.C.\" Hurac\u00e1n F.C. Sportivo Hurac\u00e1n F\u00fatbol Club, usually known simply ",
+            "\"2012 New England Revolution season\" 2012 New England Revolution season The 2012",
+            "\"New England Revolution\" New England Revolution The New England Revolution is an"
+          ],
+          "final_answer": "Major League Soccer",
+          "metrics": {
+            "f1": 1.0,
+            "em": 1.0,
+            "contain": 1.0
+          },
+          "success": true,
+          "elapsed_sec": 13.8
+        },
+        {
+          "arm": "pool_subset",
+          "bridge_candidates": [
+            {
+              "text": "Major League Soccer (MLS)",
+              "init_conf": 10.65234375,
+              "positions": [
+                0,
+                1,
+                2,
+                3
+              ],
+              "drop_previews": [
+                "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born",
+                "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the followin",
+                "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July ",
+                "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July ",
+                "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Domi",
+                "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Fute",
+                "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Fute"
+              ]
+            },
+            {
+              "text": "Uruguayan Primera Division",
+              "init_conf": 3.9765625,
+              "positions": [
+                0
+              ],
+              "drop_previews": [
+                "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born",
+                "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the followin",
+                "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Domi"
+              ]
+            },
+            {
+              "text": "LDF Banco Popular",
+              "init_conf": 2.671875,
+              "positions": [
+                3
+              ],
+              "drop_previews": [
+                "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Fute"
+              ]
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: What league was the team that Jose Cancela was a member of in? Liga Dominicana de F\u00fatbol",
+            "query: What league was the team that Jose Cancela was a member of in? Major League Soccer (MLS)",
+            "query: What league was the team that Jose Cancela was a member of in? Uruguayan Primera Division",
+            "query: What league was the team that Jose Cancela was a member of in? LDF Banco Popular"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Liga Dominicana de F\u00fatbol",
+              "added_passage_previews": [
+                "\"Liga Dominicana de Fu\u0301tbol\" Liga Dominicana de F\u00fatbol The Liga Dominicana de F\u00fa",
+                "\"Dominican Summer League Brewers\" Dominican Summer League Brewers The Dominican "
+              ]
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Major League Soccer (MLS)",
+              "added_passage_previews": []
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Uruguayan Primera Division",
+              "added_passage_previews": [
+                "\"1906 Uruguayan Primera Divisio\u0301n\" 1906 Uruguayan Primera Divisi\u00f3n The 1905 Prim"
+              ]
+            },
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? LDF Banco Popular",
+              "added_passage_previews": [
+                "\"LNFA 2015\" LNFA 2015 The LNFA 2015 season was the 21st season of American footb"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+            "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+            "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+            "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+            "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra"
+          ],
+          "expanded_passage_previews": [
+            "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+            "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+            "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+            "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+            "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra",
+            "\"Liga Dominicana de Fu\u0301tbol\" Liga Dominicana de F\u00fatbol The Liga Dominicana de F\u00fa",
+            "\"Dominican Summer League Brewers\" Dominican Summer League Brewers The Dominican ",
+            "\"1906 Uruguayan Primera Divisio\u0301n\" 1906 Uruguayan Primera Divisi\u00f3n The 1905 Prim",
+            "\"LNFA 2015\" LNFA 2015 The LNFA 2015 season was the 21st season of American footb"
+          ],
+          "final_answer": "Primera Divisi\u00f3n",
+          "metrics": {
+            "f1": 0.0,
+            "em": 0.0,
+            "contain": 0.0
+          },
+          "success": false,
+          "elapsed_sec": 18.71
+        },
+        {
+          "arm": "oracle_bridge",
+          "bridge_candidates": [],
+          "hint": "",
+          "retrieval_queries": [
+            "query: What league was the team that Jose Cancela was a member of in? Colorado Rapids"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: What league was the team that Jose Cancela was a member of in? Colorado Rapids",
+              "added_passage_previews": [
+                "\"Colorado Rapids\" Colorado Rapids The Colorado Rapids are an American profession"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+            "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+            "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+            "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+            "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra"
+          ],
+          "expanded_passage_previews": [
+            "\"Jose\u0301 Cancela\" Jos\u00e9 Cancela Jos\u00e9 Carlos Cancela Dur\u00e1n (born June 25, 1976 in Sa",
+            "\"Jose\u0301 Cancela\" the Colorado Rapids in April of the following year in exchange f",
+            "\"Jose\u0301 Cancela\" team. Cancela joined the Revolution in July 2003, and immediatel",
+            "\"Atla\u0301ntico FC\" Atl\u00e1ntico FC Atl\u00e1ntico F\u00fatbol Club is a Dominican professional f",
+            "\"C.F. Unia\u0303o de Coimbra\" C.F. Uni\u00e3o de Coimbra Clube de Futebol Uni\u00e3o de Coimbra",
+            "\"Colorado Rapids\" Colorado Rapids The Colorado Rapids are an American profession"
+          ],
+          "final_answer": "Major League Soccer",
+          "metrics": {
+            "f1": 1.0,
+            "em": 1.0,
+            "contain": 1.0
+          },
+          "success": true,
+          "elapsed_sec": 7.68
+        }
+      ]
+    },
+    {
+      "id": "dev_642",
+      "question": "Who is the actor who plays the title character in The Bourne Betrayal?",
+      "gold": "Matt Damon",
+      "seed_answer": "Matt Damon",
+      "gold_bridges": [
+        "Jason Bourne"
+      ],
+      "initial_passage_previews": [
+        "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+        "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+        "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+        "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+        "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se"
+      ],
+      "arms": [
+        {
+          "arm": "standard_pool",
+          "bridge_candidates": [
+            {
+              "text": "Matt Damon",
+              "init_conf": 1.0,
+              "position": 0
+            },
+            {
+              "text": "No information provided about The Bourne Betrayal",
+              "init_conf": 3.528594970703125e-05,
+              "position": 0
+            },
+            {
+              "text": "Short Answer: Matt Damon",
+              "init_conf": 0.1787109375,
+              "position": 1
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon",
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? No information provided about The Bourne Betrayal",
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Short Answer: Matt Damon"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon",
+              "added_passage_previews": [
+                "\"Matt Damon\" Jason Bourne in the \"\"Bourne\"\" franchise (2002\u20132016) and as a con m"
+              ]
+            },
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? No information provided about The Bourne Betrayal",
+              "added_passage_previews": [
+                "\"The Bourne Betrayal\" leader, Fadi, one of the leaders of Dujja. Fadi's real nam"
+              ]
+            },
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Short Answer: Matt Damon",
+              "added_passage_previews": []
+            }
+          ],
+          "initial_passage_previews": [
+            "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+            "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+            "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+            "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+            "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se"
+          ],
+          "expanded_passage_previews": [
+            "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+            "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+            "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+            "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+            "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se",
+            "\"Matt Damon\" Jason Bourne in the \"\"Bourne\"\" franchise (2002\u20132016) and as a con m",
+            "\"The Bourne Betrayal\" leader, Fadi, one of the leaders of Dujja. Fadi's real nam"
+          ],
+          "final_answer": "Matt Damon",
+          "metrics": {
+            "f1": 1.0,
+            "em": 1.0,
+            "contain": 1.0
+          },
+          "success": true,
+          "elapsed_sec": 15.95
+        },
+        {
+          "arm": "pool_8",
+          "bridge_candidates": [
+            {
+              "text": "Matt Damon",
+              "init_conf": 1.0,
+              "position": 0
+            },
+            {
+              "text": "Tommy Lee Jones",
+              "init_conf": 4.5299530029296875e-05,
+              "position": 0
+            },
+            {
+              "text": "Matt Damon is not mentioned.",
+              "init_conf": 0.6640625,
+              "position": 5
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon",
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Tommy Lee Jones",
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon is not mentioned."
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon",
+              "added_passage_previews": [
+                "\"Matt Damon\" Jason Bourne in the \"\"Bourne\"\" franchise (2002\u20132016) and as a con m"
+              ]
+            },
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Tommy Lee Jones",
+              "added_passage_previews": [
+                "\"Jason Bourne (film)\" focus on the title character, and because actor Jeremy Ren"
+              ]
+            },
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon is not mentioned.",
+              "added_passage_previews": []
+            }
+          ],
+          "initial_passage_previews": [
+            "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+            "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+            "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+            "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+            "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se"
+          ],
+          "expanded_passage_previews": [
+            "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+            "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+            "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+            "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+            "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se",
+            "\"Matt Damon\" Jason Bourne in the \"\"Bourne\"\" franchise (2002\u20132016) and as a con m",
+            "\"Jason Bourne (film)\" focus on the title character, and because actor Jeremy Ren"
+          ],
+          "final_answer": "Jeremy Renner",
+          "metrics": {
+            "f1": 0.0,
+            "em": 0.0,
+            "contain": 0.0
+          },
+          "success": false,
+          "elapsed_sec": 12.89
+        },
+        {
+          "arm": "pool_8_clean",
+          "bridge_candidates": [
+            {
+              "text": "Matt Damon",
+              "init_conf": 1.0,
+              "position": 0
+            },
+            {
+              "text": "Tommy Lee Jones",
+              "init_conf": 4.5299530029296875e-05,
+              "position": 0
+            },
+            {
+              "text": "Matt Damon is not mentioned",
+              "init_conf": 0.6640625,
+              "position": 5
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon",
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Tommy Lee Jones",
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon is not mentioned"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon",
+              "added_passage_previews": [
+                "\"Matt Damon\" Jason Bourne in the \"\"Bourne\"\" franchise (2002\u20132016) and as a con m"
+              ]
+            },
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Tommy Lee Jones",
+              "added_passage_previews": [
+                "\"Jason Bourne (film)\" focus on the title character, and because actor Jeremy Ren"
+              ]
+            },
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon is not mentioned",
+              "added_passage_previews": [
+                "\"The Bourne Legacy (film)\" black ops agent Aaron Cross (played by Jeremy Renner)"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+            "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+            "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+            "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+            "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se"
+          ],
+          "expanded_passage_previews": [
+            "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+            "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+            "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+            "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+            "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se",
+            "\"Matt Damon\" Jason Bourne in the \"\"Bourne\"\" franchise (2002\u20132016) and as a con m",
+            "\"Jason Bourne (film)\" focus on the title character, and because actor Jeremy Ren",
+            "\"The Bourne Legacy (film)\" black ops agent Aaron Cross (played by Jeremy Renner)"
+          ],
+          "final_answer": "Rachel Weisz",
+          "metrics": {
+            "f1": 0.0,
+            "em": 0.0,
+            "contain": 0.0
+          },
+          "success": false,
+          "elapsed_sec": 13.05
+        },
+        {
+          "arm": "pool_kl",
+          "bridge_candidates": [
+            {
+              "text": "Matt Damon",
+              "init_conf": 0.6737408936023712,
+              "position_mass": 1.14306640625,
+              "positions": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
+            },
+            {
+              "text": "Damon",
+              "init_conf": 0.25991058349609375,
+              "position_mass": 0.318359375,
+              "positions": [
+                1
+              ]
+            },
+            {
+              "text": "Matt Damon is not mentioned",
+              "init_conf": 0.03783416748046875,
+              "position_mass": 0.056640625,
+              "positions": [
+                5
+              ]
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon",
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Damon",
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon is not mentioned"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon",
+              "added_passage_previews": [
+                "\"Matt Damon\" Jason Bourne in the \"\"Bourne\"\" franchise (2002\u20132016) and as a con m"
+              ]
+            },
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Damon",
+              "added_passage_previews": []
+            },
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon is not mentioned",
+              "added_passage_previews": [
+                "\"The Bourne Legacy (film)\" black ops agent Aaron Cross (played by Jeremy Renner)"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+            "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+            "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+            "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+            "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se"
+          ],
+          "expanded_passage_previews": [
+            "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+            "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+            "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+            "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+            "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se",
+            "\"Matt Damon\" Jason Bourne in the \"\"Bourne\"\" franchise (2002\u20132016) and as a con m",
+            "\"The Bourne Legacy (film)\" black ops agent Aaron Cross (played by Jeremy Renner)"
+          ],
+          "final_answer": "Tommy Lee Jones",
+          "metrics": {
+            "f1": 0.0,
+            "em": 0.0,
+            "contain": 0.0
+          },
+          "success": false,
+          "elapsed_sec": 19.15
+        },
+        {
+          "arm": "pool_kl_hint",
+          "bridge_candidates": [
+            {
+              "text": "Matt Damon",
+              "init_conf": 0.6737408936023712,
+              "position_mass": 1.14306640625,
+              "positions": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
+            },
+            {
+              "text": "Damon",
+              "init_conf": 0.25991058349609375,
+              "position_mass": 0.318359375,
+              "positions": [
+                1
+              ]
+            },
+            {
+              "text": "Matt Damon is not mentioned",
+              "init_conf": 0.03783416748046875,
+              "position_mass": 0.056640625,
+              "positions": [
+                5
+              ]
+            }
+          ],
+          "hint": "Related entities: Matt Damon, Damon, Matt Damon is not mentioned.",
+          "retrieval_queries": [
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon",
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Damon",
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon is not mentioned"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon",
+              "added_passage_previews": [
+                "\"Matt Damon\" Jason Bourne in the \"\"Bourne\"\" franchise (2002\u20132016) and as a con m"
+              ]
+            },
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Damon",
+              "added_passage_previews": []
+            },
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon is not mentioned",
+              "added_passage_previews": [
+                "\"The Bourne Legacy (film)\" black ops agent Aaron Cross (played by Jeremy Renner)"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+            "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+            "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+            "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+            "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se"
+          ],
+          "expanded_passage_previews": [
+            "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+            "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+            "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+            "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+            "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se",
+            "\"Matt Damon\" Jason Bourne in the \"\"Bourne\"\" franchise (2002\u20132016) and as a con m",
+            "\"The Bourne Legacy (film)\" black ops agent Aaron Cross (played by Jeremy Renner)"
+          ],
+          "final_answer": "Tommy Lee Jones",
+          "metrics": {
+            "f1": 0.0,
+            "em": 0.0,
+            "contain": 0.0
+          },
+          "success": false,
+          "elapsed_sec": 18.72
+        },
+        {
+          "arm": "pool_temp_high",
+          "bridge_candidates": [
+            {
+              "text": "Matt Damon",
+              "init_conf": 0.3723905086517334,
+              "position_mass": 1.34326171875,
+              "positions": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
+            },
+            {
+              "text": "Damon, Matt Damon",
+              "init_conf": 0.06497764587402344,
+              "position_mass": 0.318359375,
+              "positions": [
+                1
+              ]
+            },
+            {
+              "text": "Matt Damon as Jason Bourne",
+              "init_conf": 0.03740215301513672,
+              "position_mass": 0.439453125,
+              "positions": [
+                2,
+                3
+              ]
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon",
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Damon, Matt Damon",
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon as Jason Bourne"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon",
+              "added_passage_previews": [
+                "\"Matt Damon\" Jason Bourne in the \"\"Bourne\"\" franchise (2002\u20132016) and as a con m"
+              ]
+            },
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Damon, Matt Damon",
+              "added_passage_previews": []
+            },
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon as Jason Bourne",
+              "added_passage_previews": []
+            }
+          ],
+          "initial_passage_previews": [
+            "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+            "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+            "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+            "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+            "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se"
+          ],
+          "expanded_passage_previews": [
+            "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+            "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+            "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+            "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+            "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se",
+            "\"Matt Damon\" Jason Bourne in the \"\"Bourne\"\" franchise (2002\u20132016) and as a con m"
+          ],
+          "final_answer": "Tommy Lee Jones",
+          "metrics": {
+            "f1": 0.0,
+            "em": 0.0,
+            "contain": 0.0
+          },
+          "success": false,
+          "elapsed_sec": 18.97
+        },
+        {
+          "arm": "pool_nmask6",
+          "bridge_candidates": [
+            {
+              "text": "Tommy Lee Jones",
+              "init_conf": 0.7190093994140625,
+              "position_mass": 0.998046875,
+              "positions": [
+                0,
+                1,
+                2,
+                3
+              ]
+            },
+            {
+              "text": "Damon, Matt",
+              "init_conf": 0.2625732421875,
+              "position_mass": 0.28125,
+              "positions": [
+                1
+              ]
+            },
+            {
+              "text": "Tom Hanks",
+              "init_conf": 0.008490324020385742,
+              "position_mass": 0.291015625,
+              "positions": [
+                3
+              ]
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon",
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Tommy Lee Jones",
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Damon, Matt",
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Tom Hanks"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon",
+              "added_passage_previews": [
+                "\"Matt Damon\" Jason Bourne in the \"\"Bourne\"\" franchise (2002\u20132016) and as a con m"
+              ]
+            },
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Tommy Lee Jones",
+              "added_passage_previews": [
+                "\"Jason Bourne (film)\" focus on the title character, and because actor Jeremy Ren"
+              ]
+            },
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Damon, Matt",
+              "added_passage_previews": []
+            },
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Tom Hanks",
+              "added_passage_previews": [
+                "\"Albert Finney\" (1983), \"\"Miller's Crossing\"\" (1990), \"\"Erin Brockovich\"\" (2000)"
+              ]
+            }
+          ],
+          "initial_passage_previews": [
+            "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+            "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+            "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+            "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+            "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se"
+          ],
+          "expanded_passage_previews": [
+            "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+            "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+            "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+            "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+            "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se",
+            "\"Matt Damon\" Jason Bourne in the \"\"Bourne\"\" franchise (2002\u20132016) and as a con m",
+            "\"Jason Bourne (film)\" focus on the title character, and because actor Jeremy Ren",
+            "\"Albert Finney\" (1983), \"\"Miller's Crossing\"\" (1990), \"\"Erin Brockovich\"\" (2000)"
+          ],
+          "final_answer": "Jeremy Renner",
+          "metrics": {
+            "f1": 0.0,
+            "em": 0.0,
+            "contain": 0.0
+          },
+          "success": false,
+          "elapsed_sec": 13.35
+        },
+        {
+          "arm": "pool_subset",
+          "bridge_candidates": [
+            {
+              "text": "Matt Damon",
+              "init_conf": 7.1123046875,
+              "positions": [
+                1,
+                2,
+                3,
+                5
+              ],
+              "drop_previews": [
+                "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 ",
+                "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a ",
+                "\"Bourne (film series)\" Bourne (film series) The Bourne films",
+                "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a f",
+                "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a f",
+                "\"Bourne (film series)\" as the end title theme of all five fi"
+              ]
+            },
+            {
+              "text": "Matt Damon reprises his role",
+              "init_conf": 4.0078125,
+              "positions": [
+                2,
+                3
+              ],
+              "drop_previews": [
+                "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a f",
+                "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a f"
+              ]
+            },
+            {
+              "text": "Damon",
+              "init_conf": 2.515625,
+              "positions": [
+                1
+              ],
+              "drop_previews": [
+                "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a "
+              ]
+            }
+          ],
+          "hint": "",
+          "retrieval_queries": [
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon",
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon reprises his role",
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Damon"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon",
+              "added_passage_previews": [
+                "\"Matt Damon\" Jason Bourne in the \"\"Bourne\"\" franchise (2002\u20132016) and as a con m"
+              ]
+            },
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Matt Damon reprises his role",
+              "added_passage_previews": []
+            },
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Damon",
+              "added_passage_previews": []
+            }
+          ],
+          "initial_passage_previews": [
+            "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+            "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+            "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+            "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+            "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se"
+          ],
+          "expanded_passage_previews": [
+            "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+            "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+            "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+            "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+            "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se",
+            "\"Matt Damon\" Jason Bourne in the \"\"Bourne\"\" franchise (2002\u20132016) and as a con m"
+          ],
+          "final_answer": "Tommy Lee Jones",
+          "metrics": {
+            "f1": 0.0,
+            "em": 0.0,
+            "contain": 0.0
+          },
+          "success": false,
+          "elapsed_sec": 15.53
+        },
+        {
+          "arm": "oracle_bridge",
+          "bridge_candidates": [],
+          "hint": "",
+          "retrieval_queries": [
+            "query: Who is the actor who plays the title character in The Bourne Betrayal? Jason Bourne"
+          ],
+          "retrieved_by_query": [
+            {
+              "query": "query: Who is the actor who plays the title character in The Bourne Betrayal? Jason Bourne",
+              "added_passage_previews": []
+            }
+          ],
+          "initial_passage_previews": [
+            "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+            "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+            "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+            "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+            "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se"
+          ],
+          "expanded_passage_previews": [
+            "\"The Bourne Identity (2002 film)\" The Bourne Identity (2002 film) The Bourne Ide",
+            "\"Jason Bourne (film)\" Jason Bourne (film) Jason Bourne is a 2016 American action",
+            "\"Bourne (film series)\" Bourne (film series) The Bourne films are a series of act",
+            "\"The Bourne Supremacy (film)\" the story of Jason Bourne, a former CIA assassin s",
+            "\"Bourne (film series)\" as the end title theme of all five films. Bourne (film se"
+          ],
+          "final_answer": "Tommy Lee Jones",
+          "metrics": {
+            "f1": 0.0,
+            "em": 0.0,
+            "contain": 0.0
+          },
+          "success": false,
+          "elapsed_sec": 7.48
+        }
+      ]
+    }
+  ],
+  "timing": {
+    "elapsed_sec": 498.61
+  }
+}

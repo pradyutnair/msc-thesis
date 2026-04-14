@@ -1,0 +1,26 @@
+#!/bin/bash
+#SBATCH --job-name=hint_llada
+#SBATCH --partition=gpu_a100
+#SBATCH --gres=gpu:1
+#SBATCH --time=02:00:00
+#SBATCH --mem=120G
+#SBATCH --cpus-per-task=4
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/jobs/output/hint_ablation_llada_musique_50q_%j.log
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/dllm:/projects/prjs1800/msc-thesis/07-daes/src/daes
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+
+cd /projects/prjs1800/msc-thesis/07-daes
+
+python -u src/daes/dnmr_hint_ablation.py \
+    --model llada \
+    --dataset musique \
+    --n_questions 50 \
+    --steps 32 \
+    --answer_tokens 32 \
+    --n_candidates 3 \
+    --extraction_steps 12 \
+    --output results/hint_ablation/llada_musique_hint_50q.json

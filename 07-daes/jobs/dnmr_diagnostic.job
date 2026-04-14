@@ -1,0 +1,35 @@
+#!/bin/bash
+#SBATCH --job-name=dnmr-diag
+#SBATCH --partition=gpu_a100
+#SBATCH --time=03:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --gpus=1
+#SBATCH --mem=180G
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/jobs/output/dnmr_diagnostic_%j.log
+
+module load 2025
+module load Anaconda3/2025.06-1
+module load CUDA/12.8.0
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/dllm:/projects/prjs1800/msc-thesis/07-daes/src/daes
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+export HF_HUB_CACHE=/projects/prjs1800/.cache/huggingface
+export HF_DATASETS_CACHE=/projects/prjs1800/.cache/huggingface
+export DAES_FAISS_GPU=1
+export DAES_FAISS_GPU_ID=0
+
+cd /projects/prjs1800/msc-thesis/07-daes
+mkdir -p jobs/output results/dnmr_diagnostic
+
+cp /projects/prjs1800/datasets/flashrag/indexes/e5_Flat.index /dev/shm/e5_Flat.index
+export DAES_FAISS_INDEX=/dev/shm/e5_Flat.index
+
+python -u /projects/prjs1800/msc-thesis/07-daes/src/daes/dnmr_diagnostic.py \
+  --model llada \
+  --dataset musique \
+  --question_ids dev_26 dev_471 dev_642 \
+  --output /projects/prjs1800/msc-thesis/07-daes/results/dnmr_diagnostic/llada_musique_3q.json

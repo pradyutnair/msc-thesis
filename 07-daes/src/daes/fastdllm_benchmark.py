@@ -269,18 +269,24 @@ def main():
 
     t0 = time.time()
     if args.model == "dream":
-        # For fast-dLLM Dream, need FastdLLMDreamConfig
+        # Load FastdLLM Dream model directly to avoid dllm.utils.get_model injecting
+        # dtype kwarg which FastdLLMDreamModel.__init__ does not accept.
         from dllm.pipelines.fastdllm.dream import (
-            FastdLLMDreamConfig, FastdLLMDreamSampler,
+            FastdLLMDreamConfig, FastdLLMDreamModel, FastdLLMDreamSampler,
         )
-        model_args = SimpleNamespace(model_name_or_path=model_name)
         fastdllm_config = FastdLLMDreamConfig.from_pretrained(model_name)
-        model = dllm.utils.get_model(model_args=model_args, config=fastdllm_config).eval()
+        model = FastdLLMDreamModel.from_pretrained(
+            model_name, config=fastdllm_config, torch_dtype=torch.bfloat16,
+        ).cuda().eval()
+        model_args = SimpleNamespace(model_name_or_path=model_name)
         tokenizer = dllm.utils.get_tokenizer(model_args=model_args)
         sampler = FastdLLMDreamSampler(model=model, tokenizer=tokenizer)
     else:
+        # Use Fast-dLLM's LLaDAModelLM which supports use_cache/past_key_values
+        # required by generate_with_prefix_cache. Standard HF LLaDA does not support KV cache.
+        from model.modeling_llada import LLaDAModelLM  # type: ignore  # Fast-dLLM/llada/model/
         tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
-        model = AutoModel.from_pretrained(
+        model = LLaDAModelLM.from_pretrained(
             model_name, trust_remote_code=True, torch_dtype=torch.bfloat16
         ).cuda().eval()
         sampler = None

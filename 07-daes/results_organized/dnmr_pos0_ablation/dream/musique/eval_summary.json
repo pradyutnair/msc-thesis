@@ -1,0 +1,58 @@
+{
+  "n_questions": 1000,
+  "n_shards": 5,
+  "methods": {
+    "baseline": {
+      "f1": 0.2267,
+      "em": 0.107,
+      "contain": 0.121
+    },
+    "pool": {
+      "f1": 0.2802,
+      "em": 0.156,
+      "contain": 0.18
+    },
+    "ipool": {
+      "f1": 0.2536,
+      "em": 0.134,
+      "contain": 0.159
+    },
+    "idnmr": {
+      "f1": 0.284,
+      "em": 0.174,
+      "contain": 0.208
+    },
+    "idnmr_2round": {
+      "f1": 0.2872,
+      "em": 0.173,
+      "contain": 0.207
+    }
+  },
+  "config": {
+    "model": "dream",
+    "dataset": "musique",
+    "start_idx": 0,
+    "n_questions": 200,
+    "max_rounds": 3,
+    "steps": 32,
+    "answer_tokens": 32,
+    "n_candidates": 3,
+    "initial_top_k": 5,
+    "expand_top_k": 3,
+    "output": "/projects/prjs1800/msc-thesis/07-daes/results/idnmr/dream_musique_idnmr_1k_s0.json",
+    "log_every": 5,
+    "save_every": 5
+  },
+  "dataset": "musique",
+  "model": "dream",
+  "experiment": "dnmr_pos0_ablation",
+  "valid": true,
+  "notes": "DNMR with pos-0 only extractor (ablation). Methods: baseline,pool,ipool,idnmr,idnmr_2round",
+  "source_files": [
+    "results/idnmr/dream_musique_idnmr_1k_s0.json",
+    "results/idnmr/dream_musique_idnmr_1k_s1.json",
+    "results/idnmr/dream_musique_idnmr_1k_s2.json",
+    "results/idnmr/dream_musique_idnmr_1k_s3.json",
+    "results/idnmr/dream_musique_idnmr_1k_s4.json"
+  ]
+}

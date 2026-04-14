@@ -1,0 +1,59 @@
+{
+  "n_questions": 810,
+  "n_shards": 5,
+  "methods": {
+    "baseline": {
+      "f1": 0.1812,
+      "em": 0.0963,
+      "contain": 0.2936
+    },
+    "pool": {
+      "f1": 0.1569,
+      "em": 0.0753,
+      "contain": 0.3493
+    },
+    "ipool": {
+      "f1": 0.1589,
+      "em": 0.069,
+      "contain": 0.3593
+    },
+    "idnmr": {
+      "f1": 0.1598,
+      "em": 0.0728,
+      "contain": 0.3753
+    },
+    "idnmr_2round": {
+      "f1": 0.1599,
+      "em": 0.0728,
+      "contain": 0.3729
+    }
+  },
+  "config": {
+    "model": "llada",
+    "dataset": "2wikimultihopqa",
+    "start_idx": 0,
+    "n_questions": 200,
+    "max_rounds": 3,
+    "steps": 32,
+    "answer_tokens": 32,
+    "n_candidates": 3,
+    "initial_top_k": 5,
+    "expand_top_k": 3,
+    "extraction_steps": 12,
+    "output": "results/mixed/llada_2wikimultihopqa_mix_s0.json",
+    "log_every": 10,
+    "save_every": 10
+  },
+  "dataset": "2wikimultihopqa",
+  "model": "llada",
+  "experiment": "dnmr_mixed",
+  "valid": false,
+  "notes": "DNMR on LLaDA. INCOMPLETE (hit 6h limit). NEGATIVE: DNMR worse than baseline. Config: steps=32, tokens=32, neg_entropy=False",
+  "source_files": [
+    "results/mixed/llada_2wikimultihopqa_mix_s0.json",
+    "results/mixed/llada_2wikimultihopqa_mix_s1.json",
+    "results/mixed/llada_2wikimultihopqa_mix_s2.json",
+    "results/mixed/llada_2wikimultihopqa_mix_s3.json",
+    "results/mixed/llada_2wikimultihopqa_mix_s4.json"
+  ]
+}

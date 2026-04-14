@@ -1,0 +1,14 @@
+#!/bin/bash
+#SBATCH --job-name=cpu_analysis_v2
+#SBATCH --partition=cbuild
+#SBATCH --time=00:15:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=8G
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/cpu_analysis_v2_%j.out
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/dllm:/projects/prjs1800/msc-thesis/07-daes/src/daes
+
+cd /projects/prjs1800/msc-thesis/07-daes
+python src/daes/cpu_analysis_v2.py

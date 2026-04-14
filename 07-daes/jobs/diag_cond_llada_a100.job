@@ -1,0 +1,20 @@
+#!/bin/bash
+#SBATCH --job-name=diag-cond-llada
+#SBATCH --partition=gpu_a100
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=80G
+#SBATCH --time=01:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/diag_cond_llada_%j.out
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/dllm:/projects/prjs1800/msc-thesis/07-daes/src/daes
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+cd /projects/prjs1800/msc-thesis/07-daes
+
+python -u src/daes/diag_conditional_diversity.py \
+    --model llada \
+    --dataset hotpotqa \
+    --n_questions 10 \
+    --output results/diag_cond_llada_10q.json

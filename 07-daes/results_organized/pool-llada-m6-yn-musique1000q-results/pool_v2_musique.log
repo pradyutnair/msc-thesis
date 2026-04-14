@@ -1,0 +1,153 @@
+=== DNMR Pool v2 Lean (pool_m6_8_hint2_yn) ===
+Model: llada, Dataset: musique, N: 1000
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:00<00:00, 317.97it/s]
+Model loaded in 4.0s
+TorchGpuFlatIPIndex: mmap-opened /dev/shm/e5_Flat.index in 41.2s (ntotal=21015324, dim=768)
+TorchGpuFlatIPIndex: loaded 1,048,576/21,015,324 vectors (5.0%) in 0.7s
+TorchGpuFlatIPIndex: loaded 2,097,152/21,015,324 vectors (10.0%) in 1.4s
+TorchGpuFlatIPIndex: loaded 3,145,728/21,015,324 vectors (15.0%) in 2.1s
+TorchGpuFlatIPIndex: loaded 4,194,304/21,015,324 vectors (20.0%) in 2.8s
+TorchGpuFlatIPIndex: loaded 5,242,880/21,015,324 vectors (24.9%) in 4.0s
+TorchGpuFlatIPIndex: loaded 6,291,456/21,015,324 vectors (29.9%) in 5.1s
+TorchGpuFlatIPIndex: loaded 7,340,032/21,015,324 vectors (34.9%) in 5.8s
+TorchGpuFlatIPIndex: loaded 8,388,608/21,015,324 vectors (39.9%) in 6.5s
+TorchGpuFlatIPIndex: loaded 9,437,184/21,015,324 vectors (44.9%) in 7.2s
+TorchGpuFlatIPIndex: loaded 10,485,760/21,015,324 vectors (49.9%) in 7.9s
+TorchGpuFlatIPIndex: loaded 11,534,336/21,015,324 vectors (54.9%) in 8.6s
+TorchGpuFlatIPIndex: loaded 12,582,912/21,015,324 vectors (59.9%) in 9.3s
+TorchGpuFlatIPIndex: loaded 13,631,488/21,015,324 vectors (64.9%) in 10.0s
+TorchGpuFlatIPIndex: loaded 14,680,064/21,015,324 vectors (69.9%) in 10.7s
+TorchGpuFlatIPIndex: loaded 15,728,640/21,015,324 vectors (74.8%) in 11.4s
+TorchGpuFlatIPIndex: loaded 16,777,216/21,015,324 vectors (79.8%) in 12.1s
+TorchGpuFlatIPIndex: loaded 17,825,792/21,015,324 vectors (84.8%) in 12.9s
+TorchGpuFlatIPIndex: loaded 18,874,368/21,015,324 vectors (89.8%) in 13.6s
+TorchGpuFlatIPIndex: loaded 19,922,944/21,015,324 vectors (94.8%) in 14.3s
+TorchGpuFlatIPIndex: loaded 20,971,520/21,015,324 vectors (99.8%) in 15.0s
+TorchGpuFlatIPIndex: loaded 21,015,324/21,015,324 vectors (100.0%) in 15.1s
+TorchGpuFlatIPIndex: ready on cuda:0 using torch.float16 (~30.1 GiB for vectors)
+Wiki18Retriever: Torch CUDA flat-IP backend on cuda:0 (FAISS GPU kernels unavailable on this GPU)
+Loaded 1000 questions
+Batch initial retrieval...
+Done in 83.5s
+W0406 14:32:46.052000 34758 torch/_dynamo/variables/tensor.py:1048] [0/0] Graph break from `Tensor.item()`, consider setting:
+W0406 14:32:46.052000 34758 torch/_dynamo/variables/tensor.py:1048] [0/0]     torch._dynamo.config.capture_scalar_outputs = True
+W0406 14:32:46.052000 34758 torch/_dynamo/variables/tensor.py:1048] [0/0] or:
+W0406 14:32:46.052000 34758 torch/_dynamo/variables/tensor.py:1048] [0/0]     env TORCHDYNAMO_CAPTURE_SCALAR_OUTPUTS=1
+W0406 14:32:46.052000 34758 torch/_dynamo/variables/tensor.py:1048] [0/0] to include these operations in the captured graph.
+W0406 14:32:46.052000 34758 torch/_dynamo/variables/tensor.py:1048] [0/0] 
+W0406 14:32:46.052000 34758 torch/_dynamo/variables/tensor.py:1048] [0/0] Graph break: from user code at:
+W0406 14:32:46.052000 34758 torch/_dynamo/variables/tensor.py:1048] [0/0]   File "/pnair/hf_cache/modules/transformers_modules/GSAI_hyphen_ML/LLaDA_hyphen_8B_hyphen_Instruct/08b83a6feb34df1a6011b80c3c00c7563e963b07/modeling_llada.py", line 1431, in forward
+W0406 14:32:46.052000 34758 torch/_dynamo/variables/tensor.py:1048] [0/0]     outputs = self.model.forward(
+W0406 14:32:46.052000 34758 torch/_dynamo/variables/tensor.py:1048] [0/0]   File "/pnair/hf_cache/modules/transformers_modules/GSAI_hyphen_ML/LLaDA_hyphen_8B_hyphen_Instruct/08b83a6feb34df1a6011b80c3c00c7563e963b07/modeling_llada.py", line 1251, in forward
+W0406 14:32:46.052000 34758 torch/_dynamo/variables/tensor.py:1048] [0/0]     if attention_mask is not None and 0.0 in attention_mask:
+W0406 14:32:46.052000 34758 torch/_dynamo/variables/tensor.py:1048] [0/0] 
+W0406 14:32:46.052000 34758 torch/_dynamo/variables/tensor.py:1048] [0/0] 
+[1/1000] 17.8s | base F1=0.000 C=0.0% | v2 F1=0.000 C=0.0%
+[10/1000] 13.4s | base F1=0.156 C=10.0% | v2 F1=0.187 C=10.0%
+[20/1000] 14.4s | base F1=0.145 C=5.0% | v2 F1=0.201 C=10.0%
+[30/1000] 13.8s | base F1=0.117 C=6.7% | v2 F1=0.234 C=13.3%
+[40/1000] 14.2s | base F1=0.117 C=7.5% | v2 F1=0.209 C=10.0%
+[50/1000] 12.0s | base F1=0.133 C=8.0% | v2 F1=0.210 C=10.0%
+[60/1000] 11.4s | base F1=0.143 C=8.3% | v2 F1=0.227 C=11.7%
+[70/1000] 14.1s | base F1=0.125 C=7.1% | v2 F1=0.194 C=10.0%
+[80/1000] 11.7s | base F1=0.112 C=6.2% | v2 F1=0.197 C=11.2%
+[90/1000] 12.0s | base F1=0.126 C=7.8% | v2 F1=0.210 C=13.3%
+[100/1000] 15.2s | base F1=0.126 C=9.0% | v2 F1=0.217 C=14.0%
+[110/1000] 14.1s | base F1=0.118 C=8.2% | v2 F1=0.209 C=12.7%
+[120/1000] 13.0s | base F1=0.109 C=7.5% | v2 F1=0.198 C=12.5%
+[130/1000] 12.7s | base F1=0.111 C=6.9% | v2 F1=0.197 C=11.5%
+[140/1000] 13.0s | base F1=0.127 C=7.9% | v2 F1=0.209 C=12.9%
+[150/1000] 12.4s | base F1=0.123 C=8.0% | v2 F1=0.210 C=13.3%
+[160/1000] 14.2s | base F1=0.130 C=7.5% | v2 F1=0.217 C=12.5%
+[170/1000] 12.4s | base F1=0.129 C=7.6% | v2 F1=0.226 C=12.4%
+[180/1000] 13.9s | base F1=0.130 C=8.3% | v2 F1=0.222 C=12.2%
+[190/1000] 12.1s | base F1=0.149 C=10.0% | v2 F1=0.225 C=13.2%
+[200/1000] 14.2s | base F1=0.168 C=12.0% | v2 F1=0.240 C=16.0%
+[210/1000] 13.8s | base F1=0.179 C=14.3% | v2 F1=0.243 C=17.1%
+[220/1000] 15.0s | base F1=0.179 C=15.5% | v2 F1=0.241 C=16.8%
+[230/1000] 13.2s | base F1=0.180 C=15.2% | v2 F1=0.239 C=16.5%
+[240/1000] 11.7s | base F1=0.186 C=15.8% | v2 F1=0.244 C=17.1%
+[250/1000] 12.8s | base F1=0.183 C=15.2% | v2 F1=0.237 C=16.8%
+[260/1000] 14.4s | base F1=0.177 C=15.0% | v2 F1=0.232 C=16.9%
+[270/1000] 12.1s | base F1=0.178 C=15.2% | v2 F1=0.230 C=16.7%
+[280/1000] 13.1s | base F1=0.176 C=15.0% | v2 F1=0.226 C=16.4%
+[290/1000] 12.4s | base F1=0.181 C=15.5% | v2 F1=0.229 C=16.9%
+[300/1000] 11.9s | base F1=0.183 C=16.0% | v2 F1=0.237 C=18.3%
+[310/1000] 12.9s | base F1=0.181 C=16.1% | v2 F1=0.235 C=18.4%
+[320/1000] 12.1s | base F1=0.177 C=15.6% | v2 F1=0.230 C=17.8%
+[330/1000] 11.7s | base F1=0.174 C=15.2% | v2 F1=0.231 C=17.6%
+[340/1000] 12.6s | base F1=0.169 C=14.7% | v2 F1=0.226 C=17.1%
+[350/1000] 14.3s | base F1=0.166 C=14.3% | v2 F1=0.222 C=16.6%
+[360/1000] 13.8s | base F1=0.162 C=13.9% | v2 F1=0.216 C=16.1%
+[370/1000] 11.7s | base F1=0.167 C=14.9% | v2 F1=0.227 C=17.3%
+[380/1000] 14.6s | base F1=0.164 C=14.5% | v2 F1=0.225 C=17.1%
+[390/1000] 11.9s | base F1=0.161 C=14.4% | v2 F1=0.221 C=16.9%
+[400/1000] 13.1s | base F1=0.161 C=14.0% | v2 F1=0.221 C=16.5%
+[410/1000] 14.2s | base F1=0.160 C=13.9% | v2 F1=0.219 C=16.6%
+[420/1000] 12.5s | base F1=0.156 C=13.6% | v2 F1=0.215 C=16.2%
+[430/1000] 14.0s | base F1=0.156 C=13.5% | v2 F1=0.221 C=15.8%
+[440/1000] 13.9s | base F1=0.155 C=13.6% | v2 F1=0.218 C=15.7%
+[450/1000] 11.9s | base F1=0.157 C=13.6% | v2 F1=0.218 C=15.6%
+[460/1000] 12.3s | base F1=0.155 C=13.5% | v2 F1=0.220 C=15.9%
+[470/1000] 14.3s | base F1=0.155 C=13.2% | v2 F1=0.220 C=15.7%
+[480/1000] 14.1s | base F1=0.153 C=12.9% | v2 F1=0.223 C=16.2%
+[490/1000] 12.1s | base F1=0.150 C=12.7% | v2 F1=0.219 C=15.9%
+[500/1000] 13.0s | base F1=0.151 C=12.8% | v2 F1=0.220 C=16.2%
+[510/1000] 12.8s | base F1=0.151 C=12.7% | v2 F1=0.221 C=16.5%
+[520/1000] 14.1s | base F1=0.151 C=12.7% | v2 F1=0.219 C=16.3%
+[530/1000] 12.4s | base F1=0.153 C=12.8% | v2 F1=0.221 C=16.2%
+[540/1000] 13.7s | base F1=0.157 C=13.5% | v2 F1=0.224 C=16.3%
+[550/1000] 13.3s | base F1=0.155 C=13.3% | v2 F1=0.221 C=16.0%
+[560/1000] 12.4s | base F1=0.153 C=13.0% | v2 F1=0.221 C=15.9%
+[570/1000] 13.2s | base F1=0.155 C=13.3% | v2 F1=0.220 C=16.0%
+[580/1000] 12.8s | base F1=0.155 C=13.4% | v2 F1=0.225 C=16.4%
+[590/1000] 12.0s | base F1=0.155 C=13.4% | v2 F1=0.224 C=16.3%
+[600/1000] 12.7s | base F1=0.154 C=13.3% | v2 F1=0.223 C=16.2%
+[610/1000] 12.2s | base F1=0.153 C=13.1% | v2 F1=0.221 C=16.1%
+[620/1000] 11.0s | base F1=0.154 C=12.9% | v2 F1=0.220 C=15.8%
+[630/1000] 11.5s | base F1=0.154 C=12.7% | v2 F1=0.219 C=15.6%
+[640/1000] 13.4s | base F1=0.153 C=12.5% | v2 F1=0.217 C=15.3%
+[650/1000] 12.0s | base F1=0.158 C=12.8% | v2 F1=0.219 C=15.5%
+[660/1000] 12.3s | base F1=0.158 C=12.9% | v2 F1=0.218 C=15.6%
+[670/1000] 11.0s | base F1=0.159 C=13.1% | v2 F1=0.217 C=15.7%
+[680/1000] 16.1s | base F1=0.160 C=13.1% | v2 F1=0.218 C=15.6%
+[690/1000] 13.1s | base F1=0.163 C=13.0% | v2 F1=0.221 C=15.5%
+[700/1000] 13.5s | base F1=0.163 C=13.3% | v2 F1=0.225 C=16.0%
+[710/1000] 12.7s | base F1=0.163 C=13.2% | v2 F1=0.225 C=15.9%
+[720/1000] 13.2s | base F1=0.163 C=13.2% | v2 F1=0.224 C=15.8%
+[730/1000] 11.8s | base F1=0.161 C=13.0% | v2 F1=0.223 C=15.9%
+[740/1000] 12.9s | base F1=0.159 C=12.8% | v2 F1=0.221 C=15.7%
+[750/1000] 13.3s | base F1=0.159 C=13.2% | v2 F1=0.221 C=15.5%
+[760/1000] 14.3s | base F1=0.160 C=13.2% | v2 F1=0.221 C=15.4%
+[770/1000] 12.9s | base F1=0.158 C=13.0% | v2 F1=0.221 C=15.5%
+[780/1000] 13.7s | base F1=0.161 C=13.3% | v2 F1=0.223 C=15.9%
+[790/1000] 13.8s | base F1=0.161 C=13.4% | v2 F1=0.221 C=15.8%
+[800/1000] 14.0s | base F1=0.159 C=13.4% | v2 F1=0.220 C=15.9%
+[810/1000] 14.0s | base F1=0.158 C=13.2% | v2 F1=0.217 C=15.7%
+[820/1000] 13.7s | base F1=0.156 C=13.0% | v2 F1=0.215 C=15.5%
+[830/1000] 13.2s | base F1=0.160 C=13.5% | v2 F1=0.217 C=15.8%
+[840/1000] 13.1s | base F1=0.159 C=13.7% | v2 F1=0.218 C=16.0%
+[850/1000] 11.8s | base F1=0.157 C=13.5% | v2 F1=0.216 C=15.8%
+[860/1000] 14.6s | base F1=0.155 C=13.4% | v2 F1=0.214 C=15.7%
+[870/1000] 13.1s | base F1=0.155 C=13.3% | v2 F1=0.214 C=15.5%
+[880/1000] 13.2s | base F1=0.153 C=13.2% | v2 F1=0.212 C=15.3%
+[890/1000] 12.4s | base F1=0.155 C=13.5% | v2 F1=0.214 C=15.7%
+[900/1000] 13.0s | base F1=0.160 C=14.1% | v2 F1=0.218 C=16.3%
+[910/1000] 12.1s | base F1=0.161 C=14.2% | v2 F1=0.221 C=16.8%
+[920/1000] 12.8s | base F1=0.163 C=14.6% | v2 F1=0.223 C=17.3%
+[930/1000] 14.0s | base F1=0.161 C=14.4% | v2 F1=0.222 C=17.1%
+[940/1000] 13.2s | base F1=0.160 C=14.3% | v2 F1=0.220 C=16.9%
+[950/1000] 12.3s | base F1=0.161 C=14.3% | v2 F1=0.219 C=16.9%
+[960/1000] 11.9s | base F1=0.160 C=14.2% | v2 F1=0.218 C=16.8%
+[970/1000] 13.3s | base F1=0.160 C=14.2% | v2 F1=0.217 C=16.7%
+[980/1000] 13.0s | base F1=0.159 C=14.1% | v2 F1=0.216 C=16.5%
+[990/1000] 13.9s | base F1=0.158 C=14.0% | v2 F1=0.215 C=16.5%
+[1000/1000] 11.7s | base F1=0.158 C=14.0% | v2 F1=0.215 C=16.5%
+
+Method                       F1     EM  Contain
+------------------------------------------------
+baseline                  0.158  0.081    0.140
+pool_m6_8_hint2_yn        0.215  0.055    0.165
+
+Total: 13119.7s (13.1s/q)
+[W406 18:10:08.488673442 AllocatorConfig.cpp:28] Warning: PYTORCH_CUDA_ALLOC_CONF is deprecated, use PYTORCH_ALLOC_CONF instead (function operator())

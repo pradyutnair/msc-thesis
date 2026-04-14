@@ -1,0 +1,15 @@
+#!/bin/bash
+#SBATCH --job-name=gen-qwen
+#SBATCH --partition=gpu_h100
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=80G
+#SBATCH --time=02:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/gen_qwen_data_%j.out
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+cd /projects/prjs1800/msc-thesis/07-daes
+
+python -u src/daes/gen_qwen_sft_data.py

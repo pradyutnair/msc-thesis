@@ -17,6 +17,7 @@ import torch
 
 sys.path.insert(0, "/projects/prjs1800/msc-thesis/07-daes/dllm")
 sys.path.insert(0, "/projects/prjs1800/msc-thesis/07-daes/src/daes")
+sys.path.insert(0, "/projects/prjs1800/msc-thesis/07-daes/Fast-dLLM/llada")
 
 from eamd_v2_wiki18 import (
     _neg_entropy,
@@ -35,11 +36,28 @@ import eamd_v2_wiki18
 # ---------------------------------------------------------------------------
 # Simple decode (no guidance)
 # ---------------------------------------------------------------------------
+# Global: set by main() when --decode_backend fast-dllm
+_FAST_DLLM_GEN_FN = None
+_FAST_DLLM_MASK_ID = None
+
+
 @torch.inference_mode()
 def simple_decode(model, tokenizer, context, question, steps=32, n_tokens=32):
     device = model.device
     mask_id = get_mask_id(tokenizer)
     prefix_ids, n_prefix = build_short_prompt(tokenizer, context, question)
+
+    # Fast-dLLM path for LLaDA
+    if _FAST_DLLM_GEN_FN is not None:
+        prompt = torch.tensor([prefix_ids], dtype=torch.long, device=device)
+        output, _ = _FAST_DLLM_GEN_FN(
+            model, prompt,
+            steps=steps, gen_length=n_tokens, block_length=n_tokens,
+            temperature=0.0, remasking="low_confidence",
+            mask_id=_FAST_DLLM_MASK_ID or mask_id,
+        )
+        return decode_answer(tokenizer, output[0, n_prefix:n_prefix + n_tokens])
+
     canvas = prefix_ids + [mask_id] * n_tokens
     x = torch.tensor([canvas], dtype=torch.long, device=device)
     attn = torch.ones((1, len(canvas)), dtype=torch.long, device=device)
@@ -102,6 +120,8 @@ def main():
     parser.add_argument("--initial_top_k", type=int, default=5)
     parser.add_argument("--expand_top_k", type=int, default=3)
     parser.add_argument("--extraction_steps", type=int, default=12, help="Denoising steps per branch rollout (12=original, 4=fast)")
+    parser.add_argument("--decode_backend", default="vanilla", choices=["vanilla", "fast-dllm"],
+                        help="Use fast-dllm prefix cache for LLaDA decode (3-4x speedup)")
     parser.add_argument("--output", required=True)
     parser.add_argument("--log_every", type=int, default=5)
     parser.add_argument("--save_every", type=int, default=5)
@@ -114,11 +134,23 @@ def main():
     torch.backends.cuda.matmul.allow_tf32 = True
     torch.backends.cudnn.allow_tf32 = True
 
+    global _FAST_DLLM_GEN_FN, _FAST_DLLM_MASK_ID
+
     model_name = "Dream-org/Dream-v0-Instruct-7B" if args.model == "dream" else "GSAI-ML/LLaDA-8B-Instruct"
     if args.model == "dream":
         model_args = SimpleNamespace(model_name_or_path=model_name)
         model = dllm.utils.get_model(model_args=model_args).eval()
         tokenizer = dllm.utils.get_tokenizer(model_args=model_args)
+    elif args.decode_backend == "fast-dllm":
+        from model.modeling_llada import LLaDAModelLM  # Fast-dLLM/llada/model/
+        from generate import generate_with_prefix_cache  # Fast-dLLM/llada/generate.py
+        tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
+        model = LLaDAModelLM.from_pretrained(
+            model_name, trust_remote_code=True, torch_dtype=torch.bfloat16
+        ).cuda().eval()
+        _FAST_DLLM_GEN_FN = generate_with_prefix_cache
+        _FAST_DLLM_MASK_ID = tokenizer.convert_tokens_to_ids("[MASK]")
+        print(f"  Fast-dLLM prefix cache enabled for LLaDA", flush=True)
     else:
         tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
         model = AutoModel.from_pretrained(model_name, trust_remote_code=True, torch_dtype=torch.bfloat16).cuda().eval()

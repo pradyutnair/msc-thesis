@@ -1,0 +1,33 @@
+#!/bin/bash
+#SBATCH --job-name=sft-dream
+#SBATCH --partition=gpu_h100
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=80G
+#SBATCH --time=12:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/sft_dream_qa_%j.out
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+export TOKENIZERS_PARALLELISM=false
+
+cd /projects/prjs1800/msc-thesis/07-daes
+
+echo "=== SFT Dream-7B on multi-hop QA (d1-style diffusion loss) ==="
+echo "Data: 3977 DLLM-Searcher trajectories converted to QA format"
+echo "Model: Dream-7B-Instruct + LoRA (r=64, alpha=128)"
+echo "Loss: Absorbing state diffusion loss (from d1)"
+echo ""
+
+python -u src/daes/sft_qa.py \
+  --model_name Dream-org/Dream-v0-Instruct-7B \
+  --data_path /projects/prjs1800/msc-thesis/07-daes/data/d1_qa_sft.jsonl \
+  --output_dir /projects/prjs1800/msc-thesis/07-daes/models/dream_qa_sft \
+  --max_length 2048 \
+  --batch_size 1 \
+  --grad_accum 8 \
+  --num_epochs 3 \
+  --lr 1e-5 \
+  --lora_r 64 \
+  --lora_alpha 128

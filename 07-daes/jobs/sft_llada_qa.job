@@ -1,0 +1,21 @@
+#!/bin/bash
+#SBATCH --job-name=sft-llada
+#SBATCH --partition=gpu_h100
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=80G
+#SBATCH --time=04:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/sft_llada_qa_%j.out
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+cd /projects/prjs1800/msc-thesis/07-daes
+
+echo "=== SFT LLaDA-8B on matched Qwen QA data ==="
+python -u src/daes/sft_qa_llada.py \
+  --model_name GSAI-ML/LLaDA-8B-Instruct \
+  --data_path /projects/prjs1800/msc-thesis/07-daes/data/qwen_matched_sft.jsonl \
+  --output_dir /projects/prjs1800/msc-thesis/07-daes/models/llada_qa_sft \
+  --max_length 2048 --batch_size 1 --grad_accum 8 \
+  --num_epochs 3 --lr 1e-5 --lora_r 64 --lora_alpha 128

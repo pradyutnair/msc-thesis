@@ -1,0 +1,30 @@
+/var/scratch/yzheng/pnair/venvs/msc-thesis/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+=== Budget Ablation ===
+Model: dream | Decode backend: vanilla | Dataset: musique | C0=5 | Retrieval ablation=10 | Expand=3
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:04,  1.40s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:02,  1.40s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:03<00:01,  1.26s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.15it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:04<00:00,  1.04s/it]
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Model loaded in 6.0s
+Loaded 660 questions
+Batch initial retrieval (top-10)...
+Traceback (most recent call last):
+  File "/local/yzheng/pnair/msc-thesis/07-daes/src/daes/ablation_budget.py", line 445, in <module>
+    main()
+  File "/local/yzheng/pnair/msc-thesis/07-daes/src/daes/ablation_budget.py", line 281, in main
+    all_retrieval = retriever.retrieve_batch(query_texts, max_top_k)
+  File "/local/yzheng/pnair/msc-thesis/07-daes/src/daes/eamd_v2_wiki18.py", line 379, in retrieve_batch
+    for result in self.retrieve_batch_with_scores(queries, top_k)
+  File "/local/yzheng/pnair/msc-thesis/07-daes/src/daes/eamd_v2_wiki18.py", line 374, in retrieve_batch_with_scores
+    return _attach_passages(self.store, self.retrieve_chunk_hits_batch(queries, top_k))
+  File "/local/yzheng/pnair/msc-thesis/07-daes/src/daes/eamd_v2_wiki18.py", line 368, in retrieve_chunk_hits_batch
+    response = self._request({"method": "search", "queries": queries, "top_k": top_k})
+  File "/local/yzheng/pnair/msc-thesis/07-daes/src/daes/eamd_v2_wiki18.py", line 353, in _request
+    sock = self._ensure_connection()
+  File "/local/yzheng/pnair/msc-thesis/07-daes/src/daes/eamd_v2_wiki18.py", line 345, in _ensure_connection
+    self._sock = socket.create_connection((self.host, self.port), timeout=600)
+  File "/var/scratch/yzheng/pnair/uv-python/cpython-3.10.18-linux-x86_64-gnu/lib/python3.10/socket.py", line 857, in create_connection
+    raise err
+  File "/var/scratch/yzheng/pnair/uv-python/cpython-3.10.18-linux-x86_64-gnu/lib/python3.10/socket.py", line 845, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+[W412 13:57:49.633642850 AllocatorConfig.cpp:28] Warning: PYTORCH_CUDA_ALLOC_CONF is deprecated, use PYTORCH_ALLOC_CONF instead (function operator())

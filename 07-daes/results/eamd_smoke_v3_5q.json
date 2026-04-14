@@ -1,0 +1,535 @@
+{
+  "summary": {
+    "baseline": {
+      "f1": 0.0,
+      "contain": 0.0
+    },
+    "spread": {
+      "f1": 0.04,
+      "contain": 0.0
+    },
+    "aram": {
+      "f1": 0.0,
+      "contain": 0.0
+    },
+    "pool": {
+      "f1": 0.5599999999999999,
+      "contain": 0.6
+    },
+    "eamd_guided": {
+      "f1": 0.5599999999999999,
+      "contain": 0.6
+    },
+    "eamd_select": {
+      "f1": 0.5599999999999999,
+      "contain": 0.6
+    }
+  },
+  "results": [
+    {
+      "id": "musique_2hop__13548_13529",
+      "question": "When was the person who Messi's goals in Copa del Rey compared to get signed by Barcelona?",
+      "gold": "June 1982",
+      "init_answer": "2006",
+      "candidates": [
+        "The person who Messi's goals in Copa del Rey were compared to was never signed by Barcelona.",
+        "Diego Maradona was signed by Barcelona in 1984.",
+        "Carles Busquets Barroso (; born 19 July 1967)"
+      ],
+      "n_passages_old": 5,
+      "n_passages_new": 8,
+      "baseline": {
+        "pred": "2006",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "avg_conf": -0.005964784795679874
+      },
+      "spread": {
+        "pred": "2005",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "stats": {
+          "mode": "spread_weighted",
+          "n_prefix": 810,
+          "n_tokens": 16,
+          "steps": 16,
+          "n_content_tokens": 4,
+          "answer_words": 1,
+          "mean_cosine_std": NaN,
+          "mean_score_std": NaN,
+          "alpha": 0.5
+        }
+      },
+      "aram": {
+        "pred": "2005",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "stats": {
+          "mode": "aram",
+          "n_prefix": 1103,
+          "n_tokens": 16,
+          "steps": 16,
+          "n_content_tokens": 4,
+          "answer_words": 1,
+          "n_ctx_tokens": 763,
+          "mean_signal": 0.8936,
+          "mean_noise": 2.1323,
+          "mean_lambda": 0.1996,
+          "signal_first5": [
+            0.9023,
+            1.1328,
+            0.7539,
+            0.7305,
+            0.8945
+          ],
+          "lambda_first5": [
+            0.0996,
+            0.1357,
+            0.1465,
+            0.1553,
+            0.1836
+          ]
+        }
+      },
+      "pool": {
+        "pred": "In June 1982",
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "f1": 0.8,
+        "contain": true,
+        "avg_conf": -0.0432136170567441
+      },
+      "eamd_guided": {
+        "pred": "In June 1982.",
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "f1": 0.8,
+        "contain": true,
+        "stats": {
+          "mean_signal": 1.5024528503417969,
+          "mean_guidance_scale": 1.13427734375,
+          "avg_conf": -0.04321307037226063
+        }
+      },
+      "eamd_select": {
+        "pred": "In June 1982.",
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "f1": 0.8,
+        "contain": true,
+        "selected": "eamd_guided"
+      },
+      "elapsed_sec": 4.28
+    },
+    {
+      "id": "musique_3hop1__9285_5188_23307",
+      "question": "What month did the Tripartite discussions begin between Britain, France, and the country where, despite being headquartered in the nation called the nobilities commonwealth, the top-ranking Warsaw Pact operatives originated?",
+      "gold": "mid-June",
+      "init_answer": "November",
+      "candidates": [
+        "The Tripartite discussions began between Britain, France, and Poland in the month of November.",
+        "November",
+        "September"
+      ],
+      "n_passages_old": 5,
+      "n_passages_new": 5,
+      "baseline": {
+        "pred": "November",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "avg_conf": -0.008422851562511102
+      },
+      "spread": {
+        "pred": "The Tripartite discussions began in November of 1956.",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "stats": {
+          "mode": "spread_weighted",
+          "n_prefix": 741,
+          "n_tokens": 16,
+          "steps": 16,
+          "n_content_tokens": 15,
+          "answer_words": 8,
+          "mean_cosine_std": NaN,
+          "mean_score_std": NaN,
+          "alpha": 0.5
+        }
+      },
+      "aram": {
+        "pred": "September",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "stats": {
+          "mode": "aram",
+          "n_prefix": 1034,
+          "n_tokens": 16,
+          "steps": 16,
+          "n_content_tokens": 1,
+          "answer_words": 1,
+          "n_ctx_tokens": 673,
+          "mean_signal": 0.4331,
+          "mean_noise": 1.5027,
+          "mean_lambda": 0.2581,
+          "signal_first5": [
+            0.8867,
+            0.4492,
+            0.3809,
+            0.4336,
+            0.3203
+          ],
+          "lambda_first5": [
+            0.3301,
+            0.4023,
+            0.2451,
+            0.3301,
+            0.4727
+          ]
+        }
+      },
+      "pool": {
+        "pred": "November",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "avg_conf": -0.008422851562511102
+      },
+      "eamd_guided": {
+        "pred": "November",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "stats": {
+          "mean_signal": 0.0,
+          "mean_guidance_scale": 1.0,
+          "avg_conf": -0.008422851562511102
+        }
+      },
+      "eamd_select": {
+        "pred": "November",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "selected": "eamd_guided"
+      },
+      "elapsed_sec": 3.34
+    },
+    {
+      "id": "musique_2hop__766973_770570",
+      "question": "What county is Erik Hort's birthplace a part of?",
+      "gold": "Rockland County",
+      "init_answer": "New York",
+      "candidates": [
+        "Erik Hort's birthplace, Montebello, is part of Hordaland county.",
+        "Hordaland county",
+        "Montebello, New York"
+      ],
+      "n_passages_old": 5,
+      "n_passages_new": 9,
+      "baseline": {
+        "pred": "New York",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "avg_conf": -2.322676664343002e-07
+      },
+      "spread": {
+        "pred": "Erik Hort's birthplace is a part of Hordaland county.",
+        "precision": 0.125,
+        "recall": 0.5,
+        "f1": 0.2,
+        "contain": false,
+        "stats": {
+          "mode": "spread_weighted",
+          "n_prefix": 597,
+          "n_tokens": 16,
+          "steps": 16,
+          "n_content_tokens": 15,
+          "answer_words": 9,
+          "mean_cosine_std": NaN,
+          "mean_score_std": NaN,
+          "alpha": 0.5
+        }
+      },
+      "aram": {
+        "pred": "New York",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "stats": {
+          "mode": "aram",
+          "n_prefix": 890,
+          "n_tokens": 16,
+          "steps": 16,
+          "n_content_tokens": 2,
+          "answer_words": 2,
+          "n_ctx_tokens": 557,
+          "mean_signal": 4.1169,
+          "mean_noise": 1.0863,
+          "mean_lambda": 0.6763,
+          "signal_first5": [
+            1.7656,
+            2.6719,
+            2.2969,
+            2.4219,
+            2.6719
+          ],
+          "lambda_first5": [
+            0.2578,
+            0.4297,
+            0.4336,
+            0.5703,
+            0.5859
+          ]
+        }
+      },
+      "pool": {
+        "pred": "Rockland County",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "contain": true,
+        "avg_conf": -1.8403044635017499e-06
+      },
+      "eamd_guided": {
+        "pred": "Rockland County",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "contain": true,
+        "stats": {
+          "mean_signal": 1.644439697265625,
+          "mean_guidance_scale": 1.1787109375,
+          "avg_conf": -1.714118980089757e-08
+        }
+      },
+      "eamd_select": {
+        "pred": "Rockland County",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "contain": true,
+        "selected": "eamd_guided"
+      },
+      "elapsed_sec": 3.34
+    },
+    {
+      "id": "musique_2hop__170823_120171",
+      "question": "What year did the publisher of Labyrinth end?",
+      "gold": "1986",
+      "init_answer": "1984",
+      "candidates": [
+        "The publisher of Labyrinth, Acornsoft, ended publishing in 1984.",
+        "1984",
+        "2011"
+      ],
+      "n_passages_old": 5,
+      "n_passages_new": 7,
+      "baseline": {
+        "pred": "1984",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "avg_conf": -1.637037178584726e-10
+      },
+      "spread": {
+        "pred": "The publisher of Labyrinth ended in the year 1984.",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "stats": {
+          "mode": "spread_weighted",
+          "n_prefix": 483,
+          "n_tokens": 16,
+          "steps": 16,
+          "n_content_tokens": 15,
+          "answer_words": 9,
+          "mean_cosine_std": NaN,
+          "mean_score_std": NaN,
+          "alpha": 0.5
+        }
+      },
+      "aram": {
+        "pred": "1984",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "stats": {
+          "mode": "aram",
+          "n_prefix": 776,
+          "n_tokens": 16,
+          "steps": 16,
+          "n_content_tokens": 4,
+          "answer_words": 1,
+          "n_ctx_tokens": 445,
+          "mean_signal": 1.9397,
+          "mean_noise": 0.8579,
+          "mean_lambda": 0.5851,
+          "signal_first5": [
+            1.1094,
+            1.8906,
+            0.707,
+            0.6094,
+            0.7344
+          ],
+          "lambda_first5": [
+            0.1582,
+            0.2422,
+            0.2754,
+            0.4004,
+            0.5977
+          ]
+        }
+      },
+      "pool": {
+        "pred": "1986",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "contain": true,
+        "avg_conf": -3.8252008245024116e-18
+      },
+      "eamd_guided": {
+        "pred": "1986",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "contain": true,
+        "stats": {
+          "mean_signal": 2.04052734375,
+          "mean_guidance_scale": 1.19384765625,
+          "avg_conf": -4.499439015955261e-18
+        }
+      },
+      "eamd_select": {
+        "pred": "1986",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "contain": true,
+        "selected": "pool_short"
+      },
+      "elapsed_sec": 3.02
+    },
+    {
+      "id": "musique_2hop__511454_120259",
+      "question": "When was Lady Godiva's birthplace abolished?",
+      "gold": "918",
+      "init_answer": "1958",
+      "candidates": [
+        "The answer is: 2006.",
+        "Pyrgiotissa was a province of Heraklion Prefecture, Crete, Greece.",
+        "1956"
+      ],
+      "n_passages_old": 5,
+      "n_passages_new": 11,
+      "baseline": {
+        "pred": "1958",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "avg_conf": -0.002579382417025045
+      },
+      "spread": {
+        "pred": "Lady Godiva's birthplace was abolished in 2006.",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "stats": {
+          "mode": "spread_weighted",
+          "n_prefix": 640,
+          "n_tokens": 16,
+          "steps": 16,
+          "n_content_tokens": 15,
+          "answer_words": 7,
+          "mean_cosine_std": NaN,
+          "mean_score_std": NaN,
+          "alpha": 0.5
+        }
+      },
+      "aram": {
+        "pred": "2006",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "stats": {
+          "mode": "aram",
+          "n_prefix": 933,
+          "n_tokens": 16,
+          "steps": 16,
+          "n_content_tokens": 4,
+          "answer_words": 1,
+          "n_ctx_tokens": 602,
+          "mean_signal": 0.849,
+          "mean_noise": 1.0894,
+          "mean_lambda": 0.4899,
+          "signal_first5": [
+            1.6797,
+            2.2188,
+            0.6016,
+            0.75,
+            0.6484
+          ],
+          "lambda_first5": [
+            0.2256,
+            0.3008,
+            0.2334,
+            0.4961,
+            0.3848
+          ]
+        }
+      },
+      "pool": {
+        "pred": "Lady Godiva's birthplace was abolished in 1956.",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "avg_conf": -7.425624067788916e-07
+      },
+      "eamd_guided": {
+        "pred": "Lady Godiva's birthplace was abolished in 1956.",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "stats": {
+          "mean_signal": 0.836883544921875,
+          "mean_guidance_scale": 1.1796875,
+          "avg_conf": -2.4521723609657883e-06
+        }
+      },
+      "eamd_select": {
+        "pred": "Lady Godiva's birthplace was abolished in 1956.",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "contain": false,
+        "selected": "pool_short"
+      },
+      "elapsed_sec": 3.8
+    }
+  ]
+}

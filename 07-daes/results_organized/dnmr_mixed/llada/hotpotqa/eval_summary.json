@@ -1,0 +1,59 @@
+{
+  "n_questions": 890,
+  "n_shards": 5,
+  "methods": {
+    "baseline": {
+      "f1": 0.365,
+      "em": 0.2361,
+      "contain": 0.3743
+    },
+    "pool": {
+      "f1": 0.3177,
+      "em": 0.2008,
+      "contain": 0.471
+    },
+    "ipool": {
+      "f1": 0.3038,
+      "em": 0.1941,
+      "contain": 0.4721
+    },
+    "idnmr": {
+      "f1": 0.2997,
+      "em": 0.1874,
+      "contain": 0.4937
+    },
+    "idnmr_2round": {
+      "f1": 0.2998,
+      "em": 0.1886,
+      "contain": 0.4915
+    }
+  },
+  "config": {
+    "model": "llada",
+    "dataset": "hotpotqa",
+    "start_idx": 0,
+    "n_questions": 200,
+    "max_rounds": 3,
+    "steps": 32,
+    "answer_tokens": 32,
+    "n_candidates": 3,
+    "initial_top_k": 5,
+    "expand_top_k": 3,
+    "extraction_steps": 12,
+    "output": "results/mixed/llada_hotpotqa_mix_s0.json",
+    "log_every": 10,
+    "save_every": 10
+  },
+  "dataset": "hotpotqa",
+  "model": "llada",
+  "experiment": "dnmr_mixed",
+  "valid": false,
+  "notes": "DNMR on LLaDA. INCOMPLETE (hit 6h limit). NEGATIVE: DNMR worse than baseline. Config: steps=32, tokens=32, neg_entropy=False",
+  "source_files": [
+    "results/mixed/llada_hotpotqa_mix_s0.json",
+    "results/mixed/llada_hotpotqa_mix_s1.json",
+    "results/mixed/llada_hotpotqa_mix_s2.json",
+    "results/mixed/llada_hotpotqa_mix_s3.json",
+    "results/mixed/llada_hotpotqa_mix_s4.json"
+  ]
+}

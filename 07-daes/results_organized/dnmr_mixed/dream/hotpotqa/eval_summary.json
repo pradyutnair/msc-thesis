@@ -1,0 +1,58 @@
+{
+  "n_questions": 1000,
+  "n_shards": 5,
+  "methods": {
+    "baseline": {
+      "f1": 0.4759,
+      "em": 0.314,
+      "contain": 0.383
+    },
+    "pool": {
+      "f1": 0.5088,
+      "em": 0.347,
+      "contain": 0.421
+    },
+    "ipool": {
+      "f1": 0.4998,
+      "em": 0.334,
+      "contain": 0.407
+    },
+    "idnmr": {
+      "f1": 0.5177,
+      "em": 0.352,
+      "contain": 0.429
+    },
+    "idnmr_2round": {
+      "f1": 0.5172,
+      "em": 0.352,
+      "contain": 0.428
+    }
+  },
+  "config": {
+    "model": "dream",
+    "dataset": "hotpotqa",
+    "start_idx": 0,
+    "n_questions": 200,
+    "max_rounds": 3,
+    "steps": 32,
+    "answer_tokens": 32,
+    "n_candidates": 3,
+    "initial_top_k": 5,
+    "expand_top_k": 3,
+    "output": "results/mixed/dream_hotpotqa_mix_s0.json",
+    "log_every": 5,
+    "save_every": 5
+  },
+  "dataset": "hotpotqa",
+  "model": "dream",
+  "experiment": "dnmr_mixed",
+  "valid": true,
+  "notes": "DNMR with mixed extractor (pos0+entropy). Methods: baseline,pool,ipool,idnmr,idnmr_2round. Config: steps=32, tokens=32, extraction_steps=12",
+  "source_files": [
+    "results/mixed/dream_hotpotqa_mix_s0.json",
+    "results/mixed/dream_hotpotqa_mix_s1.json",
+    "results/mixed/dream_hotpotqa_mix_s2.json",
+    "results/mixed/dream_hotpotqa_mix_s3.json",
+    "results/mixed/dream_hotpotqa_mix_s4.json"
+  ]
+}

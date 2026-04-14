@@ -1,0 +1,20 @@
+#!/bin/bash
+#SBATCH --job-name=pool_v2_hotpotqa_50q
+#SBATCH --partition=gpu_a100
+#SBATCH --gpus=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=120G
+#SBATCH --time=02:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/jobs/output/pool_v2_hotpotqa_50q_%j.log
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/dllm:/projects/prjs1800/msc-thesis/07-daes/src/daes
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+
+python -u /projects/prjs1800/msc-thesis/07-daes/src/daes/dnmr_pool_v2_ablation.py \
+    --model llada \
+    --dataset hotpotqa \
+    --n_questions 50 \
+    --start_idx 0 \
+    --output /projects/prjs1800/msc-thesis/07-daes/results/pool_v2/llada_hotpotqa_pool_v2_50q.json

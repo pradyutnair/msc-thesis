@@ -1,0 +1,27 @@
+#!/bin/bash
+#SBATCH --job-name=dnmr_bi_dream_musique_50q
+#SBATCH --partition=gpu_h100
+#SBATCH --time=01:30:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --gpus=1
+#SBATCH --mem=96G
+#SBATCH --output=jobs/output/dnmr_bi_dream_musique_50q_%j.log
+
+module load 2025
+module load Anaconda3/2025.06-1
+cd /projects/prjs1800
+module load CUDA/12.8.0
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+
+cd /projects/prjs1800/msc-thesis/07-daes
+
+python -u src/daes/dnmr_bi_pilot.py \
+    --model dream \
+    --dataset musique \
+    --n_questions 50 \
+    --n_candidates 3 \
+    --extraction_steps 12 \
+    --output results/dnmr_bi/dream_musique_50q.json

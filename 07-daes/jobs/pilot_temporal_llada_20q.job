@@ -1,0 +1,16 @@
+#!/bin/bash
+#SBATCH --job-name=temporal-ll
+#SBATCH --partition=gpu_a100
+#SBATCH --gpus=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=96G
+#SBATCH --time=01:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results_organized/_pilots/temporal_dnmr/llada_hotpotqa_20q_%j.out
+
+module load 2024
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+cd /projects/prjs1800/msc-thesis/07-daes
+
+mkdir -p results_organized/_pilots/temporal_dnmr
+
+python -u src/daes/temporal_dnmr_pilot.py     --model llada     --dataset hotpotqa     --n_questions 20     --tau 4     --steps 32     --answer_tokens 32     --output results_organized/_pilots/temporal_dnmr/llada_hotpotqa_20q.json

@@ -1,0 +1,13 @@
+#!/bin/bash
+#SBATCH --job-name=judge_2wikimultihopqa
+#SBATCH --partition=cbuild
+#SBATCH --time=06:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=4G
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/llm_judge/judge_2wikimultihopqa_%j.out
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+cd /projects/prjs1800/msc-thesis/07-daes
+
+python -u src/daes/llm_judge_eval.py --dataset 2wikimultihopqa

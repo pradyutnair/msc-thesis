@@ -1,0 +1,233 @@
+{
+  "summary": {
+    "baseline": {
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "em": 0.0,
+      "contain": 0.0
+    },
+    "pool_m6_8_hint2_yn": {
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "em": 0.0,
+      "contain": 0.0
+    },
+    "pool_v3_bridge": {
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "em": 0.0,
+      "contain": 0.0
+    },
+    "pool_v3_bridge_curated": {
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "em": 0.0,
+      "contain": 0.0
+    },
+    "pool_v3_full": {
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "em": 0.0,
+      "contain": 0.0
+    }
+  },
+  "diagnostics": {
+    "baseline": {
+      "avg_answer_words": 2.0,
+      "avg_candidate_words": 0.0,
+      "template_candidate_rate": 0.0,
+      "avg_new_passages": 0.0,
+      "avg_total_passages": 5.0,
+      "avg_curated_budget_used": 0.0,
+      "failure_buckets": {
+        "nearby_entity_drift": 1
+      }
+    },
+    "pool_m6_8_hint2_yn": {
+      "avg_answer_words": 3.0,
+      "avg_candidate_words": 2.0,
+      "template_candidate_rate": 0.0,
+      "avg_new_passages": 2.0,
+      "avg_total_passages": 7.0,
+      "avg_curated_budget_used": 0.0,
+      "failure_buckets": {
+        "nearby_entity_drift": 1
+      }
+    },
+    "pool_v3_bridge": {
+      "avg_answer_words": 2.0,
+      "avg_candidate_words": 3.75,
+      "template_candidate_rate": 0.0,
+      "avg_new_passages": 3.0,
+      "avg_total_passages": 8.0,
+      "avg_curated_budget_used": 0.0,
+      "failure_buckets": {
+        "nearby_entity_drift": 1
+      }
+    },
+    "pool_v3_bridge_curated": {
+      "avg_answer_words": 2.0,
+      "avg_candidate_words": 3.75,
+      "template_candidate_rate": 0.0,
+      "avg_new_passages": 3.0,
+      "avg_total_passages": 8.0,
+      "avg_curated_budget_used": 3.0,
+      "failure_buckets": {
+        "nearby_entity_drift": 1
+      }
+    },
+    "pool_v3_full": {
+      "avg_answer_words": 2.0,
+      "avg_candidate_words": 3.75,
+      "template_candidate_rate": 0.0,
+      "avg_new_passages": 3.0,
+      "avg_total_passages": 8.0,
+      "avg_curated_budget_used": 3.0,
+      "failure_buckets": {
+        "nearby_entity_drift": 1
+      }
+    }
+  },
+  "results": [
+    {
+      "id": "dev_0",
+      "question": "Who is the spouse of the Green performer?",
+      "gold": "Miquette Giraudy",
+      "elapsed": 11.67,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Miranda Brooke.",
+        "Mirandah Brooke",
+        "\u200bMiranda Brooke"
+      ],
+      "v3_candidates": [
+        "Miranda Brooke",
+        "Tina Green married Sir Philip Green",
+        "The spouse is A.J",
+        "Sir Philip Green"
+      ],
+      "current_hint": "Related entities: Miranda Brooke, Mirandah Brooke, \u200bMiranda Brooke.",
+      "v3_hint": "Related entities: Miranda Brooke, Tina Green married Sir Philip, spouse is A.J.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 3,
+        "selected_utilities": [
+          0.239707,
+          0.04559,
+          0.032924
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Who is the spouse of the Green performer? Miranda Brooke"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.524561,
+            "query": "query: Who is the spouse of the Green performer? Miranda Brooke"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.10317,
+            "query": "query: Who is the spouse of the Green performer? Tina Green married Sir Philip Green"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.01332,
+            "query": "query: Who is the spouse of the Green performer? The spouse is A.J"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.008949,
+            "query": "query: Who is the spouse of the Green performer? Sir Philip Green"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Miranda Brooke",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Miranda Brooke (Green)",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "A.J. Green",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "A.J. Green",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "A.J. Green",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 1.260555,
+          "mean_var": 1.255567,
+          "mean_gamma": 1.975993,
+          "mean_guidance_scale": 2.975993,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.934245
+        }
+      }
+    }
+  ],
+  "config": {
+    "model": "llada",
+    "dataset": "musique",
+    "n_questions": 1,
+    "start_idx": 0,
+    "steps": 32,
+    "n_candidates": 3,
+    "initial_top_k": 5,
+    "expand_top_k": 3,
+    "extraction_steps": 12,
+    "bridge_n_mask": 10,
+    "bridge_steps": 16,
+    "bridge_n_branch": 3,
+    "bridge_n_candidates": 4,
+    "curated_budget": 8,
+    "seed_weight": 0.35,
+    "gamma_cap": 6.0,
+    "device": "cuda:0",
+    "output": "/projects/prjs1800/msc-thesis/07-daes/results/pool_v3/llada_musique_1q_smoke_96g_h100.json",
+    "log_every": 5,
+    "save_every": 5
+  },
+  "timing": {
+    "elapsed_sec": 68.2
+  }
+}

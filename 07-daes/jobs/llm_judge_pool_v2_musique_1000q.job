@@ -1,0 +1,16 @@
+#!/bin/bash
+#SBATCH --job-name=judge_pool_v2_mus1k
+#SBATCH --partition=cbuild
+#SBATCH --time=12:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=4G
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/llm_judge/judge_pool_v2_musique_1000q_%j.out
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONNOUSERSITE=1
+cd /projects/prjs1800/msc-thesis/07-daes
+
+python -u src/daes/llm_judge_eval.py \
+  --results-json results_organized/pool-llada-m6-yn-musique1000q-results/pool_v2_llada_musique_1000q.json \
+  --dataset musique

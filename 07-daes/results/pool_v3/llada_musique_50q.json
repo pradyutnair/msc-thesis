@@ -1,0 +1,5625 @@
+{
+  "summary": {
+    "baseline": {
+      "f1": 0.1324,
+      "precision": 0.1113,
+      "recall": 0.2191,
+      "em": 0.0,
+      "contain": 0.08
+    },
+    "pool_m6_8_hint2_yn": {
+      "f1": 0.2046,
+      "precision": 0.1837,
+      "recall": 0.2475,
+      "em": 0.02,
+      "contain": 0.12
+    },
+    "pool_v3_bridge": {
+      "f1": 0.263,
+      "precision": 0.2717,
+      "recall": 0.2682,
+      "em": 0.12,
+      "contain": 0.16
+    },
+    "pool_v3_bridge_curated": {
+      "f1": 0.281,
+      "precision": 0.2917,
+      "recall": 0.2849,
+      "em": 0.14,
+      "contain": 0.18
+    },
+    "pool_v3_full": {
+      "f1": 0.279,
+      "precision": 0.2883,
+      "recall": 0.2849,
+      "em": 0.14,
+      "contain": 0.18
+    }
+  },
+  "diagnostics": {
+    "baseline": {
+      "avg_answer_words": 10.1,
+      "avg_candidate_words": 0.0,
+      "template_candidate_rate": 0.0,
+      "avg_new_passages": 0.0,
+      "avg_total_passages": 5.0,
+      "avg_curated_budget_used": 0.0,
+      "failure_buckets": {
+        "nearby_entity_drift": 31,
+        "answer_stage_failure": 7,
+        "wrong_granularity": 12
+      }
+    },
+    "pool_m6_8_hint2_yn": {
+      "avg_answer_words": 3.28,
+      "avg_candidate_words": 2.277,
+      "template_candidate_rate": 0.0,
+      "avg_new_passages": 3.14,
+      "avg_total_passages": 8.14,
+      "avg_curated_budget_used": 0.0,
+      "failure_buckets": {
+        "nearby_entity_drift": 25,
+        "answer_stage_failure": 16,
+        "wrong_granularity": 8
+      }
+    },
+    "pool_v3_bridge": {
+      "avg_answer_words": 2.24,
+      "avg_candidate_words": 3.82,
+      "template_candidate_rate": 0.0,
+      "avg_new_passages": 3.52,
+      "avg_total_passages": 8.52,
+      "avg_curated_budget_used": 0.0,
+      "failure_buckets": {
+        "nearby_entity_drift": 26,
+        "answer_stage_failure": 11,
+        "wrong_granularity": 7
+      }
+    },
+    "pool_v3_bridge_curated": {
+      "avg_answer_words": 2.24,
+      "avg_candidate_words": 3.82,
+      "template_candidate_rate": 0.0,
+      "avg_new_passages": 3.48,
+      "avg_total_passages": 8.48,
+      "avg_curated_budget_used": 3.48,
+      "failure_buckets": {
+        "nearby_entity_drift": 26,
+        "answer_stage_failure": 10,
+        "wrong_granularity": 7
+      }
+    },
+    "pool_v3_full": {
+      "avg_answer_words": 2.3,
+      "avg_candidate_words": 3.82,
+      "template_candidate_rate": 0.0,
+      "avg_new_passages": 3.48,
+      "avg_total_passages": 8.48,
+      "avg_curated_budget_used": 3.48,
+      "failure_buckets": {
+        "nearby_entity_drift": 26,
+        "answer_stage_failure": 10,
+        "wrong_granularity": 7
+      }
+    }
+  },
+  "results": [
+    {
+      "id": "dev_0",
+      "question": "Who is the spouse of the Green performer?",
+      "gold": "Miquette Giraudy",
+      "elapsed": 11.56,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Miranda Brooke.",
+        "Mirandah Brooke",
+        "\u200bMiranda Brooke"
+      ],
+      "v3_candidates": [
+        "Miranda Brooke",
+        "Tina Green married Sir Philip Green",
+        "The spouse is A.J",
+        "Sir Philip Green"
+      ],
+      "current_hint": "Related entities: Miranda Brooke, Mirandah Brooke, \u200bMiranda Brooke.",
+      "v3_hint": "Related entities: Miranda Brooke, Tina Green married Sir Philip, spouse is A.J.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 3,
+        "selected_utilities": [
+          0.239707,
+          0.04559,
+          0.032924
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Who is the spouse of the Green performer? Miranda Brooke"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.524561,
+            "query": "query: Who is the spouse of the Green performer? Miranda Brooke"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.10317,
+            "query": "query: Who is the spouse of the Green performer? Tina Green married Sir Philip Green"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.01332,
+            "query": "query: Who is the spouse of the Green performer? The spouse is A.J"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.008949,
+            "query": "query: Who is the spouse of the Green performer? Sir Philip Green"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Miranda Brooke",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Miranda Brooke (Green)",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "A.J. Green",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "A.J. Green",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "A.J. Green",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 1.260555,
+          "mean_var": 1.255567,
+          "mean_gamma": 1.975993,
+          "mean_guidance_scale": 2.975993,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.934245
+        }
+      }
+    },
+    {
+      "id": "dev_1",
+      "question": "Who founded the company that distributed the film UHF?",
+      "gold": "Mike Medavoy",
+      "elapsed": 12.68,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Jerome Hyams",
+        "Roger Corman.",
+        "- Roger Corman"
+      ],
+      "v3_candidates": [
+        "Gene Kirkwood and John W",
+        "Roger Corman founded New World Pictures",
+        "Jerome Hyams and Archie Mayers",
+        "Jerome Hyams and Roger Corman"
+      ],
+      "current_hint": "Related entities: Jerome Hyams, Roger Corman, - Roger Corman.",
+      "v3_hint": "Related entities: Gene Kirkwood and John W, Roger Corman founded New World, Jerome Hyams and Archie Mayers.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 7,
+        "selected_utilities": [
+          0.292578,
+          0.144495,
+          0.105839,
+          0.096273,
+          0.06675,
+          0.046427,
+          0.043391
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Who founded the company that distributed the film UHF? Orion Pictures. According to the context, the film UHF was released by Orion Pictures and is currently owned by Metro-Goldwyn-Mayer."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.389387,
+            "query": "query: Who founded the company that distributed the film UHF? Gene Kirkwood and John W"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.147126,
+            "query": "query: Who founded the company that distributed the film UHF? Roger Corman founded New World Pictures"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.113127,
+            "query": "query: Who founded the company that distributed the film UHF? Jerome Hyams and Archie Mayers"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.00036,
+            "query": "query: Who founded the company that distributed the film UHF? Jerome Hyams and Roger Corman"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Orion Pictures. According to the context, the film UHF was released by Orion Pictures and is currently owned by Metro-Goldwyn-Mayer.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Metro-Goldwyn-Mayer",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Jerome Hyams",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Jerome Hyams",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Orion Pictures Corporation",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 0.558553,
+          "mean_var": 1.328634,
+          "mean_gamma": 0.466715,
+          "mean_guidance_scale": 1.466715,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.921875
+        }
+      }
+    },
+    {
+      "id": "dev_2",
+      "question": "What administrative territorial entity is the owner of Ciudad Deportiva located?",
+      "gold": "Tamaulipas",
+      "elapsed": 12.59,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Valdebebas",
+        "Ciudad Real Madrid",
+        "Madrid, Spain"
+      ],
+      "v3_candidates": [
+        "Benito Ju\u00e1rez, Mexico City",
+        "Valdebebas, outside of Madrid",
+        "Real Madrid, outside Madrid, Spain",
+        "Real Madrid's training facilities outside Madrid"
+      ],
+      "current_hint": "Related entities: Valdebebas, Ciudad Real Madrid, Madrid, Spain.",
+      "v3_hint": "Related entities: Benito Ju\u00e1rez, Mexico City, Valdebebas, outside of Madrid, Real Madrid, outside Madrid, Spain.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 5,
+        "selected_utilities": [
+          0.355923,
+          0.164961,
+          0.116202,
+          0.014788,
+          0.005844
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What administrative territorial entity is the owner of Ciudad Deportiva located? The owner of Ciudad Deportiva is Real Madrid, and their facilities are located outside Madrid in Valdebebas near Barajas airport."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.578494,
+            "query": "query: What administrative territorial entity is the owner of Ciudad Deportiva located? Benito Ju\u00e1rez, Mexico City"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.031231,
+            "query": "query: What administrative territorial entity is the owner of Ciudad Deportiva located? Valdebebas, outside of Madrid"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.020342,
+            "query": "query: What administrative territorial entity is the owner of Ciudad Deportiva located? Real Madrid, outside Madrid, Spain"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.019933,
+            "query": "query: What administrative territorial entity is the owner of Ciudad Deportiva located? Real Madrid's training facilities outside Madrid"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "The owner of Ciudad Deportiva is Real Madrid, and their facilities are located outside Madrid in Valdebebas near Barajas airport.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Real Madrid, Madrid, Spain",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Madrid, Spain",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Valdebebas",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Valdebebas",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 0.303103,
+          "mean_var": 1.573169,
+          "mean_gamma": 0.43514,
+          "mean_guidance_scale": 1.43514,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.972656
+        }
+      }
+    },
+    {
+      "id": "dev_3",
+      "question": "Where is Ulrich Walter's employer headquartered?",
+      "gold": "Cologne",
+      "elapsed": 13.17,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Munich, Germany",
+        "Not mentioned in context",
+        "Iserlohn"
+      ],
+      "v3_candidates": [
+        "Munich, Germany",
+        "Technische Universit\u00e4t M\u00fcnchen",
+        "Technische Unversit\u00e4t M\u00fcnchen",
+        "Technische Universit\u00e4t, M\u00fcnchen"
+      ],
+      "current_hint": "Related entities: Munich, Germany, Not mentioned in context, Iserlohn.",
+      "v3_hint": "Related entities: Munich, Germany, Technische Universit\u00e4t M\u00fcnchen, Technische Unversit\u00e4t M\u00fcnchen.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 5,
+        "selected_utilities": [
+          0.146545,
+          0.09764,
+          0.095052,
+          0.072611,
+          0.024529
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Where is Ulrich Walter's employer headquartered? Ulrich Walter's employer, Technische Universit\u00e4t M\u00fcnchen, is headquartered in Mannheim, Baden-W\u00fcrttemberg, Germany."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.345359,
+            "query": "query: Where is Ulrich Walter's employer headquartered? Munich, Germany"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.121608,
+            "query": "query: Where is Ulrich Walter's employer headquartered? Technische Universit\u00e4t M\u00fcnchen"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.09433,
+            "query": "query: Where is Ulrich Walter's employer headquartered? Technische Unversit\u00e4t M\u00fcnchen"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.088703,
+            "query": "query: Where is Ulrich Walter's employer headquartered? Technische Universit\u00e4t, M\u00fcnchen"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Ulrich Walter's employer, Technische Universit\u00e4t M\u00fcnchen, is headquartered in Mannheim, Baden-W\u00fcrttemberg, Germany.",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Munich, Germany.",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Munich.",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Munich.",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Munich.",
+        "failure_bucket": "answer_stage_failure",
+        "stats": {
+          "mean_ig": 0.641764,
+          "mean_var": 3.609212,
+          "mean_gamma": 0.209229,
+          "mean_guidance_scale": 1.209229,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.879557
+        }
+      }
+    },
+    {
+      "id": "dev_4",
+      "question": "Which company owns the manufacturer of Learjet 60?",
+      "gold": "Bombardier Inc.",
+      "elapsed": 11.63,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Bombardier",
+        "Canadian Bombardier",
+        "Bomb"
+      ],
+      "v3_candidates": [
+        "Bombardier Aerospace",
+        "Bombardier Aerospace, Inc",
+        "Learjet, Bombardier Aerospace",
+        "Canadian Bombardier Aerospace"
+      ],
+      "current_hint": "Related entities: Bombardier, Canadian Bombardier, Bomb.",
+      "v3_hint": "Related entities: Bombardier Aerospace, Bombardier Aerospace, Inc, Learjet, Bombardier Aerospace.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 0,
+        "selected_utilities": [],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Which company owns the manufacturer of Learjet 60? Bombardier Aerospace"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.606382,
+            "query": "query: Which company owns the manufacturer of Learjet 60? Bombardier Aerospace"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.023296,
+            "query": "query: Which company owns the manufacturer of Learjet 60? Bombardier Aerospace, Inc"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.019369,
+            "query": "query: Which company owns the manufacturer of Learjet 60? Learjet, Bombardier Aerospace"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.000953,
+            "query": "query: Which company owns the manufacturer of Learjet 60? Canadian Bombardier Aerospace"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.5,
+        "precision": 0.5,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Bombardier Aerospace",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.5,
+        "precision": 0.5,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Bombardier Aerospace.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.6667,
+        "precision": 1.0,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Bombardier",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.6667,
+        "precision": 1.0,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Bombardier",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.6667,
+        "precision": 1.0,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Bombardier",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 0.006518,
+          "mean_var": 0.008771,
+          "mean_gamma": 0.307373,
+          "mean_guidance_scale": 1.307373,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.997396
+        }
+      }
+    },
+    {
+      "id": "dev_5",
+      "question": "Who is the child of Caroline LeRoy's spouse?",
+      "gold": "Fletcher Webster",
+      "elapsed": 12.41,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Martin Scorsese",
+        "Daniel Webster Jr.",
+        "Caroline LeRoy Webster"
+      ],
+      "v3_candidates": [
+        "Henri, Count of Chambord",
+        "Henri Count of Chambord",
+        "Helen Schermerhorn Morris",
+        "Helen, married to Martin Scorsese"
+      ],
+      "current_hint": "Related entities: Martin Scorsese, Daniel Webster Jr, Caroline LeRoy Webster.",
+      "v3_hint": "Related entities: Henri, Count of Chambord, Henri Count of Chambord, Helen Schermerhorn Morris.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 5,
+        "selected_utilities": [
+          0.279084,
+          0.185738,
+          0.096121,
+          0.00108,
+          5e-05
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Who is the child of Caroline LeRoy's spouse? The child of Caroline LeRoy's spouse Daniel Webster, is Helen Schermerhorn Morris, who is married to film director Martin Scorsese."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.633354,
+            "query": "query: Who is the child of Caroline LeRoy's spouse? Henri, Count of Chambord"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.01258,
+            "query": "query: Who is the child of Caroline LeRoy's spouse? Henri Count of Chambord"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.003881,
+            "query": "query: Who is the child of Caroline LeRoy's spouse? Helen Schermerhorn Morris"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.000185,
+            "query": "query: Who is the child of Caroline LeRoy's spouse? Helen, married to Martin Scorsese"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0952,
+        "precision": 0.0526,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "The child of Caroline LeRoy's spouse Daniel Webster, is Helen Schermerhorn Morris, who is married to film director Martin Scorsese.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Helen Schermerhorn Morris",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Martin Scorsese",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Martin Scorsese",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Martin Scorsese",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 0.324544,
+          "mean_var": 0.946289,
+          "mean_gamma": 0.060221,
+          "mean_guidance_scale": 1.060221,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.982422
+        }
+      }
+    },
+    {
+      "id": "dev_6",
+      "question": "Who is the grandmother of Philippe, Duke of Orl\u00e9ans?",
+      "gold": "Marie de' Medici",
+      "elapsed": 13.97,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Anne of Austria.",
+        "Louise de Bourbon",
+        "Louise de France"
+      ],
+      "v3_candidates": [
+        "Princess Elizabeth Charlotte of the Palatinate",
+        "Elizabeth Charlotte of the Palatinate",
+        "Louise Marie Ad\u00e9la\u00efde",
+        "Louise, Duchess of Orl\u00e9ans"
+      ],
+      "current_hint": "Related entities: Anne of Austria, Louise de Bourbon, Louise de France.",
+      "v3_hint": "Related entities: Princess Elizabeth Charlotte of the, Elizabeth Charlotte of the Palatinate, Louise Marie Ad\u00e9la\u00efde.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 7,
+        "selected_utilities": [
+          0.342109,
+          0.340594,
+          0.192634,
+          0.170191,
+          0.153723,
+          0.016913,
+          0.013918
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Who is the grandmother of Philippe, Duke of Orl\u00e9ans? Louise Marie Ad\u00e9la\u00efde de Bourbon, Duchess of Orl\u00e9ans (sister of Louis Philippe II, Duke of Orl\u00e9ans)"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.313172,
+            "query": "query: Who is the grandmother of Philippe, Duke of Orl\u00e9ans? Princess Elizabeth Charlotte of the Palatinate"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.231332,
+            "query": "query: Who is the grandmother of Philippe, Duke of Orl\u00e9ans? Elizabeth Charlotte of the Palatinate"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.057698,
+            "query": "query: Who is the grandmother of Philippe, Duke of Orl\u00e9ans? Louise Marie Ad\u00e9la\u00efde"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.047798,
+            "query": "query: Who is the grandmother of Philippe, Duke of Orl\u00e9ans? Louise, Duchess of Orl\u00e9ans"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.2105,
+        "precision": 0.125,
+        "recall": 0.6667,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Louise Marie Ad\u00e9la\u00efde de Bourbon, Duchess of Orl\u00e9ans (sister of Louis Philippe II, Duke of Orl\u00e9ans)",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.2857,
+        "precision": 0.25,
+        "recall": 0.3333,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Louise Henriette de Bourbon",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Elisabeth Charlotte",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Elisabeth Charlotte",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Elisabeth Charlotte",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 0.143401,
+          "mean_var": 0.266132,
+          "mean_gamma": 0.202555,
+          "mean_guidance_scale": 1.202555,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.983073
+        }
+      }
+    },
+    {
+      "id": "dev_7",
+      "question": "What is the goal of the group that European Movement Germany is a member of?",
+      "gold": "European integration",
+      "elapsed": 10.35,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "For a European Constitution",
+        "Unite, Democracy",
+        "United, federal Europe"
+      ],
+      "v3_candidates": [
+        "Contribute to a united, federal Europe",
+        "Establishment of a united, federal Europe",
+        "To contribute to a united, federal",
+        "To establish a united, federal Europe"
+      ],
+      "current_hint": "Related entities: For a European Constitution, Unite, Democracy, United, federal Europe.",
+      "v3_hint": "Related entities: Contribute to a united, federal, Establishment of a united, federal, To contribute to a united,.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 2,
+        "selected_utilities": [
+          0.388088,
+          0.112641
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What is the goal of the group that European Movement Germany is a member of? To contribute to the establishment of a united, federal Europe founded on principles of peace, democracy, liberty, solidarity, and respect for basic human rights."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.37864,
+            "query": "query: What is the goal of the group that European Movement Germany is a member of? Contribute to a united, federal Europe"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.26147,
+            "query": "query: What is the goal of the group that European Movement Germany is a member of? Establishment of a united, federal Europe"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.009809,
+            "query": "query: What is the goal of the group that European Movement Germany is a member of? To contribute to a united, federal"
+          },
+          {
+            "kind": "bridge",
+            "weight": 8.1e-05,
+            "query": "query: What is the goal of the group that European Movement Germany is a member of? To establish a united, federal Europe"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "To contribute to the establishment of a united, federal Europe founded on principles of peace, democracy, liberty, solidarity, and respect for basic human rights.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "For a united, federal Europe",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.8,
+        "precision": 0.6667,
+        "recall": 1.0,
+        "em": 0.0,
+        "contain": 1.0,
+        "answer": "Promote European integration",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.8,
+        "precision": 0.6667,
+        "recall": 1.0,
+        "em": 0.0,
+        "contain": 1.0,
+        "answer": "Promote European integration",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_full": {
+        "f1": 0.8,
+        "precision": 0.6667,
+        "recall": 1.0,
+        "em": 0.0,
+        "contain": 1.0,
+        "answer": "Promote European integration",
+        "failure_bucket": "answer_stage_failure",
+        "stats": {
+          "mean_ig": 0.154419,
+          "mean_var": 0.627645,
+          "mean_gamma": 0.27299,
+          "mean_guidance_scale": 1.27299,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.934896
+        }
+      }
+    },
+    {
+      "id": "dev_8",
+      "question": "What company succeeded the owner of Empire Sports Network?",
+      "gold": "Time Warner Cable",
+      "elapsed": 10.91,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Comcast Time Warner",
+        "Time Warner Cable.",
+        "Comcast, Time"
+      ],
+      "v3_candidates": [
+        "Time Warner Cable and Comcast",
+        "Comcast and Time Warner Cable",
+        "Comcast (asset transfer and division)",
+        "Comcast (and Time Warner Cable)"
+      ],
+      "current_hint": "Related entities: Comcast Time Warner, Time Warner Cable, Comcast, Time.",
+      "v3_hint": "Related entities: Time Warner Cable and Comcast, Comcast and Time Warner Cable, Comcast (asset transfer and division).",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 2,
+        "selected_utilities": [
+          0.81697,
+          0.273365
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What company succeeded the owner of Empire Sports Network? Time Warner Cable and Comcast"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.380773,
+            "query": "query: What company succeeded the owner of Empire Sports Network? Time Warner Cable and Comcast"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.195514,
+            "query": "query: What company succeeded the owner of Empire Sports Network? Comcast and Time Warner Cable"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.040966,
+            "query": "query: What company succeeded the owner of Empire Sports Network? Comcast (asset transfer and division)"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.032748,
+            "query": "query: What company succeeded the owner of Empire Sports Network? Comcast (and Time Warner Cable)"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.75,
+        "precision": 0.6,
+        "recall": 1.0,
+        "em": 0.0,
+        "contain": 1.0,
+        "answer": "Time Warner Cable and Comcast",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.75,
+        "precision": 0.6,
+        "recall": 1.0,
+        "em": 0.0,
+        "contain": 1.0,
+        "answer": "Comcast and Time Warner Cable",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "TWC and Comcast",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "TWC and Comcast",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "TWC and Comcast",
+        "failure_bucket": "answer_stage_failure",
+        "stats": {
+          "mean_ig": 3.667081,
+          "mean_var": 2.752664,
+          "mean_gamma": 1.502441,
+          "mean_guidance_scale": 2.502441,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.961589
+        }
+      }
+    },
+    {
+      "id": "dev_9",
+      "question": "What province shares a border with the province where Lago District is located?",
+      "gold": "Cabo Delgado Province",
+      "elapsed": 13.19,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Chubut Province",
+        "Cuanza Sul"
+      ],
+      "v3_candidates": [
+        "Cuanza Norte to the East",
+        "Lago Puelo, Chubut",
+        "Chubut Province, Chubut",
+        "Chubut and R\u00edo Negro"
+      ],
+      "current_hint": "Related entities: Chubut Province, Cuanza Sul.",
+      "v3_hint": "Related entities: Cuanza Norte to the East, Lago Puelo, Chubut, Chubut Province, Chubut.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 7,
+        "selected_utilities": [
+          0.410821,
+          0.339937,
+          0.167756,
+          0.109665,
+          0.109465,
+          0.068787,
+          0.015038
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What province shares a border with the province where Lago District is located? Chubut"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.393996,
+            "query": "query: What province shares a border with the province where Lago District is located? Cuanza Norte to the East"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.160087,
+            "query": "query: What province shares a border with the province where Lago District is located? Lago Puelo, Chubut"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.054127,
+            "query": "query: What province shares a border with the province where Lago District is located? Chubut Province, Chubut"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.04179,
+            "query": "query: What province shares a border with the province where Lago District is located? Chubut and R\u00edo Negro"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Chubut",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.3333,
+        "precision": 0.3333,
+        "recall": 0.3333,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Cuanza Norte Province",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.4,
+        "precision": 0.5,
+        "recall": 0.3333,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Chubut Province",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.4,
+        "precision": 0.5,
+        "recall": 0.3333,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Chubut Province",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_full": {
+        "f1": 0.4,
+        "precision": 0.5,
+        "recall": 0.3333,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Chubut Province",
+        "failure_bucket": "wrong_granularity",
+        "stats": {
+          "mean_ig": 0.252998,
+          "mean_var": 0.56152,
+          "mean_gamma": 0.297607,
+          "mean_guidance_scale": 1.297607,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.982422
+        }
+      }
+    },
+    {
+      "id": "dev_10",
+      "question": "What league does the team that plays in Stadio Ciro Vigorito play for?",
+      "gold": "Lega Pro Prima Divisione",
+      "elapsed": 12.0,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Serie D/A",
+        "Promozione.",
+        "Serie C2"
+      ],
+      "v3_candidates": [
+        "Serie D",
+        "Serie D/A or Promozione",
+        "Serie D or Serie D/A",
+        "Serie D (Promozione)"
+      ],
+      "current_hint": "Related entities: Serie D/A, Promozione, Serie C2.",
+      "v3_hint": "Related entities: Serie D, Serie D/A or Promozione, Serie D or Serie D/A.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 1,
+        "selected_utilities": [
+          0.099064
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What league does the team that plays in Stadio Ciro Vigorito play for? The team that plays in Stadio Ciro Vigorito in Francavilla is F.C. Francavilla, which plays in Serie D."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.424524,
+            "query": "query: What league does the team that plays in Stadio Ciro Vigorito play for? Serie D"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.183753,
+            "query": "query: What league does the team that plays in Stadio Ciro Vigorito play for? Serie D/A or Promozione"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.023567,
+            "query": "query: What league does the team that plays in Stadio Ciro Vigorito play for? Serie D or Serie D/A"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.018155,
+            "query": "query: What league does the team that plays in Stadio Ciro Vigorito play for? Serie D (Promozione)"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "The team that plays in Stadio Ciro Vigorito in Francavilla is F.C. Francavilla, which plays in Serie D.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Eccellenza Apulia",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Serie D/A",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Serie D/A",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Serie D/A",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 0.219401,
+          "mean_var": 0.225423,
+          "mean_gamma": 0.436117,
+          "mean_guidance_scale": 1.436117,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.988932
+        }
+      }
+    },
+    {
+      "id": "dev_11",
+      "question": "What is a notable work written by the author of The Timothy files?",
+      "gold": "Anderson Tapes",
+      "elapsed": 12.97,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "The Bowers Files",
+        "Christodora."
+      ],
+      "v3_candidates": [
+        "\"The Crypto Anarchist Manifesto\"",
+        "Christodora",
+        "Devotional book on the Book of",
+        "The Bowers Files, psychological thriller series"
+      ],
+      "current_hint": "Related entities: Bowers Files, Christodora.",
+      "v3_hint": "Related entities: \"The Crypto Anarchist Manifesto\", Christodora, Devotional book on the Book.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 10,
+        "selected_utilities": [
+          0.139453,
+          0.132264,
+          0.092798,
+          0.085812,
+          0.079465,
+          0.066132,
+          0.057208,
+          0.052945
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What is a notable work written by the author of The Timothy files? A notable work written by the author of The Timothy files is \"Understanding the Times: The Religious Worldviews of Our Day and the Search for Truth\"."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.212507,
+            "query": "query: What is a notable work written by the author of The Timothy files? \"The Crypto Anarchist Manifesto\""
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.191014,
+            "query": "query: What is a notable work written by the author of The Timothy files? Christodora"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.161236,
+            "query": "query: What is a notable work written by the author of The Timothy files? Devotional book on the Book of"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.085242,
+            "query": "query: What is a notable work written by the author of The Timothy files? The Bowers Files, psychological thriller series"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "A notable work written by the author of The Timothy files is \"Understanding the Times: The Religious Worldviews of Our Day and the Search for Truth\".",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "The Cyphernomicon.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "The Bowers Files",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "The Bowers Files",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "The Bowers Files",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 3.134206,
+          "mean_var": 3.789922,
+          "mean_gamma": 2.104004,
+          "mean_guidance_scale": 3.104004,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.96875
+        }
+      }
+    },
+    {
+      "id": "dev_12",
+      "question": "In which borough was Callum McManaman born?",
+      "gold": "Knowsley",
+      "elapsed": 12.23,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Huyton.",
+        "Merseyside.",
+        "Huyton Borough"
+      ],
+      "v3_candidates": [
+        "Huyton, Merseyside",
+        "Whiston, Merseyside",
+        "Born in Whiston, Merseyside",
+        "Huyton Borough, Merseyside"
+      ],
+      "current_hint": "Related entities: Huyton, Merseyside, Huyton Borough.",
+      "v3_hint": "Related entities: Huyton, Merseyside, Whiston, Merseyside, Born in Whiston, Merseyside.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 5,
+        "selected_utilities": [
+          0.374693,
+          0.150227,
+          0.09865,
+          0.051679,
+          0.034414
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: In which borough was Callum McManaman born? Huyton"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.529544,
+            "query": "query: In which borough was Callum McManaman born? Huyton, Merseyside"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.116615,
+            "query": "query: In which borough was Callum McManaman born? Whiston, Merseyside"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.00349,
+            "query": "query: In which borough was Callum McManaman born? Born in Whiston, Merseyside"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.000351,
+            "query": "query: In which borough was Callum McManaman born? Huyton Borough, Merseyside"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Huyton",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Whiston, Merseyside",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Huyton.",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Huyton.",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Huyton.",
+        "failure_bucket": "answer_stage_failure",
+        "stats": {
+          "mean_ig": 0.541036,
+          "mean_var": 0.591695,
+          "mean_gamma": 0.576986,
+          "mean_guidance_scale": 1.576986,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.988932
+        }
+      }
+    },
+    {
+      "id": "dev_13",
+      "question": "What other county does the county where Imperial is located share a border with?",
+      "gold": "Crockett County",
+      "elapsed": 10.7,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "San Diego County.",
+        "Mojave County",
+        "Hidalgo County"
+      ],
+      "v3_candidates": [
+        "San Diego County",
+        "Arizona",
+        "Imperial County and San Diego County",
+        "San Diego County and Los Angeles"
+      ],
+      "current_hint": "Related entities: San Diego County, Mojave County, Hidalgo County.",
+      "v3_hint": "Related entities: San Diego County, Arizona, Imperial County and San Diego.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 1,
+        "selected_utilities": [
+          0.202476
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What other county does the county where Imperial is located share a border with? Arizona"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.3354,
+            "query": "query: What other county does the county where Imperial is located share a border with? San Diego County"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.127457,
+            "query": "query: What other county does the county where Imperial is located share a border with? Arizona"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.120771,
+            "query": "query: What other county does the county where Imperial is located share a border with? Imperial County and San Diego County"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.066371,
+            "query": "query: What other county does the county where Imperial is located share a border with? San Diego County and Los Angeles"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Arizona",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.4,
+        "precision": 0.3333,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Pecos County, Texas",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.5,
+        "precision": 0.5,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Yuma County.",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.5,
+        "precision": 0.5,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Yuma County.",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_full": {
+        "f1": 0.4,
+        "precision": 0.3333,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "San Diego County.",
+        "failure_bucket": "wrong_granularity",
+        "stats": {
+          "mean_ig": 0.287462,
+          "mean_var": 0.661158,
+          "mean_gamma": 0.282633,
+          "mean_guidance_scale": 1.282633,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.936849
+        }
+      }
+    },
+    {
+      "id": "dev_14",
+      "question": "In what county is William W. Blair's birthplace located?",
+      "gold": "Orleans County",
+      "elapsed": 12.45,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Lake County, Illinois",
+        "Union County, Georgia",
+        "Blair, Nebraska"
+      ],
+      "v3_candidates": [
+        "Blair County, Pennsylvania",
+        "Blairsville, Georgia",
+        "Lake County, Illinois",
+        "Blair County"
+      ],
+      "current_hint": "Related entities: Lake County, Illinois, Union County, Georgia, Blair, Nebraska.",
+      "v3_hint": "Related entities: Blair County, Pennsylvania, Blairsville, Georgia, Lake County, Illinois.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 6,
+        "selected_utilities": [
+          0.333492,
+          0.145846,
+          0.025804,
+          0.017165,
+          0.017038,
+          0.011443
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: In what county is William W. Blair's birthplace located? Blair County"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.516473,
+            "query": "query: In what county is William W. Blair's birthplace located? Blair County, Pennsylvania"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.059612,
+            "query": "query: In what county is William W. Blair's birthplace located? Blairsville, Georgia"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.041066,
+            "query": "query: In what county is William W. Blair's birthplace located? Lake County, Illinois"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.032848,
+            "query": "query: In what county is William W. Blair's birthplace located? Blair County"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.5,
+        "precision": 0.5,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Blair County",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.4,
+        "precision": 0.3333,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Blair County, Pennsylvania.",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.4,
+        "precision": 0.3333,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Lake County, Illinois",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.4,
+        "precision": 0.3333,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Lake County, Illinois",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_full": {
+        "f1": 0.4,
+        "precision": 0.3333,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Lake County, Illinois",
+        "failure_bucket": "wrong_granularity",
+        "stats": {
+          "mean_ig": 0.501139,
+          "mean_var": 1.402507,
+          "mean_gamma": 0.304688,
+          "mean_guidance_scale": 1.304688,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.84668
+        }
+      }
+    },
+    {
+      "id": "dev_15",
+      "question": "What award did the author of The Red Tree receive?",
+      "gold": "Academy Award for Best Animated Short Film",
+      "elapsed": 10.62,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "The Red Maple Award",
+        "Red Maple Award."
+      ],
+      "v3_candidates": [
+        "Forest of Reading Red Maple Award",
+        "\"Forest of Reading Red Maple Award\"",
+        "The Forest of Reading Red Maple",
+        "2001, Red Maple Award"
+      ],
+      "current_hint": "Related entities: Red Maple Award.",
+      "v3_hint": "Related entities: Forest of Reading Red Maple, \"Forest of Reading Red Maple, 2001, Red Maple Award.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 3,
+        "selected_utilities": [
+          0.267686,
+          0.176446,
+          0.09952
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What award did the author of The Red Tree receive? The author of The Red Tree, Shaun Tan, received the Forest of Reading Red Maple Award for his book, published in 2001."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.36384,
+            "query": "query: What award did the author of The Red Tree receive? Forest of Reading Red Maple Award"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.247534,
+            "query": "query: What award did the author of The Red Tree receive? \"Forest of Reading Red Maple Award\""
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.022217,
+            "query": "query: What award did the author of The Red Tree receive? The Forest of Reading Red Maple"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.016409,
+            "query": "query: What award did the author of The Red Tree receive? 2001, Red Maple Award"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.1538,
+        "precision": 0.1053,
+        "recall": 0.2857,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "The author of The Red Tree, Shaun Tan, received the Forest of Reading Red Maple Award for his book, published in 2001.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.1538,
+        "precision": 0.1667,
+        "recall": 0.1429,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Forest of Reading Red Maple Award",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.2,
+        "precision": 0.3333,
+        "recall": 0.1429,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Red Maple Award.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.2,
+        "precision": 0.3333,
+        "recall": 0.1429,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Red Maple Award.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.2,
+        "precision": 0.3333,
+        "recall": 0.1429,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Red Maple Award.",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 1.245682,
+          "mean_var": 0.832194,
+          "mean_gamma": 2.367513,
+          "mean_guidance_scale": 3.367513,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.969401
+        }
+      }
+    },
+    {
+      "id": "dev_16",
+      "question": "Where was Tyler MacDuff's child educated?",
+      "gold": "Blair High School",
+      "elapsed": 11.99,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Pasadena, California",
+        "Blair International School",
+        "Granby, Massachusetts"
+      ],
+      "v3_candidates": [
+        "Blair International Baccalaureate School",
+        "At Blair International Baccalaureate School",
+        "Blair Baccalaureate School",
+        "Baccalaureate School in Pasadena"
+      ],
+      "current_hint": "Related entities: Pasadena, California, Blair International School, Granby, Massachusetts.",
+      "v3_hint": "Related entities: Blair International Baccalaureate School, At Blair International Baccalaureate School, Blair Baccalaureate School.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 2,
+        "selected_utilities": [
+          5e-06,
+          3e-06
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Where was Tyler MacDuff's child educated? Tyler MacDuff's child, Dana MacDuff, was educated at the Pasadena Playhouse and Blair International Baccalaureate School in Pasadena."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.649988,
+            "query": "query: Where was Tyler MacDuff's child educated? Blair International Baccalaureate School"
+          },
+          {
+            "kind": "bridge",
+            "weight": 1.2e-05,
+            "query": "query: Where was Tyler MacDuff's child educated? At Blair International Baccalaureate School"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.0,
+            "query": "query: Where was Tyler MacDuff's child educated? Blair Baccalaureate School"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.0,
+            "query": "query: Where was Tyler MacDuff's child educated? Baccalaureate School in Pasadena"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.2,
+        "precision": 0.1176,
+        "recall": 0.6667,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Tyler MacDuff's child, Dana MacDuff, was educated at the Pasadena Playhouse and Blair International Baccalaureate School in Pasadena.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.4,
+        "precision": 0.5,
+        "recall": 0.3333,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "The MacDuffie School",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "Blair High School"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "Blair High School"
+      },
+      "pool_v3_full": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "Blair High School",
+        "stats": {
+          "mean_ig": 0.587841,
+          "mean_var": 3.636405,
+          "mean_gamma": 0.221232,
+          "mean_guidance_scale": 1.221232,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.968099
+        }
+      }
+    },
+    {
+      "id": "dev_17",
+      "question": "Who is the spouse of the Rabbit Hole's producer?",
+      "gold": "Keith Urban",
+      "elapsed": 11.19,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "David Lindsay-Abaire",
+        "Dylan Kidman",
+        "Aaron Eckhart."
+      ],
+      "v3_candidates": [
+        "Nicole Kidman's spouse is unknown",
+        "Aaron Eckhart",
+        "Marlon Kidman",
+        "No spouse mentioned in the context"
+      ],
+      "current_hint": "Related entities: David Lindsay-Abaire, Dylan Kidman, Aaron Eckhart.",
+      "v3_hint": "Related entities: Nicole Kidman's spouse is unknown, Aaron Eckhart, Marlon Kidman.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 3,
+        "selected_utilities": [
+          0.088458,
+          0.026159,
+          0.017328
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Who is the spouse of the Rabbit Hole's producer? The spouse of the Rabbit Hole's producer, Nicole Kidman, is Aaron Eckhart, who plays the character Howie Corbett in the film."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.318946,
+            "query": "query: Who is the spouse of the Rabbit Hole's producer? Nicole Kidman's spouse is unknown"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.159464,
+            "query": "query: Who is the spouse of the Rabbit Hole's producer? Aaron Eckhart"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.109405,
+            "query": "query: Who is the spouse of the Rabbit Hole's producer? Marlon Kidman"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.062186,
+            "query": "query: Who is the spouse of the Rabbit Hole's producer? No spouse mentioned in the context"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "The spouse of the Rabbit Hole's producer, Nicole Kidman, is Aaron Eckhart, who plays the character Howie Corbett in the film.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Dylan Kidman",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Marlon Kidman",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Marlon Kidman",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Marouse is unknown",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 2.71224,
+          "mean_var": 5.443766,
+          "mean_gamma": 1.013672,
+          "mean_guidance_scale": 2.013672,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.902995
+        }
+      }
+    },
+    {
+      "id": "dev_18",
+      "question": "Who is the child of Sigrid Eskilsdotter's child?",
+      "gold": "Svante Stensson Sture",
+      "elapsed": 14.84,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Sigrid Sture",
+        "No information provided.",
+        "Gustav Vasa"
+      ],
+      "v3_candidates": [
+        "Svante Turesson Bielke",
+        "Kristina Gyllenstierna",
+        "Nils Gyllenstierna",
+        "King Gustav Vasa of Sweden"
+      ],
+      "current_hint": "Related entities: Sigrid Sture, No information provided, Gustav Vasa.",
+      "v3_hint": "Related entities: Svante Turesson Bielke, Kristina Gyllenstierna, Nils Gyllenstierna.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 3,
+        "selected_utilities": [
+          0.159515,
+          0.116745,
+          0.058092
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Who is the child of Sigrid Eskilsdotter's child? The child of Sigrid Eskilsdotter's child (Christina Gyllenstierna's) is King Gustav Vasa of Sweden."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.381644,
+            "query": "query: Who is the child of Sigrid Eskilsdotter's child? Svante Turesson Bielke"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.146142,
+            "query": "query: Who is the child of Sigrid Eskilsdotter's child? Kristina Gyllenstierna"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.061538,
+            "query": "query: Who is the child of Sigrid Eskilsdotter's child? Nils Gyllenstierna"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.060676,
+            "query": "query: Who is the child of Sigrid Eskilsdotter's child? King Gustav Vasa of Sweden"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "The child of Sigrid Eskilsdotter's child (Christina Gyllenstierna's) is King Gustav Vasa of Sweden.",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Gustav Vasa.",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Gustav I",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.4,
+        "precision": 0.5,
+        "recall": 0.3333,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Sigrid Sture",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_full": {
+        "f1": 0.4,
+        "precision": 0.5,
+        "recall": 0.3333,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Sigrid Sture",
+        "failure_bucket": "answer_stage_failure",
+        "stats": {
+          "mean_ig": 0.232422,
+          "mean_var": 0.392719,
+          "mean_gamma": 1.825928,
+          "mean_guidance_scale": 2.825928,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.940755
+        }
+      }
+    },
+    {
+      "id": "dev_19",
+      "question": "In which county is Kimbrough Memorial Stadium located?",
+      "gold": "Randall County",
+      "elapsed": 12.45,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Canyon, Texas",
+        "Hardin, Texas",
+        "Canyon County."
+      ],
+      "v3_candidates": [
+        "Canyon County, Texas",
+        "Canyon, Texas, Canyon County",
+        "Canyon County",
+        "Canyon, Canyon County, Texas"
+      ],
+      "current_hint": "Related entities: Canyon, Texas, Hardin, Texas, Canyon County.",
+      "v3_hint": "Related entities: Canyon County, Texas, Canyon, Texas, Canyon County, Canyon County.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 2,
+        "selected_utilities": [
+          0.066524,
+          0.011575
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: In which county is Kimbrough Memorial Stadium located? Canyon County"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.451944,
+            "query": "query: In which county is Kimbrough Memorial Stadium located? Canyon County, Texas"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.113849,
+            "query": "query: In which county is Kimbrough Memorial Stadium located? Canyon, Texas, Canyon County"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.043218,
+            "query": "query: In which county is Kimbrough Memorial Stadium located? Canyon County"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.040989,
+            "query": "query: In which county is Kimbrough Memorial Stadium located? Canyon, Canyon County, Texas"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.5,
+        "precision": 0.5,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Canyon County",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.8,
+        "precision": 0.6667,
+        "recall": 1.0,
+        "em": 0.0,
+        "contain": 1.0,
+        "answer": "Randall County, Texas",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "Randall County."
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "Randall County."
+      },
+      "pool_v3_full": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "Randall County.",
+        "stats": {
+          "mean_ig": 0.211345,
+          "mean_var": 0.591089,
+          "mean_gamma": 0.240397,
+          "mean_guidance_scale": 1.240397,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.960286
+        }
+      }
+    },
+    {
+      "id": "dev_20",
+      "question": "What record label is the performer of Almost Made Ya signed to?",
+      "gold": "Derrty Entertainment",
+      "elapsed": 11.96,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Ali & Gipp",
+        "Scared Records.",
+        "Ali & G Records"
+      ],
+      "v3_candidates": [
+        "Ali & Gipp, Kinfolk Records",
+        "Kinfolk Records",
+        "Jermaine Dupri",
+        "Kinfolk (2007)"
+      ],
+      "current_hint": "Related entities: Ali & Gipp, Scared Records, Ali & G Records.",
+      "v3_hint": "Related entities: Ali & Gipp, Kinfolk Records, Kinfolk Records, Jermaine Dupri.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 4,
+        "selected_utilities": [
+          0.205335,
+          0.048972,
+          0.032055,
+          0.031056
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What record label is the performer of Almost Made Ya signed to? Kinfolk"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.285201,
+            "query": "query: What record label is the performer of Almost Made Ya signed to? Ali & Gipp, Kinfolk Records"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.130943,
+            "query": "query: What record label is the performer of Almost Made Ya signed to? Kinfolk Records"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.11744,
+            "query": "query: What record label is the performer of Almost Made Ya signed to? Jermaine Dupri"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.116416,
+            "query": "query: What record label is the performer of Almost Made Ya signed to? Kinfolk (2007)"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Kinfolk",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Short Answer: Scared Records",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Kinfolk Records.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Kinfolk Records.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Kinfolk Records.",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 2.880595,
+          "mean_var": 2.94985,
+          "mean_gamma": 1.783854,
+          "mean_guidance_scale": 2.783854,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.999349
+        }
+      }
+    },
+    {
+      "id": "dev_21",
+      "question": "Where was the author of Hannibal and Scipio educated at?",
+      "gold": "Exeter College",
+      "elapsed": 12.69,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Thomas Nabbes",
+        "Eton College."
+      ],
+      "v3_candidates": [
+        "Eton College, Windsor, Berkshire",
+        "Eton College, near Windsor, Berkshire",
+        "Thomas Nabbes, Eton College",
+        "Magdalen College, Oxford"
+      ],
+      "current_hint": "Related entities: Thomas Nabbes, Eton College.",
+      "v3_hint": "Related entities: Eton College, Windsor, Berkshire, Eton College, near Windsor, Berkshire, Thomas Nabbes, Eton College.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 7,
+        "selected_utilities": [
+          0.398263,
+          0.374836,
+          0.225193,
+          0.185378,
+          0.066705,
+          0.033068,
+          0.021893
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Where was the author of Hannibal and Scipio educated at? The author of Hannibal and Scipio, Thomas Nabbes, was educated at Eton College, a public school near Windsor, Berkshire."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.262989,
+            "query": "query: Where was the author of Hannibal and Scipio educated at? Eton College, Windsor, Berkshire"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.21517,
+            "query": "query: Where was the author of Hannibal and Scipio educated at? Eton College, near Windsor, Berkshire"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.094089,
+            "query": "query: Where was the author of Hannibal and Scipio educated at? Thomas Nabbes, Eton College"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.077753,
+            "query": "query: Where was the author of Hannibal and Scipio educated at? Magdalen College, Oxford"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.1053,
+        "precision": 0.0588,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "The author of Hannibal and Scipio, Thomas Nabbes, was educated at Eton College, a public school near Windsor, Berkshire.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.8,
+        "precision": 0.6667,
+        "recall": 1.0,
+        "em": 0.0,
+        "contain": 1.0,
+        "answer": "Exeter College, Oxford.",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "Exeter College."
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "Exeter College."
+      },
+      "pool_v3_full": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "Exeter College.",
+        "stats": {
+          "mean_ig": 0.602173,
+          "mean_var": 1.497681,
+          "mean_gamma": 0.251872,
+          "mean_guidance_scale": 1.251872,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.938151
+        }
+      }
+    },
+    {
+      "id": "dev_22",
+      "question": "In which county is Southern Maryland Electric Cooperative headquartered?",
+      "gold": "Charles County",
+      "elapsed": 10.59,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Prince George's County",
+        "Calvert, Maryland"
+      ],
+      "v3_candidates": [
+        "Hughesville, Prince George's County",
+        "Calvert, Charles, Prince George's",
+        "Hughesville, Maryland",
+        "Calvert"
+      ],
+      "current_hint": "Related entities: Prince George's County, Calvert, Maryland.",
+      "v3_hint": "Related entities: Hughesville, Prince George's County, Calvert, Charles, Prince George's, Hughesville, Maryland.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 3,
+        "selected_utilities": [
+          0.309092,
+          0.08559,
+          0.067741
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: In which county is Southern Maryland Electric Cooperative headquartered? Hughesville, Maryland"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.303969,
+            "query": "query: In which county is Southern Maryland Electric Cooperative headquartered? Hughesville, Prince George's County"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.237829,
+            "query": "query: In which county is Southern Maryland Electric Cooperative headquartered? Calvert, Charles, Prince George's"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.064899,
+            "query": "query: In which county is Southern Maryland Electric Cooperative headquartered? Hughesville, Maryland"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.043303,
+            "query": "query: In which county is Southern Maryland Electric Cooperative headquartered? Calvert"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Hughesville, Maryland",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Hughesville, Maryland",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.8,
+        "precision": 0.6667,
+        "recall": 1.0,
+        "em": 0.0,
+        "contain": 1.0,
+        "answer": "Charles County, Maryland",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.8,
+        "precision": 0.6667,
+        "recall": 1.0,
+        "em": 0.0,
+        "contain": 1.0,
+        "answer": "Charles County, Maryland",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_full": {
+        "f1": 0.8,
+        "precision": 0.6667,
+        "recall": 1.0,
+        "em": 0.0,
+        "contain": 1.0,
+        "answer": "Charles County, Maryland",
+        "failure_bucket": "answer_stage_failure",
+        "stats": {
+          "mean_ig": 0.215759,
+          "mean_var": 1.261386,
+          "mean_gamma": 0.09965,
+          "mean_guidance_scale": 1.09965,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.977214
+        }
+      }
+    },
+    {
+      "id": "dev_23",
+      "question": "Who is the child of the Victim of Romance performer?",
+      "gold": "Chynna Phillips",
+      "elapsed": 12.37,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "JoBeth Williams.",
+        "Virginia Madsen",
+        "Child is not mentioned"
+      ],
+      "v3_candidates": [
+        "Pierce Brosnan's child",
+        "JoBeth Williams",
+        "Victim of Romance performer not mentioned",
+        "JoBeth Williams and Pierce Brosnan"
+      ],
+      "current_hint": "Related entities: JoBeth Williams, Virginia Madsen, Child is not mentioned.",
+      "v3_hint": "Related entities: Pierce Brosnan's child, JoBeth Williams, Victim of Romance performer not.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 5,
+        "selected_utilities": [
+          0.486582,
+          0.12453,
+          0.104677,
+          0.095304,
+          0.021565
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Who is the child of the Victim of Romance performer? The child of the Victim of Romance performer is not mentioned, but the performer is Pierce Brosnan, JoBeth Williams and Virginia Madsen."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.267476,
+            "query": "query: Who is the child of the Victim of Romance performer? Pierce Brosnan's child"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.252955,
+            "query": "query: Who is the child of the Victim of Romance performer? JoBeth Williams"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.080107,
+            "query": "query: Who is the child of the Victim of Romance performer? Victim of Romance performer not mentioned"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.049463,
+            "query": "query: Who is the child of the Victim of Romance performer? JoBeth Williams and Pierce Brosnan"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "The child of the Victim of Romance performer is not mentioned, but the performer is Pierce Brosnan, JoBeth Williams and Virginia Madsen.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "The child is not mentioned.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Jennifer Love Hewitt",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Jennifer Love Hewitt",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Jennifer Love Hewitt",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 0.029055,
+          "mean_var": 0.055541,
+          "mean_gamma": 0.322347,
+          "mean_guidance_scale": 1.322347,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.994792
+        }
+      }
+    },
+    {
+      "id": "dev_24",
+      "question": "What county was Tim Dubois born in?",
+      "gold": "McDonald County",
+      "elapsed": 12.45,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Southwest City Missouri",
+        "Missouri, Southwest City",
+        "Dubois County."
+      ],
+      "v3_candidates": [
+        "Southwest City, Missouri",
+        "Southwest City, Missouri, Missouri",
+        "Southwest City, Missouri, United States",
+        "Southwest City, Missouri, USA"
+      ],
+      "current_hint": "Related entities: Southwest City Missouri, Missouri, Southwest City, Dubois County.",
+      "v3_hint": "Related entities: Southwest City, Missouri, Southwest City, Missouri, Missouri, Southwest City, Missouri, United States.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 4,
+        "selected_utilities": [
+          0.2693,
+          0.168344,
+          0.146973,
+          0.010943
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What county was Tim Dubois born in? Missouri"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.523138,
+            "query": "query: What county was Tim Dubois born in? Southwest City, Missouri"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.0642,
+            "query": "query: What county was Tim Dubois born in? Southwest City, Missouri, Missouri"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.039714,
+            "query": "query: What county was Tim Dubois born in? Southwest City, Missouri, United States"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.022948,
+            "query": "query: What county was Tim Dubois born in? Southwest City, Missouri, USA"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Missouri",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Southwest City, Missouri.",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.5,
+        "precision": 0.5,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "McDonald, Missouri",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "McDonald County."
+      },
+      "pool_v3_full": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "McDonald County.",
+        "stats": {
+          "mean_ig": 1.625692,
+          "mean_var": 2.312622,
+          "mean_gamma": 0.387044,
+          "mean_guidance_scale": 1.387044,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.884766
+        }
+      }
+    },
+    {
+      "id": "dev_25",
+      "question": "What record label did the person who is part of The Bruce Lee Band start?",
+      "gold": "Asian Man Records",
+      "elapsed": 10.27,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "HIGHGRND",
+        "HighIGHGRND",
+        "Higgrnd"
+      ],
+      "v3_candidates": [
+        "HIGHGRND (High Ground)",
+        "HIGHGRND",
+        "Epik High (by Tablo)",
+        "HIIGHGRND (High Ground)"
+      ],
+      "current_hint": "Related entities: HIGHGRND, HighIGHGRND, Higgrnd.",
+      "v3_hint": "Related entities: HIGHGRND (High Ground), HIGHGRND, Epik High (by Tablo).",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 3,
+        "selected_utilities": [
+          0.26438,
+          0.173185,
+          0.0
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What record label did the person who is part of The Bruce Lee Band start? HIGHGRND"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.65,
+            "query": "query: What record label did the person who is part of The Bruce Lee Band start? HIGHGRND (High Ground)"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.0,
+            "query": "query: What record label did the person who is part of The Bruce Lee Band start? HIGHGRND"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.0,
+            "query": "query: What record label did the person who is part of The Bruce Lee Band start? Epik High (by Tablo)"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.0,
+            "query": "query: What record label did the person who is part of The Bruce Lee Band start? HIIGHGRND (High Ground)"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "HIGHGRND",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.75,
+        "precision": 0.6,
+        "recall": 1.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Dill Records and Asian Man",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "HIGHGRND",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "HIGHGRND",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "HIGHGRND",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 0.000525,
+          "mean_var": 0.000492,
+          "mean_gamma": 0.188154,
+          "mean_guidance_scale": 1.188154,
+          "mean_w_t": 0.416667,
+          "avg_conf": 1.0
+        }
+      }
+    },
+    {
+      "id": "dev_26",
+      "question": "What is another notable work made by the author of Miss Sara Sampson?",
+      "gold": "Emilia Galotti",
+      "elapsed": 11.43,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Fiona Sampson",
+        "The German National Theatre",
+        "Lessing's plays"
+      ],
+      "v3_candidates": [
+        "Epaminondas and His Auntie",
+        "Gotthold Ephraim Lessing",
+        "\"The Story of Little Black Sambo\"",
+        "\"Ephraim Lessing\""
+      ],
+      "current_hint": "Related entities: Fiona Sampson, German National Theatre, Lessing's plays.",
+      "v3_hint": "Related entities: Epaminondas and His Auntie, Gotthold Ephraim Lessing, \"The Story of Little Black.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 5,
+        "selected_utilities": [
+          0.282459,
+          0.101001,
+          0.000608,
+          1e-06,
+          0.0
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What is another notable work made by the author of Miss Sara Sampson? Gotthold Ephraim Lessing, the author of Miss Sara Sampson, was the dramaturg at the German National Theatre in Hamburg."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.647789,
+            "query": "query: What is another notable work made by the author of Miss Sara Sampson? Epaminondas and His Auntie"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.00221,
+            "query": "query: What is another notable work made by the author of Miss Sara Sampson? Gotthold Ephraim Lessing"
+          },
+          {
+            "kind": "bridge",
+            "weight": 1e-06,
+            "query": "query: What is another notable work made by the author of Miss Sara Sampson? \"The Story of Little Black Sambo\""
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.0,
+            "query": "query: What is another notable work made by the author of Miss Sara Sampson? \"Ephraim Lessing\""
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Gotthold Ephraim Lessing, the author of Miss Sara Sampson, was the dramaturg at the German National Theatre in Hamburg.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "\"Emilia Galotti\""
+      },
+      "pool_v3_bridge": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "Emilia Galotti"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "Emilia Galotti"
+      },
+      "pool_v3_full": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "Emilia Galotti",
+        "stats": {
+          "mean_ig": 0.041286,
+          "mean_var": 0.016865,
+          "mean_gamma": 0.179525,
+          "mean_guidance_scale": 1.179525,
+          "mean_w_t": 0.416667,
+          "avg_conf": 1.0
+        }
+      }
+    },
+    {
+      "id": "dev_27",
+      "question": "What instrument is played by the person from The Blackout All-Stars?",
+      "gold": "conga",
+      "elapsed": 12.99,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Ray Barretto",
+        "Tito Puente",
+        "Bassist."
+      ],
+      "v3_candidates": [
+        "Ray Barretto, Sheila E",
+        "Double bass",
+        "Double bass, electric bass, and more",
+        "Ray Barretto"
+      ],
+      "current_hint": "Related entities: Ray Barretto, Tito Puente, Bassist.",
+      "v3_hint": "Related entities: Ray Barretto, Sheila E, Double bass, Double bass, electric bass, and.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 7,
+        "selected_utilities": [
+          0.332343,
+          0.183193,
+          0.095361,
+          0.093837,
+          0.078672,
+          0.022996,
+          0.015118
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What instrument is played by the person from The Blackout All-Stars? guitar"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.337944,
+            "query": "query: What instrument is played by the person from The Blackout All-Stars? Ray Barretto, Sheila E"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.202693,
+            "query": "query: What instrument is played by the person from The Blackout All-Stars? Double bass"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.055043,
+            "query": "query: What instrument is played by the person from The Blackout All-Stars? Double bass, electric bass, and more"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.05432,
+            "query": "query: What instrument is played by the person from The Blackout All-Stars? Ray Barretto"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "guitar",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.4,
+        "precision": 0.25,
+        "recall": 1.0,
+        "em": 0.0,
+        "contain": 1.0,
+        "answer": "Conga drummer and bandleader",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Ray Barretto",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Ray Barretto",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Ray Barretto",
+        "failure_bucket": "answer_stage_failure",
+        "stats": {
+          "mean_ig": 0.760393,
+          "mean_var": 0.90805,
+          "mean_gamma": 0.546875,
+          "mean_guidance_scale": 1.546875,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.994141
+        }
+      }
+    },
+    {
+      "id": "dev_28",
+      "question": "What is the seat of the county where Van Hook Township is located?",
+      "gold": "Stanley",
+      "elapsed": 11.57,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "New Town, ND",
+        "Mountrail County seat",
+        "Mountrail County."
+      ],
+      "v3_candidates": [
+        "New Town, North Dakota",
+        "Mountrail County seat is New Town",
+        "New Town",
+        "New Town, Mountrail, North Dakota"
+      ],
+      "current_hint": "Related entities: New Town, ND, Mountrail County seat, Mountrail County.",
+      "v3_hint": "Related entities: New Town, North Dakota, Mountrail County seat is New, New Town.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 2,
+        "selected_utilities": [
+          0.479948,
+          0.118164
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What is the seat of the county where Van Hook Township is located? Mountrail County, North Dakota, but the seat is not explicitly mentioned in the context, but it is likely in the nearby city of New Town."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.226661,
+            "query": "query: What is the seat of the county where Van Hook Township is located? New Town, North Dakota"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.215152,
+            "query": "query: What is the seat of the county where Van Hook Township is located? Mountrail County seat is New Town"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.140845,
+            "query": "query: What is the seat of the county where Van Hook Township is located? New Town"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.067342,
+            "query": "query: What is the seat of the county where Van Hook Township is located? New Town, Mountrail, North Dakota"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Mountrail County, North Dakota, but the seat is not explicitly mentioned in the context, but it is likely in the nearby city of New Town.",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "New Town, North Dakota.",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "New, New Town",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "New, New Town",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "New, New Town",
+        "failure_bucket": "wrong_granularity",
+        "stats": {
+          "mean_ig": 2.13151,
+          "mean_var": 1.003225,
+          "mean_gamma": 2.099569,
+          "mean_guidance_scale": 3.099569,
+          "mean_w_t": 0.416667,
+          "avg_conf": 1.0
+        }
+      }
+    },
+    {
+      "id": "dev_29",
+      "question": "Who is the father of Edward Baring, 1st Baron Revelstoke's father?",
+      "gold": "Sir Francis Baring, 1st Baronet",
+      "elapsed": 13.11,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Sir Francis Baring",
+        "Henry Baring."
+      ],
+      "v3_candidates": [
+        "Sir Francis Baring's great-grandson",
+        "Sir Francis, 1st Baronet",
+        "Henry Baring's father, Sir Francis",
+        "Henry Baring (1st Baron)"
+      ],
+      "current_hint": "Related entities: Sir Francis Baring, Henry Baring.",
+      "v3_hint": "Related entities: Sir Francis Baring's great-grandson, Sir Francis, 1st Baronet, Henry Baring's father, Sir Francis.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 2,
+        "selected_utilities": [
+          0.180166,
+          0.019076
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Who is the father of Edward Baring, 1st Baron Revelstoke's father? The father of Edward Baring, 1st Baron Revelstoke's father's father is Sir Francis Baring, 1st Baronet."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.345833,
+            "query": "query: Who is the father of Edward Baring, 1st Baron Revelstoke's father? Sir Francis Baring's great-grandson"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.171559,
+            "query": "query: Who is the father of Edward Baring, 1st Baron Revelstoke's father? Sir Francis, 1st Baronet"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.090097,
+            "query": "query: Who is the father of Edward Baring, 1st Baron Revelstoke's father? Henry Baring's father, Sir Francis"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.042511,
+            "query": "query: Who is the father of Edward Baring, 1st Baron Revelstoke's father? Henry Baring (1st Baron)"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.5,
+        "precision": 0.3333,
+        "recall": 1.0,
+        "em": 0.0,
+        "contain": 1.0,
+        "answer": "The father of Edward Baring, 1st Baron Revelstoke's father's father is Sir Francis Baring, 1st Baronet.",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.4444,
+        "precision": 0.5,
+        "recall": 0.4,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Sir Francis Baring's father",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.75,
+        "precision": 1.0,
+        "recall": 0.6,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Sir Francis Baring",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.75,
+        "precision": 1.0,
+        "recall": 0.6,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Sir Francis Baring",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_full": {
+        "f1": 0.75,
+        "precision": 1.0,
+        "recall": 0.6,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Sir Francis Baring",
+        "failure_bucket": "answer_stage_failure",
+        "stats": {
+          "mean_ig": 0.007784,
+          "mean_var": 0.006393,
+          "mean_gamma": 0.37793,
+          "mean_guidance_scale": 1.37793,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.999349
+        }
+      }
+    },
+    {
+      "id": "dev_30",
+      "question": "What group was the performer of Be the One a member of?",
+      "gold": "Jackson 5",
+      "elapsed": 12.44,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Dua Lipa",
+        "Techno dance act",
+        "K One K One"
+      ],
+      "v3_candidates": [
+        "Dua Lipa, solo artist",
+        "Dua Lipa's solo career",
+        "K One",
+        "Dua Lipa, K One"
+      ],
+      "current_hint": "Related entities: Dua Lipa, Techno dance act, K One K One.",
+      "v3_hint": "Related entities: Dua Lipa, solo artist, Dua Lipa's solo career, K One.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 5,
+        "selected_utilities": [
+          0.399476,
+          0.165389,
+          0.09519,
+          0.028939,
+          0.019158
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What group was the performer of Be the One a member of? Dua Lipa was a member of the group \"Be the One\" but it does not mention the group she was part of in the context."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.445281,
+            "query": "query: What group was the performer of Be the One a member of? Dua Lipa, solo artist"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.069246,
+            "query": "query: What group was the performer of Be the One a member of? Dua Lipa's solo career"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.069077,
+            "query": "query: What group was the performer of Be the One a member of? K One"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.066396,
+            "query": "query: What group was the performer of Be the One a member of? Dua Lipa, K One"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Dua Lipa was a member of the group \"Be the One\" but it does not mention the group she was part of in the context.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Short Answer: Technotronic",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Dua Lipa",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Dua Lipa",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Dua Lipa",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 0.226828,
+          "mean_var": 0.160784,
+          "mean_gamma": 0.704427,
+          "mean_guidance_scale": 1.704427,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.998698
+        }
+      }
+    },
+    {
+      "id": "dev_31",
+      "question": "Who is the lead singer of the band performing Bang Bang Rock & Roll?",
+      "gold": "Eddie Argos",
+      "elapsed": 11.91,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Donna Grassie.",
+        "Jo James",
+        "- Donna Grassie"
+      ],
+      "v3_candidates": [
+        "Donna Grassie",
+        "Jo James",
+        "The lead singer is Donna Grassie",
+        "Donna Grassie, later Jo James"
+      ],
+      "current_hint": "Related entities: Donna Grassie, Jo James, - Donna Grassie.",
+      "v3_hint": "Related entities: Donna Grassie, Jo James, lead singer is Donna Grassie.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 5,
+        "selected_utilities": [
+          0.691083,
+          0.235808,
+          0.03299,
+          0.003335,
+          0.002215
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Who is the lead singer of the band performing Bang Bang Rock & Roll? Donna Grassie"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.471854,
+            "query": "query: Who is the lead singer of the band performing Bang Bang Rock & Roll? Donna Grassie"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.122029,
+            "query": "query: Who is the lead singer of the band performing Bang Bang Rock & Roll? Jo James"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.047982,
+            "query": "query: Who is the lead singer of the band performing Bang Bang Rock & Roll? The lead singer is Donna Grassie"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.008135,
+            "query": "query: Who is the lead singer of the band performing Bang Bang Rock & Roll? Donna Grassie, later Jo James"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Donna Grassie",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Donna Grassie, Jo James",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Donna Grassie.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Donna Grassie.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Donna Grassie.",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 0.876206,
+          "mean_var": 0.139206,
+          "mean_gamma": 0.846354,
+          "mean_guidance_scale": 1.846354,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.998698
+        }
+      }
+    },
+    {
+      "id": "dev_32",
+      "question": "What is the network which National Cycle Route 57 is part of an example of?",
+      "gold": "national cycling route network",
+      "elapsed": 10.07,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "National cycling route network",
+        "British National Cycle Network"
+      ],
+      "v3_candidates": [
+        "National cycling route network of the",
+        "The National Cycle Network (NCN)",
+        "The routes of the British National",
+        "National Cycle Network (NCN)"
+      ],
+      "current_hint": "Related entities: National cycling route network, British National Cycle Network.",
+      "v3_hint": "Related entities: National cycling route network of, National Cycle Network (NCN), routes of the British National.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 0,
+        "selected_utilities": [],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What is the network which National Cycle Route 57 is part of an example of? The network which National Cycle Route 57 is part of is an example of a national cycling route network, specifically the UK's National Cycle Network."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.354283,
+            "query": "query: What is the network which National Cycle Route 57 is part of an example of? National cycling route network of the"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.253046,
+            "query": "query: What is the network which National Cycle Route 57 is part of an example of? The National Cycle Network (NCN)"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.031204,
+            "query": "query: What is the network which National Cycle Route 57 is part of an example of? The routes of the British National"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.011467,
+            "query": "query: What is the network which National Cycle Route 57 is part of an example of? National Cycle Network (NCN)"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.32,
+        "precision": 0.1905,
+        "recall": 1.0,
+        "em": 0.0,
+        "contain": 1.0,
+        "answer": "The network which National Cycle Route 57 is part of is an example of a national cycling route network, specifically the UK's National Cycle Network.",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.4444,
+        "precision": 0.4,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "United Kingdom's National Cycle Network",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "National cycling route network"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "National cycling route network"
+      },
+      "pool_v3_full": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "National cycling route network",
+        "stats": {
+          "mean_ig": 0.033878,
+          "mean_var": 0.073683,
+          "mean_gamma": 0.184814,
+          "mean_guidance_scale": 1.184814,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.976562
+        }
+      }
+    },
+    {
+      "id": "dev_33",
+      "question": "Who is the spouse of the child of Peter Andreas Heiberg?",
+      "gold": "Johanne Luise Heiberg",
+      "elapsed": 13.8,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Signe Konow",
+        "Thomasine's spouse",
+        "Johan Ludvig"
+      ],
+      "v3_candidates": [
+        "Carl Fredrik Ehrensv\u00e4rd",
+        "Thomasine Christine Ehrensv\u00e4rd",
+        "Johanne Marie Wilhelmine Alida",
+        "Johan Ludvig Heiberg"
+      ],
+      "current_hint": "Related entities: Signe Konow, Thomasine's spouse, Johan Ludvig.",
+      "v3_hint": "Related entities: Carl Fredrik Ehrensv\u00e4rd, Thomasine Christine Ehrensv\u00e4rd, Johanne Marie Wilhelmine Alida.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 3,
+        "selected_utilities": [
+          0.415709,
+          0.097298,
+          2.6e-05
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Who is the spouse of the child of Peter Andreas Heiberg? Thomasine Christine Gyllembourg-Ehrensv\u00e4rd's second husband, the Swedish Baron Carl Fredrik Ehrensv\u00e4rd."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.530089,
+            "query": "query: Who is the spouse of the child of Peter Andreas Heiberg? Carl Fredrik Ehrensv\u00e4rd"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.119836,
+            "query": "query: Who is the spouse of the child of Peter Andreas Heiberg? Thomasine Christine Ehrensv\u00e4rd"
+          },
+          {
+            "kind": "bridge",
+            "weight": 6e-05,
+            "query": "query: Who is the spouse of the child of Peter Andreas Heiberg? Johanne Marie Wilhelmine Alida"
+          },
+          {
+            "kind": "bridge",
+            "weight": 1.5e-05,
+            "query": "query: Who is the spouse of the child of Peter Andreas Heiberg? Johan Ludvig Heiberg"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Thomasine Christine Gyllembourg-Ehrensv\u00e4rd's second husband, the Swedish Baron Carl Fredrik Ehrensv\u00e4rd.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Alette Elisabeth Wiland",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Signe Konow",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Signe Konow",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Signe Konow",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 3.338542,
+          "mean_var": 4.710709,
+          "mean_gamma": 2.962931,
+          "mean_guidance_scale": 3.962931,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.979167
+        }
+      }
+    },
+    {
+      "id": "dev_34",
+      "question": "The Unwinding author volunteered for which organisation?",
+      "gold": "Peace Corps",
+      "elapsed": 11.41,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Biodiesel entrepreneur",
+        "Youngstown, Ohio",
+        "Price's gas stations"
+      ],
+      "v3_candidates": [
+        "Biodiesel entrepreneur from North Carolina",
+        "An Inner History of the New",
+        "Community organizer",
+        "Youngstown, Ohio and biodiesel entrepreneur"
+      ],
+      "current_hint": "Related entities: Biodiesel entrepreneur, Youngstown, Ohio, Price's gas stations.",
+      "v3_hint": "Related entities: Biodiesel entrepreneur from North Carolina, An Inner History of the, Community organizer.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 4,
+        "selected_utilities": [
+          0.128592,
+          0.118013,
+          0.051026,
+          0.033679
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: The Unwinding author volunteered for which organisation? Community organizer"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.379801,
+            "query": "query: The Unwinding author volunteered for which organisation? Biodiesel entrepreneur from North Carolina"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.122294,
+            "query": "query: The Unwinding author volunteered for which organisation? An Inner History of the New"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.078782,
+            "query": "query: The Unwinding author volunteered for which organisation? Community organizer"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.069122,
+            "query": "query: The Unwinding author volunteered for which organisation? Youngstown, Ohio and biodiesel entrepreneur"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Community organizer",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Youngstown, Ohio factory worker",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.3333,
+        "precision": 0.25,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "War and Peace Reporting",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.3333,
+        "precision": 0.25,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "War and Peace Reporting",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.3333,
+        "precision": 0.25,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "War and Peace Reporting",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 0.425004,
+          "mean_var": 1.386759,
+          "mean_gamma": 0.307007,
+          "mean_guidance_scale": 1.307007,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.90332
+        }
+      }
+    },
+    {
+      "id": "dev_35",
+      "question": "What is the capital of the county that Pine Springs is located in?",
+      "gold": "Van Horn",
+      "elapsed": 11.43,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Washington County, Minnesota",
+        "Austin, Texas.",
+        "Smith County, Texas"
+      ],
+      "v3_candidates": [
+        "Pine Springs, Smith County, Texas",
+        "Culberson County, Texas",
+        "Tyler, Texas",
+        "Pine Springs, County, Texas"
+      ],
+      "current_hint": "Related entities: Washington County, Minnesota, Austin, Texas, Smith County, Texas.",
+      "v3_hint": "Related entities: Pine Springs, Smith County, Texas, Culberson County, Texas, Tyler, Texas.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 1,
+        "selected_utilities": [
+          0.077218
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What is the capital of the county that Pine Springs is located in? Tyler"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.246551,
+            "query": "query: What is the capital of the county that Pine Springs is located in? Pine Springs, Smith County, Texas"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.177092,
+            "query": "query: What is the capital of the county that Pine Springs is located in? Culberson County, Texas"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.145902,
+            "query": "query: What is the capital of the county that Pine Springs is located in? Tyler, Texas"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.080455,
+            "query": "query: What is the capital of the county that Pine Springs is located in? Pine Springs, County, Texas"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Tyler",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Answer: Washington County, Minnesota",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Tyler, Texas.",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Tyler, Texas.",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Tyler, Texas.",
+        "failure_bucket": "wrong_granularity",
+        "stats": {
+          "mean_ig": 0.875775,
+          "mean_var": 1.219409,
+          "mean_gamma": 0.632324,
+          "mean_guidance_scale": 1.632324,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.98763
+        }
+      }
+    },
+    {
+      "id": "dev_36",
+      "question": "What district is the headquarter of Julia's House located?",
+      "gold": "East Dorset",
+      "elapsed": 11.13,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Corfe Mullen",
+        "Dorset, England"
+      ],
+      "v3_candidates": [
+        "Corfe Mullen, Dorset, England",
+        "Dorset, in Corfe Mullen",
+        "Corfe Mullen, Dorset England",
+        "CORFE MULLEN, dorset"
+      ],
+      "current_hint": "Related entities: Corfe Mullen, Dorset, England.",
+      "v3_hint": "Related entities: Corfe Mullen, Dorset, England, Dorset, in Corfe Mullen, Corfe Mullen, Dorset England.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 2,
+        "selected_utilities": [
+          0.435547,
+          0.290039
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What district is the headquarter of Julia's House located? Corfe Mullen, Dorset, England"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.65,
+            "query": "query: What district is the headquarter of Julia's House located? Corfe Mullen, Dorset, England"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.0,
+            "query": "query: What district is the headquarter of Julia's House located? Dorset, in Corfe Mullen"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.0,
+            "query": "query: What district is the headquarter of Julia's House located? Corfe Mullen, Dorset England"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.0,
+            "query": "query: What district is the headquarter of Julia's House located? CORFE MULLEN, dorset"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.3333,
+        "precision": 0.25,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Corfe Mullen, Dorset, England",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.4,
+        "precision": 0.3333,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Corfe Mullen, Dorset",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Corfe Mullen",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Corfe Mullen",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Corfe Mullen",
+        "failure_bucket": "answer_stage_failure",
+        "stats": {
+          "mean_ig": 0.049147,
+          "mean_var": 0.112988,
+          "mean_gamma": 0.511475,
+          "mean_guidance_scale": 1.511475,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.967448
+        }
+      }
+    },
+    {
+      "id": "dev_37",
+      "question": "Who is the spouse of Young Man Luther's author?",
+      "gold": "Joan Erikson",
+      "elapsed": 11.54,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Luedtke",
+        "Carol Luedtke",
+        "Martin Luther's wife"
+      ],
+      "v3_candidates": [
+        "Carol Luedtke",
+        "Katharina von Bora",
+        "The spouse is Carol Luedtke",
+        "Luther Luedtke's spouse"
+      ],
+      "current_hint": "Related entities: Luedtke, Carol Luedtke, Martin Luther's wife.",
+      "v3_hint": "Related entities: Carol Luedtke, Katharina von Bora, spouse is Carol Luedtke.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 4,
+        "selected_utilities": [
+          0.237359,
+          0.191625,
+          0.155516,
+          0.000476
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Who is the spouse of Young Man Luther's author? Katharina von Bora"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.546516,
+            "query": "query: Who is the spouse of Young Man Luther's author? Carol Luedtke"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.080551,
+            "query": "query: Who is the spouse of Young Man Luther's author? Katharina von Bora"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.021204,
+            "query": "query: Who is the spouse of Young Man Luther's author? The spouse is Carol Luedtke"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.00173,
+            "query": "query: Who is the spouse of Young Man Luther's author? Luther Luedtke's spouse"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Katharina von Bora",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Katharina von Bora",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Luedtke",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Carol Luedtke",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Carol Luedtke",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 0.097972,
+          "mean_var": 0.161681,
+          "mean_gamma": 0.256348,
+          "mean_guidance_scale": 1.256348,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.963542
+        }
+      }
+    },
+    {
+      "id": "dev_38",
+      "question": "What record label did the performer of The Place and the Time belong to?",
+      "gold": "Columbia Records",
+      "elapsed": 10.59,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Sundazed Records",
+        "Sundayzed Records",
+        "Sundazed."
+      ],
+      "v3_candidates": [
+        "Sundazed Records",
+        "Sundazed",
+        "**Short Answer:** Sundazed Records",
+        "Sundazed (Moby Grape)"
+      ],
+      "current_hint": "Related entities: Sundazed Records, Sundayzed Records, Sundazed.",
+      "v3_hint": "Related entities: Sundazed Records, Sundazed, **Short Answer:** Sundazed Records.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 2,
+        "selected_utilities": [
+          1e-05,
+          4e-06
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What record label did the performer of The Place and the Time belong to? Sundazed Records"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.649743,
+            "query": "query: What record label did the performer of The Place and the Time belong to? Sundazed Records"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.000205,
+            "query": "query: What record label did the performer of The Place and the Time belong to? Sundazed"
+          },
+          {
+            "kind": "bridge",
+            "weight": 3.6e-05,
+            "query": "query: What record label did the performer of The Place and the Time belong to? **Short Answer:** Sundazed Records"
+          },
+          {
+            "kind": "bridge",
+            "weight": 1.6e-05,
+            "query": "query: What record label did the performer of The Place and the Time belong to? Sundazed (Moby Grape)"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.5,
+        "precision": 0.5,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Sundazed Records",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.5,
+        "precision": 0.5,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Sundazed Records",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.5,
+        "precision": 0.5,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Sundazed Records",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.5,
+        "precision": 0.5,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Sundazed Records",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.5,
+        "precision": 0.5,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Sundazed Records",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 0.008053,
+          "mean_var": 0.001999,
+          "mean_gamma": 0.454611,
+          "mean_guidance_scale": 1.454611,
+          "mean_w_t": 0.416667,
+          "avg_conf": 1.0
+        }
+      }
+    },
+    {
+      "id": "dev_39",
+      "question": "Who is the child of the person who followed Tihomir of Serbia?",
+      "gold": "Saint Sava",
+      "elapsed": 13.67,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Tihomir",
+        "Stefan Nemanja",
+        "Nemanja."
+      ],
+      "v3_candidates": [
+        "Stefan Nemanja's child",
+        "Stefan, son of Nemanja",
+        "Tihomir Zavidovi\u0107",
+        "Stefan Nemanja's unnamed child"
+      ],
+      "current_hint": "Related entities: Tihomir, Stefan Nemanja, Nemanja.",
+      "v3_hint": "Related entities: Stefan Nemanja's child, Stefan, son of Nemanja, Tihomir Zavidovi\u0107.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 4,
+        "selected_utilities": [
+          0.746045,
+          0.222304,
+          0.065522,
+          0.036904
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Who is the child of the person who followed Tihomir of Serbia? The child of the person who followed Tihomir of Serbia is Stefan Nemanja's child, who established the Nemanji\u0107 dynasty."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.251873,
+            "query": "query: Who is the child of the person who followed Tihomir of Serbia? Stefan Nemanja's child"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.22886,
+            "query": "query: Who is the child of the person who followed Tihomir of Serbia? Stefan, son of Nemanja"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.130234,
+            "query": "query: Who is the child of the person who followed Tihomir of Serbia? Tihomir Zavidovi\u0107"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.039034,
+            "query": "query: Who is the child of the person who followed Tihomir of Serbia? Stefan Nemanja's unnamed child"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "The child of the person who followed Tihomir of Serbia is Stefan Nemanja's child, who established the Nemanji\u0107 dynasty.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Child of Stefan Nemanja",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Stefan's child",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Stefan's child",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Stefan's child",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 1.42513,
+          "mean_var": 1.815755,
+          "mean_gamma": 0.604085,
+          "mean_guidance_scale": 1.604085,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.953776
+        }
+      }
+    },
+    {
+      "id": "dev_40",
+      "question": "What team was Anna Benson's husband on?",
+      "gold": "Pittsburgh Pirates",
+      "elapsed": 10.4,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "New York Mets.",
+        "Pittsburgh Pirates.",
+        "The New York Mets"
+      ],
+      "v3_candidates": [
+        "Pittsburgh Pirates and New York Mets",
+        "Pittsburgh Pirates, then New York Mets",
+        "Pirates, Mets, and Orioles",
+        "Pittsburgh Pirates and the New York"
+      ],
+      "current_hint": "Related entities: New York Mets, Pittsburgh Pirates.",
+      "v3_hint": "Related entities: Pittsburgh Pirates and New York, Pittsburgh Pirates, then New York, Pirates, Mets, and Orioles.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 1,
+        "selected_utilities": [
+          0.026011
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What team was Anna Benson's husband on? New York Mets"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.317701,
+            "query": "query: What team was Anna Benson's husband on? Pittsburgh Pirates and New York Mets"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.231859,
+            "query": "query: What team was Anna Benson's husband on? Pittsburgh Pirates, then New York Mets"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.060092,
+            "query": "query: What team was Anna Benson's husband on? Pirates, Mets, and Orioles"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.040347,
+            "query": "query: What team was Anna Benson's husband on? Pittsburgh Pirates and the New York"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "New York Mets",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.3333,
+        "precision": 0.25,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Pirates, New York Mets",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.4,
+        "precision": 0.3333,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Pirates and Mets",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.4,
+        "precision": 0.3333,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Pirates and Mets",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.4,
+        "precision": 0.3333,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Pirates and Mets",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 0.323771,
+          "mean_var": 0.59611,
+          "mean_gamma": 0.297933,
+          "mean_guidance_scale": 1.297933,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.859375
+        }
+      }
+    },
+    {
+      "id": "dev_41",
+      "question": "What place does the administrative territorial entity that Juba is located in share a border with?",
+      "gold": "Eastern Equatoria",
+      "elapsed": 12.26,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Kenya and Ethiopia",
+        "Sudan.",
+        "Mongalla Province"
+      ],
+      "v3_candidates": [
+        "The city of Kaya, South Sudan",
+        "City of Kaya, South Sudan",
+        "Democratic Republic of the Congo and",
+        "South Sudan and Democratic Republic of"
+      ],
+      "current_hint": "Related entities: Kenya and Ethiopia, Sudan, Mongalla Province.",
+      "v3_hint": "Related entities: city of Kaya, South Sudan, Democratic Republic of the Congo, South Sudan and Democratic Republic.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 4,
+        "selected_utilities": [
+          0.497231,
+          0.474292,
+          0.182222,
+          0.110348
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What place does the administrative territorial entity that Juba is located in share a border with? South Sudan"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.484453,
+            "query": "query: What place does the administrative territorial entity that Juba is located in share a border with? The city of Kaya, South Sudan"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.0727,
+            "query": "query: What place does the administrative territorial entity that Juba is located in share a border with? City of Kaya, South Sudan"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.054792,
+            "query": "query: What place does the administrative territorial entity that Juba is located in share a border with? Democratic Republic of the Congo and"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.038056,
+            "query": "query: What place does the administrative territorial entity that Juba is located in share a border with? South Sudan and Democratic Republic of"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "South Sudan",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Democratic Republic of the Congo",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Yei River State",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Yei River State",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Yei River State",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 0.486338,
+          "mean_var": 0.689585,
+          "mean_gamma": 0.333333,
+          "mean_guidance_scale": 1.333333,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.940755
+        }
+      }
+    },
+    {
+      "id": "dev_42",
+      "question": "Where was the spouse of Frances Tupper born?",
+      "gold": "Amherst",
+      "elapsed": 12.25,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Halifax, Canada",
+        "Amherst, NS",
+        "Barnstable, Massachusetts"
+      ],
+      "v3_candidates": [
+        "Sandwich, Barnstable, Massachusetts",
+        "Amherst, Nova Scotia",
+        "Amherst, Nova ScotiaNova Scotia",
+        "Amherst, Nova Scotia, Canada"
+      ],
+      "current_hint": "Related entities: Halifax, Canada, Amherst, NS, Barnstable, Massachusetts.",
+      "v3_hint": "Related entities: Sandwich, Barnstable, Massachusetts, Amherst, Nova Scotia, Amherst, Nova ScotiaNova Scotia.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 5,
+        "selected_utilities": [
+          0.291615,
+          0.260905,
+          0.157508,
+          0.086217,
+          0.021588
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Where was the spouse of Frances Tupper born? Amherst, Nova Scotia"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.307618,
+            "query": "query: Where was the spouse of Frances Tupper born? Sandwich, Barnstable, Massachusetts"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.213945,
+            "query": "query: Where was the spouse of Frances Tupper born? Amherst, Nova Scotia"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.077612,
+            "query": "query: Where was the spouse of Frances Tupper born? Amherst, Nova ScotiaNova Scotia"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.050825,
+            "query": "query: Where was the spouse of Frances Tupper born? Amherst, Nova Scotia, Canada"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.5,
+        "precision": 0.3333,
+        "recall": 1.0,
+        "em": 0.0,
+        "contain": 1.0,
+        "answer": "Amherst, Nova Scotia",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Halifax, Nova Scotia.",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Sandwich, Massachusetts",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Sandwich, Massachusetts",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Sandwich, Massachusetts",
+        "failure_bucket": "answer_stage_failure",
+        "stats": {
+          "mean_ig": 0.646167,
+          "mean_var": 1.486989,
+          "mean_gamma": 0.316243,
+          "mean_guidance_scale": 1.316243,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.957031
+        }
+      }
+    },
+    {
+      "id": "dev_43",
+      "question": "Who founded the political party of Dimuthu Bandara Abayakoon?",
+      "gold": "Rohana Wijeweera",
+      "elapsed": 11.17,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "No information provided.",
+        "Amhara Democratic Party",
+        "Not provided in context"
+      ],
+      "v3_candidates": [
+        "Bafuor Osei Akoto",
+        "No relevant information provided in the",
+        "Abayakoon not in context",
+        "Not Applicable (Information not provided)"
+      ],
+      "current_hint": "Related entities: No information provided, Amhara Democratic Party, Not provided in context.",
+      "v3_hint": "Related entities: Bafuor Osei Akoto, No relevant information provided in, Abayakoon not in context.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 2,
+        "selected_utilities": [
+          0.287109,
+          0.182072
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Who founded the political party of Dimuthu Bandara Abayakoon? Not mentioned in the context, however the context does not provide information about who founded the political party of Dimuthu Bandara Abayakoon."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.649999,
+            "query": "query: Who founded the political party of Dimuthu Bandara Abayakoon? Bafuor Osei Akoto"
+          },
+          {
+            "kind": "bridge",
+            "weight": 1e-06,
+            "query": "query: Who founded the political party of Dimuthu Bandara Abayakoon? No relevant information provided in the"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.0,
+            "query": "query: Who founded the political party of Dimuthu Bandara Abayakoon? Abayakoon not in context"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.0,
+            "query": "query: Who founded the political party of Dimuthu Bandara Abayakoon? Not Applicable (Information not provided)"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Not mentioned in the context, however the context does not provide information about who founded the political party of Dimuthu Bandara Abayakoon.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "No information provided in context.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "No relevant information provided",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "No relevant information provided",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "No relevant information provided",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 2.100911,
+          "mean_var": 1.550781,
+          "mean_gamma": 0.829915,
+          "mean_guidance_scale": 1.829915,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.991536
+        }
+      }
+    },
+    {
+      "id": "dev_44",
+      "question": "Bancroft's county borders what county?",
+      "gold": "Haliburton County",
+      "elapsed": 11.51,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Shiawassee",
+        "Dundas County",
+        "Lambton County"
+      ],
+      "v3_candidates": [
+        "Shiawassee and Kingsbury County",
+        "Shiawassee County and Hastings County",
+        "Bancroft's county borders",
+        "Shiawassee County, Hastings County"
+      ],
+      "current_hint": "Related entities: Shiawassee, Dundas County, Lambton County.",
+      "v3_hint": "Related entities: Shiawassee and Kingsbury County, Shiawassee County and Hastings County, Bancroft's county borders.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 1,
+        "selected_utilities": [
+          0.059541
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Bancroft's county borders what county? Shiawassee County borders Shiawassee County. \nKingsbury County borders Union County. \nHastings County borders Hastings County."
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.214934,
+            "query": "query: Bancroft's county borders what county? Shiawassee and Kingsbury County"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.182808,
+            "query": "query: Bancroft's county borders what county? Shiawassee County and Hastings County"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.13805,
+            "query": "query: Bancroft's county borders what county? Bancroft's county borders"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.114208,
+            "query": "query: Bancroft's county borders what county? Shiawassee County, Hastings County"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.1176,
+        "precision": 0.0667,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Shiawassee County borders Shiawassee County. \nKingsbury County borders Union County. \nHastings County borders Hastings County.",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Shiawassee, Michigan",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.5,
+        "precision": 0.5,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Genesee County",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.5,
+        "precision": 0.5,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Genesee County",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_full": {
+        "f1": 0.5,
+        "precision": 0.5,
+        "recall": 0.5,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Genesee County",
+        "failure_bucket": "wrong_granularity",
+        "stats": {
+          "mean_ig": 0.047696,
+          "mean_var": 0.034047,
+          "mean_gamma": 0.488444,
+          "mean_guidance_scale": 1.488444,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.999349
+        }
+      }
+    },
+    {
+      "id": "dev_45",
+      "question": "In which county is Mark Dismore's birthplace located?",
+      "gold": "Hancock County",
+      "elapsed": 13.0,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Norfolk, England",
+        "Yorkshire, England",
+        "Bridlington, Yorkshire"
+      ],
+      "v3_candidates": [
+        "Norfolk",
+        "Mark Dismore's birthplace: Indiana",
+        "New Castle, Indiana",
+        "Lismore, County Waterford"
+      ],
+      "current_hint": "Related entities: Norfolk, England, Yorkshire, England, Bridlington, Yorkshire.",
+      "v3_hint": "Related entities: Norfolk, Mark Dismore's birthplace: Indiana, New Castle, Indiana.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 8,
+        "selected_utilities": [
+          0.302276,
+          0.2014,
+          0.100761,
+          0.066428,
+          0.012985,
+          0.008632,
+          0.007767,
+          0.002536
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: In which county is Mark Dismore's birthplace located? Norfolk"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.36942,
+            "query": "query: In which county is Mark Dismore's birthplace located? Norfolk"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.241073,
+            "query": "query: In which county is Mark Dismore's birthplace located? Mark Dismore's birthplace: Indiana"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.03069,
+            "query": "query: In which county is Mark Dismore's birthplace located? New Castle, Indiana"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.008817,
+            "query": "query: In which county is Mark Dismore's birthplace located? Lismore, County Waterford"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Norfolk",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Bridlington, Yorkshire, England",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Greenfield, Indiana",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Greenfield, Indiana",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Greenfield, Indiana",
+        "failure_bucket": "wrong_granularity",
+        "stats": {
+          "mean_ig": 0.317576,
+          "mean_var": 1.215839,
+          "mean_gamma": 0.381022,
+          "mean_guidance_scale": 1.381022,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.983073
+        }
+      }
+    },
+    {
+      "id": "dev_46",
+      "question": "Who was the sibling of Nannina de' Medici?",
+      "gold": "Giuliano de' Medici",
+      "elapsed": 8.06,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Lorenzo.",
+        "Giovanni.",
+        "Lorenzo"
+      ],
+      "v3_candidates": [
+        "Lorenzo de' Medici",
+        "Lorenzino de' Medici",
+        "Lorzo de' Medici",
+        "Lorenzco de' Medici"
+      ],
+      "current_hint": "Related entities: Lorenzo, Giovanni.",
+      "v3_hint": "Related entities: Lorenzo de' Medici, Lorenzino de' Medici, Lorzo de' Medici.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 1,
+        "selected_utilities": [
+          0.004599
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Who was the sibling of Nannina de' Medici? Lorenzo de' Medici"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.639598,
+            "query": "query: Who was the sibling of Nannina de' Medici? Lorenzo de' Medici"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.010402,
+            "query": "query: Who was the sibling of Nannina de' Medici? Lorenzino de' Medici"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.0,
+            "query": "query: Who was the sibling of Nannina de' Medici? Lorzo de' Medici"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.0,
+            "query": "query: Who was the sibling of Nannina de' Medici? Lorenzco de' Medici"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.6667,
+        "precision": 0.6667,
+        "recall": 0.6667,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Lorenzo de' Medici",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Lorenzo and Giovanni.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Lorenzo.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Lorenzo.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Lorenzo.",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 0.221517,
+          "mean_var": 0.428711,
+          "mean_gamma": 0.32133,
+          "mean_guidance_scale": 1.32133,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.988932
+        }
+      }
+    },
+    {
+      "id": "dev_47",
+      "question": "What county is the NRHEG High School located in?",
+      "gold": "Waseca County",
+      "elapsed": 11.06,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "New Richland County",
+        "Minnehaha County",
+        "Richland, Minnesota"
+      ],
+      "v3_candidates": [
+        "New Richland, Minnesota",
+        "New Richland, Minnesota, USA",
+        "New Richland, County, Minnesota",
+        "Hennepin County, Minnesota"
+      ],
+      "current_hint": "Related entities: New Richland County, Minnehaha County, Richland, Minnesota.",
+      "v3_hint": "Related entities: New Richland, Minnesota, New Richland, Minnesota, USA, New Richland, County, Minnesota.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 1,
+        "selected_utilities": [
+          0.296179
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What county is the NRHEG High School located in? New Richland, Minnesota"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.568607,
+            "query": "query: What county is the NRHEG High School located in? New Richland, Minnesota"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.061884,
+            "query": "query: What county is the NRHEG High School located in? New Richland, Minnesota, USA"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.0167,
+            "query": "query: What county is the NRHEG High School located in? New Richland, County, Minnesota"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.002809,
+            "query": "query: What county is the NRHEG High School located in? Hennepin County, Minnesota"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "New Richland, Minnesota",
+        "failure_bucket": "wrong_granularity"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.8,
+        "precision": 0.6667,
+        "recall": 1.0,
+        "em": 0.0,
+        "contain": 1.0,
+        "answer": "Waseca County, Minnesota",
+        "failure_bucket": "answer_stage_failure"
+      },
+      "pool_v3_bridge": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "Waseca County"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "Waseca County"
+      },
+      "pool_v3_full": {
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "em": 1.0,
+        "contain": 1.0,
+        "answer": "Waseca County",
+        "stats": {
+          "mean_ig": 0.003601,
+          "mean_var": 0.009221,
+          "mean_gamma": 0.311157,
+          "mean_guidance_scale": 1.311157,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.998698
+        }
+      }
+    },
+    {
+      "id": "dev_48",
+      "question": "What league does the team that occupies the Rabat Ajax Football Ground belong to?",
+      "gold": "Maltese Premier League",
+      "elapsed": 10.81,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Maltese football",
+        "Malta Football Association",
+        "Maltese League"
+      ],
+      "v3_candidates": [
+        "Maltese Football League",
+        "Maltese football team",
+        "Maltese Football League First Division",
+        "Maltese First Division A"
+      ],
+      "current_hint": "Related entities: Maltese football, Malta Football Association, Maltese League.",
+      "v3_hint": "Related entities: Maltese Football League, Maltese football team, Maltese Football League First Division.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 2,
+        "selected_utilities": [
+          0.241213,
+          0.041665
+        ],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: What league does the team that occupies the Rabat Ajax Football Ground belong to? Maltese Football League"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.210024,
+            "query": "query: What league does the team that occupies the Rabat Ajax Football Ground belong to? Maltese Football League"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.147239,
+            "query": "query: What league does the team that occupies the Rabat Ajax Football Ground belong to? Maltese football team"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.147204,
+            "query": "query: What league does the team that occupies the Rabat Ajax Football Ground belong to? Maltese Football League First Division"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.145533,
+            "query": "query: What league does the team that occupies the Rabat Ajax Football Ground belong to? Maltese First Division A"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.6667,
+        "precision": 0.6667,
+        "recall": 0.6667,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Maltese Football League",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.3333,
+        "precision": 0.3333,
+        "recall": 0.3333,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Maltese Third Division.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.4,
+        "precision": 0.5,
+        "recall": 0.3333,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Maltese Football",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.4,
+        "precision": 0.5,
+        "recall": 0.3333,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Maltese Football",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.4,
+        "precision": 0.5,
+        "recall": 0.3333,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Maltese Football",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 0.554199,
+          "mean_var": 0.826823,
+          "mean_gamma": 0.294596,
+          "mean_guidance_scale": 1.294596,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.951172
+        }
+      }
+    },
+    {
+      "id": "dev_49",
+      "question": "Who was married to the star of No Escape?",
+      "gold": "John Profumo",
+      "elapsed": 11.01,
+      "is_yesno": false,
+      "typed_budget": 6,
+      "current_candidates": [
+        "Stephen Chbosky",
+        "Lake Bell",
+        "Stacy Dowdle"
+      ],
+      "v3_candidates": [
+        "Stacy Chbosky",
+        "Lake Bell was married to Owen",
+        "Lake Bell",
+        "Stacy Chbosky's brother"
+      ],
+      "current_hint": "Related entities: Stephen Chbosky, Lake Bell, Stacy Dowdle.",
+      "v3_hint": "Related entities: Stacy Chbosky, Lake Bell was married to, Lake Bell.",
+      "curated_meta": {
+        "budget": 8,
+        "candidate_pool_size": 0,
+        "selected_utilities": [],
+        "query_specs": [
+          {
+            "kind": "seed",
+            "weight": 0.35,
+            "query": "query: Who was married to the star of No Escape? Stacy Chbosky"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.361306,
+            "query": "query: Who was married to the star of No Escape? Stacy Chbosky"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.157307,
+            "query": "query: Who was married to the star of No Escape? Lake Bell was married to Owen"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.080072,
+            "query": "query: Who was married to the star of No Escape? Lake Bell"
+          },
+          {
+            "kind": "bridge",
+            "weight": 0.051316,
+            "query": "query: Who was married to the star of No Escape? Stacy Chbosky's brother"
+          }
+        ]
+      },
+      "baseline": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Stacy Chbosky",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_m6_8_hint2_yn": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Stacy Chbosky.",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Stephen Chbosky",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_bridge_curated": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Stephen Chbosky",
+        "failure_bucket": "nearby_entity_drift"
+      },
+      "pool_v3_full": {
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "em": 0.0,
+        "contain": 0.0,
+        "answer": "Stephen Chbosky",
+        "failure_bucket": "nearby_entity_drift",
+        "stats": {
+          "mean_ig": 0.109412,
+          "mean_var": 0.146901,
+          "mean_gamma": 0.350342,
+          "mean_guidance_scale": 1.350342,
+          "mean_w_t": 0.416667,
+          "avg_conf": 0.984375
+        }
+      }
+    }
+  ],
+  "config": {
+    "model": "llada",
+    "dataset": "musique",
+    "n_questions": 50,
+    "start_idx": 0,
+    "steps": 32,
+    "n_candidates": 3,
+    "initial_top_k": 5,
+    "expand_top_k": 3,
+    "extraction_steps": 12,
+    "bridge_n_mask": 10,
+    "bridge_steps": 16,
+    "bridge_n_branch": 3,
+    "bridge_n_candidates": 4,
+    "curated_budget": 8,
+    "seed_weight": 0.35,
+    "gamma_cap": 6.0,
+    "device": "cuda:0",
+    "output": "/projects/prjs1800/msc-thesis/07-daes/results/pool_v3/llada_musique_50q.json",
+    "log_every": 5,
+    "save_every": 5
+  },
+  "timing": {
+    "elapsed_sec": 644.3
+  }
+}

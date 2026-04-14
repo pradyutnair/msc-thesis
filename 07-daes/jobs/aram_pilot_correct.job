@@ -1,0 +1,38 @@
+#!/bin/bash
+#SBATCH --job-name=aram-ok
+#SBATCH --partition=gpu_h100
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=80G
+#SBATCH --time=04:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/aram_correct_%j.out
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/dllm:$PYTHONPATH
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+cd /projects/prjs1800/msc-thesis/07-daes
+
+# Paper-exact: beta=0.1, lambda_max=1.0, top-3 retrieval, few-shot prompt
+echo "=== BASELINE (few-shot, top-3) ==="
+python -u src/daes/aram_reproduce.py \
+  --dataset musique --mode baseline \
+  --n_questions 50 --steps 128 --n_tokens 512 --temperature 0.1 \
+  --top_k_retrieval 3 \
+  --output_dir results
+
+echo ""
+echo "=== ARAM (beta=0.1, few-shot, top-3) ==="
+python -u src/daes/aram_reproduce.py \
+  --dataset musique --mode aram \
+  --n_questions 50 --steps 128 --n_tokens 512 --temperature 0.1 \
+  --lambda_max 1.0 --beta 0.1 --top_k_retrieval 3 \
+  --output_dir results
+
+echo ""
+echo "=== ARAM (beta=0.5 for comparison, few-shot, top-3) ==="
+python -u src/daes/aram_reproduce.py \
+  --dataset musique --mode aram \
+  --n_questions 50 --steps 128 --n_tokens 512 --temperature 0.1 \
+  --lambda_max 1.0 --beta 0.5 --top_k_retrieval 3 \
+  --output_dir results

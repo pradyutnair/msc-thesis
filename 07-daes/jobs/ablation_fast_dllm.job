@@ -1,0 +1,34 @@
+#!/bin/bash
+#SBATCH --job-name=abl-fast-10q
+#SBATCH --partition=gpu_h100
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=80G
+#SBATCH --gpus=1
+#SBATCH --time=00:20:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/abl_fast_10q_%j.out
+
+module load 2025
+module load Anaconda3/2025.06-1
+module load CUDA/12.8.0
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/dllm:$PYTHONPATH
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+
+python -u /projects/prjs1800/msc-thesis/07-daes/src/daes/ablation_budget.py \
+  --model llada \
+  --decode_backend fast-dllm \
+  --fast_dllm_use_cache \
+  --fast_dllm_dual_cache \
+  --fast_dllm_block_size 16 \
+  --start_idx 0 \
+  --n_questions 10 \
+  --steps 32 \
+  --answer_tokens 16 \
+  --enforce_short_answer \
+  --max_answer_words 6 \
+  --dataset musique \
+  --log_every 1 \
+  --save_every 1 \
+  --output /projects/prjs1800/msc-thesis/07-daes/results/ablation_budget_fast_dllm_smoke_q1_10_short.json

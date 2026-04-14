@@ -1,0 +1,53 @@
+{
+  "n_questions": 1000,
+  "n_shards": 5,
+  "methods": {
+    "spread": {
+      "f1": 0.2131,
+      "em": 0.106,
+      "contain": 0.121
+    },
+    "aram": {
+      "f1": 0.2247,
+      "em": 0.113,
+      "contain": 0.128
+    },
+    "ispread": {
+      "f1": 0.255,
+      "em": 0.136,
+      "contain": 0.161
+    },
+    "iaram": {
+      "f1": 0.2628,
+      "em": 0.141,
+      "contain": 0.166
+    }
+  },
+  "config": {
+    "model": "dream",
+    "dataset": "musique",
+    "start_idx": 0,
+    "n_questions": 200,
+    "max_rounds": 3,
+    "steps": 32,
+    "answer_tokens": 32,
+    "n_candidates": 3,
+    "initial_top_k": 5,
+    "expand_top_k": 3,
+    "output": "/projects/prjs1800/msc-thesis/07-daes/results/baselines/dream_musique_baselines_s0.json",
+    "log_every": 10,
+    "save_every": 10
+  },
+  "dataset": "musique",
+  "model": "dream",
+  "experiment": "dllm_baselines",
+  "valid": true,
+  "notes": "Published dLLM baselines. Methods: spread,aram,ispread,iaram. Config: steps=32, tokens=32",
+  "source_files": [
+    "results/baselines/dream_musique_baselines_s0.json",
+    "results/baselines/dream_musique_baselines_s1.json",
+    "results/baselines/dream_musique_baselines_s2.json",
+    "results/baselines/dream_musique_baselines_s3.json",
+    "results/baselines/dream_musique_baselines_s4.json"
+  ]
+}

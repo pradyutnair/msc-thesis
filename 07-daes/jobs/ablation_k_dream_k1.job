@@ -1,0 +1,22 @@
+#!/bin/bash
+#SBATCH --job-name=k1_dream
+#SBATCH --partition=gpu_a100
+#SBATCH --gpus=1
+#SBATCH --time=01:00:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=96G
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/jobs/k1_dream_%j.out
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/dllm:/projects/prjs1800/msc-thesis/07-daes/src/daes
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export TRANSFORMERS_CACHE=/projects/prjs1800/.cache/huggingface
+
+cd /projects/prjs1800/msc-thesis/07-daes
+
+python3 src/daes/idnmr_pilot.py \
+  --model dream --dataset musique \
+  --n_questions 100 --n_candidates 1 \
+  --output results/ablation_k/dream_musique_k1.json

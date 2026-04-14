@@ -1,0 +1,21 @@
+#!/bin/bash
+#SBATCH --job-name=pilot-replace
+#SBATCH --partition=gpu_a100
+#SBATCH --gpus=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=96G
+#SBATCH --time=01:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/pilot_llada_replace_20q_%j.out
+
+module load 2024
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+cd /projects/prjs1800/msc-thesis/07-daes
+
+python -u src/daes/dnmr_replace_pilot.py \
+    --model llada \
+    --dataset hotpotqa \
+    --n_questions 20 \
+    --steps 32 \
+    --answer_tokens 32 \
+    --budget 5 \
+    --output results/pilot_llada_replace_20q.json

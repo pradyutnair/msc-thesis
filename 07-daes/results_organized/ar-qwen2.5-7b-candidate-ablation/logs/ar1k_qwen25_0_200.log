@@ -1,0 +1,335 @@
+/pnair/venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+=== AR Comparison ===
+Reader: dream, AR: Qwen/Qwen2.5-7B-Instruct, Dataset: musique
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:00<00:02,  1.37it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:01<00:01,  1.32it/s]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:02<00:00,  1.41it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:02<00:00,  2.06it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:02<00:00,  1.74it/s]
+The following generation flags are not valid and may be ignored: ['temperature']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+  Reader loaded in 3.5s
+Loading AR model: Qwen/Qwen2.5-7B-Instruct...
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:00<00:01,  1.83it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:01<00:01,  1.82it/s]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:01<00:00,  1.85it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:02<00:00,  1.90it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:02<00:00,  1.88it/s]
+  AR model loaded in 6.5s
+TorchGpuFlatIPIndex: mmap-opened /pnair/indexes/e5_Flat.index in 58.0s (ntotal=21015324, dim=768)
+TorchGpuFlatIPIndex: loaded 1,048,576/21,015,324 vectors (5.0%) in 4.3s
+TorchGpuFlatIPIndex: loaded 2,097,152/21,015,324 vectors (10.0%) in 5.9s
+TorchGpuFlatIPIndex: loaded 3,145,728/21,015,324 vectors (15.0%) in 10.6s
+TorchGpuFlatIPIndex: loaded 4,194,304/21,015,324 vectors (20.0%) in 16.1s
+TorchGpuFlatIPIndex: loaded 5,242,880/21,015,324 vectors (24.9%) in 20.8s
+TorchGpuFlatIPIndex: loaded 6,291,456/21,015,324 vectors (29.9%) in 23.1s
+TorchGpuFlatIPIndex: loaded 7,340,032/21,015,324 vectors (34.9%) in 25.3s
+TorchGpuFlatIPIndex: loaded 8,388,608/21,015,324 vectors (39.9%) in 27.5s
+TorchGpuFlatIPIndex: loaded 9,437,184/21,015,324 vectors (44.9%) in 29.8s
+TorchGpuFlatIPIndex: loaded 10,485,760/21,015,324 vectors (49.9%) in 31.2s
+TorchGpuFlatIPIndex: loaded 11,534,336/21,015,324 vectors (54.9%) in 32.2s
+TorchGpuFlatIPIndex: loaded 12,582,912/21,015,324 vectors (59.9%) in 33.2s
+TorchGpuFlatIPIndex: loaded 13,631,488/21,015,324 vectors (64.9%) in 34.1s
+TorchGpuFlatIPIndex: loaded 14,680,064/21,015,324 vectors (69.9%) in 35.0s
+TorchGpuFlatIPIndex: loaded 15,728,640/21,015,324 vectors (74.8%) in 36.0s
+TorchGpuFlatIPIndex: loaded 16,777,216/21,015,324 vectors (79.8%) in 37.0s
+TorchGpuFlatIPIndex: loaded 17,825,792/21,015,324 vectors (84.8%) in 37.9s
+TorchGpuFlatIPIndex: loaded 18,874,368/21,015,324 vectors (89.8%) in 38.8s
+TorchGpuFlatIPIndex: loaded 19,922,944/21,015,324 vectors (94.8%) in 39.8s
+TorchGpuFlatIPIndex: loaded 20,971,520/21,015,324 vectors (99.8%) in 40.7s
+TorchGpuFlatIPIndex: loaded 21,015,324/21,015,324 vectors (100.0%) in 40.8s
+TorchGpuFlatIPIndex: ready on cuda:0 using torch.float16 (~30.1 GiB for vectors)
+Wiki18Retriever: Torch CUDA flat-IP backend on cuda:0 (FAISS GPU kernels unavailable on this GPU)
+Loaded 200 questions
+Batch initial retrieval...
+  Done in 129.6s
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+[1/200] dev_0 (19.5s)
+  baseline         Sir Philip Green                         F1=0.000
+  pool_dllm        Sir Philip Green                         F1=0.000
+  pool_ar          George Waas                              F1=0.000
+  pool_random      Megan Fox                                F1=0.000
+  dLLM cands: ['The spouse of the Green performer is Sir Philip Green.', 'Sir Philip Green']
+  AR cands:   ['The Green performer mentioned is A', 'The Green performer mentioned is A.J', 'The Green performer referred to in the text is A.J']
+[5/200] dev_4 (17.7s)
+  baseline         Bombardier Aerospace                     F1=0.500
+  pool_dllm        Bombardier Aerospace                     F1=0.500
+  pool_ar          Bombardier Aerospace                     F1=0.500
+  pool_random      Bombardier Aerospace                     F1=0.500
+  dLLM cands: ['Bombardier Aerospace', 'Canadian Bombardier Aerospace', 'Bombardier Learjet Family or Bombardier Aerospace']
+  AR cands:   ['The manufacturer of the Learjet 60, Bombardier Aerospace, is', 'The manufacturer of Learjet 60, Bombardier Aerospace, is own', 'The manufacturer of Learjet 60 is owned by Bombardier Aerosp']
+[10/200] dev_9 (25.0s)
+  baseline         Chubut                                   F1=0.000
+  pool_dllm        Cuanza Norte                             F1=0.000
+  pool_ar          Chubut Province                          F1=0.500
+  pool_random      Chubut Province                          F1=0.500
+  dLLM cands: ['Cuanza Norte', 'Lago Verde', 'Lago District is located in the province of Chile.']
+  AR cands:   ['The province that shares a border with the province where La', 'The province that shares a border with the province where La', 'The information provided does not specify which province "La']
+[15/200] dev_14 (20.8s)
+  baseline         Union County                             F1=0.500
+  pool_dllm        Blair County                             F1=0.500
+  pool_ar          Washington County, Nebraska              F1=0.333
+  pool_random      Union County, Georgia                    F1=0.333
+  dLLM cands: ['Blair County', 'William W', 'Union County']
+  AR cands:   ['The information provided does not include the specific count', 'The information provided does not include details about Will', 'The information provided does not include William W']
+[20/200] dev_19 (17.9s)
+  baseline         Randall County                           F1=1.000
+  pool_dllm        Randall County                           F1=1.000
+  pool_ar          Randall County                           F1=1.000
+  pool_random      Randall County                           F1=1.000
+  dLLM cands: ['Kimbrough Memorial Stadium is located in Canyon County.', 'Canyon, Texas', 'Randall']
+  AR cands:   ['Kimbrough Memorial Stadium is located in Canyon, Texas, whic', 'Kimbrough Memorial Stadium is located in Canyon, Texas, whic', 'Kimbrough Memorial Stadium is located in Canyon, Texas, whic']
+[25/200] dev_24 (20.9s)
+  baseline         Missouri                                 F1=0.000
+  pool_dllm        Perry County, Missouri                   F1=0.333
+  pool_ar          Southwest County, Missouri               F1=0.333
+  pool_random      Missouri                                 F1=0.000
+  dLLM cands: ['Dubois County', 'Tim Dubois was born in Southwest City, Missouri.', 'Missouri']
+  AR cands:   ['Tim DuBois was born in Southwest City, Missouri, according t', 'Tim DuBois was born in Southwest City, Missouri, which means', 'Tim DuBois was born in Southwest City, Missouri']
+[30/200] dev_29 (25.6s)
+  baseline         Sir Francis Baring, 1st Baronet          F1=1.000
+  pool_dllm        Sir Francis Baring, 1st Baronet          F1=1.000
+  pool_ar          Sir Francis Baring, 1st Baronet          F1=1.000
+  pool_random      Sir Francis Baring, 1st Baronet          F1=1.000
+  dLLM cands: ['Sir Francis Baring, 1st Baronet', 'Francis Baring, 1st Baronet', 'Sir Francis Baring, 1st Baronet.']
+  AR cands:   ["The father of Edward Baring, 1st Baron Revelstoke's father i"]
+[35/200] dev_34 (21.3s)
+  baseline         community organizer                      F1=0.000
+  pool_dllm        Institute for War and Peace Reporting    F1=0.167
+  pool_ar          Institute for War and Peace Reporting    F1=0.167
+  pool_random      The Moving Museum                        F1=0.000
+  dLLM cands: ['The Unwinding author volunteered for the Obama Administratio', 'Youngstown, Ohio', 'community organizer']
+  AR cands:   ['The information provided does not specify which organization', 'The information provided does not mention the author George ', 'The information provided does not specify which organization']
+[40/200] dev_39 (24.5s)
+  baseline         Zavida                                   F1=0.000
+  pool_dllm        Nemanja                                  F1=0.000
+  pool_ar          Milan Nemanja                            F1=0.000
+  pool_random      : Stefan Nemanja                         F1=0.000
+  dLLM cands: ['Zavida', 'Tihomir Zavidović', 'Nemanja']
+  AR cands:   ['The child of the person who followed Tihomir of Serbia is St', 'The question is not entirely clear, but based on the informa', 'The text does not provide information about a specific child']
+[45/200] dev_44 (24.6s)
+  baseline         Kingsbury County                         F1=0.500
+  pool_dllm        Kingsbury County                         F1=0.500
+  pool_ar          Genesee County                           F1=0.500
+  pool_random      Clear Creek County                       F1=0.333
+  dLLM cands: ['Hastings County', "Bancroft's county borders Kingsbury County.", "Answer: Bancroft's county borders Hastings County."]
+  AR cands:   ['Bancroft, Michigan borders Shiawassee County', 'Bancroft, Ontario is located in Hastings County', 'Bancroft, Michigan is located in Shiawassee County, which bo']
+[50/200] dev_49 (19.2s)
+  baseline         Stacy Chbosky                            F1=0.000
+  pool_dllm        Stacy Chbosky                            F1=0.000
+  pool_ar          Stacy Chbosky                            F1=0.000
+  pool_random      Owen Wilson                              F1=0.000
+  dLLM cands: ['Stacy Chbosky', 'Owen Wilson', 'Lake Bell']
+  AR cands:   ['The star of "No Escape" mentioned in the context provided is', 'The star of "No Escape" mentioned in the text is Owen Wilson', 'The answer to who was married to the star of "No Escape" can']
+[55/200] dev_54 (15.4s)
+  baseline         Kentucky                                 F1=0.000
+  pool_dllm        Kenton County                            F1=1.000
+  pool_ar          Kentucky                                 F1=0.000
+  pool_random      Kentucky                                 F1=0.000
+  dLLM cands: ['Fort Mitchell, Kentucky', 'Snappy Tomato Pizza formed in Fort Mitchell, Kentucky.', 'Kentucky']
+  AR cands:   ['Snappy Tomato Pizza formed in Kenton County, Kentucky, speci', 'Snappy Tomato Pizza formed in Floyd County, Kentucky', 'Snappy Tomato Pizza formed in Kenton County, Kentucky, as th']
+[60/200] dev_59 (21.5s)
+  baseline         Prix Goncourt                            F1=0.000
+  pool_dllm        Prix Goncourt                            F1=0.000
+  pool_ar          Prix Goncourt                            F1=0.000
+  pool_random      Prix Goncourt                            F1=0.000
+  dLLM cands: ['Prix Goncourt and Nobel Prize in Literature', 'The Prix Goncourt and the Nobel Prize in Literature.', 'Prix Goncourt (and) Nobel Prize in Literature']
+  AR cands:   ['Patrick Modiano, the author of "Rue des Boutiques Obscures" ', 'Patrick Modiano, the author of "Missing Person," received th', 'Patrick Modiano, the author of "Rue des Boutiques Obscures" ']
+[65/200] dev_64 (27.5s)
+  baseline         Eilyahu Koren                            F1=0.000
+  pool_dllm        Elyahu Koren                             F1=0.000
+  pool_ar          Eliyahu Koren                            F1=0.000
+  pool_random      Elyahu Koren                             F1=0.000
+  dLLM cands: ['Eliyahu Koren', 'Howard B', 'Eliahu Koren']
+  AR cands:   ['The information provided does not include details about who ', 'The information provided does not include details about the ']
+[70/200] dev_69 (19.6s)
+  baseline         Justine                                  F1=0.000
+  pool_dllm        Tanya Davis                              F1=0.000
+  pool_ar          Enrique Iglesias                         F1=0.000
+  pool_random      Tanya Davis                              F1=0.000
+  dLLM cands: ['The performer of Heartbeat is named after Justine.', 'Justine', 'The performer is named after the title of the song.']
+  AR cands:   ['The performer of "Heartbeat" named the song after the sensat', 'The "Heartbeat" song performed by Enrique Iglesias is not na', 'The "Heartbeat" song by Enrique Iglesias is named after the ']
+[75/200] dev_74 (24.9s)
+  baseline         Kansas                                   F1=0.000
+  pool_dllm        Leavenworth, Kansas                      F1=0.000
+  pool_ar          Iowa                                     F1=0.000
+  pool_random      Iowa                                     F1=0.000
+  dLLM cands: ['Kansan', 'Kansas', 'Daniel Read Anthony, Jr']
+  AR cands:   ['The person who submitted the first version of the equal righ', 'The place of birth of Charles Curtis, who submitted the firs']
+[80/200] dev_79 (19.8s)
+  baseline         Downwards Records                        F1=0.000
+  pool_dllm        Downwards Records                        F1=0.000
+  pool_ar          Downwards Records                        F1=0.000
+  pool_random      Downwards Records                        F1=0.000
+  dLLM cands: ['Gil Moore is part of the Canadian rock group Triumph.', 'Triumph', 'Regis (musician)']
+  AR cands:   ['The record label associated with the Metalworks Studio found', 'The record label associated with the Metalworks Studio found', 'The record label associated with the Metalworks Studio found']
+[85/200] dev_84 (22.3s)
+  baseline         Minas Gerais                             F1=0.000
+  pool_dllm        Pernambuco                               F1=0.000
+  pool_ar          Minas Gerais                             F1=0.000
+  pool_random      Minas Gerais                             F1=0.000
+  dLLM cands: ['Minas Gerais', 'Vera Duarte was born in São Vicente.', 'Pernambuco']
+  AR cands:   ["Vera Duarte's place of birth, Mindelo, is located on the isl", "Vera Duarte's place of birth, Mindelo, is located on the isl", "Vera Duarte's place of birth, Mindelo, is located on the isl"]
+[90/200] dev_89 (18.5s)
+  baseline         island of Santiago                       F1=0.000
+  pool_dllm        island of Santiago                       F1=0.000
+  pool_ar          island of Santiago                       F1=0.000
+  pool_random      island of Santiago                       F1=0.000
+  dLLM cands: ['Sotavento (leeward) island of Santiago', 'island of Santiago', 'the Sotavento island of Santiago in Cape Verde']
+  AR cands:   ['Assomada is located on the Sotavento (leeward) island of San', 'Assomada is located on the Sotavento (leeward) side of Santi', 'Assomada is located on the Sotavento (leeward) side of Santi']
+[95/200] dev_94 (21.3s)
+  baseline         English Football Association             F1=0.000
+  pool_dllm        English Football Association             F1=0.000
+  pool_ar          English Football Association             F1=0.000
+  pool_random      English Football Association             F1=0.000
+  dLLM cands: ['The 1967 Federation Cup (India)', 'Federation Cup', 'FA Trophy']
+  AR cands:   ['The information provided does not specify a 1967 Federation ', 'The information provided does not include details about the ', 'The information provided does not specify the name of the or']
+[100/200] dev_99 (24.8s)
+  baseline         Matthieu Chedid                          F1=0.500
+  pool_dllm        Louis Chedid                             F1=1.000
+  pool_ar          Louis Chedid                             F1=1.000
+  pool_random      Louis Chedid                             F1=1.000
+  dLLM cands: ['Mathieu Chedid', 'The father of the Labo M performer is unknown.', 'French singer-Song-writer Matthieu Chedid']
+  AR cands:   ['The father of the performer associated with "Labo M" is Matt', 'The father of the performer associated with "Labo M" is Matt', 'The father of the Labo M performer is Matthieu Chedid']
+[105/200] dev_104 (20.7s)
+  baseline         Natal Wood                               F1=0.500
+  pool_dllm        Natalie Wood                             F1=0.500
+  pool_ar          Natalie Wood                             F1=0.500
+  pool_random      Debbie Ocean                             F1=0.000
+  dLLM cands: ['Natalie Wood', "Doris Walker's daughter Susan played Susie.", 'Doris Walker']
+  AR cands:   ["Natalie Wood's real-life daughter was initially offered the ", "Natalie Wood's real-life daughter was initially offered the ", "Natalie Wood's real-life daughter was initially offered the "]
+[110/200] dev_109 (26.0s)
+  baseline         Nabil Abidallah                          F1=0.000
+  pool_dllm        Mo Hamdaoui                              F1=0.000
+  pool_ar          Mo Hamdaoui                              F1=0.000
+  pool_random      Tessel Middag                            F1=0.000
+  dLLM cands: ['Nabil Abidallah', 'Xander Houtkoop', 'Mounir El Hamdaoui']
+  AR cands:   ['Based on the information provided, Mounir El Hamdaoui has pl', 'Based on the information provided, Mounir El Hamdaoui has pl']
+[115/200] dev_114 (20.5s)
+  baseline         North Dakota                             F1=0.000
+  pool_dllm        Northwestern University                  F1=0.500
+  pool_ar          University of Graz                       F1=0.333
+  pool_random      University of North Dakota               F1=0.250
+  dLLM cands: ['University of North Dakota', 'The University of North Dakota', 'Northwestern University']
+  AR cands:   ['Ernst Mach, after whom Mach bands are named, did not have an', 'Ernst Mach, after whom Mach bands are named, did not specifi', 'Ernst Mach did not have a specific university employment, bu']
+[120/200] dev_119 (22.2s)
+  baseline         1922                                     F1=0.000
+  pool_dllm        1922                                     F1=0.000
+  pool_ar          1912                                     F1=1.000
+  pool_random      1912                                     F1=1.000
+  dLLM cands: ['March 17, 1922.', 'On March 17, 1922', '1922']
+  AR cands:   ['Based on the information provided, military instruction star', 'Based on the information provided, military training in the ', 'Military instruction started at the University of the Philip']
+[125/200] dev_124 (22.8s)
+  baseline         Liu Chong                                F1=0.500
+  pool_dllm        Liu Chong                                F1=0.500
+  pool_ar          Liu Chong                                F1=0.500
+  pool_random      Liu Chong                                F1=0.500
+  dLLM cands: ['Liu Chong', 'The uncle of Liu Bin is Liu Chong.', 'Liu Ben']
+  AR cands:   ["Liu Bin's uncle was Liu Chong.", "Liu Bin's uncle was Liu Chong (劉寵), who served as the Grand ", 'The uncle of Liu Bin (劉玢) is Liu Chong (劉寵)']
+[130/200] dev_129 (20.6s)
+  baseline         Sire Records                             F1=0.500
+  pool_dllm        Sire Records                             F1=0.500
+  pool_ar          Sire Records                             F1=0.500
+  pool_random      Sire Records                             F1=0.500
+  dLLM cands: ['Sire Records', 'Surfer Blood, Pythons, Sire Records', 'Valve Records']
+  AR cands:   ['The information provided does not explicitly state a record ', 'Based on the information provided, there is no direct mentio', 'The record label for Surfer Blood, whose album "Pythons" was']
+[135/200] dev_134 (22.1s)
+  baseline         Socialist Party of America               F1=1.000
+  pool_dllm        Socialist Party of America               F1=1.000
+  pool_ar          Socialist Party of America               F1=1.000
+  pool_random      Socialist Party of America               F1=1.000
+  dLLM cands: ['Socialist Party of America', 'The Socialist Party of America', 'Socialist Party of America (S, from Indiana)']
+  AR cands:   ['The socialist candidate who ran for president in 1912 was pa']
+[140/200] dev_139 (22.6s)
+  baseline         William Cooper Nell                      F1=0.000
+  pool_dllm        William Cooper Nell                      F1=0.000
+  pool_ar          William Cooper Nell                      F1=0.000
+  pool_random      William Cooper Nell                      F1=0.000
+  dLLM cands: ['Susan B', 'Frederick Douglass married William Cooper Nell.', 'Harriet Douglass (Frederick Douglass)']
+  AR cands:   ['Based on the information provided, there is no mention of wh', 'Based on the information provided, there is no mention of wh', 'Based on the information provided, there is no mention of wh']
+[145/200] dev_144 (23.1s)
+  baseline         Tolyatti                                 F1=0.000
+  pool_dllm        Tolyatti                                 F1=0.000
+  pool_ar          Tolyatti                                 F1=0.000
+  pool_random      Tolyatti                                 F1=0.000
+  dLLM cands: ['Stavropol-on-Volga', 'Tolyatti', 'city of Tolyatti']
+  AR cands:   ['The city where Lesnoye Sanatorium is located is named after ', 'The city where Lesnoye Sanatorium is located is named Tolyat', 'The city where Lesnoye Sanatorium is located, Tolyatti, is n']
+[150/200] dev_149 (18.9s)
+  baseline         California Baptist College               F1=0.000
+  pool_dllm        Concordia University                     F1=0.500
+  pool_ar          Concordia University                     F1=0.500
+  pool_random      California Baptist College               F1=0.000
+  dLLM cands: ['Pierre Berton did not go to a university.', 'The Secret World of Og was written by Pierre Berton', 'California Baptist College']
+  AR cands:   ['Pierre Berton, the author of "The Secret World of Og," did n', 'Pierre Berton, the author of "The Secret World of Og," did n', 'Pierre Berton, the author of "The Secret World of Og," did n']
+[155/200] dev_154 (23.3s)
+  baseline         black dog                                F1=0.000
+  pool_dllm        black dog                                F1=0.000
+  pool_ar          black dog                                F1=0.000
+  pool_random      black dog                                F1=0.000
+  dLLM cands: ["Xiao Liwu's mother is a black dog.", 'A black dog', 'black dog']
+  AR cands:   ["Based on the information provided, Xiao Liwu's mother is rei", "Based on the information provided, Xiao Liwu's mother is not", "Based on the information provided, Xiao Liwu's mother is not"]
+[160/200] dev_159 (19.6s)
+  baseline         Globe Award                              F1=0.500
+  pool_dllm        positive reviews                         F1=0.000
+  pool_ar          no specific recognition                  F1=0.000
+  pool_random      Directorial recognition                  F1=0.000
+  dLLM cands: ['Philip Seymour Hoffman directed his only career directorial ', 'Overture Films, Relativity Media, Anchor Bay Entertainment', 'No recognition']
+  AR cands:   ['Philip Seymour Hoffman, who directed "Jack Goes Boating," re', 'Philip Seymour Hoffman, who directed "Jack Goes Boating," di', 'Philip Seymour Hoffman, who directed "Jack Goes Boating," di']
+[165/200] dev_164 (21.2s)
+  baseline         Mickey Mouse                             F1=1.000
+  pool_dllm        The Mickey Mouse Club                    F1=1.000
+  pool_ar          Mickey Mouse                             F1=1.000
+  pool_random      Mickey Mouse                             F1=1.000
+  dLLM cands: ['Mickey Mouse', 'The Mickey Mouse Club', '"Mickey Mouse" or "Mickey Mouse Club"']
+  AR cands:   ['The old show that was named after a character that Walt Disn', 'The old show that was named after a character that Walt Disn', 'The old show that was named after a character that Walt Disn']
+[170/200] dev_169 (22.3s)
+  baseline         Malta                                    F1=0.000
+  pool_dllm        Paris                                    F1=0.000
+  pool_ar          Padua                                    F1=0.000
+  pool_random      University of Paris                      F1=0.000
+  dLLM cands: ['Malta and Bulgaria', 'Rome', 'Alexandria Aegyptus Rome Egypt Malta']
+  AR cands:   ['The provided information does not include details about the ', 'The provided information does not specify where the producer', 'The provided information does not include details about the ']
+[175/200] dev_174 (19.5s)
+  baseline         the Juilliard School                     F1=0.000
+  pool_dllm        Juilliard School                         F1=0.000
+  pool_ar          Juilliard School                         F1=0.000
+  pool_random      Juilliard School                         F1=0.000
+  dLLM cands: ['The Juilliard School', 'John Houseman studied at the Juilliard School.', 'the new Drama Division of the Juilliard School.']
+  AR cands:   ['John Houseman, a founder of The Acting Company, was then the', 'The founder of The Acting Company, John Houseman, was then t', 'The founder of The Acting Company, John Houseman, was then t']
+[180/200] dev_179 (21.3s)
+  baseline         May 11, 1284                             F1=0.000
+  pool_dllm        May 11, 1284                             F1=0.000
+  pool_ar          John's eldest son, John II of Jerusalem, F1=0.000
+  pool_random      May 11, 1284                             F1=0.000
+  dLLM cands: ['May 11, 1284.', 'On May 11, 1284']
+  AR cands:   ["John's eldest son, the Earl of Surrey, carried the Sword of ", "John's eldest son, the Earl of Surrey, carried the Sword of ", "John's eldest son, the Earl of Surrey, was not crowned as Ki"]
+[185/200] dev_184 (18.0s)
+  baseline         Colin Firth                              F1=1.000
+  pool_dllm        Colin Firth                              F1=1.000
+  pool_ar          Colin Firth                              F1=1.000
+  pool_random      Colin Firth                              F1=1.000
+  dLLM cands: ['Colin Firth played the future King George VI.', 'Colin Firth', 'Colin Firth plays the future King George VI.']
+  AR cands:   ['In "The King\'s Speech," the character of King George VI, who', 'In "The King\'s Speech," Colin Firth played the role of King ', 'In "The King\'s Speech," Colin Firth played the role of King ']
+[190/200] dev_189 (18.9s)
+  baseline         Colin Firth                              F1=1.000
+  pool_dllm        Colin Firth                              F1=1.000
+  pool_ar          Colin Firth                              F1=1.000
+  pool_random      Colin Firth                              F1=1.000
+  dLLM cands: ['Colin Firth played the future King George VI.', 'Colin Firth played King George VI (Prince Albert).', 'Colin Firth']
+  AR cands:   ['In "The King\'s Speech," Colin Firth played the role of King ', 'In "The King\'s Speech," King George VI\'s regal name was adop', 'Colin Firth played King George VI, who adopted the regnal na']
+[195/200] dev_194 (24.0s)
+  baseline         Thelma Eisen                             F1=0.000
+  pool_dllm        Dottie Hinson                            F1=1.000
+  pool_ar          Dottie Hinson                            F1=1.000
+  pool_random      Thelma Eisen                             F1=0.000
+  dLLM cands: ['Thelma in "Thelma and Louise"', 'Dottie Hinson', 'Dottie']
+  AR cands:   ['The actor who played Thelma in "Thelma and Louise," Geena Da', 'The actor who played Thelma in "Thelma and Louise," Geena Da']
+[200/200] dev_199 (28.4s)
+  baseline         Brooklyn Nets                            F1=0.000
+  pool_dllm        Brooklyn Nets                            F1=0.000
+  pool_ar          Brooklyn Nets                            F1=0.000
+  pool_random      Philadelphia 76ers                       F1=0.000
+  dLLM cands: ['The Brooklyn Nets drafted the NBA scoring title this year.', 'Brooklyn Nets', 'Toronto Raptors']
+  AR cands:   ['To answer your question, I need to know which player won thi', 'To answer your question accurately, I need to know which pla']
+
+Method               F1     EM  Contain
+--------------------------------------
+baseline          0.250  0.115    0.130
+pool_dllm         0.269  0.155    0.185
+pool_ar           0.312  0.180    0.215
+pool_random       0.266  0.125    0.145
+
+Total: 4513.6s (22.6s/q)

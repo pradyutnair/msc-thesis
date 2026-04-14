@@ -1,0 +1,12 @@
+#!/bin/bash
+#SBATCH --job-name=cst-dream
+#SBATCH --partition=gpu_a100
+#SBATCH --gpus=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=96G
+#SBATCH --time=01:30:00
+#SBATCH --output=results_organized/_pilots/cst/dream_hotpotqa_50q_%j.out
+module load 2024
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+cd /projects/prjs1800/msc-thesis/07-daes
+python -u src/daes/cst_pilot.py --model dream --dataset hotpotqa --n_questions 50 --beta 0.5 --remask_frac 0.3 --output results_organized/_pilots/cst/dream_hotpotqa_50q.json

@@ -1,0 +1,22 @@
+#!/bin/bash
+#SBATCH --job-name=eamd-w18-merge
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/eamd_wiki18_full/logs/%x_%j.out
+#SBATCH --partition=cbuild
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=8G
+#SBATCH --time=00:10:00
+
+set -euo pipefail
+
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/src/daes:${PYTHONPATH:-}
+
+DATASET=${DATASET:?DATASET not set}
+ROOT=/projects/prjs1800/msc-thesis/07-daes/results/eamd_wiki18_full/${DATASET}
+mkdir -p "$ROOT"
+mkdir -p /projects/prjs1800/msc-thesis/07-daes/results/eamd_wiki18_full/logs
+
+cd /projects/prjs1800/msc-thesis/07-daes
+python -u src/daes/merge_eamd_wiki18_shards.py \
+  --input_glob "${ROOT}/shards/eamd_wiki18_${DATASET}_*.json" \
+  --output "${ROOT}/eamd_wiki18_${DATASET}_1000q.json"

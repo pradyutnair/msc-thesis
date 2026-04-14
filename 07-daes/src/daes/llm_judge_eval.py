@@ -13,9 +13,10 @@ import os
 import sys
 import time
 import argparse
+import string
 from pathlib import Path
 from collections import defaultdict
-
+from tqdm import tqdm
 from dotenv import load_dotenv
 from openai import OpenAI
 
@@ -102,10 +103,24 @@ def extract_answer(question: str, prediction: str, model: str = "gpt-4.1-mini") 
                 return prediction.strip()
 
 
+def normalize_answer(text: str) -> str:
+    """Normalize short-answer strings before token-overlap scoring."""
+    if not text:
+        return ""
+
+    text = text.lower().strip()
+    text = text.replace("-", " ").replace("/", " ")
+    text = text.translate(str.maketrans("", "", string.punctuation))
+    return " ".join(text.split())
+
+
 def compute_f1(prediction: str, gold: str) -> dict:
-    """Compute token-level F1, precision, recall, EM, contain."""
-    pred_tokens = prediction.lower().split()
-    gold_tokens = gold.lower().split()
+    """Compute normalized token-level F1, precision, recall, EM, contain."""
+    pred_norm = normalize_answer(prediction)
+    gold_norm = normalize_answer(gold)
+
+    pred_tokens = pred_norm.split()
+    gold_tokens = gold_norm.split()
 
     if not pred_tokens or not gold_tokens:
         return {"f1": 0.0, "precision": 0.0, "recall": 0.0, "em": 0.0, "contain": 0.0}
@@ -116,8 +131,8 @@ def compute_f1(prediction: str, gold: str) -> dict:
     precision = n_common / len(pred_tokens) if pred_tokens else 0
     recall = n_common / len(gold_tokens) if gold_tokens else 0
     f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0
-    em = 1.0 if prediction.lower().strip() == gold.lower().strip() else 0.0
-    contain = 1.0 if gold.lower() in prediction.lower() else 0.0
+    em = 1.0 if pred_norm == gold_norm else 0.0
+    contain = 1.0 if gold_norm in pred_norm else 0.0
 
     return {"f1": f1, "precision": precision, "recall": recall, "em": em, "contain": contain}
 
@@ -186,15 +201,48 @@ def load_all_predictions(dataset: str, base_dir: str) -> dict:
     return questions
 
 
+def _is_method_result_block(v: object) -> bool:
+    return isinstance(v, dict) and ("answer" in v or "pred" in v)
+
+
+def load_predictions_from_results_json(path: str) -> dict:
+    """Load predictions from a single results JSON (top-level ``results`` list).
+    Method columns are any keys whose value is a dict with ``answer`` or ``pred``.
+    """
+    path = os.path.abspath(path)
+    with open(path) as f:
+        data = json.load(f)
+    rows = data["results"] if isinstance(data, dict) and "results" in data else data
+    questions = {}
+    for q in rows:
+        qid = q["id"]
+        methods = {}
+        for k, v in q.items():
+            if _is_method_result_block(v):
+                methods[k] = v.get("answer", v.get("pred", ""))
+        questions[qid] = {
+            "question": q["question"],
+            "gold": q["gold"],
+            "methods": methods,
+        }
+    return questions
+
+
 def run_judge(dataset: str, base_dir: str, out_dir: str, model: str = "gpt-4.1-mini",
-              do_extract: bool = True, limit: int = None):
+              do_extract: bool = True, limit: int = None, results_json: str = None,
+              out_name: str = None):
     """Run LLM judge + optional extraction on all methods for a dataset."""
 
     print(f"\n{'='*60}")
     print(f"Dataset: {dataset} | Model: {model} | Extract: {do_extract}")
+    if results_json:
+        print(f"Results file: {results_json}")
     print(f"{'='*60}")
 
-    questions = load_all_predictions(dataset, base_dir)
+    if results_json:
+        questions = load_predictions_from_results_json(results_json)
+    else:
+        questions = load_all_predictions(dataset, base_dir)
     print(f"Loaded {len(questions)} questions")
 
     # Sort by ID for determinism
@@ -218,7 +266,14 @@ def run_judge(dataset: str, base_dir: str, out_dir: str, model: str = "gpt-4.1-m
 
     # Output file (save incrementally)
     os.makedirs(out_dir, exist_ok=True)
-    out_path = os.path.join(out_dir, f"llm_judge_{dataset}.json")
+    if out_name:
+        out_filename = out_name if out_name.endswith(".json") else f"{out_name}.json"
+    elif results_json:
+        stem = Path(results_json).stem
+        out_filename = f"llm_judge_{stem}.json"
+    else:
+        out_filename = f"llm_judge_{dataset}.json"
+    out_path = os.path.join(out_dir, out_filename)
 
     # Load existing results if resuming
     existing = {}
@@ -233,7 +288,7 @@ def run_judge(dataset: str, base_dir: str, out_dir: str, model: str = "gpt-4.1-m
     n_done = 0
     n_total = len(qids)
 
-    for qid in qids:
+    for qid in tqdm(qids, desc="Processing questions"):
         if qid in done_ids:
             n_done += 1
             continue
@@ -323,19 +378,42 @@ def run_judge(dataset: str, base_dir: str, out_dir: str, model: str = "gpt-4.1-m
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", required=True, choices=["musique", "hotpotqa", "2wikimultihopqa"])
+    parser.add_argument(
+        "--dataset",
+        choices=["musique", "hotpotqa", "2wikimultihopqa"],
+        help="Dataset name (required unless --results-json is set; used in logs and default output name).",
+    )
     parser.add_argument("--base-dir", default="/projects/prjs1800/msc-thesis/07-daes/results")
     parser.add_argument("--out-dir", default="/projects/prjs1800/msc-thesis/07-daes/results/llm_judge")
+    parser.add_argument(
+        "--out-name",
+        default=None,
+        help="Output JSON filename (under --out-dir). Default: llm_judge_<dataset>.json or llm_judge_<results-json stem>.json",
+    )
+    parser.add_argument(
+        "--results-json",
+        default=None,
+        help="Single results file with a top-level results[] list; method columns are dicts with answer/pred.",
+    )
     parser.add_argument("--model", default="gpt-4.1-mini")
     parser.add_argument("--no-extract", action="store_true", help="Skip answer extraction")
     parser.add_argument("--limit", type=int, default=None, help="Limit number of questions (for testing)")
     args = parser.parse_args()
 
+    if args.results_json:
+        dataset = args.dataset or "musique"
+    else:
+        if not args.dataset:
+            parser.error("--dataset is required when --results-json is not set")
+        dataset = args.dataset
+
     run_judge(
-        dataset=args.dataset,
+        dataset=dataset,
         base_dir=args.base_dir,
         out_dir=args.out_dir,
         model=args.model,
         do_extract=not args.no_extract,
         limit=args.limit,
+        results_json=args.results_json,
+        out_name=args.out_name,
     )

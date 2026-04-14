@@ -1,0 +1,25 @@
+#!/bin/bash
+#SBATCH --job-name=contrastive_pilot
+#SBATCH --partition=gpu_h100
+#SBATCH --gres=gpu:1
+#SBATCH --mem=96G
+#SBATCH --time=03:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/logs/%j_contrastive_pilot.log
+
+module load 2024
+module load Python/3.11.5-GCCcore-13.2.0
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/dllm:/projects/prjs1800/msc-thesis/07-daes/src/daes
+export HF_HOME=/projects/prjs1800/.cache/huggingface
+export DAES_FAISS_GPU=1
+export DAES_FAISS_GPU_BACKEND=torch
+
+cd /projects/prjs1800/msc-thesis/07-daes
+mkdir -p results/contrastive_pilot results/logs
+
+python src/daes/dnmr_contrastive_pilot.py \
+  --model llada \
+  --dataset musique \
+  --question_ids "dev_100,dev_113,dev_114,dev_131,dev_17,dev_179,dev_181,dev_182,dev_195,dev_205,dev_22,dev_234,dev_240,dev_276,dev_31,dev_324,dev_389,dev_390,dev_40,dev_417,dev_42,dev_422,dev_438,dev_440,dev_442,dev_469,dev_470,dev_48,dev_499,dev_507,dev_513,dev_526,dev_584,dev_586,dev_587,dev_588,dev_617,dev_649,dev_651,dev_659,dev_663,dev_686,dev_713,dev_72,dev_736,dev_744,dev_749,dev_752,dev_754,dev_772,dev_793,dev_824,dev_826,dev_827,dev_831,dev_852,dev_857,dev_875,dev_883,dev_891,dev_910,dev_913,dev_914,dev_928,dev_93,dev_957,dev_958,dev_985" \
+  --output results/contrastive_pilot/llada_musique_68q.json

@@ -1,0 +1,15 @@
+#!/bin/bash
+#SBATCH --job-name=jd_hotpotqa
+#SBATCH --partition=cbuild
+#SBATCH --time=06:00:00
+#SBATCH --mem=4G
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/llm_judge/judge_dream_hotpotqa_%j.out
+
+module load 2024
+module load Python/3.11.5-GCCcore-13.2.0
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+
+export PYTHONPATH=/projects/prjs1800/msc-thesis/07-daes/src/daes
+cd /projects/prjs1800/msc-thesis/07-daes
+
+python -u src/daes/llm_judge_dream.py --dataset hotpotqa --model gpt-4.1-mini

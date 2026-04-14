@@ -1,0 +1,17 @@
+/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+=== Temporal DNMR (tau=4) ===
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 3/6 [00:00<00:00, 26.58it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:00<00:00, 36.59it/s]
+  Loaded in 23.6s
+  Retrieved in 111.7s
+Traceback (most recent call last):
+  File "/gpfs/work5/0/prjs1800/msc-thesis/07-daes/src/daes/temporal_dnmr_pilot.py", line 278, in <module>
+    main()
+  File "/gpfs/work5/0/prjs1800/msc-thesis/07-daes/src/daes/temporal_dnmr_pilot.py", line 237, in main
+    cands = temporal_extract(model, tokenizer, old_ctx, qtext, tau=args.tau)
+  File "/projects/prjs1800/venvs/arag-venv/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+  File "/gpfs/work5/0/prjs1800/msc-thesis/07-daes/src/daes/temporal_dnmr_pilot.py", line 112, in temporal_extract
+    masked_entropy[masked_local] = entropy[masked_local]
+RuntimeError: Index put requires the source and destination dtypes match, got Float for the destination and BFloat16 for the source.

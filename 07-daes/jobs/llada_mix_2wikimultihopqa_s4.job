@@ -1,0 +1,24 @@
+#!/bin/bash
+#SBATCH --job-name=mix-lla-2wi-s4
+#SBATCH --partition=gpu_a100
+#SBATCH --gpus=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=96G
+#SBATCH --time=06:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/results/mixed/mix_llada_2wikimultihopqa_s4_%j.out
+
+module load 2024
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+cd /projects/prjs1800/msc-thesis/07-daes
+
+python -u src/daes/idnmr_pilot.py \
+    --model llada \
+    --dataset 2wikimultihopqa \
+    --start_idx 800 \
+    --n_questions 200 \
+    --steps 32 \
+    --answer_tokens 32 \
+    --extraction_steps 12 \
+    --output results/mixed/llada_2wikimultihopqa_mix_s4.json \
+    --log_every 10 \
+    --save_every 10

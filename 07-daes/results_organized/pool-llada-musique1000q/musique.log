@@ -1,0 +1,85 @@
+Running pool_kl32: dataset=musique n=1000
+/workspace/venv/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+=== DNMR Pool KL32 ===
+Model=llada Dataset=musique N=1000 answer_tokens=32 bridge_n_mask=6
+A new version of the following files was downloaded from https://huggingface.co/GSAI-ML/LLaDA-8B-Instruct:
+- configuration_llada.py
+. Make sure to double-check they do not contain any added malicious code. To avoid downloading new versions of the code file, you can pin a revision.
+`torch_dtype` is deprecated! Use `dtype` instead!
+A new version of the following files was downloaded from https://huggingface.co/GSAI-ML/LLaDA-8B-Instruct:
+- modeling_llada.py
+. Make sure to double-check they do not contain any added malicious code. To avoid downloading new versions of the code file, you can pin a revision.
+Fetching 6 files:   0%|          | 0/6 [00:00<?, ?it/s]Fetching 6 files:  17%|█▋        | 1/6 [00:13<01:05, 13.16s/it]Fetching 6 files:  33%|███▎      | 2/6 [00:13<00:23,  5.79s/it]Fetching 6 files:  67%|██████▋   | 4/6 [00:18<00:06,  3.50s/it]Fetching 6 files: 100%|██████████| 6/6 [00:18<00:00,  3.01s/it]
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:00<00:00, 177.75it/s]
+Model loaded in 24.1s
+TorchGpuFlatIPIndex: mmap-opened /workspace/indexes/e5_Flat.index in 48.9s (ntotal=21015324, dim=768)
+TorchGpuFlatIPIndex: loaded 1,048,576/21,015,324 vectors (5.0%) in 1.5s
+TorchGpuFlatIPIndex: loaded 2,097,152/21,015,324 vectors (10.0%) in 2.3s
+TorchGpuFlatIPIndex: loaded 3,145,728/21,015,324 vectors (15.0%) in 3.1s
+TorchGpuFlatIPIndex: loaded 4,194,304/21,015,324 vectors (20.0%) in 4.7s
+TorchGpuFlatIPIndex: loaded 5,242,880/21,015,324 vectors (24.9%) in 6.2s
+TorchGpuFlatIPIndex: loaded 6,291,456/21,015,324 vectors (29.9%) in 7.0s
+TorchGpuFlatIPIndex: loaded 7,340,032/21,015,324 vectors (34.9%) in 7.7s
+TorchGpuFlatIPIndex: loaded 8,388,608/21,015,324 vectors (39.9%) in 8.6s
+TorchGpuFlatIPIndex: loaded 9,437,184/21,015,324 vectors (44.9%) in 9.4s
+TorchGpuFlatIPIndex: loaded 10,485,760/21,015,324 vectors (49.9%) in 10.2s
+TorchGpuFlatIPIndex: loaded 11,534,336/21,015,324 vectors (54.9%) in 11.1s
+TorchGpuFlatIPIndex: loaded 12,582,912/21,015,324 vectors (59.9%) in 12.0s
+TorchGpuFlatIPIndex: loaded 13,631,488/21,015,324 vectors (64.9%) in 12.8s
+TorchGpuFlatIPIndex: loaded 14,680,064/21,015,324 vectors (69.9%) in 13.7s
+TorchGpuFlatIPIndex: loaded 15,728,640/21,015,324 vectors (74.8%) in 14.6s
+TorchGpuFlatIPIndex: loaded 16,777,216/21,015,324 vectors (79.8%) in 15.4s
+TorchGpuFlatIPIndex: loaded 17,825,792/21,015,324 vectors (84.8%) in 16.3s
+TorchGpuFlatIPIndex: loaded 18,874,368/21,015,324 vectors (89.8%) in 17.1s
+TorchGpuFlatIPIndex: loaded 19,922,944/21,015,324 vectors (94.8%) in 17.9s
+TorchGpuFlatIPIndex: loaded 20,971,520/21,015,324 vectors (99.8%) in 18.7s
+TorchGpuFlatIPIndex: loaded 21,015,324/21,015,324 vectors (100.0%) in 18.8s
+TorchGpuFlatIPIndex: ready on cuda:0 using torch.float16 (~30.1 GiB for vectors)
+Wiki18Retriever: Torch CUDA flat-IP backend on cuda:0 (FAISS GPU kernels unavailable on this GPU)
+Loaded 1000 questions
+Initial retrieval done in 115.4s
+[25/1000] dev_24 (13.2s) base=0.121/4.0% pool_kl32=0.138/24.0%
+[50/1000] dev_49 (10.9s) base=0.132/8.0% pool_kl32=0.137/26.0%
+[75/1000] dev_74 (11.9s) base=0.116/6.7% pool_kl32=0.140/24.0%
+[100/1000] dev_99 (12.2s) base=0.126/9.0% pool_kl32=0.138/25.0%
+[125/1000] dev_124 (13.7s) base=0.110/7.2% pool_kl32=0.119/21.6%
+[150/1000] dev_149 (11.4s) base=0.122/8.0% pool_kl32=0.124/21.3%
+[175/1000] dev_174 (10.7s) base=0.128/8.0% pool_kl32=0.128/20.6%
+[200/1000] dev_199 (14.5s) base=0.168/12.0% pool_kl32=0.148/23.5%
+[225/1000] dev_224 (12.7s) base=0.181/14.7% pool_kl32=0.157/25.3%
+[250/1000] dev_249 (9.9s) base=0.185/14.8% pool_kl32=0.157/25.2%
+[275/1000] dev_274 (13.1s) base=0.180/14.9% pool_kl32=0.155/24.7%
+[300/1000] dev_299 (10.8s) base=0.184/15.7% pool_kl32=0.161/26.0%
+[325/1000] dev_324 (11.8s) base=0.178/15.1% pool_kl32=0.158/25.5%
+[350/1000] dev_349 (16.3s) base=0.168/14.0% pool_kl32=0.151/23.7%
+[375/1000] dev_374 (11.1s) base=0.169/14.4% pool_kl32=0.155/24.0%
+[400/1000] dev_399 (12.4s) base=0.163/13.8% pool_kl32=0.150/23.5%
+[425/1000] dev_424 (12.7s) base=0.158/13.2% pool_kl32=0.145/23.1%
+[450/1000] dev_449 (10.8s) base=0.159/13.3% pool_kl32=0.147/23.6%
+[475/1000] dev_474 (12.0s) base=0.157/12.8% pool_kl32=0.147/24.2%
+[500/1000] dev_499 (11.1s) base=0.153/12.6% pool_kl32=0.145/24.0%
+[525/1000] dev_524 (10.7s) base=0.153/12.4% pool_kl32=0.143/23.6%
+[550/1000] dev_549 (10.3s) base=0.155/12.9% pool_kl32=0.144/23.5%
+[575/1000] dev_574 (11.4s) base=0.152/12.9% pool_kl32=0.143/23.3%
+[600/1000] dev_599 (13.2s) base=0.153/13.0% pool_kl32=0.144/23.3%
+[625/1000] dev_624 (13.7s) base=0.154/12.5% pool_kl32=0.143/22.4%
+[650/1000] dev_649 (11.5s) base=0.157/12.5% pool_kl32=0.143/22.0%
+[675/1000] dev_674 (14.4s) base=0.159/12.9% pool_kl32=0.141/22.1%
+[700/1000] dev_699 (10.9s) base=0.163/13.0% pool_kl32=0.142/22.6%
+[725/1000] dev_724 (13.6s) base=0.161/12.8% pool_kl32=0.141/22.2%
+[750/1000] dev_749 (14.2s) base=0.159/12.9% pool_kl32=0.139/22.0%
+[775/1000] dev_774 (12.3s) base=0.158/12.8% pool_kl32=0.139/22.5%
+[800/1000] dev_799 (11.7s) base=0.158/13.1% pool_kl32=0.138/22.8%
+[825/1000] dev_824 (11.6s) base=0.158/13.1% pool_kl32=0.141/22.5%
+[850/1000] dev_849 (10.8s) base=0.157/13.3% pool_kl32=0.139/22.5%
+[875/1000] dev_874 (12.5s) base=0.155/13.0% pool_kl32=0.136/22.2%
+[900/1000] dev_899 (13.9s) base=0.160/13.9% pool_kl32=0.138/23.1%
+[925/1000] dev_924 (13.2s) base=0.162/14.3% pool_kl32=0.139/23.5%
+[950/1000] dev_949 (11.7s) base=0.161/14.1% pool_kl32=0.138/23.4%
+[975/1000] dev_974 (15.4s) base=0.160/14.1% pool_kl32=0.137/23.2%
+[1000/1000] dev_999 (10.5s) base=0.158/13.9% pool_kl32=0.135/22.8%
+
+Done. 1000 questions in 12294s
+Baseline: F1=0.158 Contain=13.9%
+Pool_KL32: F1=0.135 Contain=22.8%

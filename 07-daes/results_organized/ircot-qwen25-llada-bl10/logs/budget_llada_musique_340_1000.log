@@ -1,0 +1,29 @@
+/var/scratch/yzheng/pnair/venvs/msc-thesis/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+=== Budget Ablation ===
+Model: llada | Decode backend: vanilla | Dataset: musique | C0=10 | Retrieval ablation=10 | Expand=3
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/6 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 3/6 [00:00<00:00,  9.19it/s]Loading checkpoint shards:  67%|██████▋   | 4/6 [00:00<00:00,  8.66it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:00<00:00, 11.68it/s]Loading checkpoint shards: 100%|██████████| 6/6 [00:00<00:00, 10.66it/s]
+Traceback (most recent call last):
+  File "/local/yzheng/pnair/msc-thesis/07-daes/src/daes/ablation_budget.py", line 445, in <module>
+    main()
+  File "/local/yzheng/pnair/msc-thesis/07-daes/src/daes/ablation_budget.py", line 259, in main
+    model, tokenizer = load_model_and_tokenizer(args.model, args.decode_backend)
+  File "/local/yzheng/pnair/msc-thesis/07-daes/src/daes/ablation_budget.py", line 182, in load_model_and_tokenizer
+    ).cuda().eval()
+  File "/var/scratch/yzheng/pnair/venvs/msc-thesis/lib/python3.10/site-packages/transformers/modeling_utils.py", line 4276, in cuda
+    return super().cuda(*args, **kwargs)
+  File "/var/scratch/yzheng/pnair/venvs/msc-thesis/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1084, in cuda
+    return self._apply(lambda t: t.cuda(device))
+  File "/var/scratch/yzheng/pnair/venvs/msc-thesis/lib/python3.10/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/var/scratch/yzheng/pnair/venvs/msc-thesis/lib/python3.10/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/var/scratch/yzheng/pnair/venvs/msc-thesis/lib/python3.10/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  [Previous line repeated 2 more times]
+  File "/var/scratch/yzheng/pnair/venvs/msc-thesis/lib/python3.10/site-packages/torch/nn/modules/module.py", line 957, in _apply
+    param_applied = fn(param)
+  File "/var/scratch/yzheng/pnair/venvs/msc-thesis/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1084, in <lambda>
+    return self._apply(lambda t: t.cuda(device))
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 32.00 MiB. GPU 0 has a total capacity of 47.65 GiB of which 1.06 MiB is free. Process 3824819 has 34.07 GiB memory in use. Including non-PyTorch memory, this process has 13.56 GiB memory in use. Of the allocated memory 13.31 GiB is allocated by PyTorch, and 1.51 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

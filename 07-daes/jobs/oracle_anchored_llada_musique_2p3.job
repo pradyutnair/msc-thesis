@@ -1,0 +1,26 @@
+#!/bin/bash
+#SBATCH --job-name=oracle_anch_2p3
+#SBATCH --partition=gpu_h100
+#SBATCH --gpus=1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=64G
+#SBATCH --time=03:00:00
+#SBATCH --output=/projects/prjs1800/msc-thesis/07-daes/logs/oracle_anch_2p3_%j.out
+
+module load 2024
+module load Python/3.12.3-GCCcore-13.3.0
+
+source /projects/prjs1800/venvs/daes/bin/activate
+
+cd /projects/prjs1800/msc-thesis/07-daes
+
+export HF_HOME=/projects/prjs1800/hf_cache
+export TRANSFORMERS_CACHE=/projects/prjs1800/hf_cache
+export SENTENCE_TRANSFORMERS_HOME=/projects/prjs1800/hf_cache
+
+python -u src/daes/oracle_anchored_select.py \
+    --model llada \
+    --dataset musique \
+    --n_questions 50 \
+    --n_keep 2 \
+    --output results/oracle_anchored/llada_musique_2p3_50q.json

@@ -1,0 +1,12 @@
+#!/bin/bash
+#SBATCH --job-name=diag-dream
+#SBATCH --partition=gpu_a100
+#SBATCH --gpus=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=96G
+#SBATCH --time=00:30:00
+#SBATCH --output=results/diag_dream_5q_%j.out
+module load 2024
+source /projects/prjs1800/venvs/arag-venv/bin/activate
+cd /projects/prjs1800/msc-thesis/07-daes
+python -u src/daes/diagnose_extraction.py --model dream --dataset hotpotqa --n_questions 5 --output results/diag_dream_5q.json
